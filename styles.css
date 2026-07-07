@@ -364,6 +364,158 @@ main.content {
   color: var(--mate-teal);
 }
 
+.route-principle {
+  background: #f7fafc;
+  border: 1px solid var(--mate-line);
+  border-left: 4px solid var(--mate-blue);
+  border-radius: 6px;
+  color: var(--mate-blue);
+  margin: 1rem 0 1.25rem;
+  padding: 0.85rem 1rem;
+}
+
+.route-dashboard,
+.wayfinding-grid,
+.milestone-grid {
+  display: grid;
+  gap: 0.9rem;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  margin: 1.1rem 0 1.7rem;
+}
+
+.route-card,
+.wayfinding-card,
+.milestone-card {
+  background: #fff;
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-height: 168px;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.route-card.primary,
+.wayfinding-card:first-child {
+  background: #f7fafc;
+  border-left: 4px solid var(--mate-blue);
+}
+
+.route-card a,
+.wayfinding-card a {
+  color: var(--mate-teal);
+  font-weight: 750;
+  margin-top: auto;
+}
+
+.route-kicker {
+  color: var(--mate-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.semester-map {
+  display: grid;
+  gap: 0.65rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 1rem 0 1.8rem;
+}
+
+.map-block {
+  background: #fff;
+  border: 1px solid var(--mate-line);
+  border-top: 4px solid var(--mate-teal);
+  border-radius: 6px;
+  min-height: 112px;
+  padding: 0.8rem;
+}
+
+.map-block strong,
+.map-block p {
+  margin: 0;
+}
+
+.map-block.m0,
+.map-block.m1 {
+  border-top-color: var(--mate-blue);
+}
+
+.map-block.m3,
+.map-block.m5 {
+  border-top-color: #7c2d12;
+}
+
+.milestone-card {
+  border-left: 4px solid var(--mate-teal);
+  min-height: 120px;
+}
+
+.week-path {
+  display: grid;
+  gap: 0.85rem;
+  margin: 1rem 0 2rem;
+}
+
+.week-card {
+  background: #fff;
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: minmax(230px, 0.38fr) 1fr;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.week-top {
+  align-items: flex-start;
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 3rem 1fr;
+  min-width: 0;
+}
+
+.week-number {
+  align-items: center;
+  background: var(--mate-blue);
+  border-radius: 6px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 1.25rem;
+  font-weight: 800;
+  height: 3rem;
+  justify-content: center;
+  line-height: 1;
+  width: 3rem;
+}
+
+.week-meta {
+  min-width: 0;
+}
+
+.week-meta p,
+.week-actions p {
+  margin: 0;
+}
+
+.week-actions {
+  background: #f7fafc;
+  border-left: 3px solid var(--mate-teal);
+  border-radius: 6px;
+  min-width: 0;
+  padding: 0.75rem 0.85rem;
+}
+
+.week-actions a {
+  color: var(--mate-teal);
+  font-weight: 750;
+}
+
 .warning-box {
   border-left: 4px solid var(--mate-warn);
   background: var(--mate-warn-bg);
@@ -398,8 +550,13 @@ table {
 @media (max-width: 900px) {
   .quick-grid,
   .week-focus,
-  .role-grid {
+  .role-grid,
+  .week-card {
     grid-template-columns: 1fr;
+  }
+
+  .semester-map {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .module-band {
@@ -441,8 +598,15 @@ table {
   }
 
   .role-card,
-  .resource-card {
+  .resource-card,
+  .route-card,
+  .wayfinding-card,
+  .milestone-card {
     min-height: 0;
+  }
+
+  .semester-map {
+    grid-template-columns: 1fr;
   }
 
   .jump-list a,
