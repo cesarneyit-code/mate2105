@@ -162,11 +162,14 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#error-analysis" id="toc-error-analysis" class="nav-link" data-scroll-target="#error-analysis">Error analysis</a></li>
   <li><a href="#slices" id="toc-slices" class="nav-link" data-scroll-target="#slices">Slices</a></li>
   <li><a href="#data-mismatch" id="toc-data-mismatch" class="nav-link" data-scroll-target="#data-mismatch">Data mismatch</a></li>
   <li><a href="#diagnóstico-de-mismatch" id="toc-diagnóstico-de-mismatch" class="nav-link" data-scroll-target="#diagnóstico-de-mismatch">Diagnóstico de mismatch</a></li>
   <li><a href="#recomendación-técnica" id="toc-recomendación-técnica" class="nav-link" data-scroll-target="#recomendación-técnica">Recomendación técnica</a></li>
+  <li><a href="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1" id="toc-ejemplo-resuelto-dos-modelos-con-el-mismo-f1" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1">Ejemplo resuelto: dos modelos con el mismo F1</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -200,6 +203,17 @@ ul.task-list li input[type="checkbox"] {
 <blockquote class="blockquote">
 <p>¿dónde falla el modelo, para quién falla y qué decisión técnica se desprende?</p>
 </blockquote>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>separar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;</li>
+<li>definir slices relevantes para un proyecto;</li>
+<li>detectar señales de data mismatch;</li>
+<li>escribir una recomendación técnica con evidencia, diagnóstico y acción;</li>
+<li>reconocer cuándo una métrica agregada oculta daño o riesgo.</li>
+</ol>
 </section>
 <section id="error-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>
@@ -255,6 +269,47 @@ ul.task-list li input[type="checkbox"] {
 <pre class="text"><code>El recall cae de 0.84 a 0.62 en el grupo de mayor riesgo.
 Diagnóstico: el modelo no generaliza bien a ese slice.
 Acción: revisar representación de variables, ampliar datos del slice y ajustar métrica de selección.</code></pre>
+</section>
+<section id="ejemplo-resuelto-dos-modelos-con-el-mismo-f1" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-dos-modelos-con-el-mismo-f1">Ejemplo resuelto: dos modelos con el mismo F1</h2>
+<p>Supón dos modelos con F1 global 0.82.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Slice</th>
+<th style="text-align: right;">Modelo A</th>
+<th style="text-align: right;">Modelo B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Datos recientes</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">0.83</td>
+</tr>
+<tr class="even">
+<td>Datos antiguos</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.81</td>
+</tr>
+<tr class="odd">
+<td>Grupo de alto riesgo</td>
+<td style="text-align: right;">0.55</td>
+<td style="text-align: right;">0.76</td>
+</tr>
+</tbody>
+</table>
+<p>Aunque el F1 global sea igual, el Modelo B es más defendible si el grupo de alto riesgo es central para la decisión. El análisis de errores cambia la recomendación.</p>
+</section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Una recomendación técnica es incompleta si no responde:</p>
+<ol type="1">
+<li>¿qué evidencia observaste?;</li>
+<li>¿qué diagnóstico explica esa evidencia?;</li>
+<li>¿qué acción concreta sigue?;</li>
+<li>¿qué límite o riesgo debe comunicarse?</li>
+</ol>
 </section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>

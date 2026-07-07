@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -202,12 +231,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
   <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam">RMSProp y Adam</a></li>
   <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza">PyTorch: qué automatiza</a></li>
   <li><a href="#loop-mínimo" id="toc-loop-mínimo" class="nav-link" data-scroll-target="#loop-mínimo">Loop mínimo</a></li>
+  <li><a href="#ejemplo-resuelto-lectura-de-un-loop" id="toc-ejemplo-resuelto-lectura-de-un-loop" class="nav-link" data-scroll-target="#ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</a></li>
   <li><a href="#comparación-justa" id="toc-comparación-justa" class="nav-link" data-scroll-target="#comparación-justa">Comparación justa</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -237,8 +269,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pregunta-aplicada" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Hasta ahora actualizamos parámetros con descenso del gradiente simple:</p>
-<p>[ - J(). ]</p>
+<p><span class="math display">\[
+\theta \leftarrow \theta - \alpha \nabla J(\theta).
+\]</span></p>
 <p>Pero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.</p>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>distinguir batch, mini-batch y época;</li>
+<li>explicar la intuición de momentum, RMSProp y Adam;</li>
+<li>ubicar forward, loss, backward y actualización en un loop de PyTorch;</li>
+<li>comparar una implementación desde cero con PyTorch sin cambiar la pregunta experimental;</li>
+<li>reconocer que un optimizador no reemplaza validación.</li>
+</ol>
 </section>
 <section id="mini-batch-gradient-descent" class="level2">
 <h2 class="anchored" data-anchor-id="mini-batch-gradient-descent">Mini-batch gradient descent</h2>
@@ -249,8 +294,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="momentum" class="level2">
 <h2 class="anchored" data-anchor-id="momentum">Momentum</h2>
 <p>Momentum acumula una dirección suavizada:</p>
-<p>[ v_t = v_{t-1} + (1-)J(_t), ]</p>
-<p>[ _{t+1} = _t - v_t. ]</p>
+<p><span class="math display">\[
+v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
+\]</span></p>
+<p><span class="math display">\[
+\theta_{t+1} = \theta_t - \alpha v_t.
+\]</span></p>
 <p>Intuición: evita que cada gradiente aislado cambie la dirección con demasiada fuerza.</p>
 </section>
 <section id="rmsprop-y-adam" class="level2">
@@ -289,6 +338,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La diferencia es que PyTorch construye el grafo de cómputo y calcula los gradientes.</p>
 </section>
+<section id="ejemplo-resuelto-lectura-de-un-loop" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</h2>
+<p>En el loop mínimo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>optimizer.zero_grad()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> model(X_batch)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> criterion(logits, y_batch)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>loss.backward()</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>optimizer.step()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>la interpretación es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Línea</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>zero_grad()</code></td>
+<td>borra gradientes acumulados</td>
+</tr>
+<tr class="even">
+<td><code>model(X_batch)</code></td>
+<td>forward propagation</td>
+</tr>
+<tr class="odd">
+<td><code>criterion(...)</code></td>
+<td>calcula la pérdida</td>
+</tr>
+<tr class="even">
+<td><code>backward()</code></td>
+<td>backpropagation automático</td>
+</tr>
+<tr class="odd">
+<td><code>step()</code></td>
+<td>actualiza parámetros</td>
+</tr>
+</tbody>
+</table>
+<p>Si olvidas <code>zero_grad()</code>, PyTorch acumula gradientes entre batches. Eso rara vez es lo que quieres en este curso.</p>
+</section>
 <section id="comparación-justa" class="level2">
 <h2 class="anchored" data-anchor-id="comparación-justa">Comparación justa</h2>
 <p>Al comparar NumPy y PyTorch:</p>
@@ -299,6 +389,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>compare curvas o resultados finales;</li>
 <li>no confunda diferencia de implementación con diferencia de modelo.</li>
 </ul>
+</section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Una comparación NumPy vs PyTorch solo es defendible si:</p>
+<ol type="1">
+<li>usa la misma partición;</li>
+<li>usa la misma métrica;</li>
+<li>entrena una arquitectura comparable;</li>
+<li>reporta semilla y número de épocas;</li>
+<li>interpreta diferencias con cautela.</li>
+</ol>
 </section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>

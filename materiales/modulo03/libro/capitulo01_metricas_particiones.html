@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -197,14 +226,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal">Métrica principal</a></li>
   <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
+  <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
   <li><a href="#baseline" id="toc-baseline" class="nav-link" data-scroll-target="#baseline">Baseline</a></li>
   <li><a href="#particiones" id="toc-particiones" class="nav-link" data-scroll-target="#particiones">Particiones</a></li>
   <li><a href="#test-se-toca-una-vez" id="toc-test-se-toca-una-vez" class="nav-link" data-scroll-target="#test-se-toca-una-vez">Test se toca una vez</a></li>
   <li><a href="#estratificación" id="toc-estratificación" class="nav-link" data-scroll-target="#estratificación">Estratificación</a></li>
   <li><a href="#leakage" id="toc-leakage" class="nav-link" data-scroll-target="#leakage">Leakage</a></li>
   <li><a href="#pipeline-como-defensa" id="toc-pipeline-como-defensa" class="nav-link" data-scroll-target="#pipeline-como-defensa">Pipeline como defensa</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -237,6 +269,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>¿qué error cuesta más y qué evidencia será suficiente para elegir?</p>
 </blockquote>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>elegir una métrica principal alineada con el costo de error;</li>
+<li>explicar por qué accuracy falla en clases desbalanceadas;</li>
+<li>construir un baseline útil;</li>
+<li>separar train, dev y test sin leakage;</li>
+<li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
+</ol>
 </section>
 <section id="métrica-principal" class="level2">
 <h2 class="anchored" data-anchor-id="métrica-principal">Métrica principal</h2>
@@ -288,6 +331,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>ROC-AUC o PR-AUC;</li>
 <li>costo de falsos positivos y falsos negativos.</li>
 </ul>
+</section>
+<section id="ejemplo-resuelto-accuracy-engañosa" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</h2>
+<p>Supón un problema con 1000 observaciones:</p>
+<ul>
+<li>950 son negativas;</li>
+<li>50 son positivas;</li>
+<li>un modelo predice todo como negativo.</li>
+</ul>
+<p>La accuracy es:</p>
+<p><span class="math display">\[
+\frac{950}{1000}=0.95.
+\]</span></p>
+<p>Pero el recall de la clase positiva es:</p>
+<p><span class="math display">\[
+\frac{TP}{TP+FN}=\frac{0}{0+50}=0.
+\]</span></p>
+<p>Si detectar positivos era el objetivo, este modelo no sirve aunque su accuracy parezca alta.</p>
 </section>
 <section id="baseline" class="level2">
 <h2 class="anchored" data-anchor-id="baseline">Baseline</h2>
@@ -353,6 +414,17 @@ Advertencia
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"model"</span>, LogisticRegression())</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En cross-validation, cada fold ajusta sus transformaciones solo con el train fold.</p>
+</section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Antes de comparar modelos, escribe explícitamente:</p>
+<ol type="1">
+<li>métrica principal;</li>
+<li>baseline;</li>
+<li>partición;</li>
+<li>transformación dentro de pipeline;</li>
+<li>regla para no tocar test.</li>
+</ol>
 </section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>

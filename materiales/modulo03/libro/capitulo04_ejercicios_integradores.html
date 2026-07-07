@@ -161,10 +161,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#bloque-a-métricas" id="toc-bloque-a-métricas" class="nav-link active" data-scroll-target="#bloque-a-métricas">Bloque A: métricas</a></li>
+  <li><a href="#criterio-de-respuesta-profesional" id="toc-criterio-de-respuesta-profesional" class="nav-link active" data-scroll-target="#criterio-de-respuesta-profesional">Criterio de respuesta profesional</a></li>
+  <li><a href="#bloque-a-métricas" id="toc-bloque-a-métricas" class="nav-link" data-scroll-target="#bloque-a-métricas">Bloque A: métricas</a></li>
   <li><a href="#bloque-b-particiones-y-leakage" id="toc-bloque-b-particiones-y-leakage" class="nav-link" data-scroll-target="#bloque-b-particiones-y-leakage">Bloque B: particiones y leakage</a></li>
   <li><a href="#bloque-c-validación-y-curvas" id="toc-bloque-c-validación-y-curvas" class="nav-link" data-scroll-target="#bloque-c-validación-y-curvas">Bloque C: validación y curvas</a></li>
   <li><a href="#bloque-d-error-analysis" id="toc-bloque-d-error-analysis" class="nav-link" data-scroll-target="#bloque-d-error-analysis">Bloque D: error analysis</a></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -190,6 +192,13 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Esta sección entrena la habilidad central del módulo: convertir métricas y particiones en decisiones defendibles. Una buena respuesta debe nombrar la evidencia, justificar por qué esa evidencia es relevante y reconocer qué todavía no se sabe.</p>
+<section id="criterio-de-respuesta-profesional" class="level2">
+<h2 class="anchored" data-anchor-id="criterio-de-respuesta-profesional">Criterio de respuesta profesional</h2>
+<p>En problemas aplicados, una respuesta completa suele tener esta forma:</p>
+<pre class="text"><code>métrica elegida -&gt; baseline -&gt; partición -&gt; riesgo de leakage -&gt; decisión o siguiente experimento</code></pre>
+<p>Si falta una de esas piezas, la comparación queda débil.</p>
+</section>
 <section id="bloque-a-métricas" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-a-métricas">Bloque A: métricas</h2>
 <div class="exercise">
@@ -236,6 +245,21 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="exercise">
 <p><strong>D3.</strong> Explique por qué una métrica agregada no reemplaza inspección de errores.</p>
+</div>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<div class="answer">
+<p><strong>A1.</strong> Accuracy puede ser alta aunque el modelo ignore la clase importante. Si los falsos negativos son costosos, recall, F1 o una métrica ponderada por costo pueden reflejar mejor la decisión.</p>
+</div>
+<div class="answer">
+<p><strong>B1.</strong> Escalar antes de partir datos usa media y desviación calculadas con información de validación. Eso contamina la evaluación porque el preprocesamiento ya vio datos que debían permanecer independientes.</p>
+</div>
+<div class="answer">
+<p><strong>C3.</strong> Cross-validation agrega una estimación de variabilidad. Un único split puede favorecer o perjudicar accidentalmente a un modelo; varios folds muestran si el desempeño es estable.</p>
+</div>
+<div class="answer">
+<p><strong>D2.</strong> Una recomendación mínima sería: “El F1 global cae de 0.80 a 0.55 en el slice crítico. El diagnóstico probable es que el modelo no representa bien ese subgrupo. Antes de recomendar despliegue, se debe analizar variables de ese slice, ajustar métrica de selección y recolectar o reponderar datos relevantes.”</p>
 </div>
 
 

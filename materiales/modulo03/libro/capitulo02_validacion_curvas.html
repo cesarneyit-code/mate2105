@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -197,12 +226,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a></li>
   <li><a href="#qué-reportar" id="toc-qué-reportar" class="nav-link" data-scroll-target="#qué-reportar">Qué reportar</a></li>
+  <li><a href="#ejemplo-resuelto-elegir-entre-dos-modelos" id="toc-ejemplo-resuelto-elegir-entre-dos-modelos" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</a></li>
   <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search">Grid search</a></li>
   <li><a href="#learning-curve" id="toc-learning-curve" class="nav-link" data-scroll-target="#learning-curve">Learning curve</a></li>
   <li><a href="#validation-curve" id="toc-validation-curve" class="nav-link" data-scroll-target="#validation-curve">Validation curve</a></li>
   <li><a href="#sesgo-varianza-y-ruido" id="toc-sesgo-varianza-y-ruido" class="nav-link" data-scroll-target="#sesgo-varianza-y-ruido">Sesgo, varianza y ruido</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -236,12 +268,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>¿el modelo funciona de forma estable o solo tuvo suerte en una partición?</p>
 </blockquote>
 </section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>explicar qué estima cross-validation;</li>
+<li>reportar media y variabilidad de una métrica;</li>
+<li>usar grid search sin contaminar test;</li>
+<li>leer learning curves y validation curves;</li>
+<li>distinguir problemas de sesgo, varianza y ruido.</li>
+</ol>
+</section>
 <section id="cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation">Cross-validation</h2>
-<p>En (k)-fold cross-validation:</p>
+<p>En <span class="math inline">\(k\)</span>-fold cross-validation:</p>
 <ol type="1">
-<li>Se divide el conjunto de entrenamiento en (k) folds.</li>
-<li>Se entrena (k) veces.</li>
+<li>Se divide el conjunto de entrenamiento en <span class="math inline">\(k\)</span> folds.</li>
+<li>Se entrena <span class="math inline">\(k\)</span> veces.</li>
 <li>Cada fold actúa una vez como validación.</li>
 <li>Se reporta media y variabilidad.</li>
 </ol>
@@ -254,6 +297,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Dice:</p>
 <pre class="text"><code>F1 CV = 0.84 ± 0.03</code></pre>
 <p>La desviación informa estabilidad.</p>
+</section>
+<section id="ejemplo-resuelto-elegir-entre-dos-modelos" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</h2>
+<p>Supón dos modelos evaluados con 5-fold CV:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th style="text-align: right;">F1 medio</th>
+<th style="text-align: right;">Desviación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">0.84</td>
+<td style="text-align: right;">0.02</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">0.10</td>
+</tr>
+</tbody>
+</table>
+<p>El modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse en slices o con más datos.</p>
+<p>La decisión profesional no mira solo el máximo promedio.</p>
 </section>
 <section id="grid-search" class="level2">
 <h2 class="anchored" data-anchor-id="grid-search">Grid search</h2>
@@ -323,6 +393,16 @@ regularización alta -&gt; modelo simple</code></pre>
 <li><strong>ruido:</strong> parte no explicable por las variables disponibles.</li>
 </ul>
 <p>No todo error se arregla con un modelo más complejo.</p>
+</section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Si una learning curve muestra train alto y validación bajo, no concluyas “necesito una red más grande”. Primero pregunta:</p>
+<ol type="1">
+<li>¿hay leakage?</li>
+<li>¿la métrica está alineada con la decisión?</li>
+<li>¿el modelo ya tiene demasiada varianza?</li>
+<li>¿más datos podría cerrar la brecha?</li>
+</ol>
 </section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>

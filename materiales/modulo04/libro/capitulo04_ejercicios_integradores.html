@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -166,9 +195,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#bloque-a-pca" id="toc-bloque-a-pca" class="nav-link active" data-scroll-target="#bloque-a-pca">Bloque A: PCA</a></li>
+  <li><a href="#antes-de-responder" id="toc-antes-de-responder" class="nav-link active" data-scroll-target="#antes-de-responder">Antes de responder</a></li>
+  <li><a href="#bloque-a-pca" id="toc-bloque-a-pca" class="nav-link" data-scroll-target="#bloque-a-pca">Bloque A: PCA</a></li>
   <li><a href="#bloque-b-k-means" id="toc-bloque-b-k-means" class="nav-link" data-scroll-target="#bloque-b-k-means">Bloque B: K-Means</a></li>
   <li><a href="#bloque-c-recomendación" id="toc-bloque-c-recomendación" class="nav-link" data-scroll-target="#bloque-c-recomendación">Bloque C: recomendación</a></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -194,10 +225,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Los ejercicios de este módulo deben resolverse con una advertencia constante: en aprendizaje no supervisado no hay una etiqueta que valide automáticamente el significado. Por eso una solución profesional combina cálculo, visualización, estabilidad e interpretación prudente.</p>
+<section id="antes-de-responder" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-responder">Antes de responder</h2>
+<p>Para cada ejercicio, identifica:</p>
+<ol type="1">
+<li>qué estructura matemática estás usando;</li>
+<li>qué cantidad se puede calcular;</li>
+<li>qué conclusión sí está permitida;</li>
+<li>qué conclusión sería una sobreinterpretación.</li>
+</ol>
+</section>
 <section id="bloque-a-pca" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-a-pca">Bloque A: PCA</h2>
 <div class="exercise">
-<p><strong>A1.</strong> Derive las formas de (U), () y (V^) si (X_c) tiene forma <code>(100, 20)</code>.</p>
+<p><strong>A1.</strong> Derive las formas de <span class="math inline">\(U\)</span>, <span class="math inline">\(\Sigma\)</span> y <span class="math inline">\(V^\top\)</span> si <span class="math inline">\(X_c\)</span> tiene forma <code>(100, 20)</code>.</p>
 </div>
 <div class="exercise">
 <p><strong>A2.</strong> Implemente mentalmente los pasos de PCA desde cero: centrar, SVD, seleccionar componentes, proyectar.</p>
@@ -212,7 +254,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>B1.</strong> Escriba la función objetivo de K-Means y explique cada término.</p>
 </div>
 <div class="exercise">
-<p><strong>B2.</strong> Compare inertia y silhouette como evidencia para elegir (k).</p>
+<p><strong>B2.</strong> Compare inertia y silhouette como evidencia para elegir <span class="math inline">\(k\)</span>.</p>
 </div>
 <div class="exercise">
 <p><strong>B3.</strong> Proponga un diagnóstico si K-Means produce un cluster con 95% de los datos.</p>
@@ -228,6 +270,21 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="exercise">
 <p><strong>C3.</strong> ¿Qué diferencia hay entre recomendar por similitud de contenido y por comportamiento colaborativo?</p>
+</div>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<div class="answer">
+<p><strong>A1.</strong> En SVD reducida, una forma usual es <span class="math inline">\(U\in\mathbb{R}^{100\times 20}\)</span>, <span class="math inline">\(\Sigma\in\mathbb{R}^{20\times 20}\)</span> y <span class="math inline">\(V^\top\in\mathbb{R}^{20\times 20}\)</span>. En SVD completa, <span class="math inline">\(U\)</span> podría tener forma <span class="math inline">\(100\times100\)</span>.</p>
+</div>
+<div class="answer">
+<p><strong>A3.</strong> Alta varianza significa que una dirección explica dispersión de los datos, no que represente una causa, una variable ética ni una regla justa de decisión.</p>
+</div>
+<div class="answer">
+<p><strong>B3.</strong> Un cluster con 95% de los datos puede indicar <span class="math inline">\(k\)</span> inadecuado, variables mal escaladas, ausencia de estructura separable o outliers que deforman centroides. Antes de interpretar, conviene revisar escalamiento, probar otros <span class="math inline">\(k\)</span> y visualizar variables originales.</p>
+</div>
+<div class="answer">
+<p><strong>C3.</strong> La similitud de contenido compara atributos de los ítems. La similitud colaborativa compara patrones de interacción de usuarios. La segunda puede capturar comportamiento colectivo, pero también amplificar popularidad y sesgos históricos.</p>
 </div>
 
 

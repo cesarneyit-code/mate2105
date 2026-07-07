@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -167,12 +196,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#svd" id="toc-svd" class="nav-link" data-scroll-target="#svd">SVD</a></li>
   <li><a href="#pca-como-svd-del-dato-centrado" id="toc-pca-como-svd-del-dato-centrado" class="nav-link" data-scroll-target="#pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</a></li>
   <li><a href="#proyección" id="toc-proyección" class="nav-link" data-scroll-target="#proyección">Proyección</a></li>
   <li><a href="#varianza-explicada" id="toc-varianza-explicada" class="nav-link" data-scroll-target="#varianza-explicada">Varianza explicada</a></li>
+  <li><a href="#ejemplo-resuelto-elegir-k" id="toc-ejemplo-resuelto-elegir-k" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></a></li>
   <li><a href="#reconstrucción" id="toc-reconstrucción" class="nav-link" data-scroll-target="#reconstrucción">Reconstrucción</a></li>
   <li><a href="#pca-no-es-interpretabilidad-automática" id="toc-pca-no-es-interpretabilidad-automática" class="nav-link" data-scroll-target="#pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -207,44 +239,107 @@ ul.task-list li input[type="checkbox"] {
 <p>buscar direcciones ortogonales que capturan la mayor varianza posible.</p>
 </blockquote>
 </section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>escribir la SVD de una matriz;</li>
+<li>explicar por qué PCA requiere centrar datos;</li>
+<li>calcular la forma de una proyección <span class="math inline">\(Z=X_cV_k\)</span>;</li>
+<li>interpretar varianza explicada y error de reconstrucción;</li>
+<li>distinguir reducción de dimensión de interpretación causal.</li>
+</ol>
+</section>
 <section id="svd" class="level2">
 <h2 class="anchored" data-anchor-id="svd">SVD</h2>
-<p>Para una matriz (X ^{n p}):</p>
-<p>[ X = UV^. ]</p>
+<p>Para una matriz <span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span>:</p>
+<p><span class="math display">\[
+X = U\Sigma V^\top.
+\]</span></p>
 <p>Donde:</p>
 <ul>
-<li>(U) contiene direcciones en el espacio de observaciones;</li>
-<li>() contiene valores singulares no negativos;</li>
-<li>(V) contiene direcciones en el espacio de variables.</li>
+<li><span class="math inline">\(U\)</span> contiene direcciones en el espacio de observaciones;</li>
+<li><span class="math inline">\(\Sigma\)</span> contiene valores singulares no negativos;</li>
+<li><span class="math inline">\(V\)</span> contiene direcciones en el espacio de variables.</li>
 </ul>
 </section>
 <section id="pca-como-svd-del-dato-centrado" class="level2">
 <h2 class="anchored" data-anchor-id="pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</h2>
 <p>Primero centramos:</p>
-<p>[ X_c = X - X. ]</p>
+<p><span class="math display">\[
+X_c = X - \bar X.
+\]</span></p>
 <p>Luego:</p>
-<p>[ X_c = UV^. ]</p>
-<p>Los componentes principales son las primeras filas de (V^), o columnas de (V), asociadas a los valores singulares más grandes.</p>
+<p><span class="math display">\[
+X_c = U\Sigma V^\top.
+\]</span></p>
+<p>Los componentes principales son las primeras filas de <span class="math inline">\(V^\top\)</span>, o columnas de <span class="math inline">\(V\)</span>, asociadas a los valores singulares más grandes.</p>
 </section>
 <section id="proyección" class="level2">
 <h2 class="anchored" data-anchor-id="proyección">Proyección</h2>
-<p>Si tomamos (k) componentes:</p>
-<p>[ Z = X_c V_k. ]</p>
-<p>Aquí (Z ^{n k}) es la representación reducida.</p>
+<p>Si tomamos <span class="math inline">\(k\)</span> componentes:</p>
+<p><span class="math display">\[
+Z = X_c V_k.
+\]</span></p>
+<p>Aquí <span class="math inline">\(Z \in \mathbb{R}^{n \times k}\)</span> es la representación reducida.</p>
 </section>
 <section id="varianza-explicada" class="level2">
 <h2 class="anchored" data-anchor-id="varianza-explicada">Varianza explicada</h2>
-<p>La varianza explicada por el componente (j) es proporcional a:</p>
-<p>[ _j^2. ]</p>
+<p>La varianza explicada por el componente <span class="math inline">\(j\)</span> es proporcional a:</p>
+<p><span class="math display">\[
+\sigma_j^2.
+\]</span></p>
 <p>La razón de varianza explicada:</p>
-<p>[ . ]</p>
+<p><span class="math display">\[
+\frac{\sigma_j^2}{\sum_{\ell}\sigma_\ell^2}.
+\]</span></p>
+</section>
+<section id="ejemplo-resuelto-elegir-k" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></h2>
+<p>Supón que los primeros componentes explican:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Componente</th>
+<th style="text-align: right;">Varianza explicada</th>
+<th style="text-align: right;">Acumulada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: right;">0.42</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.23</td>
+<td style="text-align: right;">0.65</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.12</td>
+<td style="text-align: right;">0.77</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.83</td>
+</tr>
+</tbody>
+</table>
+<p>Si la meta es visualizar, <span class="math inline">\(k=2\)</span> puede ser suficiente. Si la meta es reconstruir con poca pérdida, <span class="math inline">\(k=4\)</span> puede ser más razonable. La elección depende de la decisión, no de un número mágico.</p>
 </section>
 <section id="reconstrucción" class="level2">
 <h2 class="anchored" data-anchor-id="reconstrucción">Reconstrucción</h2>
-<p>Con (k) componentes:</p>
-<p>[ X_c = ZV_k^. ]</p>
+<p>Con <span class="math inline">\(k\)</span> componentes:</p>
+<p><span class="math display">\[
+\hat X_c = ZV_k^\top.
+\]</span></p>
 <p>La reconstrucción en escala original:</p>
-<p>[ X = X_c + X. ]</p>
+<p><span class="math display">\[
+\hat X = \hat X_c + \bar X.
+\]</span></p>
 <p>El error de reconstrucción ayuda a medir pérdida de información.</p>
 </section>
 <section id="pca-no-es-interpretabilidad-automática" class="level2">
@@ -270,10 +365,20 @@ Advertencia
 <li>conectar componentes con el dominio.</li>
 </ul>
 </section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Antes de usar PCA en un proyecto, responde:</p>
+<ol type="1">
+<li>¿centraste con parámetros aprendidos en entrenamiento?</li>
+<li>¿cuánta varianza explican los componentes usados?</li>
+<li>¿la proyección se usa para visualizar, modelar o comprimir?</li>
+<li>¿qué interpretación no puedes afirmar?</li>
+</ol>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <div class="exercise">
-<p><strong>Ejercicio 1.</strong> Si (X) tiene forma <code>(500, 64)</code> y usamos <code>k=2</code>, ¿qué forma tiene la proyección PCA?</p>
+<p><strong>Ejercicio 1.</strong> Si <span class="math inline">\(X\)</span> tiene forma <code>(500, 64)</code> y usamos <code>k=2</code>, ¿qué forma tiene la proyección PCA?</p>
 </div>
 <div class="exercise">
 <p><strong>Ejercicio 2.</strong> Explique por qué PCA debe centrar los datos antes de calcular componentes.</p>

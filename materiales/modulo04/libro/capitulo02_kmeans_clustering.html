@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -202,12 +231,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo">Función objetivo</a></li>
   <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo">Algoritmo</a></li>
   <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
   <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
+  <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
   <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
   <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -240,16 +272,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>¿hay grupos de observaciones con patrones similares?</p>
 </blockquote>
-<p>K-Means busca particionar datos en (k) grupos representados por centroides.</p>
+<p>K-Means busca particionar datos en <span class="math inline">\(k\)</span> grupos representados por centroides.</p>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>escribir la función objetivo de K-Means;</li>
+<li>explicar los pasos de asignación y actualización;</li>
+<li>interpretar inertia y silhouette sin absolutizarlos;</li>
+<li>justificar el escalamiento antes de usar distancias euclídeas;</li>
+<li>reconocer cuándo un cluster no debe traducirse directamente en una decisión.</li>
+</ol>
 </section>
 <section id="función-objetivo" class="level2">
 <h2 class="anchored" data-anchor-id="función-objetivo">Función objetivo</h2>
 <p>K-Means minimiza la suma de distancias cuadradas a centroides:</p>
-<p>[ <em>{i=1}^n |x_i-</em>{c_i}|_2^2. ]</p>
+<p><span class="math display">\[
+\sum_{i=1}^n \|x_i-\mu_{c_i}\|_2^2.
+\]</span></p>
 <p>Donde:</p>
 <ul>
-<li>(c_i) es el cluster asignado a (x_i);</li>
-<li>(_{c_i}) es el centroide correspondiente.</li>
+<li><span class="math inline">\(c_i\)</span> es el cluster asignado a <span class="math inline">\(x_i\)</span>;</li>
+<li><span class="math inline">\(\mu_{c_i}\)</span> es el centroide correspondiente.</li>
 </ul>
 </section>
 <section id="algoritmo" class="level2">
@@ -266,7 +311,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>inertia</code> es la suma de distancias cuadradas dentro de clusters.</p>
 <p>Menor inertia no siempre significa mejor segmentación:</p>
 <ul>
-<li>baja al aumentar (k);</li>
+<li>baja al aumentar <span class="math inline">\(k\)</span>;</li>
 <li>no está normalizada;</li>
 <li>puede favorecer clusters poco interpretables.</li>
 </ul>
@@ -274,13 +319,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="silhouette-score" class="level2">
 <h2 class="anchored" data-anchor-id="silhouette-score">Silhouette score</h2>
 <p>Para una observación:</p>
-<p>[ s=. ]</p>
+<p><span class="math display">\[
+s=\frac{b-a}{\max(a,b)}.
+\]</span></p>
 <p>Donde:</p>
 <ul>
-<li>(a): distancia media al propio cluster;</li>
-<li>(b): distancia media al cluster vecino más cercano.</li>
+<li><span class="math inline">\(a\)</span>: distancia media al propio cluster;</li>
+<li><span class="math inline">\(b\)</span>: distancia media al cluster vecino más cercano.</li>
 </ul>
 <p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento.</p>
+</section>
+<section id="ejemplo-resuelto-asignación-a-centroides" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</h2>
+<p>Supón dos centroides en una dimensión:</p>
+<p><span class="math display">\[
+\mu_1=2,\qquad \mu_2=8.
+\]</span></p>
+<p>Para una observación <span class="math inline">\(x=5\)</span>:</p>
+<p><span class="math display">\[
+|5-2|=3,\qquad |5-8|=3.
+\]</span></p>
+<p>La observación está empatada. En implementación debe haber una regla de desempate. Este ejemplo muestra que K-Means es geométrico: asigna por distancia, no por significado de negocio.</p>
 </section>
 <section id="escalamiento" class="level2">
 <h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
@@ -300,10 +359,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Puede fallar con formas no convexas, densidades distintas o variables mal escaladas.</p>
 </section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Antes de reportar clusters, verifica:</p>
+<ol type="1">
+<li>¿las variables están en escalas comparables?</li>
+<li>¿probaste más de un <span class="math inline">\(k\)</span>?</li>
+<li>¿los clusters son interpretables con variables originales?</li>
+<li>¿hay un cluster demasiado grande o demasiado pequeño?</li>
+<li>¿qué decisión concreta usaría esta segmentación?</li>
+</ol>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <div class="exercise">
-<p><strong>Ejercicio 1.</strong> Explique por qué inertia siempre tiende a bajar cuando aumenta (k).</p>
+<p><strong>Ejercicio 1.</strong> Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</p>
 </div>
 <div class="exercise">
 <p><strong>Ejercicio 2.</strong> ¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</p>

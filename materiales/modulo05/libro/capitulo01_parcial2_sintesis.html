@@ -206,6 +206,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#alcance" id="toc-alcance" class="nav-link active" data-scroll-target="#alcance">Alcance</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#mapa-de-contenidos" id="toc-mapa-de-contenidos" class="nav-link" data-scroll-target="#mapa-de-contenidos">Mapa de contenidos</a></li>
   <li><a href="#redes-neuronales" id="toc-redes-neuronales" class="nav-link" data-scroll-target="#redes-neuronales">Redes neuronales</a></li>
   <li><a href="#softmax-y-entropía-cruzada" id="toc-softmax-y-entropía-cruzada" class="nav-link" data-scroll-target="#softmax-y-entropía-cruzada">Softmax y entropía cruzada</a></li>
@@ -213,6 +214,7 @@ window.Quarto = {
   <li><a href="#no-supervisado" id="toc-no-supervisado" class="nav-link" data-scroll-target="#no-supervisado">No supervisado</a></li>
   <li><a href="#forma-del-parcial-2" id="toc-forma-del-parcial-2" class="nav-link" data-scroll-target="#forma-del-parcial-2">Forma del Parcial 2</a></li>
   <li><a href="#regla-de-preparación" id="toc-regla-de-preparación" class="nav-link" data-scroll-target="#regla-de-preparación">Regla de preparación</a></li>
+  <li><a href="#ejemplo-resuelto-respuesta-integradora" id="toc-ejemplo-resuelto-respuesta-integradora" class="nav-link" data-scroll-target="#ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</a></li>
   </ul>
 </nav>
     </div>
@@ -247,6 +249,17 @@ window.Quarto = {
 <li>aprendizaje no supervisado.</li>
 </ul>
 <p>No se evalúa memoria aislada. Se evalúa si puedes tomar una decisión técnica con fundamento matemático y evidencia computacional.</p>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>conectar forward/backward de redes con diagnóstico de entrenamiento;</li>
+<li>explicar cómo métrica, baseline y partición sostienen una decisión;</li>
+<li>interpretar PCA, K-Means o recomendación como evidencia estructural;</li>
+<li>responder preguntas integradoras sin depender de memoria aislada;</li>
+<li>escribir una recomendación con evidencia, diagnóstico, acción y límite.</li>
+</ol>
 </section>
 <section id="mapa-de-contenidos" class="level2">
 <h2 class="anchored" data-anchor-id="mapa-de-contenidos">Mapa de contenidos</h2>
@@ -290,7 +303,7 @@ window.Quarto = {
 Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]}).
 \]</span></p>
 </div>
-<p>Las dimensiones son parte del razonamiento. Si (A<sup>{[]}</sup>{md}) y (W<sup>{[]}</sup>{dh}), entonces (Z<sup>{[]}</sup>{mh}).</p>
+<p>Las dimensiones son parte del razonamiento. Si <span class="math inline">\(A^{[\ell-1]}\in \mathbb{R}^{m\times d}\)</span> y <span class="math inline">\(W^{[\ell]}\in \mathbb{R}^{d\times h}\)</span>, entonces <span class="math inline">\(Z^{[\ell]}\in \mathbb{R}^{m\times h}\)</span>.</p>
 </section>
 <section id="softmax-y-entropía-cruzada" class="level2">
 <h2 class="anchored" data-anchor-id="softmax-y-entropía-cruzada">Softmax y entropía cruzada</h2>
@@ -325,7 +338,7 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 <li>interpretabilidad;</li>
 <li>utilidad para la tarea posterior.</li>
 </ul>
-<p>En K-Means se evita elegir (k) solo por inertia porque inertia disminuye al aumentar (k). Silhouette ayuda, pero también tiene sesgos geométricos: favorece grupos compactos y separados.</p>
+<p>En K-Means se evita elegir <span class="math inline">\(k\)</span> solo por inertia porque inertia disminuye al aumentar <span class="math inline">\(k\)</span>. Silhouette ayuda, pero también tiene sesgos geométricos: favorece grupos compactos y separados.</p>
 </section>
 <section id="forma-del-parcial-2" class="level2">
 <h2 class="anchored" data-anchor-id="forma-del-parcial-2">Forma del Parcial 2</h2>
@@ -365,6 +378,16 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 <h2 class="anchored" data-anchor-id="regla-de-preparación">Regla de preparación</h2>
 <p>Si puedes explicar una decisión con esta estructura, estás listo:</p>
 <pre class="text"><code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code></pre>
+</section>
+<section id="ejemplo-resuelto-respuesta-integradora" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</h2>
+<p>Caso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.</p>
+<p>Respuesta defendible:</p>
+<pre class="text"><code>Evidencia: la accuracy global mejora, pero el slice reciente cae.
+Diagnóstico: posible data mismatch temporal.
+Acción: validar con partición temporal, revisar features y recolectar datos recientes.
+Límite: no recomendar despliegue si el uso real se parece al slice reciente.</code></pre>
+<p>La clave es no quedarse en “mejoró la métrica”.</p>
 
 
 </section>

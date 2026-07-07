@@ -166,10 +166,12 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#bloque-a-dimensiones-y-forward" id="toc-bloque-a-dimensiones-y-forward" class="nav-link active" data-scroll-target="#bloque-a-dimensiones-y-forward">Bloque A: dimensiones y forward</a></li>
+  <li><a href="#cómo-usar-esta-sección" id="toc-cómo-usar-esta-sección" class="nav-link active" data-scroll-target="#cómo-usar-esta-sección">Cómo usar esta sección</a></li>
+  <li><a href="#bloque-a-dimensiones-y-forward" id="toc-bloque-a-dimensiones-y-forward" class="nav-link" data-scroll-target="#bloque-a-dimensiones-y-forward">Bloque A: dimensiones y forward</a></li>
   <li><a href="#bloque-b-backpropagation" id="toc-bloque-b-backpropagation" class="nav-link" data-scroll-target="#bloque-b-backpropagation">Bloque B: backpropagation</a></li>
   <li><a href="#bloque-c-diagnóstico" id="toc-bloque-c-diagnóstico" class="nav-link" data-scroll-target="#bloque-c-diagnóstico">Bloque C: diagnóstico</a></li>
   <li><a href="#bloque-d-pytorch" id="toc-bloque-d-pytorch" class="nav-link" data-scroll-target="#bloque-d-pytorch">Bloque D: PyTorch</a></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -195,6 +197,17 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Estos ejercicios están diseñados para estudiar el módulo como un sistema completo: forward, backward, diagnóstico y entrenamiento con herramientas modernas. La meta no es memorizar fórmulas aisladas, sino verificar que cada objeto matemático tiene forma, propósito e interpretación.</p>
+<section id="cómo-usar-esta-sección" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-usar-esta-sección">Cómo usar esta sección</h2>
+<p>Trabaja primero sin mirar las respuestas. Después revisa:</p>
+<ol type="1">
+<li>si las formas de matrices son compatibles;</li>
+<li>si cada gradiente actualiza un parámetro con la misma forma;</li>
+<li>si tu diagnóstico distingue evidencia, causa probable y acción;</li>
+<li>si puedes explicar cada línea crítica de un loop de entrenamiento.</li>
+</ol>
+</section>
 <section id="bloque-a-dimensiones-y-forward" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-a-dimensiones-y-forward">Bloque A: dimensiones y forward</h2>
 <div class="exercise">
@@ -241,6 +254,21 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <div class="exercise">
 <p><strong>D3.</strong> Proponga dos razones por las que una implementación NumPy y una PyTorch podrían producir métricas distintas aun usando el mismo dataset.</p>
+</div>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<div class="answer">
+<p><strong>A1.</strong> Una convención compatible es: <code>W1.shape == (64, 20)</code>, <code>b1.shape == (20,)</code>, <code>Z1.shape == (400, 20)</code>, <code>A1.shape == (400, 20)</code>, <code>W2.shape == (20, 10)</code>, <code>b2.shape == (10,)</code>, <code>Z2.shape == (400, 10)</code> y <code>P.shape == (400, 10)</code>.</p>
+</div>
+<div class="answer">
+<p><strong>B1.</strong> Si <code>dZ2.shape == (400, 10)</code> y <code>A1.shape == (400, 20)</code>, entonces <code>dW2 = A1.T @ dZ2</code> tiene forma <code>(20, 10)</code>, igual que <code>W2</code>. Además, <code>db2 = dZ2.sum(axis=0)</code> tiene forma <code>(10,)</code>, igual que <code>b2</code>.</p>
+</div>
+<div class="answer">
+<p><strong>C1.</strong> El patrón sugiere overfitting después de la época 20. Dos acciones defendibles son early stopping y aumentar regularización L2; también podría reducirse capacidad o ampliar datos si el proyecto lo permite.</p>
+</div>
+<div class="answer">
+<p><strong>D1.</strong> <code>optimizer.zero_grad()</code> borra gradientes acumulados antes del siguiente batch. Si no se llama, PyTorch suma gradientes de batches anteriores y la actualización ya no corresponde al gradiente del batch actual.</p>
 </div>
 
 

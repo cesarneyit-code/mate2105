@@ -212,13 +212,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#qué-significa-reproducir" id="toc-qué-significa-reproducir" class="nav-link active" data-scroll-target="#qué-significa-reproducir">Qué significa reproducir</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#el-paquete-mínimo-reproducible" id="toc-el-paquete-mínimo-reproducible" class="nav-link" data-scroll-target="#el-paquete-mínimo-reproducible">El paquete mínimo reproducible</a></li>
   <li><a href="#semillas" id="toc-semillas" class="nav-link" data-scroll-target="#semillas">Semillas</a></li>
   <li><a href="#manifest-de-experimento" id="toc-manifest-de-experimento" class="nav-link" data-scroll-target="#manifest-de-experimento">Manifest de experimento</a></li>
+  <li><a href="#ejemplo-resuelto-manifest-mínimo" id="toc-ejemplo-resuelto-manifest-mínimo" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo">Ejemplo resuelto: manifest mínimo</a></li>
   <li><a href="#tracking-de-experimentos" id="toc-tracking-de-experimentos" class="nav-link" data-scroll-target="#tracking-de-experimentos">Tracking de experimentos</a></li>
   <li><a href="#persistencia-de-modelos" id="toc-persistencia-de-modelos" class="nav-link" data-scroll-target="#persistencia-de-modelos">Persistencia de modelos</a></li>
   <li><a href="#hash-de-artefactos" id="toc-hash-de-artefactos" class="nav-link" data-scroll-target="#hash-de-artefactos">Hash de artefactos</a></li>
   <li><a href="#checklist-de-reproducibilidad" id="toc-checklist-de-reproducibilidad" class="nav-link" data-scroll-target="#checklist-de-reproducibilidad">Checklist de reproducibilidad</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   </ul>
 </nav>
     </div>
@@ -250,6 +253,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Reproducibilidad:</strong> capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.</p>
 </div>
 <p>En ciencia de datos aplicada, reproducibilidad no es un lujo académico. Es lo que permite auditar una decisión, comparar experimentos y depurar errores.</p>
+</section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>listar los componentes mínimos de un proyecto reproducible;</li>
+<li>explicar qué controla una semilla y qué no controla;</li>
+<li>construir un <code>manifest.json</code> útil;</li>
+<li>registrar parámetros, métricas y artefactos;</li>
+<li>usar hashes para detectar cambios en archivos.</li>
+</ol>
 </section>
 <section id="el-paquete-mínimo-reproducible" class="level2">
 <h2 class="anchored" data-anchor-id="el-paquete-mínimo-reproducible">El paquete mínimo reproducible</h2>
@@ -317,6 +331,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El objetivo no es burocracia. Es poder responder: “¿qué corrida produjo este resultado?”.</p>
 </section>
+<section id="ejemplo-resuelto-manifest-mínimo" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-manifest-mínimo">Ejemplo resuelto: manifest mínimo</h2>
+<p>Un manifest suficientemente útil para un baseline podría ser:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"baseline_logreg_2026_09_10"</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_split"</span><span class="fu">:</span> <span class="st">"train/dev/test random_state=42"</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"model"</span><span class="fu">:</span> <span class="st">"LogisticRegression"</span><span class="fu">,</span> <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">},</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_f1"</span><span class="fu">:</span> <span class="fl">0.81</span><span class="fu">,</span> <span class="dt">"test_f1"</span><span class="fu">:</span> <span class="fl">0.78</span><span class="fu">},</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"report.html"</span><span class="fu">:</span> <span class="st">"sha256:..."</span><span class="fu">},</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"mantener como baseline de comparación"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>No es necesario que sea largo. Debe ser suficiente para reconstruir la decisión.</p>
+</section>
 <section id="tracking-de-experimentos" class="level2">
 <h2 class="anchored" data-anchor-id="tracking-de-experimentos">Tracking de experimentos</h2>
 <p>Herramientas como MLflow organizan experimentos en corridas con parámetros, métricas y artefactos. En este curso no se exige un servidor MLflow; el patrón conceptual sí se exige:</p>
@@ -354,9 +381,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="persistencia-de-modelos" class="level2">
 <h2 class="anchored" data-anchor-id="persistencia-de-modelos">Persistencia de modelos</h2>
 <p>Para proyectos con <code>scikit-learn</code>, una práctica común es guardar pipelines completos:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> dump</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>dump(pipeline, <span class="st">"artifacts/model.joblib"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> dump</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dump(pipeline, <span class="st">"artifacts/model.joblib"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="warning-card">
 <p>Nunca cargues archivos <code>pickle</code> o <code>joblib</code> de fuentes no confiables. La persistencia basada en pickle puede ejecutar código durante la carga. Para producción o intercambio abierto, considera formatos más seguros o flujos de confianza explícita.</p>
 </div>
@@ -364,14 +391,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="hash-de-artefactos" class="level2">
 <h2 class="anchored" data-anchor-id="hash-de-artefactos">Hash de artefactos</h2>
 <p>Un hash SHA-256 permite detectar si un archivo cambió:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hashlib</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sha256_file(path):</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> hashlib.sha256()</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> <span class="bu">iter</span>(<span class="kw">lambda</span>: f.read(<span class="dv">8192</span>), <span class="st">b""</span>):</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            h.update(chunk)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h.hexdigest()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hashlib</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sha256_file(path):</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> hashlib.sha256()</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> <span class="bu">iter</span>(<span class="kw">lambda</span>: f.read(<span class="dv">8192</span>), <span class="st">b""</span>):</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            h.update(chunk)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h.hexdigest()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="checklist-de-reproducibilidad" class="level2">
 <h2 class="anchored" data-anchor-id="checklist-de-reproducibilidad">Checklist de reproducibilidad</h2>
@@ -383,6 +410,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>¿Las métricas finales se pueden recalcular?</li>
 <li>¿Los artefactos tienen nombre, versión o hash?</li>
 <li>¿El reporte distingue resultados de decisiones?</li>
+</ol>
+</section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Si alguien abre tu proyecto dos semanas después, debería poder responder:</p>
+<ol type="1">
+<li>¿qué datos se usaron?;</li>
+<li>¿con qué entorno se ejecutó?;</li>
+<li>¿qué modelo produjo la métrica reportada?;</li>
+<li>¿qué archivos son evidencia y cuáles son auxiliares?;</li>
+<li>¿qué decisión se tomó a partir de la corrida?</li>
 </ol>
 
 

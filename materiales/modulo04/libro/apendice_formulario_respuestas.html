@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -204,25 +233,39 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="svd" class="level2">
 <h2 class="anchored" data-anchor-id="svd">SVD</h2>
-<p>[ X = UV^ ]</p>
+<p><span class="math display">\[
+X = U\Sigma V^\top
+\]</span></p>
 </section>
 <section id="pca" class="level2">
 <h2 class="anchored" data-anchor-id="pca">PCA</h2>
-<p>[ X_c = X - X ]</p>
-<p>[ Z = X_c V_k ]</p>
-<p>[ X = ZV_k^+ X ]</p>
+<p><span class="math display">\[
+X_c = X - \bar X
+\]</span></p>
+<p><span class="math display">\[
+Z = X_c V_k
+\]</span></p>
+<p><span class="math display">\[
+\hat X = ZV_k^\top + \bar X
+\]</span></p>
 </section>
 <section id="k-means" class="level2">
 <h2 class="anchored" data-anchor-id="k-means">K-Means</h2>
-<p>[ <em>{,c}</em>{i=1}^n |x_i-_{c_i}|_2^2 ]</p>
+<p><span class="math display">\[
+\min_{\mu,c}\sum_{i=1}^n \|x_i-\mu_{c_i}\|_2^2
+\]</span></p>
 </section>
 <section id="silhouette" class="level2">
 <h2 class="anchored" data-anchor-id="silhouette">Silhouette</h2>
-<p>[ s= ]</p>
+<p><span class="math display">\[
+s=\frac{b-a}{\max(a,b)}
+\]</span></p>
 </section>
 <section id="cosine-similarity" class="level2">
 <h2 class="anchored" data-anchor-id="cosine-similarity">Cosine similarity</h2>
-<p>[ (x,y)= ]</p>
+<p><span class="math display">\[
+\cos(x,y)=\frac{x^\top y}{\|x\|\|y\|}
+\]</span></p>
 </section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
@@ -232,7 +275,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="capítulo-2-ejercicio-1" class="level3">
 <h3 class="anchored" data-anchor-id="capítulo-2-ejercicio-1">Capítulo 2, ejercicio 1</h3>
-<p>Inertia baja al aumentar (k) porque cada punto puede quedar más cerca de algún centroide. En el extremo (k=n), cada punto puede ser su propio centroide y la inertia llega a cero.</p>
+<p>Inertia baja al aumentar <span class="math inline">\(k\)</span> porque cada punto puede quedar más cerca de algún centroide. En el extremo <span class="math inline">\(k=n\)</span>, cada punto puede ser su propio centroide y la inertia llega a cero.</p>
 </section>
 <section id="capítulo-3-ejercicio-2" class="level3">
 <h3 class="anchored" data-anchor-id="capítulo-3-ejercicio-2">Capítulo 3, ejercicio 2</h3>

@@ -80,6 +80,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#objetivos-del-capítulo",
+    "href": "capitulo01_parcial2_sintesis.html#objetivos-del-capítulo",
+    "title": "Parcial 2: síntesis conceptual",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nconectar forward/backward de redes con diagnóstico de entrenamiento;\nexplicar cómo métrica, baseline y partición sostienen una decisión;\ninterpretar PCA, K-Means o recomendación como evidencia estructural;\nresponder preguntas integradoras sin depender de memoria aislada;\nescribir una recomendación con evidencia, diagnóstico, acción y límite.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parcial 2: síntesis conceptual</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_parcial2_sintesis.html#mapa-de-contenidos",
     "href": "capitulo01_parcial2_sintesis.html#mapa-de-contenidos",
     "title": "Parcial 2: síntesis conceptual",
@@ -94,7 +104,7 @@
     "href": "capitulo01_parcial2_sintesis.html#redes-neuronales",
     "title": "Parcial 2: síntesis conceptual",
     "section": "Redes neuronales",
-    "text": "Redes neuronales\n\nForward propagation. Para una capa densa:\n\\[\nZ^{[\\ell]} = A^{[\\ell-1]}W^{[\\ell]} + b^{[\\ell]}, \\quad A^{[\\ell]} = g(Z^{[\\ell]}).\n\\]\n\nLas dimensiones son parte del razonamiento. Si (A{[]}{md}) y (W{[]}{dh}), entonces (Z{[]}{mh}).",
+    "text": "Redes neuronales\n\nForward propagation. Para una capa densa:\n\\[\nZ^{[\\ell]} = A^{[\\ell-1]}W^{[\\ell]} + b^{[\\ell]}, \\quad A^{[\\ell]} = g(Z^{[\\ell]}).\n\\]\n\nLas dimensiones son parte del razonamiento. Si \\(A^{[\\ell-1]}\\in \\mathbb{R}^{m\\times d}\\) y \\(W^{[\\ell]}\\in \\mathbb{R}^{d\\times h}\\), entonces \\(Z^{[\\ell]}\\in \\mathbb{R}^{m\\times h}\\).",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parcial 2: síntesis conceptual</span>"
     ]
@@ -124,7 +134,7 @@
     "href": "capitulo01_parcial2_sintesis.html#no-supervisado",
     "title": "Parcial 2: síntesis conceptual",
     "section": "No supervisado",
-    "text": "No supervisado\nEn PCA se decide cuántos componentes retener usando varias señales:\n\nvarianza explicada acumulada;\nerror de reconstrucción;\ninterpretabilidad;\nutilidad para la tarea posterior.\n\nEn K-Means se evita elegir (k) solo por inertia porque inertia disminuye al aumentar (k). Silhouette ayuda, pero también tiene sesgos geométricos: favorece grupos compactos y separados.",
+    "text": "No supervisado\nEn PCA se decide cuántos componentes retener usando varias señales:\n\nvarianza explicada acumulada;\nerror de reconstrucción;\ninterpretabilidad;\nutilidad para la tarea posterior.\n\nEn K-Means se evita elegir \\(k\\) solo por inertia porque inertia disminuye al aumentar \\(k\\). Silhouette ayuda, pero también tiene sesgos geométricos: favorece grupos compactos y separados.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parcial 2: síntesis conceptual</span>"
     ]
@@ -150,6 +160,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
+    "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
+    "title": "Parcial 2: síntesis conceptual",
+    "section": "Ejemplo resuelto: respuesta integradora",
+    "text": "Ejemplo resuelto: respuesta integradora\nCaso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.\nRespuesta defendible:\nEvidencia: la accuracy global mejora, pero el slice reciente cae.\nDiagnóstico: posible data mismatch temporal.\nAcción: validar con partición temporal, revisar features y recolectar datos recientes.\nLímite: no recomendar despliegue si el uso real se parece al slice reciente.\nLa clave es no quedarse en “mejoró la métrica”.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parcial 2: síntesis conceptual</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html",
     "href": "capitulo02_reproducibilidad_tracking.html",
     "title": "Reproducibilidad y tracking",
@@ -165,6 +185,16 @@
     "title": "Reproducibilidad y tracking",
     "section": "",
     "text": "Reproducibilidad: capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#objetivos-del-capítulo",
+    "href": "capitulo02_reproducibilidad_tracking.html#objetivos-del-capítulo",
+    "title": "Reproducibilidad y tracking",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nlistar los componentes mínimos de un proyecto reproducible;\nexplicar qué controla una semilla y qué no controla;\nconstruir un manifest.json útil;\nregistrar parámetros, métricas y artefactos;\nusar hashes para detectar cambios en archivos.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
     ]
@@ -195,6 +225,16 @@
     "title": "Reproducibilidad y tracking",
     "section": "Manifest de experimento",
     "text": "Manifest de experimento\nUn manifest es un resumen estructurado:\n{\n  \"params\": {\"model\": \"LogisticRegression\", \"C\": 1.0, \"random_state\": 42},\n  \"metrics\": {\"f1\": 0.91, \"roc_auc\": 0.96},\n  \"artifacts\": {\"model.joblib\": \"sha256:...\"},\n  \"decision\": \"usar como baseline final\"\n}\nEl objetivo no es burocracia. Es poder responder: “¿qué corrida produjo este resultado?”.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-manifest-mínimo",
+    "href": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-manifest-mínimo",
+    "title": "Reproducibilidad y tracking",
+    "section": "Ejemplo resuelto: manifest mínimo",
+    "text": "Ejemplo resuelto: manifest mínimo\nUn manifest suficientemente útil para un baseline podría ser:\n{\n  \"run_id\": \"baseline_logreg_2026_09_10\",\n  \"data_split\": \"train/dev/test random_state=42\",\n  \"params\": {\"model\": \"LogisticRegression\", \"C\": 1.0},\n  \"metrics\": {\"dev_f1\": 0.81, \"test_f1\": 0.78},\n  \"artifacts\": {\"report.html\": \"sha256:...\"},\n  \"decision\": \"mantener como baseline de comparación\"\n}\nNo es necesario que sea largo. Debe ser suficiente para reconstruir la decisión.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
     ]
@@ -240,21 +280,31 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#punto-de-control",
+    "href": "capitulo02_reproducibilidad_tracking.html#punto-de-control",
+    "title": "Reproducibilidad y tracking",
+    "section": "Punto de control",
+    "text": "Punto de control\nSi alguien abre tu proyecto dos semanas después, debería poder responder:\n\n¿qué datos se usaron?;\n¿con qué entorno se ejecutó?;\n¿qué modelo produjo la métrica reportada?;\n¿qué archivos son evidencia y cuáles son auxiliares?;\n¿qué decisión se tomó a partir de la corrida?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_comunicacion_tecnica.html",
     "href": "capitulo03_comunicacion_tecnica.html",
     "title": "Comunicación técnica",
     "section": "",
-    "text": "Tesis de un reporte\nUn reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.\nEjemplo:",
+    "text": "Tesis de un reporte\nUn reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
   },
   {
-    "objectID": "capitulo03_comunicacion_tecnica.html#tesis-de-un-reporte",
-    "href": "capitulo03_comunicacion_tecnica.html#tesis-de-un-reporte",
+    "objectID": "capitulo03_comunicacion_tecnica.html#objetivos-del-capítulo",
+    "href": "capitulo03_comunicacion_tecnica.html#objetivos-del-capítulo",
     "title": "Comunicación técnica",
-    "section": "",
-    "text": "Tesis técnica: frase que resume la decisión recomendada, la evidencia principal y la limitación más importante.\n\n\n\nEl modelo regularizado mejora el baseline en F1 y mantiene estabilidad en validación cruzada, pero requiere revisar falsos negativos en el subgrupo de mayor riesgo antes de una recomendación operativa.",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir una tesis técnica breve;\nseleccionar figuras que respondan preguntas específicas;\ndistinguir evidencia, interpretación y recomendación;\nevitar lenguaje desproporcionado;\npreparar una respuesta oral defendible.\n\n\nTesis técnica: frase que resume la decisión recomendada, la evidencia principal y la limitación más importante.\n\nEjemplo:\n\nEl modelo regularizado mejora el baseline en F1 y mantiene estabilidad en validación cruzada, pero requiere revisar falsos negativos en el subgrupo de mayor riesgo antes de una recomendación operativa.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
@@ -290,6 +340,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejorar-una-conclusión",
+    "href": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejorar-una-conclusión",
+    "title": "Comunicación técnica",
+    "section": "Ejemplo resuelto: mejorar una conclusión",
+    "text": "Ejemplo resuelto: mejorar una conclusión\nConclusión débil:\n\nEl modelo es bueno porque tiene accuracy alta.\n\nConclusión profesional:\n\nEl modelo mejora el baseline de F1 en validación cruzada y mantiene desempeño similar en test. Sin embargo, el recall cae en el slice de observaciones recientes; por eso se recomienda usarlo solo como baseline interno mientras se revisa data mismatch temporal.\n\nLa segunda versión es mejor porque incluye comparación, evidencia, límite y acción proporcional.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_comunicacion_tecnica.html#respuesta-corta-defendible",
     "href": "capitulo03_comunicacion_tecnica.html#respuesta-corta-defendible",
     "title": "Comunicación técnica",
@@ -320,11 +380,31 @@
     ]
   },
   {
+    "objectID": "capitulo04_entrega_defensa.html#objetivos-del-capítulo",
+    "href": "capitulo04_entrega_defensa.html#objetivos-del-capítulo",
+    "title": "Entrega final y defensa",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\norganizar un repositorio de proyecto con evidencia auditable;\npreparar una entrega que se pueda leer y ejecutar;\nexplicar tu contribución individual;\nresponder preguntas sobre métrica, validación, leakage y limitaciones;\ndistinguir presentación grupal de defensa individual.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_entrega_defensa.html#estructura-del-repositorio-de-proyecto",
     "href": "capitulo04_entrega_defensa.html#estructura-del-repositorio-de-proyecto",
     "title": "Entrega final y defensa",
     "section": "Estructura del repositorio de proyecto",
     "text": "Estructura del repositorio de proyecto\nproyecto-final/\n  README.md\n  requirements.txt\n  data/\n    README.md\n  notebooks/\n    01_exploracion.ipynb\n    02_modelado.ipynb\n    03_reporte_final.ipynb\n  src/\n    features.py\n    evaluation.py\n  reports/\n    reporte_final.pdf\n  artifacts/\n    metrics.json\n    manifest.json\nNo todos los proyectos tendrán exactamente la misma estructura, pero sí deben separar datos, código, evidencia y reporte.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#ejemplo-resuelto-contribución-individual",
+    "href": "capitulo04_entrega_defensa.html#ejemplo-resuelto-contribución-individual",
+    "title": "Entrega final y defensa",
+    "section": "Ejemplo resuelto: contribución individual",
+    "text": "Ejemplo resuelto: contribución individual\nRespuesta vaga:\n\nAyudé con el modelo.\n\nRespuesta defendible:\n\nImplementé la partición train/dev/test, construí el baseline logístico y comparé F1/recall contra el modelo regularizado. También preparé la tabla de errores por slice de edad y documenté el riesgo de falsos negativos.\n\nLa segunda respuesta permite verificar autoría y comprensión.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -374,7 +454,17 @@
     "href": "capitulo05_ejercicios_integradores.html",
     "title": "Ejercicios integradores",
     "section": "",
-    "text": "Ejercicio 1: Softmax estable\nSea\n\\[\nZ =\n\\begin{bmatrix}\n1000 & 1001 & 1002\n\\end{bmatrix}.\n\\]",
+    "text": "Criterio de calidad\nEsta sección sirve como ensayo final del curso. Cada ejercicio conecta matemática, implementación, evidencia y comunicación. La respuesta correcta no es solo la que calcula bien: también debe dejar claro qué decisión se puede defender con ese cálculo.\nUna respuesta final de curso debe:",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#criterio-de-calidad",
+    "href": "capitulo05_ejercicios_integradores.html#criterio-de-calidad",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "usar una fórmula o procedimiento correcto;\nseñalar la evidencia observada;\ntraducir la evidencia en diagnóstico;\nproponer una acción proporcional;\ndeclarar un límite.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -383,8 +473,8 @@
     "objectID": "capitulo05_ejercicios_integradores.html#ejercicio-1-softmax-estable",
     "href": "capitulo05_ejercicios_integradores.html#ejercicio-1-softmax-estable",
     "title": "Ejercicios integradores",
-    "section": "",
-    "text": "Explica por qué una implementación directa puede fallar.\nCalcula softmax después de restar el máximo.\nVerifica que las probabilidades suman 1.",
+    "section": "Ejercicio 1: Softmax estable",
+    "text": "Ejercicio 1: Softmax estable\nSea\n\\[\nZ =\n\\begin{bmatrix}\n1000 & 1001 & 1002\n\\end{bmatrix}.\n\\]\n\nExplica por qué una implementación directa puede fallar.\nCalcula softmax después de restar el máximo.\nVerifica que las probabilidades suman 1.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -394,7 +484,7 @@
     "href": "capitulo05_ejercicios_integradores.html#ejercicio-2-diagnóstico",
     "title": "Ejercicios integradores",
     "section": "Ejercicio 2: Diagnóstico",
-    "text": "Ejercicio 2: Diagnóstico\nUn modelo tiene:\n\nbaseline F1 = 0.62;\nmodelo F1 CV = (0.78 );\ntest F1 = 0.70;\nslice crítico F1 = 0.48.\n\nEscribe una recomendación en cuatro partes:\nevidencia -&gt; diagnóstico -&gt; acción -&gt; límite",
+    "text": "Ejercicio 2: Diagnóstico\nUn modelo tiene:\n\nbaseline F1 = 0.62;\nmodelo F1 CV = \\(0.78 \\pm 0.09\\);\ntest F1 = 0.70;\nslice crítico F1 = 0.48.\n\nEscribe una recomendación en cuatro partes:\nevidencia -&gt; diagnóstico -&gt; acción -&gt; límite",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -404,7 +494,7 @@
     "href": "capitulo05_ejercicios_integradores.html#ejercicio-3-pca-y-reconstrucción",
     "title": "Ejercicios integradores",
     "section": "Ejercicio 3: PCA y reconstrucción",
-    "text": "Ejercicio 3: PCA y reconstrucción\nTienes una matriz centrada (X_c) y su SVD (X_c = UV^).\n\nEscribe la fórmula de los scores con (k) componentes.\nEscribe la reconstrucción aproximada.\nExplica por qué el error de reconstrucción no aumenta al aumentar (k).",
+    "text": "Ejercicio 3: PCA y reconstrucción\nTienes una matriz centrada \\(X_c\\) y su SVD \\(X_c = U\\Sigma V^\\top\\).\n\nEscribe la fórmula de los scores con \\(k\\) componentes.\nEscribe la reconstrucción aproximada.\nExplica por qué el error de reconstrucción no aumenta al aumentar \\(k\\).",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -425,6 +515,16 @@
     "title": "Ejercicios integradores",
     "section": "Ejercicio 5: Defensa",
     "text": "Ejercicio 5: Defensa\nResponde en 120 palabras:\n\n¿Qué evidencia necesitarías antes de recomendar que un modelo se use en una decisión real?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#respuestas-seleccionadas",
+    "href": "capitulo05_ejercicios_integradores.html#respuestas-seleccionadas",
+    "title": "Ejercicios integradores",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\n\nEjercicio 1. La implementación directa puede fallar porque \\(e^{1002}\\) excede el rango numérico usual. Al restar el máximo, se calcula softmax sobre \\((-2,-1,0)\\). Las probabilidades son proporcionales a \\((e^{-2},e^{-1},1)\\) y se normalizan dividiendo por \\(e^{-2}+e^{-1}+1\\). La suma final es 1 por construcción.\n\n\nEjercicio 2. Una respuesta defendible sería: “Evidencia: el modelo supera el baseline, pero la variabilidad CV es alta, test cae y el slice crítico tiene F1 0.48. Diagnóstico: desempeño inestable y posible falla en un subgrupo importante. Acción: analizar errores del slice, ajustar métrica de selección y recolectar datos relevantes. Límite: no recomendar uso real si el slice crítico representa casos de alto costo.”\n\n\nEjercicio 3. Los scores con \\(k\\) componentes son \\(Z=X_cV_k\\). La reconstrucción aproximada es \\(\\hat X_k=ZV_k^\\top\\). Al aumentar \\(k\\), el subespacio disponible contiene al anterior, así que la mejor reconstrucción no puede empeorar.\n\n\nEjercicio 5. La evidencia mínima incluye baseline, partición independiente, métrica alineada con la decisión, análisis por slices, matriz de errores, revisión de leakage, estabilidad ante variación de datos, limitaciones y costo de falsos positivos/falsos negativos. Sin esa evidencia, una métrica global no justifica una recomendación real.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -454,7 +554,7 @@
     "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
     "title": "Formulario y respuestas seleccionadas",
     "section": "Respuestas seleccionadas",
-    "text": "Respuestas seleccionadas\n\nEjercicio 1\nRestar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.\n\n\nEjercicio 2\nUna respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.\n\n\nEjercicio 3\nCon más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con (k+1) componentes no puede tener mayor error que con (k).\n\n\nEjercicio 4\nUn manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.",
+    "text": "Respuestas seleccionadas\n\nEjercicio 1\nRestar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.\n\n\nEjercicio 2\nUna respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.\n\n\nEjercicio 3\nCon más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con \\(k+1\\) componentes no puede tener mayor error que con \\(k\\).\n\n\nEjercicio 4\nUn manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
     ]
@@ -464,7 +564,7 @@
     "href": "laboratorios/parcial02_autograded.html",
     "title": "Parcial 2 autograded",
     "section": "",
-    "text": "Alcance\nEste parcial evalúa los módulos 2, 3, 4 y el cierre reproducible del curso.\nTemas incluidos:\n\nsoftmax y entropía cruzada;\nparticiones estratificadas y validación;\nselección de modelos con media y variabilidad;\nPCA desde SVD;\nK-Means y silhouette;\nmanifest reproducible con hashes de artefactos.\n\n\n\nReglas\n\nNo cambies nombres de funciones.\nNo uses internet.\nNo hardcodees resultados.\nNo borres celdas del notebook.\nEjecuta todo antes de entregar.\nLa explicación breve se califica manualmente.\n\n\n\nFunciones esperadas\nstable_softmax(logits)\ncross_entropy_from_probabilities(proba, y)\nmake_stratified_splits(X, y, test_size=0.2, dev_size=0.25, random_state=42)\ncv_summary(scores)\nselect_model_by_cv(results)\npca_svd_summary(X, n_components)\nchoose_k_by_silhouette(X, k_values, random_state=42)\nfile_sha256(path)\nbuild_reproducibility_manifest(params, metrics, artifact_paths)\n\n\nParte manual\nResponde en 120 a 180 palabras:\n\nTu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué evidencia adicional pedirías antes de recomendar una decisión real y cómo lo documentarías de forma reproducible?\n\nRúbrica:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no es técnica\n\n\n1\nMenciona evidencia o reproducibilidad de forma aislada\n\n\n2\nIntegra métrica, variabilidad, error analysis, manifest y decisión prudente\n\n\n\n\n\nErrores que cuestan puntos\n\nSoftmax no estable numéricamente.\nUsar test para seleccionar modelo.\nNo estratificar en clasificación.\nPCA sin centrar.\nElegir (k) solo por inertia.\nCrear un manifest sin parámetros, métricas o hashes.",
+    "text": "Alcance\nEste parcial evalúa los módulos 2, 3, 4 y el cierre reproducible del curso.\nTemas incluidos:\n\nsoftmax y entropía cruzada;\nparticiones estratificadas y validación;\nselección de modelos con media y variabilidad;\nPCA desde SVD;\nK-Means y silhouette;\nmanifest reproducible con hashes de artefactos.\n\n\n\nReglas\n\nNo cambies nombres de funciones.\nNo uses internet.\nNo hardcodees resultados.\nNo borres celdas del notebook.\nEjecuta todo antes de entregar.\nLa explicación breve se califica manualmente.\n\n\n\nFunciones esperadas\nstable_softmax(logits)\ncross_entropy_from_probabilities(proba, y)\nmake_stratified_splits(X, y, test_size=0.2, dev_size=0.25, random_state=42)\ncv_summary(scores)\nselect_model_by_cv(results)\npca_svd_summary(X, n_components)\nchoose_k_by_silhouette(X, k_values, random_state=42)\nfile_sha256(path)\nbuild_reproducibility_manifest(params, metrics, artifact_paths)\n\n\nParte manual\nResponde en 120 a 180 palabras:\n\nTu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué evidencia adicional pedirías antes de recomendar una decisión real y cómo lo documentarías de forma reproducible?\n\nRúbrica:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no es técnica\n\n\n1\nMenciona evidencia o reproducibilidad de forma aislada\n\n\n2\nIntegra métrica, variabilidad, error analysis, manifest y decisión prudente\n\n\n\n\n\nErrores que cuestan puntos\n\nSoftmax no estable numéricamente.\nUsar test para seleccionar modelo.\nNo estratificar en clasificación.\nPCA sin centrar.\nElegir \\(k\\) solo por inertia.\nCrear un manifest sin parámetros, métricas o hashes.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Parcial 2 autograded</span>"
     ]

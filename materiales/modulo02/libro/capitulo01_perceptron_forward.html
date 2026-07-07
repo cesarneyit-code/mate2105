@@ -231,6 +231,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#perceptron-como-unidad-básica" id="toc-perceptron-como-unidad-básica" class="nav-link" data-scroll-target="#perceptron-como-unidad-básica">Perceptron como unidad básica</a></li>
   <li><a href="#neurona-logística" id="toc-neurona-logística" class="nav-link" data-scroll-target="#neurona-logística">Neurona logística</a></li>
   <li><a href="#de-una-neurona-a-una-capa" id="toc-de-una-neurona-a-una-capa" class="nav-link" data-scroll-target="#de-una-neurona-a-una-capa">De una neurona a una capa</a></li>
@@ -239,6 +240,7 @@ window.Quarto = {
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax">Softmax</a></li>
   <li><a href="#entropía-cruzada-multiclase" id="toc-entropía-cruzada-multiclase" class="nav-link" data-scroll-target="#entropía-cruzada-multiclase">Entropía cruzada multiclase</a></li>
   <li><a href="#ejemplo-resuelto-dimensiones" id="toc-ejemplo-resuelto-dimensiones" class="nav-link" data-scroll-target="#ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
   </ul>
 </nav>
@@ -273,17 +275,31 @@ window.Quarto = {
 <p>Una <strong>red neuronal feedforward</strong> es una composición de transformaciones lineales y funciones no lineales.</p>
 </div>
 </section>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>reconocer una neurona logística como una capa lineal seguida de una activación;</li>
+<li>escribir las dimensiones correctas de una capa densa;</li>
+<li>explicar por qué una activación no lineal cambia la capacidad del modelo;</li>
+<li>implementar softmax de forma estable;</li>
+<li>interpretar entropía cruzada como pérdida para clasificación multiclase.</li>
+</ol>
+</section>
 <section id="perceptron-como-unidad-básica" class="level2">
 <h2 class="anchored" data-anchor-id="perceptron-como-unidad-básica">Perceptron como unidad básica</h2>
-<p>Dada una observación (x ^p), un perceptron calcula:</p>
-<p>[ z = w^x + b. ]</p>
+<p>Dada una observación <span class="math inline">\(x \in \mathbb{R}^p\)</span>, un perceptron calcula:</p>
+<p><span class="math display">\[
+z = w^\top x + b.
+\]</span></p>
 <p>Si se aplica una regla de decisión:</p>
-[ y =
-<span class="math display">\[\begin{cases}
+<p><span class="math display">\[
+\hat y =
+\begin{cases}
 1, &amp; z \ge 0,\\
 0, &amp; z &lt; 0,
-\end{cases}\]</span>
-<p>]</p>
+\end{cases}
+\]</span></p>
 <p>obtenemos un clasificador lineal.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -302,48 +318,70 @@ Advertencia
 <section id="neurona-logística" class="level2">
 <h2 class="anchored" data-anchor-id="neurona-logística">Neurona logística</h2>
 <p>La regresión logística ya puede verse como una neurona:</p>
-<p>[ p = (w^x + b), (z)=. ]</p>
-<p>La salida (p) se interpreta como probabilidad de la clase positiva. Esta interpretación conecta el Módulo 1 con redes neuronales:</p>
+<p><span class="math display">\[
+\hat p = \sigma(w^\top x + b),
+\qquad
+\sigma(z)=\frac{1}{1+e^{-z}}.
+\]</span></p>
+<p>La salida <span class="math inline">\(\hat p\)</span> se interpreta como probabilidad de la clase positiva. Esta interpretación conecta el Módulo 1 con redes neuronales:</p>
 <pre class="text"><code>regresión logística = una capa lineal + sigmoide</code></pre>
 </section>
 <section id="de-una-neurona-a-una-capa" class="level2">
 <h2 class="anchored" data-anchor-id="de-una-neurona-a-una-capa">De una neurona a una capa</h2>
-<p>Una capa densa con (h) neuronas calcula:</p>
-<p>[ Z^{[1]} = XW^{[1]} + b^{[1]}, ]</p>
+<p>Una capa densa con <span class="math inline">\(h\)</span> neuronas calcula:</p>
+<p><span class="math display">\[
+Z^{[1]} = XW^{[1]} + b^{[1]},
+\]</span></p>
 <p>donde:</p>
 <ul>
-<li>(X ^{n p});</li>
-<li>(W^{[1]} ^{p h});</li>
-<li>(b^{[1]} ^{h});</li>
-<li>(Z^{[1]} ^{n h}).</li>
+<li><span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span>;</li>
+<li><span class="math inline">\(W^{[1]} \in \mathbb{R}^{p \times h}\)</span>;</li>
+<li><span class="math inline">\(b^{[1]} \in \mathbb{R}^{h}\)</span>;</li>
+<li><span class="math inline">\(Z^{[1]} \in \mathbb{R}^{n \times h}\)</span>.</li>
 </ul>
 <p>Luego aplicamos una activación elemento a elemento:</p>
-<p>[ A^{[1]} = g(Z^{[1]}). ]</p>
+<p><span class="math display">\[
+A^{[1]} = g(Z^{[1]}).
+\]</span></p>
 </section>
 <section id="red-de-una-capa-oculta" class="level2">
 <h2 class="anchored" data-anchor-id="red-de-una-capa-oculta">Red de una capa oculta</h2>
-<p>Para clasificación multiclase con (k) clases:</p>
-<p>[ Z^{[1]} = XW^{[1]} + b^{[1]}, ]</p>
-<p>[ A^{[1]} = (Z^{[1]}), ]</p>
-<p>[ Z^{[2]} = A<sup>{[1]}W</sup>{[2]} + b^{[2]}, ]</p>
-<p>[ P = (Z^{[2]}). ]</p>
+<p>Para clasificación multiclase con <span class="math inline">\(k\)</span> clases:</p>
+<p><span class="math display">\[
+Z^{[1]} = XW^{[1]} + b^{[1]},
+\]</span></p>
+<p><span class="math display">\[
+A^{[1]} = \operatorname{ReLU}(Z^{[1]}),
+\]</span></p>
+<p><span class="math display">\[
+Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]},
+\]</span></p>
+<p><span class="math display">\[
+\hat P = \operatorname{softmax}(Z^{[2]}).
+\]</span></p>
 </section>
 <section id="relu" class="level2">
 <h2 class="anchored" data-anchor-id="relu">ReLU</h2>
-<p>[ (z)=(0,z). ]</p>
+<p><span class="math display">\[
+\operatorname{ReLU}(z)=\max(0,z).
+\]</span></p>
 <p>ReLU introduce no linealidad y evita parte de la saturación que aparece con sigmoides en redes profundas.</p>
 <p>Su derivada por partes es:</p>
-[ ’(z)=
-<span class="math display">\[\begin{cases}
+<p><span class="math display">\[
+\operatorname{ReLU}'(z)=
+\begin{cases}
 1, &amp; z&gt;0,\\
 0, &amp; z \le 0.
-\end{cases}\]</span>
-<p>]</p>
+\end{cases}
+\]</span></p>
 </section>
 <section id="softmax" class="level2">
 <h2 class="anchored" data-anchor-id="softmax">Softmax</h2>
-<p>Para logits (z_1,,z_k):</p>
-<p>[ (z)_j = . ]</p>
+<p>Para logits <span class="math inline">\(z_1,\dots,z_k\)</span>:</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z)_j =
+\frac{e^{z_j}}{\sum_{\ell=1}^k e^{z_\ell}}.
+\]</span></p>
 <p>En implementación usamos una versión estable:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>shifted <span class="op">=</span> Z <span class="op">-</span> np.<span class="bu">max</span>(Z, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>exp_scores <span class="op">=</span> np.exp(shifted)</span>
@@ -352,18 +390,20 @@ Advertencia
 </section>
 <section id="entropía-cruzada-multiclase" class="level2">
 <h2 class="anchored" data-anchor-id="entropía-cruzada-multiclase">Entropía cruzada multiclase</h2>
-<p>Si (Y) es one-hot y (P) son probabilidades:</p>
-<p>[ J = -<em>{i=1}^n</em>{j=1}^k Y_{ij}(P_{ij}). ]</p>
+<p>Si <span class="math inline">\(Y\)</span> es one-hot y <span class="math inline">\(\hat P\)</span> son probabilidades:</p>
+<p><span class="math display">\[
+J = -\frac{1}{n}\sum_{i=1}^n\sum_{j=1}^k Y_{ij}\log(\hat P_{ij}).
+\]</span></p>
 <p>La pérdida premia asignar alta probabilidad a la clase correcta.</p>
 </section>
 <section id="ejemplo-resuelto-dimensiones" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</h2>
 <p>Suponga:</p>
 <ul>
-<li>(n=100) observaciones;</li>
-<li>(p=64) pixeles por imagen;</li>
-<li>(h=32) neuronas ocultas;</li>
-<li>(k=10) clases.</li>
+<li><span class="math inline">\(n=100\)</span> observaciones;</li>
+<li><span class="math inline">\(p=64\)</span> pixeles por imagen;</li>
+<li><span class="math inline">\(h=32\)</span> neuronas ocultas;</li>
+<li><span class="math inline">\(k=10\)</span> clases.</li>
 </ul>
 <p>Entonces:</p>
 <table class="caption-top table">
@@ -375,36 +415,48 @@ Advertencia
 </thead>
 <tbody>
 <tr class="odd">
-<td>(X)</td>
-<td>(100 )</td>
+<td><span class="math inline">\(X\)</span></td>
+<td><span class="math inline">\(100 \times 64\)</span></td>
 </tr>
 <tr class="even">
-<td>(W^{[1]})</td>
-<td>(64 )</td>
+<td><span class="math inline">\(W^{[1]}\)</span></td>
+<td><span class="math inline">\(64 \times 32\)</span></td>
 </tr>
 <tr class="odd">
-<td>(b^{[1]})</td>
-<td>(32)</td>
+<td><span class="math inline">\(b^{[1]}\)</span></td>
+<td><span class="math inline">\(32\)</span></td>
 </tr>
 <tr class="even">
-<td>(A^{[1]})</td>
-<td>(100 )</td>
+<td><span class="math inline">\(A^{[1]}\)</span></td>
+<td><span class="math inline">\(100 \times 32\)</span></td>
 </tr>
 <tr class="odd">
-<td>(W^{[2]})</td>
-<td>(32 )</td>
+<td><span class="math inline">\(W^{[2]}\)</span></td>
+<td><span class="math inline">\(32 \times 10\)</span></td>
 </tr>
 <tr class="even">
-<td>(P)</td>
-<td>(100 )</td>
+<td><span class="math inline">\(\hat P\)</span></td>
+<td><span class="math inline">\(100 \times 10\)</span></td>
 </tr>
 </tbody>
 </table>
 </section>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<p>Antes de pasar a backpropagation, verifica que puedes responder sin mirar la tabla:</p>
+<ol type="1">
+<li>Si una capa recibe 64 variables y produce 32 activaciones, ¿qué forma tiene su matriz de pesos?</li>
+<li>Si una red produce 10 logits por observación, ¿por qué softmax se aplica por fila?</li>
+<li>Si se quita ReLU, ¿qué tipo de frontera queda después de componer capas lineales?</li>
+</ol>
+<div class="answer">
+<p><strong>Respuesta corta.</strong> La matriz tiene forma <span class="math inline">\(64 \times 32\)</span>. Softmax se aplica por fila porque cada fila contiene las probabilidades de una observación sobre las 10 clases. Sin activaciones no lineales, la composición de capas sigue siendo una transformación lineal.</p>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
 <div class="exercise">
-<p><strong>Ejercicio 1.</strong> Si (X) tiene forma <code>(250, 20)</code> y una capa oculta tiene 12 neuronas, ¿qué forma deben tener <code>W1</code>, <code>b1</code> y <code>Z1</code>?</p>
+<p><strong>Ejercicio 1.</strong> Si <span class="math inline">\(X\)</span> tiene forma <code>(250, 20)</code> y una capa oculta tiene 12 neuronas, ¿qué forma deben tener <code>W1</code>, <code>b1</code> y <code>Z1</code>?</p>
 </div>
 <div class="exercise">
 <p><strong>Ejercicio 2.</strong> Explique por qué una red sin activaciones no lineales se reduce a una transformación lineal.</p>

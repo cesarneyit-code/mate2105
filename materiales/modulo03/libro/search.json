@@ -90,6 +90,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
+    "href": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
+    "title": "Métricas y particiones",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_metricas_particiones.html#métrica-principal",
     "href": "capitulo01_metricas_particiones.html#métrica-principal",
     "title": "Métricas y particiones",
@@ -105,6 +115,16 @@
     "title": "Métricas y particiones",
     "section": "Accuracy no siempre basta",
     "text": "Accuracy no siempre basta\nEn clases desbalanceadas, un modelo que predice siempre la clase mayoritaria puede tener alta accuracy.\nPor eso, en clasificación binaria se debe revisar:\n\nmatriz de confusión;\nprecision;\nrecall;\nF1;\nROC-AUC o PR-AUC;\ncosto de falsos positivos y falsos negativos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#ejemplo-resuelto-accuracy-engañosa",
+    "href": "capitulo01_metricas_particiones.html#ejemplo-resuelto-accuracy-engañosa",
+    "title": "Métricas y particiones",
+    "section": "Ejemplo resuelto: accuracy engañosa",
+    "text": "Ejemplo resuelto: accuracy engañosa\nSupón un problema con 1000 observaciones:\n\n950 son negativas;\n50 son positivas;\nun modelo predice todo como negativo.\n\nLa accuracy es:\n\\[\n\\frac{950}{1000}=0.95.\n\\]\nPero el recall de la clase positiva es:\n\\[\n\\frac{TP}{TP+FN}=\\frac{0}{0+50}=0.\n\\]\nSi detectar positivos era el objetivo, este modelo no sirve aunque su accuracy parezca alta.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -170,6 +190,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_metricas_particiones.html#punto-de-control",
+    "href": "capitulo01_metricas_particiones.html#punto-de-control",
+    "title": "Métricas y particiones",
+    "section": "Punto de control",
+    "text": "Punto de control\nAntes de comparar modelos, escribe explícitamente:\n\nmétrica principal;\nbaseline;\npartición;\ntransformación dentro de pipeline;\nregla para no tocar test.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_metricas_particiones.html#ejercicios",
     "href": "capitulo01_metricas_particiones.html#ejercicios",
     "title": "Métricas y particiones",
@@ -200,11 +230,21 @@
     ]
   },
   {
+    "objectID": "capitulo02_validacion_curvas.html#objetivos-del-capítulo",
+    "href": "capitulo02_validacion_curvas.html#objetivos-del-capítulo",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nexplicar qué estima cross-validation;\nreportar media y variabilidad de una métrica;\nusar grid search sin contaminar test;\nleer learning curves y validation curves;\ndistinguir problemas de sesgo, varianza y ruido.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_validacion_curvas.html#cross-validation",
     "href": "capitulo02_validacion_curvas.html#cross-validation",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Cross-validation",
-    "text": "Cross-validation\nEn (k)-fold cross-validation:\n\nSe divide el conjunto de entrenamiento en (k) folds.\nSe entrena (k) veces.\nCada fold actúa una vez como validación.\nSe reporta media y variabilidad.\n\nscores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring=\"f1\")",
+    "text": "Cross-validation\nEn \\(k\\)-fold cross-validation:\n\nSe divide el conjunto de entrenamiento en \\(k\\) folds.\nSe entrena \\(k\\) veces.\nCada fold actúa una vez como validación.\nSe reporta media y variabilidad.\n\nscores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring=\"f1\")",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -215,6 +255,16 @@
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Qué reportar",
     "text": "Qué reportar\nUn reporte profesional no dice solo:\nF1 = 0.84\nDice:\nF1 CV = 0.84 ± 0.03\nLa desviación informa estabilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-elegir-entre-dos-modelos",
+    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-elegir-entre-dos-modelos",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Ejemplo resuelto: elegir entre dos modelos",
+    "text": "Ejemplo resuelto: elegir entre dos modelos\nSupón dos modelos evaluados con 5-fold CV:\n\n\n\nModelo\nF1 medio\nDesviación\n\n\n\n\nA\n0.84\n0.02\n\n\nB\n0.86\n0.10\n\n\n\nEl modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse en slices o con más datos.\nLa decisión profesional no mira solo el máximo promedio.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -260,6 +310,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_validacion_curvas.html#punto-de-control",
+    "href": "capitulo02_validacion_curvas.html#punto-de-control",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Punto de control",
+    "text": "Punto de control\nSi una learning curve muestra train alto y validación bajo, no concluyas “necesito una red más grande”. Primero pregunta:\n\n¿hay leakage?\n¿la métrica está alineada con la decisión?\n¿el modelo ya tiene demasiada varianza?\n¿más datos podría cerrar la brecha?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_validacion_curvas.html#ejercicios",
     "href": "capitulo02_validacion_curvas.html#ejercicios",
     "title": "Validación cruzada y curvas de aprendizaje",
@@ -285,6 +345,16 @@
     "title": "Error analysis y data mismatch",
     "section": "",
     "text": "¿dónde falla el modelo, para quién falla y qué decisión técnica se desprende?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#objetivos-del-capítulo",
+    "href": "capitulo03_error_analysis_data_mismatch.html#objetivos-del-capítulo",
+    "title": "Error analysis y data mismatch",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nseparar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;\ndefinir slices relevantes para un proyecto;\ndetectar señales de data mismatch;\nescribir una recomendación técnica con evidencia, diagnóstico y acción;\nreconocer cuándo una métrica agregada oculta daño o riesgo.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]
@@ -340,6 +410,26 @@
     ]
   },
   {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-dos-modelos-con-el-mismo-f1",
+    "href": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-dos-modelos-con-el-mismo-f1",
+    "title": "Error analysis y data mismatch",
+    "section": "Ejemplo resuelto: dos modelos con el mismo F1",
+    "text": "Ejemplo resuelto: dos modelos con el mismo F1\nSupón dos modelos con F1 global 0.82.\n\n\n\nSlice\nModelo A\nModelo B\n\n\n\n\nDatos recientes\n0.80\n0.83\n\n\nDatos antiguos\n0.84\n0.81\n\n\nGrupo de alto riesgo\n0.55\n0.76\n\n\n\nAunque el F1 global sea igual, el Modelo B es más defendible si el grupo de alto riesgo es central para la decisión. El análisis de errores cambia la recomendación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
+    "href": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
+    "title": "Error analysis y data mismatch",
+    "section": "Punto de control",
+    "text": "Punto de control\nUna recomendación técnica es incompleta si no responde:\n\n¿qué evidencia observaste?;\n¿qué diagnóstico explica esa evidencia?;\n¿qué acción concreta sigue?;\n¿qué límite o riesgo debe comunicarse?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
     "href": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
     "title": "Error analysis y data mismatch",
@@ -354,7 +444,17 @@
     "href": "capitulo04_ejercicios_integradores.html",
     "title": "Ejercicios integradores",
     "section": "",
-    "text": "Bloque A: métricas",
+    "text": "Criterio de respuesta profesional\nEsta sección entrena la habilidad central del módulo: convertir métricas y particiones en decisiones defendibles. Una buena respuesta debe nombrar la evidencia, justificar por qué esa evidencia es relevante y reconocer qué todavía no se sabe.\nEn problemas aplicados, una respuesta completa suele tener esta forma:\nSi falta una de esas piezas, la comparación queda débil.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#criterio-de-respuesta-profesional",
+    "href": "capitulo04_ejercicios_integradores.html#criterio-de-respuesta-profesional",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "métrica elegida -&gt; baseline -&gt; partición -&gt; riesgo de leakage -&gt; decisión o siguiente experimento",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -363,8 +463,8 @@
     "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
     "href": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
     "title": "Ejercicios integradores",
-    "section": "",
-    "text": "A1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.",
+    "section": "Bloque A: métricas",
+    "text": "Bloque A: métricas\n\nA1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
     ]
@@ -400,11 +500,21 @@
     ]
   },
   {
+    "objectID": "capitulo04_ejercicios_integradores.html#respuestas-seleccionadas",
+    "href": "capitulo04_ejercicios_integradores.html#respuestas-seleccionadas",
+    "title": "Ejercicios integradores",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\n\nA1. Accuracy puede ser alta aunque el modelo ignore la clase importante. Si los falsos negativos son costosos, recall, F1 o una métrica ponderada por costo pueden reflejar mejor la decisión.\n\n\nB1. Escalar antes de partir datos usa media y desviación calculadas con información de validación. Eso contamina la evaluación porque el preprocesamiento ya vio datos que debían permanecer independientes.\n\n\nC3. Cross-validation agrega una estimación de variabilidad. Un único split puede favorecer o perjudicar accidentalmente a un modelo; varios folds muestran si el desempeño es estable.\n\n\nD2. Una recomendación mínima sería: “El F1 global cae de 0.80 a 0.55 en el slice crítico. El diagnóstico probable es que el modelo no representa bien ese subgrupo. Antes de recomendar despliegue, se debe analizar variables de ese slice, ajustar métrica de selección y recolectar o reponderar datos relevantes.”",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
     "objectID": "apendice_formulario_respuestas.html",
     "href": "apendice_formulario_respuestas.html",
     "title": "Formulario y respuestas seleccionadas",
     "section": "",
-    "text": "Métricas de clasificación binaria\n[ = ]\n[ = ]\n[ = ]\n[ F1 = 2 ]",
+    "text": "Métricas de clasificación binaria\n\\[\n\\text{accuracy}=\\frac{TP+TN}{TP+TN+FP+FN}\n\\]\n\\[\n\\text{precision}=\\frac{TP}{TP+FP}\n\\]\n\\[\n\\text{recall}=\\frac{TP}{TP+FN}\n\\]\n\\[\nF1 = 2\\frac{\\text{precision}\\cdot \\text{recall}}{\\text{precision}+\\text{recall}}\n\\]",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
     ]
