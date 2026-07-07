@@ -1,0 +1,105 @@
+---
+title: "Lab 1: Regresión lineal y descenso del gradiente"
+subtitle: "Mínimos cuadrados desde cero con revisión manual mínima"
+format:
+  html:
+    toc: true
+    code-copy: true
+execute:
+  eval: false
+  echo: true
+lang: es
+---
+
+# Propósito
+
+Este laboratorio verifica que puedes pasar de la formulación matemática de
+regresión lineal a una implementación vectorizada en NumPy. También compara dos
+rutas hacia el mismo objetivo: ecuación normal y descenso del gradiente.
+
+La pregunta técnica central es:
+
+> ¿La implementación desde cero produce las mismas predicciones y pérdidas que una
+> herramienta profesional, y puedes explicar cómo sabes que el algoritmo convergió?
+
+# Qué debes entregar
+
+Entrega el notebook:
+
+```text
+apellido_nombre_lab01_regresion_gradiente.ipynb
+```
+
+No cambies nombres de funciones, firmas, imports ni estructura general del
+notebook. El autograder busca funciones por nombre.
+
+# Flujo recomendado
+
+1. Ejecuta el notebook completo una vez para ver qué está incompleto.
+2. Completa primero las funciones pequeñas: `add_intercept`, `predict_linear`,
+   `mse_loss`.
+3. Implementa `normal_equation` usando `np.linalg.solve`, no inversa explícita.
+4. Implementa `mse_gradient` y verifica dimensiones.
+5. Implementa `gradient_descent` guardando historia de pérdida.
+6. Compara tus resultados con `sklearn.linear_model.LinearRegression`.
+7. Escribe la interpretación final en lenguaje técnico breve.
+8. Reinicia el kernel y ejecuta todo de arriba hacia abajo antes de entregar.
+
+# Lo que autocalifica el notebook
+
+| Componente | Evidencia esperada | Calificación |
+|---|---|---:|
+| Intercepto | `X` aumenta una columna de unos sin alterar filas | Automática |
+| Pérdida | valor de `1/(2n) * sum(residual^2)` correcto | Automática |
+| Ecuación normal | solución numérica sin usar inversa explícita | Automática |
+| Gradiente | coincide con fórmula matricial y tolerancias | Automática |
+| Descenso del gradiente | pérdida decrece y parámetros son consistentes | Automática |
+| Comparación profesional | resultado cercano a `sklearn` | Automática |
+
+# Parte manual
+
+Incluye una respuesta corta:
+
+> ¿Qué evidencia muestra que el descenso del gradiente convergió y cuál es una
+> limitación del experimento?
+
+Rúbrica manual:
+
+| Puntaje | Criterio |
+|---:|---|
+| 0 | No responde o la respuesta no usa evidencia del notebook |
+| 1 | Menciona pérdida o limitación, pero sin conectar con comparación/baseline |
+| 2 | Conecta curva de pérdida, comparación contra ecuación normal o `sklearn`, y una limitación concreta |
+
+# Criterios de calidad
+
+::: {.checklist}
+- Todas las funciones son vectorizadas.
+- No hay valores hardcodeados para pasar un ejemplo específico.
+- Las formas de `X`, `y`, `theta` y predicciones son consistentes.
+- La historia de pérdida permite diagnosticar convergencia.
+- El modelo se compara contra baseline o contra una referencia profesional.
+- La interpretación final menciona una limitación.
+:::
+
+# Errores frecuentes
+
+1. Agregar intercepto dos veces.
+2. Devolver MSE cuando la función pide `1/(2n)` por suma de cuadrados.
+3. Usar `np.linalg.inv` en lugar de `np.linalg.solve`.
+4. Confundir residual `y - y_hat` con `y_hat - y` dentro del gradiente.
+5. No guardar la pérdida en cada iteración.
+6. Usar una tasa de aprendizaje que diverge y no revisar la curva.
+7. Entregar sin reiniciar kernel y ejecutar todo.
+
+# Antes de entregar
+
+Ejecuta este control mental:
+
+```text
+¿Mi notebook corre completo?
+¿Cada función devuelve la forma esperada?
+¿La pérdida del gradiente baja?
+¿La solución por gradiente se acerca a la ecuación normal?
+¿La respuesta manual usa evidencia y no solo opinión?
+```

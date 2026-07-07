@@ -1,0 +1,273 @@
+---
+title: "Laboratorio diagnóstico 1"
+subtitle: "Primer flujo aplicado con datos reales"
+format:
+  html:
+    toc: true
+    code-copy: true
+execute:
+  eval: false
+  echo: true
+lang: es
+---
+
+# Objetivo
+
+Este laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno, ejecutar un flujo básico de ciencia de datos y escribir una interpretación técnica breve.
+
+Trabajaremos con el dataset `load_wine` de `scikit-learn`. El objetivo será clasificar vinos en tres clases a partir de mediciones químicas.
+
+No necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia para practicar el flujo aplicado.
+
+# Entrega
+
+Entrega preferiblemente el archivo `semana01_lab.ipynb` ejecutado. Si trabajas desde esta versión Quarto, copia el código y tus respuestas a un notebook o a un documento con resultados visibles.
+
+Nombre recomendado:
+
+```text
+apellido_nombre_semana01_lab.ipynb
+```
+
+La entrega debe incluir:
+
+- código ejecutado;
+- salidas principales;
+- respuestas de interpretación;
+- conclusión técnica;
+- dos ideas iniciales de proyecto;
+- declaración breve de uso de IA, si aplica.
+
+# Parte 0: preparación
+
+Ejecuta las siguientes importaciones. Si esta celda falla, revisa `recursos/configuracion_entorno.qmd`.
+
+```python
+import numpy as np
+import pandas as pd
+
+from sklearn.datasets import load_wine
+from sklearn.model_selection import train_test_split
+from sklearn.dummy import DummyClassifier
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+```
+
+# Parte 1: cargar e inspeccionar datos
+
+```python
+data = load_wine(as_frame=True)
+
+X = data.data
+y = data.target
+
+X.head()
+```
+
+Responde:
+
+1. Qué representa una fila?
+2. Cuántas variables de entrada tiene el dataset?
+3. Cuántas clases hay?
+
+```python
+print("Forma de X:", X.shape)
+print("Forma de y:", y.shape)
+print("Clases:", data.target_names)
+print("Conteo por clase:")
+print(y.value_counts().sort_index())
+```
+
+Auto-chequeo esperado:
+
+- `X` debe tener 178 filas y 13 columnas.
+- `y` debe tener 178 valores.
+- Los conteos por clase deben ser 59, 71 y 48.
+
+## Pregunta de interpretación 1
+
+Escribe dos frases:
+
+- una sobre la estructura de los datos;
+- otra sobre si las clases parecen balanceadas.
+
+**Respuesta:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 2: partición de datos
+
+Vamos a separar entrenamiento y prueba.
+
+```python
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.25,
+    random_state=2105,
+    stratify=y
+)
+
+print("Entrenamiento:", X_train.shape)
+print("Prueba:", X_test.shape)
+print("Clases en entrenamiento:")
+print(y_train.value_counts(normalize=True).sort_index())
+print("Clases en prueba:")
+print(y_test.value_counts(normalize=True).sort_index())
+```
+
+Auto-chequeo esperado:
+
+- El conjunto de entrenamiento debe tener 133 observaciones.
+- El conjunto de prueba debe tener 45 observaciones.
+- Las proporciones de clase deben ser parecidas en entrenamiento y prueba.
+
+## Pregunta de interpretación 2
+
+Por qué usamos `stratify=y`? Responde en una o dos frases.
+
+**Respuesta:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 3: baseline
+
+Antes de entrenar un modelo, necesitamos una referencia simple.
+
+```python
+baseline = DummyClassifier(strategy="most_frequent")
+baseline.fit(X_train, y_train)
+
+baseline_pred = baseline.predict(X_test)
+baseline_acc = accuracy_score(y_test, baseline_pred)
+
+baseline_acc
+```
+
+Auto-chequeo esperado:
+
+- El baseline predice siempre la clase más frecuente en entrenamiento.
+- Con esta partición, la accuracy del baseline debería estar alrededor de 0.40.
+
+## Pregunta de interpretación 3
+
+Qué significa este baseline? Qué tendría que lograr un modelo para ser mejor que esta referencia?
+
+**Respuesta:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 4: modelo de referencia
+
+Entrenaremos una regresión logística con escalamiento de variables.
+
+```python
+model = make_pipeline(
+    StandardScaler(),
+    LogisticRegression(max_iter=2000)
+)
+
+model.fit(X_train, y_train)
+model_pred = model.predict(X_test)
+model_acc = accuracy_score(y_test, model_pred)
+
+model_acc
+```
+
+Compara:
+
+```python
+print(f"Baseline accuracy: {baseline_acc:.3f}")
+print(f"Model accuracy:    {model_acc:.3f}")
+print(f"Improvement:       {model_acc - baseline_acc:.3f}")
+```
+
+Auto-chequeo:
+
+- El modelo debería superar claramente al baseline.
+- Si no lo supera, revisa si ejecutaste las celdas en orden y si el pipeline incluye `StandardScaler`.
+
+# Parte 5: errores
+
+La accuracy resume desempeño en un número, pero no muestra que errores comete el modelo.
+
+```python
+cm = confusion_matrix(y_test, model_pred)
+cm
+```
+
+```python
+print(classification_report(y_test, model_pred, target_names=data.target_names))
+```
+
+## Pregunta de interpretación 4
+
+Observa la matriz de confusion y el reporte. Escribe:
+
+1. Qué clase parece más fácil o más difícil de clasificar?
+2. Qué limitacion tiene esta conclusión?
+
+**Respuesta:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 6: conclusión técnica
+
+Completa el siguiente parrafo. Debe mencionar baseline, métrica, datos y limitacion.
+
+> En este experimento inicial, el modelo de referencia es / no es defendible porque ____. La comparación se hizo usando ____ sobre una partición ____. Sin embargo, la conclusión está limitada por ____.
+
+**Respuesta final:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 7: dos ideas iniciales de proyecto
+
+Propone dos áreas o datasets que podrían interesarte para el proyecto final.
+
+Para cada idea responde:
+
+1. Cuál sería la unidad de observación?
+2. Cuál sería la pregunta aplicada?
+3. ¿Habría variable objetivo? Si sí, ¿cuál?
+4. Qué decisión podría informar el modelo?
+5. Qué riesgo o limitacion anticipas?
+
+## Idea 1
+
+```text
+Escribe aquí.
+```
+
+## Idea 2
+
+```text
+Escribe aquí.
+```
+
+Este laboratorio es diagnóstico. La prioridad es que muestres el flujo de trabajo y que identifiques dudas temprano.
+
+# Checklist antes de entregar
+
+Marca mentalmente cada punto:
+
+- Pude importar los paquetes o documente el error.
+- Identifique filas, columnas y clases.
+- Explique por qué se usa `stratify=y`.
+- Calcule baseline y modelo.
+- Compare modelo contra baseline.
+- Escribi una conclusión con métrica, datos, baseline y limitacion.
+- Propuse dos ideas iniciales de proyecto.
+- Declare uso sustancial de IA, si aplica.

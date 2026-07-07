@@ -1,0 +1,632 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATE-2105: Módulo 1",
+    "section": "",
+    "text": "Propósito del módulo\nEste libro acompaña el primer bloque matemático fuerte del curso. La meta no es memorizar una lista de modelos, sino aprender un patrón de trabajo que se repetirá en ciencia de datos aplicada:\npregunta -&gt; datos -&gt; representación -&gt; modelo -&gt; pérdida\n         -&gt; algoritmo -&gt; métrica -&gt; diagnóstico -&gt; decisión\nEn cinco semanas construiremos una cadena completa:\n\nregresión lineal como modelo matricial;\nmínimos cuadrados como problema de optimización;\ndescenso del gradiente como algoritmo general;\nvalidación y regularización como control de complejidad;\nregresión logística como puente hacia clasificación.\n\n\nTesis del módulo. Un modelo no es una respuesta por sí solo. Un modelo es una hipótesis cuantitativa que debe venir con una pérdida, una métrica, una comparación contra baseline, una validación fuera de entrenamiento y una interpretación de sus limitaciones.\n\n\n\nCómo usar este libro\nCada capítulo tiene cuatro niveles de lectura.\n\n\n\n\n\n\n\n\nNivel\nQué hacer\nEvidencia de que lo lograste\n\n\n\n\nConceptual\nLeer definiciones, notas e interpretaciones\nPuedes explicar el objeto sin código\n\n\nMatemático\nSeguir derivaciones y proposiciones\nPuedes reproducir los pasos centrales\n\n\nComputacional\nLeer e implementar los patrones NumPy\nPuedes escribir funciones pequeñas sin copiar\n\n\nAplicado\nResolver ejercicios y conectar con laboratorios\nPuedes justificar una decisión técnica\n\n\n\nNo intentes estudiar el módulo solo ejecutando notebooks. El notebook muestra el cálculo en acción; el libro explica por qué ese cálculo tiene sentido.\n\n\nPrerrequisitos mínimos\nAntes de empezar, debes estar cómodo con:\n\nvectores, matrices, transpuesta y producto matricial;\nderivadas parciales básicas;\ninterpretación de una función de pérdida;\nNumPy: arreglos, broadcasting, @, mean, sum, reshape;\npartición entrenamiento/prueba y noción de baseline.\n\nSi alguno de estos puntos está débil, usa el Módulo 0 y vuelve a este libro con dos preguntas concretas: qué objeto matemático no entiendes y en qué línea de código aparece.\n\n\nResultados de aprendizaje\nAl terminar el módulo deberías poder:\n\nEscribir regresión lineal múltiple en forma matricial.\nDerivar el gradiente de MSE y la ecuación normal.\nImplementar mínimos cuadrados y descenso del gradiente con NumPy.\nDiagnosticar curvas de pérdida y problemas de escala.\nExplicar condicionamiento y por qué afecta la optimización.\nConstruir features polinomiales sin mezclar entrenamiento y prueba.\nDistinguir underfitting, overfitting, error de entrenamiento y error de validación.\nFormular Ridge y Lasso como regularización de un problema de mínimos cuadrados.\nAjustar un modelo logístico para clasificación binaria.\nElegir métricas y umbrales según el costo de falsos positivos y falsos negativos.\nPreparar un baseline de proyecto con partición, métrica, modelo y conclusión.\n\n\n\nCalendario y entregables\n\n\n\n\n\n\n\n\n\nSemana\nFechas\nFoco del libro\nEvidencia esperada\n\n\n\n\n2\n2026-08-11 a 2026-08-13\nCap. 1: regresión lineal\nLista corta de datasets y Lab 1 iniciado\n\n\n3\n2026-08-18 a 2026-08-20\nCap. 2: gradiente\nLab 1 entregado y prepropuesta\n\n\n4\n2026-08-25 a 2026-08-27\nCap. 3: validación\nPropuesta aprobable y Lab 2 iniciado\n\n\n5\n2026-09-01 a 2026-09-03\nCap. 3: regularización\nLab 2 entregado\n\n\n6\n2026-09-08 a 2026-09-10\nCap. 4: logística\nParcial 1 y baseline de proyecto\n\n\n\n\n\nMapa de dependencia\nmatrices y vectores\n  -&gt; regresión lineal\n    -&gt; mínimos cuadrados\n      -&gt; gradiente\n        -&gt; descenso del gradiente\n          -&gt; escalamiento y condicionamiento\n            -&gt; validación\n              -&gt; regularización\n                -&gt; regresión logística y métricas\nSi te bloqueas en un capítulo, busca el nodo anterior en el mapa. Por ejemplo: si Ridge parece opaco, vuelve a mínimos cuadrados; si logística parece opaca, vuelve a pérdida, gradiente y validación.\n\n\nQué contiene el libro\n\n\n\nParte\nUso\n\n\n\n\nCapítulo 1\nRegresión lineal, matrices, MSE, ecuación normal e interpretación\n\n\nCapítulo 2\nDescenso del gradiente, escalamiento, tasa de aprendizaje y condicionamiento\n\n\nCapítulo 3\nFeature engineering, validación, Ridge, Lasso y selección de modelo\n\n\nCapítulo 4\nRegresión logística, log-loss, métricas, umbrales y decisión\n\n\nEjercicios integradores\nBanco amplio de problemas para estudiar y preparar el parcial\n\n\nFormulario y respuestas\nFórmulas centrales, checklist y respuestas seleccionadas\n\n\nLab 1\nEntrega autograded sobre regresión y gradiente\n\n\nLab 2\nEntrega autograded sobre regularización y clasificación\n\n\nParcial 1\nParcial autograded del módulo\n\n\n\n\n\nConvenciones de notación\n\n\n\n\n\n\n\nSímbolo\nSignificado\n\n\n\n\nn\nnúmero de observaciones\n\n\nd\nnúmero de variables originales\n\n\np\nnúmero de columnas de la matriz de diseño, usualmente incluyendo intercepto\n\n\nX\nmatriz de diseño en R^{n x p}\n\n\ny\nvector objetivo en R^n\n\n\ntheta\nvector de parámetros en R^p\n\n\ny_hat\nvector de predicciones\n\n\nr\nvector de residuales y - y_hat\n\n\nJ(theta)\nfunción de pérdida\n\n\nlambda\nintensidad de regularización\n\n\n\nEn el código usaremos nombres legibles:\nX_train, X_val, X_test\ny_train, y_val, y_test\ntheta\ny_pred\n\n\nReglas de calidad técnica\nAntes de entregar un resultado del módulo, verifica:\n\n\nel dataset está separado en entrenamiento y prueba;\ntodo preprocesamiento se ajusta con entrenamiento;\nexiste un baseline simple;\nreportas al menos una métrica adecuada;\nla conclusión distingue desempeño numérico e interpretación;\nel notebook corre desde cero sin depender de variables ocultas;\nno hay leakage entre entrenamiento, validación y prueba.\n\n\n\nRegla de oro. Si no puedes explicar qué minimiza tu algoritmo, qué compara tu métrica y qué decisión habilita tu resultado, todavía no has terminado el análisis.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 1: Regresión, optimización, regularización y clasificación</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html",
+    "href": "capitulo01_regresion_lineal.html",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nLa regresión lineal parece elemental, pero contiene la gramática de casi todos los modelos que veremos después: datos como matrices, parámetros como vectores, predicciones como operaciones vectorizadas, pérdidas como funciones a minimizar y desempeño como comparación fuera de entrenamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#conceptuales",
+    "href": "capitulo01_regresion_lineal.html#conceptuales",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Conceptuales",
+    "text": "Conceptuales\n\nExplica en tus palabras qué significa que X sea una matriz de diseño.\n¿Por qué el intercepto puede representarse con una columna de unos?\n¿Qué diferencia hay entre residual y error de generalización?\n¿Por qué un modelo puede tener MSE bajo en entrenamiento y aun así ser malo?\nExplica por qué un coeficiente no implica causalidad.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#cálculo",
+    "href": "capitulo01_regresion_lineal.html#cálculo",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Cálculo",
+    "text": "Cálculo\n\nSea \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\n\\quad\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix}.\n\\] Calcula X.T @ X, X.T @ y y resuelve la ecuación normal.\nPara \\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2,\n\\] reproduce la derivación del gradiente sin mirar el texto.\nDemuestra que si X.T @ (y - X theta) = 0, los residuales son ortogonales a cada columna de X.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#código",
+    "href": "capitulo01_regresion_lineal.html#código",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Código",
+    "text": "Código\n\nImplementa add_intercept(X) sin usar ciclos.\nImplementa mse_loss(X, y, theta).\nImplementa normal_equation(X, y) usando np.linalg.solve.\nSimula datos con y = 3 - 2x + ruido y estima los parámetros.\nCompara el MSE del modelo contra el baseline del promedio.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#interpretación",
+    "href": "capitulo01_regresion_lineal.html#interpretación",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Interpretación",
+    "text": "Interpretación\n\nUn modelo obtiene MSE de entrenamiento 4.1 y MSE de prueba 18.7. ¿Qué hipótesis harías?\nUn modelo no mejora el baseline. Escribe dos posibles razones técnicas.\nSi una variable está medida en pesos y otra en millones de pesos, ¿por qué sus coeficientes no son directamente comparables?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html",
+    "href": "capitulo02_descenso_gradiente.html",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nEn el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#conceptuales",
+    "href": "capitulo02_descenso_gradiente.html#conceptuales",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Conceptuales",
+    "text": "Conceptuales\n\nExplica por qué el gradiente apunta en la dirección de mayor aumento.\n¿Por qué usamos theta - alpha * grad y no theta + alpha * grad?\n¿Qué evidencia usarías para afirmar que el algoritmo convergió?\n¿Por qué escalar variables puede acelerar el descenso del gradiente?\nExplica qué problema produce escalar prueba con su propia media.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#cálculo",
+    "href": "capitulo02_descenso_gradiente.html#cálculo",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Cálculo",
+    "text": "Cálculo\n\nPara \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\\quad\ny=\\begin{bmatrix}1\\\\3\\\\5\\end{bmatrix},\\quad\n\\theta=\\begin{bmatrix}0\\\\0\\end{bmatrix},\n\\] calcula el gradiente de J(theta).\nEjecuta manualmente dos pasos de descenso del gradiente con alpha=0.1 para el ejercicio anterior.\nSi una curva de pérdida pasa de 100 a 80, luego a 130, luego a 70, ¿qué sospechas sobre alpha?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#código",
+    "href": "capitulo02_descenso_gradiente.html#código",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Código",
+    "text": "Código\n\nImplementa gradient_descent(X, y, alpha, max_iter).\nAgrega un criterio de parada por norma del gradiente.\nCompara tres tasas de aprendizaje en un dataset sintético.\nEstandariza variables sin tocar la columna de intercepto.\nCalcula np.linalg.cond(X.T @ X) antes y después de escalar.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#interpretación",
+    "href": "capitulo02_descenso_gradiente.html#interpretación",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Interpretación",
+    "text": "Interpretación\n\nTu modelo con gradiente obtiene MSE mayor que la ecuación normal. Escribe tres hipótesis técnicas.\nTu curva converge en entrenamiento, pero el error de prueba es malo. ¿El problema es necesariamente el optimizador?\n¿Qué decisión tomarías si alpha=0.1 converge en 200 iteraciones y alpha=0.01 converge en 5000?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html",
+    "href": "capitulo03_regularizacion_validacion.html",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nEl Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#conceptuales",
+    "href": "capitulo03_regularizacion_validacion.html#conceptuales",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Conceptuales",
+    "text": "Conceptuales\n\nExplica por qué un polinomio de grado alto puede sobreajustar.\n¿Por qué no se debe escoger lambda con el conjunto de prueba?\n¿Qué diferencia conceptual hay entre Ridge y Lasso?\n¿Por qué la estandarización es especialmente importante antes de Lasso?\nDa dos ejemplos de leakage en un proyecto real.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#cálculo",
+    "href": "capitulo03_regularizacion_validacion.html#cálculo",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Cálculo",
+    "text": "Cálculo\n\nEscribe el objetivo Ridge para un modelo con intercepto y dos variables.\nDeriva el gradiente Ridge cuando no se penaliza el intercepto.\nPara \\[\n\\theta=(3, 4, -1),\n\\] calcula la penalización L2 y L1 sin incluir el intercepto.\nExplica qué ocurre con la solución Ridge cuando lambda -&gt; infinity.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#código",
+    "href": "capitulo03_regularizacion_validacion.html#código",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Código",
+    "text": "Código\n\nImplementa polynomial_features_1d(x, degree).\nImplementa ridge_closed_form(X, y, lam) sin penalizar intercepto.\nDivide un dataset en train/validation/test con semilla fija.\nAjusta scaler en train y aplícalo a validation/test.\nCompara al menos cinco valores de lambda.\nGrafica mse_train y mse_val contra lambda.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#interpretación",
+    "href": "capitulo03_regularizacion_validacion.html#interpretación",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Interpretación",
+    "text": "Interpretación\n\nUn modelo con lambda=0 tiene MSE train 1.2 y MSE val 30.0; con lambda=0.1 tiene MSE train 4.5 y MSE val 8.0. ¿Cuál prefieres y por qué?\nLasso deja una variable en cero. ¿Qué puedes afirmar y qué no puedes afirmar?\nSi Ridge mejora validación pero empeora entrenamiento, ¿eso es necesariamente malo?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html",
+    "href": "capitulo04_regresion_logistica.html",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nLa regresión logística se llama “regresión”, pero se usa para clasificación. La idea central es modelar una probabilidad:\n\\[\nP(y=1\\mid x).\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#conceptuales",
+    "href": "capitulo04_regresion_logistica.html#conceptuales",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Conceptuales",
+    "text": "Conceptuales\n\n¿Por qué regresión logística no produce directamente una clase?\nExplica qué significa p=0.8 para una observación.\n¿Por qué una predicción muy confiada y equivocada recibe alta log-loss?\n¿Qué diferencia hay entre precision y recall?\nDa un ejemplo donde prefieras recall sobre precision.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#cálculo",
+    "href": "capitulo04_regresion_logistica.html#cálculo",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Cálculo",
+    "text": "Cálculo\n\nCalcula sigma(0), sigma(2) y sigma(-2) aproximadamente.\nSi TP=40, FP=10, TN=80, FN=20, calcula accuracy, precision, recall y F1.\nPara y=1 y p=0.9, calcula la contribución a log-loss. Repite con p=0.1.\nSi theta_j=0.7, ¿cuánto se multiplican los odds por una unidad adicional de x_j?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#código",
+    "href": "capitulo04_regresion_logistica.html#código",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Código",
+    "text": "Código\n\nImplementa sigmoid(z) de forma estable.\nImplementa log_loss_binary(y, p).\nImplementa logistic_gradient(X, y, theta).\nImplementa classification_metrics(y_true, y_pred).\nEvalúa métricas para umbrales 0.2, 0.5 y 0.8.\nElige un umbral que mantenga recall al menos 0.95.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#interpretación",
+    "href": "capitulo04_regresion_logistica.html#interpretación",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Interpretación",
+    "text": "Interpretación\n\nUn modelo tiene accuracy 0.94, pero recall de la clase positiva 0.20. ¿Qué puede estar pasando?\nEn fraude, subir el umbral aumenta precision y baja recall. ¿Cómo explicarías el tradeoff a una persona no técnica?\nSi dos modelos tienen F1 similar, pero uno tiene mejor calibración, ¿en qué situación preferirías el calibrado?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html",
+    "href": "capitulo05_ejercicios_integradores.html",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "",
+    "text": "Cómo usar este banco\nEste capítulo contiene ejercicios para estudiar el Módulo 1 de forma activa. No están pensados para resolverse todos de una vez. Usa esta ruta:",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#a.-dimensiones-y-representación",
+    "href": "capitulo05_ejercicios_integradores.html#a.-dimensiones-y-representación",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "A. Dimensiones y representación",
+    "text": "A. Dimensiones y representación\n\nTienes un dataset con n=250 observaciones y d=6 variables originales. Si agregas intercepto, ¿cuál es la forma de X y de theta?\nExplica qué significa cada fila y cada columna de la matriz de diseño.\nEscribe la predicción de la observación i usando sumatoria.\nEscribe la misma predicción usando producto punto.\n¿Qué error esperas si theta tiene forma (d,) pero X incluye intercepto?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#b.-mínimos-cuadrados",
+    "href": "capitulo05_ejercicios_integradores.html#b.-mínimos-cuadrados",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "B. Mínimos cuadrados",
+    "text": "B. Mínimos cuadrados\n\nPara \\[\nX=\\begin{bmatrix}\n1&1\\\\\n1&2\\\\\n1&3\n\\end{bmatrix},\\quad\ny=\\begin{bmatrix}\n2\\\\\n4\\\\\n5\n\\end{bmatrix},\n\\] calcula X.T @ X y X.T @ y.\nResuelve la ecuación normal del ejercicio anterior.\nCalcula las predicciones y los residuales.\nCalcula el MSE.\nCompara contra el baseline que predice el promedio de y.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#c.-implementación",
+    "href": "capitulo05_ejercicios_integradores.html#c.-implementación",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "C. Implementación",
+    "text": "C. Implementación\n\nEscribe una función add_intercept(X).\nEscribe una función predict_linear(X, theta).\nEscribe una función mse_loss(X, y, theta).\nEscribe una función normal_equation(X, y).\nSimula y = 5 + 0.8x + ruido y verifica si recuperas parámetros cercanos.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#d.-interpretación",
+    "href": "capitulo05_ejercicios_integradores.html#d.-interpretación",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "D. Interpretación",
+    "text": "D. Interpretación\n\nTu modelo mejora el baseline en entrenamiento, pero no en prueba. Da tres posibles explicaciones.\nUn coeficiente estimado es negativo. ¿Qué significa y qué no significa?\n¿Por qué debes revisar unidades antes de comparar coeficientes?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#a.-gradiente",
+    "href": "capitulo05_ejercicios_integradores.html#a.-gradiente",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "A. Gradiente",
+    "text": "A. Gradiente\n\nEscribe la pérdida J(theta) para mínimos cuadrados.\nDeriva el gradiente usando expansión matricial.\nDeriva el gradiente usando residuales.\nExplica por qué el gradiente tiene la misma dimensión que theta.\n¿Qué significa que el gradiente sea cero?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#b.-iteraciones",
+    "href": "capitulo05_ejercicios_integradores.html#b.-iteraciones",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "B. Iteraciones",
+    "text": "B. Iteraciones\n\nCon \\[\n\\theta^{(0)}=(0,0),\\quad\n\\alpha=0.1,\n\\] ejecuta dos pasos manuales para el dataset: \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\ny=\\begin{bmatrix}1\\\\2\\\\4\\end{bmatrix}.\n\\]\n¿Qué pasa si duplicas todas las columnas de X excepto el intercepto?\n¿Por qué la tasa de aprendizaje estable puede cambiar?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#c.-diagnóstico",
+    "href": "capitulo05_ejercicios_integradores.html#c.-diagnóstico",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "C. Diagnóstico",
+    "text": "C. Diagnóstico\n\nDescribe qué harías si la pérdida aumenta en las primeras iteraciones.\nDescribe qué harías si la pérdida baja, pero muy lentamente.\nDescribe qué harías si la pérdida de entrenamiento baja y la de validación sube.\n¿Cómo usarías la ecuación normal para probar tu implementación de gradiente?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#d.-código",
+    "href": "capitulo05_ejercicios_integradores.html#d.-código",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "D. Código",
+    "text": "D. Código\n\nImplementa mse_gradient(X, y, theta).\nImplementa gradient_descent.\nGuarda history y grafica pérdida contra iteración.\nCompara theta_gd contra theta_ne.\nRepite con datos sin escalar y escalados.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#a.-complejidad",
+    "href": "capitulo05_ejercicios_integradores.html#a.-complejidad",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "A. Complejidad",
+    "text": "A. Complejidad\n\nExplica por qué un modelo polinomial de grado 1 puede subajustar.\nExplica por qué un modelo polinomial de grado 20 puede sobreajustar.\n¿Qué patrón esperas en errores train/validation para cada caso?\n¿Qué tipo de problema no se arregla solo aumentando el grado?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#b.-particiones",
+    "href": "capitulo05_ejercicios_integradores.html#b.-particiones",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "B. Particiones",
+    "text": "B. Particiones\n\nDefine train, validation y test en una frase cada uno.\n¿Por qué no se debe usar test para escoger grado?\n¿Qué harías si solo tienes 80 observaciones?\nDa un ejemplo de leakage temporal.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#c.-feature-engineering",
+    "href": "capitulo05_ejercicios_integradores.html#c.-feature-engineering",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "C. Feature engineering",
+    "text": "C. Feature engineering\n\nConstruye manualmente features para x: 1, x, x^2, x^3.\nPara dos variables x1, x2, propone tres interacciones posibles.\n¿Cuándo usarías log(x)?\n¿Qué problema aparece si x puede ser cero o negativo?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#d.-código-1",
+    "href": "capitulo05_ejercicios_integradores.html#d.-código-1",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "D. Código",
+    "text": "D. Código\n\nImplementa polynomial_features_1d.\nEntrena grados 1 a 10.\nGrafica MSE train y MSE validation contra grado.\nEscoge un grado y justifica la elección.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#a.-ridge",
+    "href": "capitulo05_ejercicios_integradores.html#a.-ridge",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "A. Ridge",
+    "text": "A. Ridge\n\nEscribe el objetivo Ridge.\nExplica por qué no se suele penalizar el intercepto.\nDeriva la solución cerrada cuando se penalizan todos los coeficientes.\nModifica la solución para no penalizar intercepto.\nExplica qué ocurre cuando lambda=0.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#b.-lasso",
+    "href": "capitulo05_ejercicios_integradores.html#b.-lasso",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "B. Lasso",
+    "text": "B. Lasso\n\nEscribe el objetivo Lasso.\n¿Por qué Lasso puede producir coeficientes exactamente cero?\n¿Qué precaución tomarías con variables correlacionadas?\n¿Por qué Lasso no prueba causalidad?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#c.-selección",
+    "href": "capitulo05_ejercicios_integradores.html#c.-selección",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "C. Selección",
+    "text": "C. Selección\n\nDiseña una tabla para comparar lambda, MSE train, MSE validation y norma de coeficientes.\n¿Qué lambda escogerías si el menor MSE validation está empatado entre dos valores?\n¿Qué evidencia reportarías para defender el modelo final?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#d.-código-2",
+    "href": "capitulo05_ejercicios_integradores.html#d.-código-2",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "D. Código",
+    "text": "D. Código\n\nImplementa ridge_closed_form.\nCompara lambda en escala logarítmica.\nGrafica norma de coeficientes contra lambda.\nCompara con sklearn.linear_model.Ridge.\nSi usas Lasso de sklearn, revisa cuántos coeficientes quedan en cero.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#a.-probabilidades",
+    "href": "capitulo05_ejercicios_integradores.html#a.-probabilidades",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "A. Probabilidades",
+    "text": "A. Probabilidades\n\nExplica por qué una regresión lineal no es ideal para probabilidades.\nGrafica mentalmente la sigmoide.\n¿Qué significa sigma(z)=0.5?\n¿Qué significa log-odds?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#b.-log-loss",
+    "href": "capitulo05_ejercicios_integradores.html#b.-log-loss",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "B. Log-loss",
+    "text": "B. Log-loss\n\nEscribe la log-loss binaria.\nCalcula la pérdida para y=1, p=0.9.\nCalcula la pérdida para y=1, p=0.1.\nExplica por qué la segunda es mayor.\nDeriva el gradiente X.T @ (p - y) / n.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#c.-métricas",
+    "href": "capitulo05_ejercicios_integradores.html#c.-métricas",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "C. Métricas",
+    "text": "C. Métricas\n\nCon TP=25, FP=5, TN=60, FN=10, calcula accuracy, precision, recall y F1.\nExplica cuándo accuracy puede engañar.\nDa un caso donde un falso negativo sea más costoso que un falso positivo.\nDa un caso donde un falso positivo sea más costoso que un falso negativo.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#d.-umbrales",
+    "href": "capitulo05_ejercicios_integradores.html#d.-umbrales",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "D. Umbrales",
+    "text": "D. Umbrales\n\nSi bajas el umbral, ¿qué suele pasar con recall?\nSi subes el umbral, ¿qué suele pasar con precision?\nDiseña una regla de umbral para un sistema de alerta médica.\nDiseña una regla de umbral para revisión manual de fraude con capacidad limitada.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#problema-1-regresión-de-principio-a-fin",
+    "href": "capitulo05_ejercicios_integradores.html#problema-1-regresión-de-principio-a-fin",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "Problema 1: regresión de principio a fin",
+    "text": "Problema 1: regresión de principio a fin\nToma un dataset de regresión, por ejemplo load_diabetes.\n\nSepara train/test.\nDefine un baseline de promedio.\nAjusta regresión lineal.\nReporta MSE train y test.\nEstandariza variables y repite.\nAjusta Ridge con varios lambda.\nEscoge un modelo con validación.\nEscribe una conclusión técnica de máximo 150 palabras.\n\nLa conclusión debe responder:\n\n¿mejora el baseline?\n¿cuál métrica usaste?\n¿qué limitación principal observas?\n¿qué harías después?",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#problema-2-regularización-y-estabilidad",
+    "href": "capitulo05_ejercicios_integradores.html#problema-2-regularización-y-estabilidad",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "Problema 2: regularización y estabilidad",
+    "text": "Problema 2: regularización y estabilidad\nConstruye un dataset sintético con variables correlacionadas:\nrng = np.random.default_rng(42)\nn = 200\nx1 = rng.normal(size=n)\nx2 = x1 + 0.05 * rng.normal(size=n)\nx3 = rng.normal(size=n)\ny = 2 + 3 * x1 + 0.5 * x3 + rng.normal(scale=0.5, size=n)\n\nAjusta regresión lineal.\nAjusta Ridge.\nAjusta Lasso.\nCompara coeficientes.\nExplica qué ocurre con x1 y x2.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#problema-3-clasificación-con-umbral",
+    "href": "capitulo05_ejercicios_integradores.html#problema-3-clasificación-con-umbral",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "Problema 3: clasificación con umbral",
+    "text": "Problema 3: clasificación con umbral\nUsa load_breast_cancer o un dataset binario similar.\n\nDefine clase positiva.\nSepara train/test con estratificación.\nEstandariza variables.\nAjusta regresión logística.\nReporta matriz de confusión para umbral 0.5.\nEscoge un umbral para recall mínimo 0.95.\nExplica el tradeoff en lenguaje no técnico.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#problema-4-diseño-de-parcial",
+    "href": "capitulo05_ejercicios_integradores.html#problema-4-diseño-de-parcial",
+    "title": "Capítulo 5: Ejercicios integradores",
+    "section": "Problema 4: diseño de parcial",
+    "text": "Problema 4: diseño de parcial\nEscribe una pregunta de parcial para cada tema:\n\nforma matricial;\ngradiente de MSE;\nescalamiento;\nRidge;\nlog-loss;\nprecision/recall.\n\nPara cada pregunta incluye:\n\nrespuesta correcta;\nerror común esperado;\npor qué la pregunta evalúa comprensión y no memoria.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Capítulo 5: Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html",
+    "href": "apendice_formulario_respuestas.html",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "",
+    "text": "Formulario mínimo",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#regresión-lineal",
+    "href": "apendice_formulario_respuestas.html#regresión-lineal",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Regresión lineal",
+    "text": "Regresión lineal\nPredicción:\n\\[\n\\hat y = X\\theta.\n\\]\nResidual:\n\\[\nr = y - X\\theta.\n\\]\nMSE:\n\\[\n\\operatorname{MSE}(\\theta)=\\frac{1}{n}\\|X\\theta-y\\|_2^2.\n\\]\nPérdida escalada:\n\\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\nEcuación normal:\n\\[\nX^\\top X\\theta=X^\\top y.\n\\]\nSolución si X.T @ X es invertible:\n\\[\n\\theta^\\star=(X^\\top X)^{-1}X^\\top y.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#descenso-del-gradiente",
+    "href": "apendice_formulario_respuestas.html#descenso-del-gradiente",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Descenso del gradiente",
+    "text": "Descenso del gradiente\nActualización:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}-\\alpha\\nabla J(\\theta^{(t)}).\n\\]\nPara MSE:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}\n-\n\\alpha\\frac{1}{n}X^\\top(X\\theta^{(t)}-y).\n\\]\nEstandarización:\n\\[\nz_j=\\frac{x_j-\\mu_j}{s_j}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#ridge",
+    "href": "apendice_formulario_respuestas.html#ridge",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Ridge",
+    "text": "Ridge\nObjetivo:\n\\[\nJ_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\frac{\\lambda}{2}\\|\\theta_{1:p}\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{n}X^\\top(X\\theta-y)+\\lambda\\tilde\\theta.\n\\]\nSolución sin penalizar intercepto:\n\\[\n\\theta^\\star\n=\n(X^\\top X+n\\lambda D)^{-1}X^\\top y,\n\\]\ndonde D_00=0 y D_jj=1 para j&gt;0.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#lasso",
+    "href": "apendice_formulario_respuestas.html#lasso",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Lasso",
+    "text": "Lasso\nObjetivo:\n\\[\nJ_{\\text{lasso}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\lambda\\|\\theta_{1:p}\\|_1.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#regresión-logística",
+    "href": "apendice_formulario_respuestas.html#regresión-logística",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Regresión logística",
+    "text": "Regresión logística\nSigmoide:\n\\[\n\\sigma(z)=\\frac{1}{1+e^{-z}}.\n\\]\nProbabilidad:\n\\[\n\\hat p=\\sigma(X\\theta).\n\\]\nLog-loss:\n\\[\nJ(\\theta)=\n-\\frac{1}{n}\\sum_{i=1}^n\n\\left[\ny_i\\log(\\hat p_i)+(1-y_i)\\log(1-\\hat p_i)\n\\right].\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(\\hat p-y).\n\\]\nClasificación por umbral:\n\\[\n\\hat y_i=1\\{\\hat p_i\\ge \\tau\\}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#métricas",
+    "href": "apendice_formulario_respuestas.html#métricas",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Métricas",
+    "text": "Métricas\nAccuracy:\n\\[\n\\frac{TP+TN}{TP+TN+FP+FN}.\n\\]\nPrecision:\n\\[\n\\frac{TP}{TP+FP}.\n\\]\nRecall:\n\\[\n\\frac{TP}{TP+FN}.\n\\]\nF1:\n\\[\n2\\frac{\\text{precision}\\cdot\\text{recall}}\n{\\text{precision}+\\text{recall}}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#capítulo-1",
+    "href": "apendice_formulario_respuestas.html#capítulo-1",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Capítulo 1",
+    "text": "Capítulo 1\nEjercicio 1.1. Si X tiene forma (120, 4), entonces theta debe tener forma (4,) o (4, 1) para que X @ theta produzca 120 predicciones.\nEjercicio 1.2. La columna de unos convierte el intercepto en un coeficiente más: theta_0 * 1.\nEjercicio 1.6. Para \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix},\n\\] se obtiene: \\[\nX^\\top X=\n\\begin{bmatrix}\n3&3\\\\\n3&5\n\\end{bmatrix},\n\\quad\nX^\\top y=\n\\begin{bmatrix}\n9\\\\\n12\n\\end{bmatrix}.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#capítulo-2",
+    "href": "apendice_formulario_respuestas.html#capítulo-2",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Capítulo 2",
+    "text": "Capítulo 2\nEjercicio 2.2. Usamos theta - alpha * grad porque el gradiente apunta hacia mayor aumento de la pérdida.\nEjercicio 2.4. Escalar ayuda porque reduce diferencias extremas de curvatura entre direcciones. El descenso hace pasos más directos y estables.\nEjercicio 2.8. Una curva que sube y baja violentamente sugiere una tasa de aprendizaje demasiado grande o un problema de escala.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#capítulo-3",
+    "href": "apendice_formulario_respuestas.html#capítulo-3",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Capítulo 3",
+    "text": "Capítulo 3\nEjercicio 3.2. No se escoge lambda con prueba porque entonces prueba deja de ser una evaluación final independiente.\nEjercicio 3.8. Para theta=(3,4,-1), sin intercepto:\n\\[\n\\|\\theta_{1:p}\\|_2^2=4^2+(-1)^2=17,\n\\quad\n\\|\\theta_{1:p}\\|_1=4+1=5.\n\\]\nEjercicio 3.16. Preferiría lambda=0.1 si la meta es generalizar: aumenta el error de entrenamiento, pero reduce mucho el error de validación.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#capítulo-4",
+    "href": "apendice_formulario_respuestas.html#capítulo-4",
+    "title": "Apéndice: Formulario y respuestas seleccionadas",
+    "section": "Capítulo 4",
+    "text": "Capítulo 4\nEjercicio 4.6.\n\\[\n\\sigma(0)=0.5,\\quad\n\\sigma(2)\\approx0.881,\\quad\n\\sigma(-2)\\approx0.119.\n\\]\nEjercicio 4.7. Si TP=40, FP=10, TN=80, FN=20:\n\\[\n\\text{accuracy}=0.80,\\quad\n\\text{precision}=0.80,\\quad\n\\text{recall}=0.667.\n\\]\nF1 es aproximadamente 0.727.\nEjercicio 4.16. Accuracy alta y recall bajo puede indicar clases desbalanceadas: el modelo acierta muchos negativos, pero falla positivos.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice: Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab01_regresion_gradiente.html",
+    "href": "laboratorios/lab01_regresion_gradiente.html",
+    "title": "Lab 1: Regresión lineal y descenso del gradiente",
+    "section": "",
+    "text": "Propósito\nEste laboratorio verifica que puedes pasar de la formulación matemática de regresión lineal a una implementación vectorizada en NumPy. También compara dos rutas hacia el mismo objetivo: ecuación normal y descenso del gradiente.\nLa pregunta técnica central es:\n\n¿La implementación desde cero produce las mismas predicciones y pérdidas que una herramienta profesional, y puedes explicar cómo sabes que el algoritmo convergió?\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab01_regresion_gradiente.ipynb\nNo cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.\n\n\nFlujo recomendado\n\nEjecuta el notebook completo una vez para ver qué está incompleto.\nCompleta primero las funciones pequeñas: add_intercept, predict_linear, mse_loss.\nImplementa normal_equation usando np.linalg.solve, no inversa explícita.\nImplementa mse_gradient y verifica dimensiones.\nImplementa gradient_descent guardando historia de pérdida.\nCompara tus resultados con sklearn.linear_model.LinearRegression.\nEscribe la interpretación final en lenguaje técnico breve.\nReinicia el kernel y ejecuta todo de arriba hacia abajo antes de entregar.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nEvidencia esperada\nCalificación\n\n\n\n\nIntercepto\nX aumenta una columna de unos sin alterar filas\nAutomática\n\n\nPérdida\nvalor de 1/(2n) * sum(residual^2) correcto\nAutomática\n\n\nEcuación normal\nsolución numérica sin usar inversa explícita\nAutomática\n\n\nGradiente\ncoincide con fórmula matricial y tolerancias\nAutomática\n\n\nDescenso del gradiente\npérdida decrece y parámetros son consistentes\nAutomática\n\n\nComparación profesional\nresultado cercano a sklearn\nAutomática\n\n\n\n\n\nParte manual\nIncluye una respuesta corta:\n\n¿Qué evidencia muestra que el descenso del gradiente convergió y cuál es una limitación del experimento?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no usa evidencia del notebook\n\n\n1\nMenciona pérdida o limitación, pero sin conectar con comparación/baseline\n\n\n2\nConecta curva de pérdida, comparación contra ecuación normal o sklearn, y una limitación concreta\n\n\n\n\n\nCriterios de calidad\n\n\nTodas las funciones son vectorizadas.\nNo hay valores hardcodeados para pasar un ejemplo específico.\nLas formas de X, y, theta y predicciones son consistentes.\nLa historia de pérdida permite diagnosticar convergencia.\nEl modelo se compara contra baseline o contra una referencia profesional.\nLa interpretación final menciona una limitación.\n\n\n\n\nErrores frecuentes\n\nAgregar intercepto dos veces.\nDevolver MSE cuando la función pide 1/(2n) por suma de cuadrados.\nUsar np.linalg.inv en lugar de np.linalg.solve.\nConfundir residual y - y_hat con y_hat - y dentro del gradiente.\nNo guardar la pérdida en cada iteración.\nUsar una tasa de aprendizaje que diverge y no revisar la curva.\nEntregar sin reiniciar kernel y ejecutar todo.\n\n\n\nAntes de entregar\nEjecuta este control mental:\n¿Mi notebook corre completo?\n¿Cada función devuelve la forma esperada?\n¿La pérdida del gradiente baja?\n¿La solución por gradiente se acerca a la ecuación normal?\n¿La respuesta manual usa evidencia y no solo opinión?",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Lab 1: Regresión lineal y descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab02_regularizacion_clasificacion.html",
+    "href": "laboratorios/lab02_regularizacion_clasificacion.html",
+    "title": "Lab 2: Regularización, validación y clasificación",
+    "section": "",
+    "text": "Propósito\nEste laboratorio evalúa si puedes controlar complejidad, evitar leakage y tomar decisiones de clasificación con métricas apropiadas. Conecta tres ideas del Módulo 1:\n\nregularización para estabilizar modelos;\nvalidación para escoger hiperparámetros;\numbrales para convertir probabilidades en decisiones.\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab02_regularizacion_clasificacion.ipynb\nNo cambies nombres de funciones. El autograder revisa funciones y resultados esperados con datos alternos.\n\n\nFlujo recomendado\n\nLee el enunciado completo antes de programar.\nSepara datos antes de ajustar cualquier transformación.\nAjusta escalamiento solo con entrenamiento.\nImplementa Ridge sin penalizar intercepto.\nCompara valores de regularización usando validación.\nImplementa funciones logísticas: sigmoid, log_loss_binary.\nCalcula métricas con una matriz de confusión.\nEvalúa umbrales y justifica una recomendación técnica.\nReinicia kernel y ejecuta todo antes de entregar.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nEvidencia esperada\nCalificación\n\n\n\n\nParticiones\nseparación reproducible sin mezclar evaluación\nAutomática\n\n\nEscalamiento\nparámetros ajustados solo con entrenamiento\nAutomática\n\n\nRidge\nsolución cerrada correcta sin penalizar intercepto\nAutomática\n\n\nLasso/Ridge\ncomparación numérica coherente\nAutomática\n\n\nSigmoide y log-loss\nimplementación vectorizada y estable\nAutomática\n\n\nMétricas\naccuracy, precision, recall y F1 correctos\nAutomática\n\n\nUmbral\nselección consistente con objetivo de recall\nAutomática\n\n\n\n\n\nParte manual\nIncluye una respuesta corta:\n\n¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo hay decisión técnica clara\n\n\n1\nHay decisión, pero sin métrica, baseline o limitación\n\n\n2\nLa decisión usa métrica adecuada, comparación/baseline y una limitación concreta\n\n\n\n\n\nCriterios de calidad\n\n\nNo hay leakage entre entrenamiento, validación y prueba.\nLa métrica elegida corresponde al problema.\nLa regularización se interpreta como control de complejidad, no como magia.\nLos umbrales se justifican con costos de FP/FN o una restricción explícita.\nLa recomendación final distingue resultado numérico y decisión aplicada.\n\n\n\n\nErrores frecuentes\n\nEscalar todo el dataset antes de separar.\nEscoger lambda por error de entrenamiento.\nUsar prueba repetidamente para tomar decisiones.\nPenalizar el intercepto en Ridge sin intención.\nImplementar sigmoide de forma que haga overflow.\nDividir por cero en precision o recall.\nElegir umbral 0.5 por costumbre sin discutir costos.\n\n\n\nAntes de entregar\n¿Separé datos antes de ajustar transformaciones?\n¿Elegí hiperparámetros con validación?\n¿Reporté una métrica alineada con la decisión?\n¿Mi umbral tiene justificación?\n¿La parte manual comunica una limitación real?",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Lab 2: Regularización, validación y clasificación</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/parcial01_autograded.html",
+    "href": "laboratorios/parcial01_autograded.html",
+    "title": "Parcial 1 autograded",
+    "section": "",
+    "text": "Alcance\nEste parcial evalúa el Módulo 1. Combina implementación, resultados numéricos, razonamiento matemático estructurado e interpretación breve.\nTemas incluidos:\n\nforma matricial de regresión lineal;\npérdida MSE y gradiente;\ndescenso del gradiente;\nregularización Ridge;\nregresión logística;\nmétricas y umbrales de clasificación.\n\n\n\nReglas\n\nNo cambies nombres de funciones.\nNo uses internet.\nNo hardcodees resultados.\nNo borres celdas del notebook.\nEjecuta todo antes de entregar.\nLa parte manual se califica con rúbrica corta.\n\n\n\nEstructura\n\n\n\n\n\n\n\n\nParte\nTema\nTipo de calificación\n\n\n\n\n1\nRegresión lineal: predicción, pérdida y gradiente\nAutograded\n\n\n2\nOptimización: descenso del gradiente\nAutograded\n\n\n3\nRegularización: Ridge y selección de hiperparámetro\nAutograded\n\n\n4\nClasificación: sigmoide, log-loss, métricas y umbral\nAutograded\n\n\n5\nExplicación técnica breve\nManual\n\n\n\n\n\nQué espera el autograder\nEl autograder revisa:\n\nformas de salida;\ntolerancias numéricas;\ncomportamiento con datos alternos;\nausencia de hardcoding simple;\nrespuestas estructuradas cuando correspondan.\n\nNo asumas que pasar un ejemplo visible garantiza pasar todas las pruebas.\n\n\nParte manual\nResponde:\n\nSi un modelo mejora el baseline por poco, ¿qué evidencia adicional pedirías antes de recomendarlo?\n\nRúbrica:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no es técnica\n\n\n5\nMenciona una evidencia aislada, como otra métrica o más datos\n\n\n10\nMenciona métrica, variabilidad/validación, análisis de errores y contexto de decisión\n\n\n\n\n\nPreparación recomendada\nAntes del parcial:\n\nResuelve los ejercicios seleccionados del apéndice.\nImplementa desde cero mse_gradient, ridge_closed_form, sigmoid y métricas.\nRevisa una curva de pérdida y escribe un diagnóstico.\nExplica precision y recall con una matriz de confusión.\nPractica una recomendación técnica de máximo 120 palabras.\n\n\n\nErrores que cuestan puntos\n\nCambiar firmas de funciones.\nEntregar con celdas sin ejecutar.\nUsar variables globales ocultas.\nHardcodear outputs de ejemplos visibles.\nConfundir MSE con pérdida escalada 1/(2n).\nUsar prueba para seleccionar hiperparámetros.\nReportar accuracy sin mirar clase positiva.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Parcial 1 autograded</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html",
+    "href": "recursos/guia_autograding.html",
+    "title": "Guía de autograding",
+    "section": "",
+    "text": "Propósito\nEl Módulo 1 usa autograding para reducir la carga de calificación y dar retroalimentación rápida. El autograder revisa código, formas de matrices, resultados numéricos, métricas y comparaciones con referencias.\nLa revisión humana queda concentrada en interpretación y criterio.\n\n\nQué se autocalifica\n\n\n\n\n\n\n\n\nTipo de evidencia\nEjemplo\nCalificación\n\n\n\n\nForma de salida\ntheta.shape == (p,)\nAutomática\n\n\nValor numérico\nMSE dentro de tolerancia\nAutomática\n\n\nPropiedad matemática\ngradiente coincide con diferencia finita\nAutomática\n\n\nComparación profesional\nresultado cercano a sklearn\nAutomática\n\n\nInterpretación\nlimitación de un modelo\nManual rápida\n\n\n\n\n\nQué no se autocalifica por completo\n\nCalidad de una explicación técnica.\nReconocimiento de limitaciones.\nDecisión de umbral justificada por contexto.\nClaridad de una recomendación.\n\nEstas partes se revisan con rúbricas cortas de 0/1/2.\n\n\nFlujo para estudiantes\n\nDescarga el notebook.\nCompleta solo las celdas marcadas.\nEjecuta todo el notebook antes de entregar.\nNo cambies nombres de funciones.\nNo borres celdas de prueba visibles.\nSube el notebook a Gradescope.\n\n\n\nFlujo para profesor/asistente\n\nGenerar autograder zip con scripts/build_gradescope_autograders.py.\nSubir el zip a Gradescope.\nRevisar resultados automáticos.\nFiltrar casos con fallas masivas o notebooks corruptos.\nCalificar interpretación con rúbrica mínima.\nExportar CSV final.\n\n\nMeta operativa. La revisión manual de un laboratorio no debe superar dos minutos por estudiante.\n\n\n\nFallback local\nSi Gradescope no está disponible:\npython scripts/run_local_autograder.py lab01 laboratorios/lab01_regresion_gradiente.ipynb\npython scripts/run_local_autograder.py lab02 laboratorios/lab02_regularizacion_clasificacion.ipynb\npython scripts/run_local_autograder.py parcial01 laboratorios/parcial01_autograded.ipynb\nEl resultado se imprime como JSON compatible con Gradescope.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Guía de autograding</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial1.html",
+    "href": "recursos/guia_parcial1.html",
+    "title": "Guía de preparación Parcial 1",
+    "section": "",
+    "text": "Alcance\nEl Parcial 1 evalúa el Módulo 1 completo:\n\nRegresión lineal múltiple.\nEcuación normal.\nDescenso del gradiente.\nEscalamiento y condicionamiento.\nRegresión polinomial y overfitting.\nRidge, Lasso y validación.\nRegresión logística.\nMétricas y umbrales.\n\n\n\nFormato\n\n\n\nParte\nPeso\nTipo\n\n\n\n\nCódigo autograded\n70%\nNotebook\n\n\nMatemática estructurada\n20%\nRespuestas numéricas o selección\n\n\nExplicación corta\n10%\nRúbrica 0/1/2\n\n\n\n\n\nLo que debes poder hacer\n\nEscribir y_hat = X @ theta.\nCalcular MSE.\nDerivar e implementar el gradiente de MSE.\nEjecutar descenso del gradiente.\nExplicar efecto de escalamiento.\nSeparar entrenamiento, validación y prueba.\nComparar Ridge/Lasso.\nImplementar sigmoide y log-loss.\nInterpretar matriz de confusión.\nJustificar una métrica según una decisión.\n\n\n\nErrores que cuestan puntos\n\nUsar datos de prueba para elegir hiperparámetros.\nReportar accuracy sin baseline.\nPenalizar el intercepto sin justificar.\nCambiar firmas de funciones del notebook.\nHardcodear respuestas numéricas.\nEntregar código que solo funciona para un dataset específico.\n\n\n\nEstrategia de estudio\n\nResuelve los ejercicios del libro.\nRehaz los notebooks de clase sin mirar solución.\nEjecuta los laboratorios desde cero.\nExplica cada métrica con una frase técnica.\nPractica derivaciones cortas: MSE, Ridge y log-loss.",
+    "crumbs": [
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Guía de preparación Parcial 1</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo01.html",
+    "href": "recursos/guia_proyecto_modulo01.html",
+    "title": "Proyecto durante el Módulo 1",
+    "section": "",
+    "text": "Objetivo\nDurante el Módulo 1 el proyecto debe pasar de una idea exploratoria a un baseline reproducible.\n\n\nHitos\n\n\n\n\n\n\n\n\nSemana\nHito\nEvidencia\n\n\n\n\n2\nLista corta de datasets\n2-3 datasets posibles con fuente y variable objetivo\n\n\n3\nPrepropuesta\nPregunta, unidad de observación, variables y riesgo principal\n\n\n4\nPropuesta aprobable\nDataset elegido, métrica, baseline esperado y riesgos\n\n\n6\nBaseline de proyecto\nNotebook reproducible con baseline y métrica\n\n\n\n\n\nQué cuenta como baseline\nUn baseline debe ser simple, reproducible y relevante:\n\nregresión: promedio, mediana o regresión lineal simple;\nclasificación: clase mayoritaria o regla simple;\nrecomendación/no supervisado: regla transparente de referencia.\n\n\n\nPlantilla mínima de baseline\nPregunta:\nDataset:\nUnidad de observación:\nVariable objetivo:\nMétrica principal:\nBaseline:\nResultado:\nLimitación principal:\nSiguiente experimento:\n\n\nCriterio docente\nEl profesor no debe corregir proyectos como si fueran reportes finales. En este módulo solo debe verificar:\n\nque el dataset existe;\nque la pregunta es modelable;\nque la métrica tiene sentido;\nque el baseline es reproducible;\nque el grupo reconoce una limitación.",
+    "crumbs": [
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Proyecto durante el Módulo 1</span>"
+    ]
+  }
+]

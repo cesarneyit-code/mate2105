@@ -1,0 +1,101 @@
+---
+title: "Lab 2: Regularización, validación y clasificación"
+subtitle: "Ridge, Lasso, logística, métricas y umbrales"
+format:
+  html:
+    toc: true
+    code-copy: true
+execute:
+  eval: false
+  echo: true
+lang: es
+---
+
+# Propósito
+
+Este laboratorio evalúa si puedes controlar complejidad, evitar leakage y tomar
+decisiones de clasificación con métricas apropiadas. Conecta tres ideas del
+Módulo 1:
+
+1. regularización para estabilizar modelos;
+2. validación para escoger hiperparámetros;
+3. umbrales para convertir probabilidades en decisiones.
+
+# Qué debes entregar
+
+Entrega el notebook:
+
+```text
+apellido_nombre_lab02_regularizacion_clasificacion.ipynb
+```
+
+No cambies nombres de funciones. El autograder revisa funciones y resultados
+esperados con datos alternos.
+
+# Flujo recomendado
+
+1. Lee el enunciado completo antes de programar.
+2. Separa datos antes de ajustar cualquier transformación.
+3. Ajusta escalamiento solo con entrenamiento.
+4. Implementa Ridge sin penalizar intercepto.
+5. Compara valores de regularización usando validación.
+6. Implementa funciones logísticas: `sigmoid`, `log_loss_binary`.
+7. Calcula métricas con una matriz de confusión.
+8. Evalúa umbrales y justifica una recomendación técnica.
+9. Reinicia kernel y ejecuta todo antes de entregar.
+
+# Lo que autocalifica el notebook
+
+| Componente | Evidencia esperada | Calificación |
+|---|---|---:|
+| Particiones | separación reproducible sin mezclar evaluación | Automática |
+| Escalamiento | parámetros ajustados solo con entrenamiento | Automática |
+| Ridge | solución cerrada correcta sin penalizar intercepto | Automática |
+| Lasso/Ridge | comparación numérica coherente | Automática |
+| Sigmoide y log-loss | implementación vectorizada y estable | Automática |
+| Métricas | accuracy, precision, recall y F1 correctos | Automática |
+| Umbral | selección consistente con objetivo de recall | Automática |
+
+# Parte manual
+
+Incluye una respuesta corta:
+
+> ¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?
+
+Rúbrica manual:
+
+| Puntaje | Criterio |
+|---:|---|
+| 0 | No hay decisión técnica clara |
+| 1 | Hay decisión, pero sin métrica, baseline o limitación |
+| 2 | La decisión usa métrica adecuada, comparación/baseline y una limitación concreta |
+
+# Criterios de calidad
+
+::: {.checklist}
+- No hay leakage entre entrenamiento, validación y prueba.
+- La métrica elegida corresponde al problema.
+- La regularización se interpreta como control de complejidad, no como magia.
+- Los umbrales se justifican con costos de FP/FN o una restricción explícita.
+- La recomendación final distingue resultado numérico y decisión aplicada.
+:::
+
+# Errores frecuentes
+
+1. Escalar todo el dataset antes de separar.
+2. Escoger `lambda` por error de entrenamiento.
+3. Usar prueba repetidamente para tomar decisiones.
+4. Penalizar el intercepto en Ridge sin intención.
+5. Implementar sigmoide de forma que haga overflow.
+6. Dividir por cero en precision o recall.
+7. Elegir umbral `0.5` por costumbre sin discutir costos.
+
+# Antes de entregar
+
+```text
+¿Separé datos antes de ajustar transformaciones?
+¿Elegí hiperparámetros con validación?
+¿Reporté una métrica alineada con la decisión?
+¿Mi umbral tiene justificación?
+¿La parte manual comunica una limitación real?
+```

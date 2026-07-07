@@ -1,0 +1,90 @@
+---
+title: "Lab 3: Red neuronal desde cero"
+subtitle: "Forward, backpropagation y diagnóstico con revisión manual mínima"
+format:
+  html:
+    toc: true
+    code-copy: true
+execute:
+  eval: false
+  echo: true
+lang: es
+---
+
+# Propósito
+
+Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.
+
+La pregunta técnica central es:
+
+> ¿La red aprende por backpropagation de forma verificable y puedes diagnosticar si su entrenamiento es confiable?
+
+# Qué debes entregar
+
+Entrega el notebook:
+
+```text
+apellido_nombre_lab03_redes_desde_cero.ipynb
+```
+
+No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.
+
+# Flujo recomendado
+
+1. Ejecuta el notebook completo para identificar celdas incompletas.
+2. Implementa primero `one_hot`, `relu`, `relu_derivative`, `softmax`.
+3. Implementa `cross_entropy_loss` con estabilización numérica.
+4. Implementa `init_parameters` con semilla y escalamiento adecuado.
+5. Implementa `forward_pass`.
+6. Implementa `backward_pass` revisando formas.
+7. Implementa `update_parameters` y `predict`.
+8. Entrena en un subconjunto de `load_digits`.
+9. Compara contra `sklearn.neural_network.MLPClassifier` o una referencia simple.
+10. Escribe interpretación final: convergencia, limitación y siguiente experimento.
+
+# Lo que autocalifica el notebook
+
+| Componente | Evidencia esperada | Calificación |
+|---|---|---:|
+| One-hot | matriz `(n, k)` correcta | Automática |
+| ReLU | activación y derivada correctas | Automática |
+| Softmax | filas suman 1 y es estable | Automática |
+| Entropía cruzada | pérdida positiva y correcta | Automática |
+| Inicialización | formas correctas y reproducibilidad | Automática |
+| Forward | cache completo y probabilidades válidas | Automática |
+| Backward | gradientes con formas correctas y valores consistentes | Automática |
+| Actualización/predicción | parámetros actualizados y clases predichas | Automática |
+
+# Parte manual
+
+Incluye una respuesta corta:
+
+> ¿Qué evidencia muestra que la red aprendió y cuál es una limitación del experimento?
+
+Rúbrica manual:
+
+| Puntaje | Criterio |
+|---:|---|
+| 0 | No responde o la respuesta no usa evidencia del notebook |
+| 1 | Menciona accuracy o pérdida, pero sin diagnóstico ni limitación |
+| 2 | Conecta curva de pérdida, métrica de validación, comparación y una limitación concreta |
+
+# Errores frecuentes
+
+1. No estabilizar softmax.
+2. Olvidar dividir `dZ2` por `n`.
+3. Devolver gradientes con formas transpuestas.
+4. Penalizar sesgos con L2 sin justificarlo.
+5. No guardar `Z1`, `A1`, `Z2` y `P` en cache.
+6. Comparar contra test mientras se ajustan hiperparámetros.
+7. Entregar sin reiniciar kernel y ejecutar todo.
+
+# Antes de entregar
+
+```text
+¿Mi notebook corre completo?
+¿Cada función devuelve la forma esperada?
+¿Softmax suma 1 por fila?
+¿La pérdida baja durante entrenamiento?
+¿La respuesta manual usa evidencia y no solo opinión?
+```

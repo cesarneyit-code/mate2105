@@ -1,0 +1,672 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATE-2105: Módulo 4",
+    "section": "",
+    "text": "Módulo 4: Aprendizaje no supervisado y estructura latente",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#propósito",
+    "href": "index.html#propósito",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Propósito",
+    "text": "Propósito\nEste módulo cubre las semanas 12 y 13 del curso. Su función es estudiar algoritmos que encuentran estructura sin una variable objetivo directa:\n\nreducción de dimensión;\ncomponentes latentes;\nsegmentación;\nrecomendación básica.\n\nEl punto central es que no supervisado no significa “sin evaluación”. Significa que la evidencia cambia: varianza explicada, reconstrucción, estabilidad, separación, interpretabilidad y utilidad de los grupos o recomendaciones.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#semanas-cubiertas",
+    "href": "index.html#semanas-cubiertas",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Semanas cubiertas",
+    "text": "Semanas cubiertas\n\n\n\n\n\n\n\n\n\nSemana\nTema\nArtefacto central\nEvaluación / hito\n\n\n\n\n12\nSVD y PCA\nPCA desde cero + sklearn\nExtensión estructural de proyecto\n\n\n13\nK-Means y recomendación básica\nClustering + similitud coseno\nLab 5 y guía Parcial 2",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#resultados-de-aprendizaje",
+    "href": "index.html#resultados-de-aprendizaje",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Resultados de aprendizaje",
+    "text": "Resultados de aprendizaje\nAl finalizar el módulo, el estudiante estará en capacidad de:\n\nExplicar SVD como factorización de una matriz en direcciones latentes.\nImplementar PCA básico usando centrado, SVD y proyección.\nInterpretar varianza explicada y reconstrucción.\nImplementar y diagnosticar K-Means.\nUsar inertia y silhouette score con cautela.\nConstruir recomendaciones básicas por similitud de ítems.\nExplicar límites éticos y técnicos de segmentos y recomendaciones.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Evaluación",
+    "text": "Evaluación\n\nLab 5: aprendizaje no supervisado.\n\n85% autograded: centrado, PCA, reconstrucción, K-Means, silhouette, similitud coseno y recomendaciones.\n15% manual: interpretación de componentes, clusters o recomendaciones.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#datasets",
+    "href": "index.html#datasets",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Datasets",
+    "text": "Datasets\nNo se requiere internet.\n\nsklearn.datasets.load_digits para PCA y visualización.\nDatos sintéticos con clusters para K-Means.\nMatrices pequeñas usuario-ítem sintéticas para recomendación.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#principio-operativo",
+    "href": "index.html#principio-operativo",
+    "title": "MATE-2105: Módulo 4",
+    "section": "Principio operativo",
+    "text": "Principio operativo\n\n\n\n\n\n\nNota\n\n\n\nEn no supervisado, la pregunta no es “cuál es la respuesta correcta”, sino “qué estructura encontré y qué evidencia muestra que es útil”.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html",
+    "href": "capitulo01_svd_pca.html",
+    "title": "SVD y PCA",
+    "section": "",
+    "text": "Pregunta aplicada\nUn dataset puede tener decenas o miles de variables. ¿Podemos representarlo en menos dimensiones sin perder la estructura principal?\nPCA responde:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#pregunta-aplicada",
+    "href": "capitulo01_svd_pca.html#pregunta-aplicada",
+    "title": "SVD y PCA",
+    "section": "",
+    "text": "buscar direcciones ortogonales que capturan la mayor varianza posible.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#svd",
+    "href": "capitulo01_svd_pca.html#svd",
+    "title": "SVD y PCA",
+    "section": "SVD",
+    "text": "SVD\nPara una matriz (X ^{n p}):\n[ X = UV^. ]\nDonde:\n\n(U) contiene direcciones en el espacio de observaciones;\n() contiene valores singulares no negativos;\n(V) contiene direcciones en el espacio de variables.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#pca-como-svd-del-dato-centrado",
+    "href": "capitulo01_svd_pca.html#pca-como-svd-del-dato-centrado",
+    "title": "SVD y PCA",
+    "section": "PCA como SVD del dato centrado",
+    "text": "PCA como SVD del dato centrado\nPrimero centramos:\n[ X_c = X - X. ]\nLuego:\n[ X_c = UV^. ]\nLos componentes principales son las primeras filas de (V^), o columnas de (V), asociadas a los valores singulares más grandes.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#proyección",
+    "href": "capitulo01_svd_pca.html#proyección",
+    "title": "SVD y PCA",
+    "section": "Proyección",
+    "text": "Proyección\nSi tomamos (k) componentes:\n[ Z = X_c V_k. ]\nAquí (Z ^{n k}) es la representación reducida.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#varianza-explicada",
+    "href": "capitulo01_svd_pca.html#varianza-explicada",
+    "title": "SVD y PCA",
+    "section": "Varianza explicada",
+    "text": "Varianza explicada\nLa varianza explicada por el componente (j) es proporcional a:\n[ _j^2. ]\nLa razón de varianza explicada:\n[ . ]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#reconstrucción",
+    "href": "capitulo01_svd_pca.html#reconstrucción",
+    "title": "SVD y PCA",
+    "section": "Reconstrucción",
+    "text": "Reconstrucción\nCon (k) componentes:\n[ X_c = ZV_k^. ]\nLa reconstrucción en escala original:\n[ X = X_c + X. ]\nEl error de reconstrucción ayuda a medir pérdida de información.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
+    "href": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
+    "title": "SVD y PCA",
+    "section": "PCA no es interpretabilidad automática",
+    "text": "PCA no es interpretabilidad automática\n\n\n\n\n\n\nAdvertencia\n\n\n\nUn componente principal es una combinación lineal de variables. Puede ser útil, pero no siempre tiene una interpretación humana directa.\n\n\nInterpretar PCA requiere:\n\nrevisar cargas de variables;\nmedir varianza explicada;\nvisualizar proyecciones;\nconectar componentes con el dominio.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#ejercicios",
+    "href": "capitulo01_svd_pca.html#ejercicios",
+    "title": "SVD y PCA",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Si (X) tiene forma (500, 64) y usamos k=2, ¿qué forma tiene la proyección PCA?\n\n\nEjercicio 2. Explique por qué PCA debe centrar los datos antes de calcular componentes.\n\n\nEjercicio 3. ¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html",
+    "href": "capitulo02_kmeans_clustering.html",
+    "title": "K-Means y clustering",
+    "section": "",
+    "text": "Pregunta aplicada\nSi no tenemos etiquetas, aún podemos preguntar:\nK-Means busca particionar datos en (k) grupos representados por centroides.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#pregunta-aplicada",
+    "href": "capitulo02_kmeans_clustering.html#pregunta-aplicada",
+    "title": "K-Means y clustering",
+    "section": "",
+    "text": "¿hay grupos de observaciones con patrones similares?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#función-objetivo",
+    "href": "capitulo02_kmeans_clustering.html#función-objetivo",
+    "title": "K-Means y clustering",
+    "section": "Función objetivo",
+    "text": "Función objetivo\nK-Means minimiza la suma de distancias cuadradas a centroides:\n[ {i=1}^n |x_i-{c_i}|_2^2. ]\nDonde:\n\n(c_i) es el cluster asignado a (x_i);\n(_{c_i}) es el centroide correspondiente.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#algoritmo",
+    "href": "capitulo02_kmeans_clustering.html#algoritmo",
+    "title": "K-Means y clustering",
+    "section": "Algoritmo",
+    "text": "Algoritmo\n\nInicializar centroides.\nAsignar cada punto al centroide más cercano.\nRecalcular cada centroide como promedio del grupo.\nRepetir hasta convergencia.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#inertia",
+    "href": "capitulo02_kmeans_clustering.html#inertia",
+    "title": "K-Means y clustering",
+    "section": "Inertia",
+    "text": "Inertia\ninertia es la suma de distancias cuadradas dentro de clusters.\nMenor inertia no siempre significa mejor segmentación:\n\nbaja al aumentar (k);\nno está normalizada;\npuede favorecer clusters poco interpretables.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#silhouette-score",
+    "href": "capitulo02_kmeans_clustering.html#silhouette-score",
+    "title": "K-Means y clustering",
+    "section": "Silhouette score",
+    "text": "Silhouette score\nPara una observación:\n[ s=. ]\nDonde:\n\n(a): distancia media al propio cluster;\n(b): distancia media al cluster vecino más cercano.\n\nValores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#escalamiento",
+    "href": "capitulo02_kmeans_clustering.html#escalamiento",
+    "title": "K-Means y clustering",
+    "section": "Escalamiento",
+    "text": "Escalamiento\nK-Means usa distancia euclídea. Por tanto, las escalas importan.\nPipeline([\n    (\"scaler\", StandardScaler()),\n    (\"kmeans\", KMeans(n_clusters=3))\n])",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#limitaciones",
+    "href": "capitulo02_kmeans_clustering.html#limitaciones",
+    "title": "K-Means y clustering",
+    "section": "Limitaciones",
+    "text": "Limitaciones\nK-Means funciona mejor cuando los clusters son:\n\naproximadamente esféricos;\nde tamaños comparables;\nseparables por distancia euclídea.\n\nPuede fallar con formas no convexas, densidades distintas o variables mal escaladas.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#ejercicios",
+    "href": "capitulo02_kmeans_clustering.html#ejercicios",
+    "title": "K-Means y clustering",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Explique por qué inertia siempre tiende a bajar cuando aumenta (k).\n\n\nEjercicio 2. ¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?\n\n\nEjercicio 3. Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html",
+    "href": "capitulo03_recomendacion_latente.html",
+    "title": "Recomendación básica y estructura latente",
+    "section": "",
+    "text": "Pregunta aplicada\nSi sabemos qué ítems han gustado o sido usados por ciertos usuarios, podemos preguntar:",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#pregunta-aplicada",
+    "href": "capitulo03_recomendacion_latente.html#pregunta-aplicada",
+    "title": "Recomendación básica y estructura latente",
+    "section": "",
+    "text": "¿qué ítems son similares y qué recomendaríamos a un usuario?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#matriz-usuario-ítem",
+    "href": "capitulo03_recomendacion_latente.html#matriz-usuario-ítem",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Matriz usuario-ítem",
+    "text": "Matriz usuario-ítem\nUna matriz (R) puede representar:\n\nfilas: usuarios;\ncolumnas: ítems;\nentradas: interacción, rating, compra, vista o preferencia.\n\nEjemplo:\n[ R_{ui}=1 ]\nsi el usuario (u) interactuó con el ítem (i).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#similitud-coseno",
+    "href": "capitulo03_recomendacion_latente.html#similitud-coseno",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Similitud coseno",
+    "text": "Similitud coseno\nPara dos ítems representados por vectores (x) y (y):\n[ (x,y)=. ]\nLa similitud coseno compara dirección más que magnitud.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#recomendación-item-item",
+    "href": "capitulo03_recomendacion_latente.html#recomendación-item-item",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Recomendación item-item",
+    "text": "Recomendación item-item\nFlujo básico:\n\nConstruir matriz usuario-ítem.\nCalcular similitud entre ítems.\nPara un ítem semilla, buscar ítems similares.\nExcluir ítems ya vistos si se recomienda a un usuario.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#svd-para-factores-latentes",
+    "href": "capitulo03_recomendacion_latente.html#svd-para-factores-latentes",
+    "title": "Recomendación básica y estructura latente",
+    "section": "SVD para factores latentes",
+    "text": "SVD para factores latentes\nSVD puede aproximar:\n[ R U_k_kV_k^. ]\nEsto produce representaciones latentes de usuarios e ítems.\nEn este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#riesgos-de-recomendación",
+    "href": "capitulo03_recomendacion_latente.html#riesgos-de-recomendación",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Riesgos de recomendación",
+    "text": "Riesgos de recomendación\nLos sistemas de recomendación pueden:\n\nreforzar popularidad;\nencerrar usuarios en burbujas;\namplificar sesgos;\noptimizar interacción sin optimizar bienestar;\nfallar con usuarios o ítems nuevos.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#ejercicios",
+    "href": "capitulo03_recomendacion_latente.html#ejercicios",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Explique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.\n\n\nEjercicio 2. ¿Qué problema aparece para recomendar a un usuario nuevo sin historial?\n\n\nEjercicio 3. Proponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html",
+    "href": "capitulo04_ejercicios_integradores.html",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "Bloque A: PCA",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-pca",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-a-pca",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "A1. Derive las formas de (U), () y (V^) si (X_c) tiene forma (100, 20).\n\n\nA2. Implemente mentalmente los pasos de PCA desde cero: centrar, SVD, seleccionar componentes, proyectar.\n\n\nA3. Explique por qué un componente con alta varianza no necesariamente es causal ni justo para tomar decisiones.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-b-k-means",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-b-k-means",
+    "title": "Ejercicios integradores",
+    "section": "Bloque B: K-Means",
+    "text": "Bloque B: K-Means\n\nB1. Escriba la función objetivo de K-Means y explique cada término.\n\n\nB2. Compare inertia y silhouette como evidencia para elegir (k).\n\n\nB3. Proponga un diagnóstico si K-Means produce un cluster con 95% de los datos.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-c-recomendación",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-c-recomendación",
+    "title": "Ejercicios integradores",
+    "section": "Bloque C: recomendación",
+    "text": "Bloque C: recomendación\n\nC1. Calcule similitud coseno entre dos vectores binarios simples.\n\n\nC2. Explique cómo excluir ítems ya vistos por el usuario.\n\n\nC3. ¿Qué diferencia hay entre recomendar por similitud de contenido y por comportamiento colaborativo?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html",
+    "href": "apendice_formulario_respuestas.html",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "",
+    "text": "SVD\n[ X = UV^ ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#pca",
+    "href": "apendice_formulario_respuestas.html#pca",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "PCA",
+    "text": "PCA\n[ X_c = X - X ]\n[ Z = X_c V_k ]\n[ X = ZV_k^+ X ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#k-means",
+    "href": "apendice_formulario_respuestas.html#k-means",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "K-Means",
+    "text": "K-Means\n[ {,c}{i=1}^n |x_i-_{c_i}|_2^2 ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#silhouette",
+    "href": "apendice_formulario_respuestas.html#silhouette",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Silhouette",
+    "text": "Silhouette\n[ s= ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#cosine-similarity",
+    "href": "apendice_formulario_respuestas.html#cosine-similarity",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Cosine similarity",
+    "text": "Cosine similarity\n[ (x,y)= ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\n\nCapítulo 1, ejercicio 2\nPCA centra porque busca direcciones de variación alrededor de la media. Sin centrar, el primer componente puede capturar desplazamiento de la nube respecto al origen, no estructura de variabilidad.\n\n\nCapítulo 2, ejercicio 1\nInertia baja al aumentar (k) porque cada punto puede quedar más cerca de algún centroide. En el extremo (k=n), cada punto puede ser su propio centroide y la inertia llega a cero.\n\n\nCapítulo 3, ejercicio 2\nEl problema de usuario nuevo se conoce como cold start: sin historial, no hay vector de preferencias suficiente para comparar o inferir gustos.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html",
+    "href": "laboratorios/lab05_no_supervisado.html",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "",
+    "text": "Propósito\nEste laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 4 en código verificable:\nLa parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#propósito",
+    "href": "laboratorios/lab05_no_supervisado.html#propósito",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "",
+    "text": "centrar una matriz de datos;\nimplementar PCA con SVD;\nreconstruir datos proyectados;\nentrenar y diagnosticar K-Means;\ncalcular similitud coseno;\nproducir recomendaciones simples y defendibles.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#entrega",
+    "href": "laboratorios/lab05_no_supervisado.html#entrega",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "Entrega",
+    "text": "Entrega\nEntrega un único notebook .ipynb con las funciones solicitadas. No cambies los nombres de las funciones ni sus argumentos.\nEl autograder ejecutará todo el notebook de arriba hacia abajo y luego llamará las funciones.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#dependencias-permitidas",
+    "href": "laboratorios/lab05_no_supervisado.html#dependencias-permitidas",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "Dependencias permitidas",
+    "text": "Dependencias permitidas\nimport numpy as np\nimport pandas as pd\nfrom sklearn.cluster import KMeans\nfrom sklearn.metrics import silhouette_score\nfrom sklearn.metrics.pairwise import cosine_similarity\nPuedes usar sklearn para K-Means, silhouette y similitud coseno. Para PCA, la implementación debe usar numpy.linalg.svd o una rutina equivalente de álgebra lineal; no uses sklearn.decomposition.PCA dentro de pca_from_svd.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#funciones-a-implementar",
+    "href": "laboratorios/lab05_no_supervisado.html#funciones-a-implementar",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "Funciones a implementar",
+    "text": "Funciones a implementar\n\n1. Centrado\ndef center_data(X):\n    \"\"\"\n    Recibe una matriz X de forma (n, p).\n    Devuelve:\n      X_centered: matriz centrada por columnas.\n      mean: vector de medias de forma (p,).\n    \"\"\"\n\n\n2. PCA desde SVD\ndef pca_from_svd(X, n_components):\n    \"\"\"\n    Recibe una matriz X de forma (n, p) y un número k.\n    Devuelve un diccionario con:\n      components: matriz (k, p) con direcciones principales.\n      scores: matriz (n, k) con coordenadas proyectadas.\n      explained_variance_ratio: vector (k,) con proporción de varianza explicada.\n      mean: vector (p,) usado para centrar.\n    \"\"\"\n\n\n3. Reconstrucción\ndef reconstruct_from_pca(scores, components, mean):\n    \"\"\"\n    Reconstruye una aproximación de X desde scores, components y mean.\n    Devuelve una matriz de forma (n, p).\n    \"\"\"\n\n\n4. Error de reconstrucción\ndef reconstruction_error(X, X_hat):\n    \"\"\"\n    Devuelve el error cuadrático medio entre X y X_hat.\n    \"\"\"\n\n\n5. K-Means\ndef fit_kmeans(X, n_clusters, random_state=42):\n    \"\"\"\n    Ajusta K-Means y devuelve el modelo entrenado.\n    Usa n_init=10 para estabilidad entre versiones.\n    \"\"\"\n\n\n6. Resumen de K-Means\ndef kmeans_summary(model, X):\n    \"\"\"\n    Recibe un modelo K-Means entrenado y X.\n    Devuelve un diccionario con:\n      labels: etiquetas predichas.\n      inertia: inertia del modelo.\n      silhouette: silhouette score si hay al menos dos clusters válidos.\n    \"\"\"\nSi silhouette no se puede calcular, devuelve np.nan.\n\n\n7. Selección de k por silhouette\ndef choose_k_by_silhouette(X, k_values, random_state=42):\n    \"\"\"\n    Entrena K-Means para cada k en k_values.\n    Devuelve:\n      best_k: k con mayor silhouette.\n      scores: diccionario {k: silhouette}.\n    \"\"\"\n\n\n8. Similitud coseno\ndef cosine_similarity_matrix(M):\n    \"\"\"\n    Recibe una matriz donde cada fila representa un item.\n    Devuelve matriz cuadrada de similitud coseno item-item.\n    \"\"\"\n\n\n9. Recomendación por similitud\ndef recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):\n    \"\"\"\n    Devuelve una lista de índices de items más similares a item_index.\n    Excluye el item consultado y cualquier item en seen_items.\n    Ordena de mayor a menor similitud.\n    \"\"\"",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#pregunta-manual",
+    "href": "laboratorios/lab05_no_supervisado.html#pregunta-manual",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "Pregunta manual",
+    "text": "Pregunta manual\nEscribe una respuesta de 120 a 180 palabras:\n\n¿Qué evidencia usarías para decidir cuántos componentes principales o cuántos clusters reportar?\n¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?\n¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab05_no_supervisado.html#criterio-profesional",
+    "href": "laboratorios/lab05_no_supervisado.html#criterio-profesional",
+    "title": "Lab 5: Aprendizaje no supervisado",
+    "section": "Criterio profesional",
+    "text": "Criterio profesional\nUn resultado no supervisado no se defiende solo con una gráfica bonita. Debe incluir:\n\npreprocesamiento explícito;\nmétrica o evidencia cuantitativa;\ninterpretación prudente;\nlímite técnico reconocido;\ndecisión siguiente concreta.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html",
+    "href": "recursos/guia_autograding.html",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "",
+    "text": "Objetivo operativo\nEl Módulo 4 mantiene la regla de carga mínima: el código, los valores numéricos y las formas de salida se califican automáticamente; el profesor revisa solo interpretación breve y casos marcados.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#evaluación-autograded",
+    "href": "recursos/guia_autograding.html#evaluación-autograded",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "Evaluación autograded",
+    "text": "Evaluación autograded\n\n\n\n\n\n\n\n\n\nEvaluación\nArchivo estudiante\nAutograder\nRevisión manual\n\n\n\n\nLab 5\nlab05_no_supervisado.ipynb\nlab05_gradescope_autograder.zip\n15 puntos",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#flujo-recomendado",
+    "href": "recursos/guia_autograding.html#flujo-recomendado",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "Flujo recomendado",
+    "text": "Flujo recomendado\n\nPublicar el notebook estudiante y la rúbrica.\nCargar lab05_gradescope_autograder.zip en Gradescope.\nHacer una entrega de prueba con la solución oficial.\nRevisar que el autograder pase con 85/85 en la parte automática.\nPublicar la tarea.\nAl cierre, exportar CSV y revisar solo la respuesta manual.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#validación-local",
+    "href": "recursos/guia_autograding.html#validación-local",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "Validación local",
+    "text": "Validación local\ncd modulo04_no_supervisado\n../modulo01_regresion_optimizacion/.venv/bin/python scripts/run_local_autograder.py lab05 laboratorios/lab05_no_supervisado_solucion.ipynb",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#qué-detecta-el-autograder",
+    "href": "recursos/guia_autograding.html#qué-detecta-el-autograder",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "Qué detecta el autograder",
+    "text": "Qué detecta el autograder\n\nfunciones ausentes;\ndimensiones incorrectas;\ncentrado incorrecto;\nPCA sin varianza explicada coherente;\nreconstrucción mal orientada;\nK-Means sin fit real;\nsilhouette mal calculado;\nrecomendación que no excluye elementos vistos;\nhardcoding evidente por pruebas con datos alternos.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#qué-no-debe-automatizarse",
+    "href": "recursos/guia_autograding.html#qué-no-debe-automatizarse",
+    "title": "Guía de autograding del Módulo 4",
+    "section": "Qué no debe automatizarse",
+    "text": "Qué no debe automatizarse\nLa explicación final debe quedar como revisión humana ligera. En no supervisado, dos estudiantes pueden producir resultados numéricamente válidos pero tomar decisiones distintas. La evaluación manual verifica que la decisión esté respaldada por evidencia y límites.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 4</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html",
+    "href": "recursos/guia_parcial2.html",
+    "title": "Guía Parcial 2",
+    "section": "",
+    "text": "Alcance\nEl Parcial 2 cubre los módulos 2, 3 y 4:",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html#alcance",
+    "href": "recursos/guia_parcial2.html#alcance",
+    "title": "Guía Parcial 2",
+    "section": "",
+    "text": "redes neuronales densas;\nbackpropagation;\nregularización y optimizadores;\nestrategia ML, métricas, validación y error analysis;\nSVD, PCA, K-Means y recomendación básica.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html#formato-sugerido",
+    "href": "recursos/guia_parcial2.html#formato-sugerido",
+    "title": "Guía Parcial 2",
+    "section": "Formato sugerido",
+    "text": "Formato sugerido\n\n\n\n\n\n\n\n\nParte\nPeso\nModalidad\n\n\n\n\nNotebook autograded\n65%\nImplementación y resultados numéricos\n\n\nPreguntas estructuradas\n25%\nOpción múltiple, selección de fórmula o respuesta numérica corta\n\n\nInterpretación breve\n10%\nRúbrica 0/1/2 por pregunta",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html#resultados-mínimos-esperados",
+    "href": "recursos/guia_parcial2.html#resultados-mínimos-esperados",
+    "title": "Guía Parcial 2",
+    "section": "Resultados mínimos esperados",
+    "text": "Resultados mínimos esperados\nEl estudiante debe poder:\n\nCalcular forward propagation en una red pequeña.\nIdentificar gradientes y dimensiones en backpropagation.\nElegir métricas según costos de error.\nEvitar leakage con pipelines y particiones correctas.\nInterpretar learning curves y slices de error.\nImplementar PCA con centrado y SVD.\nInterpretar inertia y silhouette en K-Means.\nExplicar límites de un recomendador por similitud.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html#banco-de-preguntas-estructuradas",
+    "href": "recursos/guia_parcial2.html#banco-de-preguntas-estructuradas",
+    "title": "Guía Parcial 2",
+    "section": "Banco de preguntas estructuradas",
+    "text": "Banco de preguntas estructuradas\n\nRedes\n\nSi una capa recibe A_prev de forma (m, d) y usa W de forma (d, h), ¿qué forma tiene Z?\n¿Qué efecto tiene aumentar lambda en regularización L2?\nEn una curva de entrenamiento, ¿qué patrón sugiere overfitting?\n\n\n\nEstrategia ML\n\n¿Por qué el escalamiento debe estar dentro de un Pipeline?\nSi recall es crítico, ¿qué error estás priorizando reducir?\n¿Qué indica una desviación alta en cross-validation?\n\n\n\nNo supervisado\n\n¿Por qué PCA requiere centrar las columnas?\n¿Qué mide la varianza explicada acumulada?\n¿Por qué inertia siempre disminuye al aumentar k?\n¿Qué limitación tiene silhouette en clusters no convexos?\nEn recomendación item-item, ¿por qué se excluyen items ya vistos?",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_parcial2.html#rúbrica-para-interpretación-breve",
+    "href": "recursos/guia_parcial2.html#rúbrica-para-interpretación-breve",
+    "title": "Guía Parcial 2",
+    "section": "Rúbrica para interpretación breve",
+    "text": "Rúbrica para interpretación breve\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n2\nUsa evidencia concreta, interpreta correctamente y reconoce una limitación.\n\n\n1\nLa idea central es correcta, pero falta evidencia o precisión.\n\n\n0\nIncorrecta, contradictoria o demasiado genérica.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía Parcial 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo04.html",
+    "href": "recursos/guia_proyecto_modulo04.html",
+    "title": "Guía de proyecto: extensión no supervisada",
+    "section": "",
+    "text": "Propósito\nEn el Módulo 4 el proyecto agrega una mirada estructural. No se reemplaza el modelo supervisado; se complementa con evidencia sobre grupos, dimensiones latentes o recomendaciones.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: extensión no supervisada</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo04.html#entregable-corto",
+    "href": "recursos/guia_proyecto_modulo04.html#entregable-corto",
+    "title": "Guía de proyecto: extensión no supervisada",
+    "section": "Entregable corto",
+    "text": "Entregable corto\nUna página o notebook breve con:\n\nPregunta estructural.\nMétodo no supervisado usado.\nPreprocesamiento.\nEvidencia cuantitativa.\nVisualización o tabla interpretable.\nLímite técnico.\nDecisión siguiente.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: extensión no supervisada</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo04.html#opciones-válidas",
+    "href": "recursos/guia_proyecto_modulo04.html#opciones-válidas",
+    "title": "Guía de proyecto: extensión no supervisada",
+    "section": "Opciones válidas",
+    "text": "Opciones válidas\n\nOpción A: PCA\nUsa PCA para:\n\nvisualizar datos de alta dimensión;\nestimar dimensiones dominantes;\ncomparar reconstrucción con distintos componentes;\nanalizar estabilidad de features.\n\nEvidencia mínima:\n\nvarianza explicada acumulada;\nerror de reconstrucción;\ninterpretación de dos componentes o advertencia de no interpretabilidad.\n\n\n\nOpción B: K-Means\nUsa K-Means para segmentar observaciones.\nEvidencia mínima:\n\ncomparación de inertia para varios k;\nsilhouette para varios k;\nperfil de clusters con medias o proporciones;\nadvertencia sobre escala, forma y estabilidad.\n\n\n\nOpción C: Recomendación básica\nUsa similitud item-item o usuario-usuario.\nEvidencia mínima:\n\ndefinición de matriz;\nsimilitud usada;\nejemplos de recomendaciones;\nmecanismo para excluir items ya vistos;\nlímite por sparsity, sesgo o popularidad.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: extensión no supervisada</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo04.html#plantilla-de-decisión",
+    "href": "recursos/guia_proyecto_modulo04.html#plantilla-de-decisión",
+    "title": "Guía de proyecto: extensión no supervisada",
+    "section": "Plantilla de decisión",
+    "text": "Plantilla de decisión\nMétodo usado:\nPreprocesamiento:\nEvidencia principal:\nInterpretación:\nLimitación:\nDecisión siguiente:",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: extensión no supervisada</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo04.html#criterio-de-aprobación",
+    "href": "recursos/guia_proyecto_modulo04.html#criterio-de-aprobación",
+    "title": "Guía de proyecto: extensión no supervisada",
+    "section": "Criterio de aprobación",
+    "text": "Criterio de aprobación\nLa extensión se aprueba si muestra una estructura plausible y reconoce por qué esa estructura todavía necesita validación antes de afectar una decisión real.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: extensión no supervisada</span>"
+    ]
+  }
+]

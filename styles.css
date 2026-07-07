@@ -1,0 +1,452 @@
+:root {
+  --mate-ink: #17202a;
+  --mate-muted: #52616f;
+  --mate-line: #d8dee6;
+  --mate-blue: #17324d;
+  --mate-blue-2: #214a72;
+  --mate-teal: #0f766e;
+  --mate-bg: #f7f9fb;
+  --mate-soft: #eef6f7;
+  --mate-warn: #7c2d12;
+  --mate-warn-bg: #fff7ed;
+}
+
+body {
+  color: var(--mate-ink);
+  overflow-x: hidden;
+}
+
+main.content {
+  overflow-wrap: anywhere;
+}
+
+.home-page .quarto-title-block,
+.page-layout-full .quarto-title-block {
+  display: none;
+}
+
+.home-page main.content,
+.page-layout-full main.content {
+  padding-top: 0;
+}
+
+.course-hero {
+  background: linear-gradient(135deg, #f7fafc 0%, #eef6f7 55%, #f4f7fb 100%);
+  border-bottom: 1px solid var(--mate-line);
+  margin: -1.5rem calc(50% - 50vw) 1.5rem;
+  padding: 3.2rem 1.5rem 2.8rem;
+}
+
+.course-hero-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.course-hero h1 {
+  color: var(--mate-blue);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0.2rem 0 0.25rem;
+  line-height: 0.95;
+}
+
+.hero-kicker {
+  color: var(--mate-teal);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.86rem;
+}
+
+.course-hero .subtitle {
+  color: var(--mate-blue-2);
+  font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+  font-weight: 700;
+  max-width: 68rem;
+}
+
+.hero-summary {
+  max-width: 52rem;
+  color: var(--mate-muted);
+  font-size: 1.08rem;
+  margin-top: 0.55rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.4rem;
+}
+
+.hero-actions a {
+  background: var(--mate-blue);
+  border: 1px solid var(--mate-blue);
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 750;
+  padding: 0.6rem 0.85rem;
+  text-decoration: none;
+}
+
+.hero-actions a:nth-child(n+2) {
+  background: transparent;
+  color: var(--mate-blue);
+}
+
+.main-wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 1.8rem;
+}
+
+.quick-box {
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fff;
+  min-height: 120px;
+}
+
+.quick-box .label {
+  color: var(--mate-muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.quick-box .value {
+  font-weight: 700;
+  color: var(--mate-blue);
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.action-row a {
+  border: 1px solid var(--mate-teal);
+  border-radius: 6px;
+  padding: 0.45rem 0.75rem;
+  text-decoration: none;
+  color: var(--mate-teal);
+  font-weight: 650;
+}
+
+.week-focus {
+  display: grid;
+  grid-template-columns: 1fr minmax(240px, 0.38fr);
+  gap: 1rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.week-main,
+.week-side {
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fff;
+}
+
+.week-main {
+  border-left: 4px solid var(--mate-blue);
+}
+
+.week-side {
+  background: var(--mate-soft);
+  border-left: 4px solid var(--mate-teal);
+}
+
+.cycle-strip {
+  background: var(--mate-blue);
+  color: #fff;
+  border-radius: 6px;
+  padding: 0.75rem 0.9rem;
+  font-weight: 750;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.notice {
+  border-left: 4px solid var(--mate-teal);
+  background: #f1fbf8;
+  padding: 0.85rem 1rem;
+  margin: 1rem 0;
+}
+
+.role-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0.9rem;
+  margin: 1.2rem 0 1rem;
+}
+
+.role-card {
+  border: 1px solid var(--mate-line);
+  border-left: 4px solid var(--mate-teal);
+  border-radius: 6px;
+  background: #fff;
+  padding: 1rem;
+  min-height: 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.role-card.student {
+  border-left-color: var(--mate-blue);
+  background: #f8fbfd;
+}
+
+.role-card.teacher {
+  border-left-color: #9a3412;
+  background: #fffaf5;
+}
+
+.role-kicker,
+.resource-kicker {
+  color: var(--mate-muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.mini-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+}
+
+.mini-actions a,
+.jump-list a {
+  align-items: center;
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  color: var(--mate-blue);
+  display: inline-flex;
+  font-weight: 750;
+  justify-content: center;
+  line-height: 1.25;
+  max-width: 100%;
+  min-height: 2.25rem;
+  padding: 0.42rem 0.65rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.mini-actions a:first-child {
+  border-color: var(--mate-blue);
+  background: var(--mate-blue);
+  color: #fff;
+}
+
+.mini-actions code {
+  background: #fff;
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  color: var(--mate-warn);
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  padding: 0.42rem 0.55rem;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.jump-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1.1rem 0 1.6rem;
+}
+
+.jump-list a {
+  background: #f7fafc;
+  color: var(--mate-teal);
+}
+
+.module-band {
+  align-items: center;
+  background: linear-gradient(90deg, #f7fafc 0%, #eef6f7 100%);
+  border: 1px solid var(--mate-line);
+  border-left: 4px solid var(--mate-blue);
+  border-radius: 6px;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0.8rem 0 1.1rem;
+  min-width: 0;
+  padding: 1rem;
+}
+
+.module-title {
+  color: var(--mate-blue);
+  font-size: 1.05rem;
+}
+
+.module-meta {
+  color: var(--mate-muted);
+  font-size: 0.92rem;
+  font-weight: 650;
+  text-align: right;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0.8rem 0 1.4rem;
+}
+
+.table-wrap table {
+  margin-bottom: 0;
+  min-width: 760px;
+}
+
+.table-wrap code {
+  white-space: nowrap;
+}
+
+.module-map table td:first-child {
+  color: var(--mate-blue);
+  font-weight: 800;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 0.9rem;
+  margin: 1.25rem 0 2rem;
+}
+
+.resource-card {
+  border: 1px solid var(--mate-line);
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fff;
+  min-height: 178px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  justify-content: space-between;
+}
+
+.resource-card.primary {
+  border-left: 4px solid var(--mate-blue);
+  background: #f7fafc;
+}
+
+.resource-card p {
+  margin-bottom: 0.8rem;
+}
+
+.resource-card a {
+  font-weight: 750;
+  color: var(--mate-teal);
+}
+
+.warning-box {
+  border-left: 4px solid var(--mate-warn);
+  background: var(--mate-warn-bg);
+  padding: 0.85rem 1rem;
+  margin: 1rem 0;
+}
+
+.teacher-note {
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #9a3412;
+  border-radius: 6px;
+  background: #fffaf5;
+  color: var(--mate-ink);
+  padding: 0.85rem 1rem;
+  margin: 1rem 0 1.6rem;
+}
+
+.module-table td:first-child,
+.schedule-table td:first-child {
+  white-space: nowrap;
+  font-weight: 650;
+}
+
+.download-table td:first-child {
+  font-weight: 650;
+}
+
+table {
+  font-size: 0.94rem;
+}
+
+@media (max-width: 900px) {
+  .quick-grid,
+  .week-focus,
+  .role-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .module-band {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .module-meta {
+    text-align: left;
+  }
+
+  .course-hero {
+    padding: 2.2rem 1rem 2rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-columns {
+    display: block;
+    max-width: 100vw;
+    min-width: 0;
+  }
+
+  body:not(.home-page) main.content {
+    max-width: 100%;
+    min-width: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 100%;
+  }
+
+  body:not(.home-page) p,
+  body:not(.home-page) li {
+    max-width: 100%;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .role-card,
+  .resource-card {
+    min-height: 0;
+  }
+
+  .jump-list a,
+  .mini-actions a {
+    width: 100%;
+  }
+}

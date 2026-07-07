@@ -1,0 +1,662 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATE-2105: Módulo 2",
+    "section": "",
+    "text": "Módulo 2: Redes neuronales desde primeros principios",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#propósito",
+    "href": "index.html#propósito",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Propósito",
+    "text": "Propósito\nEste módulo cubre las semanas 7 a 10 del curso. Su función es hacer explícita la transición desde modelos lineales hacia modelos no lineales entrenados por optimización.\nEl estudiante no debe salir de este bloque pensando que una red neuronal es una caja negra. Debe poder ver la red como una composición de funciones diferenciables:\nentrada -&gt; transformación lineal -&gt; activación -&gt; transformación lineal -&gt; pérdida\nLa meta es que pueda implementar una red pequeña desde cero, derivar las piezas principales de backpropagation, diagnosticar entrenamiento y luego reconocer cómo PyTorch automatiza el mismo proceso.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#semanas-cubiertas",
+    "href": "index.html#semanas-cubiertas",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Semanas cubiertas",
+    "text": "Semanas cubiertas\n\n\n\n\n\n\n\n\n\nSemana\nTema\nArtefacto central\nEvaluación / hito\n\n\n\n\n7\nPerceptron, neurona logística y red de una capa oculta\nForward propagation desde cero\nEjercicio formativo\n\n\n8\nBackpropagation y regla de la cadena\nDerivación + notebook NumPy\nLab 3 publicado\n\n\n9\nActivaciones, inicialización, regularización y diagnóstico\nExperimentos de entrenamiento\nCheckpoint técnico de proyecto\n\n\n10\nOptimizadores y PyTorch\nComparación NumPy/PyTorch\nEntrega Lab 3",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#resultados-de-aprendizaje",
+    "href": "index.html#resultados-de-aprendizaje",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Resultados de aprendizaje",
+    "text": "Resultados de aprendizaje\nAl finalizar el módulo, el estudiante estará en capacidad de:\n\nExplicar una red neuronal como composición de funciones parametrizadas.\nImplementar forward propagation para una red densa de una capa oculta.\nDerivar y programar backpropagation para softmax y entropía cruzada.\nDiagnosticar saturación, mala inicialización, overfitting y curvas de pérdida.\nComparar una implementación NumPy con una implementación equivalente en PyTorch.\nComunicar cuándo una red pequeña aporta valor frente a un modelo lineal.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Evaluación",
+    "text": "Evaluación\nEl módulo tiene un laboratorio principal:\n\nLab 3: red neuronal desde cero.\n\n85% autograded: one-hot, activaciones, softmax, pérdida, forward, backward, actualización y predicción.\n15% manual: interpretación de entrenamiento, diagnóstico y comparación contra referencia profesional.\n\n\nEl checkpoint técnico del proyecto se evalúa con rúbrica breve: mejora respecto al baseline, análisis de errores, plan de siguiente experimento y riesgos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#datasets",
+    "href": "index.html#datasets",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Datasets",
+    "text": "Datasets\nNo se requiere internet para ejecutar el módulo.\n\nDatos sintéticos con semilla fija para verificar derivaciones.\nsklearn.datasets.load_digits para clasificación multiclase de imágenes 8x8.\nSubconjuntos pequeños cuando se necesite mantener notebooks rápidos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#principio-de-diseño",
+    "href": "index.html#principio-de-diseño",
+    "title": "MATE-2105: Módulo 2",
+    "section": "Principio de diseño",
+    "text": "Principio de diseño\n\n\n\n\n\n\nNota\n\n\n\nPrimero hacemos visible el algoritmo. Después usamos PyTorch.\n\n\nEl objetivo no es competir con librerías profesionales, sino entender qué abstraen.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 2: Redes neuronales desde primeros principios</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html",
+    "href": "capitulo01_perceptron_forward.html",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "",
+    "text": "Pregunta aplicada\nSuponga que tenemos imágenes pequeñas de dígitos escritos a mano. Una regresión logística puede separar dos clases simples, pero ¿qué ocurre cuando la frontera entre clases requiere interacciones no lineales entre pixeles?\nUna red neuronal densa permite aprender representaciones intermedias. La idea central es sencilla:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#pregunta-aplicada",
+    "href": "capitulo01_perceptron_forward.html#pregunta-aplicada",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "",
+    "text": "Una red neuronal feedforward es una composición de transformaciones lineales y funciones no lineales.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#perceptron-como-unidad-básica",
+    "href": "capitulo01_perceptron_forward.html#perceptron-como-unidad-básica",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Perceptron como unidad básica",
+    "text": "Perceptron como unidad básica\nDada una observación (x ^p), un perceptron calcula:\n[ z = w^x + b. ]\nSi se aplica una regla de decisión:\n[ y =\n\\[\\begin{cases}\n1, & z \\ge 0,\\\\\n0, & z &lt; 0,\n\\end{cases}\\]\n]\nobtenemos un clasificador lineal.\n\n\n\n\n\n\nAdvertencia\n\n\n\nEl perceptron clásico produce una decisión dura. Para entrenar con gradientes resulta más conveniente usar funciones diferenciables y pérdidas suaves.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#neurona-logística",
+    "href": "capitulo01_perceptron_forward.html#neurona-logística",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Neurona logística",
+    "text": "Neurona logística\nLa regresión logística ya puede verse como una neurona:\n[ p = (w^x + b), (z)=. ]\nLa salida (p) se interpreta como probabilidad de la clase positiva. Esta interpretación conecta el Módulo 1 con redes neuronales:\nregresión logística = una capa lineal + sigmoide",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#de-una-neurona-a-una-capa",
+    "href": "capitulo01_perceptron_forward.html#de-una-neurona-a-una-capa",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "De una neurona a una capa",
+    "text": "De una neurona a una capa\nUna capa densa con (h) neuronas calcula:\n[ Z^{[1]} = XW^{[1]} + b^{[1]}, ]\ndonde:\n\n(X ^{n p});\n(W^{[1]} ^{p h});\n(b^{[1]} ^{h});\n(Z^{[1]} ^{n h}).\n\nLuego aplicamos una activación elemento a elemento:\n[ A^{[1]} = g(Z^{[1]}). ]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#red-de-una-capa-oculta",
+    "href": "capitulo01_perceptron_forward.html#red-de-una-capa-oculta",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Red de una capa oculta",
+    "text": "Red de una capa oculta\nPara clasificación multiclase con (k) clases:\n[ Z^{[1]} = XW^{[1]} + b^{[1]}, ]\n[ A^{[1]} = (Z^{[1]}), ]\n[ Z^{[2]} = A{[1]}W{[2]} + b^{[2]}, ]\n[ P = (Z^{[2]}). ]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#relu",
+    "href": "capitulo01_perceptron_forward.html#relu",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "ReLU",
+    "text": "ReLU\n[ (z)=(0,z). ]\nReLU introduce no linealidad y evita parte de la saturación que aparece con sigmoides en redes profundas.\nSu derivada por partes es:\n[ ’(z)=\n\\[\\begin{cases}\n1, & z&gt;0,\\\\\n0, & z \\le 0.\n\\end{cases}\\]\n]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#softmax",
+    "href": "capitulo01_perceptron_forward.html#softmax",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Softmax",
+    "text": "Softmax\nPara logits (z_1,,z_k):\n[ (z)_j = . ]\nEn implementación usamos una versión estable:\nshifted = Z - np.max(Z, axis=1, keepdims=True)\nexp_scores = np.exp(shifted)\nprobs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)\nRestar el máximo no cambia las probabilidades, pero evita overflow.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#entropía-cruzada-multiclase",
+    "href": "capitulo01_perceptron_forward.html#entropía-cruzada-multiclase",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Entropía cruzada multiclase",
+    "text": "Entropía cruzada multiclase\nSi (Y) es one-hot y (P) son probabilidades:\n[ J = -{i=1}^n{j=1}^k Y_{ij}(P_{ij}). ]\nLa pérdida premia asignar alta probabilidad a la clase correcta.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#ejemplo-resuelto-dimensiones",
+    "href": "capitulo01_perceptron_forward.html#ejemplo-resuelto-dimensiones",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Ejemplo resuelto: dimensiones",
+    "text": "Ejemplo resuelto: dimensiones\nSuponga:\n\n(n=100) observaciones;\n(p=64) pixeles por imagen;\n(h=32) neuronas ocultas;\n(k=10) clases.\n\nEntonces:\n\n\n\nObjeto\nForma\n\n\n\n\n(X)\n(100 )\n\n\n(W^{[1]})\n(64 )\n\n\n(b^{[1]})\n(32)\n\n\n(A^{[1]})\n(100 )\n\n\n(W^{[2]})\n(32 )\n\n\n(P)\n(100 )",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#ejercicios",
+    "href": "capitulo01_perceptron_forward.html#ejercicios",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Si (X) tiene forma (250, 20) y una capa oculta tiene 12 neuronas, ¿qué forma deben tener W1, b1 y Z1?\n\n\nEjercicio 2. Explique por qué una red sin activaciones no lineales se reduce a una transformación lineal.\n\n\nEjercicio 3. Implemente una función softmax_stable(Z) y verifique que cada fila suma 1.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html",
+    "href": "capitulo02_backpropagation.html",
+    "title": "Backpropagation",
+    "section": "",
+    "text": "Pregunta aplicada\nForward propagation nos dice cómo una red produce predicciones. Pero entrenar exige responder:\nBackpropagation es una forma eficiente de aplicar la regla de la cadena a una composición de funciones.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#pregunta-aplicada",
+    "href": "capitulo02_backpropagation.html#pregunta-aplicada",
+    "title": "Backpropagation",
+    "section": "",
+    "text": "¿Cómo cambia la pérdida si modificamos cada peso de la red?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#el-grafo-de-cómputo",
+    "href": "capitulo02_backpropagation.html#el-grafo-de-cómputo",
+    "title": "Backpropagation",
+    "section": "El grafo de cómputo",
+    "text": "El grafo de cómputo\nPara una red de una capa oculta:\nX -&gt; Z1 -&gt; A1 -&gt; Z2 -&gt; P -&gt; J\nCada flecha representa una operación diferenciable o casi diferenciable. Backpropagation recorre el grafo en sentido inverso:\nJ -&gt; P -&gt; Z2 -&gt; A1 -&gt; Z1 -&gt; parámetros",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#gradiente-de-softmax-con-entropía-cruzada",
+    "href": "capitulo02_backpropagation.html#gradiente-de-softmax-con-entropía-cruzada",
+    "title": "Backpropagation",
+    "section": "Gradiente de softmax con entropía cruzada",
+    "text": "Gradiente de softmax con entropía cruzada\nPara softmax + entropía cruzada, el gradiente se simplifica:\n[ = (P - Y). ]\nEsta fórmula es una de las razones por las que esta combinación es estándar en clasificación multiclase.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#gradientes-de-la-segunda-capa",
+    "href": "capitulo02_backpropagation.html#gradientes-de-la-segunda-capa",
+    "title": "Backpropagation",
+    "section": "Gradientes de la segunda capa",
+    "text": "Gradientes de la segunda capa\nCon:\n[ Z^{[2]} = A{[1]}W{[2]} + b^{[2]}, ]\ndefinimos:\n[ dZ^{[2]} = (P - Y). ]\nEntonces:\n[ dW^{[2]} = (A{[1]})dZ^{[2]}, ]\n[ db^{[2]} = _i dZ^{[2]}_i. ]",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#propagar-hacia-la-capa-oculta",
+    "href": "capitulo02_backpropagation.html#propagar-hacia-la-capa-oculta",
+    "title": "Backpropagation",
+    "section": "Propagar hacia la capa oculta",
+    "text": "Propagar hacia la capa oculta\nPrimero pasamos el gradiente hacia las activaciones:\n[ dA^{[1]} = dZ{[2]}(W{[2]})^. ]\nLuego atravesamos ReLU:\n[ dZ^{[1]} = dA^{[1]} {Z^{[1]} &gt; 0}. ]\nFinalmente:\n[ dW^{[1]} = XdZ{[1]}, ]\n[ db^{[1]} = _i dZ^{[1]}_i. ]",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#backpropagation-como-algoritmo",
+    "href": "capitulo02_backpropagation.html#backpropagation-como-algoritmo",
+    "title": "Backpropagation",
+    "section": "Backpropagation como algoritmo",
+    "text": "Backpropagation como algoritmo\ndef backward_pass(X, Y, cache, params):\n    P = cache[\"P\"]\n    A1 = cache[\"A1\"]\n    Z1 = cache[\"Z1\"]\n    W2 = params[\"W2\"]\n\n    dZ2 = (P - Y) / len(X)\n    dW2 = A1.T @ dZ2\n    db2 = np.sum(dZ2, axis=0)\n\n    dA1 = dZ2 @ W2.T\n    dZ1 = dA1 * (Z1 &gt; 0)\n    dW1 = X.T @ dZ1\n    db1 = np.sum(dZ1, axis=0)\n\n    return {\"W1\": dW1, \"b1\": db1, \"W2\": dW2, \"b2\": db2}",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#verificación-por-diferencias-finitas",
+    "href": "capitulo02_backpropagation.html#verificación-por-diferencias-finitas",
+    "title": "Backpropagation",
+    "section": "Verificación por diferencias finitas",
+    "text": "Verificación por diferencias finitas\nUna forma de detectar errores en backpropagation es comparar contra una aproximación numérica:\n[ . ]\nEsta técnica no se usa para entrenar porque es costosa, pero es excelente para depurar.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#errores-frecuentes",
+    "href": "capitulo02_backpropagation.html#errores-frecuentes",
+    "title": "Backpropagation",
+    "section": "Errores frecuentes",
+    "text": "Errores frecuentes\n\nOlvidar dividir por (n).\nConfundir Y - P con P - Y.\nSumar db sin axis=0.\nUsar las formas transpuestas incorrectas.\nRecalcular forward dentro de backward sin guardar cache.\nNo estabilizar softmax.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#ejercicios",
+    "href": "capitulo02_backpropagation.html#ejercicios",
+    "title": "Backpropagation",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Derive la forma de dW2 a partir de Z2 = A1 @ W2 + b2.\n\n\nEjercicio 2. Explique por qué dZ1 = dA1 * (Z1 &gt; 0) para ReLU.\n\n\nEjercicio 3. Diseñe una prueba pequeña para verificar que backward_pass devuelve gradientes con la misma forma que los parámetros.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html",
+    "href": "capitulo03_diagnostico_regularizacion.html",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "",
+    "text": "Pregunta aplicada\nUna red puede fallar aunque el código no tenga errores. El entrenamiento puede divergir, saturarse, memorizar datos o quedarse sin aprender.\nEl trabajo profesional no termina al implementar backpropagation:",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#pregunta-aplicada",
+    "href": "capitulo03_diagnostico_regularizacion.html#pregunta-aplicada",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "",
+    "text": "hay que diagnosticar el entrenamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#activaciones",
+    "href": "capitulo03_diagnostico_regularizacion.html#activaciones",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Activaciones",
+    "text": "Activaciones\n\n\n\nActivación\nFórmula\nRiesgo principal\n\n\n\n\nSigmoide\n((z))\nsaturación y gradientes pequeños\n\n\nTanh\n((z))\nsaturación en valores extremos\n\n\nReLU\n((0,z))\nneuronas muertas si muchos (z )\n\n\n\nReLU suele ser una buena opción inicial en redes densas pequeñas por simplicidad y estabilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#inicialización",
+    "href": "capitulo03_diagnostico_regularizacion.html#inicialización",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Inicialización",
+    "text": "Inicialización\nSi los pesos empiezan demasiado grandes, las activaciones pueden saturarse. Si empiezan demasiado pequeños, las señales pueden desaparecer.\nUna regla práctica para ReLU es inicialización He:\n[ W (0, ). ]\nEn NumPy:\nW = rng.normal(0, np.sqrt(2 / fan_in), size=(fan_in, fan_out))",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#regularización-l2-en-redes",
+    "href": "capitulo03_diagnostico_regularizacion.html#regularización-l2-en-redes",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Regularización L2 en redes",
+    "text": "Regularización L2 en redes\nLa pérdida puede incluir una penalización:\n[ J_{} = J + (|W^{[1]}|_F^2 + |W^{[2]}|_F^2). ]\nEn los gradientes:\n[ dW^{[]} dW^{[]} + W^{[]}. ]\nNo penalizamos sesgos por defecto.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#dropout-como-idea",
+    "href": "capitulo03_diagnostico_regularizacion.html#dropout-como-idea",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Dropout como idea",
+    "text": "Dropout como idea\nDropout apaga unidades al azar durante entrenamiento. En este curso se introduce conceptualmente, no como requisito central del autograder.\nSu intuición:\n\nevita dependencia excesiva de una neurona;\nfunciona como ensamble implícito;\nrequiere cuidado al pasar de entrenamiento a evaluación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#curvas-de-entrenamiento",
+    "href": "capitulo03_diagnostico_regularizacion.html#curvas-de-entrenamiento",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Curvas de entrenamiento",
+    "text": "Curvas de entrenamiento\nUna curva útil muestra:\n\npérdida de entrenamiento;\npérdida de validación;\nmétrica principal;\nnúmero de épocas;\nconfiguración del experimento.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#diagnósticos-comunes",
+    "href": "capitulo03_diagnostico_regularizacion.html#diagnósticos-comunes",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Diagnósticos comunes",
+    "text": "Diagnósticos comunes\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico probable\nAcción\n\n\n\n\nTrain y validación altos\nunderfitting\nmás capacidad, más épocas, revisar features\n\n\nTrain bajo y validación alto\noverfitting\nregularización, menos capacidad, más datos\n\n\nPérdida explota\nlearning rate alto o gradiente incorrecto\nreducir paso, revisar backward\n\n\nPérdida plana\npaso bajo, mala inicialización o activaciones saturadas\najustar inicialización y paso",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#checkpoint-técnico-del-proyecto",
+    "href": "capitulo03_diagnostico_regularizacion.html#checkpoint-técnico-del-proyecto",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Checkpoint técnico del proyecto",
+    "text": "Checkpoint técnico del proyecto\nEn semana 9, el proyecto debe mostrar avance real desde el baseline:\n\nMétrica de baseline.\nModelo mejorado o experimento técnico nuevo.\nAnálisis de errores.\nDecisión de siguiente experimento.\nRiesgo técnico o de datos.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#ejercicios",
+    "href": "capitulo03_diagnostico_regularizacion.html#ejercicios",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Explique por qué una red con train accuracy 99% y validation accuracy 70% no debe reportarse como exitosa.\n\n\nEjercicio 2. Diseñe un experimento para comparar dos valores de lambda sin usar el conjunto de test.\n\n\nEjercicio 3. ¿Qué señal en la curva de pérdida sugeriría revisar el learning rate antes de cambiar la arquitectura?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html",
+    "href": "capitulo04_optimizadores_pytorch.html",
+    "title": "Optimizadores y PyTorch",
+    "section": "",
+    "text": "Pregunta aplicada\nHasta ahora actualizamos parámetros con descenso del gradiente simple:\n[ - J(). ]\nPero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#mini-batch-gradient-descent",
+    "href": "capitulo04_optimizadores_pytorch.html#mini-batch-gradient-descent",
+    "title": "Optimizadores y PyTorch",
+    "section": "Mini-batch gradient descent",
+    "text": "Mini-batch gradient descent\nEn lugar de usar todo el dataset en cada paso, usamos lotes pequeños:\ndataset -&gt; mini-batches -&gt; actualización por batch -&gt; época completa\nEsto reduce costo por actualización y agrega ruido útil al entrenamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#momentum",
+    "href": "capitulo04_optimizadores_pytorch.html#momentum",
+    "title": "Optimizadores y PyTorch",
+    "section": "Momentum",
+    "text": "Momentum\nMomentum acumula una dirección suavizada:\n[ v_t = v_{t-1} + (1-)J(_t), ]\n[ _{t+1} = _t - v_t. ]\nIntuición: evita que cada gradiente aislado cambie la dirección con demasiada fuerza.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#rmsprop-y-adam",
+    "href": "capitulo04_optimizadores_pytorch.html#rmsprop-y-adam",
+    "title": "Optimizadores y PyTorch",
+    "section": "RMSProp y Adam",
+    "text": "RMSProp y Adam\nRMSProp escala cada coordenada según magnitudes recientes del gradiente.\nAdam combina:\n\npromedio móvil del gradiente;\npromedio móvil del gradiente al cuadrado;\ncorrección de sesgo al inicio.\n\nEn práctica, Adam suele ser un buen punto de partida, pero no elimina la necesidad de validar learning rate, regularización y arquitectura.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#pytorch-qué-automatiza",
+    "href": "capitulo04_optimizadores_pytorch.html#pytorch-qué-automatiza",
+    "title": "Optimizadores y PyTorch",
+    "section": "PyTorch: qué automatiza",
+    "text": "PyTorch: qué automatiza\nPyTorch ofrece:\n\ntensores;\nautograd;\nmódulos nn.Module;\npérdidas;\noptimizadores;\nentrenamiento en CPU/GPU.\n\nEl ciclo conceptual no cambia:\nforward -&gt; loss -&gt; backward -&gt; optimizer.step()",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#loop-mínimo",
+    "href": "capitulo04_optimizadores_pytorch.html#loop-mínimo",
+    "title": "Optimizadores y PyTorch",
+    "section": "Loop mínimo",
+    "text": "Loop mínimo\nmodel.train()\nfor X_batch, y_batch in loader:\n    optimizer.zero_grad()\n    logits = model(X_batch)\n    loss = criterion(logits, y_batch)\n    loss.backward()\n    optimizer.step()\nLa diferencia es que PyTorch construye el grafo de cómputo y calcula los gradientes.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#comparación-justa",
+    "href": "capitulo04_optimizadores_pytorch.html#comparación-justa",
+    "title": "Optimizadores y PyTorch",
+    "section": "Comparación justa",
+    "text": "Comparación justa\nAl comparar NumPy y PyTorch:\n\nuse la misma partición de datos;\nuse la misma métrica;\nreporte semilla;\ncompare curvas o resultados finales;\nno confunda diferencia de implementación con diferencia de modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#ejercicios",
+    "href": "capitulo04_optimizadores_pytorch.html#ejercicios",
+    "title": "Optimizadores y PyTorch",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Identifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.\n\n\nEjercicio 2. Explique por qué Adam no reemplaza la validación.\n\n\nEjercicio 3. Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html",
+    "href": "capitulo05_ejercicios_integradores.html",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "Bloque A: dimensiones y forward",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#bloque-a-dimensiones-y-forward",
+    "href": "capitulo05_ejercicios_integradores.html#bloque-a-dimensiones-y-forward",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "A1. Una red recibe X.shape == (400, 64), tiene 20 unidades ocultas y 10 clases. Escriba las formas de W1, b1, Z1, A1, W2, b2, Z2 y P.\n\n\nA2. Explique por qué softmax se aplica por fila cuando Z2 tiene forma (n, k).\n\n\nA3. Muestre con una frase por qué restar max(Z, axis=1) antes de exp no cambia softmax.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#bloque-b-backpropagation",
+    "href": "capitulo05_ejercicios_integradores.html#bloque-b-backpropagation",
+    "title": "Ejercicios integradores",
+    "section": "Bloque B: backpropagation",
+    "text": "Bloque B: backpropagation\n\nB1. Partiendo de dZ2 = (P - Y) / n, derive las formas de dW2 y db2.\n\n\nB2. Describa qué debe guardarse en cache durante forward para poder ejecutar backward sin recalcular todo.\n\n\nB3. Diseñe una prueba de gradientes por diferencias finitas para un solo peso de W1.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#bloque-c-diagnóstico",
+    "href": "capitulo05_ejercicios_integradores.html#bloque-c-diagnóstico",
+    "title": "Ejercicios integradores",
+    "section": "Bloque C: diagnóstico",
+    "text": "Bloque C: diagnóstico\n\nC1. Una red tiene pérdida de entrenamiento decreciente y pérdida de validación creciente después de la época 20. ¿Qué diagnóstico haría y qué dos acciones probaría?\n\n\nC2. Si al aumentar el learning rate la pérdida explota, ¿qué evidencia reportaría y qué ajuste haría?\n\n\nC3. Explique por qué un checkpoint técnico de proyecto debe incluir análisis de errores, no solo una métrica agregada.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#bloque-d-pytorch",
+    "href": "capitulo05_ejercicios_integradores.html#bloque-d-pytorch",
+    "title": "Ejercicios integradores",
+    "section": "Bloque D: PyTorch",
+    "text": "Bloque D: PyTorch\n\nD1. En un loop de entrenamiento de PyTorch, explique el propósito de optimizer.zero_grad().\n\n\nD2. ¿Qué significa que loss.backward() use diferenciación automática?\n\n\nD3. Proponga dos razones por las que una implementación NumPy y una PyTorch podrían producir métricas distintas aun usando el mismo dataset.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html",
+    "href": "apendice_formulario_respuestas.html",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "",
+    "text": "Fórmulas clave",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#fórmulas-clave",
+    "href": "apendice_formulario_respuestas.html#fórmulas-clave",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "",
+    "text": "Forward\n[ Z^{[1]} = XW^{[1]} + b^{[1]} ]\n[ A^{[1]} = (Z^{[1]}) ]\n[ Z^{[2]} = A{[1]}W{[2]} + b^{[2]} ]\n[ P = (Z^{[2]}) ]\n\n\nSoftmax\n[ (z)_j = ]\n\n\nCross-entropy\n[ J = -{i=1}^n{j=1}^k Y_{ij}(P_{ij}) ]\n\n\nGradientes\n[ dZ^{[2]} = (P - Y) ]\n[ dW^{[2]} = (A{[1]})dZ^{[2]}, db^{[2]} = _i dZ^{[2]}_i ]\n[ dA^{[1]} = dZ{[2]}(W{[2]})^ ]\n[ dZ^{[1]} = dA^{[1]} {Z^{[1]} &gt; 0} ]\n[ dW^{[1]} = XdZ{[1]}, db^{[1]} = _i dZ^{[1]}_i ]",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\n\nCapítulo 1, ejercicio 2\nSi no hay activaciones no lineales, una composición de transformaciones lineales sigue siendo una transformación lineal. Por ejemplo:\n[ (XW_1)W_2 = X(W_1W_2). ]\nLa red puede reescribirse como un solo modelo lineal.\n\n\nCapítulo 2, ejercicio 2\nReLU vale (z) cuando (z&gt;0) y vale 0 cuando (z). Por tanto, su derivada es 1 en la región positiva y 0 en la región no positiva. En código, (Z1 &gt; 0) actúa como máscara.\n\n\nCapítulo 3, ejercicio 1\nTrain accuracy 99% y validation accuracy 70% sugiere overfitting. El modelo aprendió patrones específicos del entrenamiento que no generalizan. Antes de reportarlo como mejora habría que revisar regularización, capacidad, partición de datos y análisis de errores.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab03_redes_desde_cero.html",
+    "href": "laboratorios/lab03_redes_desde_cero.html",
+    "title": "Lab 3: Red neuronal desde cero",
+    "section": "",
+    "text": "Propósito\nEste laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.\nLa pregunta técnica central es:\n\n¿La red aprende por backpropagation de forma verificable y puedes diagnosticar si su entrenamiento es confiable?\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab03_redes_desde_cero.ipynb\nNo cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.\n\n\nFlujo recomendado\n\nEjecuta el notebook completo para identificar celdas incompletas.\nImplementa primero one_hot, relu, relu_derivative, softmax.\nImplementa cross_entropy_loss con estabilización numérica.\nImplementa init_parameters con semilla y escalamiento adecuado.\nImplementa forward_pass.\nImplementa backward_pass revisando formas.\nImplementa update_parameters y predict.\nEntrena en un subconjunto de load_digits.\nCompara contra sklearn.neural_network.MLPClassifier o una referencia simple.\nEscribe interpretación final: convergencia, limitación y siguiente experimento.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nEvidencia esperada\nCalificación\n\n\n\n\nOne-hot\nmatriz (n, k) correcta\nAutomática\n\n\nReLU\nactivación y derivada correctas\nAutomática\n\n\nSoftmax\nfilas suman 1 y es estable\nAutomática\n\n\nEntropía cruzada\npérdida positiva y correcta\nAutomática\n\n\nInicialización\nformas correctas y reproducibilidad\nAutomática\n\n\nForward\ncache completo y probabilidades válidas\nAutomática\n\n\nBackward\ngradientes con formas correctas y valores consistentes\nAutomática\n\n\nActualización/predicción\nparámetros actualizados y clases predichas\nAutomática\n\n\n\n\n\nParte manual\nIncluye una respuesta corta:\n\n¿Qué evidencia muestra que la red aprendió y cuál es una limitación del experimento?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no usa evidencia del notebook\n\n\n1\nMenciona accuracy o pérdida, pero sin diagnóstico ni limitación\n\n\n2\nConecta curva de pérdida, métrica de validación, comparación y una limitación concreta\n\n\n\n\n\nErrores frecuentes\n\nNo estabilizar softmax.\nOlvidar dividir dZ2 por n.\nDevolver gradientes con formas transpuestas.\nPenalizar sesgos con L2 sin justificarlo.\nNo guardar Z1, A1, Z2 y P en cache.\nComparar contra test mientras se ajustan hiperparámetros.\nEntregar sin reiniciar kernel y ejecutar todo.\n\n\n\nAntes de entregar\n¿Mi notebook corre completo?\n¿Cada función devuelve la forma esperada?\n¿Softmax suma 1 por fila?\n¿La pérdida baja durante entrenamiento?\n¿La respuesta manual usa evidencia y no solo opinión?",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Lab 3: Red neuronal desde cero</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html",
+    "href": "recursos/guia_autograding.html",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "",
+    "text": "Plataforma\nEl Módulo 2 usa el mismo patrón que el Módulo 1:",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#plataforma",
+    "href": "recursos/guia_autograding.html#plataforma",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "",
+    "text": "notebooks de estudiante;\nnotebooks de solución;\ntests privados por asignación;\nrunner compatible con Gradescope;\nejecución local de fallback.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#asignación",
+    "href": "recursos/guia_autograding.html#asignación",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "Asignación",
+    "text": "Asignación\n\n\n\nCódigo\nArtefacto\nAutograded\nManual\n\n\n\n\nlab03\nRed neuronal desde cero\n85%\n15%",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#comando-local",
+    "href": "recursos/guia_autograding.html#comando-local",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "Comando local",
+    "text": "Comando local\npython scripts/run_local_autograder.py lab03 laboratorios/lab03_redes_desde_cero_solucion.ipynb",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#construcción-de-zip-gradescope",
+    "href": "recursos/guia_autograding.html#construcción-de-zip-gradescope",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "Construcción de zip Gradescope",
+    "text": "Construcción de zip Gradescope\npython scripts/build_gradescope_autograders.py\nEl zip queda en:\nautograding/dist/lab03_gradescope_autograder.zip",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#política-de-privacidad",
+    "href": "recursos/guia_autograding.html#política-de-privacidad",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "Política de privacidad",
+    "text": "Política de privacidad\nNo publicar en _site:\n\nnotebooks de solución;\ncarpeta autograding;\nrequirements_autograding.txt;\npaquete docente privado.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#criterio-manual-mínimo",
+    "href": "recursos/guia_autograding.html#criterio-manual-mínimo",
+    "title": "Guía de autograding del Módulo 2",
+    "section": "Criterio manual mínimo",
+    "text": "Criterio manual mínimo\nLa revisión manual solo evalúa si el estudiante puede interpretar evidencia:\n\ncurva de pérdida;\nmétrica de validación;\ncomparación profesional;\nlimitación o siguiente experimento.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de autograding del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo02.html",
+    "href": "recursos/guia_proyecto_modulo02.html",
+    "title": "Guía de proyecto: checkpoint técnico del Módulo 2",
+    "section": "",
+    "text": "Propósito\nEl checkpoint técnico de la semana 9 verifica que el proyecto avanzó desde una propuesta y un baseline hacia un experimento mejorado y diagnosticable.\nNo se exige que el mejor modelo sea una red neuronal. Se exige que el grupo pueda justificar la siguiente decisión técnica.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: checkpoint técnico del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo02.html#entrega",
+    "href": "recursos/guia_proyecto_modulo02.html#entrega",
+    "title": "Guía de proyecto: checkpoint técnico del Módulo 2",
+    "section": "Entrega",
+    "text": "Entrega\nUn documento breve o sección del repositorio con:\n\nPregunta aplicada vigente.\nDataset y partición usada.\nBaseline de semana 6.\nNuevo experimento o modelo mejorado.\nMétrica principal y métrica secundaria.\nAnálisis de errores.\nLimitación principal.\nSiguiente experimento propuesto.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: checkpoint técnico del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo02.html#rúbrica",
+    "href": "recursos/guia_proyecto_modulo02.html#rúbrica",
+    "title": "Guía de proyecto: checkpoint técnico del Módulo 2",
+    "section": "Rúbrica",
+    "text": "Rúbrica\n\n\n\nCriterio\nPuntaje\n\n\n\n\nCompara contra baseline con misma métrica\n2\n\n\nUsa partición clara sin leakage\n2\n\n\nPresenta diagnóstico de errores o casos difíciles\n2\n\n\nJustifica siguiente experimento\n2\n\n\nReconoce limitaciones y riesgos\n2",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: checkpoint técnico del Módulo 2</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo02.html#revisión-docente",
+    "href": "recursos/guia_proyecto_modulo02.html#revisión-docente",
+    "title": "Guía de proyecto: checkpoint técnico del Módulo 2",
+    "section": "Revisión docente",
+    "text": "Revisión docente\nTiempo esperado por grupo: 5 minutos.\nLa retroalimentación debe enfocarse en una sola decisión accionable:\n\ncambiar métrica;\ncorregir partición;\nmejorar baseline;\nagregar análisis de errores;\nreducir alcance del proyecto;\npreparar reproducibilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Guía de proyecto: checkpoint técnico del Módulo 2</span>"
+    ]
+  }
+]

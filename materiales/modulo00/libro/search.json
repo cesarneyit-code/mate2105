@@ -1,0 +1,532 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATE-2105: Módulo 0",
+    "section": "",
+    "text": "Proposito del módulo\nEste módulo abre el curso MATE-2105: Matemáticas y Algoritmos en Ciencia de Datos Aplicada.\nLa primera semana no es una sesión administrativa. Es el primer ensayo del modo de trabajo del curso: partir de una pregunta aplicada, mirar datos reales, construir un primer modelo, medirlo, diagnosticarlo y explicar qué decisión técnica se puede defender.\nEl módulo tiene cuatro propositos:",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 0: Arranque y lenguaje común</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#ruta-del-estudiante",
+    "href": "index.html#ruta-del-estudiante",
+    "title": "MATE-2105: Módulo 0",
+    "section": "Ruta del estudiante",
+    "text": "Ruta del estudiante\n\n\n\n\n\n\n\n\n\nMomento\nQué hacer\nArtefacto\nTiempo sugerido\n\n\n\n\nAntes de clase\nLeer el capítulo tipo libro\ncapitulo00_libro_estudiantes.qmd\n45-60 min\n\n\nAntes de clase\nRevisar la orientación del curso\ntexto_estudiantes.qmd\n15-20 min\n\n\nAntes o durante clase\nConfigurar entorno o identificar bloqueo técnico\nrecursos/configuracion_entorno.qmd\n20-40 min\n\n\nDurante clase\nSeguir el live coding del profesor\nnotebooks/semana01_live_coding.ipynb\nen clase\n\n\nDurante/después de clase\nCompletar la entrega diagnóstica\nlaboratorios/semana01_lab.ipynb\n60-90 min\n\n\nDespués de clase\nProponer ideas iniciales de proyecto\nrecursos/guia_proyecto.qmd\n20-30 min\n\n\nPermanente\nConsultar reglas de uso de IA\nrecursos/politica_ia.qmd\n10 min",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 0: Arranque y lenguaje común</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#materiales-docentes",
+    "href": "index.html#materiales-docentes",
+    "title": "MATE-2105: Módulo 0",
+    "section": "Materiales docentes",
+    "text": "Materiales docentes\n\n\n\n\n\n\n\nArtefacto\nUso\n\n\n\n\nslides/semana01_presentacion.qmd\nPresentación de clase\n\n\ndocente/semana01_guion_clase.md\nGuion minuto a minuto para el profesor\n\n\ndocente/semana01_notas_docente.md\nNotas pedagogicas y técnicas para conducir la semana\n\n\ndocente/checklist_modulo00.md\nLista operativa antes, durante y después de clase\n\n\nlaboratorios/semana01_rubrica.md\nRúbrica del laboratorio",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 0: Arranque y lenguaje común</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html",
+    "href": "capitulo00_libro_estudiantes.html",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "",
+    "text": "Vista previa\nEste capítulo introduce el lenguaje básico que usaremos durante el curso. Su función es parecida a la de un capítulo inicial de un libro de cálculo: no pretende resolver todos los problemas del semestre, sino fijar los objetos, la notación, los ejemplos y los hábitos de pensamiento que se repetirán una y otra vez.\nEn cálculo, antes de derivar funciones complicadas, uno aprende qué es una función, qué significa una gráfica, qué es una tasa de cambió y qué información entrega una aproximación. En ciencia de datos aplicada ocurre algo similar: antes de estudiar regresión, redes neuronales o PCA, necesitamos entender qué es un dataset, qué es un modelo, qué significa entrenar, cómo se mide el desempeño y por qué una métrica no basta para tomar una decisión.\nAl terminar este capítulo deberias poder:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.1-una-tabla-pequeña",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.1-una-tabla-pequeña",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.1: una tabla pequeña",
+    "text": "Ejemplo 0.1: una tabla pequeña\nSupongamos que queremos estudiar viviendas. Un dataset pequeño podría tener esta forma:\n\n\n\nvivienda\narea_m2\nhabitaciones\nantiguedad\nprecio_millones\n\n\n\n\n1\n62\n2\n12\n310\n\n\n2\n85\n3\n5\n455\n\n\n3\n47\n1\n20\n240\n\n\n4\n110\n4\n8\n620\n\n\n\nSi la pregunta es predecir precio_millones, entonces:\n\nuna observación es una vivienda;\nlas variables de entrada podrían ser area_m2, habitaciones y antiguedad;\nla variable objetivo sería precio_millones.\n\nEn notación matricial escribimos:\n\\[\nX =\n\\begin{bmatrix}\n62 & 2 & 12 \\\\\n85 & 3 & 5 \\\\\n47 & 1 & 20 \\\\\n110 & 4 & 8\n\\end{bmatrix},\n\\qquad\ny =\n\\begin{bmatrix}\n310 \\\\\n455 \\\\\n240 \\\\\n620\n\\end{bmatrix}.\n\\]\nLa matriz X contiene las variables de entrada. El vector y contiene el objetivo.\n\n\n\n\n\n\nTipLectura de la notación\n\n\n\nSi X tiene n filas y d columnas, diremos que hay n observaciones y d variables de entrada. En símbolos, X tiene forma n x d.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#punto-de-control-0.1",
+    "href": "capitulo00_libro_estudiantes.html#punto-de-control-0.1",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Punto de control 0.1",
+    "text": "Punto de control 0.1\nEn el ejemplo de viviendas:\n\nCuántas observaciones hay?\nCuántas variables de entrada hay?\nCuál es la forma de X?\nCuál es la forma de y?\n\nRespuesta esperada: hay 4 observaciones, 3 variables de entrada, X tiene forma 4 x 3 y y tiene longitud 4.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#tipos-de-tareas",
+    "href": "capitulo00_libro_estudiantes.html#tipos-de-tareas",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Tipos de tareas",
+    "text": "Tipos de tareas\nEn este curso aparecerán cuatro familias de tareas.\n\nRegresión\nLa variable objetivo es numérica.\nEjemplos:\n\nprecio de una vivienda;\ndemanda de energía;\ntiempo de entrega;\nconcentración de una sustancia;\nprogresión de una enfermedad medida en una escala continua.\n\n\n\nClasificación\nLa variable objetivo es una clase o categoría.\nEjemplos:\n\nfraude/no fraude;\ntumor benigno/maligno;\ntipo de vino;\naprobado/no aprobado;\ncategoría de documento.\n\n\n\nAprendizaje no supervisado\nNo hay una variable objetivo directa. Buscamos estructura en los datos.\nEjemplos:\n\nsegmentar usuarios;\nreducir dimensión;\nencontrar grupos de observaciones parecidas;\nvisualizar datos de alta dimensión.\n\n\n\nRecomendación\nBuscamos sugerir ítems a usuarios o completar información faltante en una matriz de interacciones.\nEjemplos:\n\nrecomendar películas;\nsugerir productos;\npriorizar lecturas;\nordenar contenidos.\n\n\n\n\n\n\n\nAdvertenciaAdvertencia\n\n\n\nEl nombre del algoritmo no define el problema. Primero se formula la pregunta; después se decide si hace falta regresión, clasificación, clustering, PCA, recomendación u otra herramienta.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.2-una-predicción-lineal",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.2-una-predicción-lineal",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.2: una predicción lineal",
+    "text": "Ejemplo 0.2: una predicción lineal\nSupongamos que usamos el modelo:\n\\[\n\\hat y = 40 + 4x_1 + 30x_2 - 2x_3,\n\\]\ndonde:\n\nx_1 es el área en metros cuadrados;\nx_2 es el número de habitaciones;\nx_3 es la antiguedad en anos;\n\\hat y es el precio predicho en millones.\n\nPara una vivienda con:\n\\[\nx_1 = 80, \\qquad x_2 = 3, \\qquad x_3 = 10,\n\\]\nla predicción es:\n\\[\n\\hat y = 40 + 4(80) + 30(3) - 2(10)\n      = 40 + 320 + 90 - 20\n      = 430.\n\\]\nEl modelo predice 430 millones.\n\nEjemplo resuelto 0.2.\nSi el precio real fuera 455 millones, el error de predicción sería:\n\\[\ny - \\hat y = 455 - 430 = 25.\n\\]\nEl modelo subestima el precio por 25 millones.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#punto-de-control-0.2",
+    "href": "capitulo00_libro_estudiantes.html#punto-de-control-0.2",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Punto de control 0.2",
+    "text": "Punto de control 0.2\nUsa el mismo modelo:\n\\[\n\\hat y = 40 + 4x_1 + 30x_2 - 2x_3.\n\\]\nCalcula la predicción para una vivienda de 60 m2, 2 habitaciones y 15 anos de antiguedad.\nRespuesta:\n\\[\n\\hat y = 40 + 4(60) + 30(2) - 2(15) = 310.\n\\]",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.3-baseline-de-regresión",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.3-baseline-de-regresión",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.3: baseline de regresión",
+    "text": "Ejemplo 0.3: baseline de regresión\nSupongamos que tenemos precios reales:\n\\[\ny =\n\\begin{bmatrix}\n310 \\\\\n455 \\\\\n240 \\\\\n620\n\\end{bmatrix}.\n\\]\nUn baseline sencillo predice siempre el promedio:\n\\[\n\\bar y = \\frac{310 + 455 + 240 + 620}{4} = 406.25.\n\\]\nEntonces el baseline predice:\n\\[\n\\hat y =\n\\begin{bmatrix}\n406.25 \\\\\n406.25 \\\\\n406.25 \\\\\n406.25\n\\end{bmatrix}.\n\\]\nEste baseline no usa variables de entrada. Precisamente por eso es útil: si un modelo que usa área, habitaciones y antiguedad no supera al promedio, algo esta mal o la información de entrada no es suficiente.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.4-baseline-de-clasificación",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.4-baseline-de-clasificación",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.4: baseline de clasificación",
+    "text": "Ejemplo 0.4: baseline de clasificación\nSupongamos un problema con 100 observaciones:\n\n\n\nclase\ncantidad\n\n\n\n\nA\n70\n\n\nB\n20\n\n\nC\n10\n\n\n\nUn baseline que predice siempre la clase más frecuente, A, tendría accuracy:\n\\[\n\\frac{70}{100} = 0.70.\n\\]\nSi un modelo obtiene accuracy 0.72, técnicamente supera el baseline, pero la mejora es pequeña. Habría que mirar:\n\nmatriz de confusion;\nprecision y recall por clase;\nestabilidad con otra partición;\ncosto de los errores;\ntamaño del dataset.\n\n\n\n\n\n\n\nImportantePrincipio\n\n\n\nNunca reportes una métrica sin decir contra qué baseline se compara.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#accuracy",
+    "href": "capitulo00_libro_estudiantes.html#accuracy",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Accuracy",
+    "text": "Accuracy\nEn clasificación, la accuracy mide la proporción de predicciones correctas:\n\\[\n\\text{accuracy}\n= \\frac{\\text{número de predicciones correctas}}{\\text{número total de predicciones}}.\n\\]\nLa accuracy es fácil de entender, pero puede ser enganosa si las clases están desbalanceadas.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-absoluto-medio",
+    "href": "capitulo00_libro_estudiantes.html#error-absoluto-medio",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error absoluto medio",
+    "text": "Error absoluto medio\nEn regresión, una métrica común es el error absoluto medio:\n\\[\n\\text{MAE}\n= \\frac{1}{n}\\sum_{i=1}^{n} |y_i - \\hat y_i|.\n\\]\nEl MAE se interpreta en las mismas unidades de la variable objetivo.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-cuadrático-medio",
+    "href": "capitulo00_libro_estudiantes.html#error-cuadrático-medio",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error cuadrático medio",
+    "text": "Error cuadrático medio\nOtra métrica común es el error cuadrático medio:\n\\[\n\\text{MSE}\n= \\frac{1}{n}\\sum_{i=1}^{n} (y_i - \\hat y_i)^2.\n\\]\nEl MSE penaliza más los errores grandes.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.5-una-mala-evaluación",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.5-una-mala-evaluación",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.5: una mala evaluación",
+    "text": "Ejemplo 0.5: una mala evaluación\nUn estudiante entrena un modelo con 200 observaciones y reporta accuracy 0.98 en esas mismas 200 observaciones. Esa información no basta para afirmar que el modelo sirve.\nFalta saber:\n\nsi se evaluo en datos separados;\nsi hay leakage;\nsi las clases están balanceadas;\ncuál era el baseline;\nque errores comete;\nsi el resultado se mantiene con otra partición.\n\n\n\n\n\n\n\nAdvertenciaError común\n\n\n\nUn modelo puede verse excelente en entrenamiento y fallar en datos nuevos. Esto se llama sobreajuste u overfitting.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#cómo-leer-este-código",
+    "href": "capitulo00_libro_estudiantes.html#cómo-leer-este-código",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Cómo leer este código",
+    "text": "Cómo leer este código\nNo necesitas dominar todos los detalles todavía. Pero si debes identificar las piezas conceptuales:\n\n\n\nLinea conceptual\nCodigo\n\n\n\n\nCargar datos\nload_wine(as_frame=True)\n\n\nSeparar entradas y objetivo\nX = data.data, y = data.target\n\n\nCrear train/test\ntrain_test_split(...)\n\n\nCrear baseline\nDummyClassifier(...)\n\n\nCrear modelo\nLogisticRegression(...)\n\n\nMedir desempeño\naccuracy_score(...)\n\n\n\n\n\n\n\n\n\nNotaPor qué aparece StandardScaler\n\n\n\nMuchas técnicas de machine learning son sensibles a la escala de las variables. En la Semana 2 veremos una razón matemática de fondo: la geometría del problema y el condicionamiento pueden afectar la optimización.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#plantilla-de-conclusión",
+    "href": "capitulo00_libro_estudiantes.html#plantilla-de-conclusión",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Plantilla de conclusión",
+    "text": "Plantilla de conclusión\nUna buena primera plantilla es:\n\nEn este experimento, el modelo ____ al baseline usando la métrica ____. La evaluación se hizo sobre ____. Esta conclusión es limitada porque ____.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#ejemplo-0.6-conclusión-débil-y-conclusión-mejor",
+    "href": "capitulo00_libro_estudiantes.html#ejemplo-0.6-conclusión-débil-y-conclusión-mejor",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Ejemplo 0.6: conclusión débil y conclusión mejor",
+    "text": "Ejemplo 0.6: conclusión débil y conclusión mejor\nConclusion débil:\n\nEl modelo es muy bueno porque saco 0.96.\n\nProblemas:\n\nno dice que mide 0.96;\nno menciona baseline;\nno dice con qué datos;\nno reconoce limitaciones.\n\nConclusion mejor:\n\nEn este experimento inicial, la regresión logística supera al baseline de clase mayoritaria usando accuracy en una partición de prueba estratificada. Sin embargo, la conclusión es limitada porque el dataset es pequeño y limpio; antes de usar el modelo en una decisión real habría que revisar errores por clase y validar con datos externos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-1-empezar-por-el-algoritmo",
+    "href": "capitulo00_libro_estudiantes.html#error-1-empezar-por-el-algoritmo",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error 1: empezar por el algoritmo",
+    "text": "Error 1: empezar por el algoritmo\nMala pregunta:\n\nQué puedo hacer con redes neuronales?\n\nMejor pregunta:\n\nQué decisión quiero informar y que datos tengo para hacerlo?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-2-confundir-pérdida-con-métrica",
+    "href": "capitulo00_libro_estudiantes.html#error-2-confundir-pérdida-con-métrica",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error 2: confundir pérdida con métrica",
+    "text": "Error 2: confundir pérdida con métrica\nUna función puede servir para entrenar, pero no ser la mejor forma de comunicar resultados. Por ejemplo, un modelo puede entrenarse con log-loss y reportarse con F1 o ROC-AUC según el problema.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-3-no-tener-baseline",
+    "href": "capitulo00_libro_estudiantes.html#error-3-no-tener-baseline",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error 3: no tener baseline",
+    "text": "Error 3: no tener baseline\nSin baseline, una métrica queda flotando. Accuracy 0.80 puede ser buena si el baseline es 0.50, pero mala si el baseline es 0.79 y el modelo es mucho más costoso.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-4-evaluar-con-datos-de-entrenamiento",
+    "href": "capitulo00_libro_estudiantes.html#error-4-evaluar-con-datos-de-entrenamiento",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error 4: evaluar con datos de entrenamiento",
+    "text": "Error 4: evaluar con datos de entrenamiento\nEsto infla el desempeño. Separar entrenamiento y prueba no es una formalidad; es una defensa mínima contra autoengano.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#error-5-prometer-más-de-lo-que-los-datos-muestran",
+    "href": "capitulo00_libro_estudiantes.html#error-5-prometer-más-de-lo-que-los-datos-muestran",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Error 5: prometer más de lo que los datos muestran",
+    "text": "Error 5: prometer más de lo que los datos muestran\nUn modelo puede mostrar asociación predictiva sin demostrar causalidad. Puede funcionar en un dataset y fallar en otra población. Puede ser útil para priorizar revisión humana, pero no para automatizar una decisión sensible.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#conceptos",
+    "href": "capitulo00_libro_estudiantes.html#conceptos",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Conceptos",
+    "text": "Conceptos\n\nEn tus propias palabras, explica la diferencia entre una pregunta aplicada y un algoritmo.\nDa un ejemplo de observación y variable en un dataset de transporte.\nQué diferencia hay entre y y \\hat y?\nPor qué un baseline de clase mayoritaria puede tener accuracy alta en un dataset desbalanceado?\n¿Por qué no basta evaluar un modelo en los datos de entrenamiento?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#calculo-manual",
+    "href": "capitulo00_libro_estudiantes.html#calculo-manual",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Calculo manual",
+    "text": "Calculo manual\n\nConsidera el modelo:\n\n\\[\n\\hat y = 10 + 2x_1 - 3x_2.\n\\]\nCalcula la predicción para x_1 = 8 y x_2 = 4.\n\nLos valores reales son:\n\n\\[\ny = (4, 7, 9, 10)\n\\]\ny las predicciones son:\n\\[\n\\hat y = (5, 6, 8, 12).\n\\]\nCalcula el MAE.\n\nEn un problema de clasificación hay 50 observaciones de clase A, 30 de clase B y 20 de clase C. ¿Cuál es la accuracy del baseline que predice siempre la clase más frecuente?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#interpretacion",
+    "href": "capitulo00_libro_estudiantes.html#interpretacion",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Interpretacion",
+    "text": "Interpretacion\n\nUn modelo obtiene accuracy 0.84. El baseline obtiene 0.82. Escribe dos razones por las cuales no deberiamos concluir automáticamente que el modelo es bueno.\nUn modelo de regresión obtiene MAE de 12 unidades. Qué información adicional necesitas para interpretar si ese valor es pequeño o grande?\nEscribe una conclusión técnica de tres frases para un modelo que supera el baseline, pero fue evaluado en un dataset pequeño.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#codigo",
+    "href": "capitulo00_libro_estudiantes.html#codigo",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Codigo",
+    "text": "Codigo\n\nEn el laboratorio, identifica en que línea se separan X_train, X_test, y_train, y_test.\nModifica el tamaño de prueba de 0.25 a 0.30. Qué cambia en las dimensiones?\nQuita stratify=y y compara la distribución de clases en entrenamiento y prueba. Qué observas?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00_libro_estudiantes.html#proyecto",
+    "href": "capitulo00_libro_estudiantes.html#proyecto",
+    "title": "Capítulo 0: Ciencia de datos aplicada",
+    "section": "Proyecto",
+    "text": "Proyecto\n\nPropone una idea de proyecto. Especifica:\n\n\nunidad de observación;\nvariable objetivo, si existe;\nmétrica inicial;\nbaseline razonable;\ndecisión que podría informar.\n\n\nPara tu idea de proyecto, identifica una limitacion ética o técnica que debería aparecer en el reporte final.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 0: Ciencia de datos aplicada</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html",
+    "href": "texto_estudiantes.html",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "",
+    "text": "Cómo usar esta guía\nEsta guía complementa el capítulo de estudio. El capítulo desarrolla conceptos, ejemplos y ejercicios; esta guía explica cómo se trabajará en el curso y qué se espera de ti desde la primera semana.\nLectura recomendada:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#dataset",
+    "href": "texto_estudiantes.html#dataset",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Dataset",
+    "text": "Dataset\nUn dataset es una colección organizada de observaciones. En la mayoría de ejemplos iniciales, cada fila representa una observación y cada columna representa una variable.\nEjemplo:\n\n\n\nfila\nsignificado posible\n\n\n\n\n1\nun paciente\n\n\n2\nuna vivienda\n\n\n3\nuna imagen\n\n\n4\nuna transacción",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#variable-de-entrada-y-variable-objetivo",
+    "href": "texto_estudiantes.html#variable-de-entrada-y-variable-objetivo",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Variable de entrada y variable objetivo",
+    "text": "Variable de entrada y variable objetivo\nEn aprendizaje supervisado distinguimos:\n\nX: variables de entrada o características.\ny: variable objetivo o etiqueta.\n\nLa pregunta básica es:\n\nPodemos usar X para aproximar, predecir o clasificar y?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#modelo",
+    "href": "texto_estudiantes.html#modelo",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Modelo",
+    "text": "Modelo\nUn modelo es una familia de funciones con parámetros ajustables. Por ejemplo, una regresión lineal usa funciones de la forma:\n\\[\n\\hat y = \\theta_0 + \\theta_1 x_1 + \\cdots + \\theta_d x_d.\n\\]\nTodavía no vamos a derivar este modelo en la Semana 1. Lo haremos en el Módulo 1. Por ahora nos interesa entender dónde aparece dentro del flujo aplicado.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#pérdida",
+    "href": "texto_estudiantes.html#pérdida",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Pérdida",
+    "text": "Pérdida\nLa pérdida mide qué tan mal predice el modelo en una observación o conjunto de observaciones. En regresión, una pérdida común es el error cuadrático. En clasificación, una pérdida común es la entropía cruzada.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#métrica",
+    "href": "texto_estudiantes.html#métrica",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Métrica",
+    "text": "Métrica\nLa métrica es la forma en que reportamos desempeño para tomar una decisión. La pérdida se usa con frecuencia para entrenar; la métrica se usa para evaluar y comunicar.\nEjemplos:\n\nMSE o MAE para regresión.\nAccuracy, precision, recall, F1 o ROC-AUC para clasificación.\n\nLa métrica debe elegirse según la pregunta. No hay una métrica universalmente correcta.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#baseline",
+    "href": "texto_estudiantes.html#baseline",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Baseline",
+    "text": "Baseline\nUn baseline es un punto de comparación simple. Antes de celebrar un modelo complejo, hay que preguntarse:\n\nSupera algo simple?\n\nEn clasificación, un baseline puede ser predecir siempre la clase más frecuente. En regresión, puede ser predecir siempre el promedio.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "texto_estudiantes.html#traintest",
+    "href": "texto_estudiantes.html#traintest",
+    "title": "Guía de orientación de la Semana 1",
+    "section": "Train/test",
+    "text": "Train/test\nSeparar datos de entrenamiento y prueba es una forma básica de estimar si el modelo generaliza. El modelo aprende con entrenamiento; la prueba se reserva para evaluar datos no usados en el ajuste.\nLa partición no resuelve todos los problemas, pero evita uno de los errores más graves: evaluar el modelo sobre los mismos datos que usó para aprender.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/configuracion_entorno.html",
+    "href": "recursos/configuracion_entorno.html",
+    "title": "Configuración del entorno de trabajo",
+    "section": "",
+    "text": "Objetivo\nEsta guía te ayuda a preparar el entorno mínimo para la Semana 1. Si algo falla, no lo ocultes: documenta el error y llévalo a clase. El laboratorio diagnóstico también sirve para identificar problemas técnicos temprano.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/configuracion_entorno.html#modulenotfounderror",
+    "href": "recursos/configuracion_entorno.html#modulenotfounderror",
+    "title": "Configuración del entorno de trabajo",
+    "section": "ModuleNotFoundError",
+    "text": "ModuleNotFoundError\nSignifica que falta instalar un paquete o que estas usando un kernel distinto al entorno donde instalaste los paquetes.\nSolucion usual:\nsource .venv/bin/activate\npython -m pip install -r requirements.txt\npython -m ipykernel install --user --name mate2105 --display-name \"Python (MATE-2105)\"\nDespués, en Jupyter, selecciona el kernel del entorno virtual o, si lo registraste manualmente, Python (MATE-2105).",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/configuracion_entorno.html#el-notebook-abre-pero-no-ejecuta",
+    "href": "recursos/configuracion_entorno.html#el-notebook-abre-pero-no-ejecuta",
+    "title": "Configuración del entorno de trabajo",
+    "section": "El notebook abre pero no ejecuta",
+    "text": "El notebook abre pero no ejecuta\nVerifica que el kernel este seleccionado. En Jupyter normalmente aparece en la esquina superior derecha.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/configuracion_entorno.html#python-no-existe",
+    "href": "recursos/configuracion_entorno.html#python-no-existe",
+    "title": "Configuración del entorno de trabajo",
+    "section": "python no existe",
+    "text": "python no existe\nEn algunos sistemas el comando correcto es python3.\nPrueba:\npython3 --versión",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/configuracion_entorno.html#instalacion-muy-lenta",
+    "href": "recursos/configuracion_entorno.html#instalacion-muy-lenta",
+    "title": "Configuración del entorno de trabajo",
+    "section": "Instalacion muy lenta",
+    "text": "Instalacion muy lenta\nEspera a que termine. Si falla, copia el error completo. No cierres la terminal sin guardar el mensaje.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html",
+    "href": "laboratorios/semana01_lab.html",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "",
+    "text": "Objetivo\nEste laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno, ejecutar un flujo básico de ciencia de datos y escribir una interpretación técnica breve.\nTrabajaremos con el dataset load_wine de scikit-learn. El objetivo será clasificar vinos en tres clases a partir de mediciones químicas.\nNo necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia para practicar el flujo aplicado.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#pregunta-de-interpretación-1",
+    "href": "laboratorios/semana01_lab.html#pregunta-de-interpretación-1",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Pregunta de interpretación 1",
+    "text": "Pregunta de interpretación 1\nEscribe dos frases:\n\nuna sobre la estructura de los datos;\notra sobre si las clases parecen balanceadas.\n\nRespuesta:\nEscribe aquí.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#pregunta-de-interpretación-2",
+    "href": "laboratorios/semana01_lab.html#pregunta-de-interpretación-2",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Pregunta de interpretación 2",
+    "text": "Pregunta de interpretación 2\nPor qué usamos stratify=y? Responde en una o dos frases.\nRespuesta:\nEscribe aquí.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#pregunta-de-interpretación-3",
+    "href": "laboratorios/semana01_lab.html#pregunta-de-interpretación-3",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Pregunta de interpretación 3",
+    "text": "Pregunta de interpretación 3\nQué significa este baseline? Qué tendría que lograr un modelo para ser mejor que esta referencia?\nRespuesta:\nEscribe aquí.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#pregunta-de-interpretación-4",
+    "href": "laboratorios/semana01_lab.html#pregunta-de-interpretación-4",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Pregunta de interpretación 4",
+    "text": "Pregunta de interpretación 4\nObserva la matriz de confusion y el reporte. Escribe:\n\nQué clase parece más fácil o más difícil de clasificar?\nQué limitacion tiene esta conclusión?\n\nRespuesta:\nEscribe aquí.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#idea-1",
+    "href": "laboratorios/semana01_lab.html#idea-1",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Idea 1",
+    "text": "Idea 1\nEscribe aquí.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/semana01_lab.html#idea-2",
+    "href": "laboratorios/semana01_lab.html#idea-2",
+    "title": "Laboratorio diagnóstico 1",
+    "section": "Idea 2",
+    "text": "Idea 2\nEscribe aquí.\nEste laboratorio es diagnóstico. La prioridad es que muestres el flujo de trabajo y que identifiques dudas temprano.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto.html",
+    "href": "recursos/guia_proyecto.html",
+    "title": "Guía inicial del proyecto final",
+    "section": "",
+    "text": "Proposito del proyecto\nEl proyecto final es el eje aplicado del curso. Su objetivo no es producir el modelo más complejo, sino construir un flujo de ciencia de datos defendible:\nCada grupo trabajará con un dataset real y una pregunta aplicada. Al final, el grupo entregará un producto técnico reproducible y cada estudiante defenderá oralmente decisiones específicas del proyecto.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto.html#prediccion-o-regresión",
+    "href": "recursos/guia_proyecto.html#prediccion-o-regresión",
+    "title": "Guía inicial del proyecto final",
+    "section": "Prediccion o regresión",
+    "text": "Prediccion o regresión\nEjemplos:\n\npredecir precio, demanda, tiempo, riesgo o puntaje;\nestimar una variable continua a partir de variables observables.\n\nMetricas posibles:\n\nMAE;\nRMSE;\nMAPE, con cuidado;\nR2, como métrica secundaria.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto.html#clasificación",
+    "href": "recursos/guia_proyecto.html#clasificación",
+    "title": "Guía inicial del proyecto final",
+    "section": "Clasificación",
+    "text": "Clasificación\nEjemplos:\n\nclasificar riesgo alto/bajo;\ndetectar una categoría;\nidentificar una clase de documento, imagen o registro.\n\nMetricas posibles:\n\naccuracy;\nprecision;\nrecall;\nF1;\nROC-AUC;\nmatriz de confusion.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto.html#no-supervisado",
+    "href": "recursos/guia_proyecto.html#no-supervisado",
+    "title": "Guía inicial del proyecto final",
+    "section": "No supervisado",
+    "text": "No supervisado\nEjemplos:\n\nsegmentar usuarios;\nreducir dimensión para exploracion;\nidentificar grupos de observaciones;\nrecomendar ítems con información limitada.\n\nMetricas y evidencia:\n\ninterpretabilidad de clusters;\nestabilidad;\nvisualizacion;\ncomparación cualitativa;\nutilidad para una decisión posterior.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/politica_ia.html",
+    "href": "recursos/politica_ia.html",
+    "title": "Política preliminar de uso de IA",
+    "section": "",
+    "text": "Principio general\nEl uso de IA generativa está permitido como apoyo, pero no reemplaza la responsabilidad técnica del estudiante.\nLa regla central del curso es:\n\nPuedes usar ayuda, pero debes poder explicar, modificar y defender cada línea relevante de código, cada métrica y cada conclusión que entregues.\n\n\n\nUsos permitidos\nPuedes usar IA para:\n\nexplicar mensajes de error;\nsugerir pruebas pequenas;\nrevisar estilo de código;\nproponer alternativas de visualizacion;\nresumir documentacion;\nayudarte a entender una formula;\nrevisar claridad de una conclusión escrita;\ngenerar preguntas de estudio.\n\n\n\nUsos no permitidos\nNo está permitido:\n\nentregar código que no entiendes;\nentregar interpretaciones generadas sin verificación;\ninventar resultados, fuentes o métricas;\npedir una solución completa de un laboratorio y presentarla como propia;\nocultar uso sustancial de IA en un proyecto;\nusar IA para evadir la defensa oral individual.\n\n\n\nDeclaración de uso\nEn laboratorios y proyecto, cuando el uso de IA sea sustancial, incluye una nota breve:\nUse IA para: depurar un error en la función de costo y revisar redaccion de la conclusión.\nVerifique el resultado mediante: tests del laboratorio y comparación con scikit-learn.\nNo es necesario declarar usos menores como autocompletar una línea simple o corregir ortografia.\n\n\nResponsabilidad\nSi entregas código incorrecto generado por IA, la responsabilidad es tuya. Si entregas una conclusión exagerada o falsa sugerida por IA, la responsabilidad es tuya. Si no puedes explicar tu propio notebook en una defensa oral, el trabajo no cumple el estándar del curso.\n\n\nDefensa oral\nLa defensa oral individual es parte del diseño de evaluación. Su función es verificar que cada estudiante entiende:\n\nlos datos;\nel modelo;\nla métrica;\nlos errores;\nlas limitaciones;\nlas decisiones técnicas.\n\nLa IA puede ayudarte a estudiar, pero no puede defender el proyecto por ti.\n\n\nUso recomendado\nUn buen uso de IA se parece a trabajar con un asistente técnico:\n\nHaces una pregunta concreta.\nRevisas la respuesta.\nPruebas con código o matemáticas.\nComparas con fuentes o resultados esperados.\nDocumentas si el uso fue sustancial.\n\nUn mal uso de IA se parece a delegar el criterio:\n\nPides una solución completa.\nCopias sin entender.\nNo pruebas.\nNo verificas.\nNo puedes defender.\n\n\n\nCriterio práctico\nAntes de entregar, preguntate:\n\nSi el profesor me pide explicar esta línea, esta métrica o esta conclusión sin mirar la IA, puedo hacerlo?\n\nSi la respuesta es no, no está listo para entregar.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Política preliminar de uso de IA</span>"
+    ]
+  }
+]

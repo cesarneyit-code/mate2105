@@ -1,0 +1,167 @@
+---
+title: "Lab 5: Aprendizaje no supervisado"
+subtitle: "PCA, K-Means y recomendación básica"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    code-copy: true
+execute:
+  eval: false
+lang: es
+---
+
+## Propósito
+
+Este laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 4 en código verificable:
+
+- centrar una matriz de datos;
+- implementar PCA con SVD;
+- reconstruir datos proyectados;
+- entrenar y diagnosticar K-Means;
+- calcular similitud coseno;
+- producir recomendaciones simples y defendibles.
+
+La parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.
+
+## Entrega
+
+Entrega un único notebook `.ipynb` con las funciones solicitadas. No cambies los nombres de las funciones ni sus argumentos.
+
+El autograder ejecutará todo el notebook de arriba hacia abajo y luego llamará las funciones.
+
+## Dependencias permitidas
+
+```python
+import numpy as np
+import pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.metrics.pairwise import cosine_similarity
+```
+
+Puedes usar `sklearn` para K-Means, silhouette y similitud coseno. Para PCA, la implementación debe usar `numpy.linalg.svd` o una rutina equivalente de álgebra lineal; no uses `sklearn.decomposition.PCA` dentro de `pca_from_svd`.
+
+## Funciones a implementar
+
+### 1. Centrado
+
+```python
+def center_data(X):
+    """
+    Recibe una matriz X de forma (n, p).
+    Devuelve:
+      X_centered: matriz centrada por columnas.
+      mean: vector de medias de forma (p,).
+    """
+```
+
+### 2. PCA desde SVD
+
+```python
+def pca_from_svd(X, n_components):
+    """
+    Recibe una matriz X de forma (n, p) y un número k.
+    Devuelve un diccionario con:
+      components: matriz (k, p) con direcciones principales.
+      scores: matriz (n, k) con coordenadas proyectadas.
+      explained_variance_ratio: vector (k,) con proporción de varianza explicada.
+      mean: vector (p,) usado para centrar.
+    """
+```
+
+### 3. Reconstrucción
+
+```python
+def reconstruct_from_pca(scores, components, mean):
+    """
+    Reconstruye una aproximación de X desde scores, components y mean.
+    Devuelve una matriz de forma (n, p).
+    """
+```
+
+### 4. Error de reconstrucción
+
+```python
+def reconstruction_error(X, X_hat):
+    """
+    Devuelve el error cuadrático medio entre X y X_hat.
+    """
+```
+
+### 5. K-Means
+
+```python
+def fit_kmeans(X, n_clusters, random_state=42):
+    """
+    Ajusta K-Means y devuelve el modelo entrenado.
+    Usa n_init=10 para estabilidad entre versiones.
+    """
+```
+
+### 6. Resumen de K-Means
+
+```python
+def kmeans_summary(model, X):
+    """
+    Recibe un modelo K-Means entrenado y X.
+    Devuelve un diccionario con:
+      labels: etiquetas predichas.
+      inertia: inertia del modelo.
+      silhouette: silhouette score si hay al menos dos clusters válidos.
+    """
+```
+
+Si silhouette no se puede calcular, devuelve `np.nan`.
+
+### 7. Selección de k por silhouette
+
+```python
+def choose_k_by_silhouette(X, k_values, random_state=42):
+    """
+    Entrena K-Means para cada k en k_values.
+    Devuelve:
+      best_k: k con mayor silhouette.
+      scores: diccionario {k: silhouette}.
+    """
+```
+
+### 8. Similitud coseno
+
+```python
+def cosine_similarity_matrix(M):
+    """
+    Recibe una matriz donde cada fila representa un item.
+    Devuelve matriz cuadrada de similitud coseno item-item.
+    """
+```
+
+### 9. Recomendación por similitud
+
+```python
+def recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):
+    """
+    Devuelve una lista de índices de items más similares a item_index.
+    Excluye el item consultado y cualquier item en seen_items.
+    Ordena de mayor a menor similitud.
+    """
+```
+
+## Pregunta manual
+
+Escribe una respuesta de 120 a 180 palabras:
+
+1. ¿Qué evidencia usarías para decidir cuántos componentes principales o cuántos clusters reportar?
+2. ¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?
+3. ¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?
+
+## Criterio profesional
+
+Un resultado no supervisado no se defiende solo con una gráfica bonita. Debe incluir:
+
+- preprocesamiento explícito;
+- métrica o evidencia cuantitativa;
+- interpretación prudente;
+- límite técnico reconocido;
+- decisión siguiente concreta.
+

@@ -1,0 +1,80 @@
+---
+title: "Lab 4: Diagnóstico de modelos"
+subtitle: "Métricas, particiones, cross-validation, learning curves y análisis de errores"
+format:
+  html:
+    toc: true
+    code-copy: true
+execute:
+  eval: false
+  echo: true
+lang: es
+---
+
+# Propósito
+
+Este laboratorio evalúa si puedes desarrollar modelos de forma metodica: definir una métrica, construir particiones sin leakage, comparar contra baseline, usar cross-validation y diagnosticar errores.
+
+La pregunta técnica central es:
+
+> ¿Qué evidencia justifica elegir un modelo y cuál es el siguiente experimento razonable?
+
+# Qué debes entregar
+
+Entrega el notebook:
+
+```text
+apellido_nombre_lab04_diagnostico_modelos.ipynb
+```
+
+No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.
+
+# Flujo recomendado
+
+1. Carga `load_breast_cancer`.
+2. Construye particiones estratificadas.
+3. Define una métrica principal.
+4. Entrena un baseline.
+5. Construye un `Pipeline`.
+6. Ejecuta cross-validation.
+7. Calcula métricas sobre validación.
+8. Construye una learning curve.
+9. Analiza errores por slices.
+10. Escribe una recomendación técnica.
+
+# Lo que autocalifica el notebook
+
+| Componente | Evidencia esperada | Calificación |
+|---|---|---:|
+| Particiones | train/dev/test estratificados y reproducibles | Automática |
+| Baseline | `DummyClassifier` o regla equivalente | Automática |
+| Pipeline | preprocesamiento dentro de pipeline | Automática |
+| Métricas | precision, recall, F1 y matriz de confusión | Automática |
+| Cross-validation | media y desviación de scores | Automática |
+| Learning curve | tamaños, train scores y validation scores consistentes | Automática |
+| Error slices | tabla por subgrupo con conteos y métricas | Automática |
+| Selección | mejor modelo según métrica principal | Automática |
+
+# Parte manual
+
+Incluye una respuesta corta:
+
+> Con la evidencia del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?
+
+Rúbrica manual:
+
+| Puntaje | Criterio |
+|---:|---|
+| 0 | No responde o no usa evidencia |
+| 1 | Menciona métrica o modelo, pero sin diagnóstico accionable |
+| 2 | Conecta métrica, baseline, validación, error analysis y siguiente experimento |
+
+# Errores frecuentes
+
+1. Usar test para seleccionar hiperparámetros.
+2. Escalar antes de partir datos.
+3. Reportar accuracy en un problema donde recall/F1 era más relevante.
+4. Comparar modelos con particiones distintas.
+5. Reportar cross-validation sin desviación.
+6. No mirar falsos negativos/falsos positivos.
+7. Hacer una recomendación sin acción concreta.

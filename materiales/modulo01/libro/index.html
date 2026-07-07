@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Cesar Galindo">
+
+<title>MATE-2105: Módulo 1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./capitulo01_regresion_lineal.html" rel="next">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Módulo 1: Regresión, optimización, regularización y clasificación</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATE-2105: Módulo 1</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Módulo 1: Regresión, optimización, regularización y clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 5: Ejercicios integradores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./apendice_formulario_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice: Formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./laboratorios/lab01_regresion_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Lab 1: Regresión lineal y descenso del gradiente</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./laboratorios/lab02_regularizacion_clasificacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Lab 2: Regularización, validación y clasificación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./laboratorios/parcial01_autograded.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parcial 1 autograded</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/guia_autograding.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de autograding</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/guia_parcial1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de preparación Parcial 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/guia_proyecto_modulo01.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 1</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#propósito-del-módulo" id="toc-propósito-del-módulo" class="nav-link active" data-scroll-target="#propósito-del-módulo">Propósito del módulo</a></li>
+  <li><a href="#cómo-usar-este-libro" id="toc-cómo-usar-este-libro" class="nav-link" data-scroll-target="#cómo-usar-este-libro">Cómo usar este libro</a></li>
+  <li><a href="#prerrequisitos-mínimos" id="toc-prerrequisitos-mínimos" class="nav-link" data-scroll-target="#prerrequisitos-mínimos">Prerrequisitos mínimos</a></li>
+  <li><a href="#resultados-de-aprendizaje" id="toc-resultados-de-aprendizaje" class="nav-link" data-scroll-target="#resultados-de-aprendizaje">Resultados de aprendizaje</a></li>
+  <li><a href="#calendario-y-entregables" id="toc-calendario-y-entregables" class="nav-link" data-scroll-target="#calendario-y-entregables">Calendario y entregables</a></li>
+  <li><a href="#mapa-de-dependencia" id="toc-mapa-de-dependencia" class="nav-link" data-scroll-target="#mapa-de-dependencia">Mapa de dependencia</a></li>
+  <li><a href="#qué-contiene-el-libro" id="toc-qué-contiene-el-libro" class="nav-link" data-scroll-target="#qué-contiene-el-libro">Qué contiene el libro</a></li>
+  <li><a href="#convenciones-de-notación" id="toc-convenciones-de-notación" class="nav-link" data-scroll-target="#convenciones-de-notación">Convenciones de notación</a></li>
+  <li><a href="#reglas-de-calidad-técnica" id="toc-reglas-de-calidad-técnica" class="nav-link" data-scroll-target="#reglas-de-calidad-técnica">Reglas de calidad técnica</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">MATE-2105: Módulo 1</h1>
+<p class="subtitle lead">Semanas 2-6</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Autor/a</div>
+    <div class="quarto-title-meta-contents">
+             <p>Cesar Galindo </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Fecha de publicación</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">6 de julio de 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="propósito-del-módulo" class="level1">
+<h1>Propósito del módulo</h1>
+<p>Este libro acompaña el primer bloque matemático fuerte del curso. La meta no es memorizar una lista de modelos, sino aprender un patrón de trabajo que se repetirá en ciencia de datos aplicada:</p>
+<pre class="text"><code>pregunta -&gt; datos -&gt; representación -&gt; modelo -&gt; pérdida
+         -&gt; algoritmo -&gt; métrica -&gt; diagnóstico -&gt; decisión</code></pre>
+<p>En cinco semanas construiremos una cadena completa:</p>
+<ol type="1">
+<li>regresión lineal como modelo matricial;</li>
+<li>mínimos cuadrados como problema de optimización;</li>
+<li>descenso del gradiente como algoritmo general;</li>
+<li>validación y regularización como control de complejidad;</li>
+<li>regresión logística como puente hacia clasificación.</li>
+</ol>
+<div class="criterio">
+<p><strong>Tesis del módulo.</strong> Un modelo no es una respuesta por sí solo. Un modelo es una hipótesis cuantitativa que debe venir con una pérdida, una métrica, una comparación contra baseline, una validación fuera de entrenamiento y una interpretación de sus limitaciones.</p>
+</div>
+</section>
+<section id="cómo-usar-este-libro" class="level1">
+<h1>Cómo usar este libro</h1>
+<p>Cada capítulo tiene cuatro niveles de lectura.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nivel</th>
+<th>Qué hacer</th>
+<th>Evidencia de que lo lograste</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Conceptual</td>
+<td>Leer definiciones, notas e interpretaciones</td>
+<td>Puedes explicar el objeto sin código</td>
+</tr>
+<tr class="even">
+<td>Matemático</td>
+<td>Seguir derivaciones y proposiciones</td>
+<td>Puedes reproducir los pasos centrales</td>
+</tr>
+<tr class="odd">
+<td>Computacional</td>
+<td>Leer e implementar los patrones NumPy</td>
+<td>Puedes escribir funciones pequeñas sin copiar</td>
+</tr>
+<tr class="even">
+<td>Aplicado</td>
+<td>Resolver ejercicios y conectar con laboratorios</td>
+<td>Puedes justificar una decisión técnica</td>
+</tr>
+</tbody>
+</table>
+<p>No intentes estudiar el módulo solo ejecutando notebooks. El notebook muestra el cálculo en acción; el libro explica por qué ese cálculo tiene sentido.</p>
+</section>
+<section id="prerrequisitos-mínimos" class="level1">
+<h1>Prerrequisitos mínimos</h1>
+<p>Antes de empezar, debes estar cómodo con:</p>
+<ul>
+<li>vectores, matrices, transpuesta y producto matricial;</li>
+<li>derivadas parciales básicas;</li>
+<li>interpretación de una función de pérdida;</li>
+<li>NumPy: arreglos, broadcasting, <code>@</code>, <code>mean</code>, <code>sum</code>, <code>reshape</code>;</li>
+<li>partición entrenamiento/prueba y noción de baseline.</li>
+</ul>
+<p>Si alguno de estos puntos está débil, usa el Módulo 0 y vuelve a este libro con dos preguntas concretas: qué objeto matemático no entiendes y en qué línea de código aparece.</p>
+</section>
+<section id="resultados-de-aprendizaje" class="level1">
+<h1>Resultados de aprendizaje</h1>
+<p>Al terminar el módulo deberías poder:</p>
+<ol type="1">
+<li>Escribir regresión lineal múltiple en forma matricial.</li>
+<li>Derivar el gradiente de MSE y la ecuación normal.</li>
+<li>Implementar mínimos cuadrados y descenso del gradiente con NumPy.</li>
+<li>Diagnosticar curvas de pérdida y problemas de escala.</li>
+<li>Explicar condicionamiento y por qué afecta la optimización.</li>
+<li>Construir features polinomiales sin mezclar entrenamiento y prueba.</li>
+<li>Distinguir underfitting, overfitting, error de entrenamiento y error de validación.</li>
+<li>Formular Ridge y Lasso como regularización de un problema de mínimos cuadrados.</li>
+<li>Ajustar un modelo logístico para clasificación binaria.</li>
+<li>Elegir métricas y umbrales según el costo de falsos positivos y falsos negativos.</li>
+<li>Preparar un baseline de proyecto con partición, métrica, modelo y conclusión.</li>
+</ol>
+</section>
+<section id="calendario-y-entregables" class="level1">
+<h1>Calendario y entregables</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Semana</th>
+<th>Fechas</th>
+<th>Foco del libro</th>
+<th>Evidencia esperada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td>2026-08-11 a 2026-08-13</td>
+<td>Cap. 1: regresión lineal</td>
+<td>Lista corta de datasets y Lab 1 iniciado</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td>2026-08-18 a 2026-08-20</td>
+<td>Cap. 2: gradiente</td>
+<td>Lab 1 entregado y prepropuesta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td>2026-08-25 a 2026-08-27</td>
+<td>Cap. 3: validación</td>
+<td>Propuesta aprobable y Lab 2 iniciado</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td>2026-09-01 a 2026-09-03</td>
+<td>Cap. 3: regularización</td>
+<td>Lab 2 entregado</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6</td>
+<td>2026-09-08 a 2026-09-10</td>
+<td>Cap. 4: logística</td>
+<td>Parcial 1 y baseline de proyecto</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mapa-de-dependencia" class="level1">
+<h1>Mapa de dependencia</h1>
+<pre class="text"><code>matrices y vectores
+  -&gt; regresión lineal
+    -&gt; mínimos cuadrados
+      -&gt; gradiente
+        -&gt; descenso del gradiente
+          -&gt; escalamiento y condicionamiento
+            -&gt; validación
+              -&gt; regularización
+                -&gt; regresión logística y métricas</code></pre>
+<p>Si te bloqueas en un capítulo, busca el nodo anterior en el mapa. Por ejemplo: si Ridge parece opaco, vuelve a mínimos cuadrados; si logística parece opaca, vuelve a pérdida, gradiente y validación.</p>
+</section>
+<section id="qué-contiene-el-libro" class="level1">
+<h1>Qué contiene el libro</h1>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parte</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./capitulo01_regresion_lineal.html">Capítulo 1</a></td>
+<td>Regresión lineal, matrices, MSE, ecuación normal e interpretación</td>
+</tr>
+<tr class="even">
+<td><a href="./capitulo02_descenso_gradiente.html">Capítulo 2</a></td>
+<td>Descenso del gradiente, escalamiento, tasa de aprendizaje y condicionamiento</td>
+</tr>
+<tr class="odd">
+<td><a href="./capitulo03_regularizacion_validacion.html">Capítulo 3</a></td>
+<td>Feature engineering, validación, Ridge, Lasso y selección de modelo</td>
+</tr>
+<tr class="even">
+<td><a href="./capitulo04_regresion_logistica.html">Capítulo 4</a></td>
+<td>Regresión logística, log-loss, métricas, umbrales y decisión</td>
+</tr>
+<tr class="odd">
+<td><a href="./capitulo05_ejercicios_integradores.html">Ejercicios integradores</a></td>
+<td>Banco amplio de problemas para estudiar y preparar el parcial</td>
+</tr>
+<tr class="even">
+<td><a href="./apendice_formulario_respuestas.html">Formulario y respuestas</a></td>
+<td>Fórmulas centrales, checklist y respuestas seleccionadas</td>
+</tr>
+<tr class="odd">
+<td><a href="./laboratorios/lab01_regresion_gradiente.html">Lab 1</a></td>
+<td>Entrega autograded sobre regresión y gradiente</td>
+</tr>
+<tr class="even">
+<td><a href="./laboratorios/lab02_regularizacion_clasificacion.html">Lab 2</a></td>
+<td>Entrega autograded sobre regularización y clasificación</td>
+</tr>
+<tr class="odd">
+<td><a href="./laboratorios/parcial01_autograded.html">Parcial 1</a></td>
+<td>Parcial autograded del módulo</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="convenciones-de-notación" class="level1">
+<h1>Convenciones de notación</h1>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>n</code></td>
+<td>número de observaciones</td>
+</tr>
+<tr class="even">
+<td><code>d</code></td>
+<td>número de variables originales</td>
+</tr>
+<tr class="odd">
+<td><code>p</code></td>
+<td>número de columnas de la matriz de diseño, usualmente incluyendo intercepto</td>
+</tr>
+<tr class="even">
+<td><code>X</code></td>
+<td>matriz de diseño en <code>R^{n x p}</code></td>
+</tr>
+<tr class="odd">
+<td><code>y</code></td>
+<td>vector objetivo en <code>R^n</code></td>
+</tr>
+<tr class="even">
+<td><code>theta</code></td>
+<td>vector de parámetros en <code>R^p</code></td>
+</tr>
+<tr class="odd">
+<td><code>y_hat</code></td>
+<td>vector de predicciones</td>
+</tr>
+<tr class="even">
+<td><code>r</code></td>
+<td>vector de residuales <code>y - y_hat</code></td>
+</tr>
+<tr class="odd">
+<td><code>J(theta)</code></td>
+<td>función de pérdida</td>
+</tr>
+<tr class="even">
+<td><code>lambda</code></td>
+<td>intensidad de regularización</td>
+</tr>
+</tbody>
+</table>
+<p>En el código usaremos nombres legibles:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>X_train, X_val, X_test</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>y_train, y_val, y_test</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>theta</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y_pred</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="reglas-de-calidad-técnica" class="level1">
+<h1>Reglas de calidad técnica</h1>
+<p>Antes de entregar un resultado del módulo, verifica:</p>
+<div class="checklist">
+<ul>
+<li>el dataset está separado en entrenamiento y prueba;</li>
+<li>todo preprocesamiento se ajusta con entrenamiento;</li>
+<li>existe un baseline simple;</li>
+<li>reportas al menos una métrica adecuada;</li>
+<li>la conclusión distingue desempeño numérico e interpretación;</li>
+<li>el notebook corre desde cero sin depender de variables ocultas;</li>
+<li>no hay leakage entre entrenamiento, validación y prueba.</li>
+</ul>
+</div>
+<div class="criterio">
+<p><strong>Regla de oro.</strong> Si no puedes explicar qué minimiza tu algoritmo, qué compara tu métrica y qué decisión habilita tu resultado, todavía no has terminado el análisis.</p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./capitulo01_regresion_lineal.html" class="pagination-link" aria-label="Capítulo 1: Regresión lineal múltiple">
+        <span class="nav-page-text"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

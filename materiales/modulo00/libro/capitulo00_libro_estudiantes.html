@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Capítulo 0: Ciencia de datos aplicada – MATE-2105: Módulo 0</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./texto_estudiantes.html" rel="next">
+<link href="./index.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo00_libro_estudiantes.html"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATE-2105: Módulo 0</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Arranque y lenguaje común</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./texto_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de orientación de la Semana 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/configuracion_entorno.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Configuración del entorno de trabajo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./laboratorios/semana01_lab.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Laboratorio diagnóstico 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/guia_proyecto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía inicial del proyecto final</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/politica_ia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Política preliminar de uso de IA</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#vista-previa" id="toc-vista-previa" class="nav-link active" data-scroll-target="#vista-previa">Vista previa</a></li>
+  <li><a href="#observaciones-variables-y-datasets" id="toc-observaciones-variables-y-datasets" class="nav-link" data-scroll-target="#observaciones-variables-y-datasets">0.1 Observaciones, variables y datasets</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-0.1-una-tabla-pequeña" id="toc-ejemplo-0.1-una-tabla-pequeña" class="nav-link" data-scroll-target="#ejemplo-0.1-una-tabla-pequeña">Ejemplo 0.1: una tabla pequeña</a></li>
+  <li><a href="#punto-de-control-0.1" id="toc-punto-de-control-0.1" class="nav-link" data-scroll-target="#punto-de-control-0.1">Punto de control 0.1</a></li>
+  </ul></li>
+  <li><a href="#preguntas-aplicadas-y-tareas-de-aprendizaje" id="toc-preguntas-aplicadas-y-tareas-de-aprendizaje" class="nav-link" data-scroll-target="#preguntas-aplicadas-y-tareas-de-aprendizaje">0.2 Preguntas aplicadas y tareas de aprendizaje</a>
+  <ul class="collapse">
+  <li><a href="#tipos-de-tareas" id="toc-tipos-de-tareas" class="nav-link" data-scroll-target="#tipos-de-tareas">Tipos de tareas</a>
+  <ul class="collapse">
+  <li><a href="#regresión" id="toc-regresión" class="nav-link" data-scroll-target="#regresión">Regresión</a></li>
+  <li><a href="#clasificación" id="toc-clasificación" class="nav-link" data-scroll-target="#clasificación">Clasificación</a></li>
+  <li><a href="#aprendizaje-no-supervisado" id="toc-aprendizaje-no-supervisado" class="nav-link" data-scroll-target="#aprendizaje-no-supervisado">Aprendizaje no supervisado</a></li>
+  <li><a href="#recomendación" id="toc-recomendación" class="nav-link" data-scroll-target="#recomendación">Recomendación</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#modelos-parámetros-y-predicciones" id="toc-modelos-parámetros-y-predicciones" class="nav-link" data-scroll-target="#modelos-parámetros-y-predicciones">0.3 Modelos, parámetros y predicciones</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-0.2-una-predicción-lineal" id="toc-ejemplo-0.2-una-predicción-lineal" class="nav-link" data-scroll-target="#ejemplo-0.2-una-predicción-lineal">Ejemplo 0.2: una predicción lineal</a></li>
+  <li><a href="#punto-de-control-0.2" id="toc-punto-de-control-0.2" class="nav-link" data-scroll-target="#punto-de-control-0.2">Punto de control 0.2</a></li>
+  </ul></li>
+  <li><a href="#pérdida-métrica-y-baseline" id="toc-pérdida-métrica-y-baseline" class="nav-link" data-scroll-target="#pérdida-métrica-y-baseline">0.4 Pérdida, métrica y baseline</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-0.3-baseline-de-regresión" id="toc-ejemplo-0.3-baseline-de-regresión" class="nav-link" data-scroll-target="#ejemplo-0.3-baseline-de-regresión">Ejemplo 0.3: baseline de regresión</a></li>
+  <li><a href="#ejemplo-0.4-baseline-de-clasificación" id="toc-ejemplo-0.4-baseline-de-clasificación" class="nav-link" data-scroll-target="#ejemplo-0.4-baseline-de-clasificación">Ejemplo 0.4: baseline de clasificación</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy">Accuracy</a></li>
+  <li><a href="#error-absoluto-medio" id="toc-error-absoluto-medio" class="nav-link" data-scroll-target="#error-absoluto-medio">Error absoluto medio</a></li>
+  <li><a href="#error-cuadrático-medio" id="toc-error-cuadrático-medio" class="nav-link" data-scroll-target="#error-cuadrático-medio">Error cuadrático medio</a></li>
+  </ul></li>
+  <li><a href="#entrenamiento-prueba-y-generalización" id="toc-entrenamiento-prueba-y-generalización" class="nav-link" data-scroll-target="#entrenamiento-prueba-y-generalización">0.5 Entrenamiento, prueba y generalización</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-0.5-una-mala-evaluación" id="toc-ejemplo-0.5-una-mala-evaluación" class="nav-link" data-scroll-target="#ejemplo-0.5-una-mala-evaluación">Ejemplo 0.5: una mala evaluación</a></li>
+  </ul></li>
+  <li><a href="#primer-flujo-aplicado-en-python" id="toc-primer-flujo-aplicado-en-python" class="nav-link" data-scroll-target="#primer-flujo-aplicado-en-python">0.6 Primer flujo aplicado en Python</a>
+  <ul class="collapse">
+  <li><a href="#cómo-leer-este-código" id="toc-cómo-leer-este-código" class="nav-link" data-scroll-target="#cómo-leer-este-código">Cómo leer este código</a></li>
+  </ul></li>
+  <li><a href="#de-número-a-conclusión-técnica" id="toc-de-número-a-conclusión-técnica" class="nav-link" data-scroll-target="#de-número-a-conclusión-técnica">0.7 De número a conclusión técnica</a>
+  <ul class="collapse">
+  <li><a href="#plantilla-de-conclusión" id="toc-plantilla-de-conclusión" class="nav-link" data-scroll-target="#plantilla-de-conclusión">Plantilla de conclusión</a></li>
+  <li><a href="#ejemplo-0.6-conclusión-débil-y-conclusión-mejor" id="toc-ejemplo-0.6-conclusión-débil-y-conclusión-mejor" class="nav-link" data-scroll-target="#ejemplo-0.6-conclusión-débil-y-conclusión-mejor">Ejemplo 0.6: conclusión débil y conclusión mejor</a></li>
+  </ul></li>
+  <li><a href="#errores-comunes-al-empezar" id="toc-errores-comunes-al-empezar" class="nav-link" data-scroll-target="#errores-comunes-al-empezar">0.8 Errores comunes al empezar</a>
+  <ul class="collapse">
+  <li><a href="#error-1-empezar-por-el-algoritmo" id="toc-error-1-empezar-por-el-algoritmo" class="nav-link" data-scroll-target="#error-1-empezar-por-el-algoritmo">Error 1: empezar por el algoritmo</a></li>
+  <li><a href="#error-2-confundir-pérdida-con-métrica" id="toc-error-2-confundir-pérdida-con-métrica" class="nav-link" data-scroll-target="#error-2-confundir-pérdida-con-métrica">Error 2: confundir pérdida con métrica</a></li>
+  <li><a href="#error-3-no-tener-baseline" id="toc-error-3-no-tener-baseline" class="nav-link" data-scroll-target="#error-3-no-tener-baseline">Error 3: no tener baseline</a></li>
+  <li><a href="#error-4-evaluar-con-datos-de-entrenamiento" id="toc-error-4-evaluar-con-datos-de-entrenamiento" class="nav-link" data-scroll-target="#error-4-evaluar-con-datos-de-entrenamiento">Error 4: evaluar con datos de entrenamiento</a></li>
+  <li><a href="#error-5-prometer-más-de-lo-que-los-datos-muestran" id="toc-error-5-prometer-más-de-lo-que-los-datos-muestran" class="nav-link" data-scroll-target="#error-5-prometer-más-de-lo-que-los-datos-muestran">Error 5: prometer más de lo que los datos muestran</a></li>
+  </ul></li>
+  <li><a href="#resumen-del-capítulo" id="toc-resumen-del-capítulo" class="nav-link" data-scroll-target="#resumen-del-capítulo">Resumen del capítulo</a></li>
+  <li><a href="#terminos-clave" id="toc-terminos-clave" class="nav-link" data-scroll-target="#terminos-clave">Terminos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#conceptos" id="toc-conceptos" class="nav-link" data-scroll-target="#conceptos">Conceptos</a></li>
+  <li><a href="#calculo-manual" id="toc-calculo-manual" class="nav-link" data-scroll-target="#calculo-manual">Calculo manual</a></li>
+  <li><a href="#interpretacion" id="toc-interpretacion" class="nav-link" data-scroll-target="#interpretacion">Interpretacion</a></li>
+  <li><a href="#codigo" id="toc-codigo" class="nav-link" data-scroll-target="#codigo">Codigo</a></li>
+  <li><a href="#proyecto" id="toc-proyecto" class="nav-link" data-scroll-target="#proyecto">Proyecto</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></h1>
+<p class="subtitle lead">Datos, modelos, métricas y decisiones</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="vista-previa" class="level1">
+<h1>Vista previa</h1>
+<p>Este capítulo introduce el lenguaje básico que usaremos durante el curso. Su función es parecida a la de un capítulo inicial de un libro de cálculo: no pretende resolver todos los problemas del semestre, sino fijar los objetos, la notación, los ejemplos y los hábitos de pensamiento que se repetirán una y otra vez.</p>
+<p>En cálculo, antes de derivar funciones complicadas, uno aprende qué es una función, qué significa una gráfica, qué es una tasa de cambió y qué información entrega una aproximación. En ciencia de datos aplicada ocurre algo similar: antes de estudiar regresión, redes neuronales o PCA, necesitamos entender qué es un dataset, qué es un modelo, qué significa entrenar, cómo se mide el desempeño y por qué una métrica no basta para tomar una decisión.</p>
+<p>Al terminar este capítulo deberias poder:</p>
+<ol type="1">
+<li>Distinguir observaciones, variables, entradas y objetivos.</li>
+<li>Representar un dataset supervisado mediante una matriz <code>X</code> y un vector <code>y</code>.</li>
+<li>Explicar qué es un modelo y qué papel juegan sus parámetros.</li>
+<li>Diferenciar pérdida, métrica y baseline.</li>
+<li>Explicar por qué se separan datos de entrenamiento y prueba.</li>
+<li>Escribir una conclusión técnica breve sin exagerar lo que muestran los datos.</li>
+</ol>
+<div class="callout callout-style-default callout-note callout-titled" title="Idea central">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Idea central
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>La ciencia de datos aplicada no empieza con un algoritmo. Empieza con una pregunta, una fuente de datos y una decisión que se quiere informar.</p>
+</div>
+</div>
+</section>
+<section id="observaciones-variables-y-datasets" class="level1">
+<h1>0.1 Observaciones, variables y datasets</h1>
+<p>Un <strong>dataset</strong> es una colección organizada de datos. En el formato más común para este curso, un dataset se puede imaginar como una tabla.</p>
+<ul>
+<li>Cada fila representa una <strong>observación</strong>.</li>
+<li>Cada columna representa una <strong>variable</strong>.</li>
+<li>Algunas variables se usan como entradas.</li>
+<li>Una variable, cuando existe, se usa como objetivo.</li>
+</ul>
+<div class="definicion">
+<p><strong>Definición 0.1: Observacion.</strong><br>
+Una observación es una unidad individual sobre la que se registran datos. Puede ser un paciente, una vivienda, una imagen, una transacción, un estudiante, una molecula o un texto.</p>
+</div>
+<div class="definicion">
+<p><strong>Definición 0.2: Variable.</strong><br>
+Una variable es una cantidad, categoría o atributo registrado para cada observación. Puede ser numérica, categorica, ordinal, binaria, temporal o textual.</p>
+</div>
+<section id="ejemplo-0.1-una-tabla-pequeña" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.1-una-tabla-pequeña">Ejemplo 0.1: una tabla pequeña</h2>
+<p>Supongamos que queremos estudiar viviendas. Un dataset pequeño podría tener esta forma:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">vivienda</th>
+<th style="text-align: right;">area_m2</th>
+<th style="text-align: right;">habitaciones</th>
+<th style="text-align: right;">antiguedad</th>
+<th style="text-align: right;">precio_millones</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">62</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">310</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">455</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">240</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">110</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">620</td>
+</tr>
+</tbody>
+</table>
+<p>Si la pregunta es predecir <code>precio_millones</code>, entonces:</p>
+<ul>
+<li>una observación es una vivienda;</li>
+<li>las variables de entrada podrían ser <code>area_m2</code>, <code>habitaciones</code> y <code>antiguedad</code>;</li>
+<li>la variable objetivo sería <code>precio_millones</code>.</li>
+</ul>
+<p>En notación matricial escribimos:</p>
+<p><span class="math display">\[
+X =
+\begin{bmatrix}
+62 &amp; 2 &amp; 12 \\
+85 &amp; 3 &amp; 5 \\
+47 &amp; 1 &amp; 20 \\
+110 &amp; 4 &amp; 8
+\end{bmatrix},
+\qquad
+y =
+\begin{bmatrix}
+310 \\
+455 \\
+240 \\
+620
+\end{bmatrix}.
+\]</span></p>
+<p>La matriz <code>X</code> contiene las variables de entrada. El vector <code>y</code> contiene el objetivo.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Lectura de la notación">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Lectura de la notación
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Si <code>X</code> tiene <code>n</code> filas y <code>d</code> columnas, diremos que hay <code>n</code> observaciones y <code>d</code> variables de entrada. En símbolos, <code>X</code> tiene forma <code>n x d</code>.</p>
+</div>
+</div>
+</section>
+<section id="punto-de-control-0.1" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control-0.1">Punto de control 0.1</h2>
+<p>En el ejemplo de viviendas:</p>
+<ol type="1">
+<li>Cuántas observaciones hay?</li>
+<li>Cuántas variables de entrada hay?</li>
+<li>Cuál es la forma de <code>X</code>?</li>
+<li>Cuál es la forma de <code>y</code>?</li>
+</ol>
+<p>Respuesta esperada: hay 4 observaciones, 3 variables de entrada, <code>X</code> tiene forma <code>4 x 3</code> y <code>y</code> tiene longitud 4.</p>
+</section>
+</section>
+<section id="preguntas-aplicadas-y-tareas-de-aprendizaje" class="level1">
+<h1>0.2 Preguntas aplicadas y tareas de aprendizaje</h1>
+<p>Una pregunta aplicada debe ser más concreta que “quiero analizar datos”. Debe decir que se quiere saber o decidir.</p>
+<p>Comparemos:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Formulación débil</th>
+<th>Formulación más útil</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Quiero usar datos de salud</td>
+<td>Quiero estimar riesgo de reingreso hospitalario en 30 días</td>
+</tr>
+<tr class="even">
+<td>Quiero hacer redes neuronales</td>
+<td>Quiero clasificar imágenes de defectos en piezas manufacturadas</td>
+</tr>
+<tr class="odd">
+<td>Quiero analizar precios</td>
+<td>Quiero predecir precio de arriendo a partir de ubicación y características</td>
+</tr>
+<tr class="even">
+<td>Quiero hacer clustering</td>
+<td>Quiero segmentar usuarios para entender patrones de uso</td>
+</tr>
+</tbody>
+</table>
+<div class="definicion">
+<p><strong>Definición 0.3: Pregunta aplicada.</strong><br>
+Una pregunta aplicada es una pregunta formulada de manera que conecta datos disponibles con una decisión, explicación, predicción o clasificación posible.</p>
+</div>
+<section id="tipos-de-tareas" class="level2">
+<h2 class="anchored" data-anchor-id="tipos-de-tareas">Tipos de tareas</h2>
+<p>En este curso aparecerán cuatro familias de tareas.</p>
+<section id="regresión" class="level3">
+<h3 class="anchored" data-anchor-id="regresión">Regresión</h3>
+<p>La variable objetivo es numérica.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>precio de una vivienda;</li>
+<li>demanda de energía;</li>
+<li>tiempo de entrega;</li>
+<li>concentración de una sustancia;</li>
+<li>progresión de una enfermedad medida en una escala continua.</li>
+</ul>
+</section>
+<section id="clasificación" class="level3">
+<h3 class="anchored" data-anchor-id="clasificación">Clasificación</h3>
+<p>La variable objetivo es una clase o categoría.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>fraude/no fraude;</li>
+<li>tumor benigno/maligno;</li>
+<li>tipo de vino;</li>
+<li>aprobado/no aprobado;</li>
+<li>categoría de documento.</li>
+</ul>
+</section>
+<section id="aprendizaje-no-supervisado" class="level3">
+<h3 class="anchored" data-anchor-id="aprendizaje-no-supervisado">Aprendizaje no supervisado</h3>
+<p>No hay una variable objetivo directa. Buscamos estructura en los datos.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>segmentar usuarios;</li>
+<li>reducir dimensión;</li>
+<li>encontrar grupos de observaciones parecidas;</li>
+<li>visualizar datos de alta dimensión.</li>
+</ul>
+</section>
+<section id="recomendación" class="level3">
+<h3 class="anchored" data-anchor-id="recomendación">Recomendación</h3>
+<p>Buscamos sugerir ítems a usuarios o completar información faltante en una matriz de interacciones.</p>
+<p>Ejemplos:</p>
+<ul>
+<li>recomendar películas;</li>
+<li>sugerir productos;</li>
+<li>priorizar lecturas;</li>
+<li>ordenar contenidos.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Advertencia">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El nombre del algoritmo no define el problema. Primero se formula la pregunta; después se decide si hace falta regresión, clasificación, clustering, PCA, recomendación u otra herramienta.</p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="modelos-parámetros-y-predicciones" class="level1">
+<h1>0.3 Modelos, parámetros y predicciones</h1>
+<p>Un <strong>modelo</strong> es una familia de funciones que transforma entradas en predicciones.</p>
+<p>Si una observación tiene variables de entrada</p>
+<p><span class="math display">\[
+x = (x_1, x_2, \ldots, x_d),
+\]</span></p>
+<p>entonces un modelo produce una predicción:</p>
+<p><span class="math display">\[
+\hat y = f_\theta(x).
+\]</span></p>
+<p>Aquí:</p>
+<ul>
+<li><code>x</code> es la entrada;</li>
+<li><code>y</code> es el valor real;</li>
+<li><code>\hat y</code> es la predicción;</li>
+<li><code>f_\theta</code> es el modelo;</li>
+<li><code>\theta</code> representa parámetros ajustables.</li>
+</ul>
+<div class="definicion">
+<p><strong>Definición 0.4: Parametros.</strong><br>
+Los parámetros son cantidades internas del modelo que se ajustan usando datos. En una regresión lineal, los parámetros son los coeficientes. En una red neuronal, son los pesos y sesgos.</p>
+</div>
+<section id="ejemplo-0.2-una-predicción-lineal" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.2-una-predicción-lineal">Ejemplo 0.2: una predicción lineal</h2>
+<p>Supongamos que usamos el modelo:</p>
+<p><span class="math display">\[
+\hat y = 40 + 4x_1 + 30x_2 - 2x_3,
+\]</span></p>
+<p>donde:</p>
+<ul>
+<li><code>x_1</code> es el área en metros cuadrados;</li>
+<li><code>x_2</code> es el número de habitaciones;</li>
+<li><code>x_3</code> es la antiguedad en anos;</li>
+<li><code>\hat y</code> es el precio predicho en millones.</li>
+</ul>
+<p>Para una vivienda con:</p>
+<p><span class="math display">\[
+x_1 = 80, \qquad x_2 = 3, \qquad x_3 = 10,
+\]</span></p>
+<p>la predicción es:</p>
+<p><span class="math display">\[
+\hat y = 40 + 4(80) + 30(3) - 2(10)
+      = 40 + 320 + 90 - 20
+      = 430.
+\]</span></p>
+<p>El modelo predice 430 millones.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo resuelto 0.2.</strong><br>
+Si el precio real fuera 455 millones, el error de predicción sería:</p>
+<p><span class="math display">\[
+y - \hat y = 455 - 430 = 25.
+\]</span></p>
+<p>El modelo subestima el precio por 25 millones.</p>
+</div>
+</section>
+<section id="punto-de-control-0.2" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control-0.2">Punto de control 0.2</h2>
+<p>Usa el mismo modelo:</p>
+<p><span class="math display">\[
+\hat y = 40 + 4x_1 + 30x_2 - 2x_3.
+\]</span></p>
+<p>Calcula la predicción para una vivienda de 60 m2, 2 habitaciones y 15 anos de antiguedad.</p>
+<p>Respuesta:</p>
+<p><span class="math display">\[
+\hat y = 40 + 4(60) + 30(2) - 2(15) = 310.
+\]</span></p>
+</section>
+</section>
+<section id="pérdida-métrica-y-baseline" class="level1">
+<h1>0.4 Pérdida, métrica y baseline</h1>
+<p>Una vez un modelo produce predicciones, necesitamos evaluar si son buenas. Aquí aparecen tres ideas que suelen confundirse: pérdida, métrica y baseline.</p>
+<div class="definicion">
+<p><strong>Definición 0.5: Pérdida.</strong><br>
+Una pérdida mide qué tan mala es una predicción para una observación o un conjunto de observaciones. Durante el entrenamiento, muchos algoritmos ajustan parámetros minimizando una pérdida.</p>
+</div>
+<div class="definicion">
+<p><strong>Definición 0.6: Métrica.</strong><br>
+Una métrica resume el desempeño del modelo en una forma útil para comparar, reportar o tomar decisiones.</p>
+</div>
+<div class="definicion">
+<p><strong>Definición 0.7: Baseline.</strong><br>
+Un baseline es una regla simple que sirve como punto mínimo de comparación. Un modelo complejo debe justificar su complejidad superando un baseline razonable.</p>
+</div>
+<section id="ejemplo-0.3-baseline-de-regresión" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.3-baseline-de-regresión">Ejemplo 0.3: baseline de regresión</h2>
+<p>Supongamos que tenemos precios reales:</p>
+<p><span class="math display">\[
+y =
+\begin{bmatrix}
+310 \\
+455 \\
+240 \\
+620
+\end{bmatrix}.
+\]</span></p>
+<p>Un baseline sencillo predice siempre el promedio:</p>
+<p><span class="math display">\[
+\bar y = \frac{310 + 455 + 240 + 620}{4} = 406.25.
+\]</span></p>
+<p>Entonces el baseline predice:</p>
+<p><span class="math display">\[
+\hat y =
+\begin{bmatrix}
+406.25 \\
+406.25 \\
+406.25 \\
+406.25
+\end{bmatrix}.
+\]</span></p>
+<p>Este baseline no usa variables de entrada. Precisamente por eso es útil: si un modelo que usa área, habitaciones y antiguedad no supera al promedio, algo esta mal o la información de entrada no es suficiente.</p>
+</section>
+<section id="ejemplo-0.4-baseline-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.4-baseline-de-clasificación">Ejemplo 0.4: baseline de clasificación</h2>
+<p>Supongamos un problema con 100 observaciones:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>clase</th>
+<th style="text-align: right;">cantidad</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">70</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">20</td>
+</tr>
+<tr class="odd">
+<td>C</td>
+<td style="text-align: right;">10</td>
+</tr>
+</tbody>
+</table>
+<p>Un baseline que predice siempre la clase más frecuente, A, tendría accuracy:</p>
+<p><span class="math display">\[
+\frac{70}{100} = 0.70.
+\]</span></p>
+<p>Si un modelo obtiene accuracy 0.72, técnicamente supera el baseline, pero la mejora es pequeña. Habría que mirar:</p>
+<ul>
+<li>matriz de confusion;</li>
+<li>precision y recall por clase;</li>
+<li>estabilidad con otra partición;</li>
+<li>costo de los errores;</li>
+<li>tamaño del dataset.</li>
+</ul>
+<div class="callout callout-style-default callout-important callout-titled" title="Principio">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Principio
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Nunca reportes una métrica sin decir contra qué baseline se compara.</p>
+</div>
+</div>
+</section>
+<section id="accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy">Accuracy</h2>
+<p>En clasificación, la accuracy mide la proporción de predicciones correctas:</p>
+<p><span class="math display">\[
+\text{accuracy}
+= \frac{\text{número de predicciones correctas}}{\text{número total de predicciones}}.
+\]</span></p>
+<p>La accuracy es fácil de entender, pero puede ser enganosa si las clases están desbalanceadas.</p>
+</section>
+<section id="error-absoluto-medio" class="level2">
+<h2 class="anchored" data-anchor-id="error-absoluto-medio">Error absoluto medio</h2>
+<p>En regresión, una métrica común es el error absoluto medio:</p>
+<p><span class="math display">\[
+\text{MAE}
+= \frac{1}{n}\sum_{i=1}^{n} |y_i - \hat y_i|.
+\]</span></p>
+<p>El MAE se interpreta en las mismas unidades de la variable objetivo.</p>
+</section>
+<section id="error-cuadrático-medio" class="level2">
+<h2 class="anchored" data-anchor-id="error-cuadrático-medio">Error cuadrático medio</h2>
+<p>Otra métrica común es el error cuadrático medio:</p>
+<p><span class="math display">\[
+\text{MSE}
+= \frac{1}{n}\sum_{i=1}^{n} (y_i - \hat y_i)^2.
+\]</span></p>
+<p>El MSE penaliza más los errores grandes.</p>
+</section>
+</section>
+<section id="entrenamiento-prueba-y-generalización" class="level1">
+<h1>0.5 Entrenamiento, prueba y generalización</h1>
+<p>Un modelo no se evalúa seriamente con los mismos datos que usó para aprender. Si hacemos eso, podemos medir memoria en lugar de generalización.</p>
+<p>La separacion más básica es:</p>
+<pre class="text"><code>datos disponibles -&gt; datos de entrenamiento
+                  -&gt; datos de prueba</code></pre>
+<p>El modelo ajusta sus parámetros con los datos de entrenamiento. Luego se evalúa en los datos de prueba.</p>
+<div class="definicion">
+<p><strong>Definición 0.8: Generalización.</strong><br>
+Generalización es la capacidad de un modelo de funcionar razonablemente bien en datos no usados para entrenarlo.</p>
+</div>
+<section id="ejemplo-0.5-una-mala-evaluación" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.5-una-mala-evaluación">Ejemplo 0.5: una mala evaluación</h2>
+<p>Un estudiante entrena un modelo con 200 observaciones y reporta accuracy 0.98 en esas mismas 200 observaciones. Esa información no basta para afirmar que el modelo sirve.</p>
+<p>Falta saber:</p>
+<ul>
+<li>si se evaluo en datos separados;</li>
+<li>si hay leakage;</li>
+<li>si las clases están balanceadas;</li>
+<li>cuál era el baseline;</li>
+<li>que errores comete;</li>
+<li>si el resultado se mantiene con otra partición.</li>
+</ul>
+<div class="callout callout-style-default callout-warning callout-titled" title="Error común">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Error común
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Un modelo puede verse excelente en entrenamiento y fallar en datos nuevos. Esto se llama sobreajuste u overfitting.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="primer-flujo-aplicado-en-python" class="level1">
+<h1>0.6 Primer flujo aplicado en Python</h1>
+<p>En la Semana 1 usaremos el dataset <code>load_wine</code> de <code>scikit-learn</code>. El objetivo es clasificar vinos a partir de mediciones químicas.</p>
+<p>El siguiente código muestra un flujo completo. En este capítulo el código se presenta como lectura; el laboratorio lo ejecuta paso a paso.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.data</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data.target</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    X,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    y,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>y</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>baseline.fit(X_train, y_train)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>baseline_acc <span class="op">=</span> accuracy_score(y_test, baseline_pred)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>model_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>model_acc <span class="op">=</span> accuracy_score(y_test, model_pred)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Baseline:"</span>, baseline_acc)</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Modelo:"</span>, model_acc)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="cómo-leer-este-código" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-leer-este-código">Cómo leer este código</h2>
+<p>No necesitas dominar todos los detalles todavía. Pero si debes identificar las piezas conceptuales:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Linea conceptual</th>
+<th>Codigo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Cargar datos</td>
+<td><code>load_wine(as_frame=True)</code></td>
+</tr>
+<tr class="even">
+<td>Separar entradas y objetivo</td>
+<td><code>X = data.data</code>, <code>y = data.target</code></td>
+</tr>
+<tr class="odd">
+<td>Crear train/test</td>
+<td><code>train_test_split(...)</code></td>
+</tr>
+<tr class="even">
+<td>Crear baseline</td>
+<td><code>DummyClassifier(...)</code></td>
+</tr>
+<tr class="odd">
+<td>Crear modelo</td>
+<td><code>LogisticRegression(...)</code></td>
+</tr>
+<tr class="even">
+<td>Medir desempeño</td>
+<td><code>accuracy_score(...)</code></td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-note callout-titled" title="Por qué aparece `StandardScaler`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Por qué aparece <code>StandardScaler</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Muchas técnicas de machine learning son sensibles a la escala de las variables. En la Semana 2 veremos una razón matemática de fondo: la geometría del problema y el condicionamiento pueden afectar la optimización.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="de-número-a-conclusión-técnica" class="level1">
+<h1>0.7 De número a conclusión técnica</h1>
+<p>Una conclusión técnica no es simplemente:</p>
+<blockquote class="blockquote">
+<p>El modelo dio 0.91.</p>
+</blockquote>
+<p>Una conclusión técnica debe incluir contexto:</p>
+<ol type="1">
+<li>Qué se intentó predecir o clasificar.</li>
+<li>Qué datos se usaron.</li>
+<li>Contra que baseline se comparo.</li>
+<li>Qué métrica se reporto.</li>
+<li>Qué limitacion principal tiene el resultado.</li>
+</ol>
+<section id="plantilla-de-conclusión" class="level2">
+<h2 class="anchored" data-anchor-id="plantilla-de-conclusión">Plantilla de conclusión</h2>
+<p>Una buena primera plantilla es:</p>
+<blockquote class="blockquote">
+<p>En este experimento, el modelo ____ al baseline usando la métrica ____. La evaluación se hizo sobre ____. Esta conclusión es limitada porque ____.</p>
+</blockquote>
+</section>
+<section id="ejemplo-0.6-conclusión-débil-y-conclusión-mejor" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-0.6-conclusión-débil-y-conclusión-mejor">Ejemplo 0.6: conclusión débil y conclusión mejor</h2>
+<p>Conclusion débil:</p>
+<blockquote class="blockquote">
+<p>El modelo es muy bueno porque saco 0.96.</p>
+</blockquote>
+<p>Problemas:</p>
+<ul>
+<li>no dice que mide 0.96;</li>
+<li>no menciona baseline;</li>
+<li>no dice con qué datos;</li>
+<li>no reconoce limitaciones.</li>
+</ul>
+<p>Conclusion mejor:</p>
+<blockquote class="blockquote">
+<p>En este experimento inicial, la regresión logística supera al baseline de clase mayoritaria usando accuracy en una partición de prueba estratificada. Sin embargo, la conclusión es limitada porque el dataset es pequeño y limpio; antes de usar el modelo en una decisión real habría que revisar errores por clase y validar con datos externos.</p>
+</blockquote>
+</section>
+</section>
+<section id="errores-comunes-al-empezar" class="level1">
+<h1>0.8 Errores comunes al empezar</h1>
+<section id="error-1-empezar-por-el-algoritmo" class="level2">
+<h2 class="anchored" data-anchor-id="error-1-empezar-por-el-algoritmo">Error 1: empezar por el algoritmo</h2>
+<p>Mala pregunta:</p>
+<blockquote class="blockquote">
+<p>Qué puedo hacer con redes neuronales?</p>
+</blockquote>
+<p>Mejor pregunta:</p>
+<blockquote class="blockquote">
+<p>Qué decisión quiero informar y que datos tengo para hacerlo?</p>
+</blockquote>
+</section>
+<section id="error-2-confundir-pérdida-con-métrica" class="level2">
+<h2 class="anchored" data-anchor-id="error-2-confundir-pérdida-con-métrica">Error 2: confundir pérdida con métrica</h2>
+<p>Una función puede servir para entrenar, pero no ser la mejor forma de comunicar resultados. Por ejemplo, un modelo puede entrenarse con log-loss y reportarse con F1 o ROC-AUC según el problema.</p>
+</section>
+<section id="error-3-no-tener-baseline" class="level2">
+<h2 class="anchored" data-anchor-id="error-3-no-tener-baseline">Error 3: no tener baseline</h2>
+<p>Sin baseline, una métrica queda flotando. Accuracy 0.80 puede ser buena si el baseline es 0.50, pero mala si el baseline es 0.79 y el modelo es mucho más costoso.</p>
+</section>
+<section id="error-4-evaluar-con-datos-de-entrenamiento" class="level2">
+<h2 class="anchored" data-anchor-id="error-4-evaluar-con-datos-de-entrenamiento">Error 4: evaluar con datos de entrenamiento</h2>
+<p>Esto infla el desempeño. Separar entrenamiento y prueba no es una formalidad; es una defensa mínima contra autoengano.</p>
+</section>
+<section id="error-5-prometer-más-de-lo-que-los-datos-muestran" class="level2">
+<h2 class="anchored" data-anchor-id="error-5-prometer-más-de-lo-que-los-datos-muestran">Error 5: prometer más de lo que los datos muestran</h2>
+<p>Un modelo puede mostrar asociación predictiva sin demostrar causalidad. Puede funcionar en un dataset y fallar en otra población. Puede ser útil para priorizar revisión humana, pero no para automatizar una decisión sensible.</p>
+</section>
+</section>
+<section id="resumen-del-capítulo" class="level1">
+<h1>Resumen del capítulo</h1>
+<ol type="1">
+<li>Un dataset tabular se organiza en observaciones y variables.</li>
+<li>En aprendizaje supervisado distinguimos entradas <code>X</code> y objetivo <code>y</code>.</li>
+<li>Un modelo transforma entradas en predicciones.</li>
+<li>Los parámetros se ajustan usando datos.</li>
+<li>Una pérdida ayuda a entrenar; una métrica ayuda a evaluar y comunicar.</li>
+<li>Un baseline es una comparación mínima indispensable.</li>
+<li>Separar entrenamiento y prueba ayuda a estimar generalización.</li>
+<li>Una conclusión técnica debe mencionar métrica, baseline, datos y limitaciones.</li>
+</ol>
+</section>
+<section id="terminos-clave" class="level1">
+<h1>Terminos clave</h1>
+<ul>
+<li>accuracy;</li>
+<li>baseline;</li>
+<li>clasificación;</li>
+<li>dataset;</li>
+<li>entrada;</li>
+<li>generalización;</li>
+<li>matriz de datos;</li>
+<li>métrica;</li>
+<li>modelo;</li>
+<li>observación;</li>
+<li>parámetro;</li>
+<li>pérdida;</li>
+<li>regresión;</li>
+<li>train/test;</li>
+<li>variable objetivo.</li>
+</ul>
+</section>
+<section id="ejercicios" class="level1">
+<h1>Ejercicios</h1>
+<section id="conceptos" class="level2">
+<h2 class="anchored" data-anchor-id="conceptos">Conceptos</h2>
+<ol type="1">
+<li>En tus propias palabras, explica la diferencia entre una pregunta aplicada y un algoritmo.</li>
+<li>Da un ejemplo de observación y variable en un dataset de transporte.</li>
+<li>Qué diferencia hay entre <code>y</code> y <code>\hat y</code>?</li>
+<li>Por qué un baseline de clase mayoritaria puede tener accuracy alta en un dataset desbalanceado?</li>
+<li>¿Por qué no basta evaluar un modelo en los datos de entrenamiento?</li>
+</ol>
+</section>
+<section id="calculo-manual" class="level2">
+<h2 class="anchored" data-anchor-id="calculo-manual">Calculo manual</h2>
+<ol start="6" type="1">
+<li>Considera el modelo:</li>
+</ol>
+<p><span class="math display">\[
+\hat y = 10 + 2x_1 - 3x_2.
+\]</span></p>
+<p>Calcula la predicción para <code>x_1 = 8</code> y <code>x_2 = 4</code>.</p>
+<ol start="7" type="1">
+<li>Los valores reales son:</li>
+</ol>
+<p><span class="math display">\[
+y = (4, 7, 9, 10)
+\]</span></p>
+<p>y las predicciones son:</p>
+<p><span class="math display">\[
+\hat y = (5, 6, 8, 12).
+\]</span></p>
+<p>Calcula el MAE.</p>
+<ol start="8" type="1">
+<li>En un problema de clasificación hay 50 observaciones de clase A, 30 de clase B y 20 de clase C. ¿Cuál es la accuracy del baseline que predice siempre la clase más frecuente?</li>
+</ol>
+</section>
+<section id="interpretacion" class="level2">
+<h2 class="anchored" data-anchor-id="interpretacion">Interpretacion</h2>
+<ol start="9" type="1">
+<li><p>Un modelo obtiene accuracy 0.84. El baseline obtiene 0.82. Escribe dos razones por las cuales no deberiamos concluir automáticamente que el modelo es bueno.</p></li>
+<li><p>Un modelo de regresión obtiene MAE de 12 unidades. Qué información adicional necesitas para interpretar si ese valor es pequeño o grande?</p></li>
+<li><p>Escribe una conclusión técnica de tres frases para un modelo que supera el baseline, pero fue evaluado en un dataset pequeño.</p></li>
+</ol>
+</section>
+<section id="codigo" class="level2">
+<h2 class="anchored" data-anchor-id="codigo">Codigo</h2>
+<ol start="12" type="1">
+<li><p>En el laboratorio, identifica en que línea se separan <code>X_train</code>, <code>X_test</code>, <code>y_train</code>, <code>y_test</code>.</p></li>
+<li><p>Modifica el tamaño de prueba de 0.25 a 0.30. Qué cambia en las dimensiones?</p></li>
+<li><p>Quita <code>stratify=y</code> y compara la distribución de clases en entrenamiento y prueba. Qué observas?</p></li>
+</ol>
+</section>
+<section id="proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="proyecto">Proyecto</h2>
+<ol start="15" type="1">
+<li>Propone una idea de proyecto. Especifica:</li>
+</ol>
+<ul>
+<li>unidad de observación;</li>
+<li>variable objetivo, si existe;</li>
+<li>métrica inicial;</li>
+<li>baseline razonable;</li>
+<li>decisión que podría informar.</li>
+</ul>
+<ol start="16" type="1">
+<li>Para tu idea de proyecto, identifica una limitacion ética o técnica que debería aparecer en el reporte final.</li>
+</ol>
+</section>
+</section>
+<section id="respuestas-seleccionadas" class="level1">
+<h1>Respuestas seleccionadas</h1>
+<p><strong>6.</strong></p>
+<p><span class="math display">\[
+\hat y = 10 + 2(8) - 3(4) = 14.
+\]</span></p>
+<p><strong>7.</strong></p>
+<p>Los errores absolutos son:</p>
+<p><span class="math display">\[
+|4-5|=1,\quad |7-6|=1,\quad |9-8|=1,\quad |10-12|=2.
+\]</span></p>
+<p>Por tanto:</p>
+<p><span class="math display">\[
+\text{MAE} = \frac{1+1+1+2}{4} = 1.25.
+\]</span></p>
+<p><strong>8.</strong></p>
+<p>La clase más frecuente es A, con 50 de 100 observaciones. El baseline tiene accuracy:</p>
+<p><span class="math display">\[
+50/100 = 0.50.
+\]</span></p>
+<p><strong>9.</strong></p>
+<p>Dos razones posibles: la mejora sobre el baseline es pequeña y podría no ser estable; además, la accuracy puede ocultar errores graves en clases minoritarias.</p>
+<p><strong>10.</strong></p>
+<p>Hace falta conocer la escala de la variable objetivo, el baseline, el contexto de decisión y el costo práctico de un error de 12 unidades.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link" aria-label="Módulo 0: Arranque y lenguaje común">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Módulo 0: Arranque y lenguaje común</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./texto_estudiantes.html" class="pagination-link" aria-label="Guía de orientación de la Semana 1">
+        <span class="nav-page-text"><span class="chapter-title">Guía de orientación de la Semana 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

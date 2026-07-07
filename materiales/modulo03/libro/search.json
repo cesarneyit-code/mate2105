@@ -1,0 +1,532 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "MATE-2105: Módulo 3",
+    "section": "",
+    "text": "Módulo 3: Estrategia ML, diagnóstico y análisis de errores",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#propósito",
+    "href": "index.html#propósito",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Propósito",
+    "text": "Propósito\nEste módulo cubre la semana 11 del curso. Su función es cambiar la pregunta:\n\nde “¿puedo entrenar un modelo?” a “¿cómo desarrollo un modelo de forma metodica y defendible?”\n\nDespués de los Módulos 1 y 2, el estudiante ya tiene modelos lineales y redes neuronales. Ahora necesita criterio para comparar, diagnosticar y decidir.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#semana-cubierta",
+    "href": "index.html#semana-cubierta",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Semana cubierta",
+    "text": "Semana cubierta\n\n\n\n\n\n\n\n\n\nSemana\nTema\nArtefacto central\nEvaluación / hito\n\n\n\n\n11\nMétricas, particiones, validación cruzada, curvas de aprendizaje, sesgo-varianza, error analysis y data mismatch\nNotebook de diagnóstico aplicado\nLab 4: diagnóstico de modelos",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#resultados-de-aprendizaje",
+    "href": "index.html#resultados-de-aprendizaje",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Resultados de aprendizaje",
+    "text": "Resultados de aprendizaje\nAl finalizar el módulo, el estudiante estará en capacidad de:\n\nElegir una métrica principal según el costo de errores.\nConstruir particiones train/dev/test sin leakage.\nUsar cross-validation para estimar variabilidad de desempeño.\nInterpretar curvas de aprendizaje y validation curves.\nDiagnosticar underfitting, overfitting y data mismatch.\nRealizar análisis de errores por subgrupos o casos difíciles.\nConvertir evidencia de evaluación en una siguiente decisión técnica.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#evaluación",
+    "href": "index.html#evaluación",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Evaluación",
+    "text": "Evaluación\n\nLab 4: diagnóstico de modelos.\n\n85% autograded: particiones, métricas, baseline, pipeline, cross-validation, learning curve, error slices y selección de modelo.\n15% manual: diagnóstico y recomendación técnica.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#datasets",
+    "href": "index.html#datasets",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Datasets",
+    "text": "Datasets\nNo se requiere internet.\n\nsklearn.datasets.load_breast_cancer para clasificación binaria con métricas sensibles.\nsklearn.datasets.load_diabetes para ejemplos de regresión cuando sea útil.\nDatos sintéticos con semilla fija para detectar leakage y sesgo-varianza.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#principio-operativo",
+    "href": "index.html#principio-operativo",
+    "title": "MATE-2105: Módulo 3",
+    "section": "Principio operativo",
+    "text": "Principio operativo\n\n\n\n\n\n\nNota\n\n\n\nEl test se toca una vez. La validación se usa para decidir. El entrenamiento se usa para aprender parámetros.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html",
+    "href": "capitulo01_metricas_particiones.html",
+    "title": "Métricas y particiones",
+    "section": "",
+    "text": "Pregunta aplicada\nUn modelo puede tener buena accuracy y aun así ser inaceptable si falla en los casos importantes. Antes de entrenar más modelos, debemos decidir:",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#pregunta-aplicada",
+    "href": "capitulo01_metricas_particiones.html#pregunta-aplicada",
+    "title": "Métricas y particiones",
+    "section": "",
+    "text": "¿qué error cuesta más y qué evidencia será suficiente para elegir?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#métrica-principal",
+    "href": "capitulo01_metricas_particiones.html#métrica-principal",
+    "title": "Métricas y particiones",
+    "section": "Métrica principal",
+    "text": "Métrica principal\n\nLa métrica principal es la regla cuantitativa que se usará para seleccionar modelos durante el desarrollo.\n\nEjemplos:\n\n\n\nProblema\nMétrica razonable\nMotivo\n\n\n\n\nDiagnóstico médico\nrecall o F1\nfalsos negativos costosos\n\n\nFiltro de alertas\nprecision\nfalsos positivos saturan al usuario\n\n\nRanking general\nROC-AUC o PR-AUC\nimporta ordenar riesgos\n\n\nRegresión de demanda\nMAE o RMSE\ndepende del costo de error",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#accuracy-no-siempre-basta",
+    "href": "capitulo01_metricas_particiones.html#accuracy-no-siempre-basta",
+    "title": "Métricas y particiones",
+    "section": "Accuracy no siempre basta",
+    "text": "Accuracy no siempre basta\nEn clases desbalanceadas, un modelo que predice siempre la clase mayoritaria puede tener alta accuracy.\nPor eso, en clasificación binaria se debe revisar:\n\nmatriz de confusión;\nprecision;\nrecall;\nF1;\nROC-AUC o PR-AUC;\ncosto de falsos positivos y falsos negativos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#baseline",
+    "href": "capitulo01_metricas_particiones.html#baseline",
+    "title": "Métricas y particiones",
+    "section": "Baseline",
+    "text": "Baseline\n\nNingún modelo se reporta sin baseline.\n\nUn baseline puede ser:\n\nclase mayoritaria;\npromedio de entrenamiento;\nmodelo lineal simple;\nregla de negocio;\nmodelo anterior del proyecto.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#particiones",
+    "href": "capitulo01_metricas_particiones.html#particiones",
+    "title": "Métricas y particiones",
+    "section": "Particiones",
+    "text": "Particiones\nLa estructura estándar es:\ntrain -&gt; ajustar parámetros\ndev/validation -&gt; elegir modelo e hiperparámetros\ntest -&gt; estimar desempeño final",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#test-se-toca-una-vez",
+    "href": "capitulo01_metricas_particiones.html#test-se-toca-una-vez",
+    "title": "Métricas y particiones",
+    "section": "Test se toca una vez",
+    "text": "Test se toca una vez\nSi se usa test para tomar decisiones, deja de ser una estimación honesta del desempeño final.\n\n\n\n\n\n\nAdvertencia\n\n\n\nEl conjunto de test no es una herramienta de diseño. Es una auditoría final.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#estratificación",
+    "href": "capitulo01_metricas_particiones.html#estratificación",
+    "title": "Métricas y particiones",
+    "section": "Estratificación",
+    "text": "Estratificación\nEn clasificación, la partición debe preservar proporciones de clase cuando sea razonable:\ntrain_test_split(X, y, stratify=y, random_state=42)\nSi no se estratifica un dataset pequeño o desbalanceado, una partición puede cambiar artificialmente la dificultad.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#leakage",
+    "href": "capitulo01_metricas_particiones.html#leakage",
+    "title": "Métricas y particiones",
+    "section": "Leakage",
+    "text": "Leakage\nLeakage ocurre cuando información no disponible en producción entra al entrenamiento o a la evaluación.\nEjemplos:\n\nescalar usando todo el dataset antes de partir;\nseleccionar variables usando test;\nusar variables creadas después del evento a predecir;\nduplicados entre train y test;\nelegir hiperparámetros mirando test.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#pipeline-como-defensa",
+    "href": "capitulo01_metricas_particiones.html#pipeline-como-defensa",
+    "title": "Métricas y particiones",
+    "section": "Pipeline como defensa",
+    "text": "Pipeline como defensa\nLos pipelines ayudan a aplicar fit solo donde corresponde:\nPipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression())\n])\nEn cross-validation, cada fold ajusta sus transformaciones solo con el train fold.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#ejercicios",
+    "href": "capitulo01_metricas_particiones.html#ejercicios",
+    "title": "Métricas y particiones",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Para un problema de fraude, explique cuándo preferiría recall y cuándo precision.\n\n\nEjercicio 2. Diseñe una partición train/dev/test para un dataset de 2000 observaciones con clases desbalanceadas.\n\n\nEjercicio 3. Identifique el leakage: se imputa la media de cada variable usando todo el dataset antes de train_test_split.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html",
+    "href": "capitulo02_validacion_curvas.html",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "",
+    "text": "Pregunta aplicada\nUn solo split puede ser afortunado o desafortunado. Necesitamos estimar variabilidad:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#pregunta-aplicada",
+    "href": "capitulo02_validacion_curvas.html#pregunta-aplicada",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "",
+    "text": "¿el modelo funciona de forma estable o solo tuvo suerte en una partición?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#cross-validation",
+    "href": "capitulo02_validacion_curvas.html#cross-validation",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Cross-validation",
+    "text": "Cross-validation\nEn (k)-fold cross-validation:\n\nSe divide el conjunto de entrenamiento en (k) folds.\nSe entrena (k) veces.\nCada fold actúa una vez como validación.\nSe reporta media y variabilidad.\n\nscores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring=\"f1\")",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#qué-reportar",
+    "href": "capitulo02_validacion_curvas.html#qué-reportar",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Qué reportar",
+    "text": "Qué reportar\nUn reporte profesional no dice solo:\nF1 = 0.84\nDice:\nF1 CV = 0.84 ± 0.03\nLa desviación informa estabilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#grid-search",
+    "href": "capitulo02_validacion_curvas.html#grid-search",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Grid search",
+    "text": "Grid search\nPara seleccionar hiperparámetros:\nGridSearchCV(\n    estimator=pipeline,\n    param_grid=grid,\n    scoring=\"f1\",\n    cv=5\n)\nEl grid search debe ocurrir dentro de entrenamiento/desarrollo, no sobre test.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#learning-curve",
+    "href": "capitulo02_validacion_curvas.html#learning-curve",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Learning curve",
+    "text": "Learning curve\nUna curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.\nSeñales típicas:\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico\nAcción\n\n\n\n\nTrain alto y val bajo\noverfitting\nregularizar, simplificar, más datos\n\n\nTrain bajo y val bajo\nunderfitting\nmodelo más expresivo, mejores features\n\n\nTrain y val se acercan\nestabilidad\nevaluar límite por ruido\n\n\nVal mejora con más datos\nconseguir más datos puede ayudar",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#validation-curve",
+    "href": "capitulo02_validacion_curvas.html#validation-curve",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Validation curve",
+    "text": "Validation curve\nUna validation curve varía un hiperparámetro:\nregularización baja -&gt; modelo flexible\nregularización alta -&gt; modelo simple\nPermite detectar si el hiperparámetro está empujando al modelo hacia overfitting o underfitting.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#sesgo-varianza-y-ruido",
+    "href": "capitulo02_validacion_curvas.html#sesgo-varianza-y-ruido",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Sesgo, varianza y ruido",
+    "text": "Sesgo, varianza y ruido\nLa generalización puede entenderse como una combinación de:\n\nsesgo: error sistemático por modelo demasiado restrictivo;\nvarianza: sensibilidad a cambios en entrenamiento;\nruido: parte no explicable por las variables disponibles.\n\nNo todo error se arregla con un modelo más complejo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#ejercicios",
+    "href": "capitulo02_validacion_curvas.html#ejercicios",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Una learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.\n\n\nEjercicio 2. ¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?\n\n\nEjercicio 3. Explique por qué GridSearchCV debe recibir un Pipeline completo si hay escalamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html",
+    "href": "capitulo03_error_analysis_data_mismatch.html",
+    "title": "Error analysis y data mismatch",
+    "section": "",
+    "text": "Pregunta aplicada\nDos modelos pueden tener la misma métrica agregada y fallar en casos completamente distintos.\nEl análisis de errores pregunta:",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#pregunta-aplicada",
+    "href": "capitulo03_error_analysis_data_mismatch.html#pregunta-aplicada",
+    "title": "Error analysis y data mismatch",
+    "section": "",
+    "text": "¿dónde falla el modelo, para quién falla y qué decisión técnica se desprende?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
+    "href": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
+    "title": "Error analysis y data mismatch",
+    "section": "Error analysis",
+    "text": "Error analysis\nUn análisis mínimo incluye:\n\nCasos correctamente clasificados.\nFalsos positivos.\nFalsos negativos.\nSubgrupos con peor desempeño.\nVariables o condiciones asociadas al error.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#slices",
+    "href": "capitulo03_error_analysis_data_mismatch.html#slices",
+    "title": "Error analysis y data mismatch",
+    "section": "Slices",
+    "text": "Slices\nUn slice es un subconjunto interpretable de datos:\n\npacientes mayores de cierta edad;\nobservaciones con medición faltante;\nimágenes de baja calidad;\ntransacciones de monto alto;\nejemplos de una fuente específica.\n\nEl objetivo es detectar fallas ocultas por el promedio.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#data-mismatch",
+    "href": "capitulo03_error_analysis_data_mismatch.html#data-mismatch",
+    "title": "Error analysis y data mismatch",
+    "section": "Data mismatch",
+    "text": "Data mismatch\nData mismatch ocurre cuando train, dev o test no vienen de la misma distribución relevante.\nEjemplos:\n\nentrenar con datos de una ciudad y probar en otra;\nentrenar con datos históricos y usar en una temporada distinta;\nusar datos limpios de laboratorio y desplegar en datos ruidosos;\ncombinar fuentes sin controlar origen.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-de-mismatch",
+    "href": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-de-mismatch",
+    "title": "Error analysis y data mismatch",
+    "section": "Diagnóstico de mismatch",
+    "text": "Diagnóstico de mismatch\nCompare:\n\ndistribución de variables clave;\nproporción de clases;\ndesempeño por fuente;\nerror por periodo;\ndesempeño en dev vs test.\n\nSi validación y test difieren mucho, no basta con cambiar hiperparámetros. Puede existir mismatch.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
+    "href": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
+    "title": "Error analysis y data mismatch",
+    "section": "Recomendación técnica",
+    "text": "Recomendación técnica\nUna recomendación debe seguir la forma:\nEvidencia -&gt; diagnóstico -&gt; acción\nEjemplo:\nEl recall cae de 0.84 a 0.62 en el grupo de mayor riesgo.\nDiagnóstico: el modelo no generaliza bien a ese slice.\nAcción: revisar representación de variables, ampliar datos del slice y ajustar métrica de selección.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
+    "href": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
+    "title": "Error analysis y data mismatch",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nEjercicio 1. Proponga tres slices relevantes para un proyecto de predicción de abandono de clientes.\n\n\nEjercicio 2. ¿Qué evidencia sugeriría data mismatch entre dev y test?\n\n\nEjercicio 3. Escriba una recomendación técnica con la estructura evidencia-diagnóstico-acción.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html",
+    "href": "capitulo04_ejercicios_integradores.html",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "Bloque A: métricas",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
+    "title": "Ejercicios integradores",
+    "section": "",
+    "text": "A1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-b-particiones-y-leakage",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-b-particiones-y-leakage",
+    "title": "Ejercicios integradores",
+    "section": "Bloque B: particiones y leakage",
+    "text": "Bloque B: particiones y leakage\n\nB1. Explique por qué escalar antes de partir datos puede contaminar validación.\n\n\nB2. Diseñe una partición para datos temporales. ¿Por qué shuffle=True puede ser inadecuado?\n\n\nB3. Identifique dos formas de leakage en proyectos estudiantiles.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-c-validación-y-curvas",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-c-validación-y-curvas",
+    "title": "Ejercicios integradores",
+    "section": "Bloque C: validación y curvas",
+    "text": "Bloque C: validación y curvas\n\nC1. Interprete una curva con train alto y validation bajo.\n\n\nC2. Explique cuándo más datos probablemente ayudarían.\n\n\nC3. ¿Qué información agrega cross-validation frente a un único split?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#bloque-d-error-analysis",
+    "href": "capitulo04_ejercicios_integradores.html#bloque-d-error-analysis",
+    "title": "Ejercicios integradores",
+    "section": "Bloque D: error analysis",
+    "text": "Bloque D: error analysis\n\nD1. Proponga slices para analizar errores en clasificación de dígitos escritos a mano.\n\n\nD2. Escriba una recomendación técnica basada en un slice donde el F1 cae de 0.80 a 0.55.\n\n\nD3. Explique por qué una métrica agregada no reemplaza inspección de errores.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html",
+    "href": "apendice_formulario_respuestas.html",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "",
+    "text": "Métricas de clasificación binaria\n[ = ]\n[ = ]\n[ = ]\n[ F1 = 2 ]",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#reglas-operativas",
+    "href": "apendice_formulario_respuestas.html#reglas-operativas",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Reglas operativas",
+    "text": "Reglas operativas\n\nEl test se toca una vez.\nLa métrica principal se decide antes de comparar modelos.\nLas transformaciones se ajustan dentro de cada fold o partición de entrenamiento.\nTodo modelo se compara contra baseline.\nUn promedio no reemplaza análisis de slices.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "title": "Formulario y respuestas seleccionadas",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\n\nCapítulo 1, ejercicio 3\nImputar la media usando todo el dataset antes de partir es leakage porque la media incorpora información de validación/test. La media debe aprenderse solo con entrenamiento, idealmente dentro de un Pipeline.\n\n\nCapítulo 2, ejercicio 1\nTrain F1 0.99 y validation F1 0.70 sugiere overfitting. Acciones: aumentar regularización, simplificar el modelo, revisar leakage, recolectar más datos o cambiar features.\n\n\nCapítulo 3, ejercicio 2\nData mismatch puede sospecharse si el desempeño en dev es estable pero cae mucho en test, especialmente si test proviene de otra fuente, periodo o población.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "laboratorios/lab04_diagnostico_modelos.html",
+    "href": "laboratorios/lab04_diagnostico_modelos.html",
+    "title": "Lab 4: Diagnóstico de modelos",
+    "section": "",
+    "text": "Propósito\nEste laboratorio evalúa si puedes desarrollar modelos de forma metodica: definir una métrica, construir particiones sin leakage, comparar contra baseline, usar cross-validation y diagnosticar errores.\nLa pregunta técnica central es:\n\n¿Qué evidencia justifica elegir un modelo y cuál es el siguiente experimento razonable?\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab04_diagnostico_modelos.ipynb\nNo cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.\n\n\nFlujo recomendado\n\nCarga load_breast_cancer.\nConstruye particiones estratificadas.\nDefine una métrica principal.\nEntrena un baseline.\nConstruye un Pipeline.\nEjecuta cross-validation.\nCalcula métricas sobre validación.\nConstruye una learning curve.\nAnaliza errores por slices.\nEscribe una recomendación técnica.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nEvidencia esperada\nCalificación\n\n\n\n\nParticiones\ntrain/dev/test estratificados y reproducibles\nAutomática\n\n\nBaseline\nDummyClassifier o regla equivalente\nAutomática\n\n\nPipeline\npreprocesamiento dentro de pipeline\nAutomática\n\n\nMétricas\nprecision, recall, F1 y matriz de confusión\nAutomática\n\n\nCross-validation\nmedia y desviación de scores\nAutomática\n\n\nLearning curve\ntamaños, train scores y validation scores consistentes\nAutomática\n\n\nError slices\ntabla por subgrupo con conteos y métricas\nAutomática\n\n\nSelección\nmejor modelo según métrica principal\nAutomática\n\n\n\n\n\nParte manual\nIncluye una respuesta corta:\n\nCon la evidencia del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o no usa evidencia\n\n\n1\nMenciona métrica o modelo, pero sin diagnóstico accionable\n\n\n2\nConecta métrica, baseline, validación, error analysis y siguiente experimento\n\n\n\n\n\nErrores frecuentes\n\nUsar test para seleccionar hiperparámetros.\nEscalar antes de partir datos.\nReportar accuracy en un problema donde recall/F1 era más relevante.\nComparar modelos con particiones distintas.\nReportar cross-validation sin desviación.\nNo mirar falsos negativos/falsos positivos.\nHacer una recomendación sin acción concreta.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 4: Diagnóstico de modelos</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html",
+    "href": "recursos/guia_autograding.html",
+    "title": "Guía de autograding del Módulo 3",
+    "section": "",
+    "text": "Asignación",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 3</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#asignación",
+    "href": "recursos/guia_autograding.html#asignación",
+    "title": "Guía de autograding del Módulo 3",
+    "section": "",
+    "text": "Código\nArtefacto\nAutograded\nManual\n\n\n\n\nlab04\nDiagnóstico de modelos\n85%\n15%",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 3</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#comando-local",
+    "href": "recursos/guia_autograding.html#comando-local",
+    "title": "Guía de autograding del Módulo 3",
+    "section": "Comando local",
+    "text": "Comando local\npython scripts/run_local_autograder.py lab04 laboratorios/lab04_diagnostico_modelos_solucion.ipynb",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 3</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#construcción-de-zip-gradescope",
+    "href": "recursos/guia_autograding.html#construcción-de-zip-gradescope",
+    "title": "Guía de autograding del Módulo 3",
+    "section": "Construcción de zip Gradescope",
+    "text": "Construcción de zip Gradescope\npython scripts/build_gradescope_autograders.py\nEl zip queda en:\nautograding/dist/lab04_gradescope_autograder.zip",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 3</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_autograding.html#privacidad",
+    "href": "recursos/guia_autograding.html#privacidad",
+    "title": "Guía de autograding del Módulo 3",
+    "section": "Privacidad",
+    "text": "Privacidad\nNo publicar en _site:\n\nnotebook de solución;\ncarpeta autograding;\ntests privados;\nrequirements_autograding.txt;\nzip docente privado.",
+    "crumbs": [
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía de autograding del Módulo 3</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo03.html",
+    "href": "recursos/guia_proyecto_modulo03.html",
+    "title": "Guía de proyecto: estrategia de mejora del modelo",
+    "section": "",
+    "text": "Propósito\nDespués del checkpoint técnico del Módulo 2, cada grupo debe convertir sus resultados en una estrategia de mejora.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de proyecto: estrategia de mejora del modelo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo03.html#producto-esperado",
+    "href": "recursos/guia_proyecto_modulo03.html#producto-esperado",
+    "title": "Guía de proyecto: estrategia de mejora del modelo",
+    "section": "Producto esperado",
+    "text": "Producto esperado\nUna sección breve en el repositorio del proyecto:\n\nMétrica principal y justificación.\nBaseline vigente.\nMejor modelo actual.\nEvidencia de validación.\nError analysis con al menos dos slices.\nRiesgo de leakage o data mismatch.\nSiguiente experimento priorizado.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de proyecto: estrategia de mejora del modelo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo03.html#rúbrica-breve",
+    "href": "recursos/guia_proyecto_modulo03.html#rúbrica-breve",
+    "title": "Guía de proyecto: estrategia de mejora del modelo",
+    "section": "Rúbrica breve",
+    "text": "Rúbrica breve\n\n\n\nCriterio\nPuntaje\n\n\n\n\nMétrica alineada con el problema\n2\n\n\nComparación honesta contra baseline\n2\n\n\nValidación sin leakage\n2\n\n\nError analysis accionable\n2\n\n\nSiguiente experimento claro\n2",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de proyecto: estrategia de mejora del modelo</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_modulo03.html#retroalimentación-docente",
+    "href": "recursos/guia_proyecto_modulo03.html#retroalimentación-docente",
+    "title": "Guía de proyecto: estrategia de mejora del modelo",
+    "section": "Retroalimentación docente",
+    "text": "Retroalimentación docente\nLa retroalimentación debe cerrar con una acción:\nMantener / cambiar métrica / corregir partición / revisar leakage / analizar slice / reducir alcance / preparar reproducibilidad",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía de proyecto: estrategia de mejora del modelo</span>"
+    ]
+  }
+]
