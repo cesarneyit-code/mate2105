@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Capítulo 1: Regresión lineal múltiple – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../capitulos/02-descenso-gradiente.html" rel="next">
+<link href="../partes/parte02_regresion.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte02_regresion.html">Parte II: Regresión, optimización y clasificación</a></li><li class="breadcrumb-item"><a href="../capitulos/01-regresion-lineal.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matemáticas y Algoritmos en Ciencia de Datos Aplicada</a> 
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cómo usar este libro</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mapa del curso y del libro</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I: Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parte I: Fundamentos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II: Regresión, optimización y clasificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Capítulo 3: Validación y regularización</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Capítulo 4: Regresión logística</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte III: Redes neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Parte III: Redes neuronales</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Perceptron, neurona logística y forward propagation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Backpropagation</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ejercicios integradores: redes neuronales</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte IV: Estrategia de machine learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parte IV: Estrategia de machine learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Error analysis y data mismatch</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte V: Aprendizaje no supervisado</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Parte V: Aprendizaje no supervisado</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SVD y PCA</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Recomendación básica y estructura latente</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Reproducibilidad y tracking</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Comunicación técnica</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Entrega final y defensa</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Formularios y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link active" data-scroll-target="#objetivos-del-capítulo"><span class="header-section-number">8</span> Objetivos del capítulo</a></li>
+  <li><a href="#el-problema-de-regresión" id="toc-el-problema-de-regresión" class="nav-link" data-scroll-target="#el-problema-de-regresión"><span class="header-section-number">9</span> El problema de regresión</a></li>
+  <li><a href="#de-una-recta-a-una-matriz" id="toc-de-una-recta-a-una-matriz" class="nav-link" data-scroll-target="#de-una-recta-a-una-matriz"><span class="header-section-number">10</span> De una recta a una matriz</a></li>
+  <li><a href="#dimensiones-la-primera-defensa-contra-errores" id="toc-dimensiones-la-primera-defensa-contra-errores" class="nav-link" data-scroll-target="#dimensiones-la-primera-defensa-contra-errores"><span class="header-section-number">11</span> Dimensiones: la primera defensa contra errores</a></li>
+  <li><a href="#residuales-y-pérdida" id="toc-residuales-y-pérdida" class="nav-link" data-scroll-target="#residuales-y-pérdida"><span class="header-section-number">12</span> Residuales y pérdida</a></li>
+  <li><a href="#derivación-del-gradiente" id="toc-derivación-del-gradiente" class="nav-link" data-scroll-target="#derivación-del-gradiente"><span class="header-section-number">13</span> Derivación del gradiente</a></li>
+  <li><a href="#ecuación-normal" id="toc-ecuación-normal" class="nav-link" data-scroll-target="#ecuación-normal"><span class="header-section-number">14</span> Ecuación normal</a></li>
+  <li><a href="#interpretación-geométrica" id="toc-interpretación-geométrica" class="nav-link" data-scroll-target="#interpretación-geométrica"><span class="header-section-number">15</span> Interpretación geométrica</a></li>
+  <li><a href="#ejemplo-resuelto-1-datos-exactos" id="toc-ejemplo-resuelto-1-datos-exactos" class="nav-link" data-scroll-target="#ejemplo-resuelto-1-datos-exactos"><span class="header-section-number">16</span> Ejemplo resuelto 1: datos exactos</a></li>
+  <li><a href="#ejemplo-resuelto-2-datos-con-ruido" id="toc-ejemplo-resuelto-2-datos-con-ruido" class="nav-link" data-scroll-target="#ejemplo-resuelto-2-datos-con-ruido"><span class="header-section-number">17</span> Ejemplo resuelto 2: datos con ruido</a></li>
+  <li><a href="#baseline-de-regresión" id="toc-baseline-de-regresión" class="nav-link" data-scroll-target="#baseline-de-regresión"><span class="header-section-number">18</span> Baseline de regresión</a></li>
+  <li><a href="#interpretación-de-coeficientes" id="toc-interpretación-de-coeficientes" class="nav-link" data-scroll-target="#interpretación-de-coeficientes"><span class="header-section-number">19</span> Interpretación de coeficientes</a></li>
+  <li><a href="#multicolinealidad-y-rango" id="toc-multicolinealidad-y-rango" class="nav-link" data-scroll-target="#multicolinealidad-y-rango"><span class="header-section-number">20</span> Multicolinealidad y rango</a></li>
+  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes"><span class="header-section-number">21</span> Errores comunes</a></li>
+  <li><a href="#checklist-de-estudio" id="toc-checklist-de-estudio" class="nav-link" data-scroll-target="#checklist-de-estudio"><span class="header-section-number">22</span> Checklist de estudio</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">23</span> Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#conceptuales" id="toc-conceptuales" class="nav-link" data-scroll-target="#conceptuales"><span class="header-section-number">23.1</span> Conceptuales</a></li>
+  <li><a href="#cálculo" id="toc-cálculo" class="nav-link" data-scroll-target="#cálculo"><span class="header-section-number">23.2</span> Cálculo</a></li>
+  <li><a href="#código" id="toc-código" class="nav-link" data-scroll-target="#código"><span class="header-section-number">23.3</span> Código</a></li>
+  <li><a href="#interpretación" id="toc-interpretación" class="nav-link" data-scroll-target="#interpretación"><span class="header-section-number">23.4</span> Interpretación</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte02_regresion.html">Parte II: Regresión, optimización y clasificación</a></li><li class="breadcrumb-item"><a href="../capitulos/01-regresion-lineal.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></h1>
+<p class="subtitle lead">Matrices, mínimos cuadrados, ecuación normal e interpretación</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="objetivos-del-capítulo" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Objetivos del capítulo</h1>
+<p>Al terminar este capítulo deberías poder:</p>
+<ol type="1">
+<li>representar un problema de regresión con una matriz de diseño;</li>
+<li>distinguir variables, parámetros, predicciones y residuales;</li>
+<li>escribir MSE como norma cuadrática;</li>
+<li>derivar el gradiente de MSE;</li>
+<li>derivar la ecuación normal;</li>
+<li>implementar mínimos cuadrados con <code>np.linalg.solve</code>;</li>
+<li>comparar un modelo lineal contra un baseline;</li>
+<li>interpretar coeficientes con cuidado.</li>
+</ol>
+<p>La regresión lineal parece elemental, pero contiene la gramática de casi todos los modelos que veremos después: datos como matrices, parámetros como vectores, predicciones como operaciones vectorizadas, pérdidas como funciones a minimizar y desempeño como comparación fuera de entrenamiento.</p>
+</section>
+<section id="el-problema-de-regresión" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> El problema de regresión</h1>
+<p>En regresión queremos predecir una cantidad numérica. Algunos ejemplos:</p>
+<ul>
+<li>precio de una vivienda;</li>
+<li>consumo de energía;</li>
+<li>tiempo de entrega;</li>
+<li>concentración de una sustancia;</li>
+<li>puntaje de riesgo continuo.</li>
+</ul>
+<p>Cada observación tiene variables de entrada y una respuesta.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Entrada <code>x_i</code></td>
+<td>área, habitaciones, ubicación codificada</td>
+</tr>
+<tr class="even">
+<td>Salida <code>y_i</code></td>
+<td>precio</td>
+</tr>
+<tr class="odd">
+<td>Modelo</td>
+<td>regla que transforma <code>x_i</code> en <code>y_hat_i</code></td>
+</tr>
+<tr class="even">
+<td>Error</td>
+<td>diferencia entre <code>y_i</code> y <code>y_hat_i</code></td>
+</tr>
+</tbody>
+</table>
+<div class="definicion">
+<p><strong>Definición 1.1: problema supervisado de regresión.</strong><br>
+Un conjunto de entrenamiento de regresión es una colección de pares <code>(x_i, y_i)</code>, donde <code>x_i</code> contiene variables explicativas y <code>y_i</code> es una cantidad real. El objetivo es aprender una función <code>f</code> tal que <code>f(x_i)</code> aproxime <code>y_i</code> y generalice a observaciones no usadas para entrenar.</p>
+</div>
+</section>
+<section id="de-una-recta-a-una-matriz" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> De una recta a una matriz</h1>
+<p>La recta clásica es</p>
+<p><span class="math display">\[
+\hat y_i = \theta_0 + \theta_1 x_i.
+\]</span></p>
+<p>Con varias variables:</p>
+<p><span class="math display">\[
+\hat y_i =
+\theta_0 +
+\theta_1 x_{i1} +
+\theta_2 x_{i2} +
+\cdots +
+\theta_d x_{id}.
+\]</span></p>
+<p>Para escribir esto como producto matricial agregamos una columna de unos. Si hay <code>n</code> observaciones y <code>d</code> variables originales, definimos:</p>
+<p><span class="math display">\[
+X =
+\begin{bmatrix}
+1 &amp; x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1d}\\
+1 &amp; x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2d}\\
+\vdots &amp; \vdots &amp; \vdots &amp; &amp; \vdots\\
+1 &amp; x_{n1} &amp; x_{n2} &amp; \cdots &amp; x_{nd}
+\end{bmatrix}
+\in \mathbb{R}^{n\times (d+1)}.
+\]</span></p>
+<p>El vector de parámetros es</p>
+<p><span class="math display">\[
+\theta =
+\begin{bmatrix}
+\theta_0\\
+\theta_1\\
+\vdots\\
+\theta_d
+\end{bmatrix}.
+\]</span></p>
+<p>Entonces todas las predicciones se escriben como:</p>
+<p><span class="math display">\[
+\hat y = X\theta.
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición 1.2: matriz de diseño.</strong><br>
+La matriz de diseño <code>X</code> contiene las variables que el modelo usa para producir predicciones. Puede incluir una columna de intercepto, variables originales, variables transformadas, interacciones o codificaciones de variables categóricas.</p>
+</div>
+<p>En Python:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_intercept(X):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.asarray(X, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    ones <span class="op">=</span> np.ones((X.shape[<span class="dv">0</span>], <span class="dv">1</span>))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.hstack([ones, X])</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>X_design <span class="op">=</span> add_intercept(X_raw)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> X_design <span class="op">@</span> theta</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="dimensiones-la-primera-defensa-contra-errores" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Dimensiones: la primera defensa contra errores</h1>
+<p>Antes de derivar o programar, revisa dimensiones.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>X</code></td>
+<td><code>(n, p)</code></td>
+</tr>
+<tr class="even">
+<td><code>theta</code></td>
+<td><code>(p,)</code> o <code>(p, 1)</code></td>
+</tr>
+<tr class="odd">
+<td><code>X @ theta</code></td>
+<td><code>(n,)</code> o <code>(n, 1)</code></td>
+</tr>
+<tr class="even">
+<td><code>y</code></td>
+<td><code>(n,)</code></td>
+</tr>
+<tr class="odd">
+<td><code>X.T @ X</code></td>
+<td><code>(p, p)</code></td>
+</tr>
+<tr class="even">
+<td><code>X.T @ y</code></td>
+<td><code>(p,)</code></td>
+</tr>
+</tbody>
+</table>
+<div class="criterio">
+<p><strong>Chequeo rápido.</strong> Si <code>X @ theta</code> no produce un vector con una predicción por observación, el problema no es estadístico todavía: es de representación.</p>
+</div>
+</section>
+<section id="residuales-y-pérdida" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Residuales y pérdida</h1>
+<p>El residual de la observación <code>i</code> es</p>
+<p><span class="math display">\[
+r_i = y_i - \hat y_i.
+\]</span></p>
+<p>En vector:</p>
+<p><span class="math display">\[
+r = y - X\theta.
+\]</span></p>
+<p>La pérdida de mínimos cuadrados mide el promedio de errores cuadrados:</p>
+<p><span class="math display">\[
+J(\theta)
+=
+\frac{1}{2n}\sum_{i=1}^n(\hat y_i-y_i)^2
+=
+\frac{1}{2n}\|X\theta-y\|_2^2.
+\]</span></p>
+<p>El factor <code>1/2</code> se usa para que el <code>2</code> de la derivada desaparezca.</p>
+<div class="definicion">
+<p><strong>Definición 1.3: MSE y pérdida cuadrática.</strong><br>
+El error cuadrático medio es <span class="math display">\[
+\operatorname{MSE}(\theta)=\frac{1}{n}\|X\theta-y\|_2^2.
+\]</span> La pérdida <span class="math display">\[
+J(\theta)=\frac{1}{2}\operatorname{MSE}(\theta)
+\]</span> tiene el mismo minimizador, pero un gradiente más limpio.</p>
+</div>
+<p>Implementación:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse_loss(X, y, theta):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(residual <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> half_mse_loss(X, y, theta):</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(residual <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="derivación-del-gradiente" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Derivación del gradiente</h1>
+<p>Partimos de:</p>
+<p><span class="math display">\[
+J(\theta)=\frac{1}{2n}(X\theta-y)^\top(X\theta-y).
+\]</span></p>
+<p>Expandiendo:</p>
+<p><span class="math display">\[
+J(\theta)=
+\frac{1}{2n}
+\left(
+\theta^\top X^\top X\theta
+-2y^\top X\theta
++y^\top y
+\right).
+\]</span></p>
+<p>Usamos dos reglas:</p>
+<p><span class="math display">\[
+\nabla_\theta(\theta^\top A\theta)=(A+A^\top)\theta,
+\]</span></p>
+<p>y si <code>A</code> es simétrica:</p>
+<p><span class="math display">\[
+\nabla_\theta(\theta^\top A\theta)=2A\theta.
+\]</span></p>
+<p>Como <code>X.T @ X</code> es simétrica:</p>
+<p><span class="math display">\[
+\nabla J(\theta)
+=
+\frac{1}{2n}
+\left(
+2X^\top X\theta - 2X^\top y
+\right).
+\]</span></p>
+<p>Por tanto:</p>
+<p><span class="math display">\[
+\nabla J(\theta)
+=
+\frac{1}{n}X^\top(X\theta-y).
+\]</span></p>
+<div class="proposicion">
+<p><strong>Proposición 1.1: gradiente de MSE escalado.</strong><br>
+Para <span class="math display">\[
+J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
+\]</span> el gradiente es <span class="math display">\[
+\nabla J(\theta)=\frac{1}{n}X^\top(X\theta-y).
+\]</span></p>
+</div>
+<p>Implementación:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse_gradient(X, y, theta):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (X.T <span class="op">@</span> (X <span class="op">@</span> theta <span class="op">-</span> y)) <span class="op">/</span> n</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ecuación-normal" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Ecuación normal</h1>
+<p>Un mínimo interior de una función diferenciable satisface:</p>
+<p><span class="math display">\[
+\nabla J(\theta)=0.
+\]</span></p>
+<p>Entonces:</p>
+<p><span class="math display">\[
+\frac{1}{n}X^\top(X\theta-y)=0.
+\]</span></p>
+<p>Multiplicando por <code>n</code>:</p>
+<p><span class="math display">\[
+X^\top X\theta-X^\top y=0.
+\]</span></p>
+<p>Reordenando:</p>
+<p><span class="math display">\[
+X^\top X\theta = X^\top y.
+\]</span></p>
+<p>Esta es la <strong>ecuación normal</strong>.</p>
+<p>Si <code>X.T @ X</code> es invertible:</p>
+<p><span class="math display">\[
+\theta^\star=(X^\top X)^{-1}X^\top y.
+\]</span></p>
+<div class="proposicion">
+<p><strong>Proposición 1.2: solución de mínimos cuadrados.</strong><br>
+Si <code>X</code> tiene rango columna completo, entonces <code>X.T @ X</code> es invertible y el minimizador único de la pérdida cuadrática es <span class="math display">\[
+\theta^\star=(X^\top X)^{-1}X^\top y.
+\]</span></p>
+</div>
+<p>En código profesional evitamos la inversa explícita:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normal_equation(X, y):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="criterio">
+<p><strong>Criterio numérico.</strong> <code>np.linalg.inv(A) @ b</code> suele ser menos estable y menos eficiente que <code>np.linalg.solve(A, b)</code>. En modelos reales, preferimos resolver el sistema o usar implementaciones robustas como <code>LinearRegression</code>.</p>
+</div>
+</section>
+<section id="interpretación-geométrica" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Interpretación geométrica</h1>
+<p>El modelo busca un vector <code>X theta</code> en el espacio generado por las columnas de <code>X</code>. Ese espacio es un subespacio de <code>R^n</code>. El vector observado <code>y</code> puede no estar exactamente en ese subespacio. Mínimos cuadrados encuentra la proyección de <code>y</code> sobre el espacio columna de <code>X</code>.</p>
+<p>En la solución:</p>
+<p><span class="math display">\[
+X^\top(y-X\theta^\star)=0.
+\]</span></p>
+<p>Esto dice que los residuales son ortogonales a cada columna de <code>X</code>. Es decir: después de ajustar el modelo, ninguna variable incluida en <code>X</code> explica linealmente lo que queda en los residuales.</p>
+</section>
+<section id="ejemplo-resuelto-1-datos-exactos" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> Ejemplo resuelto 1: datos exactos</h1>
+<p>Supongamos:</p>
+<p><span class="math display">\[
+X =
+\begin{bmatrix}
+1 &amp; 0 \\
+1 &amp; 1 \\
+1 &amp; 2
+\end{bmatrix},
+\quad
+y =
+\begin{bmatrix}
+1 \\
+3 \\
+5
+\end{bmatrix}.
+\]</span></p>
+<p>El patrón exacto es:</p>
+<p><span class="math display">\[
+y = 1 + 2x.
+\]</span></p>
+<p>La solución esperada es:</p>
+<p><span class="math display">\[
+\theta =
+\begin{bmatrix}
+1\\
+2
+\end{bmatrix}.
+\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>]], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>theta</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="ejemplo-resuelto-2-datos-con-ruido" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> Ejemplo resuelto 2: datos con ruido</h1>
+<p>Ahora supón:</p>
+<p><span class="math display">\[
+y =
+\begin{bmatrix}
+1.1\\
+2.9\\
+5.2\\
+6.8
+\end{bmatrix},
+\quad
+x =
+\begin{bmatrix}
+0\\1\\2\\3
+\end{bmatrix}.
+\]</span></p>
+<p>No existe una recta que pase exactamente por todos los puntos. Mínimos cuadrados elige la recta que minimiza la suma de residuales cuadrados.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], dtype<span class="op">=</span><span class="bu">float</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.1</span>, <span class="fl">2.9</span>, <span class="fl">5.2</span>, <span class="fl">6.8</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_intercept(x)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> normal_equation(X, y)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> X <span class="op">@</span> theta</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> y <span class="op">-</span> y_hat</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> np.mean(residuals <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Una buena explicación debe incluir:</p>
+<ul>
+<li>los coeficientes estimados;</li>
+<li>el MSE;</li>
+<li>una inspección de residuales;</li>
+<li>comparación contra baseline.</li>
+</ul>
+</section>
+<section id="baseline-de-regresión" class="level1" data-number="18">
+<h1 data-number="18"><span class="header-section-number">18</span> Baseline de regresión</h1>
+<p>Un baseline es una regla simple que el modelo debe superar. Para regresión, el baseline más común predice siempre el promedio de <code>y_train</code>:</p>
+<p><span class="math display">\[
+\hat y_i = \bar y_{\text{train}}.
+\]</span></p>
+<p>Su MSE en prueba es:</p>
+<p><span class="math display">\[
+\operatorname{MSE}_{\text{baseline}}
+=
+\frac{1}{n_{\text{test}}}
+\sum_{i\in \text{test}}
+(y_i-\bar y_{\text{train}})^2.
+\]</span></p>
+<div class="criterio">
+<p><strong>Criterio aplicado.</strong> Un modelo lineal que no mejora el baseline en datos de prueba no justifica una decisión, aunque tenga coeficientes matemáticamente calculados.</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> np.mean(y_train)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y_pred_base <span class="op">=</span> np.full_like(y_test, fill_value<span class="op">=</span>baseline, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mse_base <span class="op">=</span> np.mean((y_test <span class="op">-</span> y_pred_base) <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="interpretación-de-coeficientes" class="level1" data-number="19">
+<h1 data-number="19"><span class="header-section-number">19</span> Interpretación de coeficientes</h1>
+<p>En un modelo lineal:</p>
+<p><span class="math display">\[
+\hat y =
+\theta_0+\theta_1x_1+\cdots+\theta_dx_d.
+\]</span></p>
+<p>El coeficiente <code>theta_j</code> se interpreta como el cambio esperado en la predicción cuando <code>x_j</code> aumenta una unidad y las demás variables se mantienen constantes.</p>
+<p>Esta frase tiene tres condiciones:</p>
+<ol type="1">
+<li>habla de la predicción, no necesariamente de causalidad;</li>
+<li>depende de la escala de <code>x_j</code>;</li>
+<li>mantiene las demás variables constantes, lo cual puede ser poco realista si las variables están correlacionadas.</li>
+</ol>
+<div class="criterio">
+<p><strong>No confundas asociación con causalidad.</strong> Un coeficiente grande no prueba que una variable cause el resultado. Para causalidad se necesita diseño, supuestos y argumento adicional.</p>
+</div>
+</section>
+<section id="multicolinealidad-y-rango" class="level1" data-number="20">
+<h1 data-number="20"><span class="header-section-number">20</span> Multicolinealidad y rango</h1>
+<p>Si una columna de <code>X</code> puede escribirse como combinación lineal de otras columnas, entonces <code>X</code> no tiene rango columna completo. En ese caso <code>X.T @ X</code> no es invertible.</p>
+<p>Ejemplo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> x1</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.column_stack([np.ones_like(x1), x1, x2])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Aquí la tercera columna contiene exactamente la misma información que la segunda.</p>
+<p>Síntomas prácticos:</p>
+<ul>
+<li>error de matriz singular al resolver la ecuación normal;</li>
+<li>coeficientes muy inestables;</li>
+<li>cambios grandes en coeficientes cuando se modifica poco el dataset;</li>
+<li>interpretaciones contradictorias.</li>
+</ul>
+</section>
+<section id="errores-comunes" class="level1" data-number="21">
+<h1 data-number="21"><span class="header-section-number">21</span> Errores comunes</h1>
+<ol type="1">
+<li>Olvidar la columna de intercepto.</li>
+<li>Usar <code>np.linalg.inv</code> innecesariamente.</li>
+<li>Entrenar y evaluar sobre los mismos datos.</li>
+<li>Reportar solo coeficientes sin métrica.</li>
+<li>Comparar modelos sin baseline.</li>
+<li>Interpretar coeficientes sin revisar escala.</li>
+<li>Ignorar multicolinealidad.</li>
+<li>Confundir buen ajuste en entrenamiento con generalización.</li>
+</ol>
+</section>
+<section id="checklist-de-estudio" class="level1" data-number="22">
+<h1 data-number="22"><span class="header-section-number">22</span> Checklist de estudio</h1>
+<p>Antes de pasar al Capítulo 2, deberías poder responder:</p>
+<div class="checklist">
+<ul>
+<li>¿Cuál es la forma de <code>X</code>, <code>theta</code>, <code>y</code> y <code>X @ theta</code>?</li>
+<li>¿Por qué agregamos una columna de unos?</li>
+<li>¿Qué mide un residual?</li>
+<li>¿Por qué usamos errores cuadrados?</li>
+<li>¿Cómo se deriva <code>X.T @ X theta = X.T @ y</code>?</li>
+<li>¿Cuándo puede fallar la ecuación normal?</li>
+<li>¿Cuál es el baseline natural en regresión?</li>
+</ul>
+</div>
+</section>
+<section id="ejercicios" class="level1" data-number="23">
+<h1 data-number="23"><span class="header-section-number">23</span> Ejercicios</h1>
+<section id="conceptuales" class="level2" data-number="23.1">
+<h2 data-number="23.1" class="anchored" data-anchor-id="conceptuales"><span class="header-section-number">23.1</span> Conceptuales</h2>
+<ol type="1">
+<li>Explica en tus palabras qué significa que <code>X</code> sea una matriz de diseño.</li>
+<li>¿Por qué el intercepto puede representarse con una columna de unos?</li>
+<li>¿Qué diferencia hay entre residual y error de generalización?</li>
+<li>¿Por qué un modelo puede tener MSE bajo en entrenamiento y aun así ser malo?</li>
+<li>Explica por qué un coeficiente no implica causalidad.</li>
+</ol>
+</section>
+<section id="cálculo" class="level2" data-number="23.2">
+<h2 data-number="23.2" class="anchored" data-anchor-id="cálculo"><span class="header-section-number">23.2</span> Cálculo</h2>
+<ol start="6" type="1">
+<li><p>Sea <span class="math display">\[
+X=\begin{bmatrix}1&amp;0\\1&amp;1\\1&amp;2\end{bmatrix},
+\quad
+y=\begin{bmatrix}2\\2\\5\end{bmatrix}.
+\]</span> Calcula <code>X.T @ X</code>, <code>X.T @ y</code> y resuelve la ecuación normal.</p></li>
+<li><p>Para <span class="math display">\[
+J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
+\]</span> reproduce la derivación del gradiente sin mirar el texto.</p></li>
+<li><p>Demuestra que si <code>X.T @ (y - X theta) = 0</code>, los residuales son ortogonales a cada columna de <code>X</code>.</p></li>
+</ol>
+</section>
+<section id="código" class="level2" data-number="23.3">
+<h2 data-number="23.3" class="anchored" data-anchor-id="código"><span class="header-section-number">23.3</span> Código</h2>
+<ol start="9" type="1">
+<li>Implementa <code>add_intercept(X)</code> sin usar ciclos.</li>
+<li>Implementa <code>mse_loss(X, y, theta)</code>.</li>
+<li>Implementa <code>normal_equation(X, y)</code> usando <code>np.linalg.solve</code>.</li>
+<li>Simula datos con <code>y = 3 - 2x + ruido</code> y estima los parámetros.</li>
+<li>Compara el MSE del modelo contra el baseline del promedio.</li>
+</ol>
+</section>
+<section id="interpretación" class="level2" data-number="23.4">
+<h2 data-number="23.4" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">23.4</span> Interpretación</h2>
+<ol start="14" type="1">
+<li>Un modelo obtiene MSE de entrenamiento <code>4.1</code> y MSE de prueba <code>18.7</code>. ¿Qué hipótesis harías?</li>
+<li>Un modelo no mejora el baseline. Escribe dos posibles razones técnicas.</li>
+<li>Si una variable está medida en pesos y otra en millones de pesos, ¿por qué sus coeficientes no son directamente comparables?</li>
+</ol>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cesarneyit-code\.github\.io\/mate2105\/libro\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../partes/parte02_regresion.html" class="pagination-link" aria-label="Parte II: Regresión, optimización y clasificación">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../capitulos/02-descenso-gradiente.html" class="pagination-link" aria-label="Capítulo 2: Descenso del gradiente">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
