@@ -16,6 +16,20 @@ body {
   line-height: 1.68;
 }
 
+html,
+body {
+  max-width: 100%;
+}
+
+blockquote,
+blockquote p,
+figcaption,
+.figure-caption,
+.quarto-float-caption,
+.quarto-float-caption .figure-caption {
+  color: #334155;
+}
+
 h1,
 h2,
 h3 {
@@ -29,11 +43,57 @@ a {
 }
 
 main.content {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
   overflow-wrap: anywhere;
+}
+
+.quarto-title-block,
+.quarto-title,
+.quarto-title-meta,
+.quarto-title-meta > div,
+section,
+figure,
+.cell,
+.sourceCode {
+  min-width: 0;
+  max-width: 100%;
+}
+
+img,
+svg,
+video,
+canvas {
+  height: auto;
+  max-width: 100%;
+}
+
+.book-cover {
+  margin: 0 auto 2rem auto;
+  max-width: 760px;
+  width: min(100%, 760px);
+}
+
+.book-cover p {
+  margin: 0;
+}
+
+.book-cover img {
+  border-radius: 10px;
+  box-shadow: 0 18px 45px rgba(23, 32, 42, 0.16);
+  display: block;
+  height: auto;
+  max-width: 100%;
+  width: 100%;
 }
 
 .book-note,
 .module-band,
+.editorial-standard,
+.learning-objectives,
+.chapter-outline,
+.key-terms,
 .definition,
 .definicion,
 .definition-card,
@@ -44,6 +104,10 @@ main.content {
 .exercise,
 .answer,
 .criterio,
+.checkpoint,
+.explore,
+.project-box,
+.python-box,
 .warning-card,
 .check-card,
 .deliverable-card {
@@ -55,9 +119,17 @@ main.content {
 
 .book-note,
 .module-band,
+.learning-objectives,
+.chapter-outline,
 .check-card {
   background: var(--mate-bg);
   border-left: 5px solid var(--mate-blue-2);
+}
+
+.editorial-standard,
+.key-terms {
+  background: #f8fafc;
+  border-left: 5px solid var(--mate-blue);
 }
 
 .definition,
@@ -70,12 +142,14 @@ main.content {
 
 .example,
 .ejemplo,
-.example-card {
+.example-card,
+.python-box {
   background: #f1fbf8;
   border-left: 5px solid var(--mate-teal);
 }
 
-.exercise {
+.exercise,
+.checkpoint {
   background: #f8fafc;
   border-left: 5px solid var(--mate-blue);
 }
@@ -87,12 +161,14 @@ main.content {
 }
 
 .criterio,
-.warning-card {
+.warning-card,
+.explore {
   background: #fff7ed;
   border-left: 5px solid var(--mate-warn);
 }
 
-.deliverable-card {
+.deliverable-card,
+.project-box {
   background: var(--mate-soft);
   border-left: 5px solid var(--mate-teal);
 }
@@ -105,6 +181,125 @@ table {
   font-size: 0.94rem;
 }
 
+td,
+th {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+td a,
+td code,
+th code {
+  overflow-wrap: anywhere;
+}
+
 code {
   color: var(--mate-purple);
+}
+
+.mate2105-book-attribution {
+  border-top: 1px solid var(--mate-line);
+  color: #475569;
+  font-size: 0.88rem;
+  margin: 3rem auto 1.5rem auto;
+  max-width: 960px;
+  padding: 1rem 0 0 0;
+}
+
+.mate2105-book-attribution p {
+  margin: 0.25rem 0;
+}
+
+.mate2105-book-attribution nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  margin-top: 0.65rem;
+}
+
+.mate2105-book-attribution a {
+  font-weight: 700;
+}
+
+@media (max-width: 991.98px) {
+  #quarto-content.page-columns {
+    display: block !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: hidden;
+    width: 100% !important;
+  }
+
+  #quarto-content.page-columns > main.content,
+  main.content {
+    display: block !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+    width: 100% !important;
+  }
+
+  #quarto-margin-sidebar,
+  .margin-sidebar {
+    display: none !important;
+  }
+
+  #quarto-document-content {
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .quarto-title-block .title,
+  section.level1 > h1 {
+    font-size: clamp(1.75rem, 7.5vw, 2.2rem);
+    line-height: 1.18;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .quarto-title-meta {
+    display: grid !important;
+    gap: 0.75rem !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .quarto-title-meta-heading,
+  .quarto-title-meta-contents {
+    overflow-wrap: anywhere;
+    white-space: normal;
+  }
+
+  .book-cover {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  #quarto-content.page-columns > main.content,
+  main.content {
+    max-width: 21rem !important;
+    padding-left: 0.875rem !important;
+    padding-right: 0.875rem !important;
+    width: 100% !important;
+  }
+
+  .quarto-title-block .title {
+    font-size: clamp(1.6rem, 6.5vw, 1.9rem);
+    max-width: 100%;
+  }
+
+  .description,
+  .quarto-title-meta,
+  .book-cover {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  table {
+    font-size: 0.88rem;
+  }
 }

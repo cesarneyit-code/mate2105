@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
 
-<title>16&nbsp; Optimizadores y PyTorch – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Optimizadores y PyTorch – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../capitulos/10-ejercicios-redes.html" rel="next">
 <link href="../capitulos/08-diagnostico-regularizacion-redes.html" rel="prev">
+<link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -105,6 +107,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Buscar"
   }
 }</script>
+<meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
+<meta name="citation_author" content="Galindo, Cesar">
+<meta name="citation_publication_date" content="2026-07-07">
+<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_language" content="es">
+<meta name="citation_publisher" content="Universidad de los Andes">
+<meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta name="DC.creator" content="César Galindo">
+<meta name="DC.language" content="es">
+<meta name="DC.date" content="2026-07-07">
+<meta name="DC.type" content="Textbook">
+<meta name="DC.format" content="text/html, application/pdf, text/csv">
+<meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
+<meta property="og:type" content="book">
+<meta property="og:title" content="Optimizadores y PyTorch – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Matemáticas y Algoritmos en Ciencia de Datos Aplicada",
+  "alternateName": "Libro del curso MATE-2105",
+  "author": {
+    "@type": "Person",
+    "name": "César Galindo"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Universidad de los Andes"
+  },
+  "datePublished": "2026-07-07",
+  "inLanguage": "es",
+  "url": "https://cesarneyit-code.github.io/mate2105/libro/",
+  "encodingFormat": [
+    "text/html",
+    "application/pdf",
+    "text/csv"
+  ],
+  "educationalLevel": "undergraduate",
+  "learningResourceType": "textbook",
+  "about": [
+    "ciencia de datos",
+    "matemáticas aplicadas",
+    "machine learning",
+    "optimización",
+    "reproducibilidad"
+  ],
+  "isAccessibleForFree": true,
+  "license": "https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html",
+  "citation": "Galindo, C. (2026). Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105. Universidad de los Andes."
+}
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -148,7 +205,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte03_redes.html">Parte III: Redes neuronales</a></li><li class="breadcrumb-item"><a href="../capitulos/09-optimizadores-pytorch.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte03_redes.html">Parte III: Redes neuronales</a></li><li class="breadcrumb-item"><a href="../capitulos/09-optimizadores-pytorch.html"><span class="chapter-title">Optimizadores y PyTorch</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -184,20 +241,142 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prefacio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../como_usar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cómo usar este libro</span></span></a>
+  <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mapa del curso y del libro</span></span></a>
+  <a href="../accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa del curso y del libro</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -211,14 +390,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parte I: Fundamentos</span></span></a>
+  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte I: Fundamentos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
   </div>
 </li>
       </ul>
@@ -234,38 +411,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span></a>
+  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span></a>
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span></a>
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Capítulo 3: Validación y regularización</span></span></a>
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Capítulo 4: Regresión logística</span></span></a>
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></span></a>
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
   </div>
 </li>
       </ul>
@@ -281,38 +452,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Parte III: Redes neuronales</span></span></a>
+  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte III: Redes neuronales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Perceptron, neurona logística y forward propagation</span></span></a>
+  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Backpropagation</span></span></a>
+  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Backpropagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span></a>
+  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></span></a>
+  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Optimizadores y PyTorch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ejercicios integradores: redes neuronales</span></span></a>
+  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></a>
   </div>
 </li>
       </ul>
@@ -328,32 +493,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parte IV: Estrategia de machine learning</span></span></a>
+  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></span></a>
+  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span></a>
+  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Error analysis y data mismatch</span></span></a>
+  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Error analysis y data mismatch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></span></a>
+  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
   </div>
 </li>
       </ul>
@@ -369,32 +529,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Parte V: Aprendizaje no supervisado</span></span></a>
+  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SVD y PCA</span></span></a>
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></span></a>
+  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">K-Means y clustering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Recomendación básica y estructura latente</span></span></a>
+  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recomendación básica y estructura latente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></span></a>
+  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -410,38 +565,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></span></a>
+  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></span></a>
+  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Reproducibilidad y tracking</span></span></a>
+  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducibilidad y tracking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Comunicación técnica</span></span></a>
+  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comunicación técnica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Entrega final y defensa</span></span></a>
+  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Entrega final y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></span></a>
+  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></a>
   </div>
 </li>
       </ul>
@@ -457,38 +606,52 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Formularios y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-tematico.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice temático</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
   </div>
 </li>
       </ul>
@@ -503,26 +666,37 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada"><span class="header-section-number">16.1</span> Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo"><span class="header-section-number">16.2</span> Objetivos del capítulo</a></li>
-  <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent"><span class="header-section-number">16.3</span> Mini-batch gradient descent</a></li>
-  <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum"><span class="header-section-number">16.4</span> Momentum</a></li>
-  <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam"><span class="header-section-number">16.5</span> RMSProp y Adam</a></li>
-  <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza"><span class="header-section-number">16.6</span> PyTorch: qué automatiza</a></li>
-  <li><a href="#loop-mínimo" id="toc-loop-mínimo" class="nav-link" data-scroll-target="#loop-mínimo"><span class="header-section-number">16.7</span> Loop mínimo</a></li>
-  <li><a href="#ejemplo-resuelto-lectura-de-un-loop" id="toc-ejemplo-resuelto-lectura-de-un-loop" class="nav-link" data-scroll-target="#ejemplo-resuelto-lectura-de-un-loop"><span class="header-section-number">16.8</span> Ejemplo resuelto: lectura de un loop</a></li>
-  <li><a href="#comparación-justa" id="toc-comparación-justa" class="nav-link" data-scroll-target="#comparación-justa"><span class="header-section-number">16.9</span> Comparación justa</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control"><span class="header-section-number">16.10</span> Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">16.11</span> Ejercicios</a></li>
+  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
+  <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
+  <li><a href="#ejemplo-resuelto-dos-pasos-con-momentum" id="toc-ejemplo-resuelto-dos-pasos-con-momentum" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</a></li>
+  <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam">RMSProp y Adam</a></li>
+  <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza">PyTorch: qué automatiza</a></li>
+  <li><a href="#loop-mínimo" id="toc-loop-mínimo" class="nav-link" data-scroll-target="#loop-mínimo">Loop mínimo</a></li>
+  <li><a href="#ejemplo-resuelto-lectura-de-un-loop" id="toc-ejemplo-resuelto-lectura-de-un-loop" class="nav-link" data-scroll-target="#ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</a></li>
+  <li><a href="#comparación-justa" id="toc-comparación-justa" class="nav-link" data-scroll-target="#comparación-justa">Comparación justa</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte03_redes.html">Parte III: Redes neuronales</a></li><li class="breadcrumb-item"><a href="../capitulos/09-optimizadores-pytorch.html"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte03_redes.html">Parte III: Redes neuronales</a></li><li class="breadcrumb-item"><a href="../capitulos/09-optimizadores-pytorch.html"><span class="chapter-title">Optimizadores y PyTorch</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></h1>
+<h1 class="title"><span class="chapter-title">Optimizadores y PyTorch</span></h1>
 </div>
 
 
@@ -539,16 +713,16 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2" data-number="16.1">
-<h2 data-number="16.1" class="anchored" data-anchor-id="pregunta-aplicada"><span class="header-section-number">16.1</span> Pregunta aplicada</h2>
+<section id="pregunta-aplicada" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Hasta ahora actualizamos parámetros con descenso del gradiente simple:</p>
 <p><span class="math display">\[
 \theta \leftarrow \theta - \alpha \nabla J(\theta).
 \]</span></p>
 <p>Pero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.</p>
 </section>
-<section id="objetivos-del-capítulo" class="level2" data-number="16.2">
-<h2 data-number="16.2" class="anchored" data-anchor-id="objetivos-del-capítulo"><span class="header-section-number">16.2</span> Objetivos del capítulo</h2>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
 <p>Al terminar este capítulo deberías poder:</p>
 <ol type="1">
 <li>distinguir batch, mini-batch y época;</li>
@@ -558,14 +732,14 @@ window.Quarto = {
 <li>reconocer que un optimizador no reemplaza validación.</li>
 </ol>
 </section>
-<section id="mini-batch-gradient-descent" class="level2" data-number="16.3">
-<h2 data-number="16.3" class="anchored" data-anchor-id="mini-batch-gradient-descent"><span class="header-section-number">16.3</span> Mini-batch gradient descent</h2>
+<section id="mini-batch-gradient-descent" class="level2">
+<h2 class="anchored" data-anchor-id="mini-batch-gradient-descent">Mini-batch gradient descent</h2>
 <p>En lugar de usar todo el dataset en cada paso, usamos lotes pequeños:</p>
 <pre class="text"><code>dataset -&gt; mini-batches -&gt; actualización por batch -&gt; época completa</code></pre>
 <p>Esto reduce costo por actualización y agrega ruido útil al entrenamiento.</p>
 </section>
-<section id="momentum" class="level2" data-number="16.4">
-<h2 data-number="16.4" class="anchored" data-anchor-id="momentum"><span class="header-section-number">16.4</span> Momentum</h2>
+<section id="momentum" class="level2">
+<h2 class="anchored" data-anchor-id="momentum">Momentum</h2>
 <p>Momentum acumula una dirección suavizada:</p>
 <p><span class="math display">\[
 v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
@@ -575,8 +749,28 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 \]</span></p>
 <p>Intuición: evita que cada gradiente aislado cambie la dirección con demasiada fuerza.</p>
 </section>
-<section id="rmsprop-y-adam" class="level2" data-number="16.5">
-<h2 data-number="16.5" class="anchored" data-anchor-id="rmsprop-y-adam"><span class="header-section-number">16.5</span> RMSProp y Adam</h2>
+<section id="ejemplo-resuelto-dos-pasos-con-momentum" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</h2>
+<p>Supón un parámetro escalar <span class="math inline">\(\theta_0=5\)</span>, tasa <span class="math inline">\(\alpha=0.1\)</span>, momentum <span class="math inline">\(\beta=0.9\)</span> y velocidad inicial <span class="math inline">\(v_0=0\)</span>. Los dos primeros gradientes son:</p>
+<p><span class="math display">\[
+g_1=4,\qquad g_2=2.
+\]</span></p>
+<p>Primer paso:</p>
+<p><span class="math display">\[
+v_1=0.9(0)+0.1(4)=0.4,
+\qquad
+\theta_1=5-0.1(0.4)=4.96.
+\]</span></p>
+<p>Segundo paso:</p>
+<p><span class="math display">\[
+v_2=0.9(0.4)+0.1(2)=0.56,
+\qquad
+\theta_2=4.96-0.1(0.56)=4.904.
+\]</span></p>
+<p>Aunque el segundo gradiente es menor que el primero, la velocidad conserva parte de la dirección previa. Esa memoria suaviza actualizaciones ruidosas, pero también puede sostener una mala dirección si el learning rate o <span class="math inline">\(\beta\)</span> no son adecuados.</p>
+</section>
+<section id="rmsprop-y-adam" class="level2">
+<h2 class="anchored" data-anchor-id="rmsprop-y-adam">RMSProp y Adam</h2>
 <p>RMSProp escala cada coordenada según magnitudes recientes del gradiente.</p>
 <p>Adam combina:</p>
 <ul>
@@ -586,8 +780,8 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 </ul>
 <p>En práctica, Adam suele ser un buen punto de partida, pero no elimina la necesidad de validar learning rate, regularización y arquitectura.</p>
 </section>
-<section id="pytorch-qué-automatiza" class="level2" data-number="16.6">
-<h2 data-number="16.6" class="anchored" data-anchor-id="pytorch-qué-automatiza"><span class="header-section-number">16.6</span> PyTorch: qué automatiza</h2>
+<section id="pytorch-qué-automatiza" class="level2">
+<h2 class="anchored" data-anchor-id="pytorch-qué-automatiza">PyTorch: qué automatiza</h2>
 <p>PyTorch ofrece:</p>
 <ul>
 <li>tensores;</li>
@@ -600,8 +794,8 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <p>El ciclo conceptual no cambia:</p>
 <pre class="text"><code>forward -&gt; loss -&gt; backward -&gt; optimizer.step()</code></pre>
 </section>
-<section id="loop-mínimo" class="level2" data-number="16.7">
-<h2 data-number="16.7" class="anchored" data-anchor-id="loop-mínimo"><span class="header-section-number">16.7</span> Loop mínimo</h2>
+<section id="loop-mínimo" class="level2">
+<h2 class="anchored" data-anchor-id="loop-mínimo">Loop mínimo</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model.train()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> X_batch, y_batch <span class="kw">in</span> loader:</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    optimizer.zero_grad()</span>
@@ -611,8 +805,8 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    optimizer.step()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La diferencia es que PyTorch construye el grafo de cómputo y calcula los gradientes.</p>
 </section>
-<section id="ejemplo-resuelto-lectura-de-un-loop" class="level2" data-number="16.8">
-<h2 data-number="16.8" class="anchored" data-anchor-id="ejemplo-resuelto-lectura-de-un-loop"><span class="header-section-number">16.8</span> Ejemplo resuelto: lectura de un loop</h2>
+<section id="ejemplo-resuelto-lectura-de-un-loop" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</h2>
 <p>En el loop mínimo:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>optimizer.zero_grad()</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>logits <span class="op">=</span> model(X_batch)</span>
@@ -652,8 +846,8 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 </table>
 <p>Si olvidas <code>zero_grad()</code>, PyTorch acumula gradientes entre batches. Eso rara vez es lo que quieres en este curso.</p>
 </section>
-<section id="comparación-justa" class="level2" data-number="16.9">
-<h2 data-number="16.9" class="anchored" data-anchor-id="comparación-justa"><span class="header-section-number">16.9</span> Comparación justa</h2>
+<section id="comparación-justa" class="level2">
+<h2 class="anchored" data-anchor-id="comparación-justa">Comparación justa</h2>
 <p>Al comparar NumPy y PyTorch:</p>
 <ul>
 <li>use la misma partición de datos;</li>
@@ -663,8 +857,8 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <li>no confunda diferencia de implementación con diferencia de modelo.</li>
 </ul>
 </section>
-<section id="punto-de-control" class="level2" data-number="16.10">
-<h2 data-number="16.10" class="anchored" data-anchor-id="punto-de-control"><span class="header-section-number">16.10</span> Punto de control</h2>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Una comparación NumPy vs PyTorch solo es defendible si:</p>
 <ol type="1">
 <li>usa la misma partición;</li>
@@ -674,22 +868,113 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <li>interpreta diferencias con cautela.</li>
 </ol>
 </section>
-<section id="ejercicios" class="level2" data-number="16.11">
-<h2 data-number="16.11" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">16.11</span> Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Identifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.</p>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> compara una actualización de SGD con una de Adam en una dimensión y explica qué cambia por los momentos adaptativos.</li>
+<li><strong>Extensión computacional:</strong> guarda <code>seed</code>, arquitectura, optimizador, tasa de aprendizaje y época del mejor modelo en un registro reproducible.</li>
+<li><strong>Conexión con proyecto:</strong> define qué configuración mínima necesitas reportar para que otra persona pueda rerunear tu entrenamiento.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> Explique por qué Adam no reemplaza la validación.</p>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Los optimizadores modernos modifican la forma de usar gradientes, pero no cambian la lógica experimental. Mini-batch gradient descent estima el gradiente con subconjuntos; momentum acumula dirección; RMSProp y Adam adaptan escalas por parámetro.</p>
+<p>PyTorch automatiza autograd y actualización de parámetros, pero el usuario sigue siendo responsable de particiones, métricas, semillas, arquitectura y lectura de curvas. <code>zero_grad()</code>, <code>backward()</code> y <code>step()</code> son operaciones con significado, no rituales de código.</p>
+<p>Una comparación justa entre NumPy y PyTorch exige misma pregunta experimental: datos, partición, arquitectura comparable, métrica y presupuesto de entrenamiento. Velocidad de entrenamiento no equivale automáticamente a mejor modelo.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Mini-batch:</strong> subconjunto usado para estimar un paso de gradiente.</li>
+<li><strong>Momentum:</strong> acumulación suavizada de direcciones de actualización pasadas.</li>
+<li><strong>RMSProp:</strong> adaptación de pasos según magnitudes recientes de gradientes.</li>
+<li><strong>Adam:</strong> optimizador adaptativo que combina ideas de momentum y RMSProp.</li>
+<li><strong>Autograd:</strong> mecanismo de diferenciación automática de PyTorch.</li>
+<li><strong><code>zero_grad()</code>:</strong> instrucción que limpia gradientes acumulados.</li>
+<li><strong><code>backward()</code>:</strong> cálculo automático de gradientes desde la pérdida.</li>
+<li><strong><code>step()</code>:</strong> actualización de parámetros del optimizador.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.</p>
-</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué Adam no reemplaza la validación.</li>
+<li>¿Por qué PyTorch acumula gradientes y por qué normalmente llamamos <code>zero_grad()</code>?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Si un dataset tiene 1024 observaciones y batch size 64, ¿cuántos batches tiene una época?</li>
+<li>Si se entrenan 20 épocas con 16 batches por época, ¿cuántas veces se ejecuta <code>optimizer.step()</code>?</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Identifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.</li>
+<li>Implemente un loop mínimo que registre pérdida promedio por época.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.</li>
+<li>Si PyTorch entrena más rápido que NumPy, ¿qué evidencia necesita antes de afirmar que el modelo es mejor?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Reproduzca el mismo experimento con NumPy y PyTorch usando la misma partición, semilla y métrica. Entregue una tabla comparativa y una conclusión cautelosa.</li>
+</ol>
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
+<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+  <p>
+    <strong>Cita sugerida:</strong>
+    Galindo, C. (2026).
+    <em>Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105</em>.
+    Universidad de los Andes.
+  </p>
+  <p>
+    <strong>Estado de uso:</strong>
+    material docente del curso MATE-2105 bajo <code>LICENSE</code> formal de uso
+    docente restringido. La redistribución, adaptación pública o uso comercial
+    requiere autorización explícita del autor.
+  </p>
+  <nav aria-label="Enlaces editoriales del libro">
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+  </nav>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre").forEach(function (block) {
+    if (!block.hasAttribute("tabindex")) {
+      block.setAttribute("tabindex", "0");
+    }
+  });
+
+  document.querySelectorAll("nav.quarto-secondary-nav").forEach(function (nav) {
+    nav.setAttribute("aria-label", "Navegacion secundaria de pagina");
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1093,12 +1378,12 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="pagination-link" aria-label="Activaciones, inicialización, regularización y diagnóstico">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../capitulos/10-ejercicios-redes.html" class="pagination-link" aria-label="Ejercicios integradores: redes neuronales">
-        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ejercicios integradores: redes neuronales</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

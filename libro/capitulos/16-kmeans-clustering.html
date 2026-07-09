@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
 
-<title>25&nbsp; K-Means y clustering – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>K-Means y clustering – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../capitulos/17-recomendacion-latente.html" rel="next">
 <link href="../capitulos/15-svd-pca.html" rel="prev">
+<link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -105,6 +107,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Buscar"
   }
 }</script>
+<meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
+<meta name="citation_author" content="Galindo, Cesar">
+<meta name="citation_publication_date" content="2026-07-07">
+<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_language" content="es">
+<meta name="citation_publisher" content="Universidad de los Andes">
+<meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta name="DC.creator" content="César Galindo">
+<meta name="DC.language" content="es">
+<meta name="DC.date" content="2026-07-07">
+<meta name="DC.type" content="Textbook">
+<meta name="DC.format" content="text/html, application/pdf, text/csv">
+<meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
+<meta property="og:type" content="book">
+<meta property="og:title" content="K-Means y clustering – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Matemáticas y Algoritmos en Ciencia de Datos Aplicada",
+  "alternateName": "Libro del curso MATE-2105",
+  "author": {
+    "@type": "Person",
+    "name": "César Galindo"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Universidad de los Andes"
+  },
+  "datePublished": "2026-07-07",
+  "inLanguage": "es",
+  "url": "https://cesarneyit-code.github.io/mate2105/libro/",
+  "encodingFormat": [
+    "text/html",
+    "application/pdf",
+    "text/csv"
+  ],
+  "educationalLevel": "undergraduate",
+  "learningResourceType": "textbook",
+  "about": [
+    "ciencia de datos",
+    "matemáticas aplicadas",
+    "machine learning",
+    "optimización",
+    "reproducibilidad"
+  ],
+  "isAccessibleForFree": true,
+  "license": "https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html",
+  "citation": "Galindo, C. (2026). Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105. Universidad de los Andes."
+}
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -148,7 +205,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/16-kmeans-clustering.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/16-kmeans-clustering.html"><span class="chapter-title">K-Means y clustering</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -184,20 +241,142 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prefacio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../como_usar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cómo usar este libro</span></span></a>
+  <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mapa del curso y del libro</span></span></a>
+  <a href="../accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa del curso y del libro</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -211,14 +390,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parte I: Fundamentos</span></span></a>
+  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte I: Fundamentos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
   </div>
 </li>
       </ul>
@@ -234,38 +411,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span></a>
+  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span></a>
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span></a>
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Capítulo 3: Validación y regularización</span></span></a>
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Capítulo 4: Regresión logística</span></span></a>
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></span></a>
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
   </div>
 </li>
       </ul>
@@ -281,38 +452,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Parte III: Redes neuronales</span></span></a>
+  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte III: Redes neuronales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Perceptron, neurona logística y forward propagation</span></span></a>
+  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Backpropagation</span></span></a>
+  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Backpropagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span></a>
+  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></span></a>
+  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Optimizadores y PyTorch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ejercicios integradores: redes neuronales</span></span></a>
+  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></a>
   </div>
 </li>
       </ul>
@@ -328,32 +493,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parte IV: Estrategia de machine learning</span></span></a>
+  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></span></a>
+  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span></a>
+  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Error analysis y data mismatch</span></span></a>
+  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Error analysis y data mismatch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></span></a>
+  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
   </div>
 </li>
       </ul>
@@ -369,32 +529,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Parte V: Aprendizaje no supervisado</span></span></a>
+  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SVD y PCA</span></span></a>
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></span></a>
+  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">K-Means y clustering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Recomendación básica y estructura latente</span></span></a>
+  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recomendación básica y estructura latente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></span></a>
+  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -410,38 +565,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></span></a>
+  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></span></a>
+  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Reproducibilidad y tracking</span></span></a>
+  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducibilidad y tracking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Comunicación técnica</span></span></a>
+  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comunicación técnica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Entrega final y defensa</span></span></a>
+  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Entrega final y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></span></a>
+  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></a>
   </div>
 </li>
       </ul>
@@ -457,38 +606,52 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Formularios y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-tematico.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice temático</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
   </div>
 </li>
       </ul>
@@ -503,26 +666,37 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada"><span class="header-section-number">25.1</span> Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo"><span class="header-section-number">25.2</span> Objetivos del capítulo</a></li>
-  <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo"><span class="header-section-number">25.3</span> Función objetivo</a></li>
-  <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo"><span class="header-section-number">25.4</span> Algoritmo</a></li>
-  <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia"><span class="header-section-number">25.5</span> Inertia</a></li>
-  <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score"><span class="header-section-number">25.6</span> Silhouette score</a></li>
-  <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides"><span class="header-section-number">25.7</span> Ejemplo resuelto: asignación a centroides</a></li>
-  <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento"><span class="header-section-number">25.8</span> Escalamiento</a></li>
-  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones"><span class="header-section-number">25.9</span> Limitaciones</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control"><span class="header-section-number">25.10</span> Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">25.11</span> Ejercicios</a></li>
+  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo">Función objetivo</a></li>
+  <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo">Algoritmo</a></li>
+  <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
+  <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
+  <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
+  <li><a href="#ejemplo-resuelto-una-iteración-completa" id="toc-ejemplo-resuelto-una-iteración-completa" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</a></li>
+  <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
+  <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/16-kmeans-clustering.html"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/16-kmeans-clustering.html"><span class="chapter-title">K-Means y clustering</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></h1>
+<h1 class="title"><span class="chapter-title">K-Means y clustering</span></h1>
 </div>
 
 
@@ -539,16 +713,27 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2" data-number="25.1">
-<h2 data-number="25.1" class="anchored" data-anchor-id="pregunta-aplicada"><span class="header-section-number">25.1</span> Pregunta aplicada</h2>
+<section id="pregunta-aplicada" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Si no tenemos etiquetas, aún podemos preguntar:</p>
 <blockquote class="blockquote">
 <p>¿hay grupos de observaciones con patrones similares?</p>
 </blockquote>
 <p>K-Means busca particionar datos en <span class="math inline">\(k\)</span> grupos representados por centroides.</p>
+<div id="fig-cap16-kmeans-centroides" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/kmeans-centroides.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> K-Means alterna entre asignar observaciones al centroide más cercano y mover cada centroide al promedio de su grupo. La interpretación aplicada viene después de validar que esa geometría tenga sentido.</p>
 </section>
-<section id="objetivos-del-capítulo" class="level2" data-number="25.2">
-<h2 data-number="25.2" class="anchored" data-anchor-id="objetivos-del-capítulo"><span class="header-section-number">25.2</span> Objetivos del capítulo</h2>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
 <p>Al terminar este capítulo deberías poder:</p>
 <ol type="1">
 <li>escribir la función objetivo de K-Means;</li>
@@ -558,8 +743,8 @@ window.Quarto = {
 <li>reconocer cuándo un cluster no debe traducirse directamente en una decisión.</li>
 </ol>
 </section>
-<section id="función-objetivo" class="level2" data-number="25.3">
-<h2 data-number="25.3" class="anchored" data-anchor-id="función-objetivo"><span class="header-section-number">25.3</span> Función objetivo</h2>
+<section id="función-objetivo" class="level2">
+<h2 class="anchored" data-anchor-id="función-objetivo">Función objetivo</h2>
 <p>K-Means minimiza la suma de distancias cuadradas a centroides:</p>
 <p><span class="math display">\[
 \sum_{i=1}^n \|x_i-\mu_{c_i}\|_2^2.
@@ -570,8 +755,8 @@ window.Quarto = {
 <li><span class="math inline">\(\mu_{c_i}\)</span> es el centroide correspondiente.</li>
 </ul>
 </section>
-<section id="algoritmo" class="level2" data-number="25.4">
-<h2 data-number="25.4" class="anchored" data-anchor-id="algoritmo"><span class="header-section-number">25.4</span> Algoritmo</h2>
+<section id="algoritmo" class="level2">
+<h2 class="anchored" data-anchor-id="algoritmo">Algoritmo</h2>
 <ol type="1">
 <li>Inicializar centroides.</li>
 <li>Asignar cada punto al centroide más cercano.</li>
@@ -579,8 +764,8 @@ window.Quarto = {
 <li>Repetir hasta convergencia.</li>
 </ol>
 </section>
-<section id="inertia" class="level2" data-number="25.5">
-<h2 data-number="25.5" class="anchored" data-anchor-id="inertia"><span class="header-section-number">25.5</span> Inertia</h2>
+<section id="inertia" class="level2">
+<h2 class="anchored" data-anchor-id="inertia">Inertia</h2>
 <p><code>inertia</code> es la suma de distancias cuadradas dentro de clusters.</p>
 <p>Menor inertia no siempre significa mejor segmentación:</p>
 <ul>
@@ -589,8 +774,8 @@ window.Quarto = {
 <li>puede favorecer clusters poco interpretables.</li>
 </ul>
 </section>
-<section id="silhouette-score" class="level2" data-number="25.6">
-<h2 data-number="25.6" class="anchored" data-anchor-id="silhouette-score"><span class="header-section-number">25.6</span> Silhouette score</h2>
+<section id="silhouette-score" class="level2">
+<h2 class="anchored" data-anchor-id="silhouette-score">Silhouette score</h2>
 <p>Para una observación:</p>
 <p><span class="math display">\[
 s=\frac{b-a}{\max(a,b)}.
@@ -602,8 +787,8 @@ s=\frac{b-a}{\max(a,b)}.
 </ul>
 <p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento.</p>
 </section>
-<section id="ejemplo-resuelto-asignación-a-centroides" class="level2" data-number="25.7">
-<h2 data-number="25.7" class="anchored" data-anchor-id="ejemplo-resuelto-asignación-a-centroides"><span class="header-section-number">25.7</span> Ejemplo resuelto: asignación a centroides</h2>
+<section id="ejemplo-resuelto-asignación-a-centroides" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</h2>
 <p>Supón dos centroides en una dimensión:</p>
 <p><span class="math display">\[
 \mu_1=2,\qquad \mu_2=8.
@@ -614,16 +799,79 @@ s=\frac{b-a}{\max(a,b)}.
 \]</span></p>
 <p>La observación está empatada. En implementación debe haber una regla de desempate. Este ejemplo muestra que K-Means es geométrico: asigna por distancia, no por significado de negocio.</p>
 </section>
-<section id="escalamiento" class="level2" data-number="25.8">
-<h2 data-number="25.8" class="anchored" data-anchor-id="escalamiento"><span class="header-section-number">25.8</span> Escalamiento</h2>
+<section id="ejemplo-resuelto-una-iteración-completa" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</h2>
+<p>Supón cuatro puntos en una dimensión:</p>
+<p><span class="math display">\[
+x=(1,2,8,10)
+\]</span></p>
+<p>y dos centroides iniciales:</p>
+<p><span class="math display">\[
+\mu_1=1,\qquad \mu_2=10.
+\]</span></p>
+<p><strong>Paso 1: asignar puntos.</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Punto</th>
+<th style="text-align: right;">Distancia a <span class="math inline">\(\mu_1\)</span></th>
+<th style="text-align: right;">Distancia a <span class="math inline">\(\mu_2\)</span></th>
+<th style="text-align: right;">Cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>La inertia inicial con estas asignaciones es:</p>
+<p><span class="math display">\[
+(1-1)^2+(2-1)^2+(8-10)^2+(10-10)^2=5.
+\]</span></p>
+<p><strong>Paso 2: actualizar centroides.</strong></p>
+<p><span class="math display">\[
+\mu_1^{nuevo}=\frac{1+2}{2}=1.5,
+\qquad
+\mu_2^{nuevo}=\frac{8+10}{2}=9.
+\]</span></p>
+<p>Con los nuevos centroides, la inertia para las mismas asignaciones es:</p>
+<p><span class="math display">\[
+(1-1.5)^2+(2-1.5)^2+(8-9)^2+(10-9)^2=2.5.
+\]</span></p>
+<p>La inertia bajó, pero eso no prueba que <span class="math inline">\(k=2\)</span> sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.</p>
+</section>
+<section id="escalamiento" class="level2">
+<h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
 <p>K-Means usa distancia euclídea. Por tanto, las escalas importan.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Pipeline([</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scaler"</span>, StandardScaler()),</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"kmeans"</span>, KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="limitaciones" class="level2" data-number="25.9">
-<h2 data-number="25.9" class="anchored" data-anchor-id="limitaciones"><span class="header-section-number">25.9</span> Limitaciones</h2>
+<section id="limitaciones" class="level2">
+<h2 class="anchored" data-anchor-id="limitaciones">Limitaciones</h2>
 <p>K-Means funciona mejor cuando los clusters son:</p>
 <ul>
 <li>aproximadamente esféricos;</li>
@@ -632,8 +880,8 @@ s=\frac{b-a}{\max(a,b)}.
 </ul>
 <p>Puede fallar con formas no convexas, densidades distintas o variables mal escaladas.</p>
 </section>
-<section id="punto-de-control" class="level2" data-number="25.10">
-<h2 data-number="25.10" class="anchored" data-anchor-id="punto-de-control"><span class="header-section-number">25.10</span> Punto de control</h2>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Antes de reportar clusters, verifica:</p>
 <ol type="1">
 <li>¿las variables están en escalas comparables?</li>
@@ -643,22 +891,111 @@ s=\frac{b-a}{\max(a,b)}.
 <li>¿qué decisión concreta usaría esta segmentación?</li>
 </ol>
 </section>
-<section id="ejercicios" class="level2" data-number="25.11">
-<h2 data-number="25.11" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">25.11</span> Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</p>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> ejecuta una iteración de K-Means a mano con cuatro puntos y dos centroides iniciales distintos.</li>
+<li><strong>Extensión computacional:</strong> compara inercia y silueta para varios valores de <span class="math inline">\(k\)</span>, usando la misma escala de variables.</li>
+<li><strong>Conexión con proyecto:</strong> describe qué significaría cada cluster para una decisión real y qué variables dominan esa interpretación.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> ¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</p>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>K-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de clusters. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.</p>
+<p>Inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
+<p>Una segmentación profesional requiere escalamiento, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo accionable ni una categoría real de dominio.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Clustering:</strong> agrupación no supervisada de observaciones.</li>
+<li><strong>Centroide:</strong> punto representativo de un cluster.</li>
+<li><strong>Inertia:</strong> suma de distancias cuadradas a centroides.</li>
+<li><strong>Silhouette:</strong> métrica que compara cercanía al cluster propio frente a otros.</li>
+<li><strong>Escalamiento:</strong> transformación necesaria cuando las variables tienen unidades distintas.</li>
+<li><strong>Segmentación:</strong> interpretación aplicada de grupos, que requiere validación de negocio o dominio.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</p>
-</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</li>
+<li>¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Asigne tres puntos en una dimensión a dos centroides dados y calcule inertia.</li>
+<li>Si un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Ajuste K-Means para varios valores de <span class="math inline">\(k\)</span> y reporte inertia y silhouette.</li>
+<li>Construya un pipeline con escalamiento y K-Means.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</li>
+<li>¿Qué evidencia usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Genere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.</li>
+</ol>
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
+<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+  <p>
+    <strong>Cita sugerida:</strong>
+    Galindo, C. (2026).
+    <em>Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105</em>.
+    Universidad de los Andes.
+  </p>
+  <p>
+    <strong>Estado de uso:</strong>
+    material docente del curso MATE-2105 bajo <code>LICENSE</code> formal de uso
+    docente restringido. La redistribución, adaptación pública o uso comercial
+    requiere autorización explícita del autor.
+  </p>
+  <nav aria-label="Enlaces editoriales del libro">
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+  </nav>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre").forEach(function (block) {
+    if (!block.hasAttribute("tabindex")) {
+      block.setAttribute("tabindex", "0");
+    }
+  });
+
+  document.querySelectorAll("nav.quarto-secondary-nav").forEach(function (nav) {
+    nav.setAttribute("aria-label", "Navegacion secundaria de pagina");
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1062,12 +1399,12 @@ s=\frac{b-a}{\max(a,b)}.
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../capitulos/15-svd-pca.html" class="pagination-link" aria-label="SVD y PCA">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SVD y PCA</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">SVD y PCA</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../capitulos/17-recomendacion-latente.html" class="pagination-link" aria-label="Recomendación básica y estructura latente">
-        <span class="nav-page-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Recomendación básica y estructura latente</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">Recomendación básica y estructura latente</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

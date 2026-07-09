@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
 
-<title>19&nbsp; Métricas y particiones – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Métricas y particiones – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -67,6 +68,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="quarto:offset" content="../">
 <link href="../capitulos/12-validacion-curvas.html" rel="next">
 <link href="../partes/parte04_estrategia.html" rel="prev">
+<link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -105,6 +107,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Buscar"
   }
 }</script>
+<meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
+<meta name="citation_author" content="Galindo, Cesar">
+<meta name="citation_publication_date" content="2026-07-07">
+<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_language" content="es">
+<meta name="citation_publisher" content="Universidad de los Andes">
+<meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta name="DC.creator" content="César Galindo">
+<meta name="DC.language" content="es">
+<meta name="DC.date" content="2026-07-07">
+<meta name="DC.type" content="Textbook">
+<meta name="DC.format" content="text/html, application/pdf, text/csv">
+<meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
+<meta property="og:type" content="book">
+<meta property="og:title" content="Métricas y particiones – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Matemáticas y Algoritmos en Ciencia de Datos Aplicada",
+  "alternateName": "Libro del curso MATE-2105",
+  "author": {
+    "@type": "Person",
+    "name": "César Galindo"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Universidad de los Andes"
+  },
+  "datePublished": "2026-07-07",
+  "inLanguage": "es",
+  "url": "https://cesarneyit-code.github.io/mate2105/libro/",
+  "encodingFormat": [
+    "text/html",
+    "application/pdf",
+    "text/csv"
+  ],
+  "educationalLevel": "undergraduate",
+  "learningResourceType": "textbook",
+  "about": [
+    "ciencia de datos",
+    "matemáticas aplicadas",
+    "machine learning",
+    "optimización",
+    "reproducibilidad"
+  ],
+  "isAccessibleForFree": true,
+  "license": "https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html",
+  "citation": "Galindo, C. (2026). Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105. Universidad de los Andes."
+}
+</script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -148,7 +205,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Estrategia de machine learning</a></li><li class="breadcrumb-item"><a href="../capitulos/11-metricas-particiones.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Estrategia de machine learning</a></li><li class="breadcrumb-item"><a href="../capitulos/11-metricas-particiones.html"><span class="chapter-title">Métricas y particiones</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -184,20 +241,142 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Prefacio</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prefacio</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../como_usar.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Cómo usar este libro</span></span></a>
+  <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Mapa del curso y del libro</span></span></a>
+  <a href="../accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa del curso y del libro</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -211,14 +390,12 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parte I: Fundamentos</span></span></a>
+  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte I: Fundamentos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
   </div>
 </li>
       </ul>
@@ -234,38 +411,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span></a>
+  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span></a>
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span></a>
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Capítulo 3: Validación y regularización</span></span></a>
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Capítulo 4: Regresión logística</span></span></a>
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></span></a>
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
   </div>
 </li>
       </ul>
@@ -281,38 +452,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Parte III: Redes neuronales</span></span></a>
+  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte III: Redes neuronales</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Perceptron, neurona logística y forward propagation</span></span></a>
+  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Backpropagation</span></span></a>
+  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Backpropagation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></span></a>
+  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Optimizadores y PyTorch</span></span></a>
+  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Optimizadores y PyTorch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Ejercicios integradores: redes neuronales</span></span></a>
+  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></a>
   </div>
 </li>
       </ul>
@@ -328,32 +493,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parte IV: Estrategia de machine learning</span></span></a>
+  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></span></a>
+  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Métricas y particiones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span></a>
+  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Error analysis y data mismatch</span></span></a>
+  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Error analysis y data mismatch</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></span></a>
+  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
   </div>
 </li>
       </ul>
@@ -369,32 +529,27 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Parte V: Aprendizaje no supervisado</span></span></a>
+  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">SVD y PCA</span></span></a>
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">K-Means y clustering</span></span></a>
+  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">K-Means y clustering</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Recomendación básica y estructura latente</span></span></a>
+  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recomendación básica y estructura latente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></span></a>
+  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
   </div>
 </li>
       </ul>
@@ -410,38 +565,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></span></a>
+  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></span></a>
+  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">Reproducibilidad y tracking</span></span></a>
+  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducibilidad y tracking</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Comunicación técnica</span></span></a>
+  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comunicación técnica</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Entrega final y defensa</span></span></a>
+  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Entrega final y defensa</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></span></a>
+  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></a>
   </div>
 </li>
       </ul>
@@ -457,38 +606,52 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">34</span>&nbsp; <span class="chapter-title">Formularios y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">35</span>&nbsp; <span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-tematico.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice temático</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">36</span>&nbsp; <span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">37</span>&nbsp; <span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">38</span>&nbsp; <span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">39</span>&nbsp; <span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></span></a>
+  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
   </div>
 </li>
       </ul>
@@ -503,28 +666,40 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada"><span class="header-section-number">19.1</span> Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo"><span class="header-section-number">19.2</span> Objetivos del capítulo</a></li>
-  <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal"><span class="header-section-number">19.3</span> Métrica principal</a></li>
-  <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta"><span class="header-section-number">19.4</span> Accuracy no siempre basta</a></li>
-  <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa"><span class="header-section-number">19.5</span> Ejemplo resuelto: accuracy engañosa</a></li>
-  <li><a href="#baseline" id="toc-baseline" class="nav-link" data-scroll-target="#baseline"><span class="header-section-number">19.6</span> Baseline</a></li>
-  <li><a href="#particiones" id="toc-particiones" class="nav-link" data-scroll-target="#particiones"><span class="header-section-number">19.7</span> Particiones</a></li>
-  <li><a href="#test-se-toca-una-vez" id="toc-test-se-toca-una-vez" class="nav-link" data-scroll-target="#test-se-toca-una-vez"><span class="header-section-number">19.8</span> Test se toca una vez</a></li>
-  <li><a href="#estratificación" id="toc-estratificación" class="nav-link" data-scroll-target="#estratificación"><span class="header-section-number">19.9</span> Estratificación</a></li>
-  <li><a href="#leakage" id="toc-leakage" class="nav-link" data-scroll-target="#leakage"><span class="header-section-number">19.10</span> Leakage</a></li>
-  <li><a href="#pipeline-como-defensa" id="toc-pipeline-como-defensa" class="nav-link" data-scroll-target="#pipeline-como-defensa"><span class="header-section-number">19.11</span> Pipeline como defensa</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control"><span class="header-section-number">19.12</span> Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">19.13</span> Ejercicios</a></li>
+  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal">Métrica principal</a></li>
+  <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
+  <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
+  <li><a href="#ejemplo-resuelto-costo-de-falsos-negativos" id="toc-ejemplo-resuelto-costo-de-falsos-negativos" class="nav-link" data-scroll-target="#ejemplo-resuelto-costo-de-falsos-negativos">Ejemplo resuelto: costo de falsos negativos</a></li>
+  <li><a href="#baseline" id="toc-baseline" class="nav-link" data-scroll-target="#baseline">Baseline</a></li>
+  <li><a href="#particiones" id="toc-particiones" class="nav-link" data-scroll-target="#particiones">Particiones</a></li>
+  <li><a href="#test-se-toca-una-vez" id="toc-test-se-toca-una-vez" class="nav-link" data-scroll-target="#test-se-toca-una-vez">Test se toca una vez</a></li>
+  <li><a href="#estratificación" id="toc-estratificación" class="nav-link" data-scroll-target="#estratificación">Estratificación</a></li>
+  <li><a href="#ejemplo-resuelto-conteos-en-una-partición-estratificada" id="toc-ejemplo-resuelto-conteos-en-una-partición-estratificada" class="nav-link" data-scroll-target="#ejemplo-resuelto-conteos-en-una-partición-estratificada">Ejemplo resuelto: conteos en una partición estratificada</a></li>
+  <li><a href="#leakage" id="toc-leakage" class="nav-link" data-scroll-target="#leakage">Leakage</a></li>
+  <li><a href="#pipeline-como-defensa" id="toc-pipeline-como-defensa" class="nav-link" data-scroll-target="#pipeline-como-defensa">Pipeline como defensa</a></li>
+  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Estrategia de machine learning</a></li><li class="breadcrumb-item"><a href="../capitulos/11-metricas-particiones.html"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Estrategia de machine learning</a></li><li class="breadcrumb-item"><a href="../capitulos/11-metricas-particiones.html"><span class="chapter-title">Métricas y particiones</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Métricas y particiones</span></h1>
+<h1 class="title"><span class="chapter-title">Métricas y particiones</span></h1>
 </div>
 
 
@@ -541,15 +716,15 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2" data-number="19.1">
-<h2 data-number="19.1" class="anchored" data-anchor-id="pregunta-aplicada"><span class="header-section-number">19.1</span> Pregunta aplicada</h2>
+<section id="pregunta-aplicada" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Un modelo puede tener buena accuracy y aun así ser inaceptable si falla en los casos importantes. Antes de entrenar más modelos, debemos decidir:</p>
 <blockquote class="blockquote">
 <p>¿qué error cuesta más y qué evidencia será suficiente para elegir?</p>
 </blockquote>
 </section>
-<section id="objetivos-del-capítulo" class="level2" data-number="19.2">
-<h2 data-number="19.2" class="anchored" data-anchor-id="objetivos-del-capítulo"><span class="header-section-number">19.2</span> Objetivos del capítulo</h2>
+<section id="objetivos-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
 <p>Al terminar este capítulo deberías poder:</p>
 <ol type="1">
 <li>elegir una métrica principal alineada con el costo de error;</li>
@@ -559,8 +734,8 @@ window.Quarto = {
 <li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
 </ol>
 </section>
-<section id="métrica-principal" class="level2" data-number="19.3">
-<h2 data-number="19.3" class="anchored" data-anchor-id="métrica-principal"><span class="header-section-number">19.3</span> Métrica principal</h2>
+<section id="métrica-principal" class="level2">
+<h2 class="anchored" data-anchor-id="métrica-principal">Métrica principal</h2>
 <div class="definition">
 <p>La <strong>métrica principal</strong> es la regla cuantitativa que se usará para seleccionar modelos durante el desarrollo.</p>
 </div>
@@ -597,8 +772,8 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
-<section id="accuracy-no-siempre-basta" class="level2" data-number="19.4">
-<h2 data-number="19.4" class="anchored" data-anchor-id="accuracy-no-siempre-basta"><span class="header-section-number">19.4</span> Accuracy no siempre basta</h2>
+<section id="accuracy-no-siempre-basta" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy-no-siempre-basta">Accuracy no siempre basta</h2>
 <p>En clases desbalanceadas, un modelo que predice siempre la clase mayoritaria puede tener alta accuracy.</p>
 <p>Por eso, en clasificación binaria se debe revisar:</p>
 <ul>
@@ -610,8 +785,8 @@ window.Quarto = {
 <li>costo de falsos positivos y falsos negativos.</li>
 </ul>
 </section>
-<section id="ejemplo-resuelto-accuracy-engañosa" class="level2" data-number="19.5">
-<h2 data-number="19.5" class="anchored" data-anchor-id="ejemplo-resuelto-accuracy-engañosa"><span class="header-section-number">19.5</span> Ejemplo resuelto: accuracy engañosa</h2>
+<section id="ejemplo-resuelto-accuracy-engañosa" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</h2>
 <p>Supón un problema con 1000 observaciones:</p>
 <ul>
 <li>950 son negativas;</li>
@@ -628,8 +803,58 @@ window.Quarto = {
 \]</span></p>
 <p>Si detectar positivos era el objetivo, este modelo no sirve aunque su accuracy parezca alta.</p>
 </section>
-<section id="baseline" class="level2" data-number="19.6">
-<h2 data-number="19.6" class="anchored" data-anchor-id="baseline"><span class="header-section-number">19.6</span> Baseline</h2>
+<section id="ejemplo-resuelto-costo-de-falsos-negativos" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-costo-de-falsos-negativos">Ejemplo resuelto: costo de falsos negativos</h2>
+<p>Supón un problema con 50 positivos y 950 negativos. Comparamos dos umbrales:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Umbral</th>
+<th style="text-align: right;">TP</th>
+<th style="text-align: right;">FP</th>
+<th style="text-align: right;">FN</th>
+<th style="text-align: right;">TN</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">910</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">940</td>
+</tr>
+</tbody>
+</table>
+<p>El umbral A tiene:</p>
+<p><span class="math display">\[
+\text{precision}_A=\frac{35}{35+40}\approx0.467,
+\qquad
+\text{recall}_A=\frac{35}{35+15}=0.70.
+\]</span></p>
+<p>El umbral B tiene:</p>
+<p><span class="math display">\[
+\text{precision}_B=\frac{25}{25+10}\approx0.714,
+\qquad
+\text{recall}_B=\frac{25}{25+25}=0.50.
+\]</span></p>
+<p>Si un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo esperado de cada umbral es:</p>
+<p><span class="math display">\[
+C_A=40(1)+15(10)=190,
+\qquad
+C_B=10(1)+25(10)=260.
+\]</span></p>
+<p>Aunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. La métrica correcta depende de la decisión, no de cuál número se ve más alto.</p>
+</section>
+<section id="baseline" class="level2">
+<h2 class="anchored" data-anchor-id="baseline">Baseline</h2>
 <div class="rule">
 <p>Ningún modelo se reporta sin baseline.</p>
 </div>
@@ -642,15 +867,15 @@ window.Quarto = {
 <li>modelo anterior del proyecto.</li>
 </ul>
 </section>
-<section id="particiones" class="level2" data-number="19.7">
-<h2 data-number="19.7" class="anchored" data-anchor-id="particiones"><span class="header-section-number">19.7</span> Particiones</h2>
+<section id="particiones" class="level2">
+<h2 class="anchored" data-anchor-id="particiones">Particiones</h2>
 <p>La estructura estándar es:</p>
 <pre class="text"><code>train -&gt; ajustar parámetros
 dev/validation -&gt; elegir modelo e hiperparámetros
 test -&gt; estimar desempeño final</code></pre>
 </section>
-<section id="test-se-toca-una-vez" class="level2" data-number="19.8">
-<h2 data-number="19.8" class="anchored" data-anchor-id="test-se-toca-una-vez"><span class="header-section-number">19.8</span> Test se toca una vez</h2>
+<section id="test-se-toca-una-vez" class="level2">
+<h2 class="anchored" data-anchor-id="test-se-toca-una-vez">Test se toca una vez</h2>
 <p>Si se usa test para tomar decisiones, deja de ser una estimación honesta del desempeño final.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -666,14 +891,53 @@ Advertencia
 </div>
 </div>
 </section>
-<section id="estratificación" class="level2" data-number="19.9">
-<h2 data-number="19.9" class="anchored" data-anchor-id="estratificación"><span class="header-section-number">19.9</span> Estratificación</h2>
+<section id="estratificación" class="level2">
+<h2 class="anchored" data-anchor-id="estratificación">Estratificación</h2>
 <p>En clasificación, la partición debe preservar proporciones de clase cuando sea razonable:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>train_test_split(X, y, stratify<span class="op">=</span>y, random_state<span class="op">=</span><span class="dv">42</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Si no se estratifica un dataset pequeño o desbalanceado, una partición puede cambiar artificialmente la dificultad.</p>
 </section>
-<section id="leakage" class="level2" data-number="19.10">
-<h2 data-number="19.10" class="anchored" data-anchor-id="leakage"><span class="header-section-number">19.10</span> Leakage</h2>
+<section id="ejemplo-resuelto-conteos-en-una-partición-estratificada" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-conteos-en-una-partición-estratificada">Ejemplo resuelto: conteos en una partición estratificada</h2>
+<p>Supón un dataset con 2000 observaciones y clase positiva de 8%. Entonces hay:</p>
+<p><span class="math display">\[
+2000(0.08)=160
+\]</span></p>
+<p>observaciones positivas. En una división 60/20/20 estratificada, los tamaños esperados son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Conjunto</th>
+<th style="text-align: right;">Observaciones</th>
+<th style="text-align: right;">Positivos esperados</th>
+<th style="text-align: right;">Negativos esperados</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>train</td>
+<td style="text-align: right;"><span class="math inline">\(2000(0.60)=1200\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(160(0.60)=96\)</span></td>
+<td style="text-align: right;">1104</td>
+</tr>
+<tr class="even">
+<td>dev</td>
+<td style="text-align: right;"><span class="math inline">\(2000(0.20)=400\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(160(0.20)=32\)</span></td>
+<td style="text-align: right;">368</td>
+</tr>
+<tr class="odd">
+<td>test</td>
+<td style="text-align: right;"><span class="math inline">\(2000(0.20)=400\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(160(0.20)=32\)</span></td>
+<td style="text-align: right;">368</td>
+</tr>
+</tbody>
+</table>
+<p>La tabla no garantiza que cada partición sea perfecta en todos los rasgos del problema. Solo preserva, aproximadamente, la proporción de la clase usada para estratificar. Si hay tiempo, grupos, hospitales, sedes o usuarios repetidos, esas restricciones pueden ser más importantes que una estratificación simple.</p>
+</section>
+<section id="leakage" class="level2">
+<h2 class="anchored" data-anchor-id="leakage">Leakage</h2>
 <p>Leakage ocurre cuando información no disponible en producción entra al entrenamiento o a la evaluación.</p>
 <p>Ejemplos:</p>
 <ul>
@@ -684,8 +948,8 @@ Advertencia
 <li>elegir hiperparámetros mirando test.</li>
 </ul>
 </section>
-<section id="pipeline-como-defensa" class="level2" data-number="19.11">
-<h2 data-number="19.11" class="anchored" data-anchor-id="pipeline-como-defensa"><span class="header-section-number">19.11</span> Pipeline como defensa</h2>
+<section id="pipeline-como-defensa" class="level2">
+<h2 class="anchored" data-anchor-id="pipeline-como-defensa">Pipeline como defensa</h2>
 <p>Los pipelines ayudan a aplicar <code>fit</code> solo donde corresponde:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Pipeline([</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scaler"</span>, StandardScaler()),</span>
@@ -693,8 +957,8 @@ Advertencia
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En cross-validation, cada fold ajusta sus transformaciones solo con el train fold.</p>
 </section>
-<section id="punto-de-control" class="level2" data-number="19.12">
-<h2 data-number="19.12" class="anchored" data-anchor-id="punto-de-control"><span class="header-section-number">19.12</span> Punto de control</h2>
+<section id="punto-de-control" class="level2">
+<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Antes de comparar modelos, escribe explícitamente:</p>
 <ol type="1">
 <li>métrica principal;</li>
@@ -704,22 +968,111 @@ Advertencia
 <li>regla para no tocar test.</li>
 </ol>
 </section>
-<section id="ejercicios" class="level2" data-number="19.13">
-<h2 data-number="19.13" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">19.13</span> Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Para un problema de fraude, explique cuándo preferiría recall y cuándo precision.</p>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> calcula precisión, recall, F1 y balanced accuracy para dos matrices de confusión con el mismo accuracy.</li>
+<li><strong>Extensión computacional:</strong> repite una partición estratificada con varias semillas y mide la variación de la métrica principal.</li>
+<li><strong>Conexión con proyecto:</strong> escribe qué métrica será primaria, cuál será secundaria y qué baseline debe superar tu modelo.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> Diseñe una partición <code>train/dev/test</code> para un dataset de 2000 observaciones con clases desbalanceadas.</p>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Este capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. Accuracy puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro.</p>
+<p>Las particiones train, dev y test cumplen funciones distintas. Train ajusta parámetros, dev guía decisiones de modelo y test estima desempeño final. La estratificación, las particiones temporales o por grupo deben elegirse según el problema, no por costumbre.</p>
+<p>El leakage suele entrar por preprocesamiento aprendido con demasiados datos. Un <code>Pipeline</code> no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Métrica principal:</strong> cantidad que guía la selección del modelo.</li>
+<li><strong>Baseline:</strong> regla simple que fija un punto mínimo de comparación.</li>
+<li><strong>Train/dev/test:</strong> separación para entrenar, seleccionar y estimar desempeño final.</li>
+<li><strong>Estratificación:</strong> partición que preserva proporciones de clase.</li>
+<li><strong>Leakage:</strong> entrada de información no disponible en producción al entrenamiento o evaluación.</li>
+<li><strong>Pipeline:</strong> objeto que encadena preprocesamiento y modelo para evitar ajustes fuera de lugar.</li>
+</ul>
 </div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Identifique el leakage: se imputa la media de cada variable usando todo el dataset antes de <code>train_test_split</code>.</p>
-</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Para un problema de fraude, explique cuándo preferiría recall y cuándo precision.</li>
+<li>¿Por qué accuracy puede ser una mala métrica en clases desbalanceadas?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Diseñe una partición <code>train/dev/test</code> para un dataset de 2000 observaciones con clases desbalanceadas.</li>
+<li>Si una clase positiva representa 8% de los datos, estime cuántos positivos deberían aparecer en cada partición de una división 60/20/20 estratificada.</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Implemente una partición estratificada con semilla fija.</li>
+<li>Construya un <code>Pipeline</code> que escale variables numéricas y ajuste un modelo.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Identifique el leakage: se imputa la media de cada variable usando todo el dataset antes de <code>train_test_split</code>.</li>
+<li>Escriba una regla concreta para decidir cuándo se permite tocar el conjunto de test.</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Para su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.</li>
+</ol>
 
 
 </section>
+</section>
 
 </main> <!-- /main -->
+<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+  <p>
+    <strong>Cita sugerida:</strong>
+    Galindo, C. (2026).
+    <em>Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105</em>.
+    Universidad de los Andes.
+  </p>
+  <p>
+    <strong>Estado de uso:</strong>
+    material docente del curso MATE-2105 bajo <code>LICENSE</code> formal de uso
+    docente restringido. La redistribución, adaptación pública o uso comercial
+    requiere autorización explícita del autor.
+  </p>
+  <nav aria-label="Enlaces editoriales del libro">
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+  </nav>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre").forEach(function (block) {
+    if (!block.hasAttribute("tabindex")) {
+      block.setAttribute("tabindex", "0");
+    }
+  });
+
+  document.querySelectorAll("nav.quarto-secondary-nav").forEach(function (nav) {
+    nav.setAttribute("aria-label", "Navegacion secundaria de pagina");
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1123,12 +1476,12 @@ Advertencia
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../partes/parte04_estrategia.html" class="pagination-link" aria-label="Parte IV: Estrategia de machine learning">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Parte IV: Estrategia de machine learning</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../capitulos/12-validacion-curvas.html" class="pagination-link" aria-label="Validación cruzada y curvas de aprendizaje">
-        <span class="nav-page-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

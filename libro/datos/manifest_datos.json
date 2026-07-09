@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "version_date": "2026-07-07",
+  "title": "Paquete de datasets públicos MATE-2105",
+  "generator": "scripts/generar_datasets_libro.py",
+  "license_status": "cubierto por LICENSE formal de uso docente restringido; usar dentro del curso salvo autorizacion explicita",
+  "private_material": false,
+  "files": [
+    {
+      "path": "regresion_lineal_sintetica.csv",
+      "rows": 160,
+      "columns": [
+        "id",
+        "x1",
+        "x2",
+        "x3",
+        "target"
+      ],
+      "bytes": 7471,
+      "sha256": "c98b91b0af1fc25e706204380d516c4642a3f59f180e9c27c8e436d3ee09eb63",
+      "source": "generado sintética y determinísticamente",
+      "task": "regresion",
+      "target": "target",
+      "random_state": 2105,
+      "intended_use": "regresión lineal, descenso del gradiente, regularización",
+      "limitations": "dataset sintético; no representa población real"
+    },
+    {
+      "path": "clasificacion_binaria_sintetica.csv",
+      "rows": 240,
+      "columns": [
+        "id",
+        "x1",
+        "x2",
+        "score_latente",
+        "probabilidad",
+        "slice",
+        "target"
+      ],
+      "bytes": 13139,
+      "sha256": "91193e623c868ef92f74a6e63473d92ef772baa23cfd6e8509a71a3ba3cdba65",
+      "source": "generado sintética y determinísticamente",
+      "task": "clasificacion_binaria",
+      "target": "target",
+      "random_state": 2106,
+      "intended_use": "regresión logística, umbrales, métricas y análisis por slice",
+      "limitations": "dataset sintético; el slice reciente solo ilustra cambio de distribución"
+    },
+    {
+      "path": "clusters_sinteticos.csv",
+      "rows": 240,
+      "columns": [
+        "id",
+        "x1",
+        "x2",
+        "cluster_referencia"
+      ],
+      "bytes": 7661,
+      "sha256": "04c9e317553ca6ef226fe5392497c809164db9781b7ada62f4fa646b378c43f5",
+      "source": "generado sintética y determinísticamente",
+      "task": "clustering",
+      "target": "cluster_referencia",
+      "random_state": 2107,
+      "intended_use": "K-Means, centroides, inercia, silueta y diagnóstico de escala",
+      "limitations": "las etiquetas son referencia de generación, no deben usarse para entrenar K-Means"
+    },
+    {
+      "path": "pca_sintetico.csv",
+      "rows": 180,
+      "columns": [
+        "id",
+        "x1",
+        "x2",
+        "x3",
+        "x4"
+      ],
+      "bytes": 8472,
+      "sha256": "722ec58a3c3530ea0007c1b66fc0c2e1609ddac7d996fae4a005ef2d4e46caa9",
+      "source": "generado sintética y determinísticamente",
+      "task": "reduccion_dimensionalidad",
+      "target": null,
+      "random_state": 2108,
+      "intended_use": "PCA, SVD, varianza explicada y reconstrucción",
+      "limitations": "dataset sintético de baja dimensión latente"
+    },
+    {
+      "path": "recomendacion_interacciones.csv",
+      "rows": 32,
+      "columns": [
+        "user_id",
+        "item_id",
+        "rating"
+      ],
+      "bytes": 573,
+      "sha256": "33fe8df29ae31bcee42d6e59fe919428ab6ba99bc5a94933d3b57ef9f6bfa899",
+      "source": "generado sintética y determinísticamente",
+      "task": "recomendacion",
+      "target": "rating",
+      "random_state": null,
+      "intended_use": "similitud item-item, matriz usuario-item y evaluación offline pequeña",
+      "limitations": "datos ficticios; no inferir preferencias reales de estudiantes"
+    }
+  ]
+}

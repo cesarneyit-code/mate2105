@@ -1,0 +1,603 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-07",
+  "book": {
+    "title": "Matemáticas y Algoritmos en Ciencia de Datos Aplicada",
+    "course": "MATE-2105",
+    "site_url": "https://cesarneyit-code.github.io/mate2105/libro/"
+  },
+  "global_outcomes": [
+    {
+      "id": "RA1",
+      "statement": "Derivar algoritmos fundamentales de ciencia de datos desde funciones objetivo, gradientes, restricciones o factorizaciones."
+    },
+    {
+      "id": "RA2",
+      "statement": "Implementar versiones básicas de algoritmos con programación vectorizada y verificaciones numéricas pequeñas."
+    },
+    {
+      "id": "RA3",
+      "statement": "Comparar implementaciones propias con librerías profesionales sin cambiar la pregunta experimental."
+    },
+    {
+      "id": "RA4",
+      "statement": "Diagnosticar modelos usando métricas, curvas, residuos, particiones y análisis de errores."
+    },
+    {
+      "id": "RA5",
+      "statement": "Diseñar particiones train/dev/test y justificar validación, selección de métricas y criterios de comparación."
+    },
+    {
+      "id": "RA6",
+      "statement": "Reconocer problemas aplicados frecuentes: escalamiento, leakage, overfitting, data mismatch, clases desbalanceadas, sesgo y límites de interpretación."
+    },
+    {
+      "id": "RA7",
+      "statement": "Construir un proyecto reproducible con datos reales, baseline, modelos, evidencia y recomendaciones técnicas."
+    },
+    {
+      "id": "RA8",
+      "statement": "Comunicar y defender decisiones técnicas con evidencia, límites y autoría clara."
+    }
+  ],
+  "chapters": [
+    {
+      "chapter_id": "C01",
+      "title": "Regresión lineal múltiple",
+      "part": "Parte II: Regresión, optimización y clasificación",
+      "source": "modulo01_regresion_optimizacion/capitulo01_regresion_lineal.qmd",
+      "published": "capitulos/01-regresion-lineal.html",
+      "primary_evidence": ["Lab 1", "Parcial 1", "baseline de proyecto"],
+      "learning_outcomes": [
+        {
+          "id": "C01-O1",
+          "statement": "Formular un modelo lineal múltiple en forma matricial con dimensiones verificables.",
+          "observable_verb": "formular",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "matriz de diseño, vector de parámetros y predicciones con shapes correctos"
+        },
+        {
+          "id": "C01-O2",
+          "statement": "Derivar la ecuación normal desde la minimización de MSE y explicar la condición de residual ortogonal.",
+          "observable_verb": "derivar",
+          "global_alignment": ["RA1"],
+          "evidence": "derivación algebraica y lectura geométrica de mínimos cuadrados"
+        },
+        {
+          "id": "C01-O3",
+          "statement": "Comparar una implementación propia de regresión lineal con una referencia profesional sin cambiar datos ni métrica.",
+          "observable_verb": "comparar",
+          "global_alignment": ["RA2", "RA3"],
+          "evidence": "coeficientes, predicciones y MSE contra una referencia de scikit-learn"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C02",
+      "title": "Descenso del gradiente y condicionamiento",
+      "part": "Parte II: Regresión, optimización y clasificación",
+      "source": "modulo01_regresion_optimizacion/capitulo02_descenso_gradiente.qmd",
+      "published": "capitulos/02-descenso-gradiente.html",
+      "primary_evidence": ["Lab 1", "Parcial 1"],
+      "learning_outcomes": [
+        {
+          "id": "C02-O1",
+          "statement": "Calcular el gradiente de MSE para regresión lineal usando notación vectorizada.",
+          "observable_verb": "calcular",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "gradiente con forma correcta y prueba numérica pequeña"
+        },
+        {
+          "id": "C02-O2",
+          "statement": "Implementar descenso del gradiente y monitorear pérdida, parámetros y criterio de parada.",
+          "observable_verb": "implementar",
+          "global_alignment": ["RA2", "RA4"],
+          "evidence": "historia de pérdida y actualización reproducible con semilla fija"
+        },
+        {
+          "id": "C02-O3",
+          "statement": "Diagnosticar el efecto de escalamiento y condicionamiento sobre la convergencia.",
+          "observable_verb": "diagnosticar",
+          "global_alignment": ["RA4", "RA6"],
+          "evidence": "comparación de curvas de pérdida antes y después de escalar variables"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C03",
+      "title": "Regularización y validación",
+      "part": "Parte II: Regresión, optimización y clasificación",
+      "source": "modulo01_regresion_optimizacion/capitulo03_regularizacion_validacion.qmd",
+      "published": "capitulos/03-regularizacion-validacion.html",
+      "primary_evidence": ["Lab 2", "Parcial 1", "checkpoint de proyecto"],
+      "learning_outcomes": [
+        {
+          "id": "C03-O1",
+          "statement": "Distinguir error de entrenamiento, validación y prueba en un flujo sin leakage.",
+          "observable_verb": "distinguir",
+          "global_alignment": ["RA4", "RA5", "RA6"],
+          "evidence": "partición documentada y uso único de test"
+        },
+        {
+          "id": "C03-O2",
+          "statement": "Explicar cómo Ridge y Lasso modifican la función objetivo y los coeficientes estimados.",
+          "observable_verb": "explicar",
+          "global_alignment": ["RA1", "RA6"],
+          "evidence": "comparación de coeficientes y penalizaciones L2/L1"
+        },
+        {
+          "id": "C03-O3",
+          "statement": "Seleccionar complejidad o regularización usando validación y curvas de aprendizaje.",
+          "observable_verb": "seleccionar",
+          "global_alignment": ["RA4", "RA5", "RA8"],
+          "evidence": "criterio explícito de selección y recomendación técnica breve"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C04",
+      "title": "Regresión logística, métricas y umbrales",
+      "part": "Parte II: Regresión, optimización y clasificación",
+      "source": "modulo01_regresion_optimizacion/capitulo04_regresion_logistica.qmd",
+      "published": "capitulos/04-regresion-logistica.html",
+      "primary_evidence": ["Lab 2", "Parcial 1", "baseline de clasificación"],
+      "learning_outcomes": [
+        {
+          "id": "C04-O1",
+          "statement": "Derivar la pérdida logística y su gradiente para clasificación binaria.",
+          "observable_verb": "derivar",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "gradiente vectorizado y verificación de shapes"
+        },
+        {
+          "id": "C04-O2",
+          "statement": "Convertir probabilidades en decisiones usando un umbral coherente con el costo del error.",
+          "observable_verb": "convertir",
+          "global_alignment": ["RA4", "RA6", "RA8"],
+          "evidence": "matriz de confusión antes y después de cambiar el umbral"
+        },
+        {
+          "id": "C04-O3",
+          "statement": "Elegir y justificar métricas para datos balanceados o desbalanceados.",
+          "observable_verb": "justificar",
+          "global_alignment": ["RA4", "RA5", "RA8"],
+          "evidence": "reporte con métrica primaria, umbral, matriz de confusión y límite"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C06",
+      "title": "Perceptrón multicapa y forward propagation",
+      "part": "Parte III: Redes neuronales",
+      "source": "modulo02_redes_neuronales/capitulo01_perceptron_forward.qmd",
+      "published": "capitulos/06-perceptron-forward.html",
+      "primary_evidence": ["notebook de clase", "laboratorio de redes"],
+      "learning_outcomes": [
+        {
+          "id": "C06-O1",
+          "statement": "Representar una red densa con matrices, sesgos, activaciones y dimensiones compatibles.",
+          "observable_verb": "representar",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "tabla de shapes por capa y forward pass reproducible"
+        },
+        {
+          "id": "C06-O2",
+          "statement": "Implementar forward propagation para una red pequeña usando operaciones vectorizadas.",
+          "observable_verb": "implementar",
+          "global_alignment": ["RA2"],
+          "evidence": "salidas intermedias y predicciones con valores esperados"
+        },
+        {
+          "id": "C06-O3",
+          "statement": "Explicar el papel de activaciones y logits en clasificación multiclase.",
+          "observable_verb": "explicar",
+          "global_alignment": ["RA1", "RA8"],
+          "evidence": "interpretación de logits, probabilidades y clase predicha"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C07",
+      "title": "Backpropagation",
+      "part": "Parte III: Redes neuronales",
+      "source": "modulo02_redes_neuronales/capitulo02_backpropagation.qmd",
+      "published": "capitulos/07-backpropagation.html",
+      "primary_evidence": ["notebook de clase", "laboratorio de redes"],
+      "learning_outcomes": [
+        {
+          "id": "C07-O1",
+          "statement": "Aplicar la regla de la cadena sobre un grafo de cómputo para obtener gradientes.",
+          "observable_verb": "aplicar",
+          "global_alignment": ["RA1"],
+          "evidence": "gradientes intermedios identificados en el grafo forward/backward"
+        },
+        {
+          "id": "C07-O2",
+          "statement": "Implementar backward propagation manteniendo formas compatibles con los parámetros.",
+          "observable_verb": "implementar",
+          "global_alignment": ["RA2"],
+          "evidence": "gradientes dW y db con shapes y pruebas numéricas"
+        },
+        {
+          "id": "C07-O3",
+          "statement": "Verificar gradientes con diferencias finitas o casos mínimos antes de entrenar.",
+          "observable_verb": "verificar",
+          "global_alignment": ["RA2", "RA4"],
+          "evidence": "comparación de gradiente analítico contra aproximación numérica"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C08",
+      "title": "Diagnóstico y regularización en redes",
+      "part": "Parte III: Redes neuronales",
+      "source": "modulo02_redes_neuronales/capitulo03_diagnostico_regularizacion.qmd",
+      "published": "capitulos/08-diagnostico-regularizacion-redes.html",
+      "primary_evidence": ["curvas de entrenamiento", "laboratorio de redes"],
+      "learning_outcomes": [
+        {
+          "id": "C08-O1",
+          "statement": "Leer curvas de entrenamiento y validación para distinguir underfitting, overfitting e inestabilidad.",
+          "observable_verb": "leer",
+          "global_alignment": ["RA4", "RA6"],
+          "evidence": "diagnóstico de curva con acción técnica propuesta"
+        },
+        {
+          "id": "C08-O2",
+          "statement": "Aplicar regularización, early stopping o ajuste de capacidad según el diagnóstico.",
+          "observable_verb": "aplicar",
+          "global_alignment": ["RA4", "RA5"],
+          "evidence": "comparación de configuración base contra configuración regularizada"
+        },
+        {
+          "id": "C08-O3",
+          "statement": "Reportar límites de interpretación cuando el desempeño depende de datos, arquitectura o semilla.",
+          "observable_verb": "reportar",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "nota técnica con riesgos y supuestos de entrenamiento"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C09",
+      "title": "Optimizadores y PyTorch mínimo",
+      "part": "Parte III: Redes neuronales",
+      "source": "modulo02_redes_neuronales/capitulo04_optimizadores_pytorch.qmd",
+      "published": "capitulos/09-optimizadores-pytorch.html",
+      "primary_evidence": ["notebook PyTorch", "laboratorio de redes"],
+      "learning_outcomes": [
+        {
+          "id": "C09-O1",
+          "statement": "Construir un ciclo mínimo de entrenamiento con modelo, pérdida, optimizador y batch.",
+          "observable_verb": "construir",
+          "global_alignment": ["RA2", "RA3"],
+          "evidence": "loop PyTorch reproducible con pérdida decreciente"
+        },
+        {
+          "id": "C09-O2",
+          "statement": "Comparar SGD, momentum o Adam desde su comportamiento observable en entrenamiento.",
+          "observable_verb": "comparar",
+          "global_alignment": ["RA3", "RA4"],
+          "evidence": "curvas de pérdida y métrica bajo la misma partición"
+        },
+        {
+          "id": "C09-O3",
+          "statement": "Separar implementación profesional de razonamiento matemático al interpretar resultados de PyTorch.",
+          "observable_verb": "separar",
+          "global_alignment": ["RA3", "RA8"],
+          "evidence": "explicación de qué calcula la librería y qué decisión toma el estudiante"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C11",
+      "title": "Métricas, particiones y baseline",
+      "part": "Parte IV: Estrategia de machine learning",
+      "source": "modulo03_estrategia_ml/capitulo01_metricas_particiones.qmd",
+      "published": "capitulos/11-metricas-particiones.html",
+      "primary_evidence": ["checkpoint de proyecto", "reporte de baseline"],
+      "learning_outcomes": [
+        {
+          "id": "C11-O1",
+          "statement": "Diseñar particiones train/dev/test acordes con la pregunta aplicada y la disponibilidad de datos.",
+          "observable_verb": "diseñar",
+          "global_alignment": ["RA5", "RA6"],
+          "evidence": "justificación de partición, unidad de observación y riesgo de leakage"
+        },
+        {
+          "id": "C11-O2",
+          "statement": "Definir un baseline simple que permita medir progreso real.",
+          "observable_verb": "definir",
+          "global_alignment": ["RA4", "RA7"],
+          "evidence": "baseline reproducible y métrica primaria antes de modelos complejos"
+        },
+        {
+          "id": "C11-O3",
+          "statement": "Seleccionar métricas que representen el costo aplicado de los errores.",
+          "observable_verb": "seleccionar",
+          "global_alignment": ["RA4", "RA5", "RA8"],
+          "evidence": "métrica primaria, métrica secundaria y justificación de tradeoff"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C12",
+      "title": "Validación, curvas y selección de modelo",
+      "part": "Parte IV: Estrategia de machine learning",
+      "source": "modulo03_estrategia_ml/capitulo02_validacion_curvas.qmd",
+      "published": "capitulos/12-validacion-curvas.html",
+      "primary_evidence": ["checkpoint de proyecto", "reporte de selección"],
+      "learning_outcomes": [
+        {
+          "id": "C12-O1",
+          "statement": "Usar validación cruzada o dev set sin contaminar el test final.",
+          "observable_verb": "usar",
+          "global_alignment": ["RA5", "RA6"],
+          "evidence": "protocolo de validación documentado antes del resultado final"
+        },
+        {
+          "id": "C12-O2",
+          "statement": "Interpretar curvas de validación y aprendizaje para decidir complejidad, datos o regularización.",
+          "observable_verb": "interpretar",
+          "global_alignment": ["RA4", "RA6"],
+          "evidence": "curva con diagnóstico y acción técnica"
+        },
+        {
+          "id": "C12-O3",
+          "statement": "Seleccionar un modelo por evidencia y no por la mejor cifra aislada.",
+          "observable_verb": "seleccionar",
+          "global_alignment": ["RA4", "RA5", "RA8"],
+          "evidence": "tabla comparativa con criterio de desempate y límite"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C13",
+      "title": "Error analysis y data mismatch",
+      "part": "Parte IV: Estrategia de machine learning",
+      "source": "modulo03_estrategia_ml/capitulo03_error_analysis_data_mismatch.qmd",
+      "published": "capitulos/13-error-analysis-data-mismatch.html",
+      "primary_evidence": ["análisis de errores del proyecto", "reporte técnico"],
+      "learning_outcomes": [
+        {
+          "id": "C13-O1",
+          "statement": "Construir slices de error que revelen patrones ocultos por la métrica global.",
+          "observable_verb": "construir",
+          "global_alignment": ["RA4", "RA6"],
+          "evidence": "tabla de errores por segmento y comparación con desempeño global"
+        },
+        {
+          "id": "C13-O2",
+          "statement": "Diagnosticar data mismatch entre entrenamiento, validación, prueba o población objetivo.",
+          "observable_verb": "diagnosticar",
+          "global_alignment": ["RA5", "RA6"],
+          "evidence": "comparación de distribuciones o desempeño por partición"
+        },
+        {
+          "id": "C13-O3",
+          "statement": "Priorizar acciones de mejora según impacto, costo y evidencia.",
+          "observable_verb": "priorizar",
+          "global_alignment": ["RA7", "RA8"],
+          "evidence": "lista de acciones justificadas y riesgos restantes"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C15",
+      "title": "SVD y PCA",
+      "part": "Parte V: Aprendizaje no supervisado",
+      "source": "modulo04_no_supervisado/capitulo01_svd_pca.qmd",
+      "published": "capitulos/15-svd-pca.html",
+      "primary_evidence": ["notebook de PCA", "ejercicio integrador"],
+      "learning_outcomes": [
+        {
+          "id": "C15-O1",
+          "statement": "Explicar PCA como proyección de datos centrados sobre direcciones principales obtenidas por SVD.",
+          "observable_verb": "explicar",
+          "global_alignment": ["RA1", "RA8"],
+          "evidence": "diagrama, fórmula y lectura de componentes principales"
+        },
+        {
+          "id": "C15-O2",
+          "statement": "Calcular scores, varianza explicada y reconstrucción en un ejemplo pequeño.",
+          "observable_verb": "calcular",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "cómputo paso a paso y error de reconstrucción"
+        },
+        {
+          "id": "C15-O3",
+          "statement": "Interpretar una reducción de dimensión sin confundir visualización con causalidad.",
+          "observable_verb": "interpretar",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "comentario de límites y variables que dominan la proyección"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C16",
+      "title": "K-Means y clustering",
+      "part": "Parte V: Aprendizaje no supervisado",
+      "source": "modulo04_no_supervisado/capitulo02_kmeans_clustering.qmd",
+      "published": "capitulos/16-kmeans-clustering.html",
+      "primary_evidence": ["notebook de clustering", "ejercicio integrador"],
+      "learning_outcomes": [
+        {
+          "id": "C16-O1",
+          "statement": "Ejecutar manualmente una iteración de K-Means con asignación y actualización de centroides.",
+          "observable_verb": "ejecutar",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "tabla de distancias, asignaciones y centroides nuevos"
+        },
+        {
+          "id": "C16-O2",
+          "statement": "Diagnosticar sensibilidad de clustering a escala, inicialización y número de grupos.",
+          "observable_verb": "diagnosticar",
+          "global_alignment": ["RA4", "RA6"],
+          "evidence": "comparación de resultados bajo escalamiento o semilla distinta"
+        },
+        {
+          "id": "C16-O3",
+          "statement": "Comunicar clusters como hipótesis exploratorias y no como clases verdaderas.",
+          "observable_verb": "comunicar",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "descripción de grupos, límites y recomendación cautelosa"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C17",
+      "title": "Recomendación latente",
+      "part": "Parte V: Aprendizaje no supervisado",
+      "source": "modulo04_no_supervisado/capitulo03_recomendacion_latente.qmd",
+      "published": "capitulos/17-recomendacion-latente.html",
+      "primary_evidence": ["notebook de recomendación", "ejercicio integrador"],
+      "learning_outcomes": [
+        {
+          "id": "C17-O1",
+          "statement": "Representar una matriz usuario-item incompleta y una predicción por producto punto latente.",
+          "observable_verb": "representar",
+          "global_alignment": ["RA1", "RA2"],
+          "evidence": "matriz pequeña, factores latentes y calificación predicha"
+        },
+        {
+          "id": "C17-O2",
+          "statement": "Evaluar recomendaciones con una partición temporal o criterio que evite leakage.",
+          "observable_verb": "evaluar",
+          "global_alignment": ["RA4", "RA5", "RA6"],
+          "evidence": "separación de interacciones observadas y métrica de recomendación"
+        },
+        {
+          "id": "C17-O3",
+          "statement": "Discutir sesgos y límites de recomendación cuando los datos observados son incompletos.",
+          "observable_verb": "discutir",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "nota sobre exposición, popularidad y usuarios no representados"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C19",
+      "title": "Síntesis conceptual para Parcial 2",
+      "part": "Parte VI: Reproducibilidad, comunicación y defensa",
+      "source": "modulo05_cierre_reproducibilidad/capitulo01_parcial2_sintesis.qmd",
+      "published": "capitulos/19-sintesis-conceptual.html",
+      "primary_evidence": ["Parcial 2", "repaso integrador"],
+      "learning_outcomes": [
+        {
+          "id": "C19-O1",
+          "statement": "Conectar funciones objetivo, algoritmos y diagnósticos vistos en el curso.",
+          "observable_verb": "conectar",
+          "global_alignment": ["RA1", "RA4"],
+          "evidence": "mapa comparativo entre modelos supervisados y no supervisados"
+        },
+        {
+          "id": "C19-O2",
+          "statement": "Resolver preguntas integradoras que combinen matemática, código e interpretación.",
+          "observable_verb": "resolver",
+          "global_alignment": ["RA1", "RA2", "RA8"],
+          "evidence": "solución estructurada con cálculo, verificación y conclusión"
+        },
+        {
+          "id": "C19-O3",
+          "statement": "Reconocer qué evidencia falta antes de aceptar una recomendación técnica.",
+          "observable_verb": "reconocer",
+          "global_alignment": ["RA4", "RA6", "RA8"],
+          "evidence": "lista de supuestos, validaciones faltantes y riesgos"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C20",
+      "title": "Reproducibilidad y tracking",
+      "part": "Parte VI: Reproducibilidad, comunicación y defensa",
+      "source": "modulo05_cierre_reproducibilidad/capitulo02_reproducibilidad_tracking.qmd",
+      "published": "capitulos/20-reproducibilidad-tracking.html",
+      "primary_evidence": ["manifest del proyecto", "reporte reproducible"],
+      "learning_outcomes": [
+        {
+          "id": "C20-O1",
+          "statement": "Registrar datos, código, ambiente, parámetros y salidas en un manifiesto reproducible.",
+          "observable_verb": "registrar",
+          "global_alignment": ["RA7"],
+          "evidence": "manifest con entradas, ambiente, semillas, métricas y artefactos"
+        },
+        {
+          "id": "C20-O2",
+          "statement": "Reejecutar un análisis y verificar que produce la misma evidencia esencial.",
+          "observable_verb": "reejecutar",
+          "global_alignment": ["RA2", "RA7"],
+          "evidence": "corrida limpia con hashes, métricas o archivos esperados"
+        },
+        {
+          "id": "C20-O3",
+          "statement": "Distinguir reproducibilidad técnica de validez de la recomendación.",
+          "observable_verb": "distinguir",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "comentario que separa repetibilidad, validez externa y límites"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C21",
+      "title": "Comunicación técnica",
+      "part": "Parte VI: Reproducibilidad, comunicación y defensa",
+      "source": "modulo05_cierre_reproducibilidad/capitulo03_comunicacion_tecnica.qmd",
+      "published": "capitulos/21-comunicacion-tecnica.html",
+      "primary_evidence": ["reporte final", "presentación final"],
+      "learning_outcomes": [
+        {
+          "id": "C21-O1",
+          "statement": "Construir una narrativa técnica que vaya de pregunta aplicada a evidencia y recomendación.",
+          "observable_verb": "construir",
+          "global_alignment": ["RA7", "RA8"],
+          "evidence": "reporte con problema, método, resultados, límites y recomendación"
+        },
+        {
+          "id": "C21-O2",
+          "statement": "Seleccionar tablas y figuras que respondan preguntas específicas sin decorar el reporte.",
+          "observable_verb": "seleccionar",
+          "global_alignment": ["RA4", "RA8"],
+          "evidence": "figuras funcionales con caption, lectura y decisión asociada"
+        },
+        {
+          "id": "C21-O3",
+          "statement": "Explicar resultados a una audiencia técnica sin ocultar incertidumbre o limitaciones.",
+          "observable_verb": "explicar",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "resumen ejecutivo con límites, riesgos y próximos pasos"
+        }
+      ]
+    },
+    {
+      "chapter_id": "C22",
+      "title": "Entrega y defensa",
+      "part": "Parte VI: Reproducibilidad, comunicación y defensa",
+      "source": "modulo05_cierre_reproducibilidad/capitulo04_entrega_defensa.qmd",
+      "published": "capitulos/22-entrega-defensa.html",
+      "primary_evidence": ["defensa oral", "entrega final del proyecto"],
+      "learning_outcomes": [
+        {
+          "id": "C22-O1",
+          "statement": "Preparar una entrega final con artefactos verificables, autoría clara y estructura reproducible.",
+          "observable_verb": "preparar",
+          "global_alignment": ["RA7", "RA8"],
+          "evidence": "repositorio o paquete con README, ambiente, datos, código y reporte"
+        },
+        {
+          "id": "C22-O2",
+          "statement": "Defender decisiones de modelación, validación y métrica frente a preguntas del evaluador.",
+          "observable_verb": "defender",
+          "global_alignment": ["RA4", "RA5", "RA8"],
+          "evidence": "respuesta oral apoyada en evidencia del proyecto"
+        },
+        {
+          "id": "C22-O3",
+          "statement": "Reconocer límites, riesgos de uso y trabajo futuro sin debilitar la recomendación central.",
+          "observable_verb": "reconocer",
+          "global_alignment": ["RA6", "RA8"],
+          "evidence": "cierre de defensa con límites y decisión técnica"
+        }
+      ]
+    }
+  ]
+}
