@@ -14,7 +14,7 @@
     "href": "index.html#ruta-del-estudiante",
     "title": "MATE-2105: Módulo 0",
     "section": "Ruta del estudiante",
-    "text": "Ruta del estudiante\n\n\n\n\n\n\n\n\n\nMomento\nQué hacer\nArtefacto\nTiempo sugerido\n\n\n\n\nAntes de clase\nLeer el capítulo tipo libro\ncapitulo00_libro_estudiantes.qmd\n45-60 min\n\n\nAntes de clase\nRevisar la orientación del curso\ntexto_estudiantes.qmd\n15-20 min\n\n\nAntes o durante clase\nConfigurar entorno o identificar bloqueo técnico\nrecursos/configuracion_entorno.qmd\n20-40 min\n\n\nDurante clase\nSeguir el live coding del profesor\nnotebooks/semana01_live_coding.ipynb\nen clase\n\n\nDurante/después de clase\nCompletar la entrega diagnóstica\nlaboratorios/semana01_lab.ipynb\n60-90 min\n\n\nDespués de clase\nProponer ideas iniciales de proyecto\nrecursos/guia_proyecto.qmd\n20-30 min\n\n\nPermanente\nConsultar reglas de uso de IA\nrecursos/politica_ia.qmd\n10 min",
+    "text": "Ruta del estudiante\n\n\n\n\n\n\n\n\n\nMomento\nQué hacer\nArtefacto\nTiempo sugerido\n\n\n\n\nAntes de clase\nLeer el capítulo tipo libro\ncapitulo00_libro_estudiantes.qmd\n45-60 min\n\n\nAntes de clase\nLeer el interludio de incertidumbre\ncapitulo00b_incertidumbre_datos.qmd\n25-35 min\n\n\nAntes de clase\nRevisar la orientación del curso\ntexto_estudiantes.qmd\n15-20 min\n\n\nAntes o durante clase\nConfigurar entorno o identificar bloqueo técnico\nrecursos/configuracion_entorno.qmd\n20-40 min\n\n\nDurante clase\nSeguir el live coding del profesor\nnotebooks/semana01_live_coding.ipynb\nen clase\n\n\nDurante/después de clase\nCompletar la entrega diagnóstica\nlaboratorios/semana01_lab.ipynb\n60-90 min\n\n\nDespués de clase\nProponer ideas iniciales de proyecto\nrecursos/guia_proyecto.qmd\n20-30 min\n\n\nPermanente\nConsultar reglas de uso de IA\nrecursos/politica_ia.qmd\n10 min",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 0: Arranque y lenguaje común</span>"
     ]
@@ -280,13 +280,183 @@
     ]
   },
   {
+    "objectID": "capitulo00b_incertidumbre_datos.html",
+    "href": "capitulo00b_incertidumbre_datos.html",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "",
+    "text": "Pregunta aplicada\nCuando una tabla ya está en pandas, es fácil olvidar que cada número observado es solo una realización de un proceso más variable. Este interludio responde:",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#pregunta-aplicada",
+    "href": "capitulo00b_incertidumbre_datos.html#pregunta-aplicada",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "",
+    "text": "¿qué lenguaje mínimo de incertidumbre necesitamos para entender modelos, pérdidas, validación y probabilidades sin convertir el curso en probabilidad?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#objetivos-del-capítulo",
+    "href": "capitulo00b_incertidumbre_datos.html#objetivos-del-capítulo",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este interludio deberías poder:\n\ndistinguir una columna observada de una variable aleatoria;\nexplicar una observación como realización de un par \\((X,Y)\\);\ninterpretar una distribución como patrón de variabilidad;\nusar promedio y varianza como resúmenes empíricos de una variable;\nleer \\(Y=f(X)+\\varepsilon\\) como modelo con ruido, no como igualdad exacta;\ninterpretar \\(P(Y=1\\mid X=x)\\) como probabilidad condicional;\ndistinguir pérdida empírica de desempeño esperado;\nexplicar por qué validamos en datos no usados para ajustar.\n\n\n\n\n\n\n\nNotaAlcance\n\n\n\nEste no es un capítulo de probabilidad formal. No estudia axiomas, conteo, distribuciones especiales ni pruebas largas. Es una capa de lenguaje para que regresión, clasificación y validación tengan sentido.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#de-tabla-observada-a-variable-incierta",
+    "href": "capitulo00b_incertidumbre_datos.html#de-tabla-observada-a-variable-incierta",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "De tabla observada a variable incierta",
+    "text": "De tabla observada a variable incierta\nEn el Capítulo 0 dijimos que una columna de una tabla es una variable. Esa idea es correcta para describir datos observados. Pero al modelar necesitamos una distinción adicional.\n\n\n\n\n\n\n\n\nNivel\nPregunta\nEjemplo\n\n\n\n\nColumna observada\n¿qué valores tengo en esta tabla?\nprecio_millones en 400 viviendas medidas\n\n\nVariable aleatoria\n¿qué valor podría aparecer antes de observar una vivienda nueva?\n\\(Y\\), precio de una vivienda nueva tomada del mismo proceso\n\n\n\n\nDefinición: variable aleatoria.\nUna variable aleatoria es una cantidad cuyo valor no conocemos antes de observar el caso. En este curso la usaremos como modelo conceptual de una columna antes de verla: precio, clase, tiempo, demanda, error o resultado de una medición.\n\nLa diferencia importa porque los modelos se usan en casos nuevos. Si ya conocemos y_i, no estamos prediciendo; estamos verificando. La predicción aparece cuando todavía no observamos el valor de \\(Y\\).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#observación-como-realización",
+    "href": "capitulo00b_incertidumbre_datos.html#observación-como-realización",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Observación como realización",
+    "text": "Observación como realización\nUn problema supervisado se puede escribir como pares observados:\n\\[\n(x_1,y_1),\\ldots,(x_n,y_n).\n\\]\nCada par observado se interpreta como una realización concreta de un par incierto:\n\\[\n(X,Y).\n\\]\nAquí:\n\n\\(X\\) representa las variables de entrada antes de observar un caso;\n\\(Y\\) representa el objetivo antes de observarlo;\n\\((x_i,y_i)\\) es lo que quedó registrado en la fila \\(i\\).\n\n\nEjemplo resuelto 0.5.1: vivienda observada y vivienda futura.\nEn una tabla de viviendas, una fila puede decir:\n\n\n\narea_m2\nhabitaciones\nantiguedad\nprecio_millones\n\n\n\n\n85\n3\n5\n455\n\n\n\nLa fila observada es \\((x_i,y_i)\\). Una vivienda futura con área, habitaciones y antigüedad conocidas tiene entrada \\(x\\), pero su precio \\(Y\\) todavía es incierto. El modelo intenta producir una predicción o una distribución plausible para ese \\(Y\\).",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#distribución-como-patrón-de-variabilidad",
+    "href": "capitulo00b_incertidumbre_datos.html#distribución-como-patrón-de-variabilidad",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Distribución como patrón de variabilidad",
+    "text": "Distribución como patrón de variabilidad\nUna distribución describe cómo se reparten los valores posibles de una variable aleatoria. En este curso la idea operativa es:\n\ndistribución = patrón de variabilidad.\n\nNo necesitamos empezar con fórmulas abstractas. Podemos mirar una columna:\ny.describe()\ny.hist()\nEso no revela la distribución verdadera del mundo, pero muestra la distribución empírica de los datos disponibles.\n\nDefinición: distribución empírica.\nLa distribución empírica es el patrón de valores observado en una muestra. Se resume con tablas, histogramas, proporciones, promedio, cuantiles y varianza.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#promedio-valor-esperado-y-varianza",
+    "href": "capitulo00b_incertidumbre_datos.html#promedio-valor-esperado-y-varianza",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Promedio, valor esperado y varianza",
+    "text": "Promedio, valor esperado y varianza\nEl promedio muestral de valores observados es:\n\\[\n\\bar y=\\frac{1}{n}\\sum_{i=1}^n y_i.\n\\]\nEl valor esperado es la versión idealizada de esa idea: el promedio que obtendríamos si pudiéramos repetir el proceso muchísimas veces bajo las mismas condiciones.\n\nDefinición: valor esperado.\nEl valor esperado de una variable aleatoria \\(Y\\), escrito \\(E[Y]\\), es su centro promedio ideal bajo el proceso que genera los datos. En la práctica lo aproximamos con promedios muestrales.\n\nLa varianza mide dispersión alrededor del promedio. En datos observados:\n\\[\n\\frac{1}{n}\\sum_{i=1}^n (y_i-\\bar y)^2.\n\\]\nLa desviación estándar es la raíz de esa cantidad y queda en las mismas unidades que \\(Y\\).\n\nEjemplo resuelto 0.5.2: baseline como promedio.\nSi los precios observados son\n\\[\n310,\\quad 455,\\quad 240,\\quad 620,\n\\]\nel baseline que predice siempre el promedio usa\n\\[\n\\bar y=\\frac{310+455+240+620}{4}=406.25.\n\\]\nEse número no es “el precio verdadero” de una vivienda nueva. Es una regla simple que resume la información disponible antes de usar variables de entrada.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#ruido-por-qué-el-modelo-no-debe-acertar-exactamente",
+    "href": "capitulo00b_incertidumbre_datos.html#ruido-por-qué-el-modelo-no-debe-acertar-exactamente",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Ruido: por qué el modelo no debe acertar exactamente",
+    "text": "Ruido: por qué el modelo no debe acertar exactamente\nEn problemas reales, dos observaciones con entradas parecidas pueden tener salidas distintas. Una vivienda puede costar más por una negociación, una transacción puede parecer normal y ser fraude, una medición puede tener error.\nUna forma mínima de escribir esto es:\n\\[\nY=f(X)+\\varepsilon.\n\\]\nAquí:\n\n\\(f(X)\\) es la parte sistemática que las variables disponibles pueden explicar;\n\\(\\varepsilon\\) es ruido, variabilidad no explicada o error de medición;\n\\(Y\\) no tiene que ser exactamente igual a \\(f(X)\\).\n\n\nCriterio aplicado. Un residual distinto de cero no prueba que el modelo esté mal. Puede reflejar ruido, variables faltantes, medición imperfecta o una forma funcional insuficiente.\n\nEste punto prepara la regresión lineal. Cuando minimizamos errores cuadrados, no estamos esperando que todos los residuales sean cero. Estamos buscando una regla que reduzca el error promedio en datos representativos.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#condicionamiento-mirar-y-dado-xx",
+    "href": "capitulo00b_incertidumbre_datos.html#condicionamiento-mirar-y-dado-xx",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Condicionamiento: mirar \\(Y\\) dado \\(X=x\\)",
+    "text": "Condicionamiento: mirar \\(Y\\) dado \\(X=x\\)\nLa ciencia de datos supervisada casi siempre pregunta por \\(Y\\) dado que conocemos \\(X\\).\nEn regresión:\n\\[\nE[Y\\mid X=x]\n\\]\nse interpreta como el valor promedio esperado de \\(Y\\) entre casos con entradas como \\(x\\).\nEn clasificación binaria:\n\\[\nP(Y=1\\mid X=x)\n\\]\nse interpreta como la probabilidad de clase positiva para un caso con entradas como \\(x\\).\n\nDefinición: probabilidad condicional.\nUna probabilidad condicional describe qué tan probable es un evento cuando ya se conoce cierta información. En clasificación, \\(P(Y=1\\mid X=x)\\) pregunta por la probabilidad de clase positiva para una observación con características \\(x\\).\n\n\nEjemplo resuelto 0.5.3: de score a probabilidad.\nSi un modelo de riesgo produce\n\\[\nP(Y=1\\mid X=x)=0.82,\n\\]\neso no significa que el caso “sea 82% positivo”. Significa que, bajo el modelo y sus datos, casos con características como \\(x\\) se tratan como altamente compatibles con la clase positiva. La decisión final todavía requiere umbral, métrica y costo de error.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#pérdida-empírica-y-riesgo-esperado",
+    "href": "capitulo00b_incertidumbre_datos.html#pérdida-empírica-y-riesgo-esperado",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Pérdida empírica y riesgo esperado",
+    "text": "Pérdida empírica y riesgo esperado\nDurante entrenamiento no conocemos el desempeño verdadero del modelo en todos los casos futuros. Solo tenemos una muestra. Por eso usamos un promedio de pérdidas observadas.\nSi \\(\\ell(f_\\theta(x_i),y_i)\\) mide el error en la observación \\(i\\), la pérdida empírica es:\n\\[\n\\frac{1}{n}\\sum_{i=1}^n \\ell(f_\\theta(x_i),y_i).\n\\]\nEl desempeño que realmente nos importa es el desempeño esperado en casos nuevos:\n\\[\nE[\\ell(f_\\theta(X),Y)].\n\\]\n\nDefinición: pérdida empírica.\nLa pérdida empírica es el promedio de errores observado en un conjunto de datos. Es lo que podemos calcular.\n\n\nDefinición: riesgo esperado.\nEl riesgo esperado es el error promedio que el modelo tendría sobre casos nuevos del proceso relevante. Es lo que nos gustaría controlar, pero no podemos observar directamente.\n\nLa tensión central del curso es esta:\nminimizamos una pérdida empírica, pero queremos buen riesgo esperado.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#por-qué-separar-entrenamiento-y-prueba",
+    "href": "capitulo00b_incertidumbre_datos.html#por-qué-separar-entrenamiento-y-prueba",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Por qué separar entrenamiento y prueba",
+    "text": "Por qué separar entrenamiento y prueba\nSi minimizamos una pérdida sobre entrenamiento, ese número puede ser optimista. El modelo ya tuvo oportunidad de adaptarse a esos datos. Para estimar desempeño en observaciones nuevas, reservamos datos no usados en el ajuste.\n\n\n\n\n\n\n\n\nConjunto\nQué aproxima\nUso\n\n\n\n\nTrain\npérdida empírica usada para aprender\najustar parámetros\n\n\nDev/validación\ndesempeño en datos no usados para ajustar parámetros\nelegir modelo, complejidad o umbral\n\n\nTest\nestimación final de desempeño en datos no usados para diseño\nreporte final\n\n\n\n\n\n\n\n\n\nAdvertenciaAdvertencia\n\n\n\nEl test no revela el desempeño verdadero del mundo. Solo da una estimación en una muestra reservada. Si se usa repetidamente para tomar decisiones, también se vuelve parte del diseño.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#qué-debes-llevar-a-los-próximos-capítulos",
+    "href": "capitulo00b_incertidumbre_datos.html#qué-debes-llevar-a-los-próximos-capítulos",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Qué debes llevar a los próximos capítulos",
+    "text": "Qué debes llevar a los próximos capítulos\nNo necesitas saber probabilidad avanzada para continuar. Sí necesitas estas cuatro ideas:\n\nUna columna observada es evidencia; una variable aleatoria representa lo que podría pasar en un caso nuevo.\nUn modelo intenta aprender una relación entre \\(X\\) y \\(Y\\), pero hay ruido.\nEntrenar minimiza pérdidas observadas; validar estima desempeño fuera del ajuste.\nUna probabilidad predicha no es una decisión: necesita umbral, métrica y contexto.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#punto-de-control",
+    "href": "capitulo00b_incertidumbre_datos.html#punto-de-control",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Punto de control",
+    "text": "Punto de control\nPara cada frase, decide si habla de datos observados o de incertidumbre futura.\n\n“El promedio de precio_millones en esta tabla es 406.25”.\n“El precio de una vivienda nueva con estas características es incierto”.\n“El modelo tuvo MSE 1200 en validación”.\n“Queremos bajo error esperado en viviendas futuras”.\n\nRespuesta esperada:\n\ndatos observados;\nincertidumbre futura;\ndatos observados reservados para evaluación;\nincertidumbre futura.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#para-explorar-más",
+    "href": "capitulo00b_incertidumbre_datos.html#para-explorar-más",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: compara \\(\\bar y\\) con \\(E[Y]\\). Explica por qué el primero se calcula y el segundo se idealiza.\nExtensión computacional: simula \\(y=3+2x+\\varepsilon\\) con dos niveles de ruido y compara los residuales.\nConexión con proyecto: escribe cuál sería \\(X\\), cuál sería \\(Y\\), qué fuente de ruido anticipas y qué partición usarías para estimar desempeño.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#revisión-del-capítulo",
+    "href": "capitulo00b_incertidumbre_datos.html#revisión-del-capítulo",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nEste interludio introduce la mínima probabilidad necesaria para el curso. La tabla observada contiene realizaciones; las variables aleatorias representan valores inciertos antes de observar un caso nuevo. Una distribución describe variabilidad, y una distribución empírica resume la muestra disponible.\nRegresión y clasificación preguntan por \\(Y\\) dado \\(X\\). En regresión suele interesar un valor esperado condicional; en clasificación binaria interesa \\(P(Y=1\\mid X=x)\\). El ruido explica por qué no todo residual se elimina con un modelo más complejo.\nEntrenar minimiza pérdida empírica, pero el objetivo aplicado es buen desempeño en casos nuevos. Por eso validación, particiones y cuidado con leakage no son detalles técnicos: son la forma práctica de razonar bajo incertidumbre.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#términos-clave",
+    "href": "capitulo00b_incertidumbre_datos.html#términos-clave",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nVariable aleatoria: cantidad incierta antes de observar un caso.\nRealización: valor concreto observado de una variable aleatoria.\nDistribución empírica: patrón de valores observado en una muestra.\nValor esperado: promedio ideal bajo el proceso que genera los datos.\nRuido: variabilidad no explicada por las variables disponibles.\nProbabilidad condicional: probabilidad calculada dado que se conoce cierta información.\nPérdida empírica: promedio de errores observado en un dataset.\nRiesgo esperado: error promedio ideal en casos nuevos del proceso relevante.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo00b_incertidumbre_datos.html#ejercicios",
+    "href": "capitulo00b_incertidumbre_datos.html#ejercicios",
+    "title": "Interludio 0.5: Incertidumbre y datos observados",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplica con tus palabras la diferencia entre una columna observada y una variable aleatoria.\n¿Por qué un residual grande no implica automáticamente que el modelo esté mal?\n\n\n\nProblemas cuantitativos\n\nPara los valores \\(2,4,4,10\\), calcula el promedio y la varianza empírica con denominador \\(n\\).\nSi una clase positiva aparece 30 veces en 200 observaciones, estima la proporción empírica de positivos.\n\n\n\nPráctica computacional\n\nSimula 100 valores con y = 5 + 0.8 * x + ruido usando dos desviaciones estándar distintas para el ruido. Compara histogramas de residuales.\nToma una columna numérica de un dataset y reporta promedio, desviación estándar, mínimo, máximo y un histograma.\n\n\n\nInterpretación y pensamiento crítico\n\nUn modelo tiene error de entrenamiento muy bajo y error de validación alto. Interpreta el resultado usando pérdida empírica y desempeño esperado.\nUn modelo reporta \\(P(Y=1\\mid X=x)=0.65\\). Explica por qué todavía falta una regla de decisión.\n\n\n\nProyecto de cierre\n\nPara una idea de proyecto, escribe qué sería \\(X\\), qué sería \\(Y\\), qué ruido esperas y qué variable podría producir leakage.\nDescribe qué muestra tu distribución empírica inicial y qué no permite concluir sobre la población o casos futuros.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Interludio 0.5: Incertidumbre y datos observados</span>"
+    ]
+  },
+  {
     "objectID": "texto_estudiantes.html",
     "href": "texto_estudiantes.html",
     "title": "Guía de orientación de la Semana 1",
     "section": "",
     "text": "Cómo usar esta guía\nEsta guía complementa el capítulo de estudio. El capítulo desarrolla conceptos, ejemplos y ejercicios; esta guía explica cómo se trabajará en el curso y qué se espera de ti desde la primera semana.\nLectura recomendada:",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -296,7 +466,7 @@
     "section": "Dataset",
     "text": "Dataset\nUn dataset es una colección organizada de observaciones. En la mayoría de ejemplos iniciales, cada fila representa una observación y cada columna representa una variable.\nEjemplo:\n\n\n\nfila\nsignificado posible\n\n\n\n\n1\nun paciente\n\n\n2\nuna vivienda\n\n\n3\nuna imagen\n\n\n4\nuna transacción",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -306,7 +476,7 @@
     "section": "Variable de entrada y variable objetivo",
     "text": "Variable de entrada y variable objetivo\nEn aprendizaje supervisado distinguimos:\n\nX: variables de entrada o características.\ny: variable objetivo o etiqueta.\n\nLa pregunta básica es:\n\nPodemos usar X para aproximar, predecir o clasificar y?",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -316,7 +486,7 @@
     "section": "Modelo",
     "text": "Modelo\nUn modelo es una familia de funciones con parámetros ajustables. Por ejemplo, una regresión lineal usa funciones de la forma:\n\\[\n\\hat y = \\theta_0 + \\theta_1 x_1 + \\cdots + \\theta_d x_d.\n\\]\nTodavía no vamos a derivar este modelo en la Semana 1. Lo haremos en el Módulo 1. Por ahora nos interesa entender dónde aparece dentro del flujo aplicado.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -326,7 +496,7 @@
     "section": "Pérdida",
     "text": "Pérdida\nLa pérdida mide qué tan mal predice el modelo en una observación o conjunto de observaciones. En regresión, una pérdida común es el error cuadrático. En clasificación, una pérdida común es la entropía cruzada.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -336,7 +506,7 @@
     "section": "Métrica",
     "text": "Métrica\nLa métrica es la forma en que reportamos desempeño para tomar una decisión. La pérdida se usa con frecuencia para entrenar; la métrica se usa para evaluar y comunicar.\nEjemplos:\n\nMSE o MAE para regresión.\nAccuracy, precision, recall, F1 o ROC-AUC para clasificación.\n\nLa métrica debe elegirse según la pregunta. No hay una métrica universalmente correcta.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -346,7 +516,7 @@
     "section": "Baseline",
     "text": "Baseline\nUn baseline es un punto de comparación simple. Antes de celebrar un modelo complejo, hay que preguntarse:\n\nSupera algo simple?\n\nEn clasificación, un baseline puede ser predecir siempre la clase más frecuente. En regresión, puede ser predecir siempre el promedio.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -356,7 +526,7 @@
     "section": "Train/test",
     "text": "Train/test\nSeparar datos de entrenamiento y prueba es una forma básica de estimar si el modelo generaliza. El modelo aprende con entrenamiento; la prueba se reserva para evaluar datos no usados en el ajuste.\nLa partición no resuelve todos los problemas, pero evita uno de los errores más graves: evaluar el modelo sobre los mismos datos que usó para aprender.",
     "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Guía de orientación de la Semana 1</span>"
     ]
   },
   {
@@ -366,7 +536,7 @@
     "section": "",
     "text": "Objetivo\nEsta guía te ayuda a preparar el entorno mínimo para la Semana 1. Si algo falla, no lo ocultes: documenta el error y llévalo a clase. El laboratorio diagnóstico también sirve para identificar problemas técnicos temprano.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
     ]
   },
   {
@@ -376,7 +546,7 @@
     "section": "ModuleNotFoundError",
     "text": "ModuleNotFoundError\nSignifica que falta instalar un paquete o que estas usando un kernel distinto al entorno donde instalaste los paquetes.\nSolucion usual:\nsource .venv/bin/activate\npython -m pip install -r requirements.txt\npython -m ipykernel install --user --name mate2105 --display-name \"Python (MATE-2105)\"\nDespués, en Jupyter, selecciona el kernel del entorno virtual o, si lo registraste manualmente, Python (MATE-2105).",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
     ]
   },
   {
@@ -386,7 +556,7 @@
     "section": "El notebook abre pero no ejecuta",
     "text": "El notebook abre pero no ejecuta\nVerifica que el kernel este seleccionado. En Jupyter normalmente aparece en la esquina superior derecha.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
     ]
   },
   {
@@ -396,7 +566,7 @@
     "section": "python no existe",
     "text": "python no existe\nEn algunos sistemas el comando correcto es python3.\nPrueba:\npython3 --versión",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
     ]
   },
   {
@@ -406,7 +576,7 @@
     "section": "Instalacion muy lenta",
     "text": "Instalacion muy lenta\nEspera a que termine. Si falla, copia el error completo. No cierres la terminal sin guardar el mensaje.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Configuración del entorno de trabajo</span>"
     ]
   },
   {
@@ -416,7 +586,7 @@
     "section": "",
     "text": "Objetivo\nEste laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno, ejecutar un flujo básico de ciencia de datos y escribir una interpretación técnica breve.\nTrabajaremos con el dataset load_wine de scikit-learn. El objetivo será clasificar vinos en tres clases a partir de mediciones químicas.\nNo necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia para practicar el flujo aplicado.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -426,7 +596,7 @@
     "section": "Pregunta de interpretación 1",
     "text": "Pregunta de interpretación 1\nEscribe dos frases:\n\nuna sobre la estructura de los datos;\notra sobre si las clases parecen balanceadas.\n\nRespuesta:\nEscribe aquí.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -436,7 +606,7 @@
     "section": "Pregunta de interpretación 2",
     "text": "Pregunta de interpretación 2\nPor qué usamos stratify=y? Responde en una o dos frases.\nRespuesta:\nEscribe aquí.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -446,7 +616,7 @@
     "section": "Pregunta de interpretación 3",
     "text": "Pregunta de interpretación 3\nQué significa este baseline? Qué tendría que lograr un modelo para ser mejor que esta referencia?\nRespuesta:\nEscribe aquí.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -456,7 +626,7 @@
     "section": "Pregunta de interpretación 4",
     "text": "Pregunta de interpretación 4\nObserva la matriz de confusion y el reporte. Escribe:\n\nQué clase parece más fácil o más difícil de clasificar?\nQué limitacion tiene esta conclusión?\n\nRespuesta:\nEscribe aquí.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -466,7 +636,7 @@
     "section": "Idea 1",
     "text": "Idea 1\nEscribe aquí.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -476,7 +646,7 @@
     "section": "Idea 2",
     "text": "Idea 2\nEscribe aquí.\nEste laboratorio es diagnóstico. La prioridad es que muestres el flujo de trabajo y que identifiques dudas temprano.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Laboratorio diagnóstico 1</span>"
     ]
   },
   {
@@ -486,7 +656,7 @@
     "section": "",
     "text": "Proposito del proyecto\nEl proyecto final es el eje aplicado del curso. Su objetivo no es producir el modelo más complejo, sino construir un flujo de ciencia de datos defendible:\nCada grupo trabajará con un dataset real y una pregunta aplicada. Al final, el grupo entregará un producto técnico reproducible y cada estudiante defenderá oralmente decisiones específicas del proyecto.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
     ]
   },
   {
@@ -496,7 +666,7 @@
     "section": "Prediccion o regresión",
     "text": "Prediccion o regresión\nEjemplos:\n\npredecir precio, demanda, tiempo, riesgo o puntaje;\nestimar una variable continua a partir de variables observables.\n\nMetricas posibles:\n\nMAE;\nRMSE;\nMAPE, con cuidado;\nR2, como métrica secundaria.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
     ]
   },
   {
@@ -506,7 +676,7 @@
     "section": "Clasificación",
     "text": "Clasificación\nEjemplos:\n\nclasificar riesgo alto/bajo;\ndetectar una categoría;\nidentificar una clase de documento, imagen o registro.\n\nMetricas posibles:\n\naccuracy;\nprecision;\nrecall;\nF1;\nROC-AUC;\nmatriz de confusion.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
     ]
   },
   {
@@ -516,7 +686,7 @@
     "section": "No supervisado",
     "text": "No supervisado\nEjemplos:\n\nsegmentar usuarios;\nreducir dimensión para exploracion;\nidentificar grupos de observaciones;\nrecomendar ítems con información limitada.\n\nMetricas y evidencia:\n\ninterpretabilidad de clusters;\nestabilidad;\nvisualizacion;\ncomparación cualitativa;\nutilidad para una decisión posterior.",
     "crumbs": [
-      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Guía inicial del proyecto final</span>"
     ]
   },
   {
@@ -526,7 +696,7 @@
     "section": "",
     "text": "Principio general\nEl uso de IA generativa está permitido como apoyo, pero no reemplaza la responsabilidad técnica del estudiante.\nLa regla central del curso es:\n\nPuedes usar ayuda, pero debes poder explicar, modificar y defender cada línea relevante de código, cada métrica y cada conclusión que entregues.\n\n\n\nUsos permitidos\nPuedes usar IA para:\n\nexplicar mensajes de error;\nsugerir pruebas pequenas;\nrevisar estilo de código;\nproponer alternativas de visualizacion;\nresumir documentacion;\nayudarte a entender una formula;\nrevisar claridad de una conclusión escrita;\ngenerar preguntas de estudio.\n\n\n\nUsos no permitidos\nNo está permitido:\n\nentregar código que no entiendes;\nentregar interpretaciones generadas sin verificación;\ninventar resultados, fuentes o métricas;\npedir una solución completa de un laboratorio y presentarla como propia;\nocultar uso sustancial de IA en un proyecto;\nusar IA para evadir la defensa oral individual.\n\n\n\nDeclaración de uso\nEn laboratorios y proyecto, cuando el uso de IA sea sustancial, incluye una nota breve:\nUse IA para: depurar un error en la función de costo y revisar redaccion de la conclusión.\nVerifique el resultado mediante: tests del laboratorio y comparación con scikit-learn.\nNo es necesario declarar usos menores como autocompletar una línea simple o corregir ortografia.\n\n\nResponsabilidad\nSi entregas código incorrecto generado por IA, la responsabilidad es tuya. Si entregas una conclusión exagerada o falsa sugerida por IA, la responsabilidad es tuya. Si no puedes explicar tu propio notebook en una defensa oral, el trabajo no cumple el estándar del curso.\n\n\nDefensa oral\nLa defensa oral individual es parte del diseño de evaluación. Su función es verificar que cada estudiante entiende:\n\nlos datos;\nel modelo;\nla métrica;\nlos errores;\nlas limitaciones;\nlas decisiones técnicas.\n\nLa IA puede ayudarte a estudiar, pero no puede defender el proyecto por ti.\n\n\nUso recomendado\nUn buen uso de IA se parece a trabajar con un asistente técnico:\n\nHaces una pregunta concreta.\nRevisas la respuesta.\nPruebas con código o matemáticas.\nComparas con fuentes o resultados esperados.\nDocumentas si el uso fue sustancial.\n\nUn mal uso de IA se parece a delegar el criterio:\n\nPides una solución completa.\nCopias sin entender.\nNo pruebas.\nNo verificas.\nNo puedes defender.\n\n\n\nCriterio práctico\nAntes de entregar, preguntate:\n\nSi el profesor me pide explicar esta línea, esta métrica o esta conclusión sin mirar la IA, puedo hacerlo?\n\nSi la respuesta es no, no está listo para entregar.",
     "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Política preliminar de uso de IA</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Política preliminar de uso de IA</span>"
     ]
   }
 ]

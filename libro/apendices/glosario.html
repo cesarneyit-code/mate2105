@@ -363,6 +363,11 @@ window.Quarto = {
   <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -683,56 +688,88 @@ window.Quarto = {
 <td>Una característica medida, construida o codificada para cada observación.</td>
 </tr>
 <tr class="odd">
+<td>Variable aleatoria</td>
+<td>Cantidad incierta antes de observar un caso; modela una columna antes de verla.</td>
+</tr>
+<tr class="even">
+<td>Realización</td>
+<td>Valor concreto observado de una variable aleatoria.</td>
+</tr>
+<tr class="odd">
+<td>Distribución empírica</td>
+<td>Patrón de valores observado en una muestra disponible.</td>
+</tr>
+<tr class="even">
+<td>Valor esperado</td>
+<td>Promedio ideal bajo el proceso que genera los datos.</td>
+</tr>
+<tr class="odd">
+<td>Ruido</td>
+<td>Variabilidad no explicada por las variables disponibles o por el modelo usado.</td>
+</tr>
+<tr class="even">
 <td>Matriz de diseño</td>
 <td>Matriz <span class="math inline">\(X\)</span> que contiene las variables usadas por el modelo.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Parámetro</td>
 <td>Cantidad aprendida por el modelo, como un peso o coeficiente.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Predicción</td>
 <td>Salida producida por el modelo para una observación o lote de observaciones.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Residual</td>
 <td>Diferencia entre valor observado y predicción en regresión.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Pérdida</td>
 <td>Función que el algoritmo minimiza durante entrenamiento.</td>
 </tr>
+<tr class="odd">
+<td>Pérdida empírica</td>
+<td>Promedio de pérdidas calculado sobre datos observados.</td>
+</tr>
 <tr class="even">
+<td>Riesgo esperado</td>
+<td>Error promedio ideal sobre observaciones futuras del proceso relevante.</td>
+</tr>
+<tr class="odd">
 <td>Métrica</td>
 <td>Cantidad usada para evaluar desempeño y tomar decisiones.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Baseline</td>
 <td>Modelo o regla simple que sirve como punto mínimo de comparación.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Gradiente</td>
 <td>Vector de derivadas parciales que indica dirección local de mayor aumento.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Tasa de aprendizaje</td>
 <td>Escala del paso en descenso del gradiente.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Regularización</td>
 <td>Penalización o restricción que busca mejorar generalización.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Validación</td>
 <td>Evaluación en datos no usados para ajustar parámetros.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Leakage</td>
 <td>Uso accidental de información que no estaría disponible al predecir en producción.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Regresión logística</td>
 <td>Modelo probabilístico para clasificación binaria.</td>
+</tr>
+<tr class="odd">
+<td>Probabilidad condicional</td>
+<td>Probabilidad calculada dado que se conoce cierta información, como <span class="math inline">\(P(Y=1\mid X=x)\)</span>.</td>
 </tr>
 <tr class="even">
 <td>Umbral</td>
@@ -828,8 +865,24 @@ window.Quarto = {
 <td>Valor observado de la observación <span class="math inline">\(i\)</span>.</td>
 </tr>
 <tr class="even">
+<td><span class="math inline">\(Y\)</span></td>
+<td>Variable aleatoria objetivo antes de observar un caso.</td>
+</tr>
+<tr class="odd">
 <td><span class="math inline">\(\hat y\)</span></td>
 <td>Vector de predicciones.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(E[Y]\)</span></td>
+<td>Valor esperado de <span class="math inline">\(Y\)</span>.</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(P(Y=1\mid X=x)\)</span></td>
+<td>Probabilidad condicional de clase positiva dado <span class="math inline">\(x\)</span>.</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\varepsilon\)</span></td>
+<td>Ruido o componente no explicado en un modelo como <span class="math inline">\(Y=f(X)+\varepsilon\)</span>.</td>
 </tr>
 <tr class="odd">
 <td><span class="math inline">\(\theta\)</span></td>

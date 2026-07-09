@@ -8,7 +8,7 @@
 
 <meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
 
-<title>SVD y PCA – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Interludio 0.5: Incertidumbre y datos observados – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,8 +66,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../capitulos/16-kmeans-clustering.html" rel="next">
-<link href="../partes/parte05_no_supervisado.html" rel="prev">
+<link href="../partes/parte02_regresion.html" rel="next">
+<link href="../capitulos/00-lenguaje-comun.html" rel="prev">
 <link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -88,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
-<meta property="og:title" content="SVD y PCA – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:title" content="Interludio 0.5: Incertidumbre y datos observados – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
 <meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
@@ -170,7 +205,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/15-svd-pca.html"><span class="chapter-title">SVD y PCA</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -365,7 +400,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
   </div>
 </li>
       </ul>
@@ -504,7 +539,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">SVD y PCA</span></a>
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -638,14 +673,15 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#svd" id="toc-svd" class="nav-link" data-scroll-target="#svd">SVD</a></li>
-  <li><a href="#pca-como-svd-del-dato-centrado" id="toc-pca-como-svd-del-dato-centrado" class="nav-link" data-scroll-target="#pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</a></li>
-  <li><a href="#proyección" id="toc-proyección" class="nav-link" data-scroll-target="#proyección">Proyección</a></li>
-  <li><a href="#varianza-explicada" id="toc-varianza-explicada" class="nav-link" data-scroll-target="#varianza-explicada">Varianza explicada</a></li>
-  <li><a href="#ejemplo-resuelto-elegir-k" id="toc-ejemplo-resuelto-elegir-k" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></a></li>
-  <li><a href="#reconstrucción" id="toc-reconstrucción" class="nav-link" data-scroll-target="#reconstrucción">Reconstrucción</a></li>
-  <li><a href="#ejemplo-resuelto-proyección-y-reconstrucción" id="toc-ejemplo-resuelto-proyección-y-reconstrucción" class="nav-link" data-scroll-target="#ejemplo-resuelto-proyección-y-reconstrucción">Ejemplo resuelto: proyección y reconstrucción</a></li>
-  <li><a href="#pca-no-es-interpretabilidad-automática" id="toc-pca-no-es-interpretabilidad-automática" class="nav-link" data-scroll-target="#pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</a></li>
+  <li><a href="#de-tabla-observada-a-variable-incierta" id="toc-de-tabla-observada-a-variable-incierta" class="nav-link" data-scroll-target="#de-tabla-observada-a-variable-incierta">De tabla observada a variable incierta</a></li>
+  <li><a href="#observación-como-realización" id="toc-observación-como-realización" class="nav-link" data-scroll-target="#observación-como-realización">Observación como realización</a></li>
+  <li><a href="#distribución-como-patrón-de-variabilidad" id="toc-distribución-como-patrón-de-variabilidad" class="nav-link" data-scroll-target="#distribución-como-patrón-de-variabilidad">Distribución como patrón de variabilidad</a></li>
+  <li><a href="#promedio-valor-esperado-y-varianza" id="toc-promedio-valor-esperado-y-varianza" class="nav-link" data-scroll-target="#promedio-valor-esperado-y-varianza">Promedio, valor esperado y varianza</a></li>
+  <li><a href="#ruido-por-qué-el-modelo-no-debe-acertar-exactamente" id="toc-ruido-por-qué-el-modelo-no-debe-acertar-exactamente" class="nav-link" data-scroll-target="#ruido-por-qué-el-modelo-no-debe-acertar-exactamente">Ruido: por qué el modelo no debe acertar exactamente</a></li>
+  <li><a href="#condicionamiento-mirar-y-dado-xx" id="toc-condicionamiento-mirar-y-dado-xx" class="nav-link" data-scroll-target="#condicionamiento-mirar-y-dado-xx">Condicionamiento: mirar <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X=x\)</span></a></li>
+  <li><a href="#pérdida-empírica-y-riesgo-esperado" id="toc-pérdida-empírica-y-riesgo-esperado" class="nav-link" data-scroll-target="#pérdida-empírica-y-riesgo-esperado">Pérdida empírica y riesgo esperado</a></li>
+  <li><a href="#por-qué-separar-entrenamiento-y-prueba" id="toc-por-qué-separar-entrenamiento-y-prueba" class="nav-link" data-scroll-target="#por-qué-separar-entrenamiento-y-prueba">Por qué separar entrenamiento y prueba</a></li>
+  <li><a href="#qué-debes-llevar-a-los-próximos-capítulos" id="toc-qué-debes-llevar-a-los-próximos-capítulos" class="nav-link" data-scroll-target="#qué-debes-llevar-a-los-próximos-capítulos">Qué debes llevar a los próximos capítulos</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
@@ -664,9 +700,10 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte05_no_supervisado.html">Parte V: Aprendizaje no supervisado</a></li><li class="breadcrumb-item"><a href="../capitulos/15-svd-pca.html"><span class="chapter-title">SVD y PCA</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">SVD y PCA</span></h1>
+<h1 class="title"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></h1>
+<p class="subtitle lead">Variable aleatoria, muestra, ruido y generalización sin un curso de probabilidad</p>
 </div>
 
 
@@ -685,237 +722,326 @@ window.Quarto = {
 
 <section id="pregunta-aplicada" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>Un dataset puede tener decenas o miles de variables. ¿Podemos representarlo en menos dimensiones sin perder la estructura principal?</p>
-<p>PCA responde:</p>
+<p>Cuando una tabla ya está en <code>pandas</code>, es fácil olvidar que cada número observado es solo una realización de un proceso más variable. Este interludio responde:</p>
 <blockquote class="blockquote">
-<p>buscar direcciones ortogonales que capturan la mayor varianza posible.</p>
+<p>¿qué lenguaje mínimo de incertidumbre necesitamos para entender modelos, pérdidas, validación y probabilidades sin convertir el curso en probabilidad?</p>
 </blockquote>
-<div id="fig-cap15-pca-svd-proyeccion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Nube elíptica de puntos centrados con ejes v1 y v2. La proyección sobre v1 produce coordenadas Z. A la derecha aparece X centrada igual a U Sigma V transpuesta.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cap15-pca-svd-proyeccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/pca-svd-proyeccion.svg" class="img-fluid figure-img" style="width:100.0%" alt="Nube elíptica de puntos centrados con ejes v1 y v2. La proyección sobre v1 produce coordenadas Z. A la derecha aparece X centrada igual a U Sigma V transpuesta.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap15-pca-svd-proyeccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: PCA como proyección: datos centrados se factorizan con SVD; los primeros vectores de V definen ejes principales y la matriz Z contiene coordenadas de baja dimensión.
-</figcaption>
-</figure>
-</div>
-<p><strong>Lectura de la figura.</strong> PCA empieza con datos centrados, usa la SVD para encontrar direcciones de alta varianza y proyecta sobre <span class="math inline">\(V_k\)</span>. La proyección puede servir para visualizar, comprimir o alimentar otro modelo, pero no prueba causalidad.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
+<p>Al terminar este interludio deberías poder:</p>
 <ol type="1">
-<li>escribir la SVD de una matriz;</li>
-<li>explicar por qué PCA requiere centrar datos;</li>
-<li>calcular la forma de una proyección <span class="math inline">\(Z=X_cV_k\)</span>;</li>
-<li>interpretar varianza explicada y error de reconstrucción;</li>
-<li>distinguir reducción de dimensión de interpretación causal.</li>
+<li>distinguir una columna observada de una variable aleatoria;</li>
+<li>explicar una observación como realización de un par <span class="math inline">\((X,Y)\)</span>;</li>
+<li>interpretar una distribución como patrón de variabilidad;</li>
+<li>usar promedio y varianza como resúmenes empíricos de una variable;</li>
+<li>leer <span class="math inline">\(Y=f(X)+\varepsilon\)</span> como modelo con ruido, no como igualdad exacta;</li>
+<li>interpretar <span class="math inline">\(P(Y=1\mid X=x)\)</span> como probabilidad condicional;</li>
+<li>distinguir pérdida empírica de desempeño esperado;</li>
+<li>explicar por qué validamos en datos no usados para ajustar.</li>
 </ol>
-</section>
-<section id="svd" class="level2">
-<h2 class="anchored" data-anchor-id="svd">SVD</h2>
-<p>Para una matriz <span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span>:</p>
-<p><span class="math display">\[
-X = U\Sigma V^\top.
-\]</span></p>
-<p>Donde:</p>
-<ul>
-<li><span class="math inline">\(U\)</span> contiene direcciones en el espacio de observaciones;</li>
-<li><span class="math inline">\(\Sigma\)</span> contiene valores singulares no negativos;</li>
-<li><span class="math inline">\(V\)</span> contiene direcciones en el espacio de variables.</li>
-</ul>
-</section>
-<section id="pca-como-svd-del-dato-centrado" class="level2">
-<h2 class="anchored" data-anchor-id="pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</h2>
-<p>Primero centramos:</p>
-<p><span class="math display">\[
-X_c = X - \bar X.
-\]</span></p>
-<p>Luego:</p>
-<p><span class="math display">\[
-X_c = U\Sigma V^\top.
-\]</span></p>
-<p>Los componentes principales son las primeras filas de <span class="math inline">\(V^\top\)</span>, o columnas de <span class="math inline">\(V\)</span>, asociadas a los valores singulares más grandes.</p>
-</section>
-<section id="proyección" class="level2">
-<h2 class="anchored" data-anchor-id="proyección">Proyección</h2>
-<p>Si tomamos <span class="math inline">\(k\)</span> componentes:</p>
-<p><span class="math display">\[
-Z = X_c V_k.
-\]</span></p>
-<p>Aquí <span class="math inline">\(Z \in \mathbb{R}^{n \times k}\)</span> es la representación reducida.</p>
-</section>
-<section id="varianza-explicada" class="level2">
-<h2 class="anchored" data-anchor-id="varianza-explicada">Varianza explicada</h2>
-<p>La varianza explicada por el componente <span class="math inline">\(j\)</span> es proporcional a:</p>
-<p><span class="math display">\[
-\sigma_j^2.
-\]</span></p>
-<p>La razón de varianza explicada:</p>
-<p><span class="math display">\[
-\frac{\sigma_j^2}{\sum_{\ell}\sigma_\ell^2}.
-\]</span></p>
-</section>
-<section id="ejemplo-resuelto-elegir-k" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></h2>
-<p>Supón que los primeros componentes explican:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;">Componente</th>
-<th style="text-align: right;">Varianza explicada</th>
-<th style="text-align: right;">Acumulada</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0.42</td>
-<td style="text-align: right;">0.42</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">0.23</td>
-<td style="text-align: right;">0.65</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">0.12</td>
-<td style="text-align: right;">0.77</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">0.06</td>
-<td style="text-align: right;">0.83</td>
-</tr>
-</tbody>
-</table>
-<p>Si la meta es visualizar, <span class="math inline">\(k=2\)</span> puede ser suficiente. Si la meta es reconstruir con poca pérdida, <span class="math inline">\(k=4\)</span> puede ser más razonable. La elección depende de la decisión, no de un número mágico.</p>
-</section>
-<section id="reconstrucción" class="level2">
-<h2 class="anchored" data-anchor-id="reconstrucción">Reconstrucción</h2>
-<p>Con <span class="math inline">\(k\)</span> componentes:</p>
-<p><span class="math display">\[
-\hat X_c = ZV_k^\top.
-\]</span></p>
-<p>La reconstrucción en escala original:</p>
-<p><span class="math display">\[
-\hat X = \hat X_c + \bar X.
-\]</span></p>
-<p>El error de reconstrucción ayuda a medir pérdida de información.</p>
-</section>
-<section id="ejemplo-resuelto-proyección-y-reconstrucción" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-proyección-y-reconstrucción">Ejemplo resuelto: proyección y reconstrucción</h2>
-<p>Considera dos observaciones con dos variables:</p>
-<p><span class="math display">\[
-X=
-\begin{bmatrix}
-2&amp;0\\
-0&amp;2
-\end{bmatrix}.
-\]</span></p>
-<p>Primero centramos por columnas. La media es <span class="math inline">\(\bar X=(1,1)\)</span>, entonces:</p>
-<p><span class="math display">\[
-X_c=
-\begin{bmatrix}
-1&amp;-1\\
--1&amp;1
-\end{bmatrix}.
-\]</span></p>
-<p>Una dirección principal para estos datos es</p>
-<p><span class="math display">\[
-v_1=\frac{1}{\sqrt 2}
-\begin{bmatrix}
-1\\
--1
-\end{bmatrix}.
-\]</span></p>
-<p>La proyección con <span class="math inline">\(k=1\)</span> es:</p>
-<p><span class="math display">\[
-Z=X_cv_1=
-\begin{bmatrix}
-\sqrt 2\\
--\sqrt 2
-\end{bmatrix}.
-\]</span></p>
-<p>La reconstrucción centrada queda:</p>
-<p><span class="math display">\[
-\hat X_c = Zv_1^\top =
-\begin{bmatrix}
-1&amp;-1\\
--1&amp;1
-\end{bmatrix}.
-\]</span></p>
-<p>Al sumar la media:</p>
-<p><span class="math display">\[
-\hat X =
-\begin{bmatrix}
-2&amp;0\\
-0&amp;2
-\end{bmatrix}.
-\]</span></p>
-<p>En este ejemplo la reconstrucción con un componente es exacta porque los datos centrados tienen rango 1. En un dataset real, <span class="math inline">\(k=1\)</span> normalmente conserva solo una parte de la variación.</p>
-</section>
-<section id="pca-no-es-interpretabilidad-automática" class="level2">
-<h2 class="anchored" data-anchor-id="pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</h2>
-<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout callout-style-default callout-note callout-titled" title="Alcance">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Advertencia
+<span class="screen-reader-only">Nota</span>Alcance
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Un componente principal es una combinación lineal de variables. Puede ser útil, pero no siempre tiene una interpretación humana directa.</p>
+<p>Este no es un capítulo de probabilidad formal. No estudia axiomas, conteo, distribuciones especiales ni pruebas largas. Es una capa de lenguaje para que regresión, clasificación y validación tengan sentido.</p>
 </div>
 </div>
-<p>Interpretar PCA requiere:</p>
+</section>
+<section id="de-tabla-observada-a-variable-incierta" class="level2">
+<h2 class="anchored" data-anchor-id="de-tabla-observada-a-variable-incierta">De tabla observada a variable incierta</h2>
+<p>En el Capítulo 0 dijimos que una columna de una tabla es una variable. Esa idea es correcta para describir datos observados. Pero al modelar necesitamos una distinción adicional.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nivel</th>
+<th>Pregunta</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Columna observada</td>
+<td>¿qué valores tengo en esta tabla?</td>
+<td><code>precio_millones</code> en 400 viviendas medidas</td>
+</tr>
+<tr class="even">
+<td>Variable aleatoria</td>
+<td>¿qué valor podría aparecer antes de observar una vivienda nueva?</td>
+<td><span class="math inline">\(Y\)</span>, precio de una vivienda nueva tomada del mismo proceso</td>
+</tr>
+</tbody>
+</table>
+<div class="definicion">
+<p><strong>Definición: variable aleatoria.</strong><br>
+Una variable aleatoria es una cantidad cuyo valor no conocemos antes de observar el caso. En este curso la usaremos como modelo conceptual de una columna antes de verla: precio, clase, tiempo, demanda, error o resultado de una medición.</p>
+</div>
+<p>La diferencia importa porque los modelos se usan en casos nuevos. Si ya conocemos <code>y_i</code>, no estamos prediciendo; estamos verificando. La predicción aparece cuando todavía no observamos el valor de <span class="math inline">\(Y\)</span>.</p>
+</section>
+<section id="observación-como-realización" class="level2">
+<h2 class="anchored" data-anchor-id="observación-como-realización">Observación como realización</h2>
+<p>Un problema supervisado se puede escribir como pares observados:</p>
+<p><span class="math display">\[
+(x_1,y_1),\ldots,(x_n,y_n).
+\]</span></p>
+<p>Cada par observado se interpreta como una realización concreta de un par incierto:</p>
+<p><span class="math display">\[
+(X,Y).
+\]</span></p>
+<p>Aquí:</p>
 <ul>
-<li>revisar cargas de variables;</li>
-<li>medir varianza explicada;</li>
-<li>visualizar proyecciones;</li>
-<li>conectar componentes con el dominio.</li>
+<li><span class="math inline">\(X\)</span> representa las variables de entrada antes de observar un caso;</li>
+<li><span class="math inline">\(Y\)</span> representa el objetivo antes de observarlo;</li>
+<li><span class="math inline">\((x_i,y_i)\)</span> es lo que quedó registrado en la fila <span class="math inline">\(i\)</span>.</li>
 </ul>
+<div class="ejemplo">
+<p><strong>Ejemplo resuelto 0.5.1: vivienda observada y vivienda futura.</strong><br>
+En una tabla de viviendas, una fila puede decir:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">area_m2</th>
+<th style="text-align: right;">habitaciones</th>
+<th style="text-align: right;">antiguedad</th>
+<th style="text-align: right;">precio_millones</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">85</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">455</td>
+</tr>
+</tbody>
+</table>
+<p>La fila observada es <span class="math inline">\((x_i,y_i)\)</span>. Una vivienda futura con área, habitaciones y antigüedad conocidas tiene entrada <span class="math inline">\(x\)</span>, pero su precio <span class="math inline">\(Y\)</span> todavía es incierto. El modelo intenta producir una predicción o una distribución plausible para ese <span class="math inline">\(Y\)</span>.</p>
+</div>
+</section>
+<section id="distribución-como-patrón-de-variabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="distribución-como-patrón-de-variabilidad">Distribución como patrón de variabilidad</h2>
+<p>Una <strong>distribución</strong> describe cómo se reparten los valores posibles de una variable aleatoria. En este curso la idea operativa es:</p>
+<blockquote class="blockquote">
+<p>distribución = patrón de variabilidad.</p>
+</blockquote>
+<p>No necesitamos empezar con fórmulas abstractas. Podemos mirar una columna:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>y.describe()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>y.hist()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Eso no revela la distribución verdadera del mundo, pero muestra la distribución empírica de los datos disponibles.</p>
+<div class="definicion">
+<p><strong>Definición: distribución empírica.</strong><br>
+La distribución empírica es el patrón de valores observado en una muestra. Se resume con tablas, histogramas, proporciones, promedio, cuantiles y varianza.</p>
+</div>
+</section>
+<section id="promedio-valor-esperado-y-varianza" class="level2">
+<h2 class="anchored" data-anchor-id="promedio-valor-esperado-y-varianza">Promedio, valor esperado y varianza</h2>
+<p>El promedio muestral de valores observados es:</p>
+<p><span class="math display">\[
+\bar y=\frac{1}{n}\sum_{i=1}^n y_i.
+\]</span></p>
+<p>El <strong>valor esperado</strong> es la versión idealizada de esa idea: el promedio que obtendríamos si pudiéramos repetir el proceso muchísimas veces bajo las mismas condiciones.</p>
+<div class="definicion">
+<p><strong>Definición: valor esperado.</strong><br>
+El valor esperado de una variable aleatoria <span class="math inline">\(Y\)</span>, escrito <span class="math inline">\(E[Y]\)</span>, es su centro promedio ideal bajo el proceso que genera los datos. En la práctica lo aproximamos con promedios muestrales.</p>
+</div>
+<p>La varianza mide dispersión alrededor del promedio. En datos observados:</p>
+<p><span class="math display">\[
+\frac{1}{n}\sum_{i=1}^n (y_i-\bar y)^2.
+\]</span></p>
+<p>La desviación estándar es la raíz de esa cantidad y queda en las mismas unidades que <span class="math inline">\(Y\)</span>.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo resuelto 0.5.2: baseline como promedio.</strong><br>
+Si los precios observados son</p>
+<p><span class="math display">\[
+310,\quad 455,\quad 240,\quad 620,
+\]</span></p>
+<p>el baseline que predice siempre el promedio usa</p>
+<p><span class="math display">\[
+\bar y=\frac{310+455+240+620}{4}=406.25.
+\]</span></p>
+<p>Ese número no es “el precio verdadero” de una vivienda nueva. Es una regla simple que resume la información disponible antes de usar variables de entrada.</p>
+</div>
+</section>
+<section id="ruido-por-qué-el-modelo-no-debe-acertar-exactamente" class="level2">
+<h2 class="anchored" data-anchor-id="ruido-por-qué-el-modelo-no-debe-acertar-exactamente">Ruido: por qué el modelo no debe acertar exactamente</h2>
+<p>En problemas reales, dos observaciones con entradas parecidas pueden tener salidas distintas. Una vivienda puede costar más por una negociación, una transacción puede parecer normal y ser fraude, una medición puede tener error.</p>
+<p>Una forma mínima de escribir esto es:</p>
+<p><span class="math display">\[
+Y=f(X)+\varepsilon.
+\]</span></p>
+<p>Aquí:</p>
+<ul>
+<li><span class="math inline">\(f(X)\)</span> es la parte sistemática que las variables disponibles pueden explicar;</li>
+<li><span class="math inline">\(\varepsilon\)</span> es ruido, variabilidad no explicada o error de medición;</li>
+<li><span class="math inline">\(Y\)</span> no tiene que ser exactamente igual a <span class="math inline">\(f(X)\)</span>.</li>
+</ul>
+<div class="criterio">
+<p><strong>Criterio aplicado.</strong> Un residual distinto de cero no prueba que el modelo esté mal. Puede reflejar ruido, variables faltantes, medición imperfecta o una forma funcional insuficiente.</p>
+</div>
+<p>Este punto prepara la regresión lineal. Cuando minimizamos errores cuadrados, no estamos esperando que todos los residuales sean cero. Estamos buscando una regla que reduzca el error promedio en datos representativos.</p>
+</section>
+<section id="condicionamiento-mirar-y-dado-xx" class="level2">
+<h2 class="anchored" data-anchor-id="condicionamiento-mirar-y-dado-xx">Condicionamiento: mirar <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X=x\)</span></h2>
+<p>La ciencia de datos supervisada casi siempre pregunta por <span class="math inline">\(Y\)</span> <strong>dado</strong> que conocemos <span class="math inline">\(X\)</span>.</p>
+<p>En regresión:</p>
+<p><span class="math display">\[
+E[Y\mid X=x]
+\]</span></p>
+<p>se interpreta como el valor promedio esperado de <span class="math inline">\(Y\)</span> entre casos con entradas como <span class="math inline">\(x\)</span>.</p>
+<p>En clasificación binaria:</p>
+<p><span class="math display">\[
+P(Y=1\mid X=x)
+\]</span></p>
+<p>se interpreta como la probabilidad de clase positiva para un caso con entradas como <span class="math inline">\(x\)</span>.</p>
+<div class="definicion">
+<p><strong>Definición: probabilidad condicional.</strong><br>
+Una probabilidad condicional describe qué tan probable es un evento cuando ya se conoce cierta información. En clasificación, <span class="math inline">\(P(Y=1\mid X=x)\)</span> pregunta por la probabilidad de clase positiva para una observación con características <span class="math inline">\(x\)</span>.</p>
+</div>
+<div class="ejemplo">
+<p><strong>Ejemplo resuelto 0.5.3: de score a probabilidad.</strong><br>
+Si un modelo de riesgo produce</p>
+<p><span class="math display">\[
+P(Y=1\mid X=x)=0.82,
+\]</span></p>
+<p>eso no significa que el caso “sea 82% positivo”. Significa que, bajo el modelo y sus datos, casos con características como <span class="math inline">\(x\)</span> se tratan como altamente compatibles con la clase positiva. La decisión final todavía requiere umbral, métrica y costo de error.</p>
+</div>
+</section>
+<section id="pérdida-empírica-y-riesgo-esperado" class="level2">
+<h2 class="anchored" data-anchor-id="pérdida-empírica-y-riesgo-esperado">Pérdida empírica y riesgo esperado</h2>
+<p>Durante entrenamiento no conocemos el desempeño verdadero del modelo en todos los casos futuros. Solo tenemos una muestra. Por eso usamos un promedio de pérdidas observadas.</p>
+<p>Si <span class="math inline">\(\ell(f_\theta(x_i),y_i)\)</span> mide el error en la observación <span class="math inline">\(i\)</span>, la pérdida empírica es:</p>
+<p><span class="math display">\[
+\frac{1}{n}\sum_{i=1}^n \ell(f_\theta(x_i),y_i).
+\]</span></p>
+<p>El desempeño que realmente nos importa es el desempeño esperado en casos nuevos:</p>
+<p><span class="math display">\[
+E[\ell(f_\theta(X),Y)].
+\]</span></p>
+<div class="definicion">
+<p><strong>Definición: pérdida empírica.</strong><br>
+La pérdida empírica es el promedio de errores observado en un conjunto de datos. Es lo que podemos calcular.</p>
+</div>
+<div class="definicion">
+<p><strong>Definición: riesgo esperado.</strong><br>
+El riesgo esperado es el error promedio que el modelo tendría sobre casos nuevos del proceso relevante. Es lo que nos gustaría controlar, pero no podemos observar directamente.</p>
+</div>
+<p>La tensión central del curso es esta:</p>
+<pre class="text"><code>minimizamos una pérdida empírica, pero queremos buen riesgo esperado.</code></pre>
+</section>
+<section id="por-qué-separar-entrenamiento-y-prueba" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-separar-entrenamiento-y-prueba">Por qué separar entrenamiento y prueba</h2>
+<p>Si minimizamos una pérdida sobre entrenamiento, ese número puede ser optimista. El modelo ya tuvo oportunidad de adaptarse a esos datos. Para estimar desempeño en observaciones nuevas, reservamos datos no usados en el ajuste.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Conjunto</th>
+<th>Qué aproxima</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Train</td>
+<td>pérdida empírica usada para aprender</td>
+<td>ajustar parámetros</td>
+</tr>
+<tr class="even">
+<td>Dev/validación</td>
+<td>desempeño en datos no usados para ajustar parámetros</td>
+<td>elegir modelo, complejidad o umbral</td>
+</tr>
+<tr class="odd">
+<td>Test</td>
+<td>estimación final de desempeño en datos no usados para diseño</td>
+<td>reporte final</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-warning callout-titled" title="Advertencia">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Advertencia</span>Advertencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>El test no revela el desempeño verdadero del mundo. Solo da una estimación en una muestra reservada. Si se usa repetidamente para tomar decisiones, también se vuelve parte del diseño.</p>
+</div>
+</div>
+</section>
+<section id="qué-debes-llevar-a-los-próximos-capítulos" class="level2">
+<h2 class="anchored" data-anchor-id="qué-debes-llevar-a-los-próximos-capítulos">Qué debes llevar a los próximos capítulos</h2>
+<p>No necesitas saber probabilidad avanzada para continuar. Sí necesitas estas cuatro ideas:</p>
+<ol type="1">
+<li>Una columna observada es evidencia; una variable aleatoria representa lo que podría pasar en un caso nuevo.</li>
+<li>Un modelo intenta aprender una relación entre <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span>, pero hay ruido.</li>
+<li>Entrenar minimiza pérdidas observadas; validar estima desempeño fuera del ajuste.</li>
+<li>Una probabilidad predicha no es una decisión: necesita umbral, métrica y contexto.</li>
+</ol>
 </section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
-<p>Antes de usar PCA en un proyecto, responde:</p>
+<p>Para cada frase, decide si habla de datos observados o de incertidumbre futura.</p>
 <ol type="1">
-<li>¿centraste con parámetros aprendidos en entrenamiento?</li>
-<li>¿cuánta varianza explican los componentes usados?</li>
-<li>¿la proyección se usa para visualizar, modelar o comprimir?</li>
-<li>¿qué interpretación no puedes afirmar?</li>
+<li>“El promedio de <code>precio_millones</code> en esta tabla es 406.25”.</li>
+<li>“El precio de una vivienda nueva con estas características es incierto”.</li>
+<li>“El modelo tuvo MSE 1200 en validación”.</li>
+<li>“Queremos bajo error esperado en viviendas futuras”.</li>
+</ol>
+<p>Respuesta esperada:</p>
+<ol type="1">
+<li>datos observados;</li>
+<li>incertidumbre futura;</li>
+<li>datos observados reservados para evaluación;</li>
+<li>incertidumbre futura.</li>
 </ol>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
 <div class="explore">
 <ul>
-<li><strong>Extensión matemática:</strong> reconstruye una matriz pequeña con rango 1 y compara el error de reconstrucción con el de rango 2.</li>
-<li><strong>Extensión computacional:</strong> grafica varianza explicada acumulada y marca el punto donde agregar componentes deja de cambiar la interpretación.</li>
-<li><strong>Conexión con proyecto:</strong> decide si PCA se usará para visualización, compresión, diagnóstico o como paso previo de modelado.</li>
+<li><strong>Extensión matemática:</strong> compara <span class="math inline">\(\bar y\)</span> con <span class="math inline">\(E[Y]\)</span>. Explica por qué el primero se calcula y el segundo se idealiza.</li>
+<li><strong>Extensión computacional:</strong> simula <span class="math inline">\(y=3+2x+\varepsilon\)</span> con dos niveles de ruido y compara los residuales.</li>
+<li><strong>Conexión con proyecto:</strong> escribe cuál sería <span class="math inline">\(X\)</span>, cuál sería <span class="math inline">\(Y\)</span>, qué fuente de ruido anticipas y qué partición usarías para estimar desempeño.</li>
 </ul>
 </div>
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>SVD factoriza una matriz en direcciones y magnitudes de variación. PCA usa esa estructura sobre datos centrados para construir proyecciones de baja dimensión que conservan tanta varianza como sea posible bajo el número de componentes elegido.</p>
-<p>La forma de los objetos importa: <span class="math inline">\(V_k\)</span> define direcciones, <span class="math inline">\(Z=X_cV_k\)</span> contiene scores y la reconstrucción aproxima los datos originales. La varianza explicada ayuda a elegir <span class="math inline">\(k\)</span>, pero no convierte automáticamente los componentes en causas o conceptos de dominio.</p>
-<p>PCA es una herramienta de compresión, visualización o preprocesamiento. Su uso profesional exige declarar qué conserva, qué pierde y qué interpretación no está justificada por la proyección.</p>
+<p>Este interludio introduce la mínima probabilidad necesaria para el curso. La tabla observada contiene realizaciones; las variables aleatorias representan valores inciertos antes de observar un caso nuevo. Una distribución describe variabilidad, y una distribución empírica resume la muestra disponible.</p>
+<p>Regresión y clasificación preguntan por <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X\)</span>. En regresión suele interesar un valor esperado condicional; en clasificación binaria interesa <span class="math inline">\(P(Y=1\mid X=x)\)</span>. El ruido explica por qué no todo residual se elimina con un modelo más complejo.</p>
+<p>Entrenar minimiza pérdida empírica, pero el objetivo aplicado es buen desempeño en casos nuevos. Por eso validación, particiones y cuidado con leakage no son detalles técnicos: son la forma práctica de razonar bajo incertidumbre.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
 <div class="key-terms">
 <ul>
-<li><strong>SVD:</strong> factorización <span class="math inline">\(X=U\Sigma V^\top\)</span> que expone direcciones principales.</li>
-<li><strong>PCA:</strong> proyección lineal que conserva la mayor varianza posible en pocas dimensiones.</li>
-<li><strong>Dato centrado:</strong> matriz después de restar la media de cada variable.</li>
-<li><strong>Componente principal:</strong> dirección lineal de alta varianza.</li>
-<li><strong>Varianza explicada:</strong> proporción de variabilidad capturada por componentes.</li>
-<li><strong>Reconstrucción:</strong> aproximación del dato original desde una proyección de baja dimensión.</li>
+<li><strong>Variable aleatoria:</strong> cantidad incierta antes de observar un caso.</li>
+<li><strong>Realización:</strong> valor concreto observado de una variable aleatoria.</li>
+<li><strong>Distribución empírica:</strong> patrón de valores observado en una muestra.</li>
+<li><strong>Valor esperado:</strong> promedio ideal bajo el proceso que genera los datos.</li>
+<li><strong>Ruido:</strong> variabilidad no explicada por las variables disponibles.</li>
+<li><strong>Probabilidad condicional:</strong> probabilidad calculada dado que se conoce cierta información.</li>
+<li><strong>Pérdida empírica:</strong> promedio de errores observado en un dataset.</li>
+<li><strong>Riesgo esperado:</strong> error promedio ideal en casos nuevos del proceso relevante.</li>
 </ul>
 </div>
 </section>
@@ -924,34 +1050,36 @@ Advertencia
 <section id="preguntas-conceptuales" class="level3">
 <h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
 <ol type="1">
-<li>Explique por qué PCA debe centrar los datos antes de calcular componentes.</li>
-<li>¿Por qué un componente principal no es automáticamente interpretable?</li>
+<li>Explica con tus palabras la diferencia entre una columna observada y una variable aleatoria.</li>
+<li>¿Por qué un residual grande no implica automáticamente que el modelo esté mal?</li>
 </ol>
 </section>
 <section id="problemas-cuantitativos" class="level3">
 <h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
 <ol start="3" type="1">
-<li>Si <span class="math inline">\(X\)</span> tiene forma <code>(500, 64)</code> y usamos <code>k=2</code>, ¿qué forma tiene la proyección PCA?</li>
-<li>¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?</li>
+<li>Para los valores <span class="math inline">\(2,4,4,10\)</span>, calcula el promedio y la varianza empírica con denominador <span class="math inline">\(n\)</span>.</li>
+<li>Si una clase positiva aparece 30 veces en 200 observaciones, estima la proporción empírica de positivos.</li>
 </ol>
 </section>
 <section id="práctica-computacional" class="level3">
 <h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
 <ol start="5" type="1">
-<li>Implemente una proyección PCA usando SVD sobre datos centrados.</li>
-<li>Calcule y grafique varianza explicada acumulada.</li>
+<li>Simula 100 valores con <code>y = 5 + 0.8 * x + ruido</code> usando dos desviaciones estándar distintas para el ruido. Compara histogramas de residuales.</li>
+<li>Toma una columna numérica de un dataset y reporta promedio, desviación estándar, mínimo, máximo y un histograma.</li>
 </ol>
 </section>
 <section id="interpretación-y-pensamiento-crítico" class="level3">
 <h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
 <ol start="7" type="1">
-<li>Si dos componentes explican poca varianza pero separan visualmente grupos, ¿qué conclusión puede y no puede afirmar?</li>
+<li>Un modelo tiene error de entrenamiento muy bajo y error de validación alto. Interpreta el resultado usando pérdida empírica y desempeño esperado.</li>
+<li>Un modelo reporta <span class="math inline">\(P(Y=1\mid X=x)=0.65\)</span>. Explica por qué todavía falta una regla de decisión.</li>
 </ol>
 </section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="8" type="1">
-<li>Aplique PCA a un dataset de su proyecto o a uno pequeño generado para práctica, justifique <span class="math inline">\(k\)</span>, muestre una proyección y escriba una advertencia de interpretación.</li>
+<ol start="9" type="1">
+<li>Para una idea de proyecto, escribe qué sería <span class="math inline">\(X\)</span>, qué sería <span class="math inline">\(Y\)</span>, qué ruido esperas y qué variable podría producir leakage.</li>
+<li>Describe qué muestra tu distribución empírica inicial y qué no permite concluir sobre la población o casos futuros.</li>
 </ol>
 
 
@@ -1396,13 +1524,13 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../partes/parte05_no_supervisado.html" class="pagination-link" aria-label="Parte V: Aprendizaje no supervisado">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></span>
+      <a href="../capitulos/00-lenguaje-comun.html" class="pagination-link" aria-label="Capítulo 0: Ciencia de datos aplicada">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../capitulos/16-kmeans-clustering.html" class="pagination-link" aria-label="K-Means y clustering">
-        <span class="nav-page-text"><span class="chapter-title">K-Means y clustering</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../partes/parte02_regresion.html" class="pagination-link" aria-label="Parte II: Regresión, optimización y clasificación">
+        <span class="nav-page-text"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
