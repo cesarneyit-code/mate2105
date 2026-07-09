@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -190,13 +225,23 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#métricas-de-clasificación-binaria" id="toc-métricas-de-clasificación-binaria" class="nav-link active" data-scroll-target="#métricas-de-clasificación-binaria">Métricas de clasificación binaria</a></li>
+  <li><a href="#cómo-usar-este-apéndice" id="toc-cómo-usar-este-apéndice" class="nav-link active" data-scroll-target="#cómo-usar-este-apéndice">Cómo usar este apéndice</a>
+  <ul class="collapse">
+  <li><a href="#notación-mínima" id="toc-notación-mínima" class="nav-link" data-scroll-target="#notación-mínima">Notación mínima</a></li>
+  <li><a href="#métricas-de-clasificación-binaria" id="toc-métricas-de-clasificación-binaria" class="nav-link" data-scroll-target="#métricas-de-clasificación-binaria">Métricas de clasificación binaria</a></li>
+  <li><a href="#validación-cruzada" id="toc-validación-cruzada" class="nav-link" data-scroll-target="#validación-cruzada">Validación cruzada</a></li>
   <li><a href="#reglas-operativas" id="toc-reglas-operativas" class="nav-link" data-scroll-target="#reglas-operativas">Reglas operativas</a></li>
+  <li><a href="#checklist-de-evaluación" id="toc-checklist-de-evaluación" class="nav-link" data-scroll-target="#checklist-de-evaluación">Checklist de evaluación</a></li>
+  <li><a href="#patrones-de-decisión" id="toc-patrones-de-decisión" class="nav-link" data-scroll-target="#patrones-de-decisión">Patrones de decisión</a></li>
+  <li><a href="#patrones-de-código" id="toc-patrones-de-código" class="nav-link" data-scroll-target="#patrones-de-código">Patrones de código</a></li>
   <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a>
   <ul class="collapse">
-  <li><a href="#capítulo-1-ejercicio-3" id="toc-capítulo-1-ejercicio-3" class="nav-link" data-scroll-target="#capítulo-1-ejercicio-3">Capítulo 1, ejercicio 3</a></li>
-  <li><a href="#capítulo-2-ejercicio-1" id="toc-capítulo-2-ejercicio-1" class="nav-link" data-scroll-target="#capítulo-2-ejercicio-1">Capítulo 2, ejercicio 1</a></li>
-  <li><a href="#capítulo-3-ejercicio-2" id="toc-capítulo-3-ejercicio-2" class="nav-link" data-scroll-target="#capítulo-3-ejercicio-2">Capítulo 3, ejercicio 2</a></li>
+  <li><a href="#verificaciones-de-ejemplos-resueltos" id="toc-verificaciones-de-ejemplos-resueltos" class="nav-link" data-scroll-target="#verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</a></li>
+  <li><a href="#capítulo-1" id="toc-capítulo-1" class="nav-link" data-scroll-target="#capítulo-1">Capítulo 1</a></li>
+  <li><a href="#capítulo-2" id="toc-capítulo-2" class="nav-link" data-scroll-target="#capítulo-2">Capítulo 2</a></li>
+  <li><a href="#capítulo-3" id="toc-capítulo-3" class="nav-link" data-scroll-target="#capítulo-3">Capítulo 3</a></li>
+  <li><a href="#ejercicios-integradores" id="toc-ejercicios-integradores" class="nav-link" data-scroll-target="#ejercicios-integradores">Ejercicios integradores</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -223,6 +268,53 @@ window.Quarto = {
 </header>
 
 
+<section id="cómo-usar-este-apéndice" class="level1">
+<h1>Cómo usar este apéndice</h1>
+<p>Este apéndice resume las reglas que evitan conclusiones engañosas en machine learning aplicado: métrica mal escogida, particiones contaminadas, validación mal interpretada y análisis de error insuficiente. Úsalo como checklist antes de comparar modelos o escribir una recomendación técnica.</p>
+<div class="book-note">
+<p>Una métrica no es una conclusión. La conclusión aparece cuando conectas métrica, baseline, partición, error principal, costo de error y límite de uso.</p>
+</div>
+<section id="notación-mínima" class="level2">
+<h2 class="anchored" data-anchor-id="notación-mínima">Notación mínima</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(TP\)</span>, <span class="math inline">\(TN\)</span>, <span class="math inline">\(FP\)</span>, <span class="math inline">\(FN\)</span></td>
+<td>conteos de la matriz de confusión</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(s_k\)</span></td>
+<td>métrica obtenida en el fold <span class="math inline">\(k\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\bar s\)</span></td>
+<td>media de validación cruzada</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\sigma_s\)</span></td>
+<td>variabilidad entre folds</td>
+</tr>
+<tr class="odd">
+<td>dev</td>
+<td>conjunto de validación para elegir modelos</td>
+</tr>
+<tr class="even">
+<td>test</td>
+<td>conjunto final para estimar desempeño una vez</td>
+</tr>
+<tr class="odd">
+<td>slice</td>
+<td>subconjunto relevante para análisis de error</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="métricas-de-clasificación-binaria" class="level2">
 <h2 class="anchored" data-anchor-id="métricas-de-clasificación-binaria">Métricas de clasificación binaria</h2>
 <p><span class="math display">\[
@@ -238,6 +330,15 @@ window.Quarto = {
 F1 = 2\frac{\text{precision}\cdot \text{recall}}{\text{precision}+\text{recall}}
 \]</span></p>
 </section>
+<section id="validación-cruzada" class="level2">
+<h2 class="anchored" data-anchor-id="validación-cruzada">Validación cruzada</h2>
+<p><span class="math display">\[
+\bar s = \frac{1}{K}\sum_{k=1}^{K}s_k,
+\qquad
+\sigma_s = \sqrt{\frac{1}{K-1}\sum_{k=1}^{K}(s_k-\bar s)^2}.
+\]</span></p>
+<p>Reporta media y variabilidad. Si dos modelos tienen medias similares, la variabilidad puede cambiar la decisión.</p>
+</section>
 <section id="reglas-operativas" class="level2">
 <h2 class="anchored" data-anchor-id="reglas-operativas">Reglas operativas</h2>
 <ol type="1">
@@ -248,21 +349,121 @@ F1 = 2\frac{\text{precision}\cdot \text{recall}}{\text{precision}+\text{recall}}
 <li>Un promedio no reemplaza análisis de slices.</li>
 </ol>
 </section>
+<section id="checklist-de-evaluación" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-de-evaluación">Checklist de evaluación</h2>
+<div class="checklist">
+<ul>
+<li>La métrica principal está alineada con el costo de error.</li>
+<li>Hay baseline trivial o operativo.</li>
+<li>La partición respeta tiempo, grupos o estratificación cuando aplica.</li>
+<li>El preprocesamiento está dentro de un <code>Pipeline</code>.</li>
+<li>La validación no usa test para elegir hiperparámetros.</li>
+<li>El reporte incluye variabilidad o intervalo cuando sea razonable.</li>
+<li>Hay análisis de al menos un slice crítico.</li>
+<li>La recomendación incluye un límite explícito.</li>
+</ul>
+</div>
+</section>
+<section id="patrones-de-decisión" class="level2">
+<h2 class="anchored" data-anchor-id="patrones-de-decisión">Patrones de decisión</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situación</th>
+<th>Señal</th>
+<th>Decisión prudente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Clase positiva rara</td>
+<td>accuracy alta con recall bajo</td>
+<td>usar recall, F1, PR-AUC o costo explícito</td>
+</tr>
+<tr class="even">
+<td>Métricas train muy superiores a dev</td>
+<td>brecha alta</td>
+<td>diagnosticar overfitting o leakage</td>
+</tr>
+<tr class="odd">
+<td>Dev estable y test cae</td>
+<td>fuente/población distinta</td>
+<td>investigar data mismatch</td>
+</tr>
+<tr class="even">
+<td>Mejor media pero alta variabilidad</td>
+<td>folds inconsistentes</td>
+<td>preferir modelo más estable si el riesgo importa</td>
+</tr>
+<tr class="odd">
+<td>Slice crítico empeora</td>
+<td>promedio oculta daño</td>
+<td>no recomendar despliegue sin mitigación</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="patrones-de-código" class="level2">
+<h2 class="anchored" data-anchor-id="patrones-de-código">Patrones de código</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>pipe <span class="op">=</span> Pipeline([</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scale"</span>, StandardScaler()),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"model"</span>, LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> metric_by_group(df, group_col, y_col, yhat_col, metric_fn):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> []</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> group, part <span class="kw">in</span> df.groupby(group_col):</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">"group"</span>: group,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">"n"</span>: <span class="bu">len</span>(part),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">"score"</span>: metric_fn(part[y_col], part[yhat_col])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(rows)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
-<section id="capítulo-1-ejercicio-3" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-1-ejercicio-3">Capítulo 1, ejercicio 3</h3>
-<p>Imputar la media usando todo el dataset antes de partir es leakage porque la media incorpora información de validación/test. La media debe aprenderse solo con entrenamiento, idealmente dentro de un <code>Pipeline</code>.</p>
+<section id="verificaciones-de-ejemplos-resueltos" class="level3">
+<h3 class="anchored" data-anchor-id="verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</h3>
+<p><strong>Costo de errores.</strong> Con umbral A, <span class="math inline">\(FP=40\)</span>, <span class="math inline">\(FN=15\)</span>, costo de FP igual a 1 y costo de FN igual a 10, el costo es <span class="math inline">\(40+150=190\)</span>. Con umbral B, el costo es <span class="math inline">\(10+250=260\)</span>. Si el falso negativo es mucho más costoso, A puede ser preferible aunque tenga menor precision.</p>
+<p><strong>Partición estratificada.</strong> Si hay 2000 observaciones y 8% de positivos, hay 160 positivos. En una división 60/20/20 se esperan 96 positivos en train, 32 en dev y 32 en test. Esta cuenta solo verifica proporción de clase; no valida tiempo, grupos ni duplicados.</p>
+<p><strong>Learning curve.</strong> Si F1 de validación sube de <span class="math inline">\(0.63\)</span> a <span class="math inline">\(0.86\)</span> al aumentar datos y la brecha train-validación baja de <span class="math inline">\(0.35\)</span> a <span class="math inline">\(0.04\)</span>, la evidencia sugiere que más datos ayuda a reducir varianza. No es una señal para aumentar complejidad como primera acción.</p>
+<p><strong>Data mismatch.</strong> Si train y dev tienen cerca de 20% de positivos, pero test tiene 8% y recall cae de 0.82 a 0.55, antes de ajustar hiperparámetros hay que auditar fuente, periodo, población y construcción del split.</p>
+<p><strong>Brecha por slice.</strong> Si el F1 global es 0.81 y en fuente C es 0.57, la brecha es <span class="math inline">\(0.81-0.57=0.24\)</span>. La recomendación debe explicar evidencia, diagnóstico, acción y límite; no basta reportar el promedio global.</p>
 </section>
-<section id="capítulo-2-ejercicio-1" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-2-ejercicio-1">Capítulo 2, ejercicio 1</h3>
-<p>Train F1 0.99 y validation F1 0.70 sugiere overfitting. Acciones: aumentar regularización, simplificar el modelo, revisar leakage, recolectar más datos o cambiar features.</p>
+<section id="capítulo-1" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-1">Capítulo 1</h3>
+<p><strong>Ejercicio 1.1.</strong> En fraude, preferir recall es razonable cuando perder un fraude es mucho más costoso que revisar falsos positivos. Preferir precision es razonable cuando cada alerta tiene alto costo operativo o afecta injustamente a usuarios legítimos.</p>
+<p><strong>Ejercicio 1.4.</strong> Con 2000 observaciones y clase positiva de 8%, hay 160 positivos. En una partición 60/20/20 estratificada se esperan aproximadamente 96 positivos en train, 32 en dev y 32 en test.</p>
+<p><strong>Ejercicio 1.7.</strong> Imputar la media usando todo el dataset antes de partir es leakage porque la media incorpora información de validación/test. La media debe aprenderse solo con entrenamiento, idealmente dentro de un <code>Pipeline</code>.</p>
 </section>
-<section id="capítulo-3-ejercicio-2" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-3-ejercicio-2">Capítulo 3, ejercicio 2</h3>
-<p>Data mismatch puede sospecharse si el desempeño en dev es estable pero cae mucho en test, especialmente si test proviene de otra fuente, periodo o población.</p>
+<section id="capítulo-2" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-2">Capítulo 2</h3>
+<p><strong>Ejercicio 2.1.</strong> Train F1 0.99 y validation F1 0.70 sugiere overfitting. Acciones razonables: aumentar regularización, simplificar el modelo, revisar leakage, recolectar más datos o cambiar features.</p>
+<p><strong>Ejercicio 2.2.</strong> La desviación estándar de CV importa porque una media alta con mucha variabilidad puede indicar que el modelo depende demasiado de la partición. Si la aplicación exige estabilidad, un modelo con media apenas menor pero menor variabilidad puede ser preferible.</p>
+<p><strong>Ejercicio 2.4.</strong> Si se evalúan 4 valores de <code>C</code>, 3 valores de <code>penalty</code> y 5 folds, se entrenan <span class="math inline">\(4\times3\times5=60\)</span> ajustes.</p>
+</section>
+<section id="capítulo-3" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-3">Capítulo 3</h3>
+<p><strong>Ejercicio 3.2.</strong> Un F1 global puede ocultar una falla grave si el modelo funciona bien en grupos numerosos y mal en un grupo pequeño pero importante. Por eso se reportan métricas por slice.</p>
+<p><strong>Ejercicio 3.3.</strong> Si una tabla por slice muestra F1 global 0.81 y un slice con F1 0.57, la brecha es 0.24. Si ese slice corresponde a una fuente, grupo o periodo relevante para producción, debe tratarse como riesgo técnico aunque el promedio global parezca aceptable.</p>
+<p><strong>Ejercicio 3.4.</strong> Si dev tiene 30% de clase positiva y test 12%, antes de ajustar hiperparámetros sospecharía data mismatch, cambio temporal, sesgo de muestreo o partición no representativa.</p>
+<p><strong>Ejercicio 3.7.</strong> Data mismatch puede sospecharse si el desempeño en dev es estable pero cae mucho en test, especialmente si test proviene de otra fuente, periodo o población.</p>
+</section>
+<section id="ejercicios-integradores" class="level3">
+<h3 class="anchored" data-anchor-id="ejercicios-integradores">Ejercicios integradores</h3>
+<p><strong>Bloque A.</strong> Una respuesta profesional sobre métricas debe nombrar el costo del error. Por ejemplo, no basta decir “F1 es mejor”; hay que explicar si el problema castiga más falsos positivos, falsos negativos o ambos.</p>
+<p><strong>Bloque D.</strong> La estructura mínima de recomendación técnica es: evidencia observada, diagnóstico probable, acción concreta y límite. Si falta una de esas cuatro partes, la recomendación es difícil de auditar.</p>
 
 
+</section>
 </section>
 </section>
 

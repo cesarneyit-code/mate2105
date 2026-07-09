@@ -64,7 +64,7 @@
     "href": "capitulo01_parcial2_sintesis.html",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
     "section": "",
-    "text": "Alcance\nEste capítulo prepara el Parcial 2 e integra tres bloques:\nNo se evalúa memoria aislada. Se evalúa si puedes tomar una decisión técnica con fundamento matemático y evidencia computacional.",
+    "text": "Pregunta aplicada\n¿Cómo integramos redes neuronales, estrategia de machine learning y aprendizaje no supervisado para tomar una decisión técnica sin depender de memoria aislada?",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
     ]
@@ -73,8 +73,8 @@
     "objectID": "capitulo01_parcial2_sintesis.html#alcance",
     "href": "capitulo01_parcial2_sintesis.html#alcance",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
-    "section": "",
-    "text": "redes neuronales desde primeros principios;\nestrategia ML y diagnóstico;\naprendizaje no supervisado.",
+    "section": "Alcance",
+    "text": "Alcance\nEste capítulo prepara el Parcial 2 e integra tres bloques:\n\nredes neuronales desde primeros principios;\nestrategia ML y diagnóstico;\naprendizaje no supervisado.\n\nNo se evalúa memoria aislada. Se evalúa si puedes tomar una decisión técnica con fundamento matemático y evidencia computacional.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
     ]
@@ -160,6 +160,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-softmax-estable-en-síntesis",
+    "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-softmax-estable-en-síntesis",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Ejemplo resuelto: softmax estable en síntesis",
+    "text": "Ejemplo resuelto: softmax estable en síntesis\nSupón que una red produce logits:\n\\[\nz=(1000,1001,1002).\n\\]\nCalcular \\(e^{1002}\\) directamente puede producir overflow. Restamos el máximo:\n\\[\nz-\\max(z)=(-2,-1,0).\n\\]\nEntonces:\n\\[\n\\operatorname{softmax}(z)\n=\n\\frac{(e^{-2},e^{-1},1)}{e^{-2}+e^{-1}+1}.\n\\]\nComo \\(e^{-2}\\approx0.135\\) y \\(e^{-1}\\approx0.368\\), la suma es aproximadamente \\(1.503\\). Por tanto:\n\\[\n\\operatorname{softmax}(z)\\approx(0.090,0.245,0.665).\n\\]\nLa respuesta integradora debe decir dos cosas: la resta del máximo no cambia las probabilidades y evita un problema numérico. Si la clase correcta es la tercera, la pérdida de esa observación sería \\(-\\log(0.665)\\approx0.408\\).",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
     "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
@@ -170,11 +180,51 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#para-explorar-más",
+    "href": "capitulo01_parcial2_sintesis.html#para-explorar-más",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: construye un mapa de dependencias entre pérdida, métrica, regularización, validación y decisión.\nExtensión computacional: rehace un experimento anterior desde cero y verifica si produce las mismas métricas dentro de tolerancias razonables.\nConexión con proyecto: escribe qué evidencia mínima necesitarías para defender que tu resultado no es accidental.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#revisión-del-capítulo",
+    "href": "capitulo01_parcial2_sintesis.html#revisión-del-capítulo",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nEste capítulo reúne los conceptos necesarios para responder preguntas integradoras. Una buena respuesta no enumera fórmulas: conecta modelo, métrica, validación, evidencia y decisión.\nEl Parcial 2 exige reconocer cuándo una mejora global es insuficiente, cuándo un slice crítico cambia la recomendación y cuándo una técnica no supervisada solo permite una conclusión exploratoria. También exige cálculos básicos estables, como softmax con resta del máximo.\nLa estructura de respuesta esperada es evidencia -&gt; diagnóstico -&gt; acción -&gt; límite. Esa estructura permite calificar con claridad y, más importante, permite defender una decisión técnica sin exagerar.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#términos-clave",
+    "href": "capitulo01_parcial2_sintesis.html#términos-clave",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nRespuesta integradora: explicación que conecta modelo, métrica, evidencia y límite.\nData mismatch temporal: diferencia entre datos antiguos y recientes que afecta generalización.\nSíntesis conceptual: capacidad de relacionar contenidos de varios módulos en una decisión.\nEvidencia proporcional: resultado suficiente para justificar una acción, sin exagerar alcance.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#ejercicios",
+    "href": "capitulo01_parcial2_sintesis.html#ejercicios",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué una mejora global no basta si un slice crítico empeora.\n¿Qué diferencia hay entre diagnosticar overfitting y diagnosticar data mismatch?\n\n\n\nProblemas cuantitativos\n\nCompare dos modelos con métricas globales similares y desempeño distinto por slice; elija uno y justifique.\nCalcule softmax estable para logits \\((1000,1001,1002)\\) usando resta del máximo.\n\n\n\nPráctica computacional\n\nEscriba una función que evalúe una métrica global y la misma métrica por slice.\nCree una tabla resumen para preparar una respuesta de parcial: baseline, métrica, error principal y acción.\n\n\n\nInterpretación y pensamiento crítico\n\nEscriba una respuesta de 120 palabras con estructura evidencia -&gt; diagnóstico -&gt; acción -&gt; límite.\n\n\n\nProyecto de cierre\n\nTome un resultado real o simulado de su proyecto y conviértalo en una respuesta oral de dos minutos para Parcial 2.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html",
     "href": "capitulo02_reproducibilidad_tracking.html",
     "title": "Reproducibilidad y tracking",
     "section": "",
-    "text": "Qué significa reproducir\nEn ciencia de datos aplicada, reproducibilidad no es un lujo académico. Es lo que permite auditar una decisión, comparar experimentos y depurar errores.",
+    "text": "Pregunta aplicada\nSi otra persona recibe nuestros resultados, ¿puede reconstruir qué datos, código, parámetros y decisiones produjeron la conclusión?",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
     ]
@@ -183,8 +233,8 @@
     "objectID": "capitulo02_reproducibilidad_tracking.html#qué-significa-reproducir",
     "href": "capitulo02_reproducibilidad_tracking.html#qué-significa-reproducir",
     "title": "Reproducibilidad y tracking",
-    "section": "",
-    "text": "Reproducibilidad: capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.",
+    "section": "Qué significa reproducir",
+    "text": "Qué significa reproducir\n\nReproducibilidad: capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.\n\nEn ciencia de datos aplicada, reproducibilidad no es un lujo académico. Es lo que permite auditar una decisión, comparar experimentos y depurar errores.\n\n\n\n\n\n\nFigura 3.1: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.\n\n\n\nLectura de la figura. Una corrida reproducible no se identifica solo por el resultado final. Necesita registrar datos, código, ambiente, parámetros, métricas y artefactos para que la evidencia pueda reconstruirse.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
     ]
@@ -240,6 +290,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-auditar-un-manifest",
+    "href": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-auditar-un-manifest",
+    "title": "Reproducibilidad y tracking",
+    "section": "Ejemplo resuelto: auditar un manifest",
+    "text": "Ejemplo resuelto: auditar un manifest\nSupón que el manifest registra:\n{\n  \"run_id\": \"ridge_v3\",\n  \"seed\": 2105,\n  \"metrics\": {\"dev_rmse\": 12.4},\n  \"artifacts\": {\"predictions.csv\": \"sha256:abc123\"},\n  \"decision\": \"usar ridge_v3 como modelo candidato\"\n}\nDos semanas después, el archivo predictions.csv existe, pero su hash calculado es sha256:def987.\nLa conclusión correcta no es “el modelo está mal”. La conclusión correcta es:\n\nel artefacto actual no coincide con el artefacto registrado;\nla métrica dev_rmse=12.4 ya no queda respaldada por ese archivo;\nhay que rerunear la evaluación o recuperar el artefacto original;\ncualquier reporte que use esa corrida debe marcarse como no verificado hasta resolver la discrepancia.\n\nUn hash no evalúa calidad estadística. Evalúa identidad del archivo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html#tracking-de-experimentos",
     "href": "capitulo02_reproducibilidad_tracking.html#tracking-de-experimentos",
     "title": "Reproducibilidad y tracking",
@@ -290,10 +350,60 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#para-explorar-más",
+    "href": "capitulo02_reproducibilidad_tracking.html#para-explorar-más",
+    "title": "Reproducibilidad y tracking",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: identifica qué cantidades numéricas deben quedar fijas para comparar dos corridas de entrenamiento.\nExtensión computacional: crea un manifest mínimo con datos, código, semilla, ambiente, métricas y hash de salida.\nConexión con proyecto: define qué archivos entregados permitirían auditar tu resultado sin abrir tu notebook manualmente.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#revisión-del-capítulo",
+    "href": "capitulo02_reproducibilidad_tracking.html#revisión-del-capítulo",
+    "title": "Reproducibilidad y tracking",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nReproducibilidad significa que otra persona puede reconstruir el resultado desde datos, código, entorno, parámetros y artefactos. Una semilla ayuda, pero no basta si cambian datos, librerías, hardware o pasos manuales.\nEl manifest registra qué corrida produjo qué métricas y qué artefactos. Los hashes detectan cambios en archivos, pero no prueban que el contenido sea correcto. El tracking de experimentos ordena comparaciones y evita depender de memoria o nombres informales.\nUn paquete reproducible debe permitir auditar la decisión final. Eso implica separar archivos de entrada, scripts, outputs, métricas, modelos y reporte, y declarar qué evidencia sostiene cada afirmación.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#términos-clave",
+    "href": "capitulo02_reproducibilidad_tracking.html#términos-clave",
+    "title": "Reproducibilidad y tracking",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nReproducibilidad: capacidad de reconstruir resultados desde datos, código, entorno y decisiones.\nManifest: archivo que registra configuración, rutas, semillas, métricas y artefactos.\nRun: corrida individual de un experimento.\nArtefacto: salida guardada, como modelo, figura, reporte, predicciones o tabla.\nHash: huella de un archivo usada para detectar cambios.\nPersistencia: guardado de un modelo o pipeline para reutilizarlo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#ejercicios",
+    "href": "capitulo02_reproducibilidad_tracking.html#ejercicios",
+    "title": "Reproducibilidad y tracking",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\n¿Por qué una semilla fija no garantiza reproducibilidad completa?\n¿Qué diferencia hay entre código que corre y evidencia reproducible?\n\n\n\nProblemas cuantitativos\n\nDiseñe una tabla mínima con tres runs, dos hiperparámetros y dos métricas.\nExplique qué detecta y qué no detecta un hash SHA-256.\n\n\n\nPráctica computacional\n\nCree un manifest.json mínimo para un experimento.\nCalcule el hash SHA-256 de un archivo de resultados.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué riesgos tiene cargar modelos pickle o joblib de fuentes no confiables?\nSi no puede reproducir una métrica final, ¿qué partes del proyecto revisaría primero?\n\n\n\nProyecto de cierre\n\nPrepare un paquete mínimo reproducible para su proyecto: manifest, entorno, script de evaluación, tabla de métricas y lista de artefactos.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_comunicacion_tecnica.html",
     "href": "capitulo03_comunicacion_tecnica.html",
     "title": "Comunicación técnica",
     "section": "",
+    "text": "Pregunta aplicada\n¿Cómo convertimos experimentos, métricas y errores en una recomendación técnica que una audiencia pueda evaluar y cuestionar?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#tesis-de-un-reporte",
+    "href": "capitulo03_comunicacion_tecnica.html#tesis-de-un-reporte",
+    "title": "Comunicación técnica",
+    "section": "Tesis de un reporte",
     "text": "Tesis de un reporte\nUn reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
@@ -350,6 +460,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejora-absoluta-y-relativa",
+    "href": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejora-absoluta-y-relativa",
+    "title": "Comunicación técnica",
+    "section": "Ejemplo resuelto: mejora absoluta y relativa",
+    "text": "Ejemplo resuelto: mejora absoluta y relativa\nSupón que el baseline tiene F1 de \\(0.60\\) y el modelo final tiene F1 de \\(0.72\\).\nLa mejora absoluta es:\n\\[\n0.72-0.60=0.12.\n\\]\nLa mejora relativa respecto al baseline es:\n\\[\n\\frac{0.72-0.60}{0.60}=0.20=20\\%.\n\\]\nUna frase defendible sería:\n\nEl modelo mejora el baseline en 0.12 puntos de F1, equivalente a una mejora relativa de 20%. Sin embargo, esta comparación debe leerse junto con validación, error analysis y limitaciones del dataset.\n\nLa mejora relativa puede sonar más grande que la absoluta. Un reporte profesional muestra ambas o explica por qué una es más relevante para la decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_comunicacion_tecnica.html#respuesta-corta-defendible",
     "href": "capitulo03_comunicacion_tecnica.html#respuesta-corta-defendible",
     "title": "Comunicación técnica",
@@ -360,11 +480,51 @@
     ]
   },
   {
+    "objectID": "capitulo03_comunicacion_tecnica.html#para-explorar-más",
+    "href": "capitulo03_comunicacion_tecnica.html#para-explorar-más",
+    "title": "Comunicación técnica",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: convierte una mejora de métrica en mejora absoluta, relativa y límite de interpretación.\nExtensión computacional: genera una tabla final reproducible que combine baseline, modelo elegido, métrica principal, variabilidad y nota de validación.\nConexión con proyecto: prepara una conclusión de 45 segundos que incluya decisión, evidencia, error principal, limitación y siguiente paso.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#revisión-del-capítulo",
+    "href": "capitulo03_comunicacion_tecnica.html#revisión-del-capítulo",
+    "title": "Comunicación técnica",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nLa comunicación técnica transforma resultados en una conclusión defendible. Una tesis de reporte debe decir qué problema se abordó, qué evidencia se obtuvo, qué decisión se recomienda y bajo qué límites.\nLas figuras funcionales responden preguntas concretas: desempeño contra baseline, errores por slice, curva de validación o estructura de datos. Una figura decorativa puede distraer; una figura funcional reduce ambigüedad.\nEl lenguaje debe ser proporcional. En lugar de afirmar que un modelo “es bueno”, el reporte debe explicar contra qué baseline mejora, con qué métrica, en qué datos, dónde falla y qué acción se recomienda.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#términos-clave",
+    "href": "capitulo03_comunicacion_tecnica.html#términos-clave",
+    "title": "Comunicación técnica",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nTesis del reporte: afirmación central que el documento defiende con evidencia.\nResumen ejecutivo: síntesis de decisión, evidencia y límite para lector no técnico.\nFigura funcional: visualización incluida porque responde una pregunta técnica.\nLimitación: frontera explícita de lo que no se puede concluir.\nAcción proporcional: recomendación ajustada al peso de la evidencia.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#ejercicios",
+    "href": "capitulo03_comunicacion_tecnica.html#ejercicios",
+    "title": "Comunicación técnica",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\n¿Por qué “el modelo es bueno” no es una conclusión técnica suficiente?\n¿Qué diferencia hay entre una figura decorativa y una figura funcional?\n\n\n\nProblemas cuantitativos\n\nReduzca una tabla con cinco métricas a las dos más relevantes para una decisión de alto costo.\nCompare un modelo contra baseline y escriba la mejora absoluta y relativa de la métrica principal.\n\n\n\nPráctica computacional\n\nCree una tabla final de resultados con baseline, modelo elegido, métrica, intervalo o desviación y nota de validación.\nGenere una figura de error analysis con título, eje claro y caption interpretativo.\n\n\n\nInterpretación y pensamiento crítico\n\nReescriba una conclusión exagerada para que incluya evidencia, límite y siguiente paso.\n\n\n\nProyecto de cierre\n\nEscriba el resumen ejecutivo de su proyecto en 180 palabras: problema, método, evidencia, error principal, limitación y recomendación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_entrega_defensa.html",
     "href": "capitulo04_entrega_defensa.html",
     "title": "Entrega final y defensa",
     "section": "",
-    "text": "Paquete final\nEl paquete final debe permitir tres acciones:",
+    "text": "Pregunta aplicada\n¿Qué debe entregar un equipo para que su proyecto pueda leerse, ejecutarse, auditarse y defenderse sin depender de una explicación informal?",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -373,8 +533,8 @@
     "objectID": "capitulo04_entrega_defensa.html#paquete-final",
     "href": "capitulo04_entrega_defensa.html#paquete-final",
     "title": "Entrega final y defensa",
-    "section": "",
-    "text": "leer la conclusión;\nejecutar o auditar el flujo principal;\nevaluar la contribución individual.",
+    "section": "Paquete final",
+    "text": "Paquete final\nEl paquete final debe permitir tres acciones:\n\nleer la conclusión;\nejecutar o auditar el flujo principal;\nevaluar la contribución individual.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -420,6 +580,16 @@
     ]
   },
   {
+    "objectID": "capitulo04_entrega_defensa.html#ejemplo-resuelto-cálculo-de-nota-ponderada",
+    "href": "capitulo04_entrega_defensa.html#ejemplo-resuelto-cálculo-de-nota-ponderada",
+    "title": "Entrega final y defensa",
+    "section": "Ejemplo resuelto: cálculo de nota ponderada",
+    "text": "Ejemplo resuelto: cálculo de nota ponderada\nSupón que un proyecto recibe:\n\n\n\nCriterio\nPuntaje\nPeso\n\n\n\n\nPregunta, datos y alcance\n12/15\n15%\n\n\nFundamento matemático y algoritmo\n16/20\n20%\n\n\nValidación, métricas y error analysis\n20/25\n25%\n\n\nReproducibilidad y organización\n13/15\n15%\n\n\nComunicación visual y escrita\n12/15\n15%\n\n\nLimitaciones, ética y decisión\n8/10\n10%\n\n\n\nComo los pesos suman 100 puntos y los denominadores coinciden con esos pesos, la nota total es:\n\\[\n12+16+20+13+12+8=81.\n\\]\nEl porcentaje final es \\(81/100=81\\%\\). La tabla permite calificar rápido y, al mismo tiempo, muestra dónde perdió puntos el proyecto.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_entrega_defensa.html#defensa-oral-individual",
     "href": "capitulo04_entrega_defensa.html#defensa-oral-individual",
     "title": "Entrega final y defensa",
@@ -450,11 +620,71 @@
     ]
   },
   {
+    "objectID": "capitulo04_entrega_defensa.html#para-explorar-más",
+    "href": "capitulo04_entrega_defensa.html#para-explorar-más",
+    "title": "Entrega final y defensa",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: anticipa una pregunta sobre pérdida, métrica o validación y prepara una respuesta con una fórmula o cálculo simple.\nExtensión computacional: ejecuta el proyecto en un ambiente limpio y registra cualquier dependencia faltante antes de la defensa.\nConexión con proyecto: arma una tabla de preguntas difíciles con evidencia, archivo fuente y respuesta breve.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#revisión-del-capítulo",
+    "href": "capitulo04_entrega_defensa.html#revisión-del-capítulo",
+    "title": "Entrega final y defensa",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nLa entrega final debe ser auditable. El repositorio, el reporte, los artefactos y la defensa deben permitir reconstruir qué se hizo, quién lo hizo, qué evidencia se obtuvo y qué decisión se puede sostener.\nLa defensa individual no repite la presentación grupal. Su función es verificar criterio técnico: contribución concreta, elección de métrica, prevención de leakage, lectura de errores, limitaciones y siguiente experimento razonable.\nLa carga docente se reduce cuando la evidencia está estructurada. Una rúbrica 0/1/2 funciona si cada criterio se puede observar rápidamente en archivos, tablas, respuestas orales o artefactos reproducibles.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#términos-clave",
+    "href": "capitulo04_entrega_defensa.html#términos-clave",
+    "title": "Entrega final y defensa",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nPaquete final: conjunto de reporte, código, datos permitidos, artefactos y evidencia.\nDefensa oral: instancia para verificar autoría, comprensión y criterio.\nContribución individual: trabajo técnico concreto que puede ser explicado y verificado.\nRúbrica: criterio explícito para evaluar con consistencia.\nCarga docente mínima: diseño de evaluación que concentra revisión manual donde aporta juicio.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#ejercicios",
+    "href": "capitulo04_entrega_defensa.html#ejercicios",
+    "title": "Entrega final y defensa",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\n¿Por qué una defensa oral no debe repetir simplemente la presentación?\n¿Qué evidencia distingue una contribución concreta de una afirmación vaga?\n\n\n\nProblemas cuantitativos\n\nCon la rúbrica propuesta, calcule la nota de un proyecto que obtiene 12/15, 16/20, 20/25, 13/15, 12/15 y 8/10.\nSi una defensa usa cinco criterios 0/1/2, diseñe una conversión transparente a porcentaje.\n\n\n\nPráctica computacional\n\nCree una estructura de carpetas final para su proyecto y liste qué archivo prueba cada resultado importante.\nPrepare una tabla de contribuciones individuales con tarea, evidencia y responsable.\n\n\n\nInterpretación y pensamiento crítico\n\nEscriba una respuesta defendible a: “¿Qué cambiaría si tuviera dos semanas más?”\n\n\n\nProyecto de cierre\n\nArme un checklist final de entrega con 12 ítems verificables antes de subir el proyecto.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
     "objectID": "capitulo05_ejercicios_integradores.html",
     "href": "capitulo05_ejercicios_integradores.html",
     "title": "Ejercicios integradores: reproducibilidad y defensa",
     "section": "",
-    "text": "Criterio de calidad\nEsta sección sirve como ensayo final del curso. Cada ejercicio conecta matemática, implementación, evidencia y comunicación. La respuesta correcta no es solo la que calcula bien: también debe dejar claro qué decisión se puede defender con ese cálculo.\nUna respuesta final de curso debe:",
+    "text": "Resultados de práctica\nEsta sección sirve como ensayo final del curso. Cada ejercicio conecta matemática, implementación, evidencia y comunicación. La respuesta correcta no es solo la que calcula bien: también debe dejar claro qué decisión se puede defender con ese cálculo.\nAl terminar este banco deberías poder:",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: reproducibilidad y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#resultados-de-práctica",
+    "href": "capitulo05_ejercicios_integradores.html#resultados-de-práctica",
+    "title": "Ejercicios integradores: reproducibilidad y defensa",
+    "section": "",
+    "text": "estabilizar cálculos numéricos básicos;\ntransformar métricas en diagnóstico y acción;\nusar PCA y reconstrucción como herramientas verificables;\ndiseñar un manifest reproducible;\ndefender límites antes de recomendar uso real.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: reproducibilidad y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#mapa-del-banco",
+    "href": "capitulo05_ejercicios_integradores.html#mapa-del-banco",
+    "title": "Ejercicios integradores: reproducibilidad y defensa",
+    "section": "Mapa del banco",
+    "text": "Mapa del banco\n\n\n\nEjercicio\nEvidencia de aprendizaje\n\n\n\n\n1\nestabilidad numérica en softmax\n\n\n2\ndiagnóstico con baseline, CV, test y slice crítico\n\n\n3\nPCA, scores y reconstrucción\n\n\n4\nmanifest y trazabilidad de experimento\n\n\n5\ndefensa técnica con límites explícitos",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: reproducibilidad y defensa</span>"
     ]
@@ -463,8 +693,8 @@
     "objectID": "capitulo05_ejercicios_integradores.html#criterio-de-calidad",
     "href": "capitulo05_ejercicios_integradores.html#criterio-de-calidad",
     "title": "Ejercicios integradores: reproducibilidad y defensa",
-    "section": "",
-    "text": "usar una fórmula o procedimiento correcto;\nseñalar la evidencia observada;\ntraducir la evidencia en diagnóstico;\nproponer una acción proporcional;\ndeclarar un límite.",
+    "section": "Criterio de calidad",
+    "text": "Criterio de calidad\nUna respuesta final de curso debe:\n\nusar una fórmula o procedimiento correcto;\nseñalar la evidencia observada;\ntraducir la evidencia en diagnóstico;\nproponer una acción proporcional;\ndeclarar un límite.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: reproducibilidad y defensa</span>"
     ]
@@ -534,7 +764,17 @@
     "href": "apendice_formulario_respuestas.html",
     "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
     "section": "",
-    "text": "Fórmulas clave",
+    "text": "Cómo usar este apéndice\nEste apéndice sirve para cerrar el curso: preparar el Parcial 2, revisar reproducibilidad, escribir el reporte final y defender una decisión técnica. La pregunta central ya no es solo “¿cuál fórmula uso?”, sino “¿qué evidencia puedo defender y qué límite debo declarar?”.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#notación-mínima",
+    "href": "apendice_formulario_respuestas.html#notación-mínima",
+    "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
+    "section": "Notación mínima",
+    "text": "Notación mínima\n\n\n\n\n\n\n\nSímbolo\nSignificado\n\n\n\n\n\\(\\hat p_{i,y_i}\\)\nprobabilidad asignada a la clase correcta\n\n\n\\(\\bar s\\), \\(\\sigma_s\\)\nmedia y variabilidad de validación\n\n\n\\(Z_k\\)\nrepresentación PCA con \\(k\\) componentes\n\n\n\\(\\hat X\\)\nreconstrucción aproximada\n\n\n\\(a_i\\), \\(b_i\\)\ndistancia intra-cluster y vecino más cercano en silhouette\n\n\nmanifest\narchivo que registra datos, parámetros, métricas y artefactos",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
     ]
@@ -543,8 +783,38 @@
     "objectID": "apendice_formulario_respuestas.html#fórmulas-clave",
     "href": "apendice_formulario_respuestas.html#fórmulas-clave",
     "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
-    "section": "",
-    "text": "Softmax\n\\[\n\\operatorname{softmax}(z)_j =\n\\frac{e^{z_j - \\max(z)}}{\\sum_{k=1}^{K} e^{z_k - \\max(z)}}.\n\\]\n\n\nEntropía cruzada multiclase\n\\[\nL = -\\frac{1}{n}\\sum_{i=1}^{n}\\log(\\hat p_{i,y_i}).\n\\]\n\n\nScore CV\n\\[\n\\bar s = \\frac{1}{K}\\sum_{k=1}^{K}s_k,\n\\qquad\n\\sigma_s = \\sqrt{\\frac{1}{K}\\sum_{k=1}^{K}(s_k-\\bar s)^2}.\n\\]\n\n\nPCA desde SVD\n\\[\nX_c = U\\Sigma V^\\top,\n\\qquad\nZ_k = X_c V_k,\n\\qquad\n\\hat X = Z_k V_k^\\top + \\mu.\n\\]\n\n\nSilhouette\n\\[\ns_i = \\frac{b_i-a_i}{\\max(a_i,b_i)}.\n\\]\n\n\nHash SHA-256\nUn hash no prueba que un resultado sea correcto. Prueba que el archivo no cambió respecto a la versión registrada.",
+    "section": "Fórmulas clave",
+    "text": "Fórmulas clave\n\nSoftmax\n\\[\n\\operatorname{softmax}(z)_j =\n\\frac{e^{z_j - \\max(z)}}{\\sum_{k=1}^{K} e^{z_k - \\max(z)}}.\n\\]\n\n\nEntropía cruzada multiclase\n\\[\nL = -\\frac{1}{n}\\sum_{i=1}^{n}\\log(\\hat p_{i,y_i}).\n\\]\n\n\nScore CV\n\\[\n\\bar s = \\frac{1}{K}\\sum_{k=1}^{K}s_k,\n\\qquad\n\\sigma_s = \\sqrt{\\frac{1}{K}\\sum_{k=1}^{K}(s_k-\\bar s)^2}.\n\\]\n\n\nPCA desde SVD\n\\[\nX_c = U\\Sigma V^\\top,\n\\qquad\nZ_k = X_c V_k,\n\\qquad\n\\hat X = Z_k V_k^\\top + \\mu.\n\\]\n\n\nSilhouette\n\\[\ns_i = \\frac{b_i-a_i}{\\max(a_i,b_i)}.\n\\]\n\n\nHash SHA-256\nUn hash no prueba que un resultado sea correcto. Prueba que el archivo no cambió respecto a la versión registrada.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#checklist-de-paquete-reproducible",
+    "href": "apendice_formulario_respuestas.html#checklist-de-paquete-reproducible",
+    "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
+    "section": "Checklist de paquete reproducible",
+    "text": "Checklist de paquete reproducible\n\n\nHay una instrucción clara para ejecutar el flujo principal.\nDatos, scripts y resultados tienen rutas documentadas.\nLa semilla y las particiones están registradas.\nEl entorno está especificado con requirements, environment o equivalente.\nEl preprocesamiento final está dentro del pipeline o descrito paso a paso.\nLas métricas finales se pueden recalcular.\nLos artefactos importantes tienen versión, nombre estable o hash.\nLa conclusión distingue evidencia, interpretación y recomendación.",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#estructura-mínima-de-manifest",
+    "href": "apendice_formulario_respuestas.html#estructura-mínima-de-manifest",
+    "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
+    "section": "Estructura mínima de manifest",
+    "text": "Estructura mínima de manifest\n{\n  \"run_id\": \"2026-09-30-baseline-logreg\",\n  \"seed\": 2105,\n  \"data\": {\n    \"train\": \"data/processed/train.csv\",\n    \"test\": \"data/processed/test.csv\"\n  },\n  \"model\": {\n    \"name\": \"logistic_regression\",\n    \"params\": {\"C\": 1.0}\n  },\n  \"metrics\": {\n    \"f1_test\": 0.72,\n    \"recall_test\": 0.68\n  },\n  \"artifacts\": {\n    \"report\": \"reports/final.html\",\n    \"model\": \"models/model.joblib\"\n  },\n  \"decision\": \"no desplegar sin revisar slice crítico\"\n}",
+    "crumbs": [
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#lenguaje-de-defensa",
+    "href": "apendice_formulario_respuestas.html#lenguaje-de-defensa",
+    "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
+    "section": "Lenguaje de defensa",
+    "text": "Lenguaje de defensa\n\n\n\n\n\n\n\nFrase débil\nVersión defendible\n\n\n\n\n“El modelo es bueno.”\n“El modelo supera el baseline en F1, pero falla en un slice crítico.”\n\n\n“PCA demuestra grupos.”\n“La proyección PCA sugiere separación visual; falta validación adicional.”\n\n\n“El experimento es reproducible.”\n“El experimento tiene semilla, entorno, manifest y script de evaluación.”\n\n\n“Recomendamos usarlo.”\n“Recomendamos una prueba limitada bajo estas restricciones.”",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
     ]
@@ -554,7 +824,7 @@
     "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
     "title": "Apéndice Módulo 5: formulario y respuestas seleccionadas",
     "section": "Respuestas seleccionadas",
-    "text": "Respuestas seleccionadas\n\nEjercicio 1\nRestar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.\n\n\nEjercicio 2\nUna respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.\n\n\nEjercicio 3\nCon más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con \\(k+1\\) componentes no puede tener mayor error que con \\(k\\).\n\n\nEjercicio 4\nUn manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.",
+    "text": "Respuestas seleccionadas\n\nVerificaciones de ejemplos resueltos\nSoftmax estable. Para logits \\((1000,1001,1002)\\), restar el máximo produce \\((-2,-1,0)\\). La distribución queda aproximadamente \\((0.090,0.245,0.665)\\). La resta evita overflow y no cambia softmax.\nManifest. Si el manifest registra sha256:abc123 y el archivo actual tiene sha256:def987, el artefacto no coincide con la corrida registrada. La métrica asociada debe considerarse no verificada hasta rerunear o recuperar el archivo correcto.\nMejora relativa. Si F1 pasa de \\(0.60\\) a \\(0.72\\), la mejora absoluta es \\(0.12\\) y la relativa es \\(0.12/0.60=20\\%\\).\nRúbrica ponderada. Con puntajes \\(12,16,20,13,12,8\\) sobre pesos que suman 100, la nota final es \\(81\\%\\).\n\n\nSíntesis para Parcial 2\nCapítulo 1, ejercicio 1. Una mejora global no basta si un slice crítico empeora porque la métrica agregada puede ocultar daño concentrado. Una respuesta profesional pide revisar tamaño del slice, costo del error, estabilidad de la medición y acción de mitigación.\nCapítulo 1, ejercicio 4. Para logits \\((1000,1001,1002)\\), resta el máximo: \\((-2,-1,0)\\). Softmax queda proporcional a \\((e^{-2},e^{-1},1)\\), es decir aproximadamente \\((0.090, 0.245, 0.665)\\).\n\n\nReproducibilidad\nCapítulo 2, ejercicio 1. Una semilla fija no garantiza reproducibilidad completa porque pueden cambiar librerías, hardware, orden de datos, implementaciones paralelas o archivos de entrada.\nCapítulo 2, ejercicio 4. Un hash SHA-256 detecta si un archivo cambió respecto a la versión registrada. No dice si el contenido es correcto, ético o suficiente para la decisión.\nCapítulo 2, ejercicio 8. Si no se puede reproducir una métrica final, revisa primero partición, versión de datos, pipeline de preprocesamiento, semilla, parámetros del modelo y script de evaluación.\n\n\nComunicación técnica\nCapítulo 3, ejercicio 1. “El modelo es bueno” no es suficiente porque no dice contra qué baseline, con qué métrica, en qué partición, bajo qué costo de error ni con qué limitaciones.\nCapítulo 3, ejercicio 4. Si el baseline tiene F1 0.60 y el modelo final F1 0.72, la mejora absoluta es 0.12 puntos de F1 y la mejora relativa es \\((0.72-0.60)/0.60=20\\%\\).\nCapítulo 3, ejercicio 7. Una conclusión exagerada debe reescribirse con cuatro partes: evidencia, límite, acción y condición de uso. Por ejemplo: “El modelo mejora F1 frente al baseline, pero su recall cae en clientes nuevos; recomendamos analizar ese slice antes de una prueba controlada”.\n\n\nEntrega y defensa\nCapítulo 4, ejercicio 3. Con puntajes 12/15, 16/20, 20/25, 13/15, 12/15 y 8/10, el total es \\(81/100\\).\nCapítulo 4, ejercicio 4. Si una defensa usa cinco criterios 0/1/2, el puntaje máximo es 10. Una conversión transparente a porcentaje es \\(\\text{porcentaje}=10\\times\\text{puntaje}\\).\nCapítulo 4, ejercicio 7. Una respuesta defendible a “¿qué cambiaría con dos semanas más?” debe nombrar una acción priorizada y una razón: “ampliaría análisis del slice con peor recall porque ahí está el riesgo operativo principal”.\n\n\nEjercicios integradores\nEjercicio 1. Restar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.\nEjercicio 2. Una respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.\nEjercicio 3. Con más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con \\(k+1\\) componentes no puede tener mayor error que con \\(k\\).\nEjercicio 4. Un manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.\nEjercicio 5. Una defensa final fuerte debe declarar al menos un límite: datos insuficientes, slice inestable, métrica parcial, supuestos de despliegue o riesgo de cambio de distribución.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 5: formulario y respuestas seleccionadas</span>"
     ]

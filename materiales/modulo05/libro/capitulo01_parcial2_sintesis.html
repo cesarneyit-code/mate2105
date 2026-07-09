@@ -205,7 +205,8 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#alcance" id="toc-alcance" class="nav-link active" data-scroll-target="#alcance">Alcance</a></li>
+  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#alcance" id="toc-alcance" class="nav-link" data-scroll-target="#alcance">Alcance</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#mapa-de-contenidos" id="toc-mapa-de-contenidos" class="nav-link" data-scroll-target="#mapa-de-contenidos">Mapa de contenidos</a></li>
   <li><a href="#redes-neuronales" id="toc-redes-neuronales" class="nav-link" data-scroll-target="#redes-neuronales">Redes neuronales</a></li>
@@ -214,7 +215,19 @@ window.Quarto = {
   <li><a href="#no-supervisado" id="toc-no-supervisado" class="nav-link" data-scroll-target="#no-supervisado">No supervisado</a></li>
   <li><a href="#forma-del-parcial-2" id="toc-forma-del-parcial-2" class="nav-link" data-scroll-target="#forma-del-parcial-2">Forma del Parcial 2</a></li>
   <li><a href="#regla-de-preparación" id="toc-regla-de-preparación" class="nav-link" data-scroll-target="#regla-de-preparación">Regla de preparación</a></li>
+  <li><a href="#ejemplo-resuelto-softmax-estable-en-síntesis" id="toc-ejemplo-resuelto-softmax-estable-en-síntesis" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-estable-en-síntesis">Ejemplo resuelto: softmax estable en síntesis</a></li>
   <li><a href="#ejemplo-resuelto-respuesta-integradora" id="toc-ejemplo-resuelto-respuesta-integradora" class="nav-link" data-scroll-target="#ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -240,6 +253,10 @@ window.Quarto = {
 </header>
 
 
+<section id="pregunta-aplicada" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
+<p>¿Cómo integramos redes neuronales, estrategia de machine learning y aprendizaje no supervisado para tomar una decisión técnica sin depender de memoria aislada?</p>
+</section>
 <section id="alcance" class="level2">
 <h2 class="anchored" data-anchor-id="alcance">Alcance</h2>
 <p>Este capítulo prepara el Parcial 2 e integra tres bloques:</p>
@@ -379,6 +396,28 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 <p>Si puedes explicar una decisión con esta estructura, estás listo:</p>
 <pre class="text"><code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code></pre>
 </section>
+<section id="ejemplo-resuelto-softmax-estable-en-síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-softmax-estable-en-síntesis">Ejemplo resuelto: softmax estable en síntesis</h2>
+<p>Supón que una red produce logits:</p>
+<p><span class="math display">\[
+z=(1000,1001,1002).
+\]</span></p>
+<p>Calcular <span class="math inline">\(e^{1002}\)</span> directamente puede producir overflow. Restamos el máximo:</p>
+<p><span class="math display">\[
+z-\max(z)=(-2,-1,0).
+\]</span></p>
+<p>Entonces:</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z)
+=
+\frac{(e^{-2},e^{-1},1)}{e^{-2}+e^{-1}+1}.
+\]</span></p>
+<p>Como <span class="math inline">\(e^{-2}\approx0.135\)</span> y <span class="math inline">\(e^{-1}\approx0.368\)</span>, la suma es aproximadamente <span class="math inline">\(1.503\)</span>. Por tanto:</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z)\approx(0.090,0.245,0.665).
+\]</span></p>
+<p>La respuesta integradora debe decir dos cosas: la resta del máximo no cambia las probabilidades y evita un problema numérico. Si la clase correcta es la tercera, la pérdida de esa observación sería <span class="math inline">\(-\log(0.665)\approx0.408\)</span>.</p>
+</section>
 <section id="ejemplo-resuelto-respuesta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</h2>
 <p>Caso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.</p>
@@ -388,8 +427,71 @@ Diagnóstico: posible data mismatch temporal.
 Acción: validar con partición temporal, revisar features y recolectar datos recientes.
 Límite: no recomendar despliegue si el uso real se parece al slice reciente.</code></pre>
 <p>La clave es no quedarse en “mejoró la métrica”.</p>
+</section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> construye un mapa de dependencias entre pérdida, métrica, regularización, validación y decisión.</li>
+<li><strong>Extensión computacional:</strong> rehace un experimento anterior desde cero y verifica si produce las mismas métricas dentro de tolerancias razonables.</li>
+<li><strong>Conexión con proyecto:</strong> escribe qué evidencia mínima necesitarías para defender que tu resultado no es accidental.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Este capítulo reúne los conceptos necesarios para responder preguntas integradoras. Una buena respuesta no enumera fórmulas: conecta modelo, métrica, validación, evidencia y decisión.</p>
+<p>El Parcial 2 exige reconocer cuándo una mejora global es insuficiente, cuándo un slice crítico cambia la recomendación y cuándo una técnica no supervisada solo permite una conclusión exploratoria. También exige cálculos básicos estables, como softmax con resta del máximo.</p>
+<p>La estructura de respuesta esperada es evidencia -&gt; diagnóstico -&gt; acción -&gt; límite. Esa estructura permite calificar con claridad y, más importante, permite defender una decisión técnica sin exagerar.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Respuesta integradora:</strong> explicación que conecta modelo, métrica, evidencia y límite.</li>
+<li><strong>Data mismatch temporal:</strong> diferencia entre datos antiguos y recientes que afecta generalización.</li>
+<li><strong>Síntesis conceptual:</strong> capacidad de relacionar contenidos de varios módulos en una decisión.</li>
+<li><strong>Evidencia proporcional:</strong> resultado suficiente para justificar una acción, sin exagerar alcance.</li>
+</ul>
+</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué una mejora global no basta si un slice crítico empeora.</li>
+<li>¿Qué diferencia hay entre diagnosticar overfitting y diagnosticar data mismatch?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Compare dos modelos con métricas globales similares y desempeño distinto por slice; elija uno y justifique.</li>
+<li>Calcule softmax estable para logits <span class="math inline">\((1000,1001,1002)\)</span> usando resta del máximo.</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Escriba una función que evalúe una métrica global y la misma métrica por slice.</li>
+<li>Cree una tabla resumen para preparar una respuesta de parcial: baseline, métrica, error principal y acción.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Escriba una respuesta de 120 palabras con estructura evidencia -&gt; diagnóstico -&gt; acción -&gt; límite.</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="8" type="1">
+<li>Tome un resultado real o simulado de su proyecto y conviértalo en una respuesta oral de dos minutos para Parcial 2.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

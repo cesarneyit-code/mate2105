@@ -54,7 +54,7 @@
     "href": "index.html#datasets",
     "title": "MATE-2105: Módulo 4",
     "section": "Datasets",
-    "text": "Datasets\nNo se requiere internet.\n\nsklearn.datasets.load_digits para PCA y visualización.\nDatos sintéticos con clusters para K-Means.\nMatrices pequeñas usuario-ítem sintéticas para recomendación.",
+    "text": "Datasets\nNo se requiere internet.\n\nsklearn.datasets.load_digits para PCA y visualización.\nEjemplos generados con clusters para K-Means.\nMatrices pequeñas usuario-ítem generadas para recomendación.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Módulo 4: Aprendizaje no supervisado y estructura latente</span>"
     ]
@@ -74,7 +74,7 @@
     "href": "capitulo01_svd_pca.html",
     "title": "SVD y PCA",
     "section": "",
-    "text": "Pregunta aplicada\nUn dataset puede tener decenas o miles de variables. ¿Podemos representarlo en menos dimensiones sin perder la estructura principal?\nPCA responde:",
+    "text": "Pregunta aplicada\nUn dataset puede tener decenas o miles de variables. ¿Podemos representarlo en menos dimensiones sin perder la estructura principal?\nPCA responde:\nLectura de la figura. PCA empieza con datos centrados, usa la SVD para encontrar direcciones de alta varianza y proyecta sobre \\(V_k\\). La proyección puede servir para visualizar, comprimir o alimentar otro modelo, pero no prueba causalidad.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -84,7 +84,7 @@
     "href": "capitulo01_svd_pca.html#pregunta-aplicada",
     "title": "SVD y PCA",
     "section": "",
-    "text": "buscar direcciones ortogonales que capturan la mayor varianza posible.",
+    "text": "buscar direcciones ortogonales que capturan la mayor varianza posible.\n\n\n\n\n\n\n\nFigura 2.1: PCA como proyección: datos centrados se factorizan con SVD; los primeros vectores de V definen ejes principales y la matriz Z contiene coordenadas de baja dimensión.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -160,6 +160,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#ejemplo-resuelto-proyección-y-reconstrucción",
+    "href": "capitulo01_svd_pca.html#ejemplo-resuelto-proyección-y-reconstrucción",
+    "title": "SVD y PCA",
+    "section": "Ejemplo resuelto: proyección y reconstrucción",
+    "text": "Ejemplo resuelto: proyección y reconstrucción\nConsidera dos observaciones con dos variables:\n\\[\nX=\n\\begin{bmatrix}\n2&0\\\\\n0&2\n\\end{bmatrix}.\n\\]\nPrimero centramos por columnas. La media es \\(\\bar X=(1,1)\\), entonces:\n\\[\nX_c=\n\\begin{bmatrix}\n1&-1\\\\\n-1&1\n\\end{bmatrix}.\n\\]\nUna dirección principal para estos datos es\n\\[\nv_1=\\frac{1}{\\sqrt 2}\n\\begin{bmatrix}\n1\\\\\n-1\n\\end{bmatrix}.\n\\]\nLa proyección con \\(k=1\\) es:\n\\[\nZ=X_cv_1=\n\\begin{bmatrix}\n\\sqrt 2\\\\\n-\\sqrt 2\n\\end{bmatrix}.\n\\]\nLa reconstrucción centrada queda:\n\\[\n\\hat X_c = Zv_1^\\top =\n\\begin{bmatrix}\n1&-1\\\\\n-1&1\n\\end{bmatrix}.\n\\]\nAl sumar la media:\n\\[\n\\hat X =\n\\begin{bmatrix}\n2&0\\\\\n0&2\n\\end{bmatrix}.\n\\]\nEn este ejemplo la reconstrucción con un componente es exacta porque los datos centrados tienen rango 1. En un dataset real, \\(k=1\\) normalmente conserva solo una parte de la variación.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
     "href": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
     "title": "SVD y PCA",
@@ -180,11 +190,41 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#para-explorar-más",
+    "href": "capitulo01_svd_pca.html#para-explorar-más",
+    "title": "SVD y PCA",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: reconstruye una matriz pequeña con rango 1 y compara el error de reconstrucción con el de rango 2.\nExtensión computacional: grafica varianza explicada acumulada y marca el punto donde agregar componentes deja de cambiar la interpretación.\nConexión con proyecto: decide si PCA se usará para visualización, compresión, diagnóstico o como paso previo de modelado.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#revisión-del-capítulo",
+    "href": "capitulo01_svd_pca.html#revisión-del-capítulo",
+    "title": "SVD y PCA",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nSVD factoriza una matriz en direcciones y magnitudes de variación. PCA usa esa estructura sobre datos centrados para construir proyecciones de baja dimensión que conservan tanta varianza como sea posible bajo el número de componentes elegido.\nLa forma de los objetos importa: \\(V_k\\) define direcciones, \\(Z=X_cV_k\\) contiene scores y la reconstrucción aproxima los datos originales. La varianza explicada ayuda a elegir \\(k\\), pero no convierte automáticamente los componentes en causas o conceptos de dominio.\nPCA es una herramienta de compresión, visualización o preprocesamiento. Su uso profesional exige declarar qué conserva, qué pierde y qué interpretación no está justificada por la proyección.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#términos-clave",
+    "href": "capitulo01_svd_pca.html#términos-clave",
+    "title": "SVD y PCA",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nSVD: factorización \\(X=U\\Sigma V^\\top\\) que expone direcciones principales.\nPCA: proyección lineal que conserva la mayor varianza posible en pocas dimensiones.\nDato centrado: matriz después de restar la media de cada variable.\nComponente principal: dirección lineal de alta varianza.\nVarianza explicada: proporción de variabilidad capturada por componentes.\nReconstrucción: aproximación del dato original desde una proyección de baja dimensión.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#ejercicios",
     "href": "capitulo01_svd_pca.html#ejercicios",
     "title": "SVD y PCA",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nEjercicio 1. Si \\(X\\) tiene forma (500, 64) y usamos k=2, ¿qué forma tiene la proyección PCA?\n\n\nEjercicio 2. Explique por qué PCA debe centrar los datos antes de calcular componentes.\n\n\nEjercicio 3. ¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué PCA debe centrar los datos antes de calcular componentes.\n¿Por qué un componente principal no es automáticamente interpretable?\n\n\n\nProblemas cuantitativos\n\nSi \\(X\\) tiene forma (500, 64) y usamos k=2, ¿qué forma tiene la proyección PCA?\n¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?\n\n\n\nPráctica computacional\n\nImplemente una proyección PCA usando SVD sobre datos centrados.\nCalcule y grafique varianza explicada acumulada.\n\n\n\nInterpretación y pensamiento crítico\n\nSi dos componentes explican poca varianza pero separan visualmente grupos, ¿qué conclusión puede y no puede afirmar?\n\n\n\nProyecto de cierre\n\nAplique PCA a un dataset de su proyecto o a uno pequeño generado para práctica, justifique \\(k\\), muestre una proyección y escriba una advertencia de interpretación.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -194,7 +234,7 @@
     "href": "capitulo02_kmeans_clustering.html",
     "title": "K-Means y clustering",
     "section": "",
-    "text": "Pregunta aplicada\nSi no tenemos etiquetas, aún podemos preguntar:\nK-Means busca particionar datos en \\(k\\) grupos representados por centroides.",
+    "text": "Pregunta aplicada\nSi no tenemos etiquetas, aún podemos preguntar:\nK-Means busca particionar datos en \\(k\\) grupos representados por centroides.\nLectura de la figura. K-Means alterna entre asignar observaciones al centroide más cercano y mover cada centroide al promedio de su grupo. La interpretación aplicada viene después de validar que esa geometría tenga sentido.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -204,7 +244,7 @@
     "href": "capitulo02_kmeans_clustering.html#pregunta-aplicada",
     "title": "K-Means y clustering",
     "section": "",
-    "text": "¿hay grupos de observaciones con patrones similares?",
+    "text": "¿hay grupos de observaciones con patrones similares?\n\n\n\n\n\n\n\n\nFigura 3.1: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -270,6 +310,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-una-iteración-completa",
+    "href": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-una-iteración-completa",
+    "title": "K-Means y clustering",
+    "section": "Ejemplo resuelto: una iteración completa",
+    "text": "Ejemplo resuelto: una iteración completa\nSupón cuatro puntos en una dimensión:\n\\[\nx=(1,2,8,10)\n\\]\ny dos centroides iniciales:\n\\[\n\\mu_1=1,\\qquad \\mu_2=10.\n\\]\nPaso 1: asignar puntos.\n\n\n\nPunto\nDistancia a \\(\\mu_1\\)\nDistancia a \\(\\mu_2\\)\nCluster\n\n\n\n\n1\n0\n9\n1\n\n\n2\n1\n8\n1\n\n\n8\n7\n2\n2\n\n\n10\n9\n0\n2\n\n\n\nLa inertia inicial con estas asignaciones es:\n\\[\n(1-1)^2+(2-1)^2+(8-10)^2+(10-10)^2=5.\n\\]\nPaso 2: actualizar centroides.\n\\[\n\\mu_1^{nuevo}=\\frac{1+2}{2}=1.5,\n\\qquad\n\\mu_2^{nuevo}=\\frac{8+10}{2}=9.\n\\]\nCon los nuevos centroides, la inertia para las mismas asignaciones es:\n\\[\n(1-1.5)^2+(2-1.5)^2+(8-9)^2+(10-9)^2=2.5.\n\\]\nLa inertia bajó, pero eso no prueba que \\(k=2\\) sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_kmeans_clustering.html#escalamiento",
     "href": "capitulo02_kmeans_clustering.html#escalamiento",
     "title": "K-Means y clustering",
@@ -300,11 +350,41 @@
     ]
   },
   {
+    "objectID": "capitulo02_kmeans_clustering.html#para-explorar-más",
+    "href": "capitulo02_kmeans_clustering.html#para-explorar-más",
+    "title": "K-Means y clustering",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: ejecuta una iteración de K-Means a mano con cuatro puntos y dos centroides iniciales distintos.\nExtensión computacional: compara inercia y silueta para varios valores de \\(k\\), usando la misma escala de variables.\nConexión con proyecto: describe qué significaría cada cluster para una decisión real y qué variables dominan esa interpretación.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#revisión-del-capítulo",
+    "href": "capitulo02_kmeans_clustering.html#revisión-del-capítulo",
+    "title": "K-Means y clustering",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nK-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de clusters. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.\nInertia siempre tiende a bajar cuando aumenta \\(k\\), por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.\nUna segmentación profesional requiere escalamiento, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo accionable ni una categoría real de dominio.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#términos-clave",
+    "href": "capitulo02_kmeans_clustering.html#términos-clave",
+    "title": "K-Means y clustering",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nClustering: agrupación no supervisada de observaciones.\nCentroide: punto representativo de un cluster.\nInertia: suma de distancias cuadradas a centroides.\nSilhouette: métrica que compara cercanía al cluster propio frente a otros.\nEscalamiento: transformación necesaria cuando las variables tienen unidades distintas.\nSegmentación: interpretación aplicada de grupos, que requiere validación de negocio o dominio.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_kmeans_clustering.html#ejercicios",
     "href": "capitulo02_kmeans_clustering.html#ejercicios",
     "title": "K-Means y clustering",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nEjercicio 1. Explique por qué inertia siempre tiende a bajar cuando aumenta \\(k\\).\n\n\nEjercicio 2. ¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?\n\n\nEjercicio 3. Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué inertia siempre tiende a bajar cuando aumenta \\(k\\).\n¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?\n\n\n\nProblemas cuantitativos\n\nAsigne tres puntos en una dimensión a dos centroides dados y calcule inertia.\nSi un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?\n\n\n\nPráctica computacional\n\nAjuste K-Means para varios valores de \\(k\\) y reporte inertia y silhouette.\nConstruya un pipeline con escalamiento y K-Means.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.\n¿Qué evidencia usaría para nombrar un cluster sin caer en sobreinterpretación?\n\n\n\nProyecto de cierre\n\nGenere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -380,11 +460,21 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#ejemplo-resuelto-recomendación-item-item",
+    "href": "capitulo03_recomendacion_latente.html#ejemplo-resuelto-recomendación-item-item",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Ejemplo resuelto: recomendación item-item",
+    "text": "Ejemplo resuelto: recomendación item-item\nSupón la siguiente matriz binaria de interacción:\n\\[\n\\begin{array}{c|rrrr}\n\\text{Usuario} & A & B & C & D\\\\\n\\hline\nu1 & 1 & 1 & 0 & 0\\\\\nu2 & 1 & 1 & 1 & 0\\\\\nu3 & 0 & 0 & 1 & 1\\\\\nu4 & 0 & 1 & 0 & 1\n\\end{array}\n\\]\nLos vectores de ítems son:\n\\[\nA=(1,1,0,0),\\quad\nB=(1,1,0,1),\\quad\nC=(0,1,1,0),\\quad\nD=(0,0,1,1).\n\\]\nPara recomendar a partir del ítem \\(A\\), calculamos similitudes:\n\\[\n\\cos(A,B)=\\frac{2}{\\sqrt2\\sqrt3}\\approx0.816,\n\\]\n\\[\n\\cos(A,C)=\\frac{1}{\\sqrt2\\sqrt2}=0.5,\n\\qquad\n\\cos(A,D)=0.\n\\]\nSi el usuario semilla interactuó con \\(A\\), el ítem más similar es \\(B\\). Si ese usuario ya vio \\(B\\), el siguiente candidato por similitud sería \\(C\\). La recomendación debe excluir ítems ya vistos y declarar que esta regla no resuelve cold start ni sesgo de popularidad.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#svd-para-factores-latentes",
     "href": "capitulo03_recomendacion_latente.html#svd-para-factores-latentes",
     "title": "Recomendación básica y estructura latente",
     "section": "SVD para factores latentes",
-    "text": "SVD para factores latentes\nSVD puede aproximar:\n\\[\nR \\approx U_k\\Sigma_kV_k^\\top.\n\\]\nEsto produce representaciones latentes de usuarios e ítems.\nEn este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.",
+    "text": "SVD para factores latentes\nSVD puede aproximar:\n\\[\nR \\approx U_k\\Sigma_kV_k^\\top.\n\\]\n\n\n\n\n\n\nFigura 4.1: Sistemas de recomendación: una matriz usuario-item incompleta se aproxima mediante factores latentes de usuarios e ítems; una calificación faltante se predice con un producto punto.\n\n\n\nLectura de la figura. La factorización representa usuarios e ítems en una baja dimensión compartida. Una recomendación es una predicción incompleta de la matriz, pero también una intervención que puede reforzar sesgos o popularidad.\nEsto produce representaciones latentes de usuarios e ítems.\nEn este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]
@@ -410,11 +500,41 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#para-explorar-más",
+    "href": "capitulo03_recomendacion_latente.html#para-explorar-más",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: calcula una similitud coseno item-item y compara la recomendación con una basada en producto punto.\nExtensión computacional: oculta algunas interacciones conocidas y mide si el sistema las recupera entre las mejores recomendaciones.\nConexión con proyecto: explica qué sesgo de popularidad podría aparecer y cómo lo reportarías sin exagerar la calidad del sistema.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#revisión-del-capítulo",
+    "href": "capitulo03_recomendacion_latente.html#revisión-del-capítulo",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nUn sistema de recomendación básico parte de una matriz usuario-ítem y mide similitudes o factores latentes para sugerir elementos no observados. La similitud coseno compara dirección de interacción y puede mitigar parcialmente diferencias de escala.\nLas recomendaciones item-item son útiles porque se pueden explicar a partir de ítems similares, pero siguen dependiendo del historial observado. La idea de factores latentes resume usuarios e ítems en representaciones de baja dimensión.\nEl límite central es que el comportamiento pasado no define por completo la preferencia futura. Cold start, popularidad y sesgo deben declararse antes de presentar una recomendación como útil o justa.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#términos-clave",
+    "href": "capitulo03_recomendacion_latente.html#términos-clave",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nMatriz usuario-ítem: tabla que representa interacciones entre usuarios e ítems.\nSimilitud coseno: medida angular entre vectores de interacción.\nRecomendación item-item: recomendación basada en ítems similares a uno observado.\nFactor latente: representación de baja dimensión aprendida de patrones de interacción.\nCold start: dificultad para recomendar a usuarios o ítems sin historial.\nBucle de retroalimentación: refuerzo de patrones pasados por recomendaciones futuras.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#ejercicios",
     "href": "capitulo03_recomendacion_latente.html#ejercicios",
     "title": "Recomendación básica y estructura latente",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nEjercicio 1. Explique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.\n\n\nEjercicio 2. ¿Qué problema aparece para recomendar a un usuario nuevo sin historial?\n\n\nEjercicio 3. Proponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.\n¿Qué problema aparece para recomendar a un usuario nuevo sin historial?\n\n\n\nProblemas cuantitativos\n\nCalcule similitud coseno entre dos vectores binarios de interacción.\nDada una matriz usuario-ítem pequeña, identifique los dos ítems más similares.\n\n\n\nPráctica computacional\n\nImplemente una función de similitud coseno para matrices.\nConstruya una recomendación item-item simple excluyendo ítems ya vistos.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.\n¿Cómo detectaría si el recomendador solo amplifica popularidad?\n\n\n\nProyecto de cierre\n\nDiseñe un recomendador item-item mínimo, reporte tres recomendaciones y escriba una advertencia sobre cold start, popularidad o sesgo.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]
@@ -424,7 +544,27 @@
     "href": "capitulo04_ejercicios_integradores.html",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
     "section": "",
-    "text": "Antes de responder\nLos ejercicios de este módulo deben resolverse con una advertencia constante: en aprendizaje no supervisado no hay una etiqueta que valide automáticamente el significado. Por eso una solución profesional combina cálculo, visualización, estabilidad e interpretación prudente.\nPara cada ejercicio, identifica:",
+    "text": "Resultados de práctica\nLos ejercicios de este módulo deben resolverse con una advertencia constante: en aprendizaje no supervisado no hay una etiqueta que valide automáticamente el significado. Por eso una solución profesional combina cálculo, visualización, estabilidad e interpretación prudente.\nAl terminar este banco deberías poder:",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#resultados-de-práctica",
+    "href": "capitulo04_ejercicios_integradores.html#resultados-de-práctica",
+    "title": "Ejercicios integradores: aprendizaje no supervisado",
+    "section": "",
+    "text": "calcular formas de SVD y proyecciones PCA;\nexplicar qué sí y qué no justifica una reducción de dimensión;\nusar inertia y silhouette como evidencia limitada;\nconstruir una recomendación item-item mínima;\nseparar estructura matemática de interpretación aplicada.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_ejercicios_integradores.html#mapa-del-banco",
+    "href": "capitulo04_ejercicios_integradores.html#mapa-del-banco",
+    "title": "Ejercicios integradores: aprendizaje no supervisado",
+    "section": "Mapa del banco",
+    "text": "Mapa del banco\n\n\n\nBloque\nEvidencia de aprendizaje\n\n\n\n\nA\nPCA, SVD, proyección e interpretación cautelosa\n\n\nB\nK-Means, selección de \\(k\\) y diagnóstico geométrico\n\n\nC\nsimilitud, recomendación y sesgos de interacción",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
     ]
@@ -433,8 +573,8 @@
     "objectID": "capitulo04_ejercicios_integradores.html#antes-de-responder",
     "href": "capitulo04_ejercicios_integradores.html#antes-de-responder",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
-    "section": "",
-    "text": "qué estructura matemática estás usando;\nqué cantidad se puede calcular;\nqué conclusión sí está permitida;\nqué conclusión sería una sobreinterpretación.",
+    "section": "Antes de responder",
+    "text": "Antes de responder\nPara cada ejercicio, identifica:\n\nqué estructura matemática estás usando;\nqué cantidad se puede calcular;\nqué conclusión sí está permitida;\nqué conclusión sería una sobreinterpretación.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
     ]
@@ -484,7 +624,27 @@
     "href": "apendice_formulario_respuestas.html",
     "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
     "section": "",
-    "text": "SVD\n\\[\nX = U\\Sigma V^\\top\n\\]",
+    "text": "Cómo usar este apéndice\nEste apéndice reúne fórmulas y criterios para aprendizaje no supervisado. En este módulo, el cálculo correcto no basta: también debes decir qué conclusión permite el método y qué conclusión sería una sobreinterpretación.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#notación-mínima",
+    "href": "apendice_formulario_respuestas.html#notación-mínima",
+    "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
+    "section": "Notación mínima",
+    "text": "Notación mínima\n\n\n\nSímbolo\nSignificado\n\n\n\n\n\\(X\\in\\mathbb{R}^{n\\times p}\\)\nmatriz de datos\n\n\n\\(X_c\\)\nmatriz centrada por columnas\n\n\n\\(U\\Sigma V^\\top\\)\ndescomposición SVD\n\n\n\\(V_k\\)\nprimeros \\(k\\) vectores derechos\n\n\n\\(Z=X_cV_k\\)\nscores o coordenadas PCA\n\n\n\\(\\mu_j\\)\ncentroide del cluster \\(j\\)\n\n\n\\(c_i\\)\nasignación de cluster de la observación \\(i\\)\n\n\n\\(R\\)\nmatriz usuario-ítem",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#svd",
+    "href": "apendice_formulario_respuestas.html#svd",
+    "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
+    "section": "SVD",
+    "text": "SVD\n\\[\nX = U\\Sigma V^\\top\n\\]\nSi \\(X\\in\\mathbb{R}^{n\\times p}\\) y \\(r=\\operatorname{rank}(X)\\), entonces:\n\n\n\nObjeto\nForma\n\n\n\n\n\\(U\\) reducida\n\\(n\\times r\\)\n\n\n\\(\\Sigma\\) reducida\n\\(r\\times r\\)\n\n\n\\(V\\) reducida\n\\(p\\times r\\)\n\n\n\\(V_k\\)\n\\(p\\times k\\)\n\n\n\\(Z=X_cV_k\\)\n\\(n\\times k\\)",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
     ]
@@ -494,7 +654,7 @@
     "href": "apendice_formulario_respuestas.html#pca",
     "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
     "section": "PCA",
-    "text": "PCA\n\\[\nX_c = X - \\bar X\n\\]\n\\[\nZ = X_c V_k\n\\]\n\\[\n\\hat X = ZV_k^\\top + \\bar X\n\\]",
+    "text": "PCA\n\\[\nX_c = X - \\bar X\n\\]\n\\[\nZ = X_c V_k\n\\]\n\\[\n\\hat X = ZV_k^\\top + \\bar X\n\\]\nVarianza explicada por el componente \\(j\\):\n\\[\n\\frac{\\sigma_j^2}{\\sum_{\\ell}\\sigma_\\ell^2}.\n\\]\nVarianza explicada acumulada con \\(k\\) componentes:\n\\[\n\\frac{\\sum_{j=1}^{k}\\sigma_j^2}{\\sum_{\\ell}\\sigma_\\ell^2}.\n\\]",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
     ]
@@ -530,11 +690,31 @@
     ]
   },
   {
+    "objectID": "apendice_formulario_respuestas.html#checklist-de-interpretación",
+    "href": "apendice_formulario_respuestas.html#checklist-de-interpretación",
+    "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
+    "section": "Checklist de interpretación",
+    "text": "Checklist de interpretación\n\n\nLos datos se centraron o escalaron según el método.\nLa forma de la proyección PCA es consistente.\nLa elección de \\(k\\) tiene evidencia: varianza, reconstrucción, curva o uso.\nK-Means se ejecutó con variables comparables en escala.\nInertia no se interpreta como métrica absoluta de calidad.\nSilhouette se usa como señal, no como verdad final.\nLos clusters se describen con variables originales.\nEl recomendador declara cold start, popularidad o sesgo cuando aplica.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
+    "objectID": "apendice_formulario_respuestas.html#patrones-de-código",
+    "href": "apendice_formulario_respuestas.html#patrones-de-código",
+    "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
+    "section": "Patrones de código",
+    "text": "Patrones de código\ndef pca_scores_from_svd(X, k):\n    X = np.asarray(X, dtype=float)\n    mean = X.mean(axis=0, keepdims=True)\n    Xc = X - mean\n    U, S, Vt = np.linalg.svd(Xc, full_matrices=False)\n    Z = Xc @ Vt[:k].T\n    return Z, Vt[:k], mean, S\ndef cosine_similarity_matrix(A):\n    A = np.asarray(A, dtype=float)\n    norms = np.linalg.norm(A, axis=1, keepdims=True)\n    norms = np.maximum(norms, 1e-12)\n    A_norm = A / norms\n    return A_norm @ A_norm.T",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
+    ]
+  },
+  {
     "objectID": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
     "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
     "title": "Apéndice Módulo 4: formulario y respuestas seleccionadas",
     "section": "Respuestas seleccionadas",
-    "text": "Respuestas seleccionadas\n\nCapítulo 1, ejercicio 2\nPCA centra porque busca direcciones de variación alrededor de la media. Sin centrar, el primer componente puede capturar desplazamiento de la nube respecto al origen, no estructura de variabilidad.\n\n\nCapítulo 2, ejercicio 1\nInertia baja al aumentar \\(k\\) porque cada punto puede quedar más cerca de algún centroide. En el extremo \\(k=n\\), cada punto puede ser su propio centroide y la inertia llega a cero.\n\n\nCapítulo 3, ejercicio 2\nEl problema de usuario nuevo se conoce como cold start: sin historial, no hay vector de preferencias suficiente para comparar o inferir gustos.",
+    "text": "Respuestas seleccionadas\n\nCapítulo 1\nEjercicio 1.1. PCA centra porque busca direcciones de variación alrededor de la media. Sin centrar, el primer componente puede capturar desplazamiento de la nube respecto al origen, no estructura de variabilidad.\nEjercicio 1.3. Si \\(X\\) tiene forma (500, 64) y usamos k=2, la proyección PCA tiene forma (500, 2).\nEjercicio 1.4. Que los primeros 10 componentes expliquen 85% de la varianza significa que, en el subespacio de 10 dimensiones, se conserva 85% de la variabilidad cuadrática medida por PCA. No significa que esos componentes expliquen causalmente el fenómeno.\nVerificación de proyección. Para\n\\[\nX=\n\\begin{bmatrix}\n2&0\\\\\n0&2\n\\end{bmatrix},\n\\qquad\n\\bar X=(1,1),\n\\]\nse obtiene:\n\\[\nX_c=\n\\begin{bmatrix}\n1&-1\\\\\n-1&1\n\\end{bmatrix}.\n\\]\nCon \\(v_1=(1,-1)^\\top/\\sqrt2\\), los scores son \\((\\sqrt2,-\\sqrt2)^\\top\\). La reconstrucción con ese único componente recupera exactamente \\(X_c\\), porque la matriz centrada tiene rango 1.\n\n\nCapítulo 2\nEjercicio 2.1. Inertia baja al aumentar \\(k\\) porque cada punto puede quedar más cerca de algún centroide. En el extremo \\(k=n\\), cada punto puede ser su propio centroide y la inertia llega a cero.\nEjercicio 2.2. K-Means debe usar escalamiento cuando las variables tienen unidades distintas porque la distancia euclídea queda dominada por variables con mayor escala numérica.\nEjercicio 2.4. Si un cluster contiene 90% de las observaciones, revisaría escalamiento, elección de \\(k\\), inicializaciones, variables dominantes y si la estructura real quizá no es aproximadamente esférica.\nVerificación de K-Means. Para puntos \\(1,2,8,10\\) y centroides iniciales \\(\\mu_1=1\\), \\(\\mu_2=10\\), las asignaciones son \\(\\{1,2\\}\\) y \\(\\{8,10\\}\\). La inertia inicial es\n\\[\n0^2+1^2+2^2+0^2=5.\n\\]\nLos centroides actualizados son \\(1.5\\) y \\(9\\). Con ellos, la inertia baja a\n\\[\n0.5^2+0.5^2+1^2+1^2=2.5.\n\\]\nEsto verifica el objetivo geométrico, no la calidad aplicada de la segmentación.\n\n\nCapítulo 3\nEjercicio 3.1. La similitud coseno puede ser útil cuando algunos ítems son más populares porque compara dirección de interacción, no solo magnitud. Aun así, no elimina por completo el sesgo de popularidad.\nEjercicio 3.2. El problema de usuario nuevo se conoce como cold start: sin historial, no hay vector de preferencias suficiente para comparar o inferir gustos.\nEjercicio 3.8. Para detectar si un recomendador amplifica popularidad, compararía la popularidad media de los ítems recomendados contra la popularidad del catálogo y contra un baseline simple de popularidad.\nVerificación item-item. Si\n\\[\nA=(1,1,0,0),\\quad B=(1,1,0,1),\\quad C=(0,1,1,0),\\quad D=(0,0,1,1),\n\\]\nentonces:\n\\[\n\\cos(A,B)=\\frac{2}{\\sqrt2\\sqrt3}\\approx0.816,\\quad\n\\cos(A,C)=0.5,\\quad\n\\cos(A,D)=0.\n\\]\nPor similitud con \\(A\\), el primer candidato es \\(B\\). Si \\(B\\) ya fue visto por el usuario, el siguiente candidato entre estos ítems sería \\(C\\).\n\n\nEjercicios integradores\nBloque A. Si dos componentes explican poca varianza pero separan grupos en un gráfico, puedes afirmar que la proyección muestra una separación visual en esos datos. No puedes afirmar causalidad ni que la separación generalice sin más evidencia.\nBloque B. Una buena descripción de cluster debe volver a las variables originales. Nombrar clusters solo por la posición en el gráfico suele producir etiquetas frágiles.\nBloque C. Una recomendación item-item mínima debe excluir ítems ya vistos y declarar qué ocurre con usuarios o ítems sin historial.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Apéndice Módulo 4: formulario y respuestas seleccionadas</span>"
     ]

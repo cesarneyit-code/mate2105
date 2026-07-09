@@ -237,10 +237,21 @@ window.Quarto = {
   <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
   <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
   <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
+  <li><a href="#ejemplo-resuelto-una-iteración-completa" id="toc-ejemplo-resuelto-una-iteración-completa" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</a></li>
   <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
   <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -273,6 +284,17 @@ window.Quarto = {
 <p>¿hay grupos de observaciones con patrones similares?</p>
 </blockquote>
 <p>K-Means busca particionar datos en <span class="math inline">\(k\)</span> grupos representados por centroides.</p>
+<div id="fig-cap16-kmeans-centroides" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/kmeans-centroides.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.1: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> K-Means alterna entre asignar observaciones al centroide más cercano y mover cada centroide al promedio de su grupo. La interpretación aplicada viene después de validar que esa geometría tenga sentido.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -341,6 +363,69 @@ s=\frac{b-a}{\max(a,b)}.
 \]</span></p>
 <p>La observación está empatada. En implementación debe haber una regla de desempate. Este ejemplo muestra que K-Means es geométrico: asigna por distancia, no por significado de negocio.</p>
 </section>
+<section id="ejemplo-resuelto-una-iteración-completa" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</h2>
+<p>Supón cuatro puntos en una dimensión:</p>
+<p><span class="math display">\[
+x=(1,2,8,10)
+\]</span></p>
+<p>y dos centroides iniciales:</p>
+<p><span class="math display">\[
+\mu_1=1,\qquad \mu_2=10.
+\]</span></p>
+<p><strong>Paso 1: asignar puntos.</strong></p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Punto</th>
+<th style="text-align: right;">Distancia a <span class="math inline">\(\mu_1\)</span></th>
+<th style="text-align: right;">Distancia a <span class="math inline">\(\mu_2\)</span></th>
+<th style="text-align: right;">Cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<p>La inertia inicial con estas asignaciones es:</p>
+<p><span class="math display">\[
+(1-1)^2+(2-1)^2+(8-10)^2+(10-10)^2=5.
+\]</span></p>
+<p><strong>Paso 2: actualizar centroides.</strong></p>
+<p><span class="math display">\[
+\mu_1^{nuevo}=\frac{1+2}{2}=1.5,
+\qquad
+\mu_2^{nuevo}=\frac{8+10}{2}=9.
+\]</span></p>
+<p>Con los nuevos centroides, la inertia para las mismas asignaciones es:</p>
+<p><span class="math display">\[
+(1-1.5)^2+(2-1.5)^2+(8-9)^2+(10-9)^2=2.5.
+\]</span></p>
+<p>La inertia bajó, pero eso no prueba que <span class="math inline">\(k=2\)</span> sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.</p>
+</section>
 <section id="escalamiento" class="level2">
 <h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
 <p>K-Means usa distancia euclídea. Por tanto, las escalas importan.</p>
@@ -370,19 +455,73 @@ s=\frac{b-a}{\max(a,b)}.
 <li>¿qué decisión concreta usaría esta segmentación?</li>
 </ol>
 </section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> ejecuta una iteración de K-Means a mano con cuatro puntos y dos centroides iniciales distintos.</li>
+<li><strong>Extensión computacional:</strong> compara inercia y silueta para varios valores de <span class="math inline">\(k\)</span>, usando la misma escala de variables.</li>
+<li><strong>Conexión con proyecto:</strong> describe qué significaría cada cluster para una decisión real y qué variables dominan esa interpretación.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>K-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de clusters. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.</p>
+<p>Inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
+<p>Una segmentación profesional requiere escalamiento, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo accionable ni una categoría real de dominio.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Clustering:</strong> agrupación no supervisada de observaciones.</li>
+<li><strong>Centroide:</strong> punto representativo de un cluster.</li>
+<li><strong>Inertia:</strong> suma de distancias cuadradas a centroides.</li>
+<li><strong>Silhouette:</strong> métrica que compara cercanía al cluster propio frente a otros.</li>
+<li><strong>Escalamiento:</strong> transformación necesaria cuando las variables tienen unidades distintas.</li>
+<li><strong>Segmentación:</strong> interpretación aplicada de grupos, que requiere validación de negocio o dominio.</li>
+</ul>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> ¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</p>
-</div>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</li>
+<li>¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Asigne tres puntos en una dimensión a dos centroides dados y calcule inertia.</li>
+<li>Si un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Ajuste K-Means para varios valores de <span class="math inline">\(k\)</span> y reporte inertia y silhouette.</li>
+<li>Construya un pipeline con escalamiento y K-Means.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</li>
+<li>¿Qué evidencia usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Genere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

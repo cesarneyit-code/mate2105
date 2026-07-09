@@ -211,17 +211,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#qué-significa-reproducir" id="toc-qué-significa-reproducir" class="nav-link active" data-scroll-target="#qué-significa-reproducir">Qué significa reproducir</a></li>
+  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
+  <li><a href="#qué-significa-reproducir" id="toc-qué-significa-reproducir" class="nav-link" data-scroll-target="#qué-significa-reproducir">Qué significa reproducir</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#el-paquete-mínimo-reproducible" id="toc-el-paquete-mínimo-reproducible" class="nav-link" data-scroll-target="#el-paquete-mínimo-reproducible">El paquete mínimo reproducible</a></li>
   <li><a href="#semillas" id="toc-semillas" class="nav-link" data-scroll-target="#semillas">Semillas</a></li>
   <li><a href="#manifest-de-experimento" id="toc-manifest-de-experimento" class="nav-link" data-scroll-target="#manifest-de-experimento">Manifest de experimento</a></li>
   <li><a href="#ejemplo-resuelto-manifest-mínimo" id="toc-ejemplo-resuelto-manifest-mínimo" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo">Ejemplo resuelto: manifest mínimo</a></li>
+  <li><a href="#ejemplo-resuelto-auditar-un-manifest" id="toc-ejemplo-resuelto-auditar-un-manifest" class="nav-link" data-scroll-target="#ejemplo-resuelto-auditar-un-manifest">Ejemplo resuelto: auditar un manifest</a></li>
   <li><a href="#tracking-de-experimentos" id="toc-tracking-de-experimentos" class="nav-link" data-scroll-target="#tracking-de-experimentos">Tracking de experimentos</a></li>
   <li><a href="#persistencia-de-modelos" id="toc-persistencia-de-modelos" class="nav-link" data-scroll-target="#persistencia-de-modelos">Persistencia de modelos</a></li>
   <li><a href="#hash-de-artefactos" id="toc-hash-de-artefactos" class="nav-link" data-scroll-target="#hash-de-artefactos">Hash de artefactos</a></li>
   <li><a href="#checklist-de-reproducibilidad" id="toc-checklist-de-reproducibilidad" class="nav-link" data-scroll-target="#checklist-de-reproducibilidad">Checklist de reproducibilidad</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -247,12 +260,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="pregunta-aplicada" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
+<p>Si otra persona recibe nuestros resultados, ¿puede reconstruir qué datos, código, parámetros y decisiones produjeron la conclusión?</p>
+</section>
 <section id="qué-significa-reproducir" class="level2">
 <h2 class="anchored" data-anchor-id="qué-significa-reproducir">Qué significa reproducir</h2>
 <div class="definition-card">
 <p><strong>Reproducibilidad:</strong> capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.</p>
 </div>
 <p>En ciencia de datos aplicada, reproducibilidad no es un lujo académico. Es lo que permite auditar una decisión, comparar experimentos y depurar errores.</p>
+<div id="fig-cap20-reproducibilidad-manifest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap20-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap20-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> Una corrida reproducible no se identifica solo por el resultado final. Necesita registrar datos, código, ambiente, parámetros, métricas y artefactos para que la evidencia pueda reconstruirse.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -344,6 +372,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>No es necesario que sea largo. Debe ser suficiente para reconstruir la decisión.</p>
 </section>
+<section id="ejemplo-resuelto-auditar-un-manifest" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-auditar-un-manifest">Ejemplo resuelto: auditar un manifest</h2>
+<p>Supón que el manifest registra:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"ridge_v3"</span><span class="fu">,</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_rmse"</span><span class="fu">:</span> <span class="fl">12.4</span><span class="fu">},</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"predictions.csv"</span><span class="fu">:</span> <span class="st">"sha256:abc123"</span><span class="fu">},</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"usar ridge_v3 como modelo candidato"</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Dos semanas después, el archivo <code>predictions.csv</code> existe, pero su hash calculado es <code>sha256:def987</code>.</p>
+<p>La conclusión correcta no es “el modelo está mal”. La conclusión correcta es:</p>
+<ol type="1">
+<li>el artefacto actual no coincide con el artefacto registrado;</li>
+<li>la métrica <code>dev_rmse=12.4</code> ya no queda respaldada por ese archivo;</li>
+<li>hay que rerunear la evaluación o recuperar el artefacto original;</li>
+<li>cualquier reporte que use esa corrida debe marcarse como no verificado hasta resolver la discrepancia.</li>
+</ol>
+<p>Un hash no evalúa calidad estadística. Evalúa identidad del archivo.</p>
+</section>
 <section id="tracking-de-experimentos" class="level2">
 <h2 class="anchored" data-anchor-id="tracking-de-experimentos">Tracking de experimentos</h2>
 <p>Herramientas como MLflow organizan experimentos en corridas con parámetros, métricas y artefactos. En este curso no se exige un servidor MLflow; el patrón conceptual sí se exige:</p>
@@ -381,9 +429,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="persistencia-de-modelos" class="level2">
 <h2 class="anchored" data-anchor-id="persistencia-de-modelos">Persistencia de modelos</h2>
 <p>Para proyectos con <code>scikit-learn</code>, una práctica común es guardar pipelines completos:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> dump</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>dump(pipeline, <span class="st">"artifacts/model.joblib"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> dump</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>dump(pipeline, <span class="st">"artifacts/model.joblib"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="warning-card">
 <p>Nunca cargues archivos <code>pickle</code> o <code>joblib</code> de fuentes no confiables. La persistencia basada en pickle puede ejecutar código durante la carga. Para producción o intercambio abierto, considera formatos más seguros o flujos de confianza explícita.</p>
 </div>
@@ -391,14 +439,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="hash-de-artefactos" class="level2">
 <h2 class="anchored" data-anchor-id="hash-de-artefactos">Hash de artefactos</h2>
 <p>Un hash SHA-256 permite detectar si un archivo cambió:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hashlib</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sha256_file(path):</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> hashlib.sha256()</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> <span class="bu">iter</span>(<span class="kw">lambda</span>: f.read(<span class="dv">8192</span>), <span class="st">b""</span>):</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            h.update(chunk)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h.hexdigest()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> hashlib</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sha256_file(path):</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    h <span class="op">=</span> hashlib.sha256()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">"rb"</span>) <span class="im">as</span> f:</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> chunk <span class="kw">in</span> <span class="bu">iter</span>(<span class="kw">lambda</span>: f.read(<span class="dv">8192</span>), <span class="st">b""</span>):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>            h.update(chunk)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> h.hexdigest()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="checklist-de-reproducibilidad" class="level2">
 <h2 class="anchored" data-anchor-id="checklist-de-reproducibilidad">Checklist de reproducibilidad</h2>
@@ -422,8 +470,74 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>¿qué archivos son evidencia y cuáles son auxiliares?;</li>
 <li>¿qué decisión se tomó a partir de la corrida?</li>
 </ol>
+</section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> identifica qué cantidades numéricas deben quedar fijas para comparar dos corridas de entrenamiento.</li>
+<li><strong>Extensión computacional:</strong> crea un manifest mínimo con datos, código, semilla, ambiente, métricas y hash de salida.</li>
+<li><strong>Conexión con proyecto:</strong> define qué archivos entregados permitirían auditar tu resultado sin abrir tu notebook manualmente.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Reproducibilidad significa que otra persona puede reconstruir el resultado desde datos, código, entorno, parámetros y artefactos. Una semilla ayuda, pero no basta si cambian datos, librerías, hardware o pasos manuales.</p>
+<p>El manifest registra qué corrida produjo qué métricas y qué artefactos. Los hashes detectan cambios en archivos, pero no prueban que el contenido sea correcto. El tracking de experimentos ordena comparaciones y evita depender de memoria o nombres informales.</p>
+<p>Un paquete reproducible debe permitir auditar la decisión final. Eso implica separar archivos de entrada, scripts, outputs, métricas, modelos y reporte, y declarar qué evidencia sostiene cada afirmación.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Reproducibilidad:</strong> capacidad de reconstruir resultados desde datos, código, entorno y decisiones.</li>
+<li><strong>Manifest:</strong> archivo que registra configuración, rutas, semillas, métricas y artefactos.</li>
+<li><strong>Run:</strong> corrida individual de un experimento.</li>
+<li><strong>Artefacto:</strong> salida guardada, como modelo, figura, reporte, predicciones o tabla.</li>
+<li><strong>Hash:</strong> huella de un archivo usada para detectar cambios.</li>
+<li><strong>Persistencia:</strong> guardado de un modelo o pipeline para reutilizarlo.</li>
+</ul>
+</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>¿Por qué una semilla fija no garantiza reproducibilidad completa?</li>
+<li>¿Qué diferencia hay entre código que corre y evidencia reproducible?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Diseñe una tabla mínima con tres runs, dos hiperparámetros y dos métricas.</li>
+<li>Explique qué detecta y qué no detecta un hash SHA-256.</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Cree un <code>manifest.json</code> mínimo para un experimento.</li>
+<li>Calcule el hash SHA-256 de un archivo de resultados.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>¿Qué riesgos tiene cargar modelos <code>pickle</code> o <code>joblib</code> de fuentes no confiables?</li>
+<li>Si no puede reproducir una métrica final, ¿qué partes del proyecto revisaría primero?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Prepare un paquete mínimo reproducible para su proyecto: manifest, entorno, script de evaluación, tabla de métricas y lista de artefactos.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

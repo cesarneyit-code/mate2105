@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -195,18 +230,28 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#fórmulas-clave" id="toc-fórmulas-clave" class="nav-link active" data-scroll-target="#fórmulas-clave">Fórmulas clave</a>
+  <li><a href="#cómo-usar-este-apéndice" id="toc-cómo-usar-este-apéndice" class="nav-link active" data-scroll-target="#cómo-usar-este-apéndice">Cómo usar este apéndice</a>
+  <ul class="collapse">
+  <li><a href="#notación-mínima" id="toc-notación-mínima" class="nav-link" data-scroll-target="#notación-mínima">Notación mínima</a></li>
+  <li><a href="#fórmulas-clave-de-forward" id="toc-fórmulas-clave-de-forward" class="nav-link" data-scroll-target="#fórmulas-clave-de-forward">Fórmulas clave de forward</a>
   <ul class="collapse">
   <li><a href="#forward" id="toc-forward" class="nav-link" data-scroll-target="#forward">Forward</a></li>
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax">Softmax</a></li>
   <li><a href="#cross-entropy" id="toc-cross-entropy" class="nav-link" data-scroll-target="#cross-entropy">Cross-entropy</a></li>
-  <li><a href="#gradientes" id="toc-gradientes" class="nav-link" data-scroll-target="#gradientes">Gradientes</a></li>
   </ul></li>
+  <li><a href="#fórmulas-clave-de-backward" id="toc-fórmulas-clave-de-backward" class="nav-link" data-scroll-target="#fórmulas-clave-de-backward">Fórmulas clave de backward</a></li>
+  <li><a href="#diagnóstico-de-entrenamiento" id="toc-diagnóstico-de-entrenamiento" class="nav-link" data-scroll-target="#diagnóstico-de-entrenamiento">Diagnóstico de entrenamiento</a></li>
+  <li><a href="#patrones-de-código" id="toc-patrones-de-código" class="nav-link" data-scroll-target="#patrones-de-código">Patrones de código</a></li>
+  <li><a href="#checklist-antes-de-entregar" id="toc-checklist-antes-de-entregar" class="nav-link" data-scroll-target="#checklist-antes-de-entregar">Checklist antes de entregar</a></li>
   <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a>
   <ul class="collapse">
-  <li><a href="#capítulo-1-ejercicio-2" id="toc-capítulo-1-ejercicio-2" class="nav-link" data-scroll-target="#capítulo-1-ejercicio-2">Capítulo 1, ejercicio 2</a></li>
-  <li><a href="#capítulo-2-ejercicio-2" id="toc-capítulo-2-ejercicio-2" class="nav-link" data-scroll-target="#capítulo-2-ejercicio-2">Capítulo 2, ejercicio 2</a></li>
-  <li><a href="#capítulo-3-ejercicio-1" id="toc-capítulo-3-ejercicio-1" class="nav-link" data-scroll-target="#capítulo-3-ejercicio-1">Capítulo 3, ejercicio 1</a></li>
+  <li><a href="#verificaciones-de-ejemplos-resueltos" id="toc-verificaciones-de-ejemplos-resueltos" class="nav-link" data-scroll-target="#verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</a></li>
+  <li><a href="#capítulo-1" id="toc-capítulo-1" class="nav-link" data-scroll-target="#capítulo-1">Capítulo 1</a></li>
+  <li><a href="#capítulo-2" id="toc-capítulo-2" class="nav-link" data-scroll-target="#capítulo-2">Capítulo 2</a></li>
+  <li><a href="#capítulo-3" id="toc-capítulo-3" class="nav-link" data-scroll-target="#capítulo-3">Capítulo 3</a></li>
+  <li><a href="#capítulo-4" id="toc-capítulo-4" class="nav-link" data-scroll-target="#capítulo-4">Capítulo 4</a></li>
+  <li><a href="#ejercicios-integradores" id="toc-ejercicios-integradores" class="nav-link" data-scroll-target="#ejercicios-integradores">Ejercicios integradores</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -233,8 +278,59 @@ window.Quarto = {
 </header>
 
 
-<section id="fórmulas-clave" class="level2">
-<h2 class="anchored" data-anchor-id="fórmulas-clave">Fórmulas clave</h2>
+<section id="cómo-usar-este-apéndice" class="level1">
+<h1>Cómo usar este apéndice</h1>
+<p>Este apéndice es una referencia para el Módulo 2. Úsalo después de intentar los ejercicios del capítulo o antes de revisar un notebook de redes. La meta no es memorizar símbolos, sino poder auditar cada objeto: forma, significado, operación que lo produjo y riesgo de implementación.</p>
+<div class="book-note">
+<p>En redes neuronales, una respuesta puede tener código correcto y aun así estar mal argumentada si no explica formas, pérdida, diagnóstico o decisión de entrenamiento.</p>
+</div>
+<section id="notación-mínima" class="level2">
+<h2 class="anchored" data-anchor-id="notación-mínima">Notación mínima</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(X\in\mathbb{R}^{n\times p}\)</span></td>
+<td>matriz de entrada: <span class="math inline">\(n\)</span> observaciones, <span class="math inline">\(p\)</span> variables</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Y\in\mathbb{R}^{n\times k}\)</span></td>
+<td>etiquetas one-hot para <span class="math inline">\(k\)</span> clases</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(W^{[\ell]}\)</span>, <span class="math inline">\(b^{[\ell]}\)</span></td>
+<td>pesos y sesgos de la capa <span class="math inline">\(\ell\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Z^{[\ell]}\)</span></td>
+<td>preactivación de la capa <span class="math inline">\(\ell\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(A^{[\ell]}\)</span></td>
+<td>activación de la capa <span class="math inline">\(\ell\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat P\)</span></td>
+<td>probabilidades predichas por softmax</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(J\)</span></td>
+<td>pérdida promedio</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fórmulas-clave-de-forward" class="level2">
+<h2 class="anchored" data-anchor-id="fórmulas-clave-de-forward">Fórmulas clave de forward</h2>
 <section id="forward" class="level3">
 <h3 class="anchored" data-anchor-id="forward">Forward</h3>
 <p><span class="math display">\[
@@ -249,12 +345,52 @@ Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]}
 <p><span class="math display">\[
 \hat P = \operatorname{softmax}(Z^{[2]})
 \]</span></p>
+<p>Si <span class="math inline">\(X\in\mathbb{R}^{n\times p}\)</span>, una capa oculta con <span class="math inline">\(h\)</span> neuronas y <span class="math inline">\(k\)</span> clases usa las formas:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(W^{[1]}\)</span></td>
+<td><span class="math inline">\(p\times h\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(b^{[1]}\)</span></td>
+<td><span class="math inline">\(h\)</span> o <span class="math inline">\(1\times h\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Z^{[1]}, A^{[1]}\)</span></td>
+<td><span class="math inline">\(n\times h\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(W^{[2]}\)</span></td>
+<td><span class="math inline">\(h\times k\)</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(b^{[2]}\)</span></td>
+<td><span class="math inline">\(k\)</span> o <span class="math inline">\(1\times k\)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(Z^{[2]}, \hat P, Y\)</span></td>
+<td><span class="math inline">\(n\times k\)</span></td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="softmax" class="level3">
 <h3 class="anchored" data-anchor-id="softmax">Softmax</h3>
 <p><span class="math display">\[
 \operatorname{softmax}(z)_j =
 \frac{e^{z_j}}{\sum_{\ell=1}^k e^{z_\ell}}
+\]</span></p>
+<p>Versión estable:</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z)_j =
+\frac{e^{z_j-\max(z)}}{\sum_{\ell=1}^k e^{z_\ell-\max(z)}}.
 \]</span></p>
 </section>
 <section id="cross-entropy" class="level3">
@@ -263,8 +399,9 @@ Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]}
 J = -\frac{1}{n}\sum_{i=1}^n\sum_{j=1}^k Y_{ij}\log(\hat P_{ij})
 \]</span></p>
 </section>
-<section id="gradientes" class="level3">
-<h3 class="anchored" data-anchor-id="gradientes">Gradientes</h3>
+</section>
+<section id="fórmulas-clave-de-backward" class="level2">
+<h2 class="anchored" data-anchor-id="fórmulas-clave-de-backward">Fórmulas clave de backward</h2>
 <p><span class="math display">\[
 dZ^{[2]} = \frac{1}{n}(\hat P - Y)
 \]</span></p>
@@ -285,26 +422,132 @@ dW^{[1]} = X^\top dZ^{[1]},
 db^{[1]} = \sum_i dZ^{[1]}_i
 \]</span></p>
 </section>
+<section id="diagnóstico-de-entrenamiento" class="level2">
+<h2 class="anchored" data-anchor-id="diagnóstico-de-entrenamiento">Diagnóstico de entrenamiento</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Evidencia</th>
+<th>Diagnóstico probable</th>
+<th>Acción inicial</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Train mejora y validation empeora</td>
+<td>overfitting</td>
+<td>early stopping, L2, dropout, menor capacidad</td>
+</tr>
+<tr class="even">
+<td>Train y validation son malos</td>
+<td>underfitting o mala señal</td>
+<td>revisar features, arquitectura, learning rate</td>
+</tr>
+<tr class="odd">
+<td>La pérdida oscila o explota</td>
+<td>learning rate alto o escala inestable</td>
+<td>bajar learning rate, revisar inicialización</td>
+</tr>
+<tr class="even">
+<td>Probabilidades casi uniformes</td>
+<td>entrenamiento insuficiente o logits pequeños</td>
+<td>revisar inicialización, gradientes y épocas</td>
+</tr>
+<tr class="odd">
+<td>Gradientes con forma correcta pero norma cero</td>
+<td>saturación o camino bloqueado</td>
+<td>revisar activación, inicialización y datos</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="patrones-de-código" class="level2">
+<h2 class="anchored" data-anchor-id="patrones-de-código">Patrones de código</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> softmax_stable(Z):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    Z <span class="op">=</span> np.asarray(Z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    shifted <span class="op">=</span> Z <span class="op">-</span> np.<span class="bu">max</span>(Z, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    exp_scores <span class="op">=</span> np.exp(shifted)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> exp_scores <span class="op">/</span> exp_scores.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cross_entropy(P, y):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    eps <span class="op">=</span> <span class="fl">1e-12</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> np.clip(P, eps, <span class="dv">1</span> <span class="op">-</span> eps)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.mean(np.log(P[np.arange(<span class="bu">len</span>(y)), y]))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> relu_backward(dA, Z):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> dA <span class="op">*</span> (Z <span class="op">&gt;</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="checklist-antes-de-entregar" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-antes-de-entregar">Checklist antes de entregar</h2>
+<div class="checklist">
+<ul>
+<li>Cada matriz tiene la forma esperada.</li>
+<li>Softmax se aplica por fila.</li>
+<li>La pérdida usa probabilidades recortadas o softmax estable.</li>
+<li><code>dZ2</code> tiene la misma forma que <code>Y</code>.</li>
+<li>Cada gradiente tiene la misma forma que el parámetro que actualiza.</li>
+<li>Los gradientes se dividen por <span class="math inline">\(n\)</span> exactamente una vez.</li>
+<li>El diagnóstico usa curva de entrenamiento y validación.</li>
+<li>La comparación con PyTorch usa misma partición, semilla y métrica.</li>
+</ul>
+</div>
 </section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
-<section id="capítulo-1-ejercicio-2" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-1-ejercicio-2">Capítulo 1, ejercicio 2</h3>
-<p>Si no hay activaciones no lineales, una composición de transformaciones lineales sigue siendo una transformación lineal. Por ejemplo:</p>
+<p>Estas respuestas verifican dirección. No sustituyen el desarrollo completo ni las pruebas del laboratorio.</p>
+<section id="verificaciones-de-ejemplos-resueltos" class="level3">
+<h3 class="anchored" data-anchor-id="verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</h3>
+<p><strong>Softmax estable.</strong> Para <span class="math inline">\(z=(2,1,0)\)</span>, restar el máximo produce <span class="math inline">\((0,-1,-2)\)</span>. La distribución aproximada es <span class="math inline">\((0.665,0.245,0.090)\)</span>. La pérdida de una observación se calcula con la probabilidad de la clase correcta, no con la probabilidad más alta en abstracto.</p>
+<p><strong>Diferencia finita.</strong> Para <span class="math inline">\(J(w)=(w-3)^2\)</span>, <span class="math inline">\(w=2\)</span> y <span class="math inline">\(\varepsilon=0.01\)</span>, la diferencia central da <span class="math inline">\(-2\)</span>, igual a la derivada exacta <span class="math inline">\(2(w-3)\)</span>.</p>
+<p><strong>Regularización L2.</strong> Si <span class="math inline">\(\|W\|_F^2=14\)</span> y <span class="math inline">\(\lambda=0.1\)</span>, la penalización <span class="math inline">\(\frac{\lambda}{2}\|W\|_F^2\)</span> vale <span class="math inline">\(0.7\)</span>. El gradiente suma <span class="math inline">\(\lambda W\)</span> al gradiente de datos.</p>
+<p><strong>Momentum.</strong> Con <span class="math inline">\(\theta_0=5\)</span>, <span class="math inline">\(\alpha=0.1\)</span>, <span class="math inline">\(\beta=0.9\)</span>, <span class="math inline">\(v_0=0\)</span>, <span class="math inline">\(g_1=4\)</span> y <span class="math inline">\(g_2=2\)</span>, se obtiene <span class="math inline">\(v_1=0.4\)</span>, <span class="math inline">\(\theta_1=4.96\)</span>, <span class="math inline">\(v_2=0.56\)</span> y <span class="math inline">\(\theta_2=4.904\)</span>.</p>
+</section>
+<section id="capítulo-1" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-1">Capítulo 1</h3>
+<p><strong>Ejercicio 1.1.</strong> Sin activaciones no lineales, una composición de transformaciones lineales sigue siendo una transformación lineal. Por ejemplo:</p>
 <p><span class="math display">\[
 (XW_1)W_2 = X(W_1W_2).
 \]</span></p>
 <p>La red puede reescribirse como un solo modelo lineal.</p>
+<p><strong>Ejercicio 1.3.</strong> Si <span class="math inline">\(X\)</span> tiene forma <code>(250, 20)</code> y la capa oculta tiene 12 neuronas, entonces <code>W1</code> debe tener forma <code>(20, 12)</code>, <code>b1</code> forma <code>(12,)</code> o <code>(1, 12)</code>, y <code>Z1</code> forma <code>(250, 12)</code>.</p>
+<p><strong>Ejercicio 1.4.</strong> Para 5 clases y batch de 32, logits, probabilidades softmax y matriz one-hot tienen forma <code>(32, 5)</code>.</p>
 </section>
-<section id="capítulo-2-ejercicio-2" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-2-ejercicio-2">Capítulo 2, ejercicio 2</h3>
-<p>ReLU vale <span class="math inline">\(z\)</span> cuando <span class="math inline">\(z&gt;0\)</span> y vale 0 cuando <span class="math inline">\(z\le 0\)</span>. Por tanto, su derivada es 1 en la región positiva y 0 en la región no positiva. En código, <code>(Z1 &gt; 0)</code> actúa como máscara.</p>
+<section id="capítulo-2" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-2">Capítulo 2</h3>
+<p><strong>Ejercicio 2.1.</strong> Backpropagation necesita valores guardados del forward porque las derivadas locales dependen de objetos intermedios: por ejemplo, ReLU necesita conocer dónde <span class="math inline">\(Z^{[1]}&gt;0\)</span>, y <span class="math inline">\(dW^{[2]}\)</span> necesita <span class="math inline">\(A^{[1]}\)</span>.</p>
+<p><strong>Ejercicio 2.2.</strong> ReLU vale <span class="math inline">\(z\)</span> cuando <span class="math inline">\(z&gt;0\)</span> y vale 0 cuando <span class="math inline">\(z\le 0\)</span>. Por tanto, su derivada es 1 en la región positiva y 0 en la región no positiva. En código, <code>(Z1 &gt; 0)</code> actúa como máscara.</p>
+<p><strong>Ejercicio 2.4.</strong> Si <span class="math inline">\(A^{[1]}\in\mathbb{R}^{80\times16}\)</span> y <span class="math inline">\(dZ^{[2]}\in\mathbb{R}^{80\times4}\)</span>, entonces</p>
+<p><span class="math display">\[
+dW^{[2]}=(A^{[1]})^\top dZ^{[2]}\in\mathbb{R}^{16\times4},
+\qquad
+db^{[2]}\in\mathbb{R}^{4}.
+\]</span></p>
 </section>
-<section id="capítulo-3-ejercicio-1" class="level3">
-<h3 class="anchored" data-anchor-id="capítulo-3-ejercicio-1">Capítulo 3, ejercicio 1</h3>
-<p>Train accuracy 99% y validation accuracy 70% sugiere overfitting. El modelo aprendió patrones específicos del entrenamiento que no generalizan. Antes de reportarlo como mejora habría que revisar regularización, capacidad, partición de datos y análisis de errores.</p>
+<section id="capítulo-3" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-3">Capítulo 3</h3>
+<p><strong>Ejercicio 3.1.</strong> Train accuracy 99% y validation accuracy 70% sugiere overfitting. El modelo aprendió patrones específicos del entrenamiento que no generalizan. Antes de reportarlo como mejora habría que revisar regularización, capacidad, partición de datos y análisis de errores.</p>
+<p><strong>Ejercicio 3.4.</strong> Para <span class="math inline">\(w=(2,-1,0.5)\)</span> y <span class="math inline">\(\lambda=0.1\)</span>,</p>
+<p><span class="math display">\[
+\lambda\sum_j w_j^2=0.1(4+1+0.25)=0.525.
+\]</span></p>
+<p><strong>Ejercicio 3.8.</strong> Si una métrica global mejora pero un subconjunto crítico empeora, no basta con reportar la mejora. La decisión profesional es aislar el slice, verificar tamaño y costo del error, y proponer una acción antes de usar el modelo.</p>
+</section>
+<section id="capítulo-4" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-4">Capítulo 4</h3>
+<p><strong>Ejercicio 4.2.</strong> PyTorch acumula gradientes porque permite sumar contribuciones de varias pérdidas o batches antes de actualizar. En entrenamiento estándar se llama <code>zero_grad()</code> para que el batch actual no se mezcle con gradientes del batch anterior.</p>
+<p><strong>Ejercicio 4.3.</strong> Con 1024 observaciones y batch size 64, una época tiene <span class="math inline">\(1024/64=16\)</span> batches.</p>
+<p><strong>Ejercicio 4.4.</strong> Si se entrenan 20 épocas con 16 batches por época, <code>optimizer.step()</code> se ejecuta <span class="math inline">\(20\times16=320\)</span> veces.</p>
+</section>
+<section id="ejercicios-integradores" class="level3">
+<h3 class="anchored" data-anchor-id="ejercicios-integradores">Ejercicios integradores</h3>
+<p><strong>Bloque A.</strong> Para auditar dimensiones, no empieces por el código. Escribe primero las formas esperadas de <span class="math inline">\(X\)</span>, <span class="math inline">\(W^{[1]}\)</span>, <span class="math inline">\(b^{[1]}\)</span>, <span class="math inline">\(Z^{[1]}\)</span>, <span class="math inline">\(A^{[1]}\)</span>, <span class="math inline">\(W^{[2]}\)</span>, <span class="math inline">\(b^{[2]}\)</span> y <span class="math inline">\(\hat P\)</span>. Luego compara cada objeto del notebook contra esa tabla.</p>
+<p><strong>Bloque C.</strong> Una buena respuesta de diagnóstico tiene tres partes: evidencia observada, causa probable y acción. Ejemplo: “validation loss sube después de la época 15 mientras train loss sigue bajando; esto sugiere overfitting; probaría early stopping y mayor regularización”.</p>
 
 
+</section>
 </section>
 </section>
 

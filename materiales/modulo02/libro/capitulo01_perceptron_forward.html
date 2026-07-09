@@ -239,9 +239,20 @@ window.Quarto = {
   <li><a href="#relu" id="toc-relu" class="nav-link" data-scroll-target="#relu">ReLU</a></li>
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax">Softmax</a></li>
   <li><a href="#entropía-cruzada-multiclase" id="toc-entropía-cruzada-multiclase" class="nav-link" data-scroll-target="#entropía-cruzada-multiclase">Entropía cruzada multiclase</a></li>
+  <li><a href="#ejemplo-resuelto-softmax-y-pérdida" id="toc-ejemplo-resuelto-softmax-y-pérdida" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</a></li>
   <li><a href="#ejemplo-resuelto-dimensiones" id="toc-ejemplo-resuelto-dimensiones" class="nav-link" data-scroll-target="#ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -396,6 +407,35 @@ J = -\frac{1}{n}\sum_{i=1}^n\sum_{j=1}^k Y_{ij}\log(\hat P_{ij}).
 \]</span></p>
 <p>La pérdida premia asignar alta probabilidad a la clase correcta.</p>
 </section>
+<section id="ejemplo-resuelto-softmax-y-pérdida" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</h2>
+<p>Supón que una observación produce tres logits:</p>
+<p><span class="math display">\[
+z=(2,1,0).
+\]</span></p>
+<p>Para calcular softmax de forma estable restamos el máximo, que es 2:</p>
+<p><span class="math display">\[
+z-\max(z)=(0,-1,-2).
+\]</span></p>
+<p>Entonces:</p>
+<p><span class="math display">\[
+e^{z-\max(z)}=(1,e^{-1},e^{-2})\approx(1,0.368,0.135).
+\]</span></p>
+<p>La suma es aproximadamente <span class="math inline">\(1.503\)</span>, así que:</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z)\approx
+(0.665,0.245,0.090).
+\]</span></p>
+<p>Si la clase correcta es la primera, la entropía cruzada para esta observación es:</p>
+<p><span class="math display">\[
+-\log(0.665)\approx0.408.
+\]</span></p>
+<p>Si la clase correcta fuera la tercera, la pérdida sería:</p>
+<p><span class="math display">\[
+-\log(0.090)\approx2.408.
+\]</span></p>
+<p>La misma predicción puede ser buena o mala según la etiqueta verdadera. Por eso no basta mirar logits grandes: hay que mirar la probabilidad asignada a la clase correcta.</p>
+</section>
 <section id="ejemplo-resuelto-dimensiones" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</h2>
 <p>Suponga:</p>
@@ -453,19 +493,74 @@ J = -\frac{1}{n}\sum_{i=1}^n\sum_{j=1}^k Y_{ij}\log(\hat P_{ij}).
 <p><strong>Respuesta corta.</strong> La matriz tiene forma <span class="math inline">\(64 \times 32\)</span>. Softmax se aplica por fila porque cada fila contiene las probabilidades de una observación sobre las 10 clases. Sin activaciones no lineales, la composición de capas sigue siendo una transformación lineal.</p>
 </div>
 </section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> calcula manualmente una pasada forward con dos observaciones, dos entradas y dos neuronas ocultas.</li>
+<li><strong>Extensión computacional:</strong> implementa la misma red con <code>numpy</code> y luego con PyTorch; compara formas y valores intermedios.</li>
+<li><strong>Conexión con proyecto:</strong> identifica si tu problema necesita una arquitectura no lineal o si un modelo lineal regularizado sigue siendo un baseline suficiente.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Este capítulo construye una red neuronal desde sus operaciones de forward pass. Una neurona combina una transformación lineal con una activación; una red densa apila esas operaciones para producir logits y probabilidades.</p>
+<p>La no linealidad es esencial. Sin activaciones no lineales, varias capas lineales se pueden reescribir como una sola transformación lineal. ReLU introduce capacidad adicional y softmax convierte logits multiclase en una distribución de probabilidad por observación.</p>
+<p>El criterio de dominio de este capítulo es la trazabilidad de formas. Antes de entrenar, debes poder decir la forma de <span class="math inline">\(W\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(Z\)</span>, <span class="math inline">\(A\)</span>, logits, probabilidades y etiquetas. Sin esa auditoría, los errores de broadcasting pueden parecer resultados válidos.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Perceptron:</strong> unidad que combina entradas con pesos y sesgo para producir un score.</li>
+<li><strong>Capa densa:</strong> transformación <span class="math inline">\(XW+b\)</span> aplicada a un lote de observaciones.</li>
+<li><strong>Activación:</strong> función no lineal aplicada a los scores de una capa.</li>
+<li><strong>ReLU:</strong> activación <span class="math inline">\(\max(0,z)\)</span> usada para introducir no linealidad.</li>
+<li><strong>Logit:</strong> score real antes de convertirlo en probabilidad.</li>
+<li><strong>Softmax:</strong> transformación que convierte logits multiclase en probabilidades por fila.</li>
+<li><strong>One-hot:</strong> codificación de clases como vectores indicadores.</li>
+<li><strong>Entropía cruzada:</strong> pérdida que penaliza baja probabilidad asignada a la clase correcta.</li>
+</ul>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Si <span class="math inline">\(X\)</span> tiene forma <code>(250, 20)</code> y una capa oculta tiene 12 neuronas, ¿qué forma deben tener <code>W1</code>, <code>b1</code> y <code>Z1</code>?</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> Explique por qué una red sin activaciones no lineales se reduce a una transformación lineal.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Implemente una función <code>softmax_stable(Z)</code> y verifique que cada fila suma 1.</p>
-</div>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué una red sin activaciones no lineales se reduce a una transformación lineal.</li>
+<li>¿Qué diferencia hay entre logits y probabilidades?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Si <span class="math inline">\(X\)</span> tiene forma <code>(250, 20)</code> y una capa oculta tiene 12 neuronas, ¿qué forma deben tener <code>W1</code>, <code>b1</code> y <code>Z1</code>?</li>
+<li>Para una salida con 5 clases y batch de 32 observaciones, indique la forma de los logits, las probabilidades softmax y la matriz one-hot <span class="math inline">\(Y\)</span>.</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Implemente una función <code>softmax_stable(Z)</code> y verifique que cada fila suma 1.</li>
+<li>Implemente un <code>forward_pass(X, params)</code> para una red con una capa oculta ReLU y salida softmax.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Una red obtiene probabilidades casi uniformes para todas las clases. Proponga dos hipótesis técnicas.</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="8" type="1">
+<li>Use un dataset multiclase generado con semilla fija o una muestra pequeña de imágenes. Defina dimensiones, implemente forward propagation y entregue una tabla con formas de cada objeto intermedio.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

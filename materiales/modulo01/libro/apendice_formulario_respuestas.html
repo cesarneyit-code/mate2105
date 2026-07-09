@@ -245,7 +245,10 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#formulario-mínimo" id="toc-formulario-mínimo" class="nav-link active" data-scroll-target="#formulario-mínimo">Formulario mínimo</a>
+  <li><a href="#cómo-usar-este-apéndice" id="toc-cómo-usar-este-apéndice" class="nav-link active" data-scroll-target="#cómo-usar-este-apéndice">Cómo usar este apéndice</a>
+  <ul class="collapse">
+  <li><a href="#notación-mínima" id="toc-notación-mínima" class="nav-link" data-scroll-target="#notación-mínima">Notación mínima</a></li>
+  <li><a href="#formulario-mínimo" id="toc-formulario-mínimo" class="nav-link" data-scroll-target="#formulario-mínimo">Formulario mínimo</a>
   <ul class="collapse">
   <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link" data-scroll-target="#regresión-lineal">Regresión lineal</a></li>
   <li><a href="#descenso-del-gradiente" id="toc-descenso-del-gradiente" class="nav-link" data-scroll-target="#descenso-del-gradiente">Descenso del gradiente</a></li>
@@ -264,6 +267,7 @@ window.Quarto = {
   <li><a href="#capítulo-4" id="toc-capítulo-4" class="nav-link" data-scroll-target="#capítulo-4">Capítulo 4</a></li>
   </ul></li>
   <li><a href="#guía-de-estudio-para-el-parcial-1" id="toc-guía-de-estudio-para-el-parcial-1" class="nav-link" data-scroll-target="#guía-de-estudio-para-el-parcial-1">Guía de estudio para el Parcial 1</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -290,10 +294,61 @@ window.Quarto = {
 </header>
 
 
-<section id="formulario-mínimo" class="level1">
-<h1>Formulario mínimo</h1>
-<section id="regresión-lineal" class="level2">
-<h2 class="anchored" data-anchor-id="regresión-lineal">Regresión lineal</h2>
+<section id="cómo-usar-este-apéndice" class="level1">
+<h1>Cómo usar este apéndice</h1>
+<p>Este apéndice resume las fórmulas y chequeos del primer bloque matemático del curso: regresión, optimización, regularización y clasificación binaria. Úsalo para verificar derivaciones, notebooks y preparación del Parcial 1.</p>
+<div class="book-note">
+<p>No memorices fórmulas aisladas. Para cada objeto, verifica forma, significado, hipótesis y el lugar que ocupa en el pipeline de modelación.</p>
+</div>
+<section id="notación-mínima" class="level2">
+<h2 class="anchored" data-anchor-id="notación-mínima">Notación mínima</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(X\in\mathbb{R}^{n\times p}\)</span></td>
+<td>matriz de diseño</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y\in\mathbb{R}^{n}\)</span></td>
+<td>variable respuesta o etiqueta binaria</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\theta\in\mathbb{R}^{p}\)</span></td>
+<td>vector de parámetros</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat y\)</span></td>
+<td>predicción de regresión</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\hat p\)</span></td>
+<td>probabilidad predicha en clasificación binaria</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\lambda\)</span></td>
+<td>intensidad de regularización</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\tau\)</span></td>
+<td>umbral de clasificación</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(TP,TN,FP,FN\)</span></td>
+<td>conteos de matriz de confusión</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="formulario-mínimo" class="level2">
+<h2 class="anchored" data-anchor-id="formulario-mínimo">Formulario mínimo</h2>
+<section id="regresión-lineal" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-lineal">Regresión lineal</h3>
 <p>Predicción:</p>
 <p><span class="math display">\[
 \hat y = X\theta.
@@ -323,8 +378,8 @@ X^\top X\theta=X^\top y.
 \theta^\star=(X^\top X)^{-1}X^\top y.
 \]</span></p>
 </section>
-<section id="descenso-del-gradiente" class="level2">
-<h2 class="anchored" data-anchor-id="descenso-del-gradiente">Descenso del gradiente</h2>
+<section id="descenso-del-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="descenso-del-gradiente">Descenso del gradiente</h3>
 <p>Actualización:</p>
 <p><span class="math display">\[
 \theta^{(t+1)}
@@ -344,8 +399,8 @@ X^\top X\theta=X^\top y.
 z_j=\frac{x_j-\mu_j}{s_j}.
 \]</span></p>
 </section>
-<section id="ridge" class="level2">
-<h2 class="anchored" data-anchor-id="ridge">Ridge</h2>
+<section id="ridge" class="level3">
+<h3 class="anchored" data-anchor-id="ridge">Ridge</h3>
 <p>Objetivo:</p>
 <p><span class="math display">\[
 J_{\text{ridge}}(\theta)
@@ -368,8 +423,8 @@ J_{\text{ridge}}(\theta)
 \]</span></p>
 <p>donde <code>D_00=0</code> y <code>D_jj=1</code> para <code>j&gt;0</code>.</p>
 </section>
-<section id="lasso" class="level2">
-<h2 class="anchored" data-anchor-id="lasso">Lasso</h2>
+<section id="lasso" class="level3">
+<h3 class="anchored" data-anchor-id="lasso">Lasso</h3>
 <p>Objetivo:</p>
 <p><span class="math display">\[
 J_{\text{lasso}}(\theta)
@@ -379,8 +434,8 @@ J_{\text{lasso}}(\theta)
 \lambda\|\theta_{1:p}\|_1.
 \]</span></p>
 </section>
-<section id="regresión-logística" class="level2">
-<h2 class="anchored" data-anchor-id="regresión-logística">Regresión logística</h2>
+<section id="regresión-logística" class="level3">
+<h3 class="anchored" data-anchor-id="regresión-logística">Regresión logística</h3>
 <p>Sigmoide:</p>
 <p><span class="math display">\[
 \sigma(z)=\frac{1}{1+e^{-z}}.
@@ -406,8 +461,8 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 \hat y_i=1\{\hat p_i\ge \tau\}.
 \]</span></p>
 </section>
-<section id="métricas" class="level2">
-<h2 class="anchored" data-anchor-id="métricas">Métricas</h2>
+<section id="métricas" class="level3">
+<h3 class="anchored" data-anchor-id="métricas">Métricas</h3>
 <p>Accuracy:</p>
 <p><span class="math display">\[
 \frac{TP+TN}{TP+TN+FP+FN}.
@@ -427,8 +482,8 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 \]</span></p>
 </section>
 </section>
-<section id="patrones-de-código" class="level1">
-<h1>Patrones de código</h1>
+<section id="patrones-de-código" class="level2">
+<h2 class="anchored" data-anchor-id="patrones-de-código">Patrones de código</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_intercept(X):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.asarray(X, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.hstack([np.ones((X.shape[<span class="dv">0</span>], <span class="dv">1</span>)), X])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -451,8 +506,8 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    out[<span class="op">~</span>pos] <span class="op">=</span> exp_z <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> exp_z)</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="checklist-antes-de-entregar" class="level1">
-<h1>Checklist antes de entregar</h1>
+<section id="checklist-antes-de-entregar" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-antes-de-entregar">Checklist antes de entregar</h2>
 <div class="checklist">
 <ul>
 <li>El notebook corre desde cero.</li>
@@ -466,11 +521,11 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 </ul>
 </div>
 </section>
-<section id="respuestas-seleccionadas" class="level1">
-<h1>Respuestas seleccionadas</h1>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
 <p>Estas respuestas no reemplazan el desarrollo. Sirven para verificar dirección.</p>
-<section id="capítulo-1" class="level2">
-<h2 class="anchored" data-anchor-id="capítulo-1">Capítulo 1</h2>
+<section id="capítulo-1" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-1">Capítulo 1</h3>
 <p><strong>Ejercicio 1.1.</strong> Si <code>X</code> tiene forma <code>(120, 4)</code>, entonces <code>theta</code> debe tener forma <code>(4,)</code> o <code>(4, 1)</code> para que <code>X @ theta</code> produzca 120 predicciones.</p>
 <p><strong>Ejercicio 1.2.</strong> La columna de unos convierte el intercepto en un coeficiente más: <code>theta_0 * 1</code>.</p>
 <p><strong>Ejercicio 1.6.</strong> Para <span class="math display">\[
@@ -490,14 +545,14 @@ X^\top y=
 \end{bmatrix}.
 \]</span></p>
 </section>
-<section id="capítulo-2" class="level2">
-<h2 class="anchored" data-anchor-id="capítulo-2">Capítulo 2</h2>
+<section id="capítulo-2" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-2">Capítulo 2</h3>
 <p><strong>Ejercicio 2.2.</strong> Usamos <code>theta - alpha * grad</code> porque el gradiente apunta hacia mayor aumento de la pérdida.</p>
 <p><strong>Ejercicio 2.4.</strong> Escalar ayuda porque reduce diferencias extremas de curvatura entre direcciones. El descenso hace pasos más directos y estables.</p>
 <p><strong>Ejercicio 2.8.</strong> Una curva que sube y baja violentamente sugiere una tasa de aprendizaje demasiado grande o un problema de escala.</p>
 </section>
-<section id="capítulo-3" class="level2">
-<h2 class="anchored" data-anchor-id="capítulo-3">Capítulo 3</h2>
+<section id="capítulo-3" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-3">Capítulo 3</h3>
 <p><strong>Ejercicio 3.2.</strong> No se escoge <code>lambda</code> con prueba porque entonces prueba deja de ser una evaluación final independiente.</p>
 <p><strong>Ejercicio 3.8.</strong> Para <code>theta=(3,4,-1)</code>, sin intercepto:</p>
 <p><span class="math display">\[
@@ -507,8 +562,8 @@ X^\top y=
 \]</span></p>
 <p><strong>Ejercicio 3.16.</strong> Preferiría <code>lambda=0.1</code> si la meta es generalizar: aumenta el error de entrenamiento, pero reduce mucho el error de validación.</p>
 </section>
-<section id="capítulo-4" class="level2">
-<h2 class="anchored" data-anchor-id="capítulo-4">Capítulo 4</h2>
+<section id="capítulo-4" class="level3">
+<h3 class="anchored" data-anchor-id="capítulo-4">Capítulo 4</h3>
 <p><strong>Ejercicio 4.6.</strong></p>
 <p><span class="math display">\[
 \sigma(0)=0.5,\quad
@@ -525,8 +580,8 @@ X^\top y=
 <p><strong>Ejercicio 4.16.</strong> Accuracy alta y recall bajo puede indicar clases desbalanceadas: el modelo acierta muchos negativos, pero falla positivos.</p>
 </section>
 </section>
-<section id="guía-de-estudio-para-el-parcial-1" class="level1">
-<h1>Guía de estudio para el Parcial 1</h1>
+<section id="guía-de-estudio-para-el-parcial-1" class="level2">
+<h2 class="anchored" data-anchor-id="guía-de-estudio-para-el-parcial-1">Guía de estudio para el Parcial 1</h2>
 <p>Prioriza estos ejercicios si tienes poco tiempo:</p>
 <table class="caption-top table">
 <thead>
@@ -571,6 +626,7 @@ X^\top y=
 </ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

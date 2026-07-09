@@ -234,13 +234,24 @@ window.Quarto = {
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
+  <li><a href="#ejemplo-resuelto-dos-pasos-con-momentum" id="toc-ejemplo-resuelto-dos-pasos-con-momentum" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</a></li>
   <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam">RMSProp y Adam</a></li>
   <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza">PyTorch: qué automatiza</a></li>
   <li><a href="#loop-mínimo" id="toc-loop-mínimo" class="nav-link" data-scroll-target="#loop-mínimo">Loop mínimo</a></li>
   <li><a href="#ejemplo-resuelto-lectura-de-un-loop" id="toc-ejemplo-resuelto-lectura-de-un-loop" class="nav-link" data-scroll-target="#ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</a></li>
   <li><a href="#comparación-justa" id="toc-comparación-justa" class="nav-link" data-scroll-target="#comparación-justa">Comparación justa</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -301,6 +312,26 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 \theta_{t+1} = \theta_t - \alpha v_t.
 \]</span></p>
 <p>Intuición: evita que cada gradiente aislado cambie la dirección con demasiada fuerza.</p>
+</section>
+<section id="ejemplo-resuelto-dos-pasos-con-momentum" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</h2>
+<p>Supón un parámetro escalar <span class="math inline">\(\theta_0=5\)</span>, tasa <span class="math inline">\(\alpha=0.1\)</span>, momentum <span class="math inline">\(\beta=0.9\)</span> y velocidad inicial <span class="math inline">\(v_0=0\)</span>. Los dos primeros gradientes son:</p>
+<p><span class="math display">\[
+g_1=4,\qquad g_2=2.
+\]</span></p>
+<p>Primer paso:</p>
+<p><span class="math display">\[
+v_1=0.9(0)+0.1(4)=0.4,
+\qquad
+\theta_1=5-0.1(0.4)=4.96.
+\]</span></p>
+<p>Segundo paso:</p>
+<p><span class="math display">\[
+v_2=0.9(0.4)+0.1(2)=0.56,
+\qquad
+\theta_2=4.96-0.1(0.56)=4.904.
+\]</span></p>
+<p>Aunque el segundo gradiente es menor que el primero, la velocidad conserva parte de la dirección previa. Esa memoria suaviza actualizaciones ruidosas, pero también puede sostener una mala dirección si el learning rate o <span class="math inline">\(\beta\)</span> no son adecuados.</p>
 </section>
 <section id="rmsprop-y-adam" class="level2">
 <h2 class="anchored" data-anchor-id="rmsprop-y-adam">RMSProp y Adam</h2>
@@ -401,19 +432,75 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 <li>interpreta diferencias con cautela.</li>
 </ol>
 </section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> compara una actualización de SGD con una de Adam en una dimensión y explica qué cambia por los momentos adaptativos.</li>
+<li><strong>Extensión computacional:</strong> guarda <code>seed</code>, arquitectura, optimizador, tasa de aprendizaje y época del mejor modelo en un registro reproducible.</li>
+<li><strong>Conexión con proyecto:</strong> define qué configuración mínima necesitas reportar para que otra persona pueda rerunear tu entrenamiento.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Los optimizadores modernos modifican la forma de usar gradientes, pero no cambian la lógica experimental. Mini-batch gradient descent estima el gradiente con subconjuntos; momentum acumula dirección; RMSProp y Adam adaptan escalas por parámetro.</p>
+<p>PyTorch automatiza autograd y actualización de parámetros, pero el usuario sigue siendo responsable de particiones, métricas, semillas, arquitectura y lectura de curvas. <code>zero_grad()</code>, <code>backward()</code> y <code>step()</code> son operaciones con significado, no rituales de código.</p>
+<p>Una comparación justa entre NumPy y PyTorch exige misma pregunta experimental: datos, partición, arquitectura comparable, métrica y presupuesto de entrenamiento. Velocidad de entrenamiento no equivale automáticamente a mejor modelo.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Mini-batch:</strong> subconjunto usado para estimar un paso de gradiente.</li>
+<li><strong>Momentum:</strong> acumulación suavizada de direcciones de actualización pasadas.</li>
+<li><strong>RMSProp:</strong> adaptación de pasos según magnitudes recientes de gradientes.</li>
+<li><strong>Adam:</strong> optimizador adaptativo que combina ideas de momentum y RMSProp.</li>
+<li><strong>Autograd:</strong> mecanismo de diferenciación automática de PyTorch.</li>
+<li><strong><code>zero_grad()</code>:</strong> instrucción que limpia gradientes acumulados.</li>
+<li><strong><code>backward()</code>:</strong> cálculo automático de gradientes desde la pérdida.</li>
+<li><strong><code>step()</code>:</strong> actualización de parámetros del optimizador.</li>
+</ul>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Identifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> Explique por qué Adam no reemplaza la validación.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.</p>
-</div>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué Adam no reemplaza la validación.</li>
+<li>¿Por qué PyTorch acumula gradientes y por qué normalmente llamamos <code>zero_grad()</code>?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Si un dataset tiene 1024 observaciones y batch size 64, ¿cuántos batches tiene una época?</li>
+<li>Si se entrenan 20 épocas con 16 batches por época, ¿cuántas veces se ejecuta <code>optimizer.step()</code>?</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Identifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.</li>
+<li>Implemente un loop mínimo que registre pérdida promedio por época.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.</li>
+<li>Si PyTorch entrena más rápido que NumPy, ¿qué evidencia necesita antes de afirmar que el modelo es mejor?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Reproduzca el mismo experimento con NumPy y PyTorch usando la misma partición, semilla y métrica. Entregue una tabla comparativa y una conclusión cautelosa.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

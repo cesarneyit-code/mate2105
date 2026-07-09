@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc" viewBox="0 0 980 320">
+  <title id="title">Flujo de particion y validacion</title>
+  <desc id="desc">Diagrama que muestra datos originales separados en train, dev y test. Train ajusta parametros, dev selecciona hiperparametros y test se usa una sola vez para estimacion final.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#17324d"/>
+    </marker>
+    <style>
+      .box{stroke:#17324d;stroke-width:2;rx:12}
+      .train{fill:#eef6f7}
+      .dev{fill:#faf7ff}
+      .test{fill:#fff7ed}
+      .txt{font-family:Arial, sans-serif;font-size:22px;font-weight:700;fill:#17202a}
+      .sub{font-family:Arial, sans-serif;font-size:15px;fill:#52616f}
+      .arrow{stroke:#17324d;stroke-width:2.5;fill:none;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect x="35" y="105" width="145" height="90" class="box train"/>
+  <text x="70" y="142" class="txt">Datos</text>
+  <text x="60" y="166" class="sub">fuente original</text>
+  <path d="M184 150 H240" class="arrow"/>
+  <rect x="250" y="35" width="170" height="85" class="box train"/>
+  <text x="302" y="72" class="txt">Train</text>
+  <text x="278" y="96" class="sub">ajusta parametros</text>
+  <rect x="250" y="130" width="170" height="85" class="box dev"/>
+  <text x="315" y="167" class="txt">Dev</text>
+  <text x="278" y="191" class="sub">selecciona modelo</text>
+  <rect x="250" y="225" width="170" height="70" class="box test"/>
+  <text x="315" y="255" class="txt">Test</text>
+  <text x="278" y="278" class="sub">una sola vez</text>
+  <path d="M420 78 H505" class="arrow"/>
+  <rect x="515" y="35" width="185" height="85" class="box train"/>
+  <text x="548" y="72" class="txt">Pipeline</text>
+  <text x="540" y="96" class="sub">fit solo con train</text>
+  <path d="M420 172 H505" class="arrow"/>
+  <rect x="515" y="130" width="185" height="85" class="box dev"/>
+  <text x="550" y="167" class="txt">Seleccion</text>
+  <text x="540" y="191" class="sub">hiperparametros</text>
+  <path d="M700 172 H785" class="arrow"/>
+  <rect x="795" y="130" width="150" height="85" class="box dev"/>
+  <text x="830" y="167" class="txt">Modelo</text>
+  <text x="820" y="191" class="sub">congelado</text>
+  <path d="M420 260 H785" class="arrow"/>
+  <rect x="795" y="225" width="150" height="70" class="box test"/>
+  <text x="836" y="255" class="txt">Reporte</text>
+  <text x="823" y="278" class="sub">estimacion final</text>
+  <path d="M870 220 V218" class="arrow"/>
+</svg>

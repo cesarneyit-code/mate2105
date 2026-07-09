@@ -1,6 +1,6 @@
 # Paquete de datasets públicos MATE-2105
 
-Estos archivos CSV son pequeños, sintéticos y reproducibles. Sirven para
+Estos archivos CSV son pequeños, generados artificialmente y reproducibles. Sirven para
 práctica de lectura, modelación, validación y diagnóstico sin depender de
 internet ni de librerías externas durante la descarga del libro.
 

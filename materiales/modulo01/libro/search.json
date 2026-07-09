@@ -14,47 +14,197 @@
     "href": "capitulo01_regresion_lineal.html",
     "title": "Capítulo 1: Regresión lineal múltiple",
     "section": "",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nLa regresión lineal parece elemental, pero contiene la gramática de casi todos los modelos que veremos después: datos como matrices, parámetros como vectores, predicciones como operaciones vectorizadas, pérdidas como funciones a minimizar y desempeño como comparación fuera de entrenamiento.",
+    "text": "Pregunta aplicada\n¿Cómo podemos predecir una cantidad numérica usando varias variables, escribir el modelo como álgebra matricial y defender si supera una regla simple?",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
     ]
   },
   {
-    "objectID": "capitulo01_regresion_lineal.html#conceptuales",
-    "href": "capitulo01_regresion_lineal.html#conceptuales",
+    "objectID": "capitulo01_regresion_lineal.html#objetivos-del-capítulo",
+    "href": "capitulo01_regresion_lineal.html#objetivos-del-capítulo",
     "title": "Capítulo 1: Regresión lineal múltiple",
-    "section": "Conceptuales",
-    "text": "Conceptuales\n\nExplica en tus palabras qué significa que X sea una matriz de diseño.\n¿Por qué el intercepto puede representarse con una columna de unos?\n¿Qué diferencia hay entre residual y error de generalización?\n¿Por qué un modelo puede tener MSE bajo en entrenamiento y aun así ser malo?\nExplica por qué un coeficiente no implica causalidad.",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nrepresentar un problema de regresión con una matriz de diseño;\ndistinguir variables, parámetros, predicciones y residuales;\nescribir MSE como norma cuadrática;\nderivar el gradiente de MSE;\nderivar la ecuación normal;\nimplementar mínimos cuadrados con np.linalg.solve;\ncomparar un modelo lineal contra un baseline;\ninterpretar coeficientes con cuidado.\n\nLa regresión lineal parece elemental, pero contiene la gramática de casi todos los modelos que veremos después: datos como matrices, parámetros como vectores, predicciones como operaciones vectorizadas, pérdidas como funciones a minimizar y desempeño como comparación fuera de entrenamiento.\n\n\n\n\n\n\nFigura 2.1: Geometría de mínimos cuadrados: las predicciones forman una proyección de y sobre el espacio columna de X; el residual queda perpendicular a ese espacio.\n\n\n\nLectura de la figura. Mínimos cuadrados busca una predicción \\(\\hat y=X\\theta\\) dentro del espacio generado por las columnas de \\(X\\). En la solución óptima, el residual \\(r=y-\\hat y\\) queda perpendicular a ese espacio.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
     ]
   },
   {
-    "objectID": "capitulo01_regresion_lineal.html#cálculo",
-    "href": "capitulo01_regresion_lineal.html#cálculo",
+    "objectID": "capitulo01_regresion_lineal.html#el-problema-de-regresión",
+    "href": "capitulo01_regresion_lineal.html#el-problema-de-regresión",
     "title": "Capítulo 1: Regresión lineal múltiple",
-    "section": "Cálculo",
-    "text": "Cálculo\n\nSea \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\n\\quad\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix}.\n\\] Calcula X.T @ X, X.T @ y y resuelve la ecuación normal.\nPara \\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2,\n\\] reproduce la derivación del gradiente sin mirar el texto.\nDemuestra que si X.T @ (y - X theta) = 0, los residuales son ortogonales a cada columna de X.",
+    "section": "El problema de regresión",
+    "text": "El problema de regresión\nEn regresión queremos predecir una cantidad numérica. Algunos ejemplos:\n\nprecio de una vivienda;\nconsumo de energía;\ntiempo de entrega;\nconcentración de una sustancia;\npuntaje de riesgo continuo.\n\nCada observación tiene variables de entrada y una respuesta.\n\n\n\nObjeto\nEjemplo\n\n\n\n\nEntrada x_i\nárea, habitaciones, ubicación codificada\n\n\nSalida y_i\nprecio\n\n\nModelo\nregla que transforma x_i en y_hat_i\n\n\nError\ndiferencia entre y_i y y_hat_i\n\n\n\n\nDefinición 1.1: problema supervisado de regresión.\nUn conjunto de entrenamiento de regresión es una colección de pares (x_i, y_i), donde x_i contiene variables explicativas y y_i es una cantidad real. El objetivo es aprender una función f tal que f(x_i) aproxime y_i y generalice a observaciones no usadas para entrenar.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
     ]
   },
   {
-    "objectID": "capitulo01_regresion_lineal.html#código",
-    "href": "capitulo01_regresion_lineal.html#código",
+    "objectID": "capitulo01_regresion_lineal.html#de-una-recta-a-una-matriz",
+    "href": "capitulo01_regresion_lineal.html#de-una-recta-a-una-matriz",
     "title": "Capítulo 1: Regresión lineal múltiple",
-    "section": "Código",
-    "text": "Código\n\nImplementa add_intercept(X) sin usar ciclos.\nImplementa mse_loss(X, y, theta).\nImplementa normal_equation(X, y) usando np.linalg.solve.\nSimula datos con y = 3 - 2x + ruido y estima los parámetros.\nCompara el MSE del modelo contra el baseline del promedio.",
+    "section": "De una recta a una matriz",
+    "text": "De una recta a una matriz\nLa recta clásica es\n\\[\n\\hat y_i = \\theta_0 + \\theta_1 x_i.\n\\]\nCon varias variables:\n\\[\n\\hat y_i =\n\\theta_0 +\n\\theta_1 x_{i1} +\n\\theta_2 x_{i2} +\n\\cdots +\n\\theta_d x_{id}.\n\\]\nPara escribir esto como producto matricial agregamos una columna de unos. Si hay n observaciones y d variables originales, definimos:\n\\[\nX =\n\\begin{bmatrix}\n1 & x_{11} & x_{12} & \\cdots & x_{1d}\\\\\n1 & x_{21} & x_{22} & \\cdots & x_{2d}\\\\\n\\vdots & \\vdots & \\vdots & & \\vdots\\\\\n1 & x_{n1} & x_{n2} & \\cdots & x_{nd}\n\\end{bmatrix}\n\\in \\mathbb{R}^{n\\times (d+1)}.\n\\]\nEl vector de parámetros es\n\\[\n\\theta =\n\\begin{bmatrix}\n\\theta_0\\\\\n\\theta_1\\\\\n\\vdots\\\\\n\\theta_d\n\\end{bmatrix}.\n\\]\nEntonces todas las predicciones se escriben como:\n\\[\n\\hat y = X\\theta.\n\\]\n\nDefinición 1.2: matriz de diseño.\nLa matriz de diseño X contiene las variables que el modelo usa para producir predicciones. Puede incluir una columna de intercepto, variables originales, variables transformadas, interacciones o codificaciones de variables categóricas.\n\nEn Python:\nimport numpy as np\n\ndef add_intercept(X):\n    X = np.asarray(X, dtype=float)\n    ones = np.ones((X.shape[0], 1))\n    return np.hstack([ones, X])\n\nX_design = add_intercept(X_raw)\ny_hat = X_design @ theta",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
     ]
   },
   {
-    "objectID": "capitulo01_regresion_lineal.html#interpretación",
-    "href": "capitulo01_regresion_lineal.html#interpretación",
+    "objectID": "capitulo01_regresion_lineal.html#dimensiones-la-primera-defensa-contra-errores",
+    "href": "capitulo01_regresion_lineal.html#dimensiones-la-primera-defensa-contra-errores",
     "title": "Capítulo 1: Regresión lineal múltiple",
-    "section": "Interpretación",
-    "text": "Interpretación\n\nUn modelo obtiene MSE de entrenamiento 4.1 y MSE de prueba 18.7. ¿Qué hipótesis harías?\nUn modelo no mejora el baseline. Escribe dos posibles razones técnicas.\nSi una variable está medida en pesos y otra en millones de pesos, ¿por qué sus coeficientes no son directamente comparables?",
+    "section": "Dimensiones: la primera defensa contra errores",
+    "text": "Dimensiones: la primera defensa contra errores\nAntes de derivar o programar, revisa dimensiones.\n\n\n\nObjeto\nForma\n\n\n\n\nX\n(n, p)\n\n\ntheta\n(p,) o (p, 1)\n\n\nX @ theta\n(n,) o (n, 1)\n\n\ny\n(n,)\n\n\nX.T @ X\n(p, p)\n\n\nX.T @ y\n(p,)\n\n\n\n\nChequeo rápido. Si X @ theta no produce un vector con una predicción por observación, el problema no es estadístico todavía: es de representación.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#residuales-y-pérdida",
+    "href": "capitulo01_regresion_lineal.html#residuales-y-pérdida",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Residuales y pérdida",
+    "text": "Residuales y pérdida\nEl residual de la observación i es\n\\[\nr_i = y_i - \\hat y_i.\n\\]\nEn vector:\n\\[\nr = y - X\\theta.\n\\]\nLa pérdida de mínimos cuadrados mide el promedio de errores cuadrados:\n\\[\nJ(\\theta)\n=\n\\frac{1}{2n}\\sum_{i=1}^n(\\hat y_i-y_i)^2\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2.\n\\]\nEl factor 1/2 se usa para que el 2 de la derivada desaparezca.\n\nDefinición 1.3: MSE y pérdida cuadrática.\nEl error cuadrático medio es \\[\n\\operatorname{MSE}(\\theta)=\\frac{1}{n}\\|X\\theta-y\\|_2^2.\n\\] La pérdida \\[\nJ(\\theta)=\\frac{1}{2}\\operatorname{MSE}(\\theta)\n\\] tiene el mismo minimizador, pero un gradiente más limpio.\n\nImplementación:\ndef mse_loss(X, y, theta):\n    residual = X @ theta - y\n    return np.mean(residual ** 2)\n\ndef half_mse_loss(X, y, theta):\n    residual = X @ theta - y\n    return 0.5 * np.mean(residual ** 2)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#derivación-del-gradiente",
+    "href": "capitulo01_regresion_lineal.html#derivación-del-gradiente",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Derivación del gradiente",
+    "text": "Derivación del gradiente\nPartimos de:\n\\[\nJ(\\theta)=\\frac{1}{2n}(X\\theta-y)^\\top(X\\theta-y).\n\\]\nExpandiendo:\n\\[\nJ(\\theta)=\n\\frac{1}{2n}\n\\left(\n\\theta^\\top X^\\top X\\theta\n-2y^\\top X\\theta\n+y^\\top y\n\\right).\n\\]\nUsamos dos reglas:\n\\[\n\\nabla_\\theta(\\theta^\\top A\\theta)=(A+A^\\top)\\theta,\n\\]\ny si A es simétrica:\n\\[\n\\nabla_\\theta(\\theta^\\top A\\theta)=2A\\theta.\n\\]\nComo X.T @ X es simétrica:\n\\[\n\\nabla J(\\theta)\n=\n\\frac{1}{2n}\n\\left(\n2X^\\top X\\theta - 2X^\\top y\n\\right).\n\\]\nPor tanto:\n\\[\n\\nabla J(\\theta)\n=\n\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\n\nProposición 1.1: gradiente de MSE escalado.\nPara \\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2,\n\\] el gradiente es \\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\n\nImplementación:\ndef mse_gradient(X, y, theta):\n    n = X.shape[0]\n    return (X.T @ (X @ theta - y)) / n",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#ecuación-normal",
+    "href": "capitulo01_regresion_lineal.html#ecuación-normal",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Ecuación normal",
+    "text": "Ecuación normal\nUn mínimo interior de una función diferenciable satisface:\n\\[\n\\nabla J(\\theta)=0.\n\\]\nEntonces:\n\\[\n\\frac{1}{n}X^\\top(X\\theta-y)=0.\n\\]\nMultiplicando por n:\n\\[\nX^\\top X\\theta-X^\\top y=0.\n\\]\nReordenando:\n\\[\nX^\\top X\\theta = X^\\top y.\n\\]\nEsta es la ecuación normal.\nSi X.T @ X es invertible:\n\\[\n\\theta^\\star=(X^\\top X)^{-1}X^\\top y.\n\\]\n\nProposición 1.2: solución de mínimos cuadrados.\nSi X tiene rango columna completo, entonces X.T @ X es invertible y el minimizador único de la pérdida cuadrática es \\[\n\\theta^\\star=(X^\\top X)^{-1}X^\\top y.\n\\]\n\nEn código profesional evitamos la inversa explícita:\ndef normal_equation(X, y):\n    return np.linalg.solve(X.T @ X, X.T @ y)\n\nCriterio numérico. np.linalg.inv(A) @ b suele ser menos estable y menos eficiente que np.linalg.solve(A, b). En modelos reales, preferimos resolver el sistema o usar implementaciones robustas como LinearRegression.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#interpretación-geométrica",
+    "href": "capitulo01_regresion_lineal.html#interpretación-geométrica",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Interpretación geométrica",
+    "text": "Interpretación geométrica\nEl modelo busca un vector X theta en el espacio generado por las columnas de X. Ese espacio es un subespacio de R^n. El vector observado y puede no estar exactamente en ese subespacio. Mínimos cuadrados encuentra la proyección de y sobre el espacio columna de X.\nEn la solución:\n\\[\nX^\\top(y-X\\theta^\\star)=0.\n\\]\nEsto dice que los residuales son ortogonales a cada columna de X. Es decir: después de ajustar el modelo, ninguna variable incluida en X explica linealmente lo que queda en los residuales.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#ejemplo-resuelto-1-datos-exactos",
+    "href": "capitulo01_regresion_lineal.html#ejemplo-resuelto-1-datos-exactos",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Ejemplo resuelto 1: datos exactos",
+    "text": "Ejemplo resuelto 1: datos exactos\nSupongamos:\n\\[\nX =\n\\begin{bmatrix}\n1 & 0 \\\\\n1 & 1 \\\\\n1 & 2\n\\end{bmatrix},\n\\quad\ny =\n\\begin{bmatrix}\n1 \\\\\n3 \\\\\n5\n\\end{bmatrix}.\n\\]\nEl patrón exacto es:\n\\[\ny = 1 + 2x.\n\\]\nLa solución esperada es:\n\\[\n\\theta =\n\\begin{bmatrix}\n1\\\\\n2\n\\end{bmatrix}.\n\\]\nX = np.array([[1, 0], [1, 1], [1, 2]], dtype=float)\ny = np.array([1, 3, 5], dtype=float)\ntheta = np.linalg.solve(X.T @ X, X.T @ y)\ntheta",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#ejemplo-resuelto-2-datos-con-ruido",
+    "href": "capitulo01_regresion_lineal.html#ejemplo-resuelto-2-datos-con-ruido",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Ejemplo resuelto 2: datos con ruido",
+    "text": "Ejemplo resuelto 2: datos con ruido\nAhora supón:\n\\[\ny =\n\\begin{bmatrix}\n1.1\\\\\n2.9\\\\\n5.2\\\\\n6.8\n\\end{bmatrix},\n\\quad\nx =\n\\begin{bmatrix}\n0\\\\1\\\\2\\\\3\n\\end{bmatrix}.\n\\]\nNo existe una recta que pase exactamente por todos los puntos. Mínimos cuadrados elige la recta que minimiza la suma de residuales cuadrados.\nx = np.array([0, 1, 2, 3], dtype=float).reshape(-1, 1)\ny = np.array([1.1, 2.9, 5.2, 6.8], dtype=float)\nX = add_intercept(x)\ntheta = normal_equation(X, y)\ny_hat = X @ theta\nresiduals = y - y_hat\nmse = np.mean(residuals ** 2)\nUna buena explicación debe incluir:\n\nlos coeficientes estimados;\nel MSE;\nuna inspección de residuales;\ncomparación contra baseline.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#baseline-de-regresión",
+    "href": "capitulo01_regresion_lineal.html#baseline-de-regresión",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Baseline de regresión",
+    "text": "Baseline de regresión\nUn baseline es una regla simple que el modelo debe superar. Para regresión, el baseline más común predice siempre el promedio de y_train:\n\\[\n\\hat y_i = \\bar y_{\\text{train}}.\n\\]\nSu MSE en prueba es:\n\\[\n\\operatorname{MSE}_{\\text{baseline}}\n=\n\\frac{1}{n_{\\text{test}}}\n\\sum_{i\\in \\text{test}}\n(y_i-\\bar y_{\\text{train}})^2.\n\\]\n\nCriterio aplicado. Un modelo lineal que no mejora el baseline en datos de prueba no justifica una decisión, aunque tenga coeficientes matemáticamente calculados.\n\nbaseline = np.mean(y_train)\ny_pred_base = np.full_like(y_test, fill_value=baseline, dtype=float)\nmse_base = np.mean((y_test - y_pred_base) ** 2)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#interpretación-de-coeficientes",
+    "href": "capitulo01_regresion_lineal.html#interpretación-de-coeficientes",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Interpretación de coeficientes",
+    "text": "Interpretación de coeficientes\nEn un modelo lineal:\n\\[\n\\hat y =\n\\theta_0+\\theta_1x_1+\\cdots+\\theta_dx_d.\n\\]\nEl coeficiente theta_j se interpreta como el cambio esperado en la predicción cuando x_j aumenta una unidad y las demás variables se mantienen constantes.\nEsta frase tiene tres condiciones:\n\nhabla de la predicción, no necesariamente de causalidad;\ndepende de la escala de x_j;\nmantiene las demás variables constantes, lo cual puede ser poco realista si las variables están correlacionadas.\n\n\nNo confundas asociación con causalidad. Un coeficiente grande no prueba que una variable cause el resultado. Para causalidad se necesita diseño, supuestos y argumento adicional.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#multicolinealidad-y-rango",
+    "href": "capitulo01_regresion_lineal.html#multicolinealidad-y-rango",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Multicolinealidad y rango",
+    "text": "Multicolinealidad y rango\nSi una columna de X puede escribirse como combinación lineal de otras columnas, entonces X no tiene rango columna completo. En ese caso X.T @ X no es invertible.\nEjemplo:\nx1 = np.array([1, 2, 3, 4], dtype=float)\nx2 = 2 * x1\nX = np.column_stack([np.ones_like(x1), x1, x2])\nAquí la tercera columna contiene exactamente la misma información que la segunda.\nSíntomas prácticos:\n\nerror de matriz singular al resolver la ecuación normal;\ncoeficientes muy inestables;\ncambios grandes en coeficientes cuando se modifica poco el dataset;\ninterpretaciones contradictorias.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#errores-comunes",
+    "href": "capitulo01_regresion_lineal.html#errores-comunes",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Errores comunes",
+    "text": "Errores comunes\n\nOlvidar la columna de intercepto.\nUsar np.linalg.inv innecesariamente.\nEntrenar y evaluar sobre los mismos datos.\nReportar solo coeficientes sin métrica.\nComparar modelos sin baseline.\nInterpretar coeficientes sin revisar escala.\nIgnorar multicolinealidad.\nConfundir buen ajuste en entrenamiento con generalización.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#checklist-de-estudio",
+    "href": "capitulo01_regresion_lineal.html#checklist-de-estudio",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Checklist de estudio",
+    "text": "Checklist de estudio\nAntes de pasar al Capítulo 2, deberías poder responder:\n\n\n¿Cuál es la forma de X, theta, y y X @ theta?\n¿Por qué agregamos una columna de unos?\n¿Qué mide un residual?\n¿Por qué usamos errores cuadrados?\n¿Cómo se deriva X.T @ X theta = X.T @ y?\n¿Cuándo puede fallar la ecuación normal?\n¿Cuál es el baseline natural en regresión?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#para-explorar-más",
+    "href": "capitulo01_regresion_lineal.html#para-explorar-más",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: rehace la derivación del gradiente usando diferenciales y verifica que la forma final sea compatible con las dimensiones de \\(X\\), \\(y\\) y \\(\\theta\\).\nExtensión computacional: compara np.linalg.solve, np.linalg.lstsq y LinearRegression sobre el mismo dataset; registra cuándo cambian los coeficientes.\nConexión con proyecto: documenta la matriz de diseño de tu baseline: variables, intercepto, transformaciones y forma final de X.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#revisión-del-capítulo",
+    "href": "capitulo01_regresion_lineal.html#revisión-del-capítulo",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nEn este capítulo conectamos un problema de predicción numérica con álgebra matricial. La matriz de diseño organiza las variables, el vector de parámetros define el modelo y la pérdida MSE mide el error promedio de predicción.\nEl resultado central es que mínimos cuadrados puede leerse de dos formas equivalentes: como optimización de una norma cuadrática y como proyección geométrica de \\(y\\) sobre el espacio columna de \\(X\\). La ecuación normal \\(X^\\top X\\theta=X^\\top y\\) aparece cuando el gradiente de la pérdida se anula.\nPara usar regresión lineal profesionalmente, no basta resolver la ecuación. Hay que comparar contra un baseline, revisar formas, evitar inversiones numéricas innecesarias e interpretar coeficientes solo bajo las condiciones del diseño y del preprocesamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#términos-clave",
+    "href": "capitulo01_regresion_lineal.html#términos-clave",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nRegresión supervisada: aprendizaje de una función que predice una cantidad real a partir de variables observadas.\nMatriz de diseño: matriz que organiza intercepto, variables y transformaciones usadas por el modelo.\nResidual: diferencia entre el valor observado y la predicción del modelo.\nMSE: promedio de errores cuadrados usado para medir ajuste en regresión.\nEcuación normal: sistema \\(X^\\top X\\theta=X^\\top y\\) que caracteriza mínimos cuadrados.\nBaseline: regla simple que un modelo debe superar para justificar su complejidad.\nMulticolinealidad: dependencia lineal o casi lineal entre columnas de la matriz de diseño.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_regresion_lineal.html#ejercicios",
+    "href": "capitulo01_regresion_lineal.html#ejercicios",
+    "title": "Capítulo 1: Regresión lineal múltiple",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplica en tus palabras qué significa que X sea una matriz de diseño.\n¿Por qué el intercepto puede representarse con una columna de unos?\n¿Qué diferencia hay entre residual y error de generalización?\n¿Por qué un modelo puede tener MSE bajo en entrenamiento y aun así ser malo?\nExplica por qué un coeficiente no implica causalidad.\n\n\n\nProblemas cuantitativos\n\nSea \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\n\\quad\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix}.\n\\] Calcula X.T @ X, X.T @ y y resuelve la ecuación normal.\nPara \\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2,\n\\] reproduce la derivación del gradiente sin mirar el texto.\nDemuestra que si X.T @ (y - X theta) = 0, los residuales son ortogonales a cada columna de X.\n\n\n\nPráctica computacional\n\nImplementa add_intercept(X) sin usar ciclos.\nImplementa mse_loss(X, y, theta).\nImplementa normal_equation(X, y) usando np.linalg.solve.\nSimula datos con y = 3 - 2x + ruido y estima los parámetros.\nCompara el MSE del modelo contra el baseline del promedio.\n\n\n\nInterpretación y pensamiento crítico\n\nUn modelo obtiene MSE de entrenamiento 4.1 y MSE de prueba 18.7. ¿Qué hipótesis harías?\nUn modelo no mejora el baseline. Escribe dos posibles razones técnicas.\nSi una variable está medida en pesos y otra en millones de pesos, ¿por qué sus coeficientes no son directamente comparables?\n\n\n\nProyecto de cierre\n\nElige un dataset tabular de regresión o genera uno pequeño con semilla fija. Define la matriz de diseño, ajusta mínimos cuadrados, compara contra el baseline del promedio y escribe una recomendación de máximo 150 palabras que incluya métrica, limitación y siguiente verificación.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Capítulo 1: Regresión lineal múltiple</span>"
     ]
@@ -64,47 +214,177 @@
     "href": "capitulo02_descenso_gradiente.html",
     "title": "Capítulo 2: Descenso del gradiente",
     "section": "",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nEn el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.",
+    "text": "Pregunta aplicada\n¿Cómo ajustamos parámetros cuando no queremos o no podemos depender de una fórmula cerrada, y cómo diagnosticamos si el algoritmo realmente está aprendiendo?",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
     ]
   },
   {
-    "objectID": "capitulo02_descenso_gradiente.html#conceptuales",
-    "href": "capitulo02_descenso_gradiente.html#conceptuales",
+    "objectID": "capitulo02_descenso_gradiente.html#objetivos-del-capítulo",
+    "href": "capitulo02_descenso_gradiente.html#objetivos-del-capítulo",
     "title": "Capítulo 2: Descenso del gradiente",
-    "section": "Conceptuales",
-    "text": "Conceptuales\n\nExplica por qué el gradiente apunta en la dirección de mayor aumento.\n¿Por qué usamos theta - alpha * grad y no theta + alpha * grad?\n¿Qué evidencia usarías para afirmar que el algoritmo convergió?\n¿Por qué escalar variables puede acelerar el descenso del gradiente?\nExplica qué problema produce escalar prueba con su propia media.",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nexplicar qué significa minimizar una función de pérdida;\nimplementar descenso del gradiente para MSE;\ninterpretar una curva de pérdida;\nescoger una tasa de aprendizaje razonable por diagnóstico;\nexplicar por qué el escalamiento afecta la optimización;\nreconocer problemas de condicionamiento;\ncomparar una solución iterativa con la ecuación normal.\n\nEn el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
     ]
   },
   {
-    "objectID": "capitulo02_descenso_gradiente.html#cálculo",
-    "href": "capitulo02_descenso_gradiente.html#cálculo",
+    "objectID": "capitulo02_descenso_gradiente.html#optimización-como-búsqueda",
+    "href": "capitulo02_descenso_gradiente.html#optimización-como-búsqueda",
     "title": "Capítulo 2: Descenso del gradiente",
-    "section": "Cálculo",
-    "text": "Cálculo\n\nPara \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\\quad\ny=\\begin{bmatrix}1\\\\3\\\\5\\end{bmatrix},\\quad\n\\theta=\\begin{bmatrix}0\\\\0\\end{bmatrix},\n\\] calcula el gradiente de J(theta).\nEjecuta manualmente dos pasos de descenso del gradiente con alpha=0.1 para el ejercicio anterior.\nSi una curva de pérdida pasa de 100 a 80, luego a 130, luego a 70, ¿qué sospechas sobre alpha?",
+    "section": "Optimización como búsqueda",
+    "text": "Optimización como búsqueda\nTenemos una función de pérdida:\n\\[\nJ(\\theta).\n\\]\nQueremos encontrar parámetros con pérdida pequeña:\n\\[\n\\theta^\\star = \\arg\\min_\\theta J(\\theta).\n\\]\nEn regresión lineal con MSE, J es convexa. Eso significa que no hay mínimos locales malos: cualquier mínimo local es global. Pero que el problema sea convexo no significa que cualquier algoritmo llegue rápido.\n\nDefinición 2.1: optimización.\nOptimizar un modelo es buscar parámetros que minimicen una función objetivo. En aprendizaje supervisado, esa función suele medir discrepancia entre predicciones y observaciones, posiblemente más una penalización.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
     ]
   },
   {
-    "objectID": "capitulo02_descenso_gradiente.html#código",
-    "href": "capitulo02_descenso_gradiente.html#código",
+    "objectID": "capitulo02_descenso_gradiente.html#idea-geométrica-del-gradiente",
+    "href": "capitulo02_descenso_gradiente.html#idea-geométrica-del-gradiente",
     "title": "Capítulo 2: Descenso del gradiente",
-    "section": "Código",
-    "text": "Código\n\nImplementa gradient_descent(X, y, alpha, max_iter).\nAgrega un criterio de parada por norma del gradiente.\nCompara tres tasas de aprendizaje en un dataset sintético.\nEstandariza variables sin tocar la columna de intercepto.\nCalcula np.linalg.cond(X.T @ X) antes y después de escalar.",
+    "section": "Idea geométrica del gradiente",
+    "text": "Idea geométrica del gradiente\nEl gradiente grad J(theta) apunta en la dirección de mayor crecimiento local de la función. Para bajar la pérdida, nos movemos en la dirección contraria:\n\\[\n\\theta_{\\text{nuevo}}\n=\n\\theta_{\\text{actual}}-\\alpha\\nabla J(\\theta_{\\text{actual}}).\n\\]\nAquí alpha es la tasa de aprendizaje.\n\nDefinición 2.2: tasa de aprendizaje.\nLa tasa de aprendizaje alpha controla el tamaño del paso en cada iteración del descenso del gradiente. Si es demasiado pequeña, el algoritmo avanza lentamente. Si es demasiado grande, puede oscilar o divergir.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
     ]
   },
   {
-    "objectID": "capitulo02_descenso_gradiente.html#interpretación",
-    "href": "capitulo02_descenso_gradiente.html#interpretación",
+    "objectID": "capitulo02_descenso_gradiente.html#algoritmo-básico",
+    "href": "capitulo02_descenso_gradiente.html#algoritmo-básico",
     "title": "Capítulo 2: Descenso del gradiente",
-    "section": "Interpretación",
-    "text": "Interpretación\n\nTu modelo con gradiente obtiene MSE mayor que la ecuación normal. Escribe tres hipótesis técnicas.\nTu curva converge en entrenamiento, pero el error de prueba es malo. ¿El problema es necesariamente el optimizador?\n¿Qué decisión tomarías si alpha=0.1 converge en 200 iteraciones y alpha=0.01 converge en 5000?",
+    "section": "Algoritmo básico",
+    "text": "Algoritmo básico\nPara MSE:\n\\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2,\n\\]\nel gradiente es:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\nEl algoritmo es:\ninicializar theta\npara t = 1, ..., max_iter:\n    grad = (X.T @ (X @ theta - y)) / n\n    theta = theta - alpha * grad\n    guardar pérdida\nImplementación:\ndef gradient_descent(X, y, alpha=0.1, max_iter=1000, tol=1e-8):\n    n, p = X.shape\n    theta = np.zeros(p)\n    history = []\n\n    for _ in range(max_iter):\n        residual = X @ theta - y\n        loss = 0.5 * np.mean(residual ** 2)\n        grad = (X.T @ residual) / n\n\n        history.append(loss)\n        theta_next = theta - alpha * grad\n\n        if np.linalg.norm(theta_next - theta) &lt; tol:\n            theta = theta_next\n            break\n\n        theta = theta_next\n\n    return theta, np.array(history)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#cómo-leer-una-curva-de-pérdida",
+    "href": "capitulo02_descenso_gradiente.html#cómo-leer-una-curva-de-pérdida",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Cómo leer una curva de pérdida",
+    "text": "Cómo leer una curva de pérdida\nLa curva de pérdida es una herramienta de diagnóstico. No basta con mirar el resultado final.\n\n\n\n\n\n\n\n\nPatrón observado\nInterpretación probable\nAcción\n\n\n\n\nBaja de forma suave\nalpha razonable\nContinuar\n\n\nBaja muy lentamente\nalpha pequeño o mala escala\nAumentar alpha o escalar\n\n\nOscila\nalpha grande\nReducir alpha\n\n\nExplota a infinito\nalpha demasiado grande\nReducir mucho alpha\n\n\nBaja y se estanca alto\nmodelo limitado o pocas iteraciones\nrevisar features/modelo\n\n\nEntrena bien, prueba mal\noverfitting o leakage\nrevisar validación\n\n\n\n\nCriterio práctico. Una curva de pérdida sin eje, sin escala y sin comentario no es evidencia. Debes decir si converge, si oscila, si se estabiliza y qué harías después.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#ejemplo-resuelto-una-variable-escalada",
+    "href": "capitulo02_descenso_gradiente.html#ejemplo-resuelto-una-variable-escalada",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Ejemplo resuelto: una variable escalada",
+    "text": "Ejemplo resuelto: una variable escalada\nSupón dos variables:\n\nx1: edad en años, rango aproximado 18 a 80;\nx2: ingreso anual en pesos, rango aproximado 10,000,000 a 500,000,000.\n\nEn la matriz X, la segunda columna puede dominar el gradiente por escala, aunque no sea más importante conceptualmente. El algoritmo tendrá que usar una tasa de aprendizaje muy pequeña para no explotar en esa dirección.\nLa solución no es cambiar la pregunta, sino cambiar la representación:\n\\[\nz_j = \\frac{x_j-\\mu_j}{s_j}.\n\\]\nDonde mu_j y s_j se calculan con entrenamiento.\nmu = X_train.mean(axis=0)\nsigma = X_train.std(axis=0)\nsigma[sigma == 0] = 1\n\nX_train_scaled = (X_train - mu) / sigma\nX_test_scaled = (X_test - mu) / sigma\n\nRegla anti-leakage. El promedio y la desviación estándar se calculan con entrenamiento. Luego se aplican a validación y prueba. No se ajustan con todo el dataset.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#escalamiento-y-geometría",
+    "href": "capitulo02_descenso_gradiente.html#escalamiento-y-geometría",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Escalamiento y geometría",
+    "text": "Escalamiento y geometría\nSi las variables tienen escalas muy distintas, las curvas de nivel de la pérdida pueden ser alargadas. El descenso del gradiente avanza en zigzag porque la dirección de máximo descenso local no apunta directamente al mínimo.\nEscalar variables suele transformar el problema para que las curvas de nivel sean menos alargadas. Esto no cambia la información esencial, pero sí cambia la geometría del algoritmo.\n\nDefinición 2.3: estandarización.\nEstandarizar una variable es restarle su media de entrenamiento y dividirla por su desviación estándar de entrenamiento. La variable resultante tiene media cercana a cero y escala comparable con otras variables.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#condicionamiento",
+    "href": "capitulo02_descenso_gradiente.html#condicionamiento",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Condicionamiento",
+    "text": "Condicionamiento\nEl condicionamiento mide qué tan sensible es un problema numérico a cambios pequeños. Para mínimos cuadrados, una matriz X.T @ X mal condicionada puede producir coeficientes inestables y descenso lento.\nEl número de condición de una matriz invertible A se define como:\n\\[\n\\kappa(A)=\\|A\\|\\|A^{-1}\\|.\n\\]\nCon norma espectral:\n\\[\n\\kappa(A)=\\frac{\\sigma_{\\max}(A)}{\\sigma_{\\min}(A)}.\n\\]\nSi kappa es grande, hay direcciones donde la curvatura de la pérdida cambia mucho.\ncond = np.linalg.cond(X.T @ X)\n\nLectura práctica. Un número de condición grande no invalida automáticamente un modelo, pero alerta sobre inestabilidad, colinealidad o necesidad de regularización.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#comparación-con-ecuación-normal",
+    "href": "capitulo02_descenso_gradiente.html#comparación-con-ecuación-normal",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Comparación con ecuación normal",
+    "text": "Comparación con ecuación normal\nPara regresión lineal con MSE, la ecuación normal y descenso del gradiente buscan el mismo mínimo. Por eso podemos usarlas como verificación mutua:\ntheta_ne = np.linalg.solve(X.T @ X, X.T @ y)\ntheta_gd, history = gradient_descent(X, y, alpha=0.1)\n\nnp.linalg.norm(theta_ne - theta_gd)\nSi la diferencia es grande, puede ocurrir:\n\nfaltaron iteraciones;\nla tasa de aprendizaje es inadecuada;\nlas variables no están escaladas;\nhay un error en el gradiente;\nla matriz está mal condicionada.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#batch-stochastic-y-mini-batch",
+    "href": "capitulo02_descenso_gradiente.html#batch-stochastic-y-mini-batch",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Batch, stochastic y mini-batch",
+    "text": "Batch, stochastic y mini-batch\nEn este módulo usamos descenso del gradiente batch: cada paso calcula el gradiente con todos los datos.\n\n\n\n\n\n\n\n\n\nVariante\nUsa en cada paso\nVentaja\nCosto\n\n\n\n\nBatch\ntodo el dataset\ngradiente estable\ncaro en datasets grandes\n\n\nStochastic\nuna observación\npasos baratos\nruidoso\n\n\nMini-batch\nun subconjunto\nbalance práctico\nrequiere más diseño\n\n\n\nEn redes neuronales usaremos mini-batches. La idea central sigue siendo la misma: mover parámetros en dirección contraria al gradiente.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#tasa-de-aprendizaje-una-rutina-práctica",
+    "href": "capitulo02_descenso_gradiente.html#tasa-de-aprendizaje-una-rutina-práctica",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Tasa de aprendizaje: una rutina práctica",
+    "text": "Tasa de aprendizaje: una rutina práctica\nUna estrategia razonable para este módulo:\n\nEscala las variables.\nPrueba alpha en una lista: 0.001, 0.01, 0.05, 0.1, 0.5.\nGrafica la pérdida.\nDescarta valores que divergen u oscilan.\nElige el mayor valor que baje de forma estable.\nVerifica desempeño en validación o prueba.\n\nalphas = [0.001, 0.01, 0.05, 0.1, 0.5]\nresults = {}\nfor alpha in alphas:\n    theta, history = gradient_descent(X_train_scaled, y_train, alpha=alpha)\n    results[alpha] = history",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#errores-comunes",
+    "href": "capitulo02_descenso_gradiente.html#errores-comunes",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Errores comunes",
+    "text": "Errores comunes\n\nNo guardar la historia de pérdida.\nReportar solo el último theta sin diagnóstico de convergencia.\nUsar alpha grande y no detectar divergencia.\nEscalar entrenamiento y prueba por separado.\nIncluir la columna de intercepto en el escalamiento.\nComparar gradiente contra ecuación normal sin usar la misma matriz X.\nCreer que más iteraciones arreglan un mal modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#checklist-de-estudio",
+    "href": "capitulo02_descenso_gradiente.html#checklist-de-estudio",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Checklist de estudio",
+    "text": "Checklist de estudio\n\n\n¿Puedes escribir la actualización de descenso del gradiente?\n¿Puedes explicar el papel de alpha?\n¿Puedes implementar el gradiente de MSE sin ciclos?\n¿Puedes interpretar una curva que oscila?\n¿Sabes por qué se escala con parámetros de entrenamiento?\n¿Puedes comparar theta_gd con theta_ne?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#para-explorar-más",
+    "href": "capitulo02_descenso_gradiente.html#para-explorar-más",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: analiza cómo cambia la cota de estabilidad del paso cuando el valor propio dominante de \\(X^\\top X\\) aumenta.\nExtensión computacional: grafica curvas de pérdida para tres tasas de aprendizaje y marca divergencia, convergencia lenta y convergencia estable.\nConexión con proyecto: registra en tu bitácora qué variables necesitan escalamiento antes de entrenar y cómo lo verificaste.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#revisión-del-capítulo",
+    "href": "capitulo02_descenso_gradiente.html#revisión-del-capítulo",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nEl descenso del gradiente convierte cálculo diferencial en un algoritmo iterativo. En lugar de resolver directamente una ecuación cerrada, actualiza los parámetros en la dirección opuesta al gradiente de la pérdida.\nLa tasa de aprendizaje controla el tamaño de cada paso. Una tasa demasiado pequeña produce avance lento; una tasa demasiado grande puede provocar oscilación o divergencia. El escalamiento de variables mejora el condicionamiento y hace que las direcciones de descenso sean más comparables.\nUna implementación confiable debe registrar la pérdida, verificar que las formas de matrices coincidan y comparar el resultado contra una referencia. La curva de pérdida no es decoración: es evidencia de convergencia o de un problema de escala, tasa o código.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#términos-clave",
+    "href": "capitulo02_descenso_gradiente.html#términos-clave",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nOptimización: búsqueda de parámetros que minimizan una función objetivo.\nGradiente: dirección de mayor aumento local de una función diferenciable.\nTasa de aprendizaje: escala del paso en cada actualización iterativa.\nConvergencia: estabilización del algoritmo hacia pérdida o gradiente suficientemente pequeños.\nEstandarización: transformación que centra y escala variables usando estadísticas de entrenamiento.\nCondicionamiento: sensibilidad numérica de un sistema o problema ante pequeñas perturbaciones.\nMini-batch: subconjunto de observaciones usado para aproximar un paso de optimización.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_descenso_gradiente.html#ejercicios",
+    "href": "capitulo02_descenso_gradiente.html#ejercicios",
+    "title": "Capítulo 2: Descenso del gradiente",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplica por qué el gradiente apunta en la dirección de mayor aumento.\n¿Por qué usamos theta - alpha * grad y no theta + alpha * grad?\n¿Qué evidencia usarías para afirmar que el algoritmo convergió?\n¿Por qué escalar variables puede acelerar el descenso del gradiente?\nExplica qué problema produce escalar prueba con su propia media.\n\n\n\nProblemas cuantitativos\n\nPara \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\\quad\ny=\\begin{bmatrix}1\\\\3\\\\5\\end{bmatrix},\\quad\n\\theta=\\begin{bmatrix}0\\\\0\\end{bmatrix},\n\\] calcula el gradiente de J(theta).\nEjecuta manualmente dos pasos de descenso del gradiente con alpha=0.1 para el ejercicio anterior.\nSi una curva de pérdida pasa de 100 a 80, luego a 130, luego a 70, ¿qué sospechas sobre alpha?\n\n\n\nPráctica computacional\n\nImplementa gradient_descent(X, y, alpha, max_iter).\nAgrega un criterio de parada por norma del gradiente.\nCompara tres tasas de aprendizaje en un dataset generado con semilla fija.\nEstandariza variables sin tocar la columna de intercepto.\nCalcula np.linalg.cond(X.T @ X) antes y después de escalar.\n\n\n\nInterpretación y pensamiento crítico\n\nTu modelo con gradiente obtiene MSE mayor que la ecuación normal. Escribe tres hipótesis técnicas.\nTu curva converge en entrenamiento, pero el error de prueba es malo. ¿El problema es necesariamente el optimizador?\n¿Qué decisión tomarías si alpha=0.1 converge en 200 iteraciones y alpha=0.01 converge en 5000?\n\n\n\nProyecto de cierre\n\nConstruye un experimento pequeño con dos variables en escalas muy distintas. Ejecuta descenso del gradiente antes y después de estandarizar, grafica la pérdida y redacta un diagnóstico que explique qué cambió y qué no demuestra el experimento.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Capítulo 2: Descenso del gradiente</span>"
     ]
@@ -114,47 +394,207 @@
     "href": "capitulo03_regularizacion_validacion.html",
     "title": "Capítulo 3: Validación y regularización",
     "section": "",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nEl Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?",
+    "text": "Pregunta aplicada\n¿Cómo elegimos la complejidad de un modelo sin engañarnos con el entrenamiento ni contaminar la evaluación final?",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
     ]
   },
   {
-    "objectID": "capitulo03_regularizacion_validacion.html#conceptuales",
-    "href": "capitulo03_regularizacion_validacion.html#conceptuales",
+    "objectID": "capitulo03_regularizacion_validacion.html#objetivos-del-capítulo",
+    "href": "capitulo03_regularizacion_validacion.html#objetivos-del-capítulo",
     "title": "Capítulo 3: Validación y regularización",
-    "section": "Conceptuales",
-    "text": "Conceptuales\n\nExplica por qué un polinomio de grado alto puede sobreajustar.\n¿Por qué no se debe escoger lambda con el conjunto de prueba?\n¿Qué diferencia conceptual hay entre Ridge y Lasso?\n¿Por qué la estandarización es especialmente importante antes de Lasso?\nDa dos ejemplos de leakage en un proyecto real.",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nconstruir features polinomiales e interacciones;\nexplicar underfitting y overfitting;\nseparar entrenamiento, validación y prueba;\nevitar leakage en preprocesamiento;\nformular Ridge y Lasso;\ninterpretar el efecto de lambda;\nseleccionar modelos con una métrica de validación;\njustificar un modelo final sin mirar la prueba repetidamente.\n\nEl Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
     ]
   },
   {
-    "objectID": "capitulo03_regularizacion_validacion.html#cálculo",
-    "href": "capitulo03_regularizacion_validacion.html#cálculo",
+    "objectID": "capitulo03_regularizacion_validacion.html#feature-engineering",
+    "href": "capitulo03_regularizacion_validacion.html#feature-engineering",
     "title": "Capítulo 3: Validación y regularización",
-    "section": "Cálculo",
-    "text": "Cálculo\n\nEscribe el objetivo Ridge para un modelo con intercepto y dos variables.\nDeriva el gradiente Ridge cuando no se penaliza el intercepto.\nPara \\[\n\\theta=(3, 4, -1),\n\\] calcula la penalización L2 y L1 sin incluir el intercepto.\nExplica qué ocurre con la solución Ridge cuando lambda -&gt; infinity.",
+    "section": "Feature engineering",
+    "text": "Feature engineering\nUn modelo lineal es lineal en sus parámetros, no necesariamente en las variables originales. Podemos transformar entradas para darle más flexibilidad.\nSi tenemos una variable x, podemos crear:\n\\[\n1,\\quad x,\\quad x^2,\\quad x^3.\n\\]\nEl modelo:\n\\[\n\\hat y = \\theta_0+\\theta_1x+\\theta_2x^2+\\theta_3x^3\n\\]\nsigue siendo lineal en theta, aunque sea polinomial en x.\n\nDefinición 3.1: feature engineering.\nFeature engineering es el proceso de construir variables de entrada a partir de datos originales usando conocimiento del problema, transformaciones matemáticas o codificaciones computacionales.\n\nEjemplos:\n\n\n\nTransformación\nUso\n\n\n\n\nx^2, x^3\ncurvatura\n\n\nx1 * x2\ninteracción\n\n\nlog(x)\nescala multiplicativa\n\n\n1{x &gt; c}\numbral\n\n\none-hot encoding\nvariables categóricas\n\n\nestandarización\noptimización y regularización",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
     ]
   },
   {
-    "objectID": "capitulo03_regularizacion_validacion.html#código",
-    "href": "capitulo03_regularizacion_validacion.html#código",
+    "objectID": "capitulo03_regularizacion_validacion.html#regresión-polinomial",
+    "href": "capitulo03_regularizacion_validacion.html#regresión-polinomial",
     "title": "Capítulo 3: Validación y regularización",
-    "section": "Código",
-    "text": "Código\n\nImplementa polynomial_features_1d(x, degree).\nImplementa ridge_closed_form(X, y, lam) sin penalizar intercepto.\nDivide un dataset en train/validation/test con semilla fija.\nAjusta scaler en train y aplícalo a validation/test.\nCompara al menos cinco valores de lambda.\nGrafica mse_train y mse_val contra lambda.",
+    "section": "Regresión polinomial",
+    "text": "Regresión polinomial\nCon una variable:\ndef polynomial_features_1d(x, degree):\n    x = np.asarray(x, dtype=float).reshape(-1, 1)\n    cols = [np.ones((x.shape[0], 1))]\n    for k in range(1, degree + 1):\n        cols.append(x ** k)\n    return np.hstack(cols)\nPara grados pequeños, la regresión polinomial puede capturar curvatura. Para grados altos, puede memorizar ruido.\n\nCriterio aplicado. Una feature nueva debe tener una razón: mejorar ajuste, capturar conocimiento del dominio, resolver no linealidad o facilitar una decisión. Agregar features sin validación no es progreso.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
     ]
   },
   {
-    "objectID": "capitulo03_regularizacion_validacion.html#interpretación",
-    "href": "capitulo03_regularizacion_validacion.html#interpretación",
+    "objectID": "capitulo03_regularizacion_validacion.html#underfitting-y-overfitting",
+    "href": "capitulo03_regularizacion_validacion.html#underfitting-y-overfitting",
     "title": "Capítulo 3: Validación y regularización",
-    "section": "Interpretación",
-    "text": "Interpretación\n\nUn modelo con lambda=0 tiene MSE train 1.2 y MSE val 30.0; con lambda=0.1 tiene MSE train 4.5 y MSE val 8.0. ¿Cuál prefieres y por qué?\nLasso deja una variable en cero. ¿Qué puedes afirmar y qué no puedes afirmar?\nSi Ridge mejora validación pero empeora entrenamiento, ¿eso es necesariamente malo?",
+    "section": "Underfitting y overfitting",
+    "text": "Underfitting y overfitting\n\nDefinición 3.2: underfitting.\nOcurre cuando el modelo es demasiado simple para capturar la estructura relevante de los datos. Suele verse como error alto tanto en entrenamiento como en validación.\n\n\nDefinición 3.3: overfitting.\nOcurre cuando el modelo se ajusta demasiado a patrones accidentales del conjunto de entrenamiento. Suele verse como error bajo en entrenamiento y error alto en validación o prueba.\n\n\n\n\n\n\n\n\n\n\nSituación\nError entrenamiento\nError validación\nDiagnóstico\n\n\n\n\nUnderfitting\nalto\nalto\nfalta complejidad o mejores features\n\n\nBuen ajuste\nbajo/moderado\nbajo/moderado\ngeneraliza razonablemente\n\n\nOverfitting\nmuy bajo\nalto\ndemasiada complejidad o poca regularización\n\n\n\n\n\n\n\n\n\nFigura 4.1: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.\n\n\n\nLectura de la figura. Una curva de aprendizaje no es un resultado decorativo: debe sugerir una acción técnica. La brecha entre entrenamiento y validación apunta a regularización, más datos, menor complejidad o revisión de leakage.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#separación-de-datos",
+    "href": "capitulo03_regularizacion_validacion.html#separación-de-datos",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Separación de datos",
+    "text": "Separación de datos\nUsaremos tres conjuntos cuando sea posible:\n\n\n\nConjunto\nUso\n\n\n\n\nEntrenamiento\najustar parámetros y preprocesamiento\n\n\nValidación\nelegir grado, lambda, umbral o variante\n\n\nPrueba\nestimar desempeño final una sola vez\n\n\n\nSi el dataset es pequeño, puede usarse validación cruzada. Pero el principio no cambia: no se debe usar la prueba como herramienta de diseño.\n\nRegla de prueba. El conjunto de prueba no es un tablero para experimentar. Si lo consultas muchas veces para tomar decisiones, deja de ser una estimación honesta del desempeño final.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#leakage",
+    "href": "capitulo03_regularizacion_validacion.html#leakage",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Leakage",
+    "text": "Leakage\nLeakage ocurre cuando información que no estaría disponible en producción entra al entrenamiento o a la validación.\nEjemplos comunes:\n\nescalar con media y desviación de todo el dataset;\nimputar valores usando prueba;\nseleccionar features mirando el desempeño de prueba;\ncrear una variable que usa información posterior al momento de predicción;\nduplicar observaciones de un mismo individuo en entrenamiento y prueba.\n\n\nPregunta anti-leakage. En el momento real de hacer la predicción, ¿esa información ya existiría? Si la respuesta es no, no debe entrar al modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#regularización",
+    "href": "capitulo03_regularizacion_validacion.html#regularización",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Regularización",
+    "text": "Regularización\nLa regularización modifica el objetivo para penalizar modelos demasiado complejos. En lugar de minimizar solo error de entrenamiento, minimizamos:\n\\[\n\\text{pérdida de datos} + \\text{penalización}.\n\\]\nLa intuición es que, entre modelos con desempeño parecido, preferimos uno más estable y menos extremo.\n\n\n\n\n\n\nFigura 4.2: Regularización: OLS puede producir coeficientes grandes, Ridge reduce magnitudes y Lasso puede llevar coeficientes exactamente a cero.\n\n\n\nLectura de la figura. Ridge y Lasso expresan dos preferencias distintas: Ridge encoge coeficientes hacia valores más estables; Lasso puede producir soluciones esparsas. Ninguna de las dos preferencias reemplaza la validación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#ridge",
+    "href": "capitulo03_regularizacion_validacion.html#ridge",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Ridge",
+    "text": "Ridge\nRidge agrega una penalización L2:\n\\[\nJ_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\frac{\\lambda}{2}\\|\\theta_{1:p}\\|_2^2.\n\\]\nUsualmente no penalizamos el intercepto theta_0.\nEl gradiente para los coeficientes no intercepto es:\n\\[\n\\nabla J_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{n}X^\\top(X\\theta-y)+\\lambda \\tilde\\theta,\n\\]\ndonde:\n\\[\n\\tilde\\theta =\n\\begin{bmatrix}\n0\\\\\n\\theta_1\\\\\n\\vdots\\\\\n\\theta_{p-1}\n\\end{bmatrix}.\n\\]\nSi penalizamos todos los parámetros, la solución cerrada es:\n\\[\n\\theta^\\star_{\\text{ridge}}\n=\n(X^\\top X+n\\lambda I)^{-1}X^\\top y.\n\\]\nSi no penalizamos el intercepto, usamos una matriz diagonal D con D_00=0 y D_jj=1 para j&gt;0:\n\\[\n\\theta^\\star_{\\text{ridge}}\n=\n(X^\\top X+n\\lambda D)^{-1}X^\\top y.\n\\]\ndef ridge_closed_form(X, y, lam):\n    p = X.shape[1]\n    D = np.eye(p)\n    D[0, 0] = 0\n    return np.linalg.solve(X.T @ X + X.shape[0] * lam * D, X.T @ y)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#efecto-de-lambda",
+    "href": "capitulo03_regularizacion_validacion.html#efecto-de-lambda",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Efecto de lambda",
+    "text": "Efecto de lambda\n\n\n\nlambda\nEfecto\n\n\n\n\n0\nregresión lineal sin regularización\n\n\npequeño\nreduce coeficientes extremos suavemente\n\n\nmediano\nmejora estabilidad si hay colinealidad\n\n\ngrande\npuede causar underfitting\n\n\n\n\nLectura aplicada. Ridge no elimina variables; reduce coeficientes. Es útil cuando muchas variables aportan algo y queremos estabilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#lasso",
+    "href": "capitulo03_regularizacion_validacion.html#lasso",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Lasso",
+    "text": "Lasso\nLasso agrega una penalización L1:\n\\[\nJ_{\\text{lasso}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\lambda\\|\\theta_{1:p}\\|_1.\n\\]\nLa norma L1 es:\n\\[\n\\|\\theta\\|_1 = \\sum_j |\\theta_j|.\n\\]\nLasso puede llevar algunos coeficientes exactamente a cero. Por eso se usa como herramienta de selección de variables, aunque esa selección debe interpretarse con cuidado.\n\nLectura aplicada. Lasso es atractivo cuando se espera que pocas variables sean dominantes. Pero con variables muy correlacionadas puede elegir una y descartar otra de forma inestable.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#ridge-vs-lasso",
+    "href": "capitulo03_regularizacion_validacion.html#ridge-vs-lasso",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Ridge vs Lasso",
+    "text": "Ridge vs Lasso\n\n\n\nAspecto\nRidge\nLasso\n\n\n\n\nPenalización\nL2\nL1\n\n\nCoeficientes\nse encogen\nalgunos quedan en cero\n\n\nColinealidad\nreparte peso\npuede escoger una variable\n\n\nSolución cerrada simple\nsí\nno en general\n\n\nUso típico\nestabilidad\nselección de variables",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#estandarización-antes-de-regularizar",
+    "href": "capitulo03_regularizacion_validacion.html#estandarización-antes-de-regularizar",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Estandarización antes de regularizar",
+    "text": "Estandarización antes de regularizar\nRidge y Lasso penalizan coeficientes. Si las variables están en escalas distintas, la penalización no es comparable. Por eso se estandarizan variables antes de regularizar.\nPipeline correcto:\n\nseparar entrenamiento, validación y prueba;\najustar StandardScaler con entrenamiento;\ntransformar entrenamiento, validación y prueba con ese scaler;\najustar modelos regularizados;\nelegir lambda con validación;\nreportar prueba una vez.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#selección-de-modelo",
+    "href": "capitulo03_regularizacion_validacion.html#selección-de-modelo",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Selección de modelo",
+    "text": "Selección de modelo\nUna rutina básica:\nlambdas = [0.0, 0.001, 0.01, 0.1, 1.0, 10.0]\nrecords = []\n\nfor lam in lambdas:\n    theta = ridge_closed_form(X_train_scaled, y_train, lam)\n    pred_train = X_train_scaled @ theta\n    pred_val = X_val_scaled @ theta\n    records.append({\n        \"lambda\": lam,\n        \"mse_train\": np.mean((y_train - pred_train) ** 2),\n        \"mse_val\": np.mean((y_val - pred_val) ** 2),\n        \"coef_norm\": np.linalg.norm(theta[1:])\n    })\nLa selección no se hace por el menor error de entrenamiento, sino por validación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#ejemplo-resuelto-grado-polinomial-y-ridge",
+    "href": "capitulo03_regularizacion_validacion.html#ejemplo-resuelto-grado-polinomial-y-ridge",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Ejemplo resuelto: grado polinomial y Ridge",
+    "text": "Ejemplo resuelto: grado polinomial y Ridge\nSupón que comparas grados 1, 3, 8 con lambda en [0, 0.01, 0.1, 1].\nUn resultado típico puede ser:\n\n\n\ngrado\nlambda\nMSE train\nMSE val\ndiagnóstico\n\n\n\n\n1\n0\nalto\nalto\nunderfitting\n\n\n8\n0\nmuy bajo\nalto\noverfitting\n\n\n8\n0.1\nbajo\nmoderado\nmejor control\n\n\n3\n0.01\nmoderado\nbajo\ncandidato final\n\n\n\nLa conclusión debe explicar el compromiso, no solo señalar el mínimo.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#errores-comunes",
+    "href": "capitulo03_regularizacion_validacion.html#errores-comunes",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Errores comunes",
+    "text": "Errores comunes\n\nCrear polinomios después de mezclar entrenamiento y prueba.\nElegir grado por error de entrenamiento.\nUsar prueba para escoger lambda.\nRegularizar sin escalar.\nPenalizar el intercepto sin intención.\nConcluir que Lasso descubrió causalidad.\nComparar modelos con particiones distintas.\nNo reportar baseline.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#checklist-de-estudio",
+    "href": "capitulo03_regularizacion_validacion.html#checklist-de-estudio",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Checklist de estudio",
+    "text": "Checklist de estudio\n\n\n¿Puedes explicar overfitting con errores train/val?\n¿Puedes construir features polinomiales?\n¿Sabes qué es leakage?\n¿Puedes escribir el objetivo de Ridge?\n¿Puedes explicar por qué Lasso puede hacer selección de variables?\n¿Sabes por qué se escala antes de regularizar?\n¿Puedes elegir un modelo usando validación y no prueba?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#para-explorar-más",
+    "href": "capitulo03_regularizacion_validacion.html#para-explorar-más",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: compara el efecto de Ridge y Lasso sobre dos variables altamente correlacionadas y explica por qué sus coeficientes pueden comportarse distinto.\nExtensión computacional: construye una curva de validación para \\(\\lambda\\) y reporta no solo el mejor valor, sino la región de desempeño estable.\nConexión con proyecto: define qué transformación, partición o hiperparámetro queda prohibido ajustar con el conjunto de test.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#revisión-del-capítulo",
+    "href": "capitulo03_regularizacion_validacion.html#revisión-del-capítulo",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nEste capítulo introduce el problema central de generalización. Un modelo puede reducir mucho el error de entrenamiento y, aun así, fallar en datos nuevos. La validación separa el ajuste de parámetros de la selección de modelo.\nFeature engineering y modelos polinomiales aumentan capacidad, pero también aumentan el riesgo de overfitting. Ridge controla coeficientes grandes mediante penalización L2; Lasso usa penalización L1 y puede llevar algunos coeficientes a cero. En ambos casos, el escalamiento es parte del modelo, no un detalle secundario.\nLa regla profesional es simple: entrenamiento ajusta parámetros, validación elige configuraciones y test estima desempeño final una sola vez. Cualquier transformación aprendida antes de partir los datos puede introducir leakage.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#términos-clave",
+    "href": "capitulo03_regularizacion_validacion.html#términos-clave",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nFeature engineering: construcción de variables a partir de datos originales y conocimiento del problema.\nUnderfitting: error alto por modelo demasiado simple o mal especificado.\nOverfitting: ajuste excesivo al entrenamiento con pobre generalización.\nTrain/validation/test: separación de datos para ajustar, seleccionar y estimar desempeño final.\nLeakage: uso accidental de información que no estaría disponible en predicción real.\nRidge: regularización L2 que penaliza la magnitud cuadrática de coeficientes.\nLasso: regularización L1 que puede llevar coeficientes exactamente a cero.\nHiperparámetro: decisión de configuración elegida por validación, no aprendida directamente como parámetro del modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_regularizacion_validacion.html#ejercicios",
+    "href": "capitulo03_regularizacion_validacion.html#ejercicios",
+    "title": "Capítulo 3: Validación y regularización",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplica por qué un polinomio de grado alto puede sobreajustar.\n¿Por qué no se debe escoger lambda con el conjunto de prueba?\n¿Qué diferencia conceptual hay entre Ridge y Lasso?\n¿Por qué la estandarización es especialmente importante antes de Lasso?\nDa dos ejemplos de leakage en un proyecto real.\n\n\n\nProblemas cuantitativos\n\nEscribe el objetivo Ridge para un modelo con intercepto y dos variables.\nDeriva el gradiente Ridge cuando no se penaliza el intercepto.\nPara \\[\n\\theta=(3, 4, -1),\n\\] calcula la penalización L2 y L1 sin incluir el intercepto.\nExplica qué ocurre con la solución Ridge cuando lambda -&gt; infinity.\n\n\n\nPráctica computacional\n\nImplementa polynomial_features_1d(x, degree).\nImplementa ridge_closed_form(X, y, lam) sin penalizar intercepto.\nDivide un dataset en train/validation/test con semilla fija.\nAjusta scaler en train y aplícalo a validation/test.\nCompara al menos cinco valores de lambda.\nGrafica mse_train y mse_val contra lambda.\n\n\n\nInterpretación y pensamiento crítico\n\nUn modelo con lambda=0 tiene MSE train 1.2 y MSE val 30.0; con lambda=0.1 tiene MSE train 4.5 y MSE val 8.0. ¿Cuál prefieres y por qué?\nLasso deja una variable en cero. ¿Qué puedes afirmar y qué no puedes afirmar?\nSi Ridge mejora validación pero empeora entrenamiento, ¿eso es necesariamente malo?\n\n\n\nProyecto de cierre\n\nDiseña una comparación reproducible entre regresión polinomial sin regularización y Ridge. Usa una partición train/validation/test, reporta una tabla de resultados y escribe una conclusión que mencione explícitamente cómo evitaste leakage.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Capítulo 3: Validación y regularización</span>"
     ]
@@ -164,47 +604,217 @@
     "href": "capitulo04_regresion_logistica.html",
     "title": "Capítulo 4: Regresión logística",
     "section": "",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\nLa regresión logística se llama “regresión”, pero se usa para clasificación. La idea central es modelar una probabilidad:\n\\[\nP(y=1\\mid x).\n\\]",
+    "text": "Pregunta aplicada\n¿Cómo convertimos datos en una probabilidad de clase positiva y luego en una decisión defendible bajo costos de error?",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
     ]
   },
   {
-    "objectID": "capitulo04_regresion_logistica.html#conceptuales",
-    "href": "capitulo04_regresion_logistica.html#conceptuales",
+    "objectID": "capitulo04_regresion_logistica.html#objetivos-del-capítulo",
+    "href": "capitulo04_regresion_logistica.html#objetivos-del-capítulo",
     "title": "Capítulo 4: Regresión logística",
-    "section": "Conceptuales",
-    "text": "Conceptuales\n\n¿Por qué regresión logística no produce directamente una clase?\nExplica qué significa p=0.8 para una observación.\n¿Por qué una predicción muy confiada y equivocada recibe alta log-loss?\n¿Qué diferencia hay entre precision y recall?\nDa un ejemplo donde prefieras recall sobre precision.",
+    "section": "Objetivos del capítulo",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nformular clasificación binaria con probabilidades;\nexplicar la función sigmoide;\ninterpretar log-odds;\nescribir la log-loss binaria;\nderivar el gradiente de la pérdida logística;\ncalcular matriz de confusión, accuracy, precision, recall y F1;\nelegir un umbral según costos de decisión;\ncomparar un clasificador contra un baseline.\n\nLa regresión logística se llama “regresión”, pero se usa para clasificación. La idea central es modelar una probabilidad:\n\\[\nP(y=1\\mid x).\n\\]\n\n\n\n\n\n\nFigura 5.1: Regresión logística: la curva sigmoide produce probabilidades; un umbral convierte probabilidades en clases y modifica la matriz de confusión.\n\n\n\nLectura de la figura. El modelo y la decisión son dos pasos distintos. La sigmoide produce probabilidades; el umbral \\(\\tau\\) convierte esas probabilidades en clases y cambia los errores observados.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
     ]
   },
   {
-    "objectID": "capitulo04_regresion_logistica.html#cálculo",
-    "href": "capitulo04_regresion_logistica.html#cálculo",
+    "objectID": "capitulo04_regresion_logistica.html#clasificación-binaria",
+    "href": "capitulo04_regresion_logistica.html#clasificación-binaria",
     "title": "Capítulo 4: Regresión logística",
-    "section": "Cálculo",
-    "text": "Cálculo\n\nCalcula sigma(0), sigma(2) y sigma(-2) aproximadamente.\nSi TP=40, FP=10, TN=80, FN=20, calcula accuracy, precision, recall y F1.\nPara y=1 y p=0.9, calcula la contribución a log-loss. Repite con p=0.1.\nSi theta_j=0.7, ¿cuánto se multiplican los odds por una unidad adicional de x_j?",
+    "section": "Clasificación binaria",
+    "text": "Clasificación binaria\nEn clasificación binaria, la variable objetivo toma dos valores:\n\\[\ny_i\\in\\{0,1\\}.\n\\]\nEjemplos:\n\n\n\nContexto\nClase positiva 1\n\n\n\n\ndiagnóstico\npaciente con condición\n\n\nfraude\ntransacción fraudulenta\n\n\nretención\ncliente abandona\n\n\ncalidad\nproducto defectuoso\n\n\nadmisión\nsolicitud aprobada\n\n\n\nLa elección de cuál clase es positiva no es neutral. Las métricas y los costos se interpretan respecto a esa clase.\n\nCriterio aplicado. Antes de calcular métricas, declara qué significa la clase positiva y por qué importa.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
     ]
   },
   {
-    "objectID": "capitulo04_regresion_logistica.html#código",
-    "href": "capitulo04_regresion_logistica.html#código",
+    "objectID": "capitulo04_regresion_logistica.html#la-función-sigmoide",
+    "href": "capitulo04_regresion_logistica.html#la-función-sigmoide",
     "title": "Capítulo 4: Regresión logística",
-    "section": "Código",
-    "text": "Código\n\nImplementa sigmoid(z) de forma estable.\nImplementa log_loss_binary(y, p).\nImplementa logistic_gradient(X, y, theta).\nImplementa classification_metrics(y_true, y_pred).\nEvalúa métricas para umbrales 0.2, 0.5 y 0.8.\nElige un umbral que mantenga recall al menos 0.95.",
+    "section": "La función sigmoide",
+    "text": "La función sigmoide\nLa regresión lineal produce valores en toda la recta real. Para modelar probabilidades necesitamos valores entre 0 y 1. Usamos:\n\\[\n\\sigma(z)=\\frac{1}{1+e^{-z}}.\n\\]\nPropiedades:\n\nsi z es grande positivo, sigma(z) se acerca a 1;\nsi z es grande negativo, sigma(z) se acerca a 0;\nsi z=0, sigma(z)=0.5.\n\ndef sigmoid(z):\n    z = np.asarray(z, dtype=float)\n    out = np.empty_like(z)\n    pos = z &gt;= 0\n    out[pos] = 1 / (1 + np.exp(-z[pos]))\n    exp_z = np.exp(z[~pos])\n    out[~pos] = exp_z / (1 + exp_z)\n    return out\nLa implementación anterior evita overflow numérico cuando z es muy negativo o muy positivo.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
     ]
   },
   {
-    "objectID": "capitulo04_regresion_logistica.html#interpretación",
-    "href": "capitulo04_regresion_logistica.html#interpretación",
+    "objectID": "capitulo04_regresion_logistica.html#modelo-logístico",
+    "href": "capitulo04_regresion_logistica.html#modelo-logístico",
     "title": "Capítulo 4: Regresión logística",
-    "section": "Interpretación",
-    "text": "Interpretación\n\nUn modelo tiene accuracy 0.94, pero recall de la clase positiva 0.20. ¿Qué puede estar pasando?\nEn fraude, subir el umbral aumenta precision y baja recall. ¿Cómo explicarías el tradeoff a una persona no técnica?\nSi dos modelos tienen F1 similar, pero uno tiene mejor calibración, ¿en qué situación preferirías el calibrado?",
+    "section": "Modelo logístico",
+    "text": "Modelo logístico\nDefinimos:\n\\[\nz_i = x_i^\\top\\theta.\n\\]\nLa probabilidad estimada es:\n\\[\n\\hat p_i=P(y_i=1\\mid x_i)=\\sigma(x_i^\\top\\theta).\n\\]\nEn forma vectorizada:\n\\[\n\\hat p = \\sigma(X\\theta).\n\\]\nz = X @ theta\np_hat = sigmoid(z)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#log-odds",
+    "href": "capitulo04_regresion_logistica.html#log-odds",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Log-odds",
+    "text": "Log-odds\nLa regresión logística es lineal en los log-odds:\n\\[\n\\log\\left(\\frac{p}{1-p}\\right)=x^\\top\\theta.\n\\]\nEsto significa que un aumento de una unidad en x_j, manteniendo lo demás constante, aumenta los log-odds en theta_j.\nSi exponenciamos:\n\\[\ne^{\\theta_j}\n\\]\nes el factor multiplicativo sobre los odds asociado con una unidad adicional de x_j, manteniendo las demás variables constantes.\n\nCuidado interpretativo. Los coeficientes logísticos no son cambios directos en probabilidad. Son cambios en log-odds. La variación en probabilidad depende del punto donde se evalúe.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#por-qué-no-usamos-mse",
+    "href": "capitulo04_regresion_logistica.html#por-qué-no-usamos-mse",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Por qué no usamos MSE",
+    "text": "Por qué no usamos MSE\nPodríamos intentar ajustar probabilidades con MSE, pero la pérdida natural para clasificación probabilística es la log-loss. Viene de máxima verosimilitud para una variable Bernoulli.\nSi y_i=1, queremos que p_i sea grande. Si y_i=0, queremos que 1-p_i sea grande. La verosimilitud de una observación es:\n\\[\np_i^{y_i}(1-p_i)^{1-y_i}.\n\\]\nLa log-verosimilitud promedio es:\n\\[\n\\frac{1}{n}\\sum_{i=1}^n\n\\left[\ny_i\\log(p_i)+(1-y_i)\\log(1-p_i)\n\\right].\n\\]\nComo optimizamos minimizando, usamos la negativa:\n\\[\nJ(\\theta)=\n-\\frac{1}{n}\\sum_{i=1}^n\n\\left[\ny_i\\log(\\hat p_i)+(1-y_i)\\log(1-\\hat p_i)\n\\right].\n\\]\n\nDefinición 4.1: log-loss binaria.\nLa log-loss penaliza probabilidades confiadas en la dirección equivocada. Una predicción p=0.99 cuando y=0 recibe una penalización mucho mayor que una predicción p=0.55 cuando y=0.\n\nImplementación estable:\ndef log_loss_binary(y, p, eps=1e-15):\n    p = np.clip(p, eps, 1 - eps)\n    return -np.mean(y * np.log(p) + (1 - y) * np.log(1 - p))",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#gradiente-de-la-pérdida-logística",
+    "href": "capitulo04_regresion_logistica.html#gradiente-de-la-pérdida-logística",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Gradiente de la pérdida logística",
+    "text": "Gradiente de la pérdida logística\nPara regresión logística:\n\\[\n\\hat p = \\sigma(X\\theta).\n\\]\nLa pérdida es:\n\\[\nJ(\\theta)=\n-\\frac{1}{n}\n\\sum_{i=1}^n\n\\left[\ny_i\\log(\\hat p_i)+(1-y_i)\\log(1-\\hat p_i)\n\\right].\n\\]\nEl gradiente tiene una forma sorprendentemente parecida al de regresión lineal:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(\\hat p-y).\n\\]\n\nProposición 4.1: gradiente logístico.\nPara regresión logística binaria con log-loss, el gradiente respecto a theta es \\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(\\sigma(X\\theta)-y).\n\\]\n\nImplementación:\ndef logistic_gradient(X, y, theta):\n    p = sigmoid(X @ theta)\n    return (X.T @ (p - y)) / X.shape[0]",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#de-probabilidades-a-clases",
+    "href": "capitulo04_regresion_logistica.html#de-probabilidades-a-clases",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "De probabilidades a clases",
+    "text": "De probabilidades a clases\nEl modelo produce probabilidades. Para tomar una decisión binaria usamos un umbral:\n\\[\n\\hat y_i =\n\\begin{cases}\n1, & \\hat p_i \\ge \\tau,\\\\\n0, & \\hat p_i &lt; \\tau.\n\\end{cases}\n\\]\nEl valor común es tau=0.5, pero no siempre es el mejor.\ndef predict_class(p, threshold=0.5):\n    return (p &gt;= threshold).astype(int)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#matriz-de-confusión",
+    "href": "capitulo04_regresion_logistica.html#matriz-de-confusión",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Matriz de confusión",
+    "text": "Matriz de confusión\n\n\n\n\nPredicho 1\nPredicho 0\n\n\n\n\nReal 1\nTP\nFN\n\n\nReal 0\nFP\nTN\n\n\n\nDonde:\n\nTP: verdaderos positivos;\nTN: verdaderos negativos;\nFP: falsos positivos;\nFN: falsos negativos.\n\ndef confusion_counts(y_true, y_pred):\n    y_true = np.asarray(y_true)\n    y_pred = np.asarray(y_pred)\n    tp = np.sum((y_true == 1) & (y_pred == 1))\n    tn = np.sum((y_true == 0) & (y_pred == 0))\n    fp = np.sum((y_true == 0) & (y_pred == 1))\n    fn = np.sum((y_true == 1) & (y_pred == 0))\n    return tp, fp, tn, fn",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#métricas",
+    "href": "capitulo04_regresion_logistica.html#métricas",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Métricas",
+    "text": "Métricas\nAccuracy:\n\\[\n\\frac{TP+TN}{TP+TN+FP+FN}.\n\\]\nPrecision:\n\\[\n\\frac{TP}{TP+FP}.\n\\]\nRecall:\n\\[\n\\frac{TP}{TP+FN}.\n\\]\nF1:\n\\[\n2\\frac{\\text{precision}\\cdot\\text{recall}}\n{\\text{precision}+\\text{recall}}.\n\\]\ndef classification_metrics(y_true, y_pred):\n    tp, fp, tn, fn = confusion_counts(y_true, y_pred)\n    accuracy = (tp + tn) / (tp + tn + fp + fn)\n    precision = tp / (tp + fp) if (tp + fp) else 0.0\n    recall = tp / (tp + fn) if (tp + fn) else 0.0\n    f1 = (\n        2 * precision * recall / (precision + recall)\n        if (precision + recall) else 0.0\n    )\n    return {\n        \"accuracy\": accuracy,\n        \"precision\": precision,\n        \"recall\": recall,\n        \"f1\": f1,\n    }",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#ejemplo-resuelto-umbral-y-matriz-de-confusión",
+    "href": "capitulo04_regresion_logistica.html#ejemplo-resuelto-umbral-y-matriz-de-confusión",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Ejemplo resuelto: umbral y matriz de confusión",
+    "text": "Ejemplo resuelto: umbral y matriz de confusión\nSupón seis observaciones con etiquetas reales:\n\\[\ny=(1,0,1,0,1,0)\n\\]\ny probabilidades predichas:\n\\[\n\\hat p=(0.92,0.61,0.55,0.40,0.20,0.10).\n\\]\nCon umbral \\(\\tau=0.5\\):\n\\[\n\\hat y=(1,1,1,0,0,0).\n\\]\nLos conteos son:\n\n\\(TP=2\\): observaciones 1 y 3;\n\\(FP=1\\): observación 2;\n\\(TN=2\\): observaciones 4 y 6;\n\\(FN=1\\): observación 5.\n\nPor tanto:\n\\[\n\\text{accuracy}=\\frac{2+2}{6}=0.667,\n\\quad\n\\text{precision}=\\frac{2}{2+1}=0.667,\n\\quad\n\\text{recall}=\\frac{2}{2+1}=0.667.\n\\]\nComo precision y recall son iguales, \\(F1=0.667\\).\nSi subimos el umbral a \\(\\tau=0.7\\), entonces:\n\\[\n\\hat y=(1,0,0,0,0,0).\n\\]\nAhora \\(TP=1\\), \\(FP=0\\), \\(TN=3\\), \\(FN=2\\). La precision sube a 1.0, pero recall baja a \\(1/3\\). El modelo no cambió; cambió la regla de decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#elegir-métricas-según-la-decisión",
+    "href": "capitulo04_regresion_logistica.html#elegir-métricas-según-la-decisión",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Elegir métricas según la decisión",
+    "text": "Elegir métricas según la decisión\nNo hay una métrica universal.\n\n\n\n\n\n\nFigura 5.2: Selección de métricas: el costo relativo de falsos positivos y falsos negativos orienta si conviene mirar accuracy, precisión, recall o una métrica F beta.\n\n\n\nLectura de la figura. La métrica traduce el costo de equivocarse. Si el falso negativo y el falso positivo no tienen el mismo impacto, accuracy rara vez basta como criterio principal.\n\n\n\nSituación\nRiesgo principal\nMétrica prioritaria\n\n\n\n\nenfermedad grave\nfalso negativo\nrecall\n\n\nfraude con revisión humana costosa\nfalso positivo\nprecision\n\n\nclases balanceadas y costos similares\nerror global\naccuracy\n\n\nbalance precision/recall\nambos errores importan\nF1\n\n\nranking de candidatos\ncalidad del orden\nROC-AUC o PR-AUC\n\n\n\n\nCriterio aplicado. La métrica se elige antes de mirar cuál modelo gana. Si eliges la métrica después, puedes estar optimizando la historia que te conviene.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#umbrales",
+    "href": "capitulo04_regresion_logistica.html#umbrales",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Umbrales",
+    "text": "Umbrales\nCambiar el umbral cambia la matriz de confusión.\n\nUmbral bajo: más positivos predichos, mayor recall, menor precision.\nUmbral alto: menos positivos predichos, mayor precision, menor recall.\n\nEjemplo de función para elegir el umbral más alto que mantiene un recall mínimo:\ndef choose_threshold_for_recall(y_true, p, min_recall=0.90):\n    candidates = np.sort(np.unique(p))\n    best = None\n    for threshold in candidates:\n        y_pred = (p &gt;= threshold).astype(int)\n        metrics = classification_metrics(y_true, y_pred)\n        if metrics[\"recall\"] &gt;= min_recall:\n            best = threshold\n    return best\nLa lógica depende del problema. En algunos contextos preferimos el umbral que maximiza F1; en otros imponemos un recall mínimo o un máximo de falsos positivos.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#baselines-de-clasificación",
+    "href": "capitulo04_regresion_logistica.html#baselines-de-clasificación",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Baselines de clasificación",
+    "text": "Baselines de clasificación\nBaselines comunes:\n\npredecir siempre la clase mayoritaria;\npredecir con frecuencia igual a la prevalencia;\nregla simple basada en una variable fuerte;\nmodelo logístico sin features complejas.\n\nSi el dataset tiene 95% de clase 0, un clasificador que siempre predice 0 tiene 95% de accuracy. Por eso accuracy puede ser engañosa en clases desbalanceadas.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#calibración",
+    "href": "capitulo04_regresion_logistica.html#calibración",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Calibración",
+    "text": "Calibración\nUn modelo está calibrado si, entre observaciones con probabilidad predicha cercana a 0.8, aproximadamente 80% pertenecen a la clase positiva.\nLa calibración es distinta de la clasificación. Un modelo puede ordenar bien pero producir probabilidades mal calibradas.\nEn este módulo basta con recordar:\n\nla salida logística se interpreta como probabilidad bajo supuestos del modelo;\nesa probabilidad debe evaluarse empíricamente;\nel umbral transforma probabilidad en decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#errores-comunes",
+    "href": "capitulo04_regresion_logistica.html#errores-comunes",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Errores comunes",
+    "text": "Errores comunes\n\nTratar probabilidades como clases sin declarar umbral.\nUsar accuracy en clases muy desbalanceadas sin mirar precision/recall.\nElegir umbral con el conjunto de prueba.\nNo definir la clase positiva.\nConfundir coeficientes logísticos con cambios lineales en probabilidad.\nReportar F1 sin explicar el costo de FP y FN.\nComparar modelos usando umbrales distintos sin justificar.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#checklist-de-estudio",
+    "href": "capitulo04_regresion_logistica.html#checklist-de-estudio",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Checklist de estudio",
+    "text": "Checklist de estudio\n\n\n¿Puedes explicar por qué usamos sigmoide?\n¿Puedes escribir la log-loss?\n¿Puedes derivar o reconocer el gradiente logístico?\n¿Puedes calcular TP, FP, TN, FN?\n¿Puedes distinguir precision y recall?\n¿Puedes justificar un umbral?\n¿Puedes identificar cuándo accuracy engaña?",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#para-explorar-más",
+    "href": "capitulo04_regresion_logistica.html#para-explorar-más",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Para explorar más",
+    "text": "Para explorar más\n\n\nExtensión matemática: deriva el gradiente de la log-loss para una observación y luego generaliza a forma matricial.\nExtensión computacional: dibuja precisión, recall y F1 como funciones del umbral; identifica si existe un rango estable de decisión.\nConexión con proyecto: escribe cuál error es más costoso en tu problema y justifica el umbral desde esa asimetría.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#revisión-del-capítulo",
+    "href": "capitulo04_regresion_logistica.html#revisión-del-capítulo",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Revisión del capítulo",
+    "text": "Revisión del capítulo\nLa regresión logística modela probabilidades para clasificación binaria. La función sigmoide transforma puntajes lineales en valores entre 0 y 1, y la log-loss penaliza predicciones probabilísticas incompatibles con la etiqueta observada.\nEl gradiente logístico tiene una forma compacta, \\(X^\\top(\\hat p-y)/n\\), que conecta de nuevo matrices, pérdida y optimización. La clasificación final no aparece hasta elegir un umbral, y ese umbral cambia la matriz de confusión.\nPor eso la evaluación debe ir más allá de accuracy. Precision, recall, F1 y la selección de umbral dependen del costo relativo de falsos positivos y falsos negativos. Una recomendación técnica debe declarar ese costo o, al menos, el riesgo que está priorizando.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#términos-clave",
+    "href": "capitulo04_regresion_logistica.html#términos-clave",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Términos clave",
+    "text": "Términos clave\n\n\nClase positiva: evento o condición que se codifica como \\(1\\) y define la interpretación de métricas.\nSigmoide: función que transforma un score real en un valor entre 0 y 1.\nLog-odds: logaritmo de la razón \\(p/(1-p)\\).\nLog-loss: pérdida que penaliza probabilidades equivocadas, especialmente si son confiadas.\nMatriz de confusión: conteo de verdaderos/falsos positivos y negativos.\nPrecision: proporción de predicciones positivas que fueron correctas.\nRecall: proporción de positivos reales detectados.\nUmbral: regla que convierte una probabilidad o score en clase.\nCalibración: correspondencia entre probabilidades predichas y frecuencias observadas.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_regresion_logistica.html#ejercicios",
+    "href": "capitulo04_regresion_logistica.html#ejercicios",
+    "title": "Capítulo 4: Regresión logística",
+    "section": "Ejercicios",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\n¿Por qué regresión logística no produce directamente una clase?\nExplica qué significa p=0.8 para una observación.\n¿Por qué una predicción muy confiada y equivocada recibe alta log-loss?\n¿Qué diferencia hay entre precision y recall?\nDa un ejemplo donde prefieras recall sobre precision.\n\n\n\nProblemas cuantitativos\n\nCalcula sigma(0), sigma(2) y sigma(-2) aproximadamente.\nSi TP=40, FP=10, TN=80, FN=20, calcula accuracy, precision, recall y F1.\nPara y=1 y p=0.9, calcula la contribución a log-loss. Repite con p=0.1.\nSi theta_j=0.7, ¿cuánto se multiplican los odds por una unidad adicional de x_j?\n\n\n\nPráctica computacional\n\nImplementa sigmoid(z) de forma estable.\nImplementa log_loss_binary(y, p).\nImplementa logistic_gradient(X, y, theta).\nImplementa classification_metrics(y_true, y_pred).\nEvalúa métricas para umbrales 0.2, 0.5 y 0.8.\nElige un umbral que mantenga recall al menos 0.95.\n\n\n\nInterpretación y pensamiento crítico\n\nUn modelo tiene accuracy 0.94, pero recall de la clase positiva 0.20. ¿Qué puede estar pasando?\nEn fraude, subir el umbral aumenta precision y baja recall. ¿Cómo explicarías el tradeoff a una persona no técnica?\nSi dos modelos tienen F1 similar, pero uno tiene mejor calibración, ¿en qué situación preferirías el calibrado?\n\n\n\nProyecto de cierre\n\nEntrena o simula un clasificador binario con probabilidades. Evalúa tres umbrales, reporta matriz de confusión, precision, recall y F1, y recomienda un umbral para un contexto donde el falso negativo sea más costoso que el falso positivo.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Capítulo 4: Regresión logística</span>"
     ]
@@ -215,6 +825,26 @@
     "title": "Ejercicios integradores: regresión, optimización y clasificación",
     "section": "",
     "text": "Cómo usar este banco\nEste capítulo contiene ejercicios para estudiar el Módulo 1 de forma activa. No están pensados para resolverse todos de una vez. Usa esta ruta:",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: regresión, optimización y clasificación</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#resultados-de-práctica",
+    "href": "capitulo05_ejercicios_integradores.html#resultados-de-práctica",
+    "title": "Ejercicios integradores: regresión, optimización y clasificación",
+    "section": "Resultados de práctica",
+    "text": "Resultados de práctica\nAl terminar este banco deberías poder:\n\nrepresentar regresión lineal y logística con matrices;\ncalcular pérdidas, gradientes y métricas en casos pequeños;\nimplementar mínimos cuadrados, descenso del gradiente y Ridge;\ndiagnosticar underfitting, overfitting y leakage;\njustificar regularización, métrica y umbral con evidencia.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: regresión, optimización y clasificación</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo05_ejercicios_integradores.html#mapa-del-banco",
+    "href": "capitulo05_ejercicios_integradores.html#mapa-del-banco",
+    "title": "Ejercicios integradores: regresión, optimización y clasificación",
+    "section": "Mapa del banco",
+    "text": "Mapa del banco\n\n\n\n\n\n\n\nBloque\nPropósito\n\n\n\n\nSemanas 2-3\nálgebra matricial, mínimos cuadrados y optimización\n\n\nSemanas 4-5\nvalidación, features, Ridge, Lasso y selección\n\n\nSemana 6\nclasificación logística, métricas y umbrales\n\n\nProblemas integradores\nsíntesis para laboratorio, parcial y proyecto",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: regresión, optimización y clasificación</span>"
     ]
@@ -434,7 +1064,7 @@
     "href": "capitulo05_ejercicios_integradores.html#problema-2-regularización-y-estabilidad",
     "title": "Ejercicios integradores: regresión, optimización y clasificación",
     "section": "Problema 2: regularización y estabilidad",
-    "text": "Problema 2: regularización y estabilidad\nConstruye un dataset sintético con variables correlacionadas:\nrng = np.random.default_rng(42)\nn = 200\nx1 = rng.normal(size=n)\nx2 = x1 + 0.05 * rng.normal(size=n)\nx3 = rng.normal(size=n)\ny = 2 + 3 * x1 + 0.5 * x3 + rng.normal(scale=0.5, size=n)\n\nAjusta regresión lineal.\nAjusta Ridge.\nAjusta Lasso.\nCompara coeficientes.\nExplica qué ocurre con x1 y x2.",
+    "text": "Problema 2: regularización y estabilidad\nConstruye un dataset generado con variables correlacionadas:\nrng = np.random.default_rng(42)\nn = 200\nx1 = rng.normal(size=n)\nx2 = x1 + 0.05 * rng.normal(size=n)\nx3 = rng.normal(size=n)\ny = 2 + 3 * x1 + 0.5 * x3 + rng.normal(scale=0.5, size=n)\n\nAjusta regresión lineal.\nAjusta Ridge.\nAjusta Lasso.\nCompara coeficientes.\nExplica qué ocurre con x1 y x2.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: regresión, optimización y clasificación</span>"
     ]
@@ -464,107 +1094,67 @@
     "href": "apendice_formulario_respuestas.html",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
     "section": "",
-    "text": "Formulario mínimo",
+    "text": "Cómo usar este apéndice\nEste apéndice resume las fórmulas y chequeos del primer bloque matemático del curso: regresión, optimización, regularización y clasificación binaria. Úsalo para verificar derivaciones, notebooks y preparación del Parcial 1.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#regresión-lineal",
-    "href": "apendice_formulario_respuestas.html#regresión-lineal",
+    "objectID": "apendice_formulario_respuestas.html#notación-mínima",
+    "href": "apendice_formulario_respuestas.html#notación-mínima",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Regresión lineal",
-    "text": "Regresión lineal\nPredicción:\n\\[\n\\hat y = X\\theta.\n\\]\nResidual:\n\\[\nr = y - X\\theta.\n\\]\nMSE:\n\\[\n\\operatorname{MSE}(\\theta)=\\frac{1}{n}\\|X\\theta-y\\|_2^2.\n\\]\nPérdida escalada:\n\\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\nEcuación normal:\n\\[\nX^\\top X\\theta=X^\\top y.\n\\]\nSolución si X.T @ X es invertible:\n\\[\n\\theta^\\star=(X^\\top X)^{-1}X^\\top y.\n\\]",
+    "section": "Notación mínima",
+    "text": "Notación mínima\n\n\n\nSímbolo\nSignificado\n\n\n\n\n\\(X\\in\\mathbb{R}^{n\\times p}\\)\nmatriz de diseño\n\n\n\\(y\\in\\mathbb{R}^{n}\\)\nvariable respuesta o etiqueta binaria\n\n\n\\(\\theta\\in\\mathbb{R}^{p}\\)\nvector de parámetros\n\n\n\\(\\hat y\\)\npredicción de regresión\n\n\n\\(\\hat p\\)\nprobabilidad predicha en clasificación binaria\n\n\n\\(\\lambda\\)\nintensidad de regularización\n\n\n\\(\\tau\\)\numbral de clasificación\n\n\n\\(TP,TN,FP,FN\\)\nconteos de matriz de confusión",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#descenso-del-gradiente",
-    "href": "apendice_formulario_respuestas.html#descenso-del-gradiente",
+    "objectID": "apendice_formulario_respuestas.html#formulario-mínimo",
+    "href": "apendice_formulario_respuestas.html#formulario-mínimo",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Descenso del gradiente",
-    "text": "Descenso del gradiente\nActualización:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}-\\alpha\\nabla J(\\theta^{(t)}).\n\\]\nPara MSE:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}\n-\n\\alpha\\frac{1}{n}X^\\top(X\\theta^{(t)}-y).\n\\]\nEstandarización:\n\\[\nz_j=\\frac{x_j-\\mu_j}{s_j}.\n\\]",
+    "section": "Formulario mínimo",
+    "text": "Formulario mínimo\n\nRegresión lineal\nPredicción:\n\\[\n\\hat y = X\\theta.\n\\]\nResidual:\n\\[\nr = y - X\\theta.\n\\]\nMSE:\n\\[\n\\operatorname{MSE}(\\theta)=\\frac{1}{n}\\|X\\theta-y\\|_2^2.\n\\]\nPérdida escalada:\n\\[\nJ(\\theta)=\\frac{1}{2n}\\|X\\theta-y\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(X\\theta-y).\n\\]\nEcuación normal:\n\\[\nX^\\top X\\theta=X^\\top y.\n\\]\nSolución si X.T @ X es invertible:\n\\[\n\\theta^\\star=(X^\\top X)^{-1}X^\\top y.\n\\]\n\n\nDescenso del gradiente\nActualización:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}-\\alpha\\nabla J(\\theta^{(t)}).\n\\]\nPara MSE:\n\\[\n\\theta^{(t+1)}\n=\n\\theta^{(t)}\n-\n\\alpha\\frac{1}{n}X^\\top(X\\theta^{(t)}-y).\n\\]\nEstandarización:\n\\[\nz_j=\\frac{x_j-\\mu_j}{s_j}.\n\\]\n\n\nRidge\nObjetivo:\n\\[\nJ_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\frac{\\lambda}{2}\\|\\theta_{1:p}\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{n}X^\\top(X\\theta-y)+\\lambda\\tilde\\theta.\n\\]\nSolución sin penalizar intercepto:\n\\[\n\\theta^\\star\n=\n(X^\\top X+n\\lambda D)^{-1}X^\\top y,\n\\]\ndonde D_00=0 y D_jj=1 para j&gt;0.\n\n\nLasso\nObjetivo:\n\\[\nJ_{\\text{lasso}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\lambda\\|\\theta_{1:p}\\|_1.\n\\]\n\n\nRegresión logística\nSigmoide:\n\\[\n\\sigma(z)=\\frac{1}{1+e^{-z}}.\n\\]\nProbabilidad:\n\\[\n\\hat p=\\sigma(X\\theta).\n\\]\nLog-loss:\n\\[\nJ(\\theta)=\n-\\frac{1}{n}\\sum_{i=1}^n\n\\left[\ny_i\\log(\\hat p_i)+(1-y_i)\\log(1-\\hat p_i)\n\\right].\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(\\hat p-y).\n\\]\nClasificación por umbral:\n\\[\n\\hat y_i=1\\{\\hat p_i\\ge \\tau\\}.\n\\]\n\n\nMétricas\nAccuracy:\n\\[\n\\frac{TP+TN}{TP+TN+FP+FN}.\n\\]\nPrecision:\n\\[\n\\frac{TP}{TP+FP}.\n\\]\nRecall:\n\\[\n\\frac{TP}{TP+FN}.\n\\]\nF1:\n\\[\n2\\frac{\\text{precision}\\cdot\\text{recall}}\n{\\text{precision}+\\text{recall}}.\n\\]",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#ridge",
-    "href": "apendice_formulario_respuestas.html#ridge",
+    "objectID": "apendice_formulario_respuestas.html#patrones-de-código",
+    "href": "apendice_formulario_respuestas.html#patrones-de-código",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Ridge",
-    "text": "Ridge\nObjetivo:\n\\[\nJ_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\frac{\\lambda}{2}\\|\\theta_{1:p}\\|_2^2.\n\\]\nGradiente:\n\\[\n\\nabla J_{\\text{ridge}}(\\theta)\n=\n\\frac{1}{n}X^\\top(X\\theta-y)+\\lambda\\tilde\\theta.\n\\]\nSolución sin penalizar intercepto:\n\\[\n\\theta^\\star\n=\n(X^\\top X+n\\lambda D)^{-1}X^\\top y,\n\\]\ndonde D_00=0 y D_jj=1 para j&gt;0.",
+    "section": "Patrones de código",
+    "text": "Patrones de código\ndef add_intercept(X):\n    X = np.asarray(X, dtype=float)\n    return np.hstack([np.ones((X.shape[0], 1)), X])\ndef mse_loss(X, y, theta):\n    residual = X @ theta - y\n    return np.mean(residual ** 2)\ndef mse_gradient(X, y, theta):\n    return (X.T @ (X @ theta - y)) / X.shape[0]\ndef ridge_closed_form(X, y, lam):\n    p = X.shape[1]\n    D = np.eye(p)\n    D[0, 0] = 0\n    return np.linalg.solve(X.T @ X + X.shape[0] * lam * D, X.T @ y)\ndef sigmoid(z):\n    z = np.asarray(z, dtype=float)\n    out = np.empty_like(z)\n    pos = z &gt;= 0\n    out[pos] = 1 / (1 + np.exp(-z[pos]))\n    exp_z = np.exp(z[~pos])\n    out[~pos] = exp_z / (1 + exp_z)\n    return out",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#lasso",
-    "href": "apendice_formulario_respuestas.html#lasso",
+    "objectID": "apendice_formulario_respuestas.html#checklist-antes-de-entregar",
+    "href": "apendice_formulario_respuestas.html#checklist-antes-de-entregar",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Lasso",
-    "text": "Lasso\nObjetivo:\n\\[\nJ_{\\text{lasso}}(\\theta)\n=\n\\frac{1}{2n}\\|X\\theta-y\\|_2^2\n+\n\\lambda\\|\\theta_{1:p}\\|_1.\n\\]",
+    "section": "Checklist antes de entregar",
+    "text": "Checklist antes de entregar\n\n\nEl notebook corre desde cero.\nLas funciones no dependen de variables globales ocultas.\nLas formas de matrices y vectores son consistentes.\nEl preprocesamiento se ajusta solo con entrenamiento.\nHay baseline.\nHay métrica adecuada.\nHay interpretación breve.\nLa conclusión menciona al menos una limitación.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#regresión-logística",
-    "href": "apendice_formulario_respuestas.html#regresión-logística",
+    "objectID": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
+    "href": "apendice_formulario_respuestas.html#respuestas-seleccionadas",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Regresión logística",
-    "text": "Regresión logística\nSigmoide:\n\\[\n\\sigma(z)=\\frac{1}{1+e^{-z}}.\n\\]\nProbabilidad:\n\\[\n\\hat p=\\sigma(X\\theta).\n\\]\nLog-loss:\n\\[\nJ(\\theta)=\n-\\frac{1}{n}\\sum_{i=1}^n\n\\left[\ny_i\\log(\\hat p_i)+(1-y_i)\\log(1-\\hat p_i)\n\\right].\n\\]\nGradiente:\n\\[\n\\nabla J(\\theta)=\\frac{1}{n}X^\\top(\\hat p-y).\n\\]\nClasificación por umbral:\n\\[\n\\hat y_i=1\\{\\hat p_i\\ge \\tau\\}.\n\\]",
+    "section": "Respuestas seleccionadas",
+    "text": "Respuestas seleccionadas\nEstas respuestas no reemplazan el desarrollo. Sirven para verificar dirección.\n\nCapítulo 1\nEjercicio 1.1. Si X tiene forma (120, 4), entonces theta debe tener forma (4,) o (4, 1) para que X @ theta produzca 120 predicciones.\nEjercicio 1.2. La columna de unos convierte el intercepto en un coeficiente más: theta_0 * 1.\nEjercicio 1.6. Para \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix},\n\\] se obtiene: \\[\nX^\\top X=\n\\begin{bmatrix}\n3&3\\\\\n3&5\n\\end{bmatrix},\n\\quad\nX^\\top y=\n\\begin{bmatrix}\n9\\\\\n12\n\\end{bmatrix}.\n\\]\n\n\nCapítulo 2\nEjercicio 2.2. Usamos theta - alpha * grad porque el gradiente apunta hacia mayor aumento de la pérdida.\nEjercicio 2.4. Escalar ayuda porque reduce diferencias extremas de curvatura entre direcciones. El descenso hace pasos más directos y estables.\nEjercicio 2.8. Una curva que sube y baja violentamente sugiere una tasa de aprendizaje demasiado grande o un problema de escala.\n\n\nCapítulo 3\nEjercicio 3.2. No se escoge lambda con prueba porque entonces prueba deja de ser una evaluación final independiente.\nEjercicio 3.8. Para theta=(3,4,-1), sin intercepto:\n\\[\n\\|\\theta_{1:p}\\|_2^2=4^2+(-1)^2=17,\n\\quad\n\\|\\theta_{1:p}\\|_1=4+1=5.\n\\]\nEjercicio 3.16. Preferiría lambda=0.1 si la meta es generalizar: aumenta el error de entrenamiento, pero reduce mucho el error de validación.\n\n\nCapítulo 4\nEjercicio 4.6.\n\\[\n\\sigma(0)=0.5,\\quad\n\\sigma(2)\\approx0.881,\\quad\n\\sigma(-2)\\approx0.119.\n\\]\nEjercicio 4.7. Si TP=40, FP=10, TN=80, FN=20:\n\\[\n\\text{accuracy}=0.80,\\quad\n\\text{precision}=0.80,\\quad\n\\text{recall}=0.667.\n\\]\nF1 es aproximadamente 0.727.\nEjercicio 4.16. Accuracy alta y recall bajo puede indicar clases desbalanceadas: el modelo acierta muchos negativos, pero falla positivos.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]
   },
   {
-    "objectID": "apendice_formulario_respuestas.html#métricas",
-    "href": "apendice_formulario_respuestas.html#métricas",
+    "objectID": "apendice_formulario_respuestas.html#guía-de-estudio-para-el-parcial-1",
+    "href": "apendice_formulario_respuestas.html#guía-de-estudio-para-el-parcial-1",
     "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Métricas",
-    "text": "Métricas\nAccuracy:\n\\[\n\\frac{TP+TN}{TP+TN+FP+FN}.\n\\]\nPrecision:\n\\[\n\\frac{TP}{TP+FP}.\n\\]\nRecall:\n\\[\n\\frac{TP}{TP+FN}.\n\\]\nF1:\n\\[\n2\\frac{\\text{precision}\\cdot\\text{recall}}\n{\\text{precision}+\\text{recall}}.\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
-    ]
-  },
-  {
-    "objectID": "apendice_formulario_respuestas.html#capítulo-1",
-    "href": "apendice_formulario_respuestas.html#capítulo-1",
-    "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Capítulo 1",
-    "text": "Capítulo 1\nEjercicio 1.1. Si X tiene forma (120, 4), entonces theta debe tener forma (4,) o (4, 1) para que X @ theta produzca 120 predicciones.\nEjercicio 1.2. La columna de unos convierte el intercepto en un coeficiente más: theta_0 * 1.\nEjercicio 1.6. Para \\[\nX=\\begin{bmatrix}1&0\\\\1&1\\\\1&2\\end{bmatrix},\ny=\\begin{bmatrix}2\\\\2\\\\5\\end{bmatrix},\n\\] se obtiene: \\[\nX^\\top X=\n\\begin{bmatrix}\n3&3\\\\\n3&5\n\\end{bmatrix},\n\\quad\nX^\\top y=\n\\begin{bmatrix}\n9\\\\\n12\n\\end{bmatrix}.\n\\]",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
-    ]
-  },
-  {
-    "objectID": "apendice_formulario_respuestas.html#capítulo-2",
-    "href": "apendice_formulario_respuestas.html#capítulo-2",
-    "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Capítulo 2",
-    "text": "Capítulo 2\nEjercicio 2.2. Usamos theta - alpha * grad porque el gradiente apunta hacia mayor aumento de la pérdida.\nEjercicio 2.4. Escalar ayuda porque reduce diferencias extremas de curvatura entre direcciones. El descenso hace pasos más directos y estables.\nEjercicio 2.8. Una curva que sube y baja violentamente sugiere una tasa de aprendizaje demasiado grande o un problema de escala.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
-    ]
-  },
-  {
-    "objectID": "apendice_formulario_respuestas.html#capítulo-3",
-    "href": "apendice_formulario_respuestas.html#capítulo-3",
-    "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Capítulo 3",
-    "text": "Capítulo 3\nEjercicio 3.2. No se escoge lambda con prueba porque entonces prueba deja de ser una evaluación final independiente.\nEjercicio 3.8. Para theta=(3,4,-1), sin intercepto:\n\\[\n\\|\\theta_{1:p}\\|_2^2=4^2+(-1)^2=17,\n\\quad\n\\|\\theta_{1:p}\\|_1=4+1=5.\n\\]\nEjercicio 3.16. Preferiría lambda=0.1 si la meta es generalizar: aumenta el error de entrenamiento, pero reduce mucho el error de validación.",
-    "crumbs": [
-      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
-    ]
-  },
-  {
-    "objectID": "apendice_formulario_respuestas.html#capítulo-4",
-    "href": "apendice_formulario_respuestas.html#capítulo-4",
-    "title": "Apéndice Módulo 1: formulario y respuestas seleccionadas",
-    "section": "Capítulo 4",
-    "text": "Capítulo 4\nEjercicio 4.6.\n\\[\n\\sigma(0)=0.5,\\quad\n\\sigma(2)\\approx0.881,\\quad\n\\sigma(-2)\\approx0.119.\n\\]\nEjercicio 4.7. Si TP=40, FP=10, TN=80, FN=20:\n\\[\n\\text{accuracy}=0.80,\\quad\n\\text{precision}=0.80,\\quad\n\\text{recall}=0.667.\n\\]\nF1 es aproximadamente 0.727.\nEjercicio 4.16. Accuracy alta y recall bajo puede indicar clases desbalanceadas: el modelo acierta muchos negativos, pero falla positivos.",
+    "section": "Guía de estudio para el Parcial 1",
+    "text": "Guía de estudio para el Parcial 1\nPrioriza estos ejercicios si tienes poco tiempo:\n\n\n\nTema\nEjercicios recomendados\n\n\n\n\nRegresión lineal\nCap. 1: 6, 7, 10, 14\n\n\nGradiente\nCap. 2: 6, 9, 13, 14\n\n\nValidación\nCap. 3: 2, 6, 10, 16\n\n\nRegularización\nCap. 3: 7, 8, 11, 13\n\n\nLogística\nCap. 4: 6, 7, 11, 12\n\n\nUmbrales\nCap. 4: 14, 15, 16\n\n\n\nPara cerrar, escribe una página de resumen con:\n\nuna fórmula que todavía te cuesta;\nun error común que ya sabes evitar;\nuna métrica que usarías en tu proyecto;\nuna pregunta concreta para clase o monitoría.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Apéndice Módulo 1: formulario y respuestas seleccionadas</span>"
     ]

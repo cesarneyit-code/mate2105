@@ -245,7 +245,11 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#cómo-usar-este-banco" id="toc-cómo-usar-este-banco" class="nav-link active" data-scroll-target="#cómo-usar-este-banco">Cómo usar este banco</a></li>
+  <li><a href="#cómo-usar-este-banco" id="toc-cómo-usar-este-banco" class="nav-link active" data-scroll-target="#cómo-usar-este-banco">Cómo usar este banco</a>
+  <ul class="collapse">
+  <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
+  <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
+  </ul></li>
   <li><a href="#semana-2-regresión-lineal" id="toc-semana-2-regresión-lineal" class="nav-link" data-scroll-target="#semana-2-regresión-lineal">Semana 2: regresión lineal</a>
   <ul class="collapse">
   <li><a href="#a.-dimensiones-y-representación" id="toc-a.-dimensiones-y-representación" class="nav-link" data-scroll-target="#a.-dimensiones-y-representación">A. Dimensiones y representación</a></li>
@@ -289,6 +293,7 @@ window.Quarto = {
   <li><a href="#problema-4-diseño-de-parcial" id="toc-problema-4-diseño-de-parcial" class="nav-link" data-scroll-target="#problema-4-diseño-de-parcial">Problema 4: diseño de parcial</a></li>
   </ul></li>
   <li><a href="#rúbrica-de-autoevaluación" id="toc-rúbrica-de-autoevaluación" class="nav-link" data-scroll-target="#rúbrica-de-autoevaluación">Rúbrica de autoevaluación</a></li>
+  <li><a href="#guía-de-verificación-seleccionada" id="toc-guía-de-verificación-seleccionada" class="nav-link" data-scroll-target="#guía-de-verificación-seleccionada">Guía de verificación seleccionada</a></li>
   </ul>
 </nav>
     </div>
@@ -328,6 +333,50 @@ window.Quarto = {
 <div class="criterio">
 <p><strong>Regla de práctica.</strong> Si puedes ejecutar código pero no puedes explicar el objeto matemático que estás calculando, todavía falta estudio. Si puedes derivar una fórmula pero no puedes implementarla, todavía falta práctica computacional.</p>
 </div>
+<section id="resultados-de-práctica" class="level2">
+<h2 class="anchored" data-anchor-id="resultados-de-práctica">Resultados de práctica</h2>
+<p>Al terminar este banco deberías poder:</p>
+<ol type="1">
+<li>representar regresión lineal y logística con matrices;</li>
+<li>calcular pérdidas, gradientes y métricas en casos pequeños;</li>
+<li>implementar mínimos cuadrados, descenso del gradiente y Ridge;</li>
+<li>diagnosticar underfitting, overfitting y leakage;</li>
+<li>justificar regularización, métrica y umbral con evidencia.</li>
+</ol>
+</section>
+<section id="mapa-del-banco" class="level2">
+<h2 class="anchored" data-anchor-id="mapa-del-banco">Mapa del banco</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Bloque</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Semanas 2-3</td>
+<td>álgebra matricial, mínimos cuadrados y optimización</td>
+</tr>
+<tr class="even">
+<td>Semanas 4-5</td>
+<td>validación, features, Ridge, Lasso y selección</td>
+</tr>
+<tr class="odd">
+<td>Semana 6</td>
+<td>clasificación logística, métricas y umbrales</td>
+</tr>
+<tr class="even">
+<td>Problemas integradores</td>
+<td>síntesis para laboratorio, parcial y proyecto</td>
+</tr>
+</tbody>
+</table>
+</section>
 </section>
 <section id="semana-2-regresión-lineal" class="level1">
 <h1>Semana 2: regresión lineal</h1>
@@ -571,7 +620,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 </section>
 <section id="problema-2-regularización-y-estabilidad" class="level2">
 <h2 class="anchored" data-anchor-id="problema-2-regularización-y-estabilidad">Problema 2: regularización y estabilidad</h2>
-<p>Construye un dataset sintético con variables correlacionadas:</p>
+<p>Construye un dataset generado con variables correlacionadas:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">200</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> rng.normal(size<span class="op">=</span>n)</span>
@@ -655,6 +704,18 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 </tbody>
 </table>
 <p>Antes del Parcial 1, deberías estar al menos en nivel competente en todos los temas y sólido en los temas que uses en tu proyecto.</p>
+</section>
+<section id="guía-de-verificación-seleccionada" class="level1">
+<h1>Guía de verificación seleccionada</h1>
+<div class="answer">
+<p><strong>Semana 2, ejercicio 1.</strong> Si hay <span class="math inline">\(d=6\)</span> variables originales y se agrega intercepto, entonces <code>X</code> tiene forma <code>(250, 7)</code> y <code>theta</code> debe tener 7 entradas.</p>
+</div>
+<div class="answer">
+<p><strong>Semana 5, ejercicio 8.</strong> Para <span class="math inline">\(\theta=(3,4,-1)\)</span>, sin incluir intercepto, la penalización L2 usa <span class="math inline">\(4^2+(-1)^2=17\)</span> y la penalización L1 usa <span class="math inline">\(|4|+|-1|=5\)</span>.</p>
+</div>
+<div class="answer">
+<p><strong>Semana 6, ejercicio 10.</strong> Con <code>TP=25</code>, <code>FP=5</code>, <code>TN=60</code>, <code>FN=10</code>, accuracy es <span class="math inline">\(85/100=0.85\)</span>, precision es <span class="math inline">\(25/30\)</span>, recall es <span class="math inline">\(25/35\)</span> y F1 se calcula como media armónica de precision y recall.</p>
+</div>
 
 
 </section>

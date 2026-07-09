@@ -201,10 +201,21 @@ window.Quarto = {
   <li><a href="#similitud-coseno" id="toc-similitud-coseno" class="nav-link" data-scroll-target="#similitud-coseno">Similitud coseno</a></li>
   <li><a href="#ejemplo-resuelto-similitud-coseno" id="toc-ejemplo-resuelto-similitud-coseno" class="nav-link" data-scroll-target="#ejemplo-resuelto-similitud-coseno">Ejemplo resuelto: similitud coseno</a></li>
   <li><a href="#recomendación-item-item" id="toc-recomendación-item-item" class="nav-link" data-scroll-target="#recomendación-item-item">Recomendación item-item</a></li>
+  <li><a href="#ejemplo-resuelto-recomendación-item-item" id="toc-ejemplo-resuelto-recomendación-item-item" class="nav-link" data-scroll-target="#ejemplo-resuelto-recomendación-item-item">Ejemplo resuelto: recomendación item-item</a></li>
   <li><a href="#svd-para-factores-latentes" id="toc-svd-para-factores-latentes" class="nav-link" data-scroll-target="#svd-para-factores-latentes">SVD para factores latentes</a></li>
   <li><a href="#riesgos-de-recomendación" id="toc-riesgos-de-recomendación" class="nav-link" data-scroll-target="#riesgos-de-recomendación">Riesgos de recomendación</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -296,12 +307,54 @@ x^\top y = 1,\qquad \|x\|=\sqrt{2},\qquad \|y\|=\sqrt{2}.
 <li>Excluir ítems ya vistos si se recomienda a un usuario.</li>
 </ol>
 </section>
+<section id="ejemplo-resuelto-recomendación-item-item" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-recomendación-item-item">Ejemplo resuelto: recomendación item-item</h2>
+<p>Supón la siguiente matriz binaria de interacción:</p>
+<p><span class="math display">\[
+\begin{array}{c|rrrr}
+\text{Usuario} &amp; A &amp; B &amp; C &amp; D\\
+\hline
+u1 &amp; 1 &amp; 1 &amp; 0 &amp; 0\\
+u2 &amp; 1 &amp; 1 &amp; 1 &amp; 0\\
+u3 &amp; 0 &amp; 0 &amp; 1 &amp; 1\\
+u4 &amp; 0 &amp; 1 &amp; 0 &amp; 1
+\end{array}
+\]</span></p>
+<p>Los vectores de ítems son:</p>
+<p><span class="math display">\[
+A=(1,1,0,0),\quad
+B=(1,1,0,1),\quad
+C=(0,1,1,0),\quad
+D=(0,0,1,1).
+\]</span></p>
+<p>Para recomendar a partir del ítem <span class="math inline">\(A\)</span>, calculamos similitudes:</p>
+<p><span class="math display">\[
+\cos(A,B)=\frac{2}{\sqrt2\sqrt3}\approx0.816,
+\]</span></p>
+<p><span class="math display">\[
+\cos(A,C)=\frac{1}{\sqrt2\sqrt2}=0.5,
+\qquad
+\cos(A,D)=0.
+\]</span></p>
+<p>Si el usuario semilla interactuó con <span class="math inline">\(A\)</span>, el ítem más similar es <span class="math inline">\(B\)</span>. Si ese usuario ya vio <span class="math inline">\(B\)</span>, el siguiente candidato por similitud sería <span class="math inline">\(C\)</span>. La recomendación debe excluir ítems ya vistos y declarar que esta regla no resuelve cold start ni sesgo de popularidad.</p>
+</section>
 <section id="svd-para-factores-latentes" class="level2">
 <h2 class="anchored" data-anchor-id="svd-para-factores-latentes">SVD para factores latentes</h2>
 <p>SVD puede aproximar:</p>
 <p><span class="math display">\[
 R \approx U_k\Sigma_kV_k^\top.
 \]</span></p>
+<div id="fig-cap17-recomendacion-latente" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Una matriz de calificaciones usuario item con una entrada faltante pasa a una factorización con matriz de usuarios y matriz de ítems transpuesta. El producto produce una calificación predicha.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap17-recomendacion-latente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/recomendacion-latente.svg" class="img-fluid figure-img" style="width:100.0%" alt="Una matriz de calificaciones usuario item con una entrada faltante pasa a una factorización con matriz de usuarios y matriz de ítems transpuesta. El producto produce una calificación predicha.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap17-recomendacion-latente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Sistemas de recomendación: una matriz usuario-item incompleta se aproxima mediante factores latentes de usuarios e ítems; una calificación faltante se predice con un producto punto.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> La factorización representa usuarios e ítems en una baja dimensión compartida. Una recomendación es una predicción incompleta de la matriz, pero también una intervención que puede reforzar sesgos o popularidad.</p>
 <p>Esto produce representaciones latentes de usuarios e ítems.</p>
 <p>En este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.</p>
 </section>
@@ -326,19 +379,73 @@ R \approx U_k\Sigma_kV_k^\top.
 <li>¿qué sesgo puede amplificarse?</li>
 </ol>
 </section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> calcula una similitud coseno item-item y compara la recomendación con una basada en producto punto.</li>
+<li><strong>Extensión computacional:</strong> oculta algunas interacciones conocidas y mide si el sistema las recupera entre las mejores recomendaciones.</li>
+<li><strong>Conexión con proyecto:</strong> explica qué sesgo de popularidad podría aparecer y cómo lo reportarías sin exagerar la calidad del sistema.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>Un sistema de recomendación básico parte de una matriz usuario-ítem y mide similitudes o factores latentes para sugerir elementos no observados. La similitud coseno compara dirección de interacción y puede mitigar parcialmente diferencias de escala.</p>
+<p>Las recomendaciones item-item son útiles porque se pueden explicar a partir de ítems similares, pero siguen dependiendo del historial observado. La idea de factores latentes resume usuarios e ítems en representaciones de baja dimensión.</p>
+<p>El límite central es que el comportamiento pasado no define por completo la preferencia futura. Cold start, popularidad y sesgo deben declararse antes de presentar una recomendación como útil o justa.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Matriz usuario-ítem:</strong> tabla que representa interacciones entre usuarios e ítems.</li>
+<li><strong>Similitud coseno:</strong> medida angular entre vectores de interacción.</li>
+<li><strong>Recomendación item-item:</strong> recomendación basada en ítems similares a uno observado.</li>
+<li><strong>Factor latente:</strong> representación de baja dimensión aprendida de patrones de interacción.</li>
+<li><strong>Cold start:</strong> dificultad para recomendar a usuarios o ítems sin historial.</li>
+<li><strong>Bucle de retroalimentación:</strong> refuerzo de patrones pasados por recomendaciones futuras.</li>
+</ul>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Explique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> ¿Qué problema aparece para recomendar a un usuario nuevo sin historial?</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Proponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.</p>
-</div>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Explique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.</li>
+<li>¿Qué problema aparece para recomendar a un usuario nuevo sin historial?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Calcule similitud coseno entre dos vectores binarios de interacción.</li>
+<li>Dada una matriz usuario-ítem pequeña, identifique los dos ítems más similares.</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Implemente una función de similitud coseno para matrices.</li>
+<li>Construya una recomendación item-item simple excluyendo ítems ya vistos.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Proponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.</li>
+<li>¿Cómo detectaría si el recomendador solo amplifica popularidad?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Diseñe un recomendador item-item mínimo, reporte tres recomendaciones y escriba una advertencia sobre cold start, popularidad o sesgo.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

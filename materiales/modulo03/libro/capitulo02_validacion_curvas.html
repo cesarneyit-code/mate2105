@@ -232,10 +232,21 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-elegir-entre-dos-modelos" id="toc-ejemplo-resuelto-elegir-entre-dos-modelos" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</a></li>
   <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search">Grid search</a></li>
   <li><a href="#learning-curve" id="toc-learning-curve" class="nav-link" data-scroll-target="#learning-curve">Learning curve</a></li>
+  <li><a href="#ejemplo-resuelto-leer-una-learning-curve" id="toc-ejemplo-resuelto-leer-una-learning-curve" class="nav-link" data-scroll-target="#ejemplo-resuelto-leer-una-learning-curve">Ejemplo resuelto: leer una learning curve</a></li>
   <li><a href="#validation-curve" id="toc-validation-curve" class="nav-link" data-scroll-target="#validation-curve">Validation curve</a></li>
   <li><a href="#sesgo-varianza-y-ruido" id="toc-sesgo-varianza-y-ruido" class="nav-link" data-scroll-target="#sesgo-varianza-y-ruido">Sesgo, varianza y ruido</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a></li>
+  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -377,6 +388,49 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
+<section id="ejemplo-resuelto-leer-una-learning-curve" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-leer-una-learning-curve">Ejemplo resuelto: leer una learning curve</h2>
+<p>Supón que una curva de aprendizaje produce:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Tamaño train</th>
+<th style="text-align: right;">F1 train</th>
+<th style="text-align: right;">F1 validación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">200</td>
+<td style="text-align: right;">0.98</td>
+<td style="text-align: right;">0.63</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">800</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.74</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">0.92</td>
+<td style="text-align: right;">0.82</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5000</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">0.86</td>
+</tr>
+</tbody>
+</table>
+<p>Lectura:</p>
+<ol type="1">
+<li>El desempeño de entrenamiento baja al aumentar datos, lo cual es normal.</li>
+<li>El desempeño de validación sube de forma sostenida.</li>
+<li>La brecha train-validación se reduce de <span class="math inline">\(0.35\)</span> a <span class="math inline">\(0.04\)</span>.</li>
+<li>El diagnóstico es alta varianza inicial que mejora con más datos.</li>
+</ol>
+<p>La acción razonable no es aumentar complejidad. Primero conviene conseguir más datos, usar regularización moderada o mantener el modelo si el costo de más datos es alto.</p>
+</section>
 <section id="validation-curve" class="level2">
 <h2 class="anchored" data-anchor-id="validation-curve">Validation curve</h2>
 <p>Una validation curve varía un hiperparámetro:</p>
@@ -404,19 +458,74 @@ regularización alta -&gt; modelo simple</code></pre>
 <li>¿más datos podría cerrar la brecha?</li>
 </ol>
 </section>
+<section id="para-explorar-más" class="level2">
+<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
+<div class="explore">
+<ul>
+<li><strong>Extensión matemática:</strong> interpreta una curva con alto sesgo y otra con alta varianza usando brechas train/dev.</li>
+<li><strong>Extensión computacional:</strong> genera curvas de aprendizaje para dos tamaños de entrenamiento y reporta si más datos parecen útiles.</li>
+<li><strong>Conexión con proyecto:</strong> decide qué experimento harías primero: más datos, más regularización, más features o modelo más flexible.</li>
+</ul>
+</div>
+</section>
+<section id="revisión-del-capítulo" class="level2">
+<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
+<p>La validación cruzada estima desempeño con variabilidad. Reportar solo una media oculta si el modelo es estable o si depende demasiado de una partición particular. La desviación entre folds puede cambiar una decisión técnica.</p>
+<p>Grid search debe evaluar pipelines completos para no contaminar cada fold. Las learning curves y validation curves ayudan a distinguir sesgo, varianza, falta de datos, hiperparámetros mal calibrados y ruido irreducible.</p>
+<p>La pregunta profesional no es únicamente qué modelo gana. Es si la evidencia justifica cambiar complejidad, recolectar datos, ajustar regularización o aceptar un límite. La curva debe terminar en una acción, no solo en una imagen.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Cross-validation:</strong> estimación de desempeño usando varias particiones train/validation.</li>
+<li><strong>Grid search:</strong> búsqueda sistemática sobre combinaciones de hiperparámetros.</li>
+<li><strong>Learning curve:</strong> curva que compara desempeño al variar tamaño de entrenamiento.</li>
+<li><strong>Validation curve:</strong> curva que compara desempeño al variar un hiperparámetro.</li>
+<li><strong>Sesgo:</strong> error sistemático por modelo demasiado restrictivo.</li>
+<li><strong>Varianza:</strong> sensibilidad del modelo a cambios en datos de entrenamiento.</li>
+<li><strong>Ruido:</strong> variación no explicable con las variables disponibles.</li>
+</ul>
+</div>
+</section>
 <section id="ejercicios" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<div class="exercise">
-<p><strong>Ejercicio 1.</strong> Una learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 2.</strong> ¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?</p>
-</div>
-<div class="exercise">
-<p><strong>Ejercicio 3.</strong> Explique por qué <code>GridSearchCV</code> debe recibir un <code>Pipeline</code> completo si hay escalamiento.</p>
-</div>
+<section id="preguntas-conceptuales" class="level3">
+<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<ol type="1">
+<li>Una learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.</li>
+<li>¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?</li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="3" type="1">
+<li>Compare dos modelos con medias CV similares pero desviaciones estándar diferentes. ¿Cuál elegiría si la estabilidad es prioritaria?</li>
+<li>Si se evalúan 4 valores de <code>C</code>, 3 valores de <code>penalty</code> y 5 folds, ¿cuántos ajustes se entrenan?</li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="5" type="1">
+<li>Explique por qué <code>GridSearchCV</code> debe recibir un <code>Pipeline</code> completo si hay escalamiento.</li>
+<li>Genere una tabla con media y desviación estándar de CV para al menos tres configuraciones.</li>
+</ol>
+</section>
+<section id="interpretación-y-pensamiento-crítico" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
+<ol start="7" type="1">
+<li>Una validation curve mejora hasta cierto punto y luego cae. Explique qué sugiere sobre el hiperparámetro.</li>
+<li>¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?</li>
+</ol>
+</section>
+<section id="proyecto-de-cierre" class="level3">
+<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
+<ol start="9" type="1">
+<li>Construya una learning curve o validation curve para un modelo de su proyecto y escriba un diagnóstico de sesgo/varianza/ruido con una acción siguiente.</li>
+</ol>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

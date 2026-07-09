@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -205,7 +240,10 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#fórmulas-clave" id="toc-fórmulas-clave" class="nav-link active" data-scroll-target="#fórmulas-clave">Fórmulas clave</a>
+  <li><a href="#cómo-usar-este-apéndice" id="toc-cómo-usar-este-apéndice" class="nav-link active" data-scroll-target="#cómo-usar-este-apéndice">Cómo usar este apéndice</a>
+  <ul class="collapse">
+  <li><a href="#notación-mínima" id="toc-notación-mínima" class="nav-link" data-scroll-target="#notación-mínima">Notación mínima</a></li>
+  <li><a href="#fórmulas-clave" id="toc-fórmulas-clave" class="nav-link" data-scroll-target="#fórmulas-clave">Fórmulas clave</a>
   <ul class="collapse">
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax">Softmax</a></li>
   <li><a href="#entropía-cruzada-multiclase" id="toc-entropía-cruzada-multiclase" class="nav-link" data-scroll-target="#entropía-cruzada-multiclase">Entropía cruzada multiclase</a></li>
@@ -214,12 +252,18 @@ window.Quarto = {
   <li><a href="#silhouette" id="toc-silhouette" class="nav-link" data-scroll-target="#silhouette">Silhouette</a></li>
   <li><a href="#hash-sha-256" id="toc-hash-sha-256" class="nav-link" data-scroll-target="#hash-sha-256">Hash SHA-256</a></li>
   </ul></li>
+  <li><a href="#checklist-de-paquete-reproducible" id="toc-checklist-de-paquete-reproducible" class="nav-link" data-scroll-target="#checklist-de-paquete-reproducible">Checklist de paquete reproducible</a></li>
+  <li><a href="#estructura-mínima-de-manifest" id="toc-estructura-mínima-de-manifest" class="nav-link" data-scroll-target="#estructura-mínima-de-manifest">Estructura mínima de manifest</a></li>
+  <li><a href="#lenguaje-de-defensa" id="toc-lenguaje-de-defensa" class="nav-link" data-scroll-target="#lenguaje-de-defensa">Lenguaje de defensa</a></li>
   <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a>
   <ul class="collapse">
-  <li><a href="#ejercicio-1" id="toc-ejercicio-1" class="nav-link" data-scroll-target="#ejercicio-1">Ejercicio 1</a></li>
-  <li><a href="#ejercicio-2" id="toc-ejercicio-2" class="nav-link" data-scroll-target="#ejercicio-2">Ejercicio 2</a></li>
-  <li><a href="#ejercicio-3" id="toc-ejercicio-3" class="nav-link" data-scroll-target="#ejercicio-3">Ejercicio 3</a></li>
-  <li><a href="#ejercicio-4" id="toc-ejercicio-4" class="nav-link" data-scroll-target="#ejercicio-4">Ejercicio 4</a></li>
+  <li><a href="#verificaciones-de-ejemplos-resueltos" id="toc-verificaciones-de-ejemplos-resueltos" class="nav-link" data-scroll-target="#verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</a></li>
+  <li><a href="#síntesis-para-parcial-2" id="toc-síntesis-para-parcial-2" class="nav-link" data-scroll-target="#síntesis-para-parcial-2">Síntesis para Parcial 2</a></li>
+  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
+  <li><a href="#comunicación-técnica" id="toc-comunicación-técnica" class="nav-link" data-scroll-target="#comunicación-técnica">Comunicación técnica</a></li>
+  <li><a href="#entrega-y-defensa" id="toc-entrega-y-defensa" class="nav-link" data-scroll-target="#entrega-y-defensa">Entrega y defensa</a></li>
+  <li><a href="#ejercicios-integradores" id="toc-ejercicios-integradores" class="nav-link" data-scroll-target="#ejercicios-integradores">Ejercicios integradores</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -246,6 +290,53 @@ window.Quarto = {
 </header>
 
 
+<section id="cómo-usar-este-apéndice" class="level1">
+<h1>Cómo usar este apéndice</h1>
+<p>Este apéndice sirve para cerrar el curso: preparar el Parcial 2, revisar reproducibilidad, escribir el reporte final y defender una decisión técnica. La pregunta central ya no es solo “¿cuál fórmula uso?”, sino “¿qué evidencia puedo defender y qué límite debo declarar?”.</p>
+<div class="book-note">
+<p>Una defensa profesional no exagera. Presenta evidencia suficiente, diagnóstico proporcional, acción concreta y límites claros.</p>
+</div>
+<section id="notación-mínima" class="level2">
+<h2 class="anchored" data-anchor-id="notación-mínima">Notación mínima</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\hat p_{i,y_i}\)</span></td>
+<td>probabilidad asignada a la clase correcta</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\bar s\)</span>, <span class="math inline">\(\sigma_s\)</span></td>
+<td>media y variabilidad de validación</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(Z_k\)</span></td>
+<td>representación PCA con <span class="math inline">\(k\)</span> componentes</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\hat X\)</span></td>
+<td>reconstrucción aproximada</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(a_i\)</span>, <span class="math inline">\(b_i\)</span></td>
+<td>distancia intra-cluster y vecino más cercano en silhouette</td>
+</tr>
+<tr class="even">
+<td>manifest</td>
+<td>archivo que registra datos, parámetros, métricas y artefactos</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="fórmulas-clave" class="level2">
 <h2 class="anchored" data-anchor-id="fórmulas-clave">Fórmulas clave</h2>
 <section id="softmax" class="level3">
@@ -290,25 +381,120 @@ s_i = \frac{b_i-a_i}{\max(a_i,b_i)}.
 <p>Un hash no prueba que un resultado sea correcto. Prueba que el archivo no cambió respecto a la versión registrada.</p>
 </section>
 </section>
+<section id="checklist-de-paquete-reproducible" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-de-paquete-reproducible">Checklist de paquete reproducible</h2>
+<div class="checklist">
+<ul>
+<li>Hay una instrucción clara para ejecutar el flujo principal.</li>
+<li>Datos, scripts y resultados tienen rutas documentadas.</li>
+<li>La semilla y las particiones están registradas.</li>
+<li>El entorno está especificado con <code>requirements</code>, <code>environment</code> o equivalente.</li>
+<li>El preprocesamiento final está dentro del pipeline o descrito paso a paso.</li>
+<li>Las métricas finales se pueden recalcular.</li>
+<li>Los artefactos importantes tienen versión, nombre estable o hash.</li>
+<li>La conclusión distingue evidencia, interpretación y recomendación.</li>
+</ul>
+</div>
+</section>
+<section id="estructura-mínima-de-manifest" class="level2">
+<h2 class="anchored" data-anchor-id="estructura-mínima-de-manifest">Estructura mínima de manifest</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"2026-09-30-baseline-logreg"</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"train"</span><span class="fu">:</span> <span class="st">"data/processed/train.csv"</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"test"</span><span class="fu">:</span> <span class="st">"data/processed/test.csv"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"model"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"name"</span><span class="fu">:</span> <span class="st">"logistic_regression"</span><span class="fu">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">}</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"f1_test"</span><span class="fu">:</span> <span class="fl">0.72</span><span class="fu">,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"recall_test"</span><span class="fu">:</span> <span class="fl">0.68</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"report"</span><span class="fu">:</span> <span class="st">"reports/final.html"</span><span class="fu">,</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"model"</span><span class="fu">:</span> <span class="st">"models/model.joblib"</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"no desplegar sin revisar slice crítico"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="lenguaje-de-defensa" class="level2">
+<h2 class="anchored" data-anchor-id="lenguaje-de-defensa">Lenguaje de defensa</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Frase débil</th>
+<th>Versión defendible</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“El modelo es bueno.”</td>
+<td>“El modelo supera el baseline en F1, pero falla en un slice crítico.”</td>
+</tr>
+<tr class="even">
+<td>“PCA demuestra grupos.”</td>
+<td>“La proyección PCA sugiere separación visual; falta validación adicional.”</td>
+</tr>
+<tr class="odd">
+<td>“El experimento es reproducible.”</td>
+<td>“El experimento tiene semilla, entorno, manifest y script de evaluación.”</td>
+</tr>
+<tr class="even">
+<td>“Recomendamos usarlo.”</td>
+<td>“Recomendamos una prueba limitada bajo estas restricciones.”</td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
-<section id="ejercicio-1" class="level3">
-<h3 class="anchored" data-anchor-id="ejercicio-1">Ejercicio 1</h3>
-<p>Restar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.</p>
+<section id="verificaciones-de-ejemplos-resueltos" class="level3">
+<h3 class="anchored" data-anchor-id="verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</h3>
+<p><strong>Softmax estable.</strong> Para logits <span class="math inline">\((1000,1001,1002)\)</span>, restar el máximo produce <span class="math inline">\((-2,-1,0)\)</span>. La distribución queda aproximadamente <span class="math inline">\((0.090,0.245,0.665)\)</span>. La resta evita overflow y no cambia softmax.</p>
+<p><strong>Manifest.</strong> Si el manifest registra <code>sha256:abc123</code> y el archivo actual tiene <code>sha256:def987</code>, el artefacto no coincide con la corrida registrada. La métrica asociada debe considerarse no verificada hasta rerunear o recuperar el archivo correcto.</p>
+<p><strong>Mejora relativa.</strong> Si F1 pasa de <span class="math inline">\(0.60\)</span> a <span class="math inline">\(0.72\)</span>, la mejora absoluta es <span class="math inline">\(0.12\)</span> y la relativa es <span class="math inline">\(0.12/0.60=20\%\)</span>.</p>
+<p><strong>Rúbrica ponderada.</strong> Con puntajes <span class="math inline">\(12,16,20,13,12,8\)</span> sobre pesos que suman 100, la nota final es <span class="math inline">\(81\%\)</span>.</p>
 </section>
-<section id="ejercicio-2" class="level3">
-<h3 class="anchored" data-anchor-id="ejercicio-2">Ejercicio 2</h3>
-<p>Una respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.</p>
+<section id="síntesis-para-parcial-2" class="level3">
+<h3 class="anchored" data-anchor-id="síntesis-para-parcial-2">Síntesis para Parcial 2</h3>
+<p><strong>Capítulo 1, ejercicio 1.</strong> Una mejora global no basta si un slice crítico empeora porque la métrica agregada puede ocultar daño concentrado. Una respuesta profesional pide revisar tamaño del slice, costo del error, estabilidad de la medición y acción de mitigación.</p>
+<p><strong>Capítulo 1, ejercicio 4.</strong> Para logits <span class="math inline">\((1000,1001,1002)\)</span>, resta el máximo: <span class="math inline">\((-2,-1,0)\)</span>. Softmax queda proporcional a <span class="math inline">\((e^{-2},e^{-1},1)\)</span>, es decir aproximadamente <span class="math inline">\((0.090, 0.245, 0.665)\)</span>.</p>
 </section>
-<section id="ejercicio-3" class="level3">
-<h3 class="anchored" data-anchor-id="ejercicio-3">Ejercicio 3</h3>
-<p>Con más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con <span class="math inline">\(k+1\)</span> componentes no puede tener mayor error que con <span class="math inline">\(k\)</span>.</p>
+<section id="reproducibilidad" class="level3">
+<h3 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h3>
+<p><strong>Capítulo 2, ejercicio 1.</strong> Una semilla fija no garantiza reproducibilidad completa porque pueden cambiar librerías, hardware, orden de datos, implementaciones paralelas o archivos de entrada.</p>
+<p><strong>Capítulo 2, ejercicio 4.</strong> Un hash SHA-256 detecta si un archivo cambió respecto a la versión registrada. No dice si el contenido es correcto, ético o suficiente para la decisión.</p>
+<p><strong>Capítulo 2, ejercicio 8.</strong> Si no se puede reproducir una métrica final, revisa primero partición, versión de datos, pipeline de preprocesamiento, semilla, parámetros del modelo y script de evaluación.</p>
 </section>
-<section id="ejercicio-4" class="level3">
-<h3 class="anchored" data-anchor-id="ejercicio-4">Ejercicio 4</h3>
-<p>Un manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.</p>
+<section id="comunicación-técnica" class="level3">
+<h3 class="anchored" data-anchor-id="comunicación-técnica">Comunicación técnica</h3>
+<p><strong>Capítulo 3, ejercicio 1.</strong> “El modelo es bueno” no es suficiente porque no dice contra qué baseline, con qué métrica, en qué partición, bajo qué costo de error ni con qué limitaciones.</p>
+<p><strong>Capítulo 3, ejercicio 4.</strong> Si el baseline tiene F1 0.60 y el modelo final F1 0.72, la mejora absoluta es 0.12 puntos de F1 y la mejora relativa es <span class="math inline">\((0.72-0.60)/0.60=20\%\)</span>.</p>
+<p><strong>Capítulo 3, ejercicio 7.</strong> Una conclusión exagerada debe reescribirse con cuatro partes: evidencia, límite, acción y condición de uso. Por ejemplo: “El modelo mejora F1 frente al baseline, pero su recall cae en clientes nuevos; recomendamos analizar ese slice antes de una prueba controlada”.</p>
+</section>
+<section id="entrega-y-defensa" class="level3">
+<h3 class="anchored" data-anchor-id="entrega-y-defensa">Entrega y defensa</h3>
+<p><strong>Capítulo 4, ejercicio 3.</strong> Con puntajes 12/15, 16/20, 20/25, 13/15, 12/15 y 8/10, el total es <span class="math inline">\(81/100\)</span>.</p>
+<p><strong>Capítulo 4, ejercicio 4.</strong> Si una defensa usa cinco criterios 0/1/2, el puntaje máximo es 10. Una conversión transparente a porcentaje es <span class="math inline">\(\text{porcentaje}=10\times\text{puntaje}\)</span>.</p>
+<p><strong>Capítulo 4, ejercicio 7.</strong> Una respuesta defendible a “¿qué cambiaría con dos semanas más?” debe nombrar una acción priorizada y una razón: “ampliaría análisis del slice con peor recall porque ahí está el riesgo operativo principal”.</p>
+</section>
+<section id="ejercicios-integradores" class="level3">
+<h3 class="anchored" data-anchor-id="ejercicios-integradores">Ejercicios integradores</h3>
+<p><strong>Ejercicio 1.</strong> Restar el máximo evita overflow porque reemplaza exponenciales enormes por valores en una escala estable. La operación no cambia softmax porque multiplica numerador y denominador por la misma constante.</p>
+<p><strong>Ejercicio 2.</strong> Una respuesta sólida: el modelo mejora el baseline, pero tiene variabilidad alta, cae en test y falla en un slice crítico. La acción prudente es diagnosticar ese slice y ajustar datos, features o umbral antes de recomendar uso operativo.</p>
+<p><strong>Ejercicio 3.</strong> Con más componentes, el subespacio de reconstrucción contiene al anterior. Por eso la mejor aproximación con <span class="math inline">\(k+1\)</span> componentes no puede tener mayor error que con <span class="math inline">\(k\)</span>.</p>
+<p><strong>Ejercicio 4.</strong> Un manifest válido incluye parámetros, métricas, rutas de artefactos, hashes y una decisión. Su valor principal es auditar qué corrida produjo una conclusión.</p>
+<p><strong>Ejercicio 5.</strong> Una defensa final fuerte debe declarar al menos un límite: datos insuficientes, slice inestable, métrica parcial, supuestos de despliegue o riesgo de cambio de distribución.</p>
 
 
+</section>
 </section>
 </section>
 
