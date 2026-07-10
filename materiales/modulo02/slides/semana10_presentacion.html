@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-497927b09c649fbf04127b05855bc355.css">
+  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-cb876abdb8510df66370c1d20a3cfff1.css">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,136 +207,248 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>De entender gradientes a usar herramientas profesionales</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>De derivar a entrenar</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Implementar redes desde cero revela el algoritmo. PyTorch permite escalar el mismo ciclo con autograd, módulos y optimizadores.</p>
+<div class="big-question">
+<p>¿Que gana y que pierde el estudiante cuando PyTorch calcula gradientes por el?</p>
+</div>
+<div class="footer-note">
+<p>Semana 10: usar herramientas profesionales sin perder el modelo mental.</p>
+</div>
+</section>
+<section id="recap-nuestro-ciclo-manual" class="slide level2">
+<h2>Recap: nuestro ciclo manual</h2>
+<div class="diagram-flow">
+<p><span>parametros</span><span class="arrow">→</span><span>forward</span><span class="arrow">→</span><span>loss</span><span class="arrow">→</span><span>backward</span><span class="arrow">→</span><span>update</span></p>
 </div>
 <div class="takeaway">
-<p>PyTorch automatiza gradientes; no automatiza criterio experimental.</p>
+<p>PyTorch automatiza partes del ciclo, pero no decide por nosotros que medir, validar o defender.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Identificar</strong></p>
-<p>Mini-batch, Momentum y Adam.</p>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Optimizar</strong></p>
+<p>Comparar SGD, momentum y Adam como reglas de actualizacion.</p>
 </div>
-<div class="mini-card">
-<p><strong>Ejecutar</strong></p>
-<p>Loop mínimo de PyTorch.</p>
+<div class="panel">
+<p><strong>Mapear</strong></p>
+<p>Reconocer cada pieza del loop en PyTorch.</p>
 </div>
-<div class="mini-card">
-<p><strong>Comparar</strong></p>
-<p>NumPy vs referencia profesional.</p>
+<div class="panel">
+<p><strong>Cerrar</strong></p>
+<p>Entregar Lab 3 con evidencia reproducible de entrenamiento.</p>
 </div>
-</div>
-</section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>mini-batch</span><span class="arrow">→</span><span>Momentum</span><span class="arrow">→</span><span>Adam</span><span class="arrow">→</span><span>PyTorch</span><span class="arrow">→</span><span>Lab 3</span></p>
 </div>
 </section>
-<section id="mini-batches" class="slide level2">
-<h2>Mini-batches</h2>
-<div class="compare-grid">
-<div class="mini-card">
+<section id="descenso-por-mini-batches" class="slide level2">
+<h2>Descenso por mini-batches</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\theta_{t+1}
+=
+\theta_t-\eta\nabla_\theta J_{\mathcal B_t}(\theta_t)
+\]</span></p>
+</div>
+<div class="split">
+<div class="panel">
 <p><strong>Batch completo</strong></p>
-<p>Gradiente estable, actualización costosa.</p>
+<p>Gradiente estable, mas costoso por paso.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Mini-batch</strong></p>
-<p>Actualización barata, gradiente ruidoso pero útil.</p>
+<p>Gradiente ruidoso, pasos mas frecuentes y escalables.</p>
 </div>
+</div>
+</section>
+<section id="ruido-no-siempre-es-enemigo" class="slide level2">
+<h2>Ruido no siempre es enemigo</h2>
+<div class="large-statement">
+<p>El ruido de mini-batches puede ayudar a escapar regiones planas, pero tambien vuelve mas dificil leer el entrenamiento.</p>
+</div>
+<div class="checkpoint">
+<p>Por eso miramos curvas suavizadas, validacion y estabilidad entre semillas.</p>
 </div>
 </section>
 <section id="momentum" class="slide level2">
 <h2>Momentum</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-v_t=\beta v_{t-1}+(1-\beta)\nabla J(\theta_t)
-\]</span> <span class="math display">\[
-\theta_{t+1}=\theta_t-\alpha v_t
+v_t=\beta v_{t-1}+\nabla J(\theta_t),
+\qquad
+\theta_{t+1}=\theta_t-\eta v_t
 \]</span></p>
+</div>
+<div class="takeaway">
+<p>Momentum acumula direccion. Reduce zigzag cuando el gradiente cambia mucho de una coordenada a otra.</p>
 </div>
 </section>
 <section id="adam" class="slide level2">
 <h2>Adam</h2>
-<div class="definition-card">
-<p><strong>Adam</strong> combina momento del gradiente y escalamiento por magnitudes recientes del gradiente cuadrado.</p>
+<div class="math-focus">
+<p><span class="math display">\[
+m_t=\beta_1m_{t-1}+(1-\beta_1)g_t,
+\qquad
+v_t=\beta_2v_{t-1}+(1-\beta_2)g_t^2
+\]</span></p>
 </div>
-<div class="warning-card">
-<p>Adam no reemplaza validación, curvas ni análisis de errores.</p>
+<div class="checkpoint">
+<p>Adam combina memoria de direccion con escala adaptativa por coordenada.</p>
 </div>
 </section>
-<section id="loop-pytorch" class="slide level2">
-<h2>Loop PyTorch</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="cf">for</span> X_batch, y_batch <span class="kw">in</span> loader:</span>
-<span id="cb1-2"><a href=""></a>    optimizer.zero_grad()</span>
-<span id="cb1-3"><a href=""></a>    logits <span class="op">=</span> model(X_batch)</span>
-<span id="cb1-4"><a href=""></a>    loss <span class="op">=</span> criterion(logits, y_batch)</span>
-<span id="cb1-5"><a href=""></a>    loss.backward()</span>
-<span id="cb1-6"><a href=""></a>    optimizer.step()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="tres-trayectorias" class="slide level2">
+<h2>Tres trayectorias</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/optimizadores-momentum-adam.svg" class="slide-figure" alt="Trayectorias de optimizadores"></p>
+</div>
+<div>
+<p><strong>Lectura</strong></p>
+<div class="small-list">
+<ul>
+<li>SGD responde al gradiente actual;</li>
+<li>momentum conserva direccion acumulada;</li>
+<li>Adam ajusta el tamano efectivo por coordenada;</li>
+<li>ninguna regla reemplaza validacion.</li>
+</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="qué-corresponde-a-qué" class="slide level2">
-<h2>Qué corresponde a qué</h2>
+<section id="pytorch-modelo" class="slide level2">
+<h2>PyTorch: modelo</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href=""></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb1-3"><a href=""></a></span>
+<span id="cb1-4"><a href=""></a>model <span class="op">=</span> nn.Sequential(</span>
+<span id="cb1-5"><a href=""></a>    nn.Linear(d_in, <span class="dv">32</span>),</span>
+<span id="cb1-6"><a href=""></a>    nn.ReLU(),</span>
+<span id="cb1-7"><a href=""></a>    nn.Linear(<span class="dv">32</span>, n_classes)</span>
+<span id="cb1-8"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p><code>nn.Linear</code> contiene pesos y sesgos aprendibles.</p>
+</div>
+</section>
+<section id="pytorch-perdida-y-optimizador" class="slide level2">
+<h2>PyTorch: perdida y optimizador</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb2-2"><a href=""></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway">
+<p><code>CrossEntropyLoss</code> espera logits sin softmax explicito.</p>
+</div>
+</section>
+<section id="pytorch-loop-minimo" class="slide level2">
+<h2>PyTorch: loop minimo</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="cf">for</span> X_batch, y_batch <span class="kw">in</span> train_loader:</span>
+<span id="cb3-2"><a href=""></a>    optimizer.zero_grad()</span>
+<span id="cb3-3"><a href=""></a>    logits <span class="op">=</span> model(X_batch)</span>
+<span id="cb3-4"><a href=""></a>    loss <span class="op">=</span> criterion(logits, y_batch)</span>
+<span id="cb3-5"><a href=""></a>    loss.backward()</span>
+<span id="cb3-6"><a href=""></a>    optimizer.step()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>Estas cinco lineas son el ciclo completo de entrenamiento.</p>
+</div>
+</section>
+<section id="que-corresponde-a-que" class="slide level2">
+<h2>Que corresponde a que</h2>
 <div class="mini-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Concepto NumPy</th>
-<th>PyTorch</th>
+<th>Linea</th>
+<th>Papel matematico</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>forward_pass</code></td>
-<td><code>model(X)</code></td>
+<td><code>zero_grad()</code></td>
+<td>limpiar acumulacion anterior</td>
 </tr>
 <tr class="even">
-<td><code>cross_entropy_loss</code></td>
-<td><code>nn.CrossEntropyLoss()</code></td>
+<td><code>model(X_batch)</code></td>
+<td>forward pass</td>
 </tr>
 <tr class="odd">
-<td><code>backward_pass</code></td>
-<td><code>loss.backward()</code></td>
+<td><code>criterion(...)</code></td>
+<td>perdida</td>
 </tr>
 <tr class="even">
-<td><code>update_parameters</code></td>
-<td><code>optimizer.step()</code></td>
+<td><code>backward()</code></td>
+<td>regla de la cadena</td>
+</tr>
+<tr class="odd">
+<td><code>step()</code></td>
+<td>actualizar parametros</td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
+<section id="modo-train-y-eval" class="slide level2">
+<h2>Modo train y eval</h2>
+<div class="split">
+<div class="definition-card">
+<p><strong><code>model.train()</code></strong></p>
+<p>Activa comportamiento de entrenamiento, por ejemplo dropout.</p>
+</div>
+<div class="definition-card">
+<p><strong><code>model.eval()</code></strong></p>
+<p>Usa comportamiento de evaluacion y evita ruido de entrenamiento.</p>
+</div>
+</div>
+<div class="warning-card">
+<p>Olvidar <code>eval()</code> puede contaminar metricas de validacion.</p>
+</div>
+</section>
+<section id="sin-gradientes-al-evaluar" class="slide level2">
+<h2>Sin gradientes al evaluar</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>model.<span class="bu">eval</span>()</span>
+<span id="cb4-2"><a href=""></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb4-3"><a href=""></a>    logits <span class="op">=</span> model(X_val)</span>
+<span id="cb4-4"><a href=""></a>    val_loss <span class="op">=</span> criterion(logits, y_val)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>Evaluar sin grafo ahorra memoria y evita gradientes accidentales.</p>
+</div>
+</section>
 <section id="actividad-leer-el-loop" class="slide level2">
 <h2>Actividad: leer el loop</h2>
 <div class="activity">
-<p><strong>Tres minutos.</strong> Señale en el loop dónde ocurre forward, pérdida, backward y actualización.</p>
+<p><strong>7 minutos</strong></p>
+<p>Marquen en un loop PyTorch donde ocurre:</p>
+<p>forward, perdida, backward, actualizacion, validacion y guardado de metrica.</p>
 </div>
 </section>
-<section id="entrega-lab-3" class="slide level2">
-<h2>Entrega Lab 3</h2>
+<section id="lab-3-cierre" class="slide level2">
+<h2>Lab 3: cierre</h2>
+<div class="split">
 <div class="deliverable">
-<p><strong>Entrega.</strong> Red desde cero, comparación profesional e interpretación corta.</p>
+<p><strong>Debe pasar autograder</strong></p>
+<p>Forward, backward, entrenamiento, shapes y metricas.</p>
+</div>
+<div class="deliverable">
+<p><strong>Debe ser defendible</strong></p>
+<p>Curva, diagnostico y una decision tecnica razonable.</p>
+</div>
 </div>
 </section>
 <section id="error-frecuente" class="slide level2">
 <h2>Error frecuente</h2>
 <div class="warning-card">
-<p><strong>Comparar modelos con particiones distintas.</strong></p>
-<p>La comparación solo es defendible si los modelos ven el mismo train/validation/test.</p>
+<p><strong>Confundir logits con probabilidades</strong></p>
+<p>En PyTorch, muchas funciones de perdida esperan puntajes sin softmax; aplicar softmax antes puede empeorar estabilidad numerica.</p>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>Después de Módulo 2, una red neuronal debe verse como algoritmo, experimento y decisión técnica.</p>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>Usar PyTorch profesionalmente significa reconocer el mismo algoritmo, aunque la herramienta compute el gradiente.</p>
+</div>
+<div class="diagram-flow">
+<p><span>modelo</span><span class="arrow">→</span><span>loss</span><span class="arrow">→</span><span>autograd</span><span class="arrow">→</span><span>optimizer</span><span class="arrow">→</span><span>validacion</span></p>
 </div>
 
 </section>
@@ -378,7 +490,7 @@ v_t=\beta v_{t-1}+(1-\beta)\nabla J(\theta_t)
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

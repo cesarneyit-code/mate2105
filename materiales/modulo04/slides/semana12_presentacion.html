@@ -28,74 +28,8 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-aa1575f6edb31f60571e2cce039fb27b.css">
+  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-ee443d696a57c6a7af807bee7b497acb.css">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,7 +130,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 12: SVD, PCA y reducción de dimensión</p>
+  <p class="subtitle">Semana 12: SVD, PCA y reduccion de dimension</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -207,171 +141,240 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Estructura sin etiqueta</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Estructura sin etiquetas</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Tenemos muchos atributos y ninguna variable objetivo directa. Queremos encontrar direcciones que expliquen la mayor parte de la variación.</p>
+<div class="big-question">
+<p>Si nadie nos entrega una variable objetivo, ¿que significa aprender algo de los datos?</p>
+</div>
+<div class="footer-note">
+<p>Semana 12: ver matrices como geometria de observaciones y variables.</p>
+</div>
+</section>
+<section id="recap-supervisado-vs-no-supervisado" class="slide level2">
+<h2>Recap: supervisado vs no supervisado</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Supervisado</strong></p>
+<p>Aprender una relacion entre <code>X</code> y <code>y</code>.</p>
+</div>
+<div class="panel">
+<p><strong>No supervisado</strong></p>
+<p>Encontrar estructura en <code>X</code> sin una etiqueta objetivo.</p>
+</div>
 </div>
 <div class="takeaway">
-<p>PCA resume una matriz centrada con ejes lineales de máxima varianza.</p>
+<p>El riesgo cambia: no hay accuracy natural que nos diga que “acertamos”.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
 <p><strong>Centrar</strong></p>
-<p>Separar nivel promedio de variación.</p>
+<p>Preparar una matriz para estudiar variacion.</p>
 </div>
-<div class="mini-card">
-<p><strong>Factorizar</strong></p>
-<p>Usar SVD para obtener direcciones.</p>
+<div class="panel">
+<p><strong>Descomponer</strong></p>
+<p>Leer SVD como direcciones, pesos y coordenadas.</p>
 </div>
-<div class="mini-card">
-<p><strong>Reconstruir</strong></p>
-<p>Medir cuánto se perdió al comprimir.</p>
+<div class="panel">
+<p><strong>Proyectar</strong></p>
+<p>Usar PCA para comprimir, visualizar y reconstruir.</p>
 </div>
-</div>
-</section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>matriz</span><span class="arrow">→</span><span>centrado</span><span class="arrow">→</span><span>SVD</span><span class="arrow">→</span><span>scores</span><span class="arrow">→</span><span>varianza</span><span class="arrow">→</span><span>reconstrucción</span></p>
 </div>
 </section>
 <section id="matriz-de-datos" class="slide level2">
 <h2>Matriz de datos</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-X \in \mathbb{R}^{n \times p}
+X \in \mathbb R^{n\times p}
 \]</span></p>
 </div>
-<div class="checkpoint">
-<p>Filas: observaciones. Columnas: variables. PCA opera sobre relaciones lineales entre columnas.</p>
+<div class="mini-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Eje</th>
+<th>Interpretacion</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>filas</td>
+<td>observaciones</td>
+</tr>
+<tr class="even">
+<td>columnas</td>
+<td>variables</td>
+</tr>
+<tr class="odd">
+<td>nubes de puntos</td>
+<td>geometria de datos</td>
+</tr>
+<tr class="even">
+<td>direcciones</td>
+<td>combinaciones de variables</td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 <section id="centrado" class="slide level2">
 <h2>Centrado</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-X_c = X - \mathbf{1}\mu^\top
+X_c = X - \mathbf 1\mu^\top
 \]</span></p>
 </div>
-<div class="warning-card">
-<p>Sin centrado, el primer componente puede capturar nivel promedio en vez de variación relevante.</p>
+<div class="checkpoint">
+<p>PCA estudia variacion alrededor del centro. Sin centrar, la primera direccion puede capturar ubicacion, no estructura.</p>
 </div>
 </section>
-<section id="svd" class="slide level2">
-<h2>SVD</h2>
-<div class="big-formula">
+<section id="la-descomposicion-svd" class="slide level2">
+<h2>La descomposicion SVD</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-X_c = U \Sigma V^\top
+X_c = U\Sigma V^\top
 \]</span></p>
 </div>
-<div class="mini-table">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Símbolo</th>
-<th>Interpretación</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>(V^)</td>
-<td>direcciones principales</td>
-</tr>
-<tr class="even">
-<td>(U)</td>
-<td>scores o coordenadas</td>
-</tr>
-<tr class="odd">
-<td>()</td>
-<td>magnitud de cada dirección</td>
-</tr>
-</tbody>
-</table>
+<div class="three-panel">
+<div class="panel">
+<p><strong><code>U</code></strong></p>
+<p>Coordenadas normalizadas de observaciones.</p>
+</div>
+<div class="panel">
+<p><strong><code>\Sigma</code></strong></p>
+<p>Escalas de importancia.</p>
+</div>
+<div class="panel">
+<p><strong><code>V</code></strong></p>
+<p>Direcciones en el espacio de variables.</p>
+</div>
 </div>
 </section>
-<section id="pca-como-proyección" class="slide level2">
-<h2>PCA como proyección</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>Xc <span class="op">=</span> X <span class="op">-</span> X.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb1-2"><a href=""></a>U, S, Vt <span class="op">=</span> np.linalg.svd(Xc, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb1-3"><a href=""></a>components <span class="op">=</span> Vt[:k]</span>
-<span id="cb1-4"><a href=""></a>scores <span class="op">=</span> Xc <span class="op">@</span> components.T</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="pca-como-proyeccion" class="slide level2">
+<h2>PCA como proyeccion</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/pca-svd-proyeccion.svg" class="slide-figure" alt="PCA como proyeccion"></p>
+</div>
+<div>
+<p><strong>Idea geometrica</strong></p>
+<p>Buscar direcciones ortogonales que capturan la mayor variacion posible.</p>
+<div class="small-list">
+<ul>
+<li>primer componente: mayor varianza;</li>
+<li>segundo: mayor varianza restante;</li>
+<li>proyeccion: nuevas coordenadas;</li>
+<li>reconstruccion: aproximacion de baja dimension.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="componentes-principales" class="slide level2">
+<h2>Componentes principales</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+Z_k = X_c V_k
+\]</span></p>
+</div>
 <div class="takeaway">
-<p>Los componentes viven en el espacio de variables; los scores viven en el espacio de observaciones.</p>
+<p><code>Z_k</code> son los datos representados en las primeras <code>k</code> direcciones principales.</p>
 </div>
 </section>
 <section id="varianza-explicada" class="slide level2">
 <h2>Varianza explicada</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-\frac{s_j^2}{\sum_{\ell} s_\ell^2}
+\text{EVR}_j =
+\frac{\sigma_j^2}{\sum_{\ell=1}^{r}\sigma_\ell^2}
 \]</span></p>
 </div>
 <div class="checkpoint">
-<p>La varianza explicada mide compresión lineal, no utilidad causal ni calidad predictiva.</p>
+<p>La varianza explicada no dice si la representacion es util para una decision. Dice cuanta variacion conserva.</p>
 </div>
 </section>
-<section id="reconstrucción" class="slide level2">
-<h2>Reconstrucción</h2>
-<div class="big-formula">
+<section id="reconstruccion" class="slide level2">
+<h2>Reconstruccion</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat X = Z V_k + \mu
+\hat X_k = Z_k V_k^\top + \mathbf 1\mu^\top
 \]</span></p>
 </div>
-<div class="mini-table">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>k pequeño</th>
-<th>k grande</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>más compresión</td>
-<td>más detalle</td>
-</tr>
-<tr class="even">
-<td>más pérdida</td>
-<td>menor error</td>
-</tr>
-<tr class="odd">
-<td>más simple</td>
-<td>menos interpretable si crece demasiado</td>
-</tr>
-</tbody>
-</table>
+<div class="large-statement">
+<p>PCA comprime reemplazando una matriz por una aproximacion de rango menor.</p>
 </div>
 </section>
-<section id="actividad" class="slide level2">
-<h2>Actividad</h2>
-<div class="activity">
-<p>Con <code>load_digits</code>, retén 2, 10 y 30 componentes. Reporta:</p>
-<p>varianza acumulada → error de reconstrucción → decisión de k.</p>
+<section id="elegir-k" class="slide level2">
+<h2>Elegir <code>k</code></h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Compresion</strong></p>
+<p>Elegir <code>k</code> por error de reconstruccion tolerable.</p>
+</div>
+<div class="panel">
+<p><strong>Visualizacion</strong></p>
+<p><code>k=2</code> o <code>k=3</code> para inspeccion humana.</p>
+</div>
+<div class="panel">
+<p><strong>Pipeline</strong></p>
+<p>Elegir <code>k</code> con validacion si alimenta un modelo posterior.</p>
+</div>
 </div>
 </section>
-<section id="errores-frecuentes" class="slide level2">
-<h2>Errores frecuentes</h2>
+<section id="cuidado-con-escala" class="slide level2">
+<h2>Cuidado con escala</h2>
 <div class="warning-card">
-<p><strong>Confundir visualización con prueba.</strong> Una proyección 2D puede sugerir estructura, pero no demuestra separabilidad ni utilidad operacional.</p>
+<p>PCA maximiza varianza. Si una variable tiene escala enorme, puede dominar los componentes aunque no sea mas importante.</p>
+</div>
+<div class="diagram-flow">
+<p><span>datos crudos</span><span class="arrow">→</span><span>centrar</span><span class="arrow">→</span><span>escalar si aplica</span><span class="arrow">→</span><span>SVD/PCA</span></p>
 </div>
 </section>
-<section id="conexión-con-proyecto" class="slide level2">
-<h2>Conexión con proyecto</h2>
+<section id="actividad-leer-componentes" class="slide level2">
+<h2>Actividad: leer componentes</h2>
+<div class="activity">
+<p><strong>8 minutos</strong></p>
+<p>Reciban dos componentes con cargas por variable. Escriban:</p>
+<ol type="1">
+<li>que variables dominan cada componente;</li>
+<li>que interpretacion seria razonable;</li>
+<li>que interpretacion seria excesiva;</li>
+<li>que grafico pedirian para verificar.</li>
+</ol>
+</div>
+</section>
+<section id="conexion-con-proyecto" class="slide level2">
+<h2>Conexion con proyecto</h2>
+<div class="split">
 <div class="deliverable">
-<p>Extensión no supervisada: PCA puede servir para visualizar, detectar dimensiones redundantes o construir una auditoría de estructura.</p>
+<p><strong>Uso razonable</strong></p>
+<p>Visualizar estructura, reducir ruido, detectar grupos o comprimir variables.</p>
+</div>
+<div class="warning-card">
+<p><strong>Riesgo</strong></p>
+<p>Presentar PCA como explicacion causal o como prueba de clusters reales.</p>
+</div>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>PCA profesional = centrado + componentes + varianza + reconstrucción + límite explícito.</p>
+<section id="error-frecuente" class="slide level2">
+<h2>Error frecuente</h2>
+<div class="warning-card">
+<p><strong>Ajustar PCA antes de partir datos</strong></p>
+<p>Si PCA alimenta un modelo supervisado, debe ajustarse solo con train dentro de un pipeline.</p>
+</div>
+</section>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>PCA es una decision geometrica: elegir direcciones que conservan variacion y aceptar la informacion que se pierde.</p>
+</div>
+<div class="diagram-flow">
+<p><span>X</span><span class="arrow">→</span><span>centrar</span><span class="arrow">→</span><span>SVD</span><span class="arrow">→</span><span>proyectar</span><span class="arrow">→</span><span>interpretar</span></p>
 </div>
 
 </section>
@@ -413,7 +416,7 @@ X_c = U \Sigma V^\top
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana04_presentacion_files/libs/revealjs/dist/theme/quarto-7d97316d36238b2b2d825916f28a2fa3.css">
+  <link rel="stylesheet" href="semana04_presentacion_files/libs/revealjs/dist/theme/quarto-9b83917f405c5b34aeee76efbf11d255.css">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,212 +207,291 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Cuando una línea no alcanza</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Más variables no siempre significan mejor modelo</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Un baseline lineal puede fallar porque la relación entre variables no es directamente lineal.</p>
-<p>Podemos crear mejores variables, pero cada variable nueva aumenta el riesgo de ajustar ruido.</p>
+<div class="big-question">
+<p>¿Cuándo una transformación de variables revela estructura y cuándo solo permite memorizar ruido?</p>
+</div>
+</section>
+<section id="recap" class="slide level2">
+<h2>Recap</h2>
+<div class="diagram-flow">
+<p><span>matriz X</span><span class="arrow">→</span><span>pérdida</span><span class="arrow">→</span><span>gradiente</span><span class="arrow">→</span><span>parámetros</span></p>
 </div>
 <div class="takeaway">
-<p>La pregunta profesional no es “¿puedo hacerlo más complejo?”, sino “¿la complejidad generaliza?”.</p>
+<p>Hasta ahora hemos cambiado el algoritmo de ajuste. Hoy cambiamos la representación de entrada.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Diseñar</strong></p>
-<p>Crear variables útiles sin filtrar información futura.</p>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Transformar</strong></p>
+<p>Crear variables útiles sin perder trazabilidad.</p>
 </div>
-<div class="mini-card">
-<p><strong>Comparar</strong></p>
-<p>Medir entrenamiento y validación para distintos grados.</p>
+<div class="panel">
+<p><strong>Controlar</strong></p>
+<p>Separar ajuste en entrenamiento de desempeño fuera de muestra.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Decidir</strong></p>
-<p>Elegir complejidad con evidencia, no por apariencia.</p>
+<p>Elegir complejidad con validación, no con intuición visual.</p>
 </div>
-</div>
-</section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>baseline</span><span class="arrow">→</span><span>features</span><span class="arrow">→</span><span>polinomios</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>overfitting</span><span class="arrow">→</span><span>propuesta</span></p>
-</div>
-<div class="small-list">
-<p>Hoy cambia una regla: el desempeño de entrenamiento deja de ser suficiente.</p>
 </div>
 </section>
 <section id="feature-engineering" class="slide level2">
 <h2>Feature engineering</h2>
-<div class="definition-card">
-<p><strong>Feature engineering</strong> es transformar variables originales en representaciones que hacen visible una estructura útil para el modelo.</p>
+<div class="large-statement">
+<p>Feature engineering es una decisión de representación: qué información le dejamos disponible al modelo.</p>
 </div>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Escalas</strong></p>
-<p>Logaritmos, estandarización, razones.</p>
+<div class="diagram-flow">
+<p><span>datos crudos</span><span class="arrow">→</span><span>transformaciones</span><span class="arrow">→</span><span>matriz de diseño</span><span class="arrow">→</span><span>modelo</span></p>
 </div>
-<div class="mini-card">
+</section>
+<section id="tres-tipos-de-transformación" class="slide level2">
+<h2>Tres tipos de transformación</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Escala</strong></p>
+<p>log, estandarización, proporciones.</p>
+</div>
+<div class="panel">
 <p><strong>Interacciones</strong></p>
-<p>Productos entre variables relevantes.</p>
+<p>producto entre variables.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>No linealidad</strong></p>
-<p>Polinomios o funciones transformadas.</p>
+<p>potencias, splines o funciones base.</p>
 </div>
 </div>
 </section>
 <section id="regresión-polinomial" class="slide level2">
 <h2>Regresión polinomial</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-\hat y=\theta_0+\theta_1x+\theta_2x^2+\theta_3x^3
+\hat y=\theta_0+\theta_1x+\theta_2x^2+\cdots+\theta_dx^d
 \]</span></p>
 </div>
 <div class="takeaway">
-<p>El modelo es no lineal en <code>x</code>, pero sigue siendo lineal en <code>theta</code>.</p>
+<p>El modelo es no lineal en <code>x</code>, pero sigue siendo lineal en los parámetros <code>theta</code>.</p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>, include_bias<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="lineal-en-parámetros" class="slide level2">
 <h2>Lineal en parámetros</h2>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Variable original</strong></p>
+<div class="split">
+<div>
 <p><span class="math display">\[
-x
+\phi(x)=
+\begin{bmatrix}
+1 &amp; x &amp; x^2 &amp; \cdots &amp; x^d
+\end{bmatrix}
 \]</span></p>
 </div>
-<div class="mini-card">
-<p><strong>Matriz transformada</strong></p>
+<div>
 <p><span class="math display">\[
-[x,\;x^2,\;x^3]
+\hat y = \phi(x)\theta
 \]</span></p>
+<div class="caption">
+<p>La ecuación normal y el gradiente siguen aplicando si reemplazamos <code>X</code> por <code>Phi</code>.</p>
 </div>
 </div>
+</div>
+</section>
+<section id="complejidad" class="slide level2">
+<h2>Complejidad</h2>
+<div class="large-statement">
+<p>La pregunta profesional no es “¿cuál grado ajusta mejor entrenamiento?”, sino “¿cuál grado generaliza mejor?”.</p>
+</div>
+<div class="diagram-flow">
+<p><span>grado bajo</span><span class="arrow">→</span><span>sesgo alto</span><span class="arrow">·</span><span>grado alto</span><span class="arrow">→</span><span>varianza alta</span></p>
+</div>
+</section>
+<section id="underfitting" class="slide level2">
+<h2>Underfitting</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Síntoma</strong></p>
+<p>Error alto en entrenamiento y validación.</p>
+</div>
+<div class="panel">
+<p><strong>Diagnóstico</strong></p>
+<p>La clase de modelos es demasiado rígida para el patrón.</p>
+</div>
+</div>
+</section>
+<section id="overfitting" class="slide level2">
+<h2>Overfitting</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Síntoma</strong></p>
+<p>Error bajo en entrenamiento y alto en validación.</p>
+</div>
+<div class="panel">
+<p><strong>Diagnóstico</strong></p>
+<p>El modelo aprendió detalles no estables de la muestra.</p>
+</div>
+</div>
+</section>
+<section id="curvas-de-aprendizaje" class="slide level2">
+<h2>Curvas de aprendizaje</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/curvas-aprendizaje.svg" class="slide-figure" alt="Curvas de aprendizaje"></p>
+</div>
+<div>
+<p><strong>Lectura</strong></p>
+<p>Las curvas no son decoración: son un instrumento de diagnóstico.</p>
 <div class="small-list">
-<p>Después de construir la matriz transformada, podemos usar regresión lineal ordinaria.</p>
+<ul>
+<li>brecha grande: varianza;</li>
+<li>ambas altas: sesgo;</li>
+<li>ambas bajan con datos: más información puede ayudar.</li>
+</ul>
 </div>
-</section>
-<section id="complejidad-la-pregunta-correcta" class="slide level2">
-<h2>Complejidad: la pregunta correcta</h2>
-<div class="metric-grid">
-<div class="mini-card">
-<p><strong>Train baja</strong></p>
-<p>El modelo ajusta mejor lo observado.</p>
-</div>
-<div class="mini-card">
-<p><strong>Validation baja</strong></p>
-<p>La complejidad está ayudando.</p>
-</div>
-<div class="mini-card">
-<p><strong>Brecha crece</strong></p>
-<p>El modelo memoriza patrones frágiles.</p>
 </div>
 </div>
 </section>
-<section id="underfitting-vs-overfitting" class="slide level2">
-<h2>Underfitting vs overfitting</h2>
-<div class="mini-table">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Caso</th>
-<th style="text-align: right;">Train error</th>
-<th style="text-align: right;">Validation error</th>
-<th>Diagnóstico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Muy simple</td>
-<td style="text-align: right;">alto</td>
-<td style="text-align: right;">alto</td>
-<td>underfitting</td>
-</tr>
-<tr class="even">
-<td>Balanceado</td>
-<td style="text-align: right;">moderado/bajo</td>
-<td style="text-align: right;">moderado/bajo</td>
-<td>buen candidato</td>
-</tr>
-<tr class="odd">
-<td>Muy flexible</td>
-<td style="text-align: right;">muy bajo</td>
-<td style="text-align: right;">alto</td>
-<td>overfitting</td>
-</tr>
-</tbody>
-</table>
+<section id="validación" class="slide level2">
+<h2>Validación</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\text{train} \neq \text{validation} \neq \text{test}
+\]</span></p>
+</div>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Train</strong></p>
+<p>Ajustar parámetros.</p>
+</div>
+<div class="panel">
+<p><strong>Validation</strong></p>
+<p>Elegir complejidad.</p>
+</div>
+<div class="panel">
+<p><strong>Test</strong></p>
+<p>Reportar evaluación final.</p>
+</div>
 </div>
 </section>
-<section id="validación-contratos-de-uso" class="slide level2">
-<h2>Validación: contratos de uso</h2>
-<div class="flow">
-<p><span>train</span><span class="arrow">→</span><span>ajustar parámetros</span><span class="arrow">→</span><span>validation</span><span class="arrow">→</span><span>elegir hiperparámetros</span><span class="arrow">→</span><span>test</span><span class="arrow">→</span><span>estimación final</span></p>
+<section id="contrato-de-uso-de-datos" class="slide level2">
+<h2>Contrato de uso de datos</h2>
+<div class="diagram-flow">
+<p><span>fit transformaciones en train</span><span class="arrow">→</span><span>elegir grado con validación</span><span class="arrow">→</span><span>tocar test una vez</span></p>
 </div>
 <div class="warning-card">
-<p>Usar <code>test</code> para elegir grado, variables o umbrales contamina la evidencia final.</p>
+<p>Si el test ayuda a escoger el grado, deja de ser test.</p>
+</div>
+</section>
+<section id="pipeline-correcto" class="slide level2">
+<h2>Pipeline correcto</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>model <span class="op">=</span> Pipeline([</span>
+<span id="cb1-2"><a href=""></a>    (<span class="st">"poly"</span>, PolynomialFeatures(degree<span class="op">=</span>d, include_bias<span class="op">=</span><span class="va">False</span>)),</span>
+<span id="cb1-3"><a href=""></a>    (<span class="st">"scale"</span>, StandardScaler()),</span>
+<span id="cb1-4"><a href=""></a>    (<span class="st">"reg"</span>, LinearRegression())</span>
+<span id="cb1-5"><a href=""></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>El pipeline evita que validación reciba transformaciones ajustadas con datos que no le corresponden.</p>
 </div>
 </section>
 <section id="leakage-por-transformación" class="slide level2">
 <h2>Leakage por transformación</h2>
-<div class="compare-grid">
+<div class="split">
 <div class="warning-card">
 <p><strong>Incorrecto</strong></p>
-<p>Crear transformaciones usando todo el dataset antes de partir.</p>
+<p>Crear todas las variables usando el dataset completo y luego partir.</p>
 </div>
 <div class="checkpoint">
 <p><strong>Correcto</strong></p>
-<p>Encapsular transformaciones en <code>Pipeline</code> y ajustar solo con entrenamiento.</p>
+<p>Partir primero. Ajustar transformaciones dentro de train o dentro de cada fold.</p>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>Pipeline([</span>
-<span id="cb2-2"><a href=""></a>    (<span class="st">"poly"</span>, PolynomialFeatures(degree<span class="op">=</span>d)),</span>
-<span id="cb2-3"><a href=""></a>    (<span class="st">"model"</span>, LinearRegression())</span>
-<span id="cb2-4"><a href=""></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="selección-de-grado" class="slide level2">
+<h2>Selección de grado</h2>
+<div class="numbered-steps">
+<div>
+<p>Definir candidatos: <code>degree = 1, 2, 3, ...</code>.</p>
+</div>
+<div>
+<p>Entrenar cada pipeline en train.</p>
+</div>
+<div>
+<p>Medir en validación.</p>
+</div>
+<div>
+<p>Elegir el grado más simple con desempeño competitivo.</p>
+</div>
+</div>
+</section>
+<section id="regla-de-simplicidad" class="slide level2">
+<h2>Regla de simplicidad</h2>
+<div class="large-statement">
+<p>Entre dos modelos con desempeño parecido, preferimos el que sea más simple, más estable y más fácil de explicar.</p>
+</div>
 </section>
 <section id="actividad-elegir-grado" class="slide level2">
 <h2>Actividad: elegir grado</h2>
 <div class="activity">
-<p><strong>Cinco minutos.</strong> Con una tabla de errores por grado, elija el modelo que defendería.</p>
-<p>Debe justificar:</p>
+<p>Tienen una tabla con errores de entrenamiento y validación para grados 1 a 8.</p>
+<ol type="1">
+<li>Identifiquen el primer grado razonable.</li>
+<li>Expliquen si el patrón sugiere sesgo o varianza.</li>
+<li>Propongan el siguiente experimento.</li>
+</ol>
+</div>
+</section>
+<section id="live-coding-ruta" class="slide level2">
+<h2>Live coding: ruta</h2>
+<div class="numbered-steps">
+<div>
+<p>Generar datos con patrón no lineal y ruido.</p>
+</div>
+<div>
+<p>Entrenar grados distintos con pipeline.</p>
+</div>
+<div>
+<p>Graficar train vs validation.</p>
+</div>
+<div>
+<p>Escoger grado y justificar.</p>
+</div>
+</div>
+</section>
+<section id="proyecto-propuesta-aprobable" class="slide level2">
+<h2>Proyecto: propuesta aprobable</h2>
+<div class="split-wide">
+<div>
+<p>La propuesta debe decir cómo se evaluará el modelo, no solo qué dataset se usará.</p>
+</div>
+<div class="small-list">
 <ul>
-<li>qué métrica mira;</li>
-<li>por qué no elige el menor error de entrenamiento;</li>
-<li>qué haría antes de reportar test.</li>
+<li>variable objetivo;</li>
+<li>métrica principal;</li>
+<li>baseline esperado;</li>
+<li>partición inicial;</li>
+<li>riesgos de leakage o sesgo.</li>
 </ul>
+</div>
 </div>
 </section>
 <section id="error-frecuente" class="slide level2">
 <h2>Error frecuente</h2>
 <div class="warning-card">
-<p><strong>Creer que más variables siempre mejora.</strong></p>
-<p>Más columnas pueden bajar error de entrenamiento y empeorar el modelo real.</p>
-</div>
-<div class="checkpoint">
-<p>La evidencia mínima es una comparación honesta entre entrenamiento y validación.</p>
+<p><strong>Mostrar una curva bonita como prueba de calidad.</strong></p>
+<p>Una visualización de ajuste no reemplaza una validación honesta.</p>
 </div>
 </section>
-<section id="proyecto-propuesta-aprobable" class="slide level2">
-<h2>Proyecto: propuesta aprobable</h2>
-<div class="deliverable">
-<p><strong>Entrega.</strong> Dataset, pregunta, variable objetivo, métrica, baseline esperado, partición de datos y riesgos.</p>
-</div>
-<div class="small-list">
-<p>La propuesta debe permitir que otra persona ejecute el primer experimento sin adivinar decisiones.</p>
-</div>
-</section>
-<section id="cierre-técnico" class="slide level2">
+<section id="cierre-técnico" class="slide level2 no-border">
 <h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>La complejidad es una herramienta, no una virtud. En ciencia de datos aplicada, un modelo más complejo solo se justifica si mejora validación y mantiene una explicación defendible.</p>
+<div class="large-statement">
+<p>Feature engineering aumenta el poder del modelo. Validación decide si ese poder está aprendiendo señal o ruido.</p>
 </div>
-<p>La próxima semana añadimos una forma explícita de controlar complejidad: regularización.</p>
+<div class="diagram-flow">
+<p><span>representación</span><span class="arrow">→</span><span>complejidad</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>decisión</span></p>
+</div>
 
 </section>
     </div>
@@ -453,7 +532,7 @@ x
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

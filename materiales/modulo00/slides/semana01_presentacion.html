@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-5fb92ad339c9d4e49aed5312c86cce4a.css">
+  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-f56d3004039941641dda84caec9cadc5.css">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,392 +207,399 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-promesa" class="slide level2">
-<h2>La promesa</h2>
-<p>En este curso vamos a:</p>
-<ol type="1">
-<li>Derivar algoritmos.</li>
-<li>Implementarlos desde cero cuando sea razonable.</li>
-<li>Compararlos con herramientas profesionales.</li>
-<li>Aplicarlos sobre datos reales.</li>
-<li>Diagnosticar y comunicar decisiones.</li>
-</ol>
-<aside class="notes">
-<p>La primera tarea es fijar identidad: no es bootcamp de librerías, no es curso abstracto. Es un puente exigente entre matemáticas, algoritmos y decisiones con datos reales.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Primer contrato del semestre</p>
+</div>
+<div class="big-question">
+<p>¿Que tendria que pasar para que un modelo con buena metrica produzca una mala decision?</p>
+</div>
+<div class="footer-note">
+<p>MATE-2105 no empieza por librerias. Empieza por decisiones, evidencia y responsabilidad tecnica.</p>
+</div>
 </section>
-<section id="ruta-de-esta-semana" class="slide level2">
-<h2>Ruta de esta semana</h2>
-<p>Antes de clase:</p>
+<section id="la-promesa-del-curso" class="slide level2 no-border">
+<h2>La promesa del curso</h2>
+<div class="large-statement">
+<p>Vamos a estudiar algoritmos como objetos matematicos, implementaciones computacionales y herramientas para tomar decisiones con datos.</p>
+</div>
+<div class="diagram-flow">
+<p><span>matematica</span><span class="arrow">+</span><span>codigo</span><span class="arrow">+</span><span>datos</span><span class="arrow">+</span><span>decision</span></p>
+</div>
+</section>
+<section id="lo-que-no-vamos-a-hacer" class="slide level2">
+<h2>Lo que no vamos a hacer</h2>
+<div class="three-panel">
+<div class="warning-card">
+<p><strong>Recetas sin criterio</strong></p>
+<p>No basta llamar <code>fit</code> y reportar una metrica.</p>
+</div>
+<div class="warning-card">
+<p><strong>Teoria desconectada</strong></p>
+<p>Las formulas deben explicar comportamientos visibles en datos.</p>
+</div>
+<div class="warning-card">
+<p><strong>Competencia de puntajes</strong></p>
+<p>Una metrica aislada no reemplaza diagnostico, validacion ni comunicacion.</p>
+</div>
+</div>
+</section>
+<section id="lo-que-si-debe-quedar" class="slide level2">
+<h2>Lo que si debe quedar</h2>
+<div class="large-statement">
+<p>Al final del curso, una respuesta tecnica debe poder defender modelo, perdida, algoritmo, evaluacion y decision.</p>
+</div>
+<div class="takeaway">
+<p>La evidencia no es solo el resultado numerico. Tambien es el camino reproducible que produjo ese resultado.</p>
+</div>
+</section>
+<section id="el-ciclo-que-se-repetira" class="slide level2">
+<h2>El ciclo que se repetira</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/ciclo-modelacion.png" class="slide-figure" alt="Ciclo de modelacion aplicada"></p>
+</div>
+<div>
+<p><strong>Una clase tipica</strong></p>
+<div class="small-list">
 <ul>
-<li>capítulo tipo libro;</li>
-<li>guía de orientación;</li>
-<li>configuración de entorno.</li>
+<li>pregunta aplicada;</li>
+<li>representacion de datos;</li>
+<li>modelo y perdida;</li>
+<li>algoritmo de ajuste;</li>
+<li>metrica y diagnostico;</li>
+<li>decision comunicable.</li>
 </ul>
-<p>En clase:</p>
-<ul>
-<li>ciclo aplicado;</li>
-<li>live coding;</li>
-<li>inicio del laboratorio.</li>
-</ul>
-<p>Después de clase:</p>
-<ul>
-<li>laboratorio diagnóstico;</li>
-<li>dos ideas iniciales de proyecto.</li>
-</ul>
+</div>
+</div>
+</div>
 </section>
-<section id="lo-que-este-curso-no-es" class="slide level2">
-<h2>Lo que este curso no es</h2>
-<p>No es:</p>
-<ul>
-<li>un curso de recetas en <code>scikit-learn</code>;</li>
-<li>una colección de notebooks sin matemáticas;</li>
-<li>un curso teórico sin datos reales;</li>
-<li>una competencia por subir una métrica sin entender el modelo.</li>
-</ul>
-</section>
-<section id="idea-central-del-curso" class="slide level2">
-<h2>Idea central del curso</h2>
-<blockquote>
-<p>Un estudiante de ciencia de datos aplicada debe poder explicar por qué un algoritmo funciona, implementarlo de forma básica, reconocer cuando falla en datos reales y comunicar qué decisiones técnicas se desprenden del modelo.</p>
-</blockquote>
-</section>
-<section id="el-ciclo-de-trabajo" class="slide level2">
-<h2>El ciclo de trabajo</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a href=""></a>pregunta -&gt; datos -&gt; modelo -&gt; pérdida -&gt; algoritmo</span>
-<span id="cb1-2"><a href=""></a>       -&gt; métrica -&gt; diagnóstico -&gt; decisión</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Ese ciclo se repetirá durante todo el semestre.</p>
-</section>
-<section id="pregunta-aplicada" class="slide level2">
-<h2>Pregunta aplicada</h2>
-<p>Antes de hablar de modelos:</p>
-<blockquote>
-<p>Qué decisión queremos informar?</p>
-</blockquote>
-<p>Ejemplos:</p>
-<ul>
-<li>priorizar pacientes;</li>
-<li>estimar riesgo;</li>
-<li>clasificar imágenes;</li>
-<li>recomendar contenidos;</li>
-<li>detectar patrones;</li>
-<li>reducir dimensión para entender datos.</li>
-</ul>
-</section>
-<section id="datos" class="slide level2">
-<h2>Datos</h2>
-<p>Preguntas mínimas:</p>
-<ul>
-<li>Qué representa cada fila?</li>
-<li>Qué representa cada columna?</li>
-<li>Cuál es la variable objetivo?</li>
-<li>Hay valores faltantes?</li>
-<li>Hay clases desbalanceadas?</li>
-<li>Hay variables que no deberían usarse?</li>
-</ul>
-</section>
-<section id="modelo" class="slide level2">
-<h2>Modelo</h2>
-<p>Un modelo no es magia.</p>
-<p>Es una familia de funciones con parámetros ajustables.</p>
-<p>Ejemplo:</p>
+<section id="el-primer-objeto-no-es-el-algoritmo" class="slide level2">
+<h2>El primer objeto no es el algoritmo</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat y = \theta_0 + \theta_1 x_1 + \cdots + \theta_d x_d.
+\text{pregunta} \longrightarrow \text{unidad de observacion} \longrightarrow \text{variables} \longrightarrow \text{decision}
 \]</span></p>
+</div>
+<div class="checkpoint">
+<p><strong>Regla practica</strong></p>
+<p>Si no sabemos que representa una fila, no estamos listos para entrenar un modelo.</p>
+</div>
 </section>
-<section id="pérdida-y-métrica" class="slide level2">
-<h2>Pérdida y métrica</h2>
-<p><strong>Pérdida:</strong> que optimiza el algoritmo.<br>
-<strong>Métrica:</strong> que reportamos para decidir.</p>
-<p>No siempre son lo mismo.</p>
-<aside class="notes">
-<p>Este contraste será importante más adelante: entrenamiento vs evaluación, log-loss vs accuracy, MSE vs MAE, etc.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
+<section id="fila-columna-objetivo" class="slide level2">
+<h2>Fila, columna, objetivo</h2>
+<div class="split">
+<div class="mini-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>fila</td>
+<td>¿que caso individual representa?</td>
+</tr>
+<tr class="even">
+<td>columna</td>
+<td>¿que se midio o codifico?</td>
+</tr>
+<tr class="odd">
+<td>objetivo</td>
+<td>¿que queremos estimar o clasificar?</td>
+</tr>
+<tr class="even">
+<td>decision</td>
+<td>¿que accion podria cambiar?</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="activity">
+<p><strong>Actividad de 4 minutos</strong></p>
+<p>Elijan un problema con datos. Escriban: fila, tres columnas posibles, objetivo y una decision que podria informar.</p>
+</div>
+</div>
 </section>
-<section id="baseline" class="slide level2">
-<h2>Baseline</h2>
-<p>Antes de celebrar un modelo:</p>
-<blockquote>
-<p>Supera algo simple?</p>
-</blockquote>
-<p>Clasificación:</p>
+<section id="un-modelo-como-familia-de-funciones" class="slide level2">
+<h2>Un modelo como familia de funciones</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+f_\theta: \mathcal X \to \mathcal Y
+\qquad
+\theta = \text{parametros aprendidos con datos}
+\]</span></p>
+</div>
+<div class="diagram-flow">
+<p><span>entrada x</span><span class="arrow">→</span><span>modelo f_theta</span><span class="arrow">→</span><span>prediccion</span><span class="arrow">→</span><span>decision</span></p>
+</div>
+</section>
+<section id="perdida-y-metrica-no-son-sinonimos" class="slide level2">
+<h2>Perdida y metrica no son sinonimos</h2>
+<div class="split">
+<div class="definition-card">
+<p><strong>Perdida</strong></p>
+<p>Cantidad que el algoritmo minimiza durante entrenamiento.</p>
+</div>
+<div class="definition-card">
+<p><strong>Metrica</strong></p>
+<p>Cantidad que usamos para evaluar y comunicar desempeno.</p>
+</div>
+</div>
+<div class="takeaway">
+<p>Mas adelante veremos modelos que optimizan log-loss pero se reportan con accuracy, recall, F1 o costo esperado.</p>
+</div>
+</section>
+<section id="baseline-antes-de-celebrar" class="slide level2">
+<h2>Baseline antes de celebrar</h2>
+<div class="large-statement">
+<p>Un modelo que no supera una regla simple todavia no aporta evidencia tecnica.</p>
+</div>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Clasificacion</strong></p>
+<p>Predecir siempre la clase mayoritaria.</p>
+</div>
+<div class="panel">
+<p><strong>Regresion</strong></p>
+<p>Predecir siempre promedio o mediana.</p>
+</div>
+<div class="panel">
+<p><strong>Proyecto</strong></p>
+<p>Comparar contra una decision razonable sin modelo.</p>
+</div>
+</div>
+</section>
+<section id="entrenamiento-y-prueba" class="slide level2">
+<h2>Entrenamiento y prueba</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\text{datos} =
+\text{train} \cup \text{test},
+\qquad
+\text{train} \cap \text{test}=\varnothing
+\]</span></p>
+</div>
+<div class="split">
+<div class="panel">
+<p><strong>Train</strong></p>
+<p>Sirve para ajustar parametros y tomar decisiones de modelacion.</p>
+</div>
+<div class="panel">
+<p><strong>Test</strong></p>
+<p>Sirve para estimar comportamiento fuera de los datos usados para ajustar.</p>
+</div>
+</div>
+</section>
+<section id="caso-de-la-semana-load_wine" class="slide level2">
+<h2>Caso de la semana: <code>load_wine</code></h2>
+<div class="split-wide">
+<div>
+<p>Usaremos un dataset pequeno de <code>scikit-learn</code>.</p>
+<div class="small-list">
 <ul>
-<li>predecir siempre la clase más frecuente;</li>
-<li>predecir al azar según distribución de clases.</li>
+<li>fila: un vino;</li>
+<li>columnas: mediciones quimicas;</li>
+<li>objetivo: clase de vino;</li>
+<li>tarea: clasificacion multiclase;</li>
+<li>uso: aprender el flujo, no resolver una industria.</li>
 </ul>
-<p>Regresión:</p>
-<ul>
-<li>predecir siempre el promedio;</li>
-<li>predecir siempre la mediana.</li>
-</ul>
+</div>
+</div>
+<div class="mini-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Paso</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>cargar</td>
+<td>¿que objetos devuelve?</td>
+</tr>
+<tr class="even">
+<td>inspeccionar</td>
+<td>¿dimensiones y clases?</td>
+</tr>
+<tr class="odd">
+<td>partir</td>
+<td>¿hay fuga de informacion?</td>
+</tr>
+<tr class="even">
+<td>entrenar</td>
+<td>¿que aprende el modelo?</td>
+</tr>
+<tr class="odd">
+<td>medir</td>
+<td>¿supera baseline?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
-<section id="traintest" class="slide level2">
-<h2>Train/test</h2>
-<p>El modelo aprende con entrenamiento.</p>
-<p>La prueba estima desempeño en datos no usados para ajustar.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a href=""></a>datos -&gt; entrenamiento</span>
-<span id="cb2-2"><a href=""></a>      -&gt; prueba</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="live-coding-cargar" class="slide level2">
+<h2>Live coding: cargar</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb1-2"><a href=""></a></span>
+<span id="cb1-3"><a href=""></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-4"><a href=""></a>X <span class="op">=</span> data.data</span>
+<span id="cb1-5"><a href=""></a>y <span class="op">=</span> data.target</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>Antes de entrenar: <code>X.shape</code>, <code>y.value_counts()</code> y significado de columnas.</p>
+</div>
 </section>
-<section id="primera-actividad" class="slide level2">
-<h2>Primera actividad</h2>
-<p>Piensa en un problema con datos reales.</p>
-<p>En parejas, respondan:</p>
-<ol type="1">
-<li>Qué fila tendría el dataset?</li>
-<li>Qué columnas tendría?</li>
-<li>Qué decisión se quiere informar?</li>
-<li>Cuál sería una mala métrica?</li>
-</ol>
-<aside class="notes">
-<p>Dar 4 minutos. Luego recoger 2 ejemplos. Enfatizar que “mala métrica” obliga a pensar en consecuencias.</p>
-<style type="text/css">
-        span.MJX_Assistive_MathML {
-          position:absolute!important;
-          clip: rect(1px, 1px, 1px, 1px);
-          padding: 1px 0 0 0!important;
-          border: 0!important;
-          height: 1px!important;
-          width: 1px!important;
-          overflow: hidden!important;
-          display:block!important;
-      }</style></aside>
-</section>
-<section id="nuestro-primer-dataset" class="slide level2">
-<h2>Nuestro primer dataset</h2>
-<p>Usaremos <code>load_wine</code> de <code>scikit-learn</code>.</p>
-<p>Cada fila:</p>
-<ul>
-<li>un vino.</li>
-</ul>
-<p>Cada columna:</p>
-<ul>
-<li>una medición química.</li>
-</ul>
-<p>Objetivo:</p>
-<ul>
-<li>clasificar una de tres clases.</li>
-</ul>
-</section>
-<section id="no-estamos-resolviendo-la-industria-del-vino" class="slide level2">
-<h2>No estamos resolviendo la industria del vino</h2>
-<p>Este dataset es pequeño y clásico.</p>
-<p>Lo usamos para aprender el flujo:</p>
-<ol type="1">
-<li>cargar;</li>
-<li>inspeccionar;</li>
-<li>partir;</li>
-<li>crear baseline;</li>
-<li>entrenar modelo de referencia;</li>
-<li>medir;</li>
-<li>interpretar.</li>
-</ol>
-</section>
-<section id="live-coding-estructura" class="slide level2">
-<h2>Live coding: estructura</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-4"><a href=""></a>X <span class="op">=</span> data.data</span>
-<span id="cb3-5"><a href=""></a>y <span class="op">=</span> data.target</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Preguntas:</p>
-<ul>
-<li>Qué dimensiones tiene <code>X</code>?</li>
-<li>Cuántas clases hay?</li>
-<li>Están balanceadas?</li>
-</ul>
-</section>
-<section id="live-coding-partición" class="slide level2">
-<h2>Live coding: partición</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb4-2"><a href=""></a></span>
-<span id="cb4-3"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb4-4"><a href=""></a>    X, y,</span>
-<span id="cb4-5"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb4-6"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
-<span id="cb4-7"><a href=""></a>    stratify<span class="op">=</span>y</span>
-<span id="cb4-8"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="por-qué-stratifyy" class="slide level2">
-<h2>Por qué <code>stratify=y</code>?</h2>
-<p>Para preservar aproximadamente la proporción de clases en entrenamiento y prueba.</p>
-<p>Especialmente importante en clasificación.</p>
+<section id="live-coding-particion" class="slide level2">
+<h2>Live coding: particion</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb2-2"><a href=""></a></span>
+<span id="cb2-3"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb2-4"><a href=""></a>    X, y,</span>
+<span id="cb2-5"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb2-6"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb2-7"><a href=""></a>    stratify<span class="op">=</span>y</span>
+<span id="cb2-8"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="takeaway">
+<p><code>stratify=y</code> preserva aproximadamente la proporcion de clases en train y test.</p>
+</div>
 </section>
 <section id="live-coding-baseline" class="slide level2">
 <h2>Live coding: baseline</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb5-2"><a href=""></a></span>
-<span id="cb5-3"><a href=""></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
-<span id="cb5-4"><a href=""></a>baseline.fit(X_train, y_train)</span>
-<span id="cb5-5"><a href=""></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Pregunta:</p>
-<blockquote>
-<p>Qué accuracy esperarías si una clase domina?</p>
-</blockquote>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
+<span id="cb3-4"><a href=""></a>baseline.fit(X_train, y_train)</span>
+<span id="cb3-5"><a href=""></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="activity">
+<p><strong>Pregunta rapida</strong></p>
+<p>Si una clase domina el 80% de los datos, ¿que accuracy tendria este baseline?</p>
+</div>
 </section>
 <section id="live-coding-modelo-de-referencia" class="slide level2">
 <h2>Live coding: modelo de referencia</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb6-2"><a href=""></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb6-3"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb6-4"><a href=""></a></span>
-<span id="cb6-5"><a href=""></a>model <span class="op">=</span> make_pipeline(</span>
-<span id="cb6-6"><a href=""></a>    StandardScaler(),</span>
-<span id="cb6-7"><a href=""></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
-<span id="cb6-8"><a href=""></a>)</span>
-<span id="cb6-9"><a href=""></a>model.fit(X_train, y_train)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb4-2"><a href=""></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb4-3"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb4-4"><a href=""></a></span>
+<span id="cb4-5"><a href=""></a>model <span class="op">=</span> make_pipeline(</span>
+<span id="cb4-6"><a href=""></a>    StandardScaler(),</span>
+<span id="cb4-7"><a href=""></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
+<span id="cb4-8"><a href=""></a>)</span>
+<span id="cb4-9"><a href=""></a>model.fit(X_train, y_train)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>La tuberia evita olvidar el escalamiento cuando el modelo se use de nuevo.</p>
+</div>
 </section>
-<section id="advertencia-importante" class="slide level2">
-<h2>Advertencia importante</h2>
-<p>Hoy usamos regresión logística como herramienta.</p>
-<p>Todavía no la hemos derivado.</p>
-<p>Mas adelante vamos a abrir el algoritmo:</p>
-<ul>
-<li>función de pérdida;</li>
-<li>gradiente;</li>
-<li>optimización;</li>
-<li>regularización;</li>
-<li>diagnóstico.</li>
-</ul>
+<section id="medir-no-es-cerrar" class="slide level2">
+<h2>Medir no es cerrar</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb5-4"><a href=""></a>accuracy_score(y_test, pred)</span>
+<span id="cb5-5"><a href=""></a>confusion_matrix(y_test, pred)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="large-statement">
+<p>Una metrica abre preguntas: ¿donde falla?, ¿contra que baseline?, ¿con que riesgo?</p>
+</div>
 </section>
-<section id="medicion" class="slide level2">
-<h2>Medicion</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
-<span id="cb7-2"><a href=""></a></span>
-<span id="cb7-3"><a href=""></a>baseline_acc <span class="op">=</span> accuracy_score(y_test, baseline_pred)</span>
-<span id="cb7-4"><a href=""></a>model_acc <span class="op">=</span> accuracy_score(y_test, model.predict(X_test))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La pregunta no es solo:</p>
-<blockquote>
-<p>Cuál número es mayor?</p>
-</blockquote>
+<section id="primer-diagnostico" class="slide level2">
+<h2>Primer diagnostico</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Numero</strong></p>
+<p>Accuracy, error, perdida o costo.</p>
+</div>
+<div class="panel">
+<p><strong>Patron</strong></p>
+<p>Clases confundidas, residuos, segmentos debiles.</p>
+</div>
+<div class="panel">
+<p><strong>Decision</strong></p>
+<p>Que recomendaria, que no recomendaria y por que.</p>
+</div>
+</div>
 </section>
-<section id="preguntas-técnicas" class="slide level2">
-<h2>Preguntas técnicas</h2>
-<ul>
-<li>Cuál era el baseline?</li>
-<li>La partición fue razonable?</li>
-<li>La métrica es adecuada?</li>
-<li>Qué errores comete el modelo?</li>
-<li>El dataset es suficientemente grande?</li>
-<li>Qué limitaciones comunicarías?</li>
-</ul>
+<section id="proyecto-final-desde-hoy" class="slide level2">
+<h2>Proyecto final: desde hoy</h2>
+<div class="large-statement">
+<p>Un proyecto viable empieza con una pregunta que produce una decision, no con un dataset atractivo.</p>
+</div>
+<div class="numbered-steps">
+<div>
+<p>Tema o dataset posible.</p>
+</div>
+<div>
+<p>Unidad de observacion.</p>
+</div>
+<div>
+<p>Pregunta aplicada.</p>
+</div>
+<div>
+<p>Decision que podria informar.</p>
+</div>
+<div>
+<p>Riesgo o limitacion anticipada.</p>
+</div>
+</div>
 </section>
-<section id="actividad-de-interpretación" class="slide level2">
-<h2>Actividad de interpretación</h2>
-<p>Completa esta frase:</p>
-<blockquote>
-<p>En este experimento inicial, el modelo es / no es defendible como referencia porque…</p>
-</blockquote>
-<p>Debe mencionar:</p>
-<ul>
-<li>baseline;</li>
-<li>métrica;</li>
-<li>datos;</li>
-<li>limitacion.</li>
-</ul>
+<section id="politica-de-ia" class="slide level2">
+<h2>Politica de IA</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Uso permitido</strong></p>
+<p>Explicar errores, generar ejemplos, revisar redaccion, comparar alternativas.</p>
+</div>
+<div class="warning-card">
+<p><strong>Uso no defendible</strong></p>
+<p>Entregar codigo, resultados o interpretaciones que no puedes explicar.</p>
+</div>
+</div>
+<div class="takeaway">
+<p>En este curso, la autoria se mide por la capacidad de defender cada decision tecnica.</p>
+</div>
 </section>
-<section id="cómo-se-verá-una-semana-normal" class="slide level2">
-<h2>Cómo se verá una semana normal</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href=""></a>problema aplicado</span>
-<span id="cb8-2"><a href=""></a>-&gt; formulación matemática</span>
-<span id="cb8-3"><a href=""></a>-&gt; derivación</span>
-<span id="cb8-4"><a href=""></a>-&gt; implementación desde cero</span>
-<span id="cb8-5"><a href=""></a>-&gt; ejemplo controlado</span>
-<span id="cb8-6"><a href=""></a>-&gt; dataset real o público</span>
-<span id="cb8-7"><a href=""></a>-&gt; librería profesional</span>
-<span id="cb8-8"><a href=""></a>-&gt; diagnóstico</span>
-<span id="cb8-9"><a href=""></a>-&gt; decisión</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="laboratorio-diagnostico" class="slide level2">
+<h2>Laboratorio diagnostico</h2>
+<div class="split">
+<div class="deliverable">
+<p><strong>Entregable</strong></p>
+<p>Notebook ejecutado de arriba a abajo, con salidas visibles y respuestas breves.</p>
+</div>
+<div class="deliverable">
+<p><strong>Si hay bloqueo</strong></p>
+<p>Reportar comando, error completo, sistema operativo, version de Python y lo intentado.</p>
+</div>
+</div>
 </section>
-<section id="proyecto-final" class="slide level2">
-<h2>Proyecto final</h2>
-<p>El proyecto empieza temprano.</p>
-<p>Cada grupo trabajará con:</p>
-<ul>
-<li>pregunta aplicada;</li>
-<li>dataset real;</li>
-<li>baseline;</li>
-<li>modelos comparados;</li>
-<li>diagnóstico;</li>
-<li>reproducibilidad;</li>
-<li>defensa oral individual.</li>
-</ul>
-</section>
-<section id="esta-semana-para-el-proyecto" class="slide level2">
-<h2>Esta semana para el proyecto</h2>
-<p>No deben escoger todavía.</p>
-<p>Deben traer:</p>
-<ol type="1">
-<li>dos áreas de interés;</li>
-<li>posibles datasets;</li>
-<li>una pregunta que parezca modelable;</li>
-<li>una razón por la que el problema importa.</li>
-</ol>
-</section>
-<section id="uso-de-ia" class="slide level2">
-<h2>Uso de IA</h2>
-<p>La IA puede ayudar a:</p>
-<ul>
-<li>explicar errores;</li>
-<li>sugerir pruebas;</li>
-<li>resumir documentacion;</li>
-<li>proponer refactors;</li>
-<li>revisar texto.</li>
-</ul>
-<p>Pero debes poder defender:</p>
-<ul>
-<li>código;</li>
-<li>métricas;</li>
-<li>decisiones;</li>
-<li>conclusiones.</li>
-</ul>
-</section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<p>Un resultado numérico no es una conclusión.</p>
-<p>Una conclusión técnica necesita:</p>
-<ul>
-<li>pregunta;</li>
-<li>datos;</li>
-<li>baseline;</li>
-<li>métrica;</li>
-<li>diagnóstico;</li>
-<li>limitaciones;</li>
-<li>decisión.</li>
-</ul>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>La primera semana se aprueba cuando puedes contar el ciclo completo: pregunta, datos, modelo, perdida, metrica, diagnostico y decision.</p>
+</div>
+<div class="diagram-flow">
+<p><span>pregunta</span><span class="arrow">→</span><span>datos</span><span class="arrow">→</span><span>modelo</span><span class="arrow">→</span><span>diagnostico</span><span class="arrow">→</span><span>decision</span></p>
+</div>
 </section>
 <section id="para-la-proxima-clase" class="slide level2">
 <h2>Para la proxima clase</h2>
-<p>Completar:</p>
-<ul>
-<li>laboratorio diagnóstico;</li>
-<li>lectura de guía de proyecto;</li>
-<li>dos ideas iniciales de proyecto.</li>
-</ul>
-<p>Entregar:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href=""></a>apellido_nombre_semana01_lab.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Proxima semana:</p>
-<blockquote>
-<p>regresión lineal múltiple desde álgebra lineal hasta datos reales.</p>
-</blockquote>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Leer</strong></p>
+<p>Programa, ruta semanal y configuracion tecnica.</p>
+</div>
+<div class="panel">
+<p><strong>Ejecutar</strong></p>
+<p>Notebook de clase y laboratorio diagnostico.</p>
+</div>
+<div class="panel">
+<p><strong>Traer</strong></p>
+<p>Dos ideas iniciales de proyecto con decision y riesgo.</p>
+</div>
+</div>
 
 </section>
     </div>
@@ -633,7 +640,7 @@ Cesar Galindo
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

@@ -28,74 +28,8 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana13_presentacion_files/libs/revealjs/dist/theme/quarto-aa1575f6edb31f60571e2cce039fb27b.css">
+  <link rel="stylesheet" href="semana13_presentacion_files/libs/revealjs/dist/theme/quarto-ee443d696a57c6a7af807bee7b497acb.css">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,7 +130,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 13: K-Means, clusters y recomendación básica</p>
+  <p class="subtitle">Semana 13: K-Means, clusters y recomendacion basica</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -207,159 +141,239 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Estructura útil, no verdad absoluta</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Patrones sin etiqueta</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Queremos agrupar observaciones o recomendar items sin una etiqueta perfecta. El reto es producir evidencia, no solo etiquetas.</p>
+<div class="big-question">
+<p>¿Cuando un grupo encontrado por un algoritmo merece convertirse en una categoria de decision?</p>
+</div>
+<div class="footer-note">
+<p>Semana 13: clusters, distancia, escala y recomendacion basica.</p>
+</div>
+</section>
+<section id="recap-pca-reduce-no-etiqueta" class="slide level2">
+<h2>Recap: PCA reduce, no etiqueta</h2>
+<div class="diagram-flow">
+<p><span>matriz</span><span class="arrow">→</span><span>centrar</span><span class="arrow">→</span><span>direcciones</span><span class="arrow">→</span><span>coordenadas</span></p>
 </div>
 <div class="takeaway">
-<p>K-Means y recomendación por similitud crean estructura candidata que debe validarse.</p>
+<p>Hoy pasamos de representar estructura a asignar observaciones a grupos.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Segmentar</strong></p>
-<p>Entrenar K-Means y perfilar clusters.</p>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Agrupar</strong></p>
+<p>Ejecutar K-Means y leer centroides.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Evaluar</strong></p>
-<p>Usar inertia y silhouette con cautela.</p>
+<p>Usar inertia y silhouette sin sobrerreaccionar.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Recomendar</strong></p>
-<p>Ordenar items por similitud coseno.</p>
+<p>Construir una regla item-item simple y auditable.</p>
 </div>
 </div>
 </section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>distancias</span><span class="arrow">→</span><span>K-Means</span><span class="arrow">→</span><span>validación interna</span><span class="arrow">→</span><span>similitud</span><span class="arrow">→</span><span>recomendación</span><span class="arrow">→</span><span>límite</span></p>
-</div>
-<div class="small-list">
-<ul>
-<li>Primero discutimos cuándo un cluster es útil.</li>
-<li>Luego pasamos a recomendación como estructura latente.</li>
-<li>Cerramos con Lab 5 y preparación de Parcial 2.</li>
-</ul>
-</div>
-</section>
-<section id="k-means" class="slide level2">
-<h2>K-Means</h2>
-<div class="big-formula">
+<section id="k-means-objetivo" class="slide level2">
+<h2>K-Means: objetivo</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\min_{C_1,\ldots,C_k,\mu_1,\ldots,\mu_k}
-\sum_{j=1}^{k}\sum_{x_i \in C_j}\|x_i-\mu_j\|^2
+\min_{C_1,\dots,C_K,\mu_1,\dots,\mu_K}
+\sum_{k=1}^{K}\sum_{x_i\in C_k}\|x_i-\mu_k\|_2^2
 \]</span></p>
 </div>
 <div class="checkpoint">
-<p>El algoritmo alterna asignación a centroides y actualización de centroides.</p>
+<p>El algoritmo busca grupos compactos alrededor de centroides.</p>
 </div>
 </section>
-<section id="por-qué-escala-importa" class="slide level2">
-<h2>Por qué escala importa</h2>
-<div class="warning-card">
-<p>K-Means usa distancias euclidianas. Una variable con escala grande puede dominar la segmentación.</p>
+<section id="el-ciclo-k-means" class="slide level2">
+<h2>El ciclo K-Means</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/kmeans-centroides.svg" class="slide-figure" alt="K-Means y centroides"></p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>Pipeline([</span>
-<span id="cb1-2"><a href=""></a>    (<span class="st">"scaler"</span>, StandardScaler()),</span>
-<span id="cb1-3"><a href=""></a>    (<span class="st">"cluster"</span>, KMeans(n_clusters<span class="op">=</span><span class="dv">3</span>, n_init<span class="op">=</span><span class="dv">10</span>))</span>
-<span id="cb1-4"><a href=""></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div>
+<p><strong>Iteracion</strong></p>
+<div class="small-list">
+<ul>
+<li>asignar cada punto al centroide mas cercano;</li>
+<li>recalcular centroides;</li>
+<li>repetir hasta estabilidad;</li>
+<li>evaluar sensibilidad a inicializacion.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="la-escala-decide-distancias" class="slide level2">
+<h2>La escala decide distancias</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\|x_i-x_j\|_2
+=
+\sqrt{\sum_{m=1}^{p}(x_{im}-x_{jm})^2}
+\]</span></p>
+</div>
+<div class="warning-card">
+<p>Si una variable tiene escala mayor, puede dominar todas las distancias.</p>
+</div>
 </section>
 <section id="inertia" class="slide level2">
 <h2>Inertia</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-\sum_i \|x_i-\mu_{c(i)}\|^2
+\text{inertia} =
+\sum_{k=1}^{K}\sum_{x_i\in C_k}\|x_i-\mu_k\|_2^2
 \]</span></p>
 </div>
 <div class="takeaway">
-<p>Inertia baja al aumentar k; por eso no basta para elegir k.</p>
+<p>Inertia siempre baja al aumentar <code>K</code>; por eso no basta elegir el numero mas pequeno.</p>
 </div>
 </section>
 <section id="silhouette" class="slide level2">
 <h2>Silhouette</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-s_i = \frac{b_i-a_i}{\max(a_i,b_i)}
+s(i)=\frac{b(i)-a(i)}{\max\{a(i),b(i)\}}
 \]</span></p>
 </div>
-<div class="mini-table">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Valor</th>
-<th>Lectura</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Cerca de 1</td>
-<td>bien separado</td>
-</tr>
-<tr class="even">
-<td>Cerca de 0</td>
-<td>frontera ambigua</td>
-</tr>
-<tr class="odd">
-<td>Negativo</td>
-<td>posible mala asignación</td>
-</tr>
-</tbody>
-</table>
+<div class="split">
+<div class="panel">
+<p><strong><code>a(i)</code></strong></p>
+<p>Distancia promedio al propio cluster.</p>
+</div>
+<div class="panel">
+<p><strong><code>b(i)</code></strong></p>
+<p>Distancia promedio al cluster vecino mas cercano.</p>
+</div>
 </div>
 </section>
-<section id="actividad" class="slide level2">
-<h2>Actividad</h2>
+<section id="elegir-k" class="slide level2">
+<h2>Elegir <code>K</code></h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Curva elbow</strong></p>
+<p>Busca reduccion marginal decreciente.</p>
+</div>
+<div class="panel">
+<p><strong>Silhouette</strong></p>
+<p>Busca separacion razonable.</p>
+</div>
+<div class="panel">
+<p><strong>Dominio</strong></p>
+<p>Pregunta si los grupos son accionables.</p>
+</div>
+</div>
+</section>
+<section id="actividad-cluster-defendible" class="slide level2">
+<h2>Actividad: cluster defendible</h2>
 <div class="activity">
-<p>Entrena K-Means para k = 2, 3, 4, 5. Escribe una recomendación con:</p>
-<p>inertia → silhouette → perfil de clusters → límite.</p>
+<p><strong>8 minutos</strong></p>
+<p>Reciban centroides y tamanos de clusters. Escriban:</p>
+<ol type="1">
+<li>nombre tecnico de cada grupo;</li>
+<li>evidencia en variables;</li>
+<li>decision posible;</li>
+<li>riesgo de sobrerrepresentacion.</li>
+</ol>
 </div>
 </section>
-<section id="recomendación-item-item" class="slide level2">
-<h2>Recomendación item-item</h2>
-<div class="big-formula">
+<section id="recomendacion-item-item" class="slide level2">
+<h2>Recomendacion item-item</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/recomendacion-latente.svg" class="slide-figure" alt="Recomendacion latente"></p>
+</div>
+<div>
+<p><strong>Idea minima</strong></p>
+<p>Recomendar items parecidos a otros items que el usuario ya valoro o consumio.</p>
+</div>
+</div>
+</section>
+<section id="similitud-coseno" class="slide level2">
+<h2>Similitud coseno</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\cos(x,y)=\frac{x^\top y}{\|x\|\|y\|}
+\operatorname{sim}(a,b)=
+\frac{a^\top b}{\|a\|_2\|b\|_2}
 \]</span></p>
 </div>
 <div class="checkpoint">
-<p>Cada fila representa un item; sus columnas representan usuarios, interacciones o atributos.</p>
+<p>Coseno compara direccion mas que magnitud.</p>
 </div>
 </section>
-<section id="regla-mínima" class="slide level2">
-<h2>Regla mínima</h2>
-<div class="flow">
-<p><span>matriz</span><span class="arrow">→</span><span>similitud</span><span class="arrow">→</span><span>excluir vistos</span><span class="arrow">→</span><span>ordenar</span><span class="arrow">→</span><span>explicar límite</span></p>
+<section id="regla-minima-de-recomendacion" class="slide level2">
+<h2>Regla minima de recomendacion</h2>
+<div class="numbered-steps">
+<div>
+<p>Construir matriz usuario-item o item-feature.</p>
+</div>
+<div>
+<p>Calcular similitud entre items.</p>
+</div>
+<div>
+<p>Para un usuario, tomar items conocidos.</p>
+</div>
+<div>
+<p>Recomendar vecinos similares no vistos.</p>
+</div>
 </div>
 </section>
 <section id="riesgos" class="slide level2">
 <h2>Riesgos</h2>
+<div class="three-panel">
 <div class="warning-card">
-<p>Sparsity, popularidad, sesgo histórico y cold start pueden dominar una recomendación aunque el código esté correcto.</p>
+<p><strong>Popularidad</strong></p>
+<p>Lo mas frecuente parece mejor aunque no sea personalizado.</p>
+</div>
+<div class="warning-card">
+<p><strong>Cold start</strong></p>
+<p>Items o usuarios nuevos no tienen historial suficiente.</p>
+</div>
+<div class="warning-card">
+<p><strong>Evaluacion</strong></p>
+<p>Click o consumo no siempre equivale a satisfaccion.</p>
+</div>
 </div>
 </section>
 <section id="lab-5" class="slide level2">
 <h2>Lab 5</h2>
+<div class="split">
 <div class="deliverable">
-<p>PCA desde SVD, reconstrucción, K-Means, silhouette, similitud coseno y recomendación básica.</p>
+<p><strong>Autograded</strong></p>
+<p>PCA, K-Means, metricas de cluster y recomendacion simple.</p>
+</div>
+<div class="deliverable">
+<p><strong>Manual corto</strong></p>
+<p>Interpretar clusters, elegir <code>K</code> y advertir limites de decision.</p>
+</div>
 </div>
 </section>
 <section id="parcial-2" class="slide level2">
 <h2>Parcial 2</h2>
 <div class="checkpoint">
-<p>El Parcial 2 conecta redes, estrategia ML y no supervisado. La guía queda publicada en el libro del Módulo 4.</p>
+<p>El parcial integrara redes, estrategia ML y no supervisado: formas, gradientes, validacion, PCA, clustering y comunicacion tecnica.</p>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>No supervisado profesional = estructura + evidencia + interpretación + límite + validación siguiente.</p>
+<section id="error-frecuente" class="slide level2">
+<h2>Error frecuente</h2>
+<div class="warning-card">
+<p><strong>Nombrar clusters como si fueran verdades naturales</strong></p>
+<p>Un cluster es una salida de un algoritmo con distancia, escala y <code>K</code> elegidos. Debe defenderse como construccion tecnica.</p>
+</div>
+</section>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>En no supervisado, el resultado no se valida solo con una metrica: se valida con estabilidad, interpretacion y utilidad de decision.</p>
+</div>
+<div class="diagram-flow">
+<p><span>distancia</span><span class="arrow">→</span><span>cluster</span><span class="arrow">→</span><span>metrica</span><span class="arrow">→</span><span>interpretacion</span><span class="arrow">→</span><span>decision</span></p>
 </div>
 
 </section>
@@ -401,7 +415,7 @@ s_i = \frac{b_i-a_i}{\max(a_i,b_i)}
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

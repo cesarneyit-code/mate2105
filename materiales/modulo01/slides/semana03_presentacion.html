@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana03_presentacion_files/libs/revealjs/dist/theme/quarto-7d97316d36238b2b2d825916f28a2fa3.css">
+  <link rel="stylesheet" href="semana03_presentacion_files/libs/revealjs/dist/theme/quarto-9b83917f405c5b34aeee76efbf11d255.css">
   <link href="semana03_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana03_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana03_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,252 +207,316 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Cuando no basta una fórmula cerrada</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Cuando resolver exactamente no basta</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> La ecuación normal fue útil, pero muchos modelos modernos no tienen una solución cerrada práctica.</p>
-<p>Necesitamos un método que mejore parámetros paso a paso y nos diga si el entrenamiento está funcionando.</p>
-</div>
-<div class="takeaway">
-<p>Descenso del gradiente es el puente entre cálculo y entrenamiento de modelos.</p>
+<div class="big-question">
+<p>¿Cómo aprende un modelo cuando no queremos, no podemos o no conviene resolver una fórmula cerrada?</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Calcular</strong></p>
-<p>Implementar el gradiente de MSE de forma vectorizada.</p>
+<section id="recap-la-semana-pasada" class="slide level2">
+<h2>Recap: la semana pasada</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+X^\top X\theta=X^\top y
+\]</span></p>
 </div>
-<div class="mini-card">
-<p><strong>Entrenar</strong></p>
-<p>Actualizar parámetros con tasa de aprendizaje.</p>
+<div class="takeaway">
+<p>La ecuación normal convierte mínimos cuadrados en un sistema lineal. Hoy convertimos la pérdida en un procedimiento iterativo.</p>
 </div>
-<div class="mini-card">
+</section>
+<section id="imagen-mental" class="slide level2">
+<h2>Imagen mental</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/descenso-gradiente-trayectoria.svg" class="slide-figure" alt="Trayectoria de descenso del gradiente"></p>
+</div>
+<div>
+<p><strong>Descenso del gradiente</strong></p>
+<p>No salta al mínimo. Se mueve usando información local.</p>
+<div class="small-list">
+<ul>
+<li>posición actual: parámetros;</li>
+<li>pendiente local: gradiente;</li>
+<li>tamaño del paso: learning rate;</li>
+<li>evidencia: pérdida baja de manera estable.</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Derivar</strong></p>
+<p>Obtener el gradiente de MSE.</p>
+</div>
+<div class="panel">
+<p><strong>Implementar</strong></p>
+<p>Escribir el loop de actualización desde cero.</p>
+</div>
+<div class="panel">
 <p><strong>Diagnosticar</strong></p>
 <p>Leer curvas de pérdida, escala y condicionamiento.</p>
 </div>
 </div>
 </section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>pérdida</span><span class="arrow">→</span><span>gradiente</span><span class="arrow">→</span><span>paso</span><span class="arrow">→</span><span>curva</span><span class="arrow">→</span><span>diagnóstico</span><span class="arrow">→</span><span>Lab 1</span></p>
+<section id="objetivo-como-optimización" class="slide level2">
+<h2>Objetivo como optimización</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\min_{\theta} J(\theta)
+\qquad
+J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2
+\]</span></p>
 </div>
-<div class="small-list">
-<ul>
-<li>La fórmula nos da dirección.</li>
-<li>La tasa de aprendizaje decide cuánto avanzamos.</li>
-<li>La curva de pérdida revela errores de implementación.</li>
-</ul>
-</div>
-</section>
-<section id="intuición-geométrica" class="slide level2">
-<h2>Intuición geométrica</h2>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Pérdida</strong></p>
-<p>Una superficie sobre los parámetros.</p>
-<p>Buscamos regiones con menor error.</p>
-</div>
-<div class="mini-card">
-<p><strong>Gradiente</strong></p>
-<p>Apunta hacia el aumento más rápido.</p>
-<p>Para minimizar, caminamos en dirección opuesta.</p>
-</div>
+<div class="footer-note">
+<p>La variable que cambia durante entrenamiento es <code>theta</code>; los datos de entrenamiento quedan fijos.</p>
 </div>
 </section>
 <section id="regla-de-actualización" class="slide level2">
 <h2>Regla de actualización</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-\theta^{(t+1)}=\theta^{(t)}-\alpha\nabla J(\theta^{(t)})
+\theta_{t+1}=\theta_t-\alpha\nabla J(\theta_t)
 \]</span></p>
 </div>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>(^{(t)})</strong></p>
-<p>Parámetros actuales.</p>
-</div>
-<div class="mini-card">
-<p><strong>()</strong></p>
-<p>Tamaño del paso.</p>
-</div>
-<div class="mini-card">
-<p><strong>(J)</strong></p>
-<p>Dirección local de aumento.</p>
-</div>
+<div class="diagram-flow">
+<p><span>parámetros actuales</span><span class="arrow">→</span><span>gradiente</span><span class="arrow">→</span><span>paso</span><span class="arrow">→</span><span>nuevos parámetros</span></p>
 </div>
 </section>
 <section id="gradiente-de-mse" class="slide level2">
 <h2>Gradiente de MSE</h2>
-<div class="big-formula">
+<div class="equation-chain">
+<div>
+<p><span class="math display">\[
+J(\theta)=\frac{1}{2n}(X\theta-y)^\top(X\theta-y)
+\]</span></p>
+</div>
+<div class="current">
 <p><span class="math display">\[
 \nabla J(\theta)=\frac{1}{n}X^\top(X\theta-y)
 \]</span></p>
 </div>
-<div class="two-col">
-<div class="definition-card">
-<p><strong>Interpretación</strong></p>
-<p>El error residual se redistribuye hacia cada variable mediante <code>X.T</code>.</p>
 </div>
-<div class="mini-card">
-<p><strong>Código</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
-<span id="cb1-2"><a href=""></a>grad <span class="op">=</span> X.T <span class="op">@</span> residual <span class="op">/</span> <span class="bu">len</span>(y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>La fórmula debe producir un vector de la misma forma que <code>theta</code>.</p>
+</div>
+</section>
+<section id="algoritmo" class="slide level2">
+<h2>Algoritmo</h2>
+<div class="numbered-steps">
+<div>
+<p>Inicializar <code>theta</code>.</p>
+</div>
+<div>
+<p>Calcular predicciones y residual.</p>
+</div>
+<div>
+<p>Calcular gradiente.</p>
+</div>
+<div>
+<p>Actualizar parámetros.</p>
+</div>
+<div>
+<p>Guardar pérdida para diagnosticar convergencia.</p>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2">
-<h2>Implementación mínima</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>losses <span class="op">=</span> []</span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a><span class="cf">for</span> step <span class="kw">in</span> <span class="bu">range</span>(num_steps):</span>
-<span id="cb2-4"><a href=""></a>    grad <span class="op">=</span> gradient_mse(X, y, theta)</span>
-<span id="cb2-5"><a href=""></a>    theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> grad</span>
-<span id="cb2-6"><a href=""></a>    losses.append(mse_loss(X, y, theta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-caption">
-<p>El ciclo debe guardar evidencia, no solo producir coeficientes.</p>
+<section id="código-mínimo" class="slide level2">
+<h2>Código mínimo</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="cf">for</span> t <span class="kw">in</span> <span class="bu">range</span>(num_steps):</span>
+<span id="cb1-2"><a href=""></a>    residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb1-3"><a href=""></a>    gradient <span class="op">=</span> (X.T <span class="op">@</span> residual) <span class="op">/</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb1-4"><a href=""></a>    theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> gradient</span>
+<span id="cb1-5"><a href=""></a>    history.append(mse_loss(X, y, theta))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="footer-note">
+<p>El notebook debe separar pérdida, gradiente y loop. Eso permite autocalificar funciones pequeñas.</p>
 </div>
 </section>
-<section id="curva-de-pérdida-lectura-profesional" class="slide level2">
-<h2>Curva de pérdida: lectura profesional</h2>
-<div class="mini-table">
-<table class="caption-top">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Señal</th>
-<th>Lectura</th>
-<th>Acción</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Baja y se estabiliza</td>
-<td>entrenamiento saludable</td>
-<td>reportar iteraciones y pérdida</td>
-</tr>
-<tr class="even">
-<td>Oscila</td>
-<td>paso demasiado grande</td>
-<td>reducir <code>alpha</code></td>
-</tr>
-<tr class="odd">
-<td>Sube o explota</td>
-<td>error de signo, escala o gradiente</td>
-<td>revisar implementación</td>
-</tr>
-<tr class="even">
-<td>Baja muy lento</td>
-<td>paso pequeño o mal condicionamiento</td>
-<td>escalar o ajustar <code>alpha</code></td>
-</tr>
-</tbody>
-</table>
+<section id="learning-rate-demasiado-pequeño" class="slide level2">
+<h2>Learning rate: demasiado pequeño</h2>
+<div class="large-statement">
+<p>El entrenamiento parece correcto, pero no llega a tiempo.</p>
+</div>
+<div class="diagram-flow">
+<p><span>pérdida baja lentamente</span><span class="arrow">→</span><span>muchas iteraciones</span><span class="arrow">→</span><span>costo computacional</span></p>
 </div>
 </section>
-<section id="escalamiento" class="slide level2">
-<h2>Escalamiento</h2>
-<div class="big-formula">
+<section id="learning-rate-demasiado-grande" class="slide level2">
+<h2>Learning rate: demasiado grande</h2>
+<div class="large-statement">
+<p>El entrenamiento deja de ser aprendizaje y se vuelve inestabilidad.</p>
+</div>
+<div class="warning-card">
+<p>Si la pérdida oscila, explota o aparece <code>nan</code>, el primer sospechoso es el tamaño del paso o la escala de las variables.</p>
+</div>
+</section>
+<section id="por-qué-la-escala-importa" class="slide level2">
+<h2>Por qué la escala importa</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Variable A</strong></p>
+<p>metros cuadrados: <code>40</code> a <code>250</code></p>
+</div>
+<div class="panel">
+<p><strong>Variable B</strong></p>
+<p>ingreso anual: <code>0</code> a <code>300000000</code></p>
+</div>
+</div>
+<div class="takeaway">
+<p>El gradiente mezcla unidades. Si las escalas son incompatibles, una sola tasa de aprendizaje no sirve bien para todas las direcciones.</p>
+</div>
+</section>
+<section id="estandarización" class="slide level2">
+<h2>Estandarización</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-z=\frac{x-\mu}{\sigma}
+z_{ij}=\frac{x_{ij}-\mu_j}{s_j}
 \]</span></p>
 </div>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Sin escalar</strong></p>
-<p>Variables grandes dominan el gradiente y deforman la superficie de pérdida.</p>
+<div class="split">
+<div class="panel">
+<p><strong><code>mu_j</code></strong></p>
+<p>Media de la variable <code>j</code> en entrenamiento.</p>
 </div>
-<div class="mini-card">
-<p><strong>Escalado</strong></p>
-<p>Los pasos son más comparables entre variables.</p>
+<div class="panel">
+<p><strong><code>s_j</code></strong></p>
+<p>Desviación estándar de la variable <code>j</code> en entrenamiento.</p>
 </div>
 </div>
 </section>
 <section id="leakage-en-escalamiento" class="slide level2">
 <h2>Leakage en escalamiento</h2>
 <div class="warning-card">
-<p><strong>Regla crítica.</strong> <code>mu</code> y <code>sigma</code> se calculan solo con entrenamiento.</p>
-<p>Luego se aplican a validación y prueba.</p>
+<p>No se ajusta el escalador con test.</p>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>scaler.fit(X_train)</span>
-<span id="cb3-2"><a href=""></a>X_val_scaled <span class="op">=</span> scaler.transform(X_val)</span>
-<span id="cb3-3"><a href=""></a>X_test_scaled <span class="op">=</span> scaler.transform(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="diagram-flow">
+<p><span>fit scaler en train</span><span class="arrow">→</span><span>transform train</span><span class="arrow">→</span><span>transform test</span><span class="arrow">→</span><span>evaluar</span></p>
+</div>
+<div class="caption">
+<p>El conjunto de test simula datos futuros. No debe informar el preprocesamiento.</p>
+</div>
 </section>
 <section id="condicionamiento" class="slide level2">
 <h2>Condicionamiento</h2>
-<div class="big-formula">
-<p><span class="math display">\[
-\kappa(X^\top X)
-\]</span></p>
+<div class="large-statement">
+<p>Una pérdida puede ser convexa y aun así ser difícil de optimizar numéricamente.</p>
 </div>
-<div class="two-col">
-<div class="definition-card">
-<p><strong>Qué mide</strong></p>
-<p>Sensibilidad numérica de la solución ante cambios pequeños en los datos.</p>
+<div class="split">
+<div class="panel">
+<p><strong>Bien condicionada</strong></p>
+<p>Direcciones con curvatura comparable.</p>
 </div>
-<div class="mini-card">
-<p><strong>Chequeo</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>np.linalg.cond(X.T <span class="op">@</span> X)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Un valor alto pide cautela.</p>
+<div class="panel">
+<p><strong>Mal condicionada</strong></p>
+<p>Una dirección cambia muy rápido y otra muy lento.</p>
 </div>
 </div>
 </section>
-<section id="actividad-diagnosticar-una-curva" class="slide level2">
-<h2>Actividad: diagnosticar una curva</h2>
+<section id="qué-mirar-en-una-curva" class="slide level2">
+<h2>Qué mirar en una curva</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Monotonía</strong></p>
+<p>¿La pérdida baja de forma estable?</p>
+</div>
+<div class="panel">
+<p><strong>Velocidad</strong></p>
+<p>¿Baja lo suficiente en pocas iteraciones?</p>
+</div>
+<div class="panel">
+<p><strong>Piso</strong></p>
+<p>¿Llegó a una zona donde mejorar cuesta mucho?</p>
+</div>
+</div>
+</section>
+<section id="criterios-de-parada" class="slide level2">
+<h2>Criterios de parada</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Por presupuesto</strong></p>
+<p>Número máximo de iteraciones.</p>
+</div>
+<div class="panel">
+<p><strong>Por progreso</strong></p>
+<p>Cambio pequeño en pérdida o en parámetros.</p>
+</div>
+</div>
+<div class="footer-note">
+<p>En laboratorios iniciales conviene usar presupuesto fijo para hacer pruebas reproducibles.</p>
+</div>
+</section>
+<section id="live-coding-ruta" class="slide level2">
+<h2>Live coding: ruta</h2>
+<div class="numbered-steps">
+<div>
+<p>Construir <code>mse_loss</code>.</p>
+</div>
+<div>
+<p>Construir <code>mse_gradient</code>.</p>
+</div>
+<div>
+<p>Construir <code>gradient_descent</code>.</p>
+</div>
+<div>
+<p>Graficar pérdida y comparar con <code>LinearRegression</code>.</p>
+</div>
+</div>
+</section>
+<section id="actividad-diagnosticar-curva" class="slide level2">
+<h2>Actividad: diagnosticar curva</h2>
 <div class="activity">
-<p><strong>Cinco minutos.</strong> Reciba una curva de pérdida y decida:</p>
-<ul>
-<li>si el entrenamiento converge;</li>
-<li>qué cambiaría en <code>alpha</code>;</li>
-<li>si revisaría escalamiento;</li>
-<li>qué evidencia mostraría en el reporte.</li>
-</ul>
+<p>Para cada curva de pérdida, decida si el problema principal parece ser:</p>
+<ol type="1">
+<li>tasa de aprendizaje muy pequeña;</li>
+<li>tasa de aprendizaje muy grande;</li>
+<li>variables sin escalar;</li>
+<li>implementación de gradiente incorrecta.</li>
+</ol>
 </div>
 </section>
-<section id="error-frecuente" class="slide level2">
-<h2>Error frecuente</h2>
+<section id="lab-1" class="slide level2">
+<h2>Lab 1</h2>
+<div class="split-wide">
+<div>
+<p><strong>Autocalificado</strong></p>
+<p>Funciones de pérdida, gradiente, descenso, predicción y comparación con <code>sklearn</code>.</p>
+</div>
 <div class="warning-card">
-<p><strong>Confundir convergencia con corrección.</strong></p>
-<p>Una curva descendente no prueba que el modelo esté bien planteado: también hay que revisar particiones, escalamiento, dimensiones y métrica.</p>
+<p><strong>Manual mínimo</strong></p>
+<p>Interpretar convergencia y reconocer una limitación técnica.</p>
 </div>
-<div class="checkpoint">
-<p>Si el resultado parece excelente, primero descarte leakage y hardcoding.</p>
-</div>
-</section>
-<section id="lab-1-qué-será-autocalificado" class="slide level2">
-<h2>Lab 1: qué será autocalificado</h2>
-<div class="deliverable">
-<p><strong>Lab 1.</strong> Regresión lineal y descenso del gradiente.</p>
-<p>El autograder revisa dimensiones, pérdida, gradiente, descenso, predicciones y comparación contra <code>sklearn</code>.</p>
-</div>
-<div class="checkpoint">
-<p>La revisión manual se concentra en interpretar convergencia y limitaciones.</p>
 </div>
 </section>
 <section id="proyecto-prepropuesta" class="slide level2">
 <h2>Proyecto: prepropuesta</h2>
-<div class="deliverable">
-<p><strong>Entrega.</strong> Pregunta, dataset, variable objetivo, métrica tentativa y riesgo principal.</p>
+<div class="numbered-steps">
+<div>
+<p>Pregunta aplicada.</p>
 </div>
-<div class="small-list">
-<p>Una prepropuesta no promete el resultado. Promete que el experimento se puede ejecutar de forma honesta.</p>
+<div>
+<p>Unidad de observación.</p>
+</div>
+<div>
+<p>Variable objetivo.</p>
+</div>
+<div>
+<p>Riesgo principal del dataset.</p>
+</div>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
+<section id="cierre-técnico" class="slide level2 no-border">
 <h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>Optimizar no es correr iteraciones. Es controlar escala, paso, convergencia y evidencia.</p>
+<div class="large-statement">
+<p>Descenso del gradiente no es una fórmula alternativa: es una forma de convertir cálculo local en aprendizaje reproducible.</p>
 </div>
-<p>La próxima semana veremos cómo la elección de variables puede mejorar el modelo o destruir su generalización.</p>
+<div class="diagram-flow">
+<p><span>pérdida</span><span class="arrow">→</span><span>gradiente</span><span class="arrow">→</span><span>paso</span><span class="arrow">→</span><span>curva</span><span class="arrow">→</span><span>diagnóstico</span></p>
+</div>
 
 </section>
     </div>
@@ -493,7 +557,7 @@ z=\frac{x-\mu}{\sigma}
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

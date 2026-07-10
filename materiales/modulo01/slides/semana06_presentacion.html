@@ -28,74 +28,8 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
-    /* CSS for syntax highlighting */
-    html { -webkit-text-size-adjust: 100%; }
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
-      }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      { color: #003b4f; background-color: #f1f3f5; }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span { color: #003b4f; } /* Normal */
-    code span.al { color: #ad0000; } /* Alert */
-    code span.an { color: #5e5e5e; } /* Annotation */
-    code span.at { color: #657422; } /* Attribute */
-    code span.bn { color: #ad0000; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #20794d; } /* Char */
-    code span.cn { color: #8f5902; } /* Constant */
-    code span.co { color: #5e5e5e; } /* Comment */
-    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-    code span.dt { color: #ad0000; } /* DataType */
-    code span.dv { color: #ad0000; } /* DecVal */
-    code span.er { color: #ad0000; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #ad0000; } /* Float */
-    code span.fu { color: #4758ab; } /* Function */
-    code span.im { color: #00769e; } /* Import */
-    code span.in { color: #5e5e5e; } /* Information */
-    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
-    code span.op { color: #5e5e5e; } /* Operator */
-    code span.ot { color: #003b4f; } /* Other */
-    code span.pp { color: #ad0000; } /* Preprocessor */
-    code span.sc { color: #5e5e5e; } /* SpecialChar */
-    code span.ss { color: #20794d; } /* SpecialString */
-    code span.st { color: #20794d; } /* String */
-    code span.va { color: #111111; } /* Variable */
-    code span.vs { color: #20794d; } /* VerbatimString */
-    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana06_presentacion_files/libs/revealjs/dist/theme/quarto-7d97316d36238b2b2d825916f28a2fa3.css">
+  <link rel="stylesheet" href="semana06_presentacion_files/libs/revealjs/dist/theme/quarto-9b83917f405c5b34aeee76efbf11d255.css">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,130 +141,145 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>De una probabilidad a una decisión</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Cuando el número es una probabilidad</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> En clasificación binaria no predecimos una cantidad continua. Estimamos la probabilidad de una clase y luego tomamos una decisión.</p>
-<p>La parte difícil no termina con el modelo: empieza cuando elegimos el umbral.</p>
+<div class="big-question">
+<p>Si el modelo devuelve 0.73, ¿qué decisión tomamos y quién paga el costo si nos equivocamos?</p>
+</div>
+</section>
+<section id="recap-del-módulo" class="slide level2">
+<h2>Recap del módulo</h2>
+<div class="diagram-flow">
+<p><span>regresión</span><span class="arrow">→</span><span>gradiente</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>regularización</span></p>
 </div>
 <div class="takeaway">
-<p>Un clasificador profesional reporta probabilidad, métrica, umbral y costo de error.</p>
+<p>Hoy cambiamos el tipo de salida: de cantidad continua a probabilidad de clase.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
 <p><strong>Modelar</strong></p>
-<p>Convertir un score lineal en probabilidad.</p>
+<p>Conectar score lineal, sigmoide y probabilidad.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Evaluar</strong></p>
-<p>Usar matriz de confusión y métricas adecuadas.</p>
+<p>Leer matriz de confusión y métricas.</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Decidir</strong></p>
-<p>Elegir umbral según el costo del problema.</p>
+<p>Escoger umbral según costos.</p>
 </div>
-</div>
-</section>
-<section id="mapa-de-cierre-del-módulo" class="slide level2">
-<h2>Mapa de cierre del módulo</h2>
-<div class="flow">
-<p><span>score</span><span class="arrow">→</span><span>probabilidad</span><span class="arrow">→</span><span>log-loss</span><span class="arrow">→</span><span>métricas</span><span class="arrow">→</span><span>umbral</span><span class="arrow">→</span><span>Parcial 1</span></p>
-</div>
-<div class="small-list">
-<p>También dejamos el primer baseline reproducible del proyecto.</p>
 </div>
 </section>
 <section id="score-lineal" class="slide level2">
 <h2>Score lineal</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-z = X\theta
+z=w^\top x+b
 \]</span></p>
 </div>
-<div class="two-col">
-<div class="mini-card">
-<p><strong>Como regresión</strong></p>
-<p>Combina variables con pesos.</p>
-</div>
-<div class="warning-card">
-<p><strong>Pero</strong></p>
-<p><code>z</code> no está limitado entre 0 y 1.</p>
-</div>
+<div class="caption">
+<p>El score puede ser cualquier número real. Todavía no es una probabilidad.</p>
 </div>
 </section>
-<section id="función-sigmoide" class="slide level2">
-<h2>Función sigmoide</h2>
-<div class="big-formula">
+<section id="sigmoide" class="slide level2">
+<h2>Sigmoide</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat p=\sigma(z)=\frac{1}{1+e^{-z}}
+\sigma(z)=\frac{1}{1+e^{-z}}
 \]</span></p>
 </div>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Salida</strong></p>
-<p>Probabilidad estimada.</p>
+<div class="diagram-flow">
+<p><span>número real</span><span class="arrow">→</span><span>sigmoide</span><span class="arrow">→</span><span>probabilidad en [0,1]</span></p>
 </div>
-<div class="mini-card">
-<p><strong>Rango</strong></p>
-<p>Siempre entre 0 y 1.</p>
+</section>
+<section id="regresión-logística" class="slide level2">
+<h2>Regresión logística</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\hat p(y=1\mid x)=\sigma(w^\top x+b)
+\]</span></p>
 </div>
-<div class="mini-card">
-<p><strong>Interpretación</strong></p>
-<p>Clase positiva si supera un umbral.</p>
-</div>
+<div class="takeaway">
+<p>La frontera de decisión es lineal en el espacio de features; la salida es probabilística.</p>
 </div>
 </section>
 <section id="log-odds" class="slide level2">
 <h2>Log-odds</h2>
-<div class="big-formula">
+<div class="math-focus">
 <p><span class="math display">\[
-\log\left(\frac{p}{1-p}\right)=X\theta
+\log\left(\frac{p}{1-p}\right)=w^\top x+b
+\]</span></p>
+</div>
+<div class="footer-note">
+<p>La regresión logística modela log-odds lineales, no probabilidades lineales.</p>
+</div>
+</section>
+<section id="pérdida-logística" class="slide level2">
+<h2>Pérdida logística</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\ell(\hat p,y)=
+-y\log(\hat p)-(1-y)\log(1-\hat p)
 \]</span></p>
 </div>
 <div class="takeaway">
-<p>La regresión logística es lineal en log-odds, no en la probabilidad directamente.</p>
+<p>La pérdida castiga con fuerza predicciones confiadas y equivocadas.</p>
 </div>
 </section>
-<section id="log-loss" class="slide level2">
-<h2>Log-loss</h2>
-<div class="big-formula">
+<section id="gradiente" class="slide level2">
+<h2>Gradiente</h2>
+<div class="equation-chain">
+<div>
 <p><span class="math display">\[
-J(\theta)=
--\frac{1}{n}\sum_i
-\left[
-y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
-\right]
+\hat p=\sigma(Xw+b)
 \]</span></p>
 </div>
+<div class="current">
+<p><span class="math display">\[
+\nabla_w J=\frac{1}{n}X^\top(\hat p-y)
+\]</span></p>
+</div>
+</div>
+<div class="caption">
+<p>La forma se parece a regresión lineal, pero el residual es probabilístico.</p>
+</div>
+</section>
+<section id="de-probabilidad-a-decisión" class="slide level2">
+<h2>De probabilidad a decisión</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\hat y =
+\begin{cases}
+1 &amp; \text{si } \hat p \ge \tau\\
+0 &amp; \text{si } \hat p &lt; \tau
+\end{cases}
+\]</span></p>
+</div>
+<div class="warning-card">
+<p>El umbral <code>0.5</code> es una convención, no una ley.</p>
+</div>
+</section>
+<section id="métricas-y-decisión" class="slide level2">
+<h2>Métricas y decisión</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/logistica-umbral-metricas.svg" class="slide-figure" alt="Umbral y métricas en clasificación logística"></p>
+</div>
+<div>
+<p><strong>Cambiar el umbral cambia el tipo de error.</strong></p>
 <div class="small-list">
 <ul>
-<li>Penaliza predicciones confiadas y equivocadas.</li>
-<li>Es adecuada para probabilidades.</li>
-<li>Se minimiza con métodos iterativos.</li>
+<li>más sensibilidad: menos falsos negativos;</li>
+<li>más precisión: menos falsos positivos;</li>
+<li>la métrica depende del costo aplicado.</li>
 </ul>
 </div>
-</section>
-<section id="gradiente-logístico" class="slide level2">
-<h2>Gradiente logístico</h2>
-<div class="big-formula">
-<p><span class="math display">\[
-\nabla J(\theta)=\frac{1}{n}X^\top(\hat p-y)
-\]</span></p>
-</div>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Regresión lineal</strong></p>
-<p>Error: <code>X @ theta - y</code></p>
-</div>
-<div class="mini-card">
-<p><strong>Logística</strong></p>
-<p>Error: <code>p_hat - y</code></p>
 </div>
 </div>
 </section>
@@ -341,8 +290,8 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 <thead>
 <tr class="header">
 <th></th>
-<th style="text-align: right;">Predicho 0</th>
-<th style="text-align: right;">Predicho 1</th>
+<th style="text-align: right;">Predice 0</th>
+<th style="text-align: right;">Predice 1</th>
 </tr>
 </thead>
 <tbody>
@@ -360,92 +309,131 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 </table>
 </div>
 <div class="takeaway">
-<p>Cada métrica cuenta una historia distinta sobre estos cuatro números.</p>
+<p>Todas las métricas de clasificación binaria salen de estos cuatro conteos.</p>
 </div>
 </section>
-<section id="métricas-elegir-según-costo" class="slide level2">
-<h2>Métricas: elegir según costo</h2>
-<div class="metric-grid">
-<div class="mini-card">
+<section id="accuracy" class="slide level2">
+<h2>Accuracy</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\text{accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+\]</span></p>
+</div>
+<div class="warning-card">
+<p>Puede ser engañosa con clases desbalanceadas.</p>
+</div>
+</section>
+<section id="precision-y-recall" class="slide level2">
+<h2>Precision y recall</h2>
+<div class="split">
+<div class="panel">
 <p><strong>Precision</strong></p>
-<p>De los positivos predichos, cuántos eran reales.</p>
+<p><span class="math display">\[
+\frac{TP}{TP+FP}
+\]</span></p>
+<p>Cuando digo positivo, ¿qué tan confiable soy?</p>
 </div>
-<div class="mini-card">
+<div class="panel">
 <p><strong>Recall</strong></p>
-<p>De los positivos reales, cuántos detectamos.</p>
-</div>
-<div class="mini-card">
-<p><strong>F1</strong></p>
-<p>Balance entre precision y recall.</p>
-</div>
-</div>
-</section>
-<section id="umbral" class="slide level2">
-<h2>Umbral</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>y_pred <span class="op">=</span> (proba <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Umbral bajo</strong></p>
-<p>Más positivos detectados, más falsos positivos.</p>
-</div>
-<div class="mini-card">
-<p><strong>Umbral alto</strong></p>
-<p>Menos falsos positivos, más falsos negativos.</p>
+<p><span class="math display">\[
+\frac{TP}{TP+FN}
+\]</span></p>
+<p>De los positivos reales, ¿cuántos encuentro?</p>
 </div>
 </div>
 </section>
-<section id="actividad-decisión-con-costos" class="slide level2">
-<h2>Actividad: decisión con costos</h2>
+<section id="f1" class="slide level2">
+<h2>F1</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+F_1=2\frac{\text{precision}\cdot\text{recall}}{\text{precision}+\text{recall}}
+\]</span></p>
+</div>
+<div class="caption">
+<p>Útil cuando buscamos balance entre precision y recall, pero no reemplaza la discusión de costos.</p>
+</div>
+</section>
+<section id="decisión-con-costos" class="slide level2">
+<h2>Decisión con costos</h2>
+<div class="split">
+<div class="panel">
+<p><strong>Falso positivo costoso</strong></p>
+<p>Subir umbral.</p>
+</div>
+<div class="panel">
+<p><strong>Falso negativo costoso</strong></p>
+<p>Bajar umbral.</p>
+</div>
+</div>
+<div class="takeaway">
+<p>El mejor umbral es una decisión técnica y ética, no solo matemática.</p>
+</div>
+</section>
+<section id="actividad-escoger-umbral" class="slide level2">
+<h2>Actividad: escoger umbral</h2>
 <div class="activity">
-<p><strong>Cinco minutos.</strong> En un problema médico, compare dos umbrales.</p>
-<p>Debe decidir:</p>
-<ul>
-<li>qué error es más costoso;</li>
-<li>qué métrica priorizaría;</li>
-<li>cómo justificaría el umbral ante un equipo no técnico.</li>
-</ul>
+<p>Tres modelos tienen AUC similar, pero distintos pares precision/recall para umbrales posibles.</p>
+<ol type="1">
+<li>Defina cuál error es más costoso.</li>
+<li>Escoja un umbral.</li>
+<li>Escriba una justificación de dos frases.</li>
+</ol>
+</div>
+</section>
+<section id="live-coding-ruta" class="slide level2">
+<h2>Live coding: ruta</h2>
+<div class="numbered-steps">
+<div>
+<p>Entrenar <code>LogisticRegression</code>.</p>
+</div>
+<div>
+<p>Obtener probabilidades con <code>predict_proba</code>.</p>
+</div>
+<div>
+<p>Construir matriz de confusión para varios umbrales.</p>
+</div>
+<div>
+<p>Elegir métrica y umbral con argumento aplicado.</p>
+</div>
+</div>
+</section>
+<section id="parcial-1" class="slide level2">
+<h2>Parcial 1</h2>
+<div class="split-wide">
+<div>
+<p><strong>Cubre</strong></p>
+<p>Regresión lineal, gradiente, regularización, logística y métricas.</p>
+</div>
+<div class="checkpoint">
+<p><strong>Formato operativo</strong></p>
+<p>Notebook autograded + preguntas estructuradas + explicación corta.</p>
+</div>
+</div>
+</section>
+<section id="baseline-de-proyecto" class="slide level2">
+<h2>Baseline de proyecto</h2>
+<div class="large-statement">
+<p>Un baseline no tiene que ser sofisticado. Tiene que ser reproducible, relevante y honesto.</p>
+</div>
+<div class="diagram-flow">
+<p><span>pregunta</span><span class="arrow">→</span><span>dataset</span><span class="arrow">→</span><span>métrica</span><span class="arrow">→</span><span>baseline</span><span class="arrow">→</span><span>limitación</span></p>
 </div>
 </section>
 <section id="error-frecuente" class="slide level2">
 <h2>Error frecuente</h2>
 <div class="warning-card">
-<p><strong>Reportar solo accuracy.</strong></p>
-<p>En clases desbalanceadas, accuracy puede ocultar un modelo que casi nunca detecta la clase importante.</p>
-</div>
-<div class="checkpoint">
-<p>Reporte matriz de confusión, precision, recall, F1 o AUC según el costo del problema.</p>
+<p><strong>Reportar accuracy sin mirar la matriz de confusión.</strong></p>
+<p>Una métrica agregada puede esconder exactamente el error que más importa.</p>
 </div>
 </section>
-<section id="parcial-1" class="slide level2">
-<h2>Parcial 1</h2>
-<div class="deliverable">
-<p><strong>Formato.</strong></p>
-<ul>
-<li>70% notebook autocalificado.</li>
-<li>20% preguntas matemáticas estructuradas.</li>
-<li>10% explicación corta con rúbrica 0/1/2.</li>
-</ul>
-</div>
-<div class="checkpoint">
-<p>Temas: regresión, gradiente, regularización, clasificación binaria y métricas.</p>
-</div>
-</section>
-<section id="baseline-de-proyecto" class="slide level2">
-<h2>Baseline de proyecto</h2>
-<div class="deliverable">
-<p><strong>Entrega.</strong> Primer baseline reproducible.</p>
-<p>Debe incluir partición de datos, métrica, resultado, comparación contra regla simple y limitación principal.</p>
-</div>
-</section>
-<section id="cierre-del-módulo-1" class="slide level2">
+<section id="cierre-del-módulo-1" class="slide level2 no-border">
 <h2>Cierre del Módulo 1</h2>
-<div class="takeaway">
-<p>El módulo construye una cadena completa:</p>
+<div class="large-statement">
+<p>El primer bloque del curso completa el ciclo: representar, optimizar, validar, regularizar y convertir resultados en decisiones.</p>
 </div>
-<div class="flow">
-<p><span>regresión</span><span class="arrow">→</span><span>optimización</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>regularización</span><span class="arrow">→</span><span>clasificación</span><span class="arrow">→</span><span>decisión</span></p>
+<div class="diagram-flow">
+<p><span>X,y</span><span class="arrow">→</span><span>pérdida</span><span class="arrow">→</span><span>optimización</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>decisión</span></p>
 </div>
-<p>Un clasificador no termina en una probabilidad. Termina en una decisión defendible.</p>
 
 </section>
     </div>
@@ -486,7 +474,7 @@ y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

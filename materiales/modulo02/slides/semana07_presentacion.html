@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-497927b09c649fbf04127b05855bc355.css">
+  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-cb876abdb8510df66370c1d20a3cfff1.css">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,7 +196,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 7: perceptron, neurona logística y forward propagation</p>
+  <p class="subtitle">Semana 7: perceptron, neurona logistica y forward propagation</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -207,91 +207,86 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Del modelo lineal a la representación aprendida</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>De modelos lineales a redes</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Un modelo lineal clasifica con una frontera rígida. Para imágenes o patrones con interacciones, necesitamos aprender transformaciones intermedias.</p>
+<div class="big-question">
+<p>¿Que cambia cuando una prediccion ya no sale de una sola combinacion lineal, sino de una composicion de funciones?</p>
+</div>
+<div class="footer-note">
+<p>Semana 7: construir una red pequena desde objetos que ya conocemos.</p>
+</div>
+</section>
+<section id="recap-regresion-logistica-como-neurona" class="slide level2">
+<h2>Recap: regresion logistica como neurona</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+z = x^\top w + b,
+\qquad
+\hat y = \sigma(z)=\frac{1}{1+e^{-z}}
+\]</span></p>
 </div>
 <div class="takeaway">
-<p>Una red neuronal pequeña es una composición de funciones, no una caja negra.</p>
+<p>La neurona logistica no elimina el modelo lineal: lo envuelve en una funcion de activacion.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Conectar</strong></p>
-<p>Ver regresión logística como una neurona.</p>
+<section id="el-salto-conceptual" class="slide level2">
+<h2>El salto conceptual</h2>
+<div class="diagram-flow">
+<p><span>entrada</span><span class="arrow">→</span><span>combinacion lineal</span><span class="arrow">→</span><span>activacion</span><span class="arrow">→</span><span>salida</span></p>
 </div>
-<div class="mini-card">
-<p><strong>Construir</strong></p>
-<p>Implementar forward propagation.</p>
+<div class="large-statement">
+<p>Una red aprende representaciones intermedias antes de producir la prediccion final.</p>
 </div>
-<div class="mini-card">
+</section>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Representar</strong></p>
+<p>Matrices de pesos, sesgos y activaciones con dimensiones claras.</p>
+</div>
+<div class="panel">
+<p><strong>Propagar</strong></p>
+<p>Calcular un forward pass capa por capa.</p>
+</div>
+<div class="panel">
 <p><strong>Verificar</strong></p>
-<p>Revisar formas y probabilidades.</p>
+<p>Detectar errores por shapes, overflow y activaciones mal elegidas.</p>
 </div>
 </div>
 </section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>perceptron</span><span class="arrow">→</span><span>neurona</span><span class="arrow">→</span><span>capa</span><span class="arrow">→</span><span>ReLU</span><span class="arrow">→</span><span>softmax</span><span class="arrow">→</span><span>forward</span></p>
-</div>
-</section>
-<section id="de-regresión-logística-a-neurona" class="slide level2">
-<h2>De regresión logística a neurona</h2>
-<div class="big-formula">
+<section id="una-neurona" class="slide level2">
+<h2>Una neurona</h2>
+<div class="split-wide">
+<div class="math-focus">
 <p><span class="math display">\[
-\hat p=\sigma(w^\top x+b)
+a = g(w^\top x + b)
 \]</span></p>
 </div>
-<div class="compare-grid">
-<div class="mini-card">
-<p><strong>Módulo 1</strong></p>
-<p>Modelo lineal con probabilidad.</p>
-</div>
-<div class="mini-card">
-<p><strong>Módulo 2</strong></p>
-<p>Unidad básica dentro de una red.</p>
-</div>
-</div>
-</section>
-<section id="capa-densa" class="slide level2">
-<h2>Capa densa</h2>
-<div class="big-formula">
-<p><span class="math display">\[
-Z^{[1]}=XW^{[1]}+b^{[1]}
-\]</span></p>
-</div>
+<div>
+<p><strong>Lectura operacional</strong></p>
 <div class="small-list">
 <ul>
-<li><code>X</code>: datos.</li>
-<li><code>W1</code>: pesos de la capa.</li>
-<li><code>b1</code>: sesgo.</li>
-<li><code>Z1</code>: preactivaciones.</li>
+<li><code>x</code>: variables de entrada;</li>
+<li><code>w</code>: pesos aprendibles;</li>
+<li><code>b</code>: sesgo;</li>
+<li><code>g</code>: activacion;</li>
+<li><code>a</code>: salida de la neurona.</li>
 </ul>
 </div>
-</section>
-<section id="activación" class="slide level2">
-<h2>Activación</h2>
-<div class="big-formula">
-<p><span class="math display">\[
-A^{[1]}=\operatorname{ReLU}(Z^{[1]})
-\]</span></p>
 </div>
-<div class="takeaway">
-<p>Sin activación no lineal, varias capas lineales se reducen a una sola capa lineal.</p>
 </div>
 </section>
-<section id="salida-multiclase" class="slide level2">
-<h2>Salida multiclase</h2>
-<div class="big-formula">
+<section id="muchas-neuronas-una-capa-densa" class="slide level2">
+<h2>Muchas neuronas: una capa densa</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat P=\operatorname{softmax}(A^{[1]}W^{[2]}+b^{[2]})
+Z = XW + \mathbf 1 b^\top,
+\qquad
+A = g(Z)
 \]</span></p>
 </div>
 <div class="mini-table">
@@ -305,86 +300,176 @@ A^{[1]}=\operatorname{ReLU}(Z^{[1]})
 <tbody>
 <tr class="odd">
 <td><code>X</code></td>
-<td><code>(n, p)</code></td>
+<td><code>n x d_in</code></td>
 </tr>
 <tr class="even">
-<td><code>W1</code></td>
-<td><code>(p, h)</code></td>
+<td><code>W</code></td>
+<td><code>d_in x d_out</code></td>
 </tr>
 <tr class="odd">
-<td><code>A1</code></td>
-<td><code>(n, h)</code></td>
+<td><code>b</code></td>
+<td><code>d_out</code></td>
 </tr>
 <tr class="even">
-<td><code>W2</code></td>
-<td><code>(h, k)</code></td>
-</tr>
-<tr class="odd">
-<td><code>P</code></td>
-<td><code>(n, k)</code></td>
+<td><code>Z</code>, <code>A</code></td>
+<td><code>n x d_out</code></td>
 </tr>
 </tbody>
 </table>
 </div>
 </section>
+<section id="el-mapa-visual" class="slide level2">
+<h2>El mapa visual</h2>
+<div class="diagram-board">
+<div class="diagram-flow">
+<p><span>X</span><span class="arrow">→</span><span>Z1 = XW1 + b1</span><span class="arrow">→</span><span>A1 = g(Z1)</span><span class="arrow">→</span><span>Z2 = A1W2 + b2</span><span class="arrow">→</span><span>salida</span></p>
+</div>
+<div class="takeaway">
+<p>Cada flecha debe conservar una forma verificable. Si una forma no cuadra, la red no existe computacionalmente.</p>
+</div>
+</div>
+</section>
+<section id="activaciones" class="slide level2">
+<h2>Activaciones</h2>
+<div class="three-panel">
+<div class="definition-card">
+<p><strong>Sigmoid</strong></p>
+<p>Salida entre 0 y 1; util para probabilidad binaria, pero puede saturar.</p>
+</div>
+<div class="definition-card">
+<p><strong>Tanh</strong></p>
+<p>Salida centrada entre -1 y 1; tambien puede saturar.</p>
+</div>
+<div class="definition-card">
+<p><strong>ReLU</strong></p>
+<p><code>max(0, z)</code>; simple, rapida y comun en capas ocultas.</p>
+</div>
+</div>
+</section>
+<section id="por-que-no-basta-la-linealidad" class="slide level2">
+<h2>Por que no basta la linealidad</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+(XW_1)W_2 = X(W_1W_2)
+\]</span></p>
+</div>
+<div class="large-statement">
+<p>Sin activaciones no lineales, muchas capas lineales colapsan en una sola capa lineal.</p>
+</div>
+</section>
+<section id="red-de-una-capa-oculta" class="slide level2">
+<h2>Red de una capa oculta</h2>
+<div class="equation-chain">
+<div>
+<p><span class="math display">\[
+Z^{[1]} = XW^{[1]} + b^{[1]}
+\]</span></p>
+</div>
+<div class="current">
+<p><span class="math display">\[
+A^{[1]} = g(Z^{[1]})
+\]</span></p>
+</div>
+<div>
+<p><span class="math display">\[
+Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]}
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="salida-binaria" class="slide level2">
+<h2>Salida binaria</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\hat p = \sigma(Z^{[2]}),
+\qquad
+\hat y = \mathbb 1\{\hat p \ge \tau\}
+\]</span></p>
+</div>
+<div class="checkpoint">
+<p>La red entrega una probabilidad estimada; el umbral convierte esa probabilidad en decision.</p>
+</div>
+</section>
+<section id="salida-multiclase" class="slide level2">
+<h2>Salida multiclase</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\operatorname{softmax}(z)_k =
+\frac{\exp(z_k)}{\sum_{j=1}^{K}\exp(z_j)}
+\]</span></p>
+</div>
+<div class="takeaway">
+<p>Softmax transforma puntajes en una distribucion de probabilidad sobre clases.</p>
+</div>
+</section>
 <section id="softmax-estable" class="slide level2">
 <h2>Softmax estable</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>shifted <span class="op">=</span> Z <span class="op">-</span> np.<span class="bu">max</span>(Z, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-2"><a href=""></a>exp_scores <span class="op">=</span> np.exp(shifted)</span>
-<span id="cb1-3"><a href=""></a>P <span class="op">=</span> exp_scores <span class="op">/</span> np.<span class="bu">sum</span>(exp_scores, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="checkpoint">
-<p>Cada fila de <code>P</code> debe sumar 1.</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\operatorname{softmax}(z)_k =
+\frac{\exp(z_k - \max_j z_j)}
+{\sum_{\ell=1}^{K}\exp(z_\ell-\max_j z_j)}
+\]</span></p>
+</div>
+<div class="warning-card">
+<p>Restar el maximo no cambia la probabilidad; evita overflow numerico.</p>
 </div>
 </section>
-<section id="actividad-chequeo-de-dimensiones" class="slide level2">
-<h2>Actividad: chequeo de dimensiones</h2>
+<section id="implementacion-forward-de-capa-densa" class="slide level2">
+<h2>Implementacion: forward de capa densa</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> dense_forward(X, W, b, activation):</span>
+<span id="cb1-2"><a href=""></a>    Z <span class="op">=</span> X <span class="op">@</span> W <span class="op">+</span> b</span>
+<span id="cb1-3"><a href=""></a>    A <span class="op">=</span> activation(Z)</span>
+<span id="cb1-4"><a href=""></a>    cache <span class="op">=</span> {<span class="st">"X"</span>: X, <span class="st">"W"</span>: W, <span class="st">"b"</span>: b, <span class="st">"Z"</span>: Z, <span class="st">"A"</span>: A}</span>
+<span id="cb1-5"><a href=""></a>    <span class="cf">return</span> A, cache</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="checkpoint">
+<p>El <code>cache</code> sera esencial en backpropagation.</p>
+</div>
+</section>
+<section id="chequeo-de-dimensiones" class="slide level2">
+<h2>Chequeo de dimensiones</h2>
 <div class="activity">
-<p><strong>Cinco minutos.</strong> Si <code>X.shape == (300, 64)</code>, <code>h = 32</code> y <code>k = 10</code>, complete las formas de <code>W1</code>, <code>b1</code>, <code>A1</code>, <code>W2</code>, <code>b2</code> y <code>P</code>.</p>
+<p><strong>Actividad de 6 minutos</strong></p>
+<p>Supongan <code>X</code> con forma <code>(128, 20)</code>, una capa oculta de 12 neuronas y salida de 3 clases.</p>
+<p>Completen las formas de <code>W1</code>, <code>b1</code>, <code>A1</code>, <code>W2</code>, <code>b2</code> y <code>scores</code>.</p>
 </div>
 </section>
-<section id="evidencia-de-salida" class="slide level2">
-<h2>Evidencia de salida</h2>
-<div class="checkpoint">
-<p>Antes de cerrar, cada estudiante debe poder explicar una ruta completa de formas:</p>
-<p><code>X -&gt; Z1 -&gt; A1 -&gt; logits -&gt; proba</code></p>
+<section id="que-debe-mostrar-el-notebook" class="slide level2">
+<h2>Que debe mostrar el notebook</h2>
+<div class="numbered-steps">
+<div>
+<p>Inicializacion reproducible con semilla fija.</p>
 </div>
-<div class="small-list">
-<ul>
-<li>Si una forma no cuadra, no se sigue al notebook.</li>
-<li>Si softmax suma por el eje incorrecto, la probabilidad no representa una observación.</li>
-</ul>
+<div>
+<p>Forward pass vectorizado.</p>
 </div>
-</section>
-<section id="live-coding" class="slide level2">
-<h2>Live coding</h2>
-<div class="two-col">
-<div class="mini-card">
-<p><strong>Funciones</strong></p>
-<ul>
-<li><code>relu</code></li>
-<li><code>softmax</code></li>
-<li><code>init_parameters</code></li>
-<li><code>forward_pass</code></li>
-</ul>
+<div>
+<p>Chequeos de shapes con <code>assert</code>.</p>
 </div>
-<div class="mini-card">
-<p><strong>Dataset</strong></p>
-<p><code>sklearn.datasets.load_digits</code></p>
-<p>Imágenes 8x8, 10 clases.</p>
+<div>
+<p>Comparacion contra una implementacion de referencia.</p>
 </div>
 </div>
 </section>
 <section id="error-frecuente" class="slide level2">
 <h2>Error frecuente</h2>
 <div class="warning-card">
-<p><strong>Creer que más capas siempre ayudan.</strong></p>
-<p>Sin diagnóstico, una red más grande puede memorizar entrenamiento y empeorar validación.</p>
+<p><strong>Confundir observaciones con variables</strong></p>
+<p>Si <code>X</code> es <code>n x d</code>, los pesos de una capa densa no son <code>n x h</code>; son <code>d x h</code>.</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+(n \times d)(d \times h) = n \times h
+\]</span></p>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>Hoy aprendimos a producir probabilidades. La próxima semana aprenderemos a mover los pesos para reducir la pérdida.</p>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>Una red pequena es una composicion de transformaciones matriciales y activaciones. Si no puedes escribir las formas, no puedes depurarla.</p>
+</div>
+<div class="diagram-flow">
+<p><span>shapes</span><span class="arrow">→</span><span>forward</span><span class="arrow">→</span><span>probabilidades</span><span class="arrow">→</span><span>decision</span></p>
 </div>
 
 </section>
@@ -426,7 +511,7 @@ A^{[1]}=\operatorname{ReLU}(Z^{[1]})
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,

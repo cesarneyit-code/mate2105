@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana08_presentacion_files/libs/revealjs/dist/theme/quarto-497927b09c649fbf04127b05855bc355.css">
+  <link rel="stylesheet" href="semana08_presentacion_files/libs/revealjs/dist/theme/quarto-cb876abdb8510df66370c1d20a3cfff1.css">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,126 +207,298 @@ Cesar Galindo
 </div>
 
 </section>
-<section id="la-historia-de-la-semana" class="slide level2">
-<h2>La historia de la semana</h2>
-<div class="slide-kicker">
-<p>Entrenar es propagar responsabilidad</p>
+<section id="pregunta-de-entrada" class="slide level2 no-border">
+<h2>Pregunta de entrada</h2>
+<div class="kicker">
+<p>Aprender pesos</p>
 </div>
-<div class="story-card">
-<p><strong>Situación.</strong> Forward propagation produce probabilidades, pero no dice cómo ajustar pesos. Backpropagation calcula qué tanto contribuyó cada parámetro al error.</p>
+<div class="big-question">
+<p>Si una red tiene miles de parametros, ¿como sabe cada peso si debe subir, bajar o quedarse igual?</p>
+</div>
+<div class="footer-note">
+<p>Backpropagation es contabilidad eficiente de derivadas.</p>
+</div>
+</section>
+<section id="recap-forward-pass" class="slide level2">
+<h2>Recap: forward pass</h2>
+<div class="diagram-flow">
+<p><span>X</span><span class="arrow">→</span><span>Z1</span><span class="arrow">→</span><span>A1</span><span class="arrow">→</span><span>Z2</span><span class="arrow">→</span><span>perdida L</span></p>
 </div>
 <div class="takeaway">
-<p>Backpropagation es regla de la cadena organizada sobre un grafo de cómputo.</p>
+<p>La semana pasada calculamos la prediccion. Hoy calculamos como cambiar parametros para reducir la perdida.</p>
 </div>
 </section>
-<section id="al-final-de-la-semana" class="slide level2">
-<h2>Al final de la semana</h2>
-<div class="three-col">
-<div class="mini-card">
-<p><strong>Derivar</strong></p>
-<p>Gradientes de una red densa.</p>
+<section id="contrato-de-la-semana" class="slide level2">
+<h2>Contrato de la semana</h2>
+<div class="three-panel">
+<div class="panel">
+<p><strong>Local</strong></p>
+<p>Derivar cada bloque: suma, producto, activacion y perdida.</p>
 </div>
-<div class="mini-card">
-<p><strong>Implementar</strong></p>
-<p><code>backward_pass</code> vectorizado.</p>
+<div class="panel">
+<p><strong>Global</strong></p>
+<p>Encadenar derivadas desde la perdida hacia las capas anteriores.</p>
 </div>
-<div class="mini-card">
-<p><strong>Depurar</strong></p>
-<p>Revisar signos, escalas y formas.</p>
+<div class="panel">
+<p><strong>Computacional</strong></p>
+<p>Guardar caches y verificar gradientes por dimensiones.</p>
+</div>
+</div>
+</section>
+<section id="el-grafo-de-computo" class="slide level2">
+<h2>El grafo de computo</h2>
+<div class="case-split">
+<div class="image-frame">
+<p><img src="../figuras/backpropagation-grafo.svg" class="slide-figure" alt="Grafo de backpropagation"></p>
+</div>
+<div>
+<p><strong>Idea central</strong></p>
+<p>Cada nodo recibe una derivada de salida y la transforma en derivadas para sus entradas.</p>
+<div class="small-list">
+<ul>
+<li>forward: calcular valores;</li>
+<li>backward: calcular sensibilidades;</li>
+<li>update: mover parametros.</li>
+</ul>
+</div>
 </div>
 </div>
 </section>
-<section id="mapa-de-clase" class="slide level2">
-<h2>Mapa de clase</h2>
-<div class="flow">
-<p><span>loss</span><span class="arrow">→</span><span>dZ2</span><span class="arrow">→</span><span>dW2</span><span class="arrow">→</span><span>dA1</span><span class="arrow">→</span><span>dZ1</span><span class="arrow">→</span><span>dW1</span></p>
-</div>
-</section>
-<section id="grafo-de-cómputo" class="slide level2">
-<h2>Grafo de cómputo</h2>
-<div class="big-formula">
+<section id="regla-de-la-cadena" class="slide level2">
+<h2>Regla de la cadena</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-X \rightarrow Z^{[1]} \rightarrow A^{[1]} \rightarrow Z^{[2]} \rightarrow \hat P \rightarrow J
+\frac{\partial L}{\partial x}
+=
+\frac{\partial L}{\partial u}
+\frac{\partial u}{\partial x}
 \]</span></p>
 </div>
-<p>Backpropagation recorre ese grafo en sentido inverso.</p>
+<div class="checkpoint">
+<p>En redes, la regla de la cadena se aplica miles de veces, pero siempre localmente.</p>
+</div>
 </section>
-<section id="gradiente-clave" class="slide level2">
-<h2>Gradiente clave</h2>
-<div class="big-formula">
+<section id="bloque-denso-forward" class="slide level2">
+<h2>Bloque denso: forward</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-dZ^{[2]}=\frac{1}{n}(\hat P-Y)
+Z = XW + b,
+\qquad
+A = g(Z)
+\]</span></p>
+</div>
+<div class="mini-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Forma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>X</code></td>
+<td><code>n x d</code></td>
+</tr>
+<tr class="even">
+<td><code>W</code></td>
+<td><code>d x h</code></td>
+</tr>
+<tr class="odd">
+<td><code>b</code></td>
+<td><code>h</code></td>
+</tr>
+<tr class="even">
+<td><code>Z</code>, <code>A</code></td>
+<td><code>n x h</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="bloque-denso-backward" class="slide level2">
+<h2>Bloque denso: backward</h2>
+<div class="equation-chain">
+<div>
+<p><span class="math display">\[
+dZ = dA \odot g'(Z)
+\]</span></p>
+</div>
+<div class="current">
+<p><span class="math display">\[
+dW = X^\top dZ
+\]</span></p>
+</div>
+<div>
+<p><span class="math display">\[
+db = \sum_{i=1}^{n} dZ_i,
+\qquad
+dX = dZW^\top
+\]</span></p>
+</div>
+</div>
+</section>
+<section id="leer-las-formas-antes-de-confiar" class="slide level2">
+<h2>Leer las formas antes de confiar</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+(d \times n)(n \times h)=d \times h
+\]</span></p>
+</div>
+<div class="warning-card">
+<p>Si <code>dW</code> no tiene la misma forma que <code>W</code>, el gradiente no puede actualizar ese parametro.</p>
+</div>
+</section>
+<section id="perdida-softmax-cross-entropy" class="slide level2">
+<h2>Perdida softmax-cross-entropy</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+L = -\frac{1}{n}\sum_{i=1}^{n}\log p_{i,y_i}
 \]</span></p>
 </div>
 <div class="takeaway">
-<p>Softmax + entropía cruzada produce una fórmula limpia y computacionalmente útil.</p>
+<p>Para softmax con cross-entropy, el gradiente de los puntajes toma una forma simple.</p>
+</div>
+</section>
+<section id="gradiente-de-salida" class="slide level2">
+<h2>Gradiente de salida</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+dS = \frac{1}{n}(P - Y)
+\]</span></p>
+</div>
+<div class="split">
+<div class="panel">
+<p><strong><code>P</code></strong></p>
+<p>Probabilidades predichas por softmax.</p>
+</div>
+<div class="panel">
+<p><strong><code>Y</code></strong></p>
+<p>Matriz one-hot de etiquetas verdaderas.</p>
+</div>
 </div>
 </section>
 <section id="segunda-capa" class="slide level2">
 <h2>Segunda capa</h2>
-<div class="big-formula">
+<div class="equation-chain">
+<div>
 <p><span class="math display">\[
-dW^{[2]}=(A^{[1]})^\top dZ^{[2]},
-\qquad
-db^{[2]}=\sum_i dZ^{[2]}_i
+S = A^{[1]}W^{[2]} + b^{[2]}
 \]</span></p>
+</div>
+<div class="current">
+<p><span class="math display">\[
+dW^{[2]} = (A^{[1]})^\top dS
+\]</span></p>
+</div>
+<div>
+<p><span class="math display">\[
+dA^{[1]} = dS(W^{[2]})^\top
+\]</span></p>
+</div>
 </div>
 </section>
 <section id="capa-oculta" class="slide level2">
 <h2>Capa oculta</h2>
-<div class="big-formula">
+<div class="equation-chain">
+<div>
 <p><span class="math display">\[
-dA^{[1]}=dZ^{[2]}(W^{[2]})^\top
-\]</span> <span class="math display">\[
-dZ^{[1]}=dA^{[1]}\odot \mathbf{1}\{Z^{[1]}&gt;0\}
+dZ^{[1]} = dA^{[1]} \odot g'(Z^{[1]})
 \]</span></p>
+</div>
+<div class="current">
+<p><span class="math display">\[
+dW^{[1]} = X^\top dZ^{[1]}
+\]</span></p>
+</div>
+<div>
+<p><span class="math display">\[
+db^{[1]} = \sum_i dZ_i^{[1]}
+\]</span></p>
+</div>
 </div>
 </section>
-<section id="primera-capa" class="slide level2">
-<h2>Primera capa</h2>
-<div class="big-formula">
-<p><span class="math display">\[
-dW^{[1]}=X^\top dZ^{[1]},
-\qquad
-db^{[1]}=\sum_i dZ^{[1]}_i
-\]</span></p>
+<section id="backprop-como-algoritmo" class="slide level2">
+<h2>Backprop como algoritmo</h2>
+<div class="numbered-steps">
+<div>
+<p>Ejecutar forward y guardar caches.</p>
 </div>
+<div>
+<p>Calcular perdida.</p>
+</div>
+<div>
+<p>Inicializar gradiente en la salida.</p>
+</div>
+<div>
+<p>Recorrer capas en orden inverso.</p>
+</div>
+<div>
+<p>Actualizar parametros con el optimizador.</p>
+</div>
+</div>
+</section>
+<section id="implementacion-una-funcion-backward" class="slide level2">
+<h2>Implementacion: una funcion backward</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> dense_backward(dA, cache, activation_grad):</span>
+<span id="cb1-2"><a href=""></a>    X, W, Z <span class="op">=</span> cache[<span class="st">"X"</span>], cache[<span class="st">"W"</span>], cache[<span class="st">"Z"</span>]</span>
+<span id="cb1-3"><a href=""></a>    dZ <span class="op">=</span> dA <span class="op">*</span> activation_grad(Z)</span>
+<span id="cb1-4"><a href=""></a>    dW <span class="op">=</span> X.T <span class="op">@</span> dZ</span>
+<span id="cb1-5"><a href=""></a>    db <span class="op">=</span> dZ.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-6"><a href=""></a>    dX <span class="op">=</span> dZ <span class="op">@</span> W.T</span>
+<span id="cb1-7"><a href=""></a>    <span class="cf">return</span> dX, dW, db</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="checkpoint">
-<p>Cada gradiente debe tener la misma forma que su parámetro.</p>
+<p>El codigo debe reflejar las ecuaciones, no ocultarlas.</p>
 </div>
 </section>
 <section id="actividad-formas-de-gradientes" class="slide level2">
 <h2>Actividad: formas de gradientes</h2>
 <div class="activity">
-<p><strong>Cinco minutos.</strong> Dadas las formas <code>X=(100,64)</code>, <code>A1=(100,32)</code>, <code>P=(100,10)</code>, determine las formas de <code>dZ2</code>, <code>dW2</code>, <code>db2</code>, <code>dZ1</code>, <code>dW1</code>, <code>db1</code>.</p>
+<p><strong>6 minutos</strong></p>
+<p>Para <code>X: (64, 10)</code>, <code>W1: (10, 8)</code>, <code>W2: (8, 3)</code> y salida softmax, escriban las formas de:</p>
+<p><code>A1</code>, <code>scores</code>, <code>dS</code>, <code>dW2</code>, <code>dA1</code>, <code>dZ1</code>, <code>dW1</code>.</p>
 </div>
 </section>
-<section id="live-coding" class="slide level2">
-<h2>Live coding</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>dZ2 <span class="op">=</span> (P <span class="op">-</span> Y) <span class="op">/</span> <span class="bu">len</span>(X)</span>
-<span id="cb1-2"><a href=""></a>dW2 <span class="op">=</span> A1.T <span class="op">@</span> dZ2</span>
-<span id="cb1-3"><a href=""></a>db2 <span class="op">=</span> np.<span class="bu">sum</span>(dZ2, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-caption">
-<p>El resto de backward repite la misma disciplina: forma correcta y cache correcto.</p>
+<section id="chequeo-numerico" class="slide level2">
+<h2>Chequeo numerico</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\frac{\partial L}{\partial \theta_j}
+\approx
+\frac{L(\theta_j+\epsilon)-L(\theta_j-\epsilon)}{2\epsilon}
+\]</span></p>
+</div>
+<div class="takeaway">
+<p>Un gradiente analitico profesional se verifica contra diferencias finitas en un caso pequeno.</p>
 </div>
 </section>
 <section id="lab-3" class="slide level2">
 <h2>Lab 3</h2>
+<div class="split">
 <div class="deliverable">
-<p><strong>Se publica Lab 3.</strong> Implementación de red neuronal desde cero con revisión manual mínima.</p>
+<p><strong>Autograded</strong></p>
+<p>Forward, softmax estable, perdida, backward, shapes y entrenamiento.</p>
+</div>
+<div class="deliverable">
+<p><strong>Manual corto</strong></p>
+<p>Interpretar curva de perdida, falla de entrenamiento o sensibilidad a inicializacion.</p>
+</div>
 </div>
 </section>
 <section id="error-frecuente" class="slide level2">
 <h2>Error frecuente</h2>
 <div class="warning-card">
-<p><strong>Olvidar el factor <code>1/n</code>.</strong></p>
-<p>El gradiente queda con otra escala y el learning rate deja de significar lo mismo.</p>
+<p><strong>Actualizar parametros antes de terminar backprop</strong></p>
+<p>Los gradientes de una iteracion deben calcularse con los mismos parametros que produjeron el forward.</p>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2">
-<h2>Cierre técnico</h2>
-<div class="takeaway">
-<p>Si forward es la predicción, backward es la explicación local de cómo corregir la predicción.</p>
+<section id="cierre-tecnico" class="slide level2 no-border">
+<h2>Cierre tecnico</h2>
+<div class="big-question">
+<p>Backpropagation no es una formula misteriosa: es la regla de la cadena organizada para reutilizar calculos.</p>
+</div>
+<div class="diagram-flow">
+<p><span>forward</span><span class="arrow">→</span><span>loss</span><span class="arrow">→</span><span>backward</span><span class="arrow">→</span><span>update</span></p>
 </div>
 
 </section>
@@ -368,7 +540,7 @@ db^{[1]}=\sum_i dZ^{[1]}_i
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,
