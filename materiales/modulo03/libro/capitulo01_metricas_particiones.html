@@ -282,7 +282,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Un modelo puede tener buena accuracy y aun así ser inaceptable si falla en los casos importantes. Antes de entrenar más modelos, debemos decidir:</p>
 <blockquote class="blockquote">
-<p>¿qué error cuesta más y qué evidencia será suficiente para elegir?</p>
+<p>¿qué error cuesta más y qué comparación será suficiente para elegir?</p>
 </blockquote>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
@@ -305,7 +305,7 @@ Figura&nbsp;2.1: Particiones: train ajusta parámetros, dev selecciona modelos y
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> La partición es un contrato de evidencia. Train puede aprender parámetros y transformaciones; dev puede guiar decisiones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.</p>
+<p><strong>Lectura de la figura.</strong> Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.</p>
 </section>
 <section id="métrica-principal" class="level2">
 <h2 class="anchored" data-anchor-id="métrica-principal">Métrica principal</h2>
@@ -418,13 +418,13 @@ Figura&nbsp;2.1: Particiones: train ajusta parámetros, dev selecciona modelos y
 \qquad
 \text{recall}_B=\frac{25}{25+25}=0.50.
 \]</span></p>
-<p>Si un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo esperado de cada umbral es:</p>
+<p>Si un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo total observado de cada umbral es:</p>
 <p><span class="math display">\[
 C_A=40(1)+15(10)=190,
 \qquad
 C_B=10(1)+25(10)=260.
 \]</span></p>
-<p>Aunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. La métrica correcta depende de la decisión, no de cuál número se ve más alto.</p>
+<p>Aunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. Si se quisiera un costo promedio por caso, se dividiría cada total por 1000. La métrica correcta depende del uso y de los costos declarados, no de cuál número se ve más alto.</p>
 </section>
 <section id="derivación-guiada-f1-como-equilibrio-operativo" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-guiada-f1-como-equilibrio-operativo">Derivación guiada: F1 como equilibrio operativo</h2>
@@ -479,6 +479,7 @@ Advertencia
 <p>El conjunto de test no es una herramienta de diseño. Es una auditoría final.</p>
 </div>
 </div>
+<p>La misma regla se aplica al umbral. Se elige con validación; después se fija y se evalúa una vez en test junto con el modelo final.</p>
 </section>
 <section id="estratificación" class="level2">
 <h2 class="anchored" data-anchor-id="estratificación">Estratificación</h2>
@@ -549,7 +550,7 @@ Advertencia
 <section id="caso-longitudinal-clasificación-con-slice-reciente" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-clasificación-con-slice-reciente">Caso longitudinal: clasificación con slice reciente</h2>
 <p>El archivo <code>clasificacion_binaria_sintetica.csv</code> acompaña varios capítulos. Tiene variables <code>x1</code>, <code>x2</code>, una etiqueta binaria <code>target</code> y una columna <code>slice</code> con valores <code>base</code> y <code>reciente</code>. El objetivo pedagógico es discutir qué pasa cuando un modelo parece razonable en promedio, pero cambia su comportamiento en una subpoblación o periodo.</p>
-<p>Para este caso, una primera partición defendible debe declarar:</p>
+<p>Para este caso, una primera partición debe declarar:</p>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 50%">
@@ -619,7 +620,7 @@ Advertencia
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>Este capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. Accuracy puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro.</p>
 <p>Las particiones train, dev y test cumplen funciones distintas. Train ajusta parámetros, dev guía decisiones de modelo y test estima desempeño final. La estratificación, las particiones temporales o por grupo deben elegirse según el problema, no por costumbre.</p>
-<p>El leakage suele entrar por preprocesamiento aprendido con demasiados datos. Un <code>Pipeline</code> no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde.</p>
+<p>El leakage suele entrar por preprocesamiento aprendido con demasiados datos. Un <code>Pipeline</code> no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde. No evita por sí solo variables posteriores al evento, duplicados entre personas o una partición temporal mal construida; esos riesgos pertenecen al diseño del dataset.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>

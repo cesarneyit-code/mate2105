@@ -257,6 +257,7 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-1-datos-exactos" id="toc-ejemplo-resuelto-1-datos-exactos" class="nav-link" data-scroll-target="#ejemplo-resuelto-1-datos-exactos">Ejemplo resuelto 1: datos exactos</a></li>
   <li><a href="#ejemplo-resuelto-2-datos-con-ruido" id="toc-ejemplo-resuelto-2-datos-con-ruido" class="nav-link" data-scroll-target="#ejemplo-resuelto-2-datos-con-ruido">Ejemplo resuelto 2: datos con ruido</a></li>
   <li><a href="#baseline-de-regresión" id="toc-baseline-de-regresión" class="nav-link" data-scroll-target="#baseline-de-regresión">Baseline de regresión</a></li>
+  <li><a href="#caso-aplicado-32-subzonas-de-bogotá" id="toc-caso-aplicado-32-subzonas-de-bogotá" class="nav-link" data-scroll-target="#caso-aplicado-32-subzonas-de-bogotá">Caso aplicado: 32 subzonas de Bogotá</a></li>
   <li><a href="#interpretación-de-coeficientes" id="toc-interpretación-de-coeficientes" class="nav-link" data-scroll-target="#interpretación-de-coeficientes">Interpretación de coeficientes</a></li>
   <li><a href="#multicolinealidad-y-rango" id="toc-multicolinealidad-y-rango" class="nav-link" data-scroll-target="#multicolinealidad-y-rango">Multicolinealidad y rango</a></li>
   <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes">Errores comunes</a></li>
@@ -311,7 +312,7 @@ window.Quarto = {
 <li>escribir MSE como norma cuadrática;</li>
 <li>derivar el gradiente de MSE;</li>
 <li>derivar la ecuación normal;</li>
-<li>implementar mínimos cuadrados con <code>np.linalg.solve</code>;</li>
+<li>implementar mínimos cuadrados con <code>np.linalg.lstsq</code> y explicar por qué se evita formar una inversa explícita;</li>
 <li>comparar un modelo lineal contra un baseline;</li>
 <li>interpretar coeficientes con cuidado.</li>
 </ol>
@@ -386,16 +387,16 @@ Un conjunto de entrenamiento de regresión es una colección de pares <code>(x_i
 \cdots +
 \theta_d x_{id}.
 \]</span></p>
-<p>Para escribir esto como producto matricial agregamos una columna de unos. Si hay <code>n</code> observaciones y <code>d</code> variables originales, definimos:</p>
+<p>Para escribir esto como producto matricial agregamos una columna de unos. Si hay <span class="math inline">\(m\)</span> observaciones y <span class="math inline">\(d\)</span> variables originales, la matriz de diseño tiene <span class="math inline">\(p=d+1\)</span> columnas:</p>
 <p><span class="math display">\[
 X =
 \begin{bmatrix}
 1 &amp; x_{11} &amp; x_{12} &amp; \cdots &amp; x_{1d}\\
 1 &amp; x_{21} &amp; x_{22} &amp; \cdots &amp; x_{2d}\\
 \vdots &amp; \vdots &amp; \vdots &amp; &amp; \vdots\\
-1 &amp; x_{n1} &amp; x_{n2} &amp; \cdots &amp; x_{nd}
+1 &amp; x_{m1} &amp; x_{m2} &amp; \cdots &amp; x_{md}
 \end{bmatrix}
-\in \mathbb{R}^{n\times (d+1)}.
+\in \mathbb{R}^{m\times p}.
 \]</span></p>
 <p>El vector de parámetros es</p>
 <p><span class="math display">\[
@@ -439,7 +440,7 @@ La matriz de diseño <code>X</code> contiene las variables que el modelo usa par
 <tbody>
 <tr class="odd">
 <td><code>X</code></td>
-<td><code>(n, p)</code></td>
+<td><code>(m, p)</code></td>
 </tr>
 <tr class="even">
 <td><code>theta</code></td>
@@ -447,11 +448,11 @@ La matriz de diseño <code>X</code> contiene las variables que el modelo usa par
 </tr>
 <tr class="odd">
 <td><code>X @ theta</code></td>
-<td><code>(n,)</code> o <code>(n, 1)</code></td>
+<td><code>(m,)</code> o <code>(m, 1)</code></td>
 </tr>
 <tr class="even">
 <td><code>y</code></td>
-<td><code>(n,)</code></td>
+<td><code>(m,)</code></td>
 </tr>
 <tr class="odd">
 <td><code>X.T @ X</code></td>
@@ -481,38 +482,38 @@ r = y - X\theta.
 <p><span class="math display">\[
 J(\theta)
 =
-\frac{1}{2n}\sum_{i=1}^n(\hat y_i-y_i)^2
+\frac{1}{2m}\sum_{i=1}^m(\hat y_i-y_i)^2
 =
-\frac{1}{2n}\|X\theta-y\|_2^2.
+\frac{1}{2m}\|X\theta-y\|_2^2.
 \]</span></p>
 <p>El factor <code>1/2</code> se usa para que el <code>2</code> de la derivada desaparezca.</p>
 <div class="definicion">
 <p><strong>Definición 1.3: MSE y pérdida cuadrática.</strong><br>
 El error cuadrático medio es <span class="math display">\[
-\operatorname{MSE}(\theta)=\frac{1}{n}\|X\theta-y\|_2^2.
+\operatorname{MSE}(\theta)=\frac{1}{m}\|X\theta-y\|_2^2.
 \]</span> La pérdida <span class="math display">\[
 J(\theta)=\frac{1}{2}\operatorname{MSE}(\theta)
 \]</span> tiene el mismo minimizador, pero un gradiente más limpio.</p>
 </div>
 <p>Implementación:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse_loss(X, y, theta):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> y <span class="op">-</span> X <span class="op">@</span> theta</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(residual <span class="op">**</span> <span class="dv">2</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> half_mse_loss(X, y, theta):</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> y <span class="op">-</span> X <span class="op">@</span> theta</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(residual <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="derivación-del-gradiente" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-del-gradiente">Derivación del gradiente</h2>
 <p>Partimos de:</p>
 <p><span class="math display">\[
-J(\theta)=\frac{1}{2n}(X\theta-y)^\top(X\theta-y).
+J(\theta)=\frac{1}{2m}(X\theta-y)^\top(X\theta-y).
 \]</span></p>
 <p>Expandiendo:</p>
 <p><span class="math display">\[
 J(\theta)=
-\frac{1}{2n}
+\frac{1}{2m}
 \left(
 \theta^\top X^\top X\theta
 -2y^\top X\theta
@@ -531,7 +532,7 @@ J(\theta)=
 <p><span class="math display">\[
 \nabla J(\theta)
 =
-\frac{1}{2n}
+\frac{1}{2m}
 \left(
 2X^\top X\theta - 2X^\top y
 \right).
@@ -540,20 +541,21 @@ J(\theta)=
 <p><span class="math display">\[
 \nabla J(\theta)
 =
-\frac{1}{n}X^\top(X\theta-y).
+\frac{1}{m}X^\top(X\theta-y).
 \]</span></p>
 <div class="proposicion">
 <p><strong>Proposición 1.1: gradiente de MSE escalado.</strong><br>
 Para <span class="math display">\[
-J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
+J(\theta)=\frac{1}{2m}\|X\theta-y\|_2^2,
 \]</span> el gradiente es <span class="math display">\[
-\nabla J(\theta)=\frac{1}{n}X^\top(X\theta-y).
+\nabla J(\theta)=\frac{1}{m}X^\top(X\theta-y).
 \]</span></p>
 </div>
 <p>Implementación:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse_gradient(X, y, theta):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (X.T <span class="op">@</span> (X <span class="op">@</span> theta <span class="op">-</span> y)) <span class="op">/</span> n</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    m <span class="op">=</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> y <span class="op">-</span> X <span class="op">@</span> theta</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>(X.T <span class="op">@</span> residual) <span class="op">/</span> m</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="ecuación-normal" class="level2">
 <h2 class="anchored" data-anchor-id="ecuación-normal">Ecuación normal</h2>
@@ -563,9 +565,9 @@ J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
 \]</span></p>
 <p>Entonces:</p>
 <p><span class="math display">\[
-\frac{1}{n}X^\top(X\theta-y)=0.
+\frac{1}{m}X^\top(X\theta-y)=0.
 \]</span></p>
-<p>Multiplicando por <code>n</code>:</p>
+<p>Multiplicando por <span class="math inline">\(m\)</span>:</p>
 <p><span class="math display">\[
 X^\top X\theta-X^\top y=0.
 \]</span></p>
@@ -584,21 +586,31 @@ Si <code>X</code> tiene rango columna completo, entonces <code>X.T @ X</code> es
 \theta^\star=(X^\top X)^{-1}X^\top y.
 \]</span></p>
 </div>
-<p>En código profesional evitamos la inversa explícita:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> normal_equation(X, y):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La expresión con inversa es una identidad algebraica bajo rango completo, no una receta numérica. Para calcular el minimizador preferimos operar sobre <span class="math inline">\(X\)</span>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fit_lstsq(X, y):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    theta, residuals, rank, singular_values <span class="op">=</span> np.linalg.lstsq(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        X,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        y,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        rcond<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta, rank, singular_values</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="criterio">
-<p><strong>Criterio numérico.</strong> <code>np.linalg.inv(A) @ b</code> suele ser menos estable y menos eficiente que <code>np.linalg.solve(A, b)</code>. En modelos reales, preferimos resolver el sistema o usar implementaciones robustas como <code>LinearRegression</code>.</p>
+<p><strong>Criterio numérico.</strong> <code>np.linalg.solve(X.T @ X, X.T @ y)</code> es mejor que formar una inversa y resulta útil en ejemplos pequeños de rango completo. <code>np.linalg.lstsq</code> evita formar <span class="math inline">\(X^\top X\)</span>, informa rango y valores singulares, y también funciona cuando la solución en parámetros no es única.</p>
 </div>
+<p>En norma 2, si <span class="math inline">\(X\)</span> tiene rango columna completo,</p>
+<p><span class="math display">\[
+\kappa_2(X^\top X)=\kappa_2(X)^2.
+\]</span></p>
+<p>Por eso formar <span class="math inline">\(X^\top X\)</span> puede amplificar un problema de condicionamiento. Para diagnosticarlo conviene inspeccionar <code>np.linalg.cond(X)</code>, no únicamente la matriz de las ecuaciones normales.</p>
 </section>
 <section id="interpretación-geométrica" class="level2">
 <h2 class="anchored" data-anchor-id="interpretación-geométrica">Interpretación geométrica</h2>
-<p>El modelo busca un vector <code>X theta</code> en el espacio generado por las columnas de <code>X</code>. Ese espacio es un subespacio de <code>R^n</code>. El vector observado <code>y</code> puede no estar exactamente en ese subespacio. Mínimos cuadrados encuentra la proyección de <code>y</code> sobre el espacio columna de <code>X</code>.</p>
+<p>El modelo busca un vector <code>X theta</code> en el espacio generado por las columnas de <code>X</code>. Ese espacio es un subespacio de <span class="math inline">\(\mathbb R^m\)</span>. El vector observado <code>y</code> puede no estar exactamente en ese subespacio. Mínimos cuadrados encuentra la proyección de <code>y</code> sobre el espacio columna de <code>X</code>.</p>
 <p>En la solución:</p>
 <p><span class="math display">\[
 X^\top(y-X\theta^\star)=0.
 \]</span></p>
-<p>Esto dice que los residuales son ortogonales a cada columna de <code>X</code>. Es decir: después de ajustar el modelo, ninguna variable incluida en <code>X</code> explica linealmente lo que queda en los residuales.</p>
+<p>Esto dice que los residuales de <strong>entrenamiento</strong> son ortogonales a cada columna de <code>X</code>. Es una propiedad algebraica del ajuste muestral; no afirma independencia, no elimina estructura no lineal y no garantiza el mismo patrón fuera de entrenamiento.</p>
 </section>
 <section id="ejemplo-resuelto-1-datos-exactos" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-1-datos-exactos">Ejemplo resuelto 1: datos exactos</h2>
@@ -632,7 +644,7 @@ y = 1 + 2x.
 \]</span></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">0</span>], [<span class="dv">1</span>, <span class="dv">1</span>], [<span class="dv">1</span>, <span class="dv">2</span>]], dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">5</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>theta</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="ejemplo-resuelto-2-datos-con-ruido" class="level2">
@@ -656,7 +668,7 @@ x =
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], dtype<span class="op">=</span><span class="bu">float</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> np.array([<span class="fl">1.1</span>, <span class="fl">2.9</span>, <span class="fl">5.2</span>, <span class="fl">6.8</span>], dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> add_intercept(x)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> normal_equation(X, y)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> X <span class="op">@</span> theta</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>residuals <span class="op">=</span> y <span class="op">-</span> y_hat</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>mse <span class="op">=</span> np.mean(residuals <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
@@ -678,16 +690,74 @@ x =
 <p><span class="math display">\[
 \operatorname{MSE}_{\text{baseline}}
 =
-\frac{1}{n_{\text{test}}}
+\frac{1}{m_{\text{test}}}
 \sum_{i\in \text{test}}
 (y_i-\bar y_{\text{train}})^2.
 \]</span></p>
 <div class="criterio">
-<p><strong>Criterio aplicado.</strong> Un modelo lineal que no mejora el baseline en datos de prueba no justifica una decisión, aunque tenga coeficientes matemáticamente calculados.</p>
+<p><strong>Criterio aplicado.</strong> Un modelo lineal que no mejora el baseline en datos de prueba no ha mostrado que sus variables añadan capacidad predictiva en esa evaluación, aunque sus coeficientes estén bien calculados.</p>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> np.mean(y_train)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y_pred_base <span class="op">=</span> np.full_like(y_test, fill_value<span class="op">=</span>baseline, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>mse_base <span class="op">=</span> np.mean((y_test <span class="op">-</span> y_pred_base) <span class="op">**</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="caso-aplicado-32-subzonas-de-bogotá" class="level2">
+<h2 class="anchored" data-anchor-id="caso-aplicado-32-subzonas-de-bogotá">Caso aplicado: 32 subzonas de Bogotá</h2>
+<p>El subconjunto congelado del curso contiene 32 filas agregadas. Cada fila es una subzona, no una vivienda. Usaremos cinco variables promedio para predecir el campo <code>precio_reportado</code>, cuya unidad no está documentada en el archivo fuente.</p>
+<div id="fig-cap01-vivienda-bogota-dispersion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de dispersión de estrato promedio frente a precio reportado para 32 subzonas. Rosales aparece arriba a la derecha, Ciudad Verde abajo y Centro se aparta de la tendencia general.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap01-vivienda-bogota-dispersion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/vivienda-bogota-dispersion.svg" class="img-fluid figure-img" style="width:90.0%" alt="Diagrama de dispersión de estrato promedio frente a precio reportado para 32 subzonas. Rosales aparece arriba a la derecha, Ciudad Verde abajo y Centro se aparta de la tendencia general.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-dispersion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.2: Estrato promedio y precio reportado presentan una asociación positiva en las 32 subzonas, pero la gráfica no identifica una relación causal.
+</figcaption>
+</figure>
+</div>
+<p>Con una partición fija de 24 subzonas para entrenamiento y 8 para prueba, el baseline predice la media de entrenamiento. La comparación es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Método</th>
+<th style="text-align: right;">MAE</th>
+<th style="text-align: right;">RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>media de entrenamiento</td>
+<td style="text-align: right;">1.723</td>
+<td style="text-align: right;">1.954</td>
+</tr>
+<tr class="even">
+<td>regresión lineal</td>
+<td style="text-align: right;">0.615</td>
+<td style="text-align: right;">0.647</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-cap01-vivienda-bogota-prediccion-residuales" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dos paneles. El primero compara valores observados y predichos alrededor de la diagonal. El segundo muestra residuales y menos y sombrero alrededor de cero. El título informa MAE 1.723 para el baseline y 0.615 para el modelo.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap01-vivienda-bogota-prediccion-residuales-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/vivienda-bogota-prediccion-residuales.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos paneles. El primero compara valores observados y predichos alrededor de la diagonal. El segundo muestra residuales y menos y sombrero alrededor de cero. El título informa MAE 1.723 para el baseline y 0.615 para el modelo.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-prediccion-residuales-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.3: En la partición con semilla 2105, el modelo mejora el baseline. Los dos paneles muestran predicciones fuera del ajuste y residuales definidos como observado menos predicho.
+</figcaption>
+</figure>
+</div>
+<p>Ocho filas de prueba producen una comparación frágil. Repetir el mismo procedimiento con varias semillas muestra cuánto cambia el MAE por la composición de la partición.</p>
+<div id="fig-cap01-vivienda-bogota-variacion-particiones" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de líneas del MAE para ocho semillas. El baseline varía aproximadamente entre 1.7 y 3.6, y el modelo lineal entre 0.4 y 1.5.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap01-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/vivienda-bogota-variacion-particiones.svg" class="img-fluid figure-img" style="width:90.0%" alt="Gráfico de líneas del MAE para ocho semillas. El baseline varía aproximadamente entre 1.7 y 3.6, y el modelo lineal entre 0.4 y 1.5.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2.4: El MAE cambia entre particiones. Con una muestra pequeña, la semilla forma parte de la variación observada y no debe elegirse por producir el menor error.
+</figcaption>
+</figure>
+</div>
+<p>Una conclusión ajustada a este experimento es: el modelo reduce MAE y RMSE frente al baseline en la partición fijada, pero el conjunto es pequeño, las filas son agregadas, el resultado varía entre particiones y la unidad del objetivo no está documentada. El ejercicio permite estudiar mínimos cuadrados; no permite valorar una vivienda ni recomendar una política urbana.</p>
 </section>
 <section id="interpretación-de-coeficientes" class="level2">
 <h2 class="anchored" data-anchor-id="interpretación-de-coeficientes">Interpretación de coeficientes</h2>
@@ -765,7 +835,7 @@ x =
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>En este capítulo conectamos un problema de predicción numérica con álgebra matricial. La matriz de diseño organiza las variables, el vector de parámetros define el modelo y la pérdida MSE mide el error promedio de predicción.</p>
 <p>El resultado central es que mínimos cuadrados puede leerse de dos formas equivalentes: como optimización de una norma cuadrática y como proyección geométrica de <span class="math inline">\(y\)</span> sobre el espacio columna de <span class="math inline">\(X\)</span>. La ecuación normal <span class="math inline">\(X^\top X\theta=X^\top y\)</span> aparece cuando el gradiente de la pérdida se anula.</p>
-<p>Para usar regresión lineal profesionalmente, no basta resolver la ecuación. Hay que comparar contra un baseline, revisar formas, evitar inversiones numéricas innecesarias e interpretar coeficientes solo bajo las condiciones del diseño y del preprocesamiento.</p>
+<p>Para usar regresión lineal con cuidado, no basta resolver la ecuación. Hay que comparar contra un baseline, revisar formas, evitar inversiones numéricas innecesarias e interpretar coeficientes solo bajo las condiciones del diseño y del preprocesamiento.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
@@ -812,7 +882,7 @@ J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
 <ol start="9" type="1">
 <li>Implementa <code>add_intercept(X)</code> sin usar ciclos.</li>
 <li>Implementa <code>mse_loss(X, y, theta)</code>.</li>
-<li>Implementa <code>normal_equation(X, y)</code> usando <code>np.linalg.solve</code>.</li>
+<li>Implementa <code>fit_lstsq(X, y)</code> usando <code>np.linalg.lstsq</code> y devuelve también rango y valores singulares.</li>
 <li>Simula datos con <code>y = 3 - 2x + ruido</code> y estima los parámetros.</li>
 <li>Compara el MSE del modelo contra el baseline del promedio.</li>
 </ol>

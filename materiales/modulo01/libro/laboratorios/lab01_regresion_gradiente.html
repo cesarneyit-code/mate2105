@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -217,10 +246,10 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
-<p>Este laboratorio verifica que puedes pasar de la formulación matemática de regresión lineal a una implementación vectorizada en NumPy. También compara dos rutas hacia el mismo objetivo: ecuación normal y descenso del gradiente.</p>
+<p>Este laboratorio verifica que puedes pasar de la formulación matemática de regresión lineal a una implementación vectorizada en NumPy. También compara dos rutas hacia el mismo ajuste: mínimos cuadrados con <code>np.linalg.lstsq</code> y descenso del gradiente. Las ecuaciones normales se derivan en el libro, pero no se forma <span class="math inline">\(X^\top X\)</span> para resolver numéricamente el problema.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
-<p>¿La implementación desde cero produce las mismas predicciones y pérdidas que una herramienta profesional, y puedes explicar cómo sabes que el algoritmo convergió?</p>
+<p>¿La implementación desde cero produce las mismas predicciones y pérdidas que una implementación de referencia, y puedes explicar cómo sabes que el algoritmo convergió?</p>
 </blockquote>
 </section>
 <section id="qué-debes-entregar" class="level1">
@@ -234,7 +263,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>Ejecuta el notebook completo una vez para ver qué está incompleto.</li>
 <li>Completa primero las funciones pequeñas: <code>add_intercept</code>, <code>predict_linear</code>, <code>mse_loss</code>.</li>
-<li>Implementa <code>normal_equation</code> usando <code>np.linalg.solve</code>, no inversa explícita.</li>
+<li>Implementa <code>normal_equation</code> con <code>np.linalg.lstsq</code>. El nombre se conserva para no romper el contrato del autograder.</li>
 <li>Implementa <code>mse_gradient</code> y verifica dimensiones.</li>
 <li>Implementa <code>gradient_descent</code> guardando historia de pérdida.</li>
 <li>Compara tus resultados con <code>sklearn.linear_model.LinearRegression</code>.</li>
@@ -269,8 +298,8 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="odd">
-<td>Ecuación normal</td>
-<td>solución numérica sin usar inversa explícita</td>
+<td>Mínimos cuadrados</td>
+<td>coincide con <code>lstsq</code>, incluso si la matriz pierde rango</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
@@ -284,8 +313,8 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
-<td>Comparación profesional</td>
-<td>resultado cercano a <code>sklearn</code></td>
+<td>Comparación de referencia</td>
+<td>resultado compatible con <code>lstsq</code> en datos alternos</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 </tbody>
@@ -333,7 +362,7 @@ ul.task-list li input[type="checkbox"] {
 <li>No hay valores hardcodeados para pasar un ejemplo específico.</li>
 <li>Las formas de <code>X</code>, <code>y</code>, <code>theta</code> y predicciones son consistentes.</li>
 <li>La historia de pérdida permite diagnosticar convergencia.</li>
-<li>El modelo se compara contra baseline o contra una referencia profesional.</li>
+<li>El modelo se compara contra un baseline y contra una implementación de referencia.</li>
 <li>La interpretación final menciona una limitación.</li>
 </ul>
 </div>
@@ -343,7 +372,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>Agregar intercepto dos veces.</li>
 <li>Devolver MSE cuando la función pide <code>1/(2n)</code> por suma de cuadrados.</li>
-<li>Usar <code>np.linalg.inv</code> en lugar de <code>np.linalg.solve</code>.</li>
+<li>Formar <span class="math inline">\(X^\top X\)</span> para resolver cuando <code>np.linalg.lstsq</code> evita ese paso.</li>
 <li>Confundir residual <code>y - y_hat</code> con <code>y_hat - y</code> dentro del gradiente.</li>
 <li>No guardar la pérdida en cada iteración.</li>
 <li>Usar una tasa de aprendizaje que diverge y no revisar la curva.</li>
@@ -356,8 +385,8 @@ ul.task-list li input[type="checkbox"] {
 <pre class="text"><code>¿Mi notebook corre completo?
 ¿Cada función devuelve la forma esperada?
 ¿La pérdida del gradiente baja?
-¿La solución por gradiente se acerca a la ecuación normal?
-¿La respuesta manual usa evidencia y no solo opinión?</code></pre>
+¿La solución por gradiente se acerca a la obtenida con `lstsq`?
+¿La respuesta manual cita resultados concretos y no solo una opinión?</code></pre>
 
 
 </section>

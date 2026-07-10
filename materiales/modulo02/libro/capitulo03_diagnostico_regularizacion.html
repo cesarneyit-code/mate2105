@@ -285,7 +285,7 @@ window.Quarto = {
 <section id="pregunta-aplicada" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
 <p>Una red puede fallar aunque el código no tenga errores. El entrenamiento puede divergir, saturarse, memorizar datos o quedarse sin aprender.</p>
-<p>El trabajo profesional no termina al implementar backpropagation:</p>
+<p>La implementación de backpropagation no basta:</p>
 <blockquote class="blockquote">
 <p>hay que diagnosticar el entrenamiento.</p>
 </blockquote>
@@ -298,7 +298,7 @@ window.Quarto = {
 <li>explicar por qué la inicialización afecta el entrenamiento;</li>
 <li>incorporar regularización L2 en la pérdida y en los gradientes;</li>
 <li>leer curvas de entrenamiento y validación;</li>
-<li>convertir una curva en una decisión técnica.</li>
+<li>convertir una curva en una hipótesis y un siguiente experimento.</li>
 </ol>
 </section>
 <section id="activaciones" class="level2">
@@ -352,7 +352,7 @@ W \sim \mathcal{N}\left(0, \frac{2}{\text{fan in}}\right).
 </section>
 <section id="regularización-l2-en-redes" class="level2">
 <h2 class="anchored" data-anchor-id="regularización-l2-en-redes">Regularización L2 en redes</h2>
-<p>La pérdida puede incluir una penalización:</p>
+<p>En este libro y en Lab 3, <span class="math inline">\(J\)</span> es la <strong>pérdida media de datos</strong>. La convención de regularización es:</p>
 <p><span class="math display">\[
 J_{\lambda} = J + \frac{\lambda}{2}\left(\|W^{[1]}\|_F^2 + \|W^{[2]}\|_F^2\right).
 \]</span></p>
@@ -361,6 +361,7 @@ J_{\lambda} = J + \frac{\lambda}{2}\left(\|W^{[1]}\|_F^2 + \|W^{[2]}\|_F^2\right
 dW^{[\ell]} \leftarrow dW^{[\ell]} + \lambda W^{[\ell]}.
 \]</span></p>
 <p>No penalizamos sesgos por defecto.</p>
+<p>En <a href="https://docs.pytorch.org/docs/stable/generated/torch.optim.SGD"><code>torch.optim.SGD</code></a>, <code>weight_decay=lambda</code> añade <span class="math inline">\(\lambda W\)</span> al gradiente de los parámetros incluidos en ese grupo. Para no penalizar sesgos deben ponerse en otro grupo con <code>weight_decay=0</code>. <a href="https://docs.pytorch.org/docs/stable/generated/torch.optim.AdamW"><code>AdamW</code></a> usa decaimiento desacoplado y no debe presentarse como la derivada exacta del objetivo anterior.</p>
 </section>
 <section id="ejemplo-resuelto-l2-en-pérdida-y-gradiente" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-l2-en-pérdida-y-gradiente">Ejemplo resuelto: L2 en pérdida y gradiente</h2>
@@ -450,13 +451,13 @@ dW=dW_{\text{datos}}+\lambda W
 </thead>
 <tbody>
 <tr class="odd">
-<td>Train y validación altos</td>
-<td>underfitting</td>
-<td>más capacidad, más épocas, revisar features</td>
+<td>Pérdidas train y validación altas</td>
+<td>posible underfitting</td>
+<td>más capacidad, más épocas, revisar variables</td>
 </tr>
 <tr class="even">
-<td>Train bajo y validación alto</td>
-<td>overfitting</td>
+<td>Pérdida train baja y validación alta</td>
+<td>posible overfitting</td>
 <td>regularización, menos capacidad, más datos</td>
 </tr>
 <tr class="odd">
@@ -525,7 +526,7 @@ dW=dW_{\text{datos}}+\lambda W
 <li>Métrica de baseline.</li>
 <li>Modelo mejorado o experimento técnico nuevo.</li>
 <li>Análisis de errores.</li>
-<li>Decisión de siguiente experimento.</li>
+<li>Siguiente experimento y resultado que permitiría evaluarlo.</li>
 <li>Riesgo técnico o de datos.</li>
 </ol>
 </section>
@@ -533,6 +534,12 @@ dW=dW_{\text{datos}}+\lambda W
 <h2 class="anchored" data-anchor-id="caso-longitudinal-curva-de-entrenamiento-en-dígitos">Caso longitudinal: curva de entrenamiento en dígitos</h2>
 <p>Supón que en <code>load_digits</code> una red con <span class="math inline">\(h=64\)</span> obtiene este patrón:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 21%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Configuración</th>
@@ -552,7 +559,7 @@ dW=dW_{\text{datos}}+\lambda W
 <td>L2 moderado</td>
 <td style="text-align: right;">0.96</td>
 <td style="text-align: right;">0.90</td>
-<td>mejor generalización</td>
+<td>mejor resultado de validación en esta partición</td>
 </tr>
 <tr class="odd">
 <td>red muy pequeña</td>
@@ -562,7 +569,7 @@ dW=dW_{\text{datos}}+\lambda W
 </tr>
 </tbody>
 </table>
-<p>La conclusión no es que “L2 siempre gana”. La conclusión es que, para esta partición y esta arquitectura, L2 moderado reduce la brecha train/dev. Un reporte profesional debe conservar semilla, partición, tamaño de red, learning rate y número de épocas para que la comparación sea reproducible.</p>
+<p>Para esta partición y esta arquitectura, L2 moderado reduce la brecha train/dev; la tabla no demuestra que siempre generalice mejor. El registro debe conservar semilla, partición, tamaño de red, learning rate y número de épocas para que la comparación sea reproducible.</p>
 </section>
 <section id="verificaciones-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
@@ -609,8 +616,8 @@ dW=dW_{\text{datos}}+\lambda W
 </section>
 <section id="lectura-de-curvas-tres-patrones-frecuentes" class="level2">
 <h2 class="anchored" data-anchor-id="lectura-de-curvas-tres-patrones-frecuentes">Lectura de curvas: tres patrones frecuentes</h2>
-<p>Una curva profesional se lee comparando entrenamiento y validación, no mirando una sola línea. Hay tres patrones básicos.</p>
-<p>Primero, si train loss baja de forma sostenida y dev loss también baja, el entrenamiento todavía está produciendo evidencia útil. No conviene detenerlo solo porque ya pasaron muchas épocas. Segundo, si train loss baja pero dev loss sube, la red está memorizando estructura específica del conjunto de entrenamiento. La acción natural es guardar el mejor modelo de validación, revisar regularización, reducir capacidad o aumentar datos. Tercero, si train y dev loss se mantienen altos, el problema no se resuelve aumentando regularización; probablemente faltan capacidad, variables, épocas, una tasa de aprendizaje adecuada o una revisión de etiquetas.</p>
+<p>Una curva se lee comparando entrenamiento y validación, no mirando una sola línea. Hay tres patrones básicos.</p>
+<p>Primero, si train loss baja de forma sostenida y dev loss también baja, el entrenamiento todavía mejora la pérdida medida. No conviene detenerlo solo porque ya pasaron muchas épocas. Segundo, si train loss baja pero dev loss sube, la red está memorizando estructura específica del conjunto de entrenamiento. La acción natural es guardar el mejor modelo de validación, revisar regularización, reducir capacidad o aumentar datos. Tercero, si train y dev loss se mantienen altos, el problema no se resuelve aumentando regularización; probablemente faltan capacidad, variables, épocas, una tasa de aprendizaje adecuada o una revisión de etiquetas.</p>
 <p>El reporte debe nombrar el patrón observado. Es distinto decir “el modelo no mejora” que decir “hay overfitting después de la época 30” o “hay underfitting persistente en train y dev”. Esa diferencia reduce ambigüedad para el lector y para quien califica.</p>
 </section>
 <section id="punto-de-control" class="level2">
@@ -629,15 +636,15 @@ dW=dW_{\text{datos}}+\lambda W
 <ul>
 <li><strong>Extensión matemática:</strong> relaciona la penalización <span class="math inline">\(L_2\)</span> con el tamaño de los pesos y explica por qué puede reducir varianza.</li>
 <li><strong>Extensión computacional:</strong> compara curvas train/dev con y sin dropout, manteniendo fija la semilla y el tamaño de red.</li>
-<li><strong>Conexión con proyecto:</strong> define una regla de parada basada en dev loss y explica qué evidencia evitaría sobreentrenamiento.</li>
+<li><strong>Conexión con proyecto:</strong> define una regla de parada basada en dev loss y explica qué patrón indicaría sobreentrenamiento.</li>
 </ul>
 </div>
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Entrenar una red no termina cuando baja la pérdida de entrenamiento. La lectura profesional compara entrenamiento y validación para distinguir aprendizaje, overfitting, underfitting, saturación y problemas de tasa.</p>
+<p>Entrenar una red no termina cuando baja la pérdida de entrenamiento. La lectura compara entrenamiento y validación para distinguir aprendizaje, overfitting, underfitting, saturación y problemas de tasa.</p>
 <p>La inicialización afecta la escala de activaciones y gradientes. La regularización L2, dropout y early stopping son herramientas para controlar capacidad efectiva, pero ninguna reemplaza una partición de validación ni un análisis de errores.</p>
-<p>El producto final del capítulo es un diagnóstico accionable. Una curva debe convertirse en evidencia, la evidencia en causa probable y la causa en una acción proporcional: cambiar tasa, capacidad, regularización, datos o siguiente experimento.</p>
+<p>El producto final del capítulo es una hipótesis concreta. La curva permite proponer una causa probable y elegir una sola modificación verificable: tasa, capacidad, regularización, datos o regla de parada.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
@@ -666,7 +673,7 @@ dW=dW_{\text{datos}}+\lambda W
 <h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
 <ol start="3" type="1">
 <li>Dada una tabla de pérdidas por época, identifique la primera señal de overfitting y proponga una época candidata para early stopping.</li>
-<li>Si la penalización L2 es <span class="math inline">\(\lambda\sum_j w_j^2\)</span>, calcule la penalización para <span class="math inline">\(w=(2,-1,0.5)\)</span> y <span class="math inline">\(\lambda=0.1\)</span>.</li>
+<li>Si la penalización L2 es <span class="math inline">\(\frac{\lambda}{2}\sum_j w_j^2\)</span>, calcule la penalización para <span class="math inline">\(w=(2,-1,0.5)\)</span> y <span class="math inline">\(\lambda=0.1\)</span>, y escriba el término que se añade al gradiente.</li>
 </ol>
 </section>
 <section id="práctica-computacional" class="level3">

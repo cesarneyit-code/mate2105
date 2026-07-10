@@ -246,7 +246,7 @@ window.Quarto = {
   <li><a href="#estabilidad-por-inicialización" id="toc-estabilidad-por-inicialización" class="nav-link" data-scroll-target="#estabilidad-por-inicialización">Estabilidad por inicialización</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
-  <li><a href="#ejemplo-resuelto-elegir-k-con-evidencia-incompleta" id="toc-ejemplo-resuelto-elegir-k-con-evidencia-incompleta" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k-con-evidencia-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con evidencia incompleta</a></li>
+  <li><a href="#ejemplo-resuelto-elegir-k-con-información-incompleta" id="toc-ejemplo-resuelto-elegir-k-con-información-incompleta" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k-con-información-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con información incompleta</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -317,7 +317,7 @@ Figura&nbsp;3.1: K-Means alterna dos pasos: asignar cada punto al centroide más
 <h2 class="anchored" data-anchor-id="función-objetivo">Función objetivo</h2>
 <p>K-Means minimiza la suma de distancias cuadradas a centroides:</p>
 <p><span class="math display">\[
-\sum_{i=1}^n \|x_i-\mu_{c_i}\|_2^2.
+\sum_{i=1}^m \|x_i-\mu_{c_i}\|_2^2.
 \]</span></p>
 <p>Donde:</p>
 <ul>
@@ -336,10 +336,10 @@ Figura&nbsp;3.1: K-Means alterna dos pasos: asignar cada punto al centroide más
 </section>
 <section id="inertia" class="level2">
 <h2 class="anchored" data-anchor-id="inertia">Inertia</h2>
-<p><code>inertia</code> es la suma de distancias cuadradas dentro de clusters.</p>
-<p>Menor inertia no siempre significa mejor segmentación:</p>
+<p><code>inertia</code> es la suma de distancias cuadradas dentro de clusters. La mejor inertia alcanzable no aumenta al incrementar <span class="math inline">\(k\)</span>: una solución con <span class="math inline">\(k+1\)</span> centros puede reproducir una de <span class="math inline">\(k\)</span>.</p>
+<p>Por eso menor inertia no basta para elegir una segmentación:</p>
 <ul>
-<li>baja al aumentar <span class="math inline">\(k\)</span>;</li>
+<li>favorece valores grandes de <span class="math inline">\(k\)</span>;</li>
 <li>no está normalizada;</li>
 <li>puede favorecer clusters poco interpretables.</li>
 </ul>
@@ -355,7 +355,7 @@ s=\frac{b-a}{\max(a,b)}.
 <li><span class="math inline">\(a\)</span>: distancia media al propio cluster;</li>
 <li><span class="math inline">\(b\)</span>: distancia media al cluster vecino más cercano.</li>
 </ul>
-<p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento.</p>
+<p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento y valores negativos indican que otra asignación puede quedar más cerca. Silhouette requiere al menos dos clusters y menos clusters que observaciones.</p>
 </section>
 <section id="ejemplo-resuelto-por-qué-escalar-cambia-clusters" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-por-qué-escalar-cambia-clusters">Ejemplo resuelto: por qué escalar cambia clusters</h2>
@@ -367,7 +367,7 @@ x_1=(5{,}000{,}000, 10),\qquad x_2=(5{,}100{,}000, 80).
 <p><span class="math display">\[
 \sqrt{100000^2+70^2}\approx 100000.
 \]</span></p>
-<p>K-Means tenderá a agrupar por ingreso aunque visitas sea más relevante para la decisión. Después de estandarizar, cada variable se mide en desviaciones estándar y la distancia refleja patrones relativos, no unidades arbitrarias. Esto no garantiza clusters correctos, pero evita que una unidad de medida decida el resultado sin justificación.</p>
+<p>K-Means tenderá a agrupar por ingreso aunque visitas sea más relevante para el uso posterior. Después de estandarizar, cada variable se mide en desviaciones estándar. Esto elimina la dominancia causada únicamente por unidades, pero no demuestra que todas las variables deban tener el mismo peso.</p>
 </section>
 <section id="ejemplo-resuelto-asignación-a-centroides" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</h2>
@@ -488,7 +488,7 @@ x=(1,2,8,10)
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Evidencia</th>
+<th>Resultado</th>
 <th>Uso</th>
 </tr>
 </thead>
@@ -520,7 +520,7 @@ x=(1,2,8,10)
 <section id="estabilidad-por-inicialización" class="level2">
 <h2 class="anchored" data-anchor-id="estabilidad-por-inicialización">Estabilidad por inicialización</h2>
 <p>K-Means puede converger a soluciones distintas si cambian los centroides iniciales. Por eso un reporte debe fijar <code>random_state</code> y usar varias inicializaciones (<code>n_init</code>). Si dos corridas con el mismo <span class="math inline">\(k\)</span> producen centroides muy distintos o clusters con tamaños incompatibles, la segmentación no es estable.</p>
-<p>La estabilidad no convierte los clusters en categorías reales. Solo indica que el algoritmo encuentra una partición parecida bajo pequeñas variaciones de inicialización. La interpretación de dominio sigue siendo una segunda etapa.</p>
+<p>La estabilidad puede medirse comparando asignaciones con una cantidad invariante a permutaciones de etiquetas, como adjusted Rand index, o emparejando centroides. No convierte los clusters en categorías reales; solo indica que el algoritmo encuentra una partición parecida bajo variaciones de inicialización.</p>
 </section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
@@ -536,13 +536,13 @@ x=(1,2,8,10)
 <section id="verificaciones-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
 <ol type="1">
-<li>La inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>; por eso no basta para elegir el número de clusters.</li>
+<li>El óptimo global de inertia es no creciente con <span class="math inline">\(k\)</span>; por eso no basta para elegir el número de clusters. Una corrida local mal inicializada puede no mostrar la monotonía esperada.</li>
 <li>Si dos variables tienen escalas muy distintas, K-Means puede agrupar por la variable de mayor escala aunque no sea la más relevante.</li>
 <li>Un cluster no es una categoría real hasta que se interpreta con variables originales y contexto de decisión.</li>
 </ol>
 </section>
-<section id="ejemplo-resuelto-elegir-k-con-evidencia-incompleta" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k-con-evidencia-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con evidencia incompleta</h2>
+<section id="ejemplo-resuelto-elegir-k-con-información-incompleta" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k-con-información-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con información incompleta</h2>
 <p>Supón:</p>
 <table class="caption-top table">
 <thead>
@@ -570,7 +570,7 @@ x=(1,2,8,10)
 </tr>
 </tbody>
 </table>
-<p>La inertia baja de 3 a 4, pero silhouette cae. Una decisión defendible podría elegir <span class="math inline">\(k=3\)</span>, siempre que los clusters tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que <span class="math inline">\(k=3\)</span> es una representación útil bajo esta geometría.</p>
+<p>La inertia baja de 3 a 4, pero silhouette cae. Puede elegirse <span class="math inline">\(k=3\)</span> como representación candidata, siempre que los clusters tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que <span class="math inline">\(k=3\)</span> es una representación útil bajo esta geometría.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
@@ -585,8 +585,8 @@ x=(1,2,8,10)
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>K-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de clusters. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.</p>
-<p>Inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
-<p>Una segmentación profesional requiere escalamiento, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo accionable ni una categoría real de dominio.</p>
+<p>La inertia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
+<p>Una segmentación requiere una escala justificada, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo útil para una acción ni una categoría real de dominio.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
@@ -606,7 +606,7 @@ x=(1,2,8,10)
 <section id="preguntas-conceptuales" class="level3">
 <h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
 <ol type="1">
-<li>Explique por qué inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>.</li>
+<li>Explique por qué la inertia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>.</li>
 <li>¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</li>
 </ol>
 </section>
@@ -628,7 +628,7 @@ x=(1,2,8,10)
 <h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
 <ol start="7" type="1">
 <li>Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</li>
-<li>¿Qué evidencia usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
+<li>¿Qué resultados usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
 </ol>
 </section>
 <section id="proyecto-de-cierre" class="level3">

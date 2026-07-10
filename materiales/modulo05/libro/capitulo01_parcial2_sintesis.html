@@ -217,7 +217,7 @@ window.Quarto = {
   <li><a href="#regla-de-preparación" id="toc-regla-de-preparación" class="nav-link" data-scroll-target="#regla-de-preparación">Regla de preparación</a></li>
   <li><a href="#cómo-leer-una-pregunta-integradora" id="toc-cómo-leer-una-pregunta-integradora" class="nav-link" data-scroll-target="#cómo-leer-una-pregunta-integradora">Cómo leer una pregunta integradora</a></li>
   <li><a href="#ejemplo-resuelto-softmax-estable-en-síntesis" id="toc-ejemplo-resuelto-softmax-estable-en-síntesis" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-estable-en-síntesis">Ejemplo resuelto: softmax estable en síntesis</a></li>
-  <li><a href="#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" id="toc-ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" class="nav-link" data-scroll-target="#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión">Ejemplo resuelto: evidencia no supervisada dentro de una decisión</a></li>
+  <li><a href="#ejemplo-resuelto-estructura-no-supervisada-dentro-de-una-respuesta" id="toc-ejemplo-resuelto-estructura-no-supervisada-dentro-de-una-respuesta" class="nav-link" data-scroll-target="#ejemplo-resuelto-estructura-no-supervisada-dentro-de-una-respuesta">Ejemplo resuelto: estructura no supervisada dentro de una respuesta</a></li>
   <li><a href="#ejemplo-resuelto-respuesta-integradora" id="toc-ejemplo-resuelto-respuesta-integradora" class="nav-link" data-scroll-target="#ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</a></li>
   <li><a href="#caso-longitudinal-respuesta-integradora" id="toc-caso-longitudinal-respuesta-integradora" class="nav-link" data-scroll-target="#caso-longitudinal-respuesta-integradora">Caso longitudinal: respuesta integradora</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
@@ -261,7 +261,7 @@ window.Quarto = {
 
 <section id="pregunta-aplicada" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>¿Cómo integramos redes neuronales, estrategia de machine learning y aprendizaje no supervisado para tomar una decisión técnica sin depender de memoria aislada?</p>
+<p>Una pregunta del parcial puede comenzar con logits, pasar por una tabla de validación y terminar con un slice que falla. ¿Cómo se organiza una respuesta sin mezclar esos objetos?</p>
 </section>
 <section id="alcance" class="level2">
 <h2 class="anchored" data-anchor-id="alcance">Alcance</h2>
@@ -271,17 +271,17 @@ window.Quarto = {
 <li>estrategia ML y diagnóstico;</li>
 <li>aprendizaje no supervisado.</li>
 </ul>
-<p>No se evalúa memoria aislada. Se evalúa si puedes tomar una decisión técnica con fundamento matemático y evidencia computacional.</p>
+<p>El examen evalúa cálculos, implementación y lectura de resultados. Recordar el nombre de una técnica no reemplaza ninguno de esos tres componentes.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
 <p>Al terminar este capítulo deberías poder:</p>
 <ol type="1">
 <li>conectar forward/backward de redes con diagnóstico de entrenamiento;</li>
-<li>explicar cómo métrica, baseline y partición sostienen una decisión;</li>
-<li>interpretar PCA, K-Means o recomendación como evidencia estructural;</li>
+<li>explicar cómo métrica, baseline y partición sostienen una comparación;</li>
+<li>interpretar PCA, K-Means o recomendación como descripciones estructurales;</li>
 <li>responder preguntas integradoras sin depender de memoria aislada;</li>
-<li>escribir una recomendación con evidencia, diagnóstico, acción y límite.</li>
+<li>escribir una recomendación con resultado, lectura, siguiente comprobación y límite.</li>
 </ol>
 </section>
 <section id="mapa-de-contenidos" class="level2">
@@ -296,7 +296,7 @@ window.Quarto = {
 <tr class="header">
 <th>Bloque</th>
 <th>Pregunta central</th>
-<th>Evidencia esperada</th>
+<th>Qué debe aparecer</th>
 </tr>
 </thead>
 <tbody>
@@ -307,8 +307,8 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td>Estrategia ML</td>
-<td>¿Cómo sé si un modelo es defendible?</td>
-<td>baseline, partición, métrica, validación y error analysis</td>
+<td>¿Cómo comparo modelos sin usar test para escoger?</td>
+<td>baseline, partición, métrica, validación y análisis de errores</td>
 </tr>
 <tr class="odd">
 <td>No supervisado</td>
@@ -339,17 +339,17 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 </section>
 <section id="diagnóstico-de-modelos" class="level2">
 <h2 class="anchored" data-anchor-id="diagnóstico-de-modelos">Diagnóstico de modelos</h2>
-<p>Un modelo defendible requiere:</p>
+<p>Una comparación evaluable requiere:</p>
 <ol type="1">
 <li>baseline explícito;</li>
 <li>métrica alineada con el costo de error;</li>
 <li>particiones sin leakage;</li>
 <li>validación o estimación de variabilidad;</li>
 <li>análisis de errores;</li>
-<li>recomendación proporcional a la evidencia.</li>
+<li>conclusión con el alcance de los resultados disponibles.</li>
 </ol>
 <div class="warning-card">
-<p>Un score alto no basta si no sabemos contra qué baseline compite, qué variabilidad tiene y dónde falla.</p>
+<p>Un puntaje alto no basta si no sabemos contra qué baseline compite, qué variabilidad tiene y dónde falla.</p>
 </div>
 </section>
 <section id="no-supervisado" class="level2">
@@ -380,27 +380,27 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 </thead>
 <tbody>
 <tr class="odd">
-<td>Notebook autograded</td>
+<td>Notebook autograded, 70%</td>
 <td>implementación y resultados numéricos</td>
-<td>verificar competencias básicas</td>
+<td>verificar funciones y cálculos</td>
 </tr>
 <tr class="even">
-<td>Preguntas estructuradas</td>
+<td>Preguntas estructuradas, 20%</td>
 <td>fórmulas, selección, respuestas numéricas</td>
-<td>reducir carga manual</td>
+<td>comprobar conceptos con respuesta cerrada</td>
 </tr>
 <tr class="odd">
-<td>Explicación breve</td>
-<td>0/1/2 por criterio</td>
-<td>verificar interpretación</td>
+<td>Explicación breve, 10%</td>
+<td>rúbrica 0/1/2 escalada a 10</td>
+<td>leer un resultado y acotar su uso</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="regla-de-preparación" class="level2">
 <h2 class="anchored" data-anchor-id="regla-de-preparación">Regla de preparación</h2>
-<p>Si puedes explicar una decisión con esta estructura, estás listo:</p>
-<pre class="text"><code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code></pre>
+<p>Una respuesta breve puede seguir esta estructura:</p>
+<pre class="text"><code>resultado -&gt; lectura -&gt; siguiente comprobación -&gt; límite</code></pre>
 </section>
 <section id="cómo-leer-una-pregunta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="cómo-leer-una-pregunta-integradora">Cómo leer una pregunta integradora</h2>
@@ -426,12 +426,12 @@ Z^{[\ell]} = A^{[\ell-1]}W^{[\ell]} + b^{[\ell]}, \quad A^{[\ell]} = g(Z^{[\ell]
 <td>¿qué algoritmo o transformación se aplica?</td>
 </tr>
 <tr class="odd">
-<td>Evidencia</td>
+<td>Resultado</td>
 <td>¿qué número, curva, tabla o slice sostiene la afirmación?</td>
 </tr>
 <tr class="even">
-<td>Decisión</td>
-<td>¿qué acción se justifica y qué límite queda?</td>
+<td>Alcance</td>
+<td>¿qué comprobación sigue y qué no puede afirmarse todavía?</td>
 </tr>
 </tbody>
 </table>
@@ -459,34 +459,34 @@ z-\max(z)=(-2,-1,0).
 \]</span></p>
 <p>La respuesta integradora debe decir dos cosas: la resta del máximo no cambia las probabilidades y evita un problema numérico. Si la clase correcta es la tercera, la pérdida de esa observación sería <span class="math inline">\(-\log(0.665)\approx0.408\)</span>.</p>
 </section>
-<section id="ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión">Ejemplo resuelto: evidencia no supervisada dentro de una decisión</h2>
-<p>Supón que PCA muestra separación visual entre dos grupos y K-Means produce dos clusters con silhouette razonable. Esa evidencia puede sugerir estructura, pero no prueba que los grupos correspondan a clases útiles para una decisión supervisada.</p>
+<section id="ejemplo-resuelto-estructura-no-supervisada-dentro-de-una-respuesta" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-estructura-no-supervisada-dentro-de-una-respuesta">Ejemplo resuelto: estructura no supervisada dentro de una respuesta</h2>
+<p>Supón que PCA muestra separación visual entre dos grupos y K-Means produce dos clusters con silhouette razonable. Son dos resúmenes de la misma geometría, no dos pruebas independientes. Pueden sugerir estructura, pero no prueban que los grupos correspondan a clases útiles para una decisión supervisada.</p>
 <p>Una respuesta integradora adecuada sería:</p>
-<pre class="text"><code>Evidencia: PCA y K-Means sugieren dos grupos geométricos.
-Diagnóstico: puede haber estructura latente, pero no hay etiqueta ni costo de error.
-Acción: usar los clusters como hipótesis exploratoria y compararlos con variables de dominio.
+<pre class="text"><code>Resultado: PCA y K-Means resumen la nube en dos grupos geométricos.
+Lectura: puede haber estructura de baja dimensión, pero no hay etiqueta ni costo de error.
+Comprobación: tratar los clusters como hipótesis exploratoria y compararlos con variables de dominio.
 Límite: no afirmar que los clusters son segmentos reales ni que predicen una decisión.</code></pre>
-<p>La síntesis del curso exige separar evidencia exploratoria de evidencia predictiva. Un método no supervisado puede abrir una pregunta; no siempre puede cerrarla.</p>
+<p>La síntesis del curso exige separar un resultado exploratorio de una evaluación predictiva. Un método no supervisado puede abrir una pregunta; no siempre puede cerrarla.</p>
 </section>
 <section id="ejemplo-resuelto-respuesta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</h2>
 <p>Caso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.</p>
-<p>Respuesta defendible:</p>
-<pre class="text"><code>Evidencia: la accuracy global mejora, pero el slice reciente cae.
-Diagnóstico: posible data mismatch temporal.
-Acción: validar con partición temporal, revisar features y recolectar datos recientes.
+<p>Respuesta posible:</p>
+<pre class="text"><code>Resultado: la accuracy global mejora, pero el slice reciente cae.
+Lectura: el patrón es compatible con data mismatch temporal.
+Comprobación: validar con partición temporal, revisar variables y medir el cambio por periodo.
 Límite: no recomendar despliegue si el uso real se parece al slice reciente.</code></pre>
 <p>La clave es no quedarse en “mejoró la métrica”.</p>
 </section>
 <section id="caso-longitudinal-respuesta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-respuesta-integradora">Caso longitudinal: respuesta integradora</h2>
-<p>Retoma <code>clasificacion_binaria_sintetica.csv</code>. Una respuesta integradora no debe decir solo “el modelo regularizado ganó”. Debe conectar varias capas de evidencia:</p>
+<p>Retoma <code>clasificacion_binaria_sintetica.csv</code>. Una respuesta integradora no debe decir solo “el modelo regularizado ganó”. Debe conectar varias capas del análisis:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th>Pieza</th>
-<th>Evidencia esperada</th>
+<th>Resultado o registro esperado</th>
 </tr>
 </thead>
 <tbody>
@@ -517,14 +517,14 @@ Límite: no recomendar despliegue si el uso real se parece al slice reciente.</c
 slice reciente. El diagnóstico probable es mismatch temporal o cambio de
 distribución. Recomendaría usarlo solo como baseline interno y construir una
 validación temporal antes de despliegue.</code></pre>
-<p>Esta respuesta no memoriza capítulos: integra métrica, validación, diagnóstico y decisión.</p>
+<p>Esta respuesta integra métrica, validación, diagnóstico y alcance.</p>
 </section>
 <section id="verificaciones-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
 <ol type="1">
 <li>Una mejora global no basta si el slice relevante para producción empeora.</li>
 <li>PCA o K-Means pueden apoyar exploración, pero no sustituyen una métrica supervisada cuando la decisión depende de etiquetas.</li>
-<li>La forma <code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code> es una herramienta de razonamiento, no una frase decorativa.</li>
+<li>La secuencia <code>resultado -&gt; lectura -&gt; comprobación -&gt; límite</code> obliga a nombrar qué se observó y cómo se podría refutar la explicación propuesta.</li>
 </ol>
 </section>
 <section id="ejemplo-resuelto-matriz-de-decisión-integradora" class="level2">
@@ -533,7 +533,7 @@ validación temporal antes de despliegue.</code></pre>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Evidencia</th>
+<th>Resultado</th>
 <th style="text-align: right;">Modelo A</th>
 <th style="text-align: right;">Modelo B</th>
 </tr>
@@ -561,7 +561,7 @@ validación temporal antes de despliegue.</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Aunque B tiene mayor F1 global, A es más defendible si el slice reciente importa y si la reproducibilidad es requisito de entrega. La respuesta integradora debe explicar la tensión: B gana una métrica agregada, pero A tiene menor riesgo de decisión bajo la evidencia disponible.</p>
+<p>Aunque B tiene mayor F1 global, A es el candidato más prudente si el slice reciente representa el uso futuro: su caída es menor y su validación es más estable. El manifest faltante de B impide auditar esa corrida, pero no demuestra que B prediga peor; es un problema de trazabilidad que debe corregirse antes de comparar de nuevo.</p>
 </section>
 <section id="mini-rúbrica-para-una-respuesta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="mini-rúbrica-para-una-respuesta-integradora">Mini-rúbrica para una respuesta integradora</h2>
@@ -583,7 +583,7 @@ validación temporal antes de despliegue.</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td>evidencia</td>
+<td>resultado</td>
 <td>no cita resultados</td>
 <td>cita un resultado aislado</td>
 <td>conecta métrica global, slice y variabilidad</td>
@@ -608,8 +608,8 @@ validación temporal antes de despliegue.</code></pre>
 </tr>
 </tbody>
 </table>
-<p>Esta rúbrica también guía el estudio. Antes del parcial, el estudiante debe practicar respuestas que no sean listas de conceptos, sino argumentos breves con evidencia. Para el profesor, la ventaja es que la parte manual se concentra en juicio técnico observable, mientras los cálculos, formas y métricas pueden quedar autocalificados.</p>
-<p>Un error común es responder solo con el nombre del método: “usaría regularización” o “miraría PCA”. Eso rara vez basta. La respuesta debe decir qué evidencia activa esa decisión y qué resultado esperaría observar después. Si la acción propuesta no produce una verificación posterior, todavía no es una decisión técnica cerrada. El objetivo es mostrar criterio técnico, no solo vocabulario aislado.</p>
+<p>Esta rúbrica también guía el estudio. Antes del parcial, el estudiante debe practicar respuestas que no sean listas de conceptos, sino argumentos breves con resultados identificables. Para el profesor, la ventaja es que la parte manual se concentra en juicio técnico observable, mientras los cálculos, formas y métricas pueden quedar autocalificados.</p>
+<p>Un error común es responder solo con el nombre del método: “usaría regularización” o “miraría PCA”. Eso rara vez basta. La respuesta debe decir qué resultado activa esa propuesta y qué esperaría observar después. Si la acción propuesta no produce una verificación posterior, todavía no es una decisión técnica cerrada. El objetivo es mostrar criterio técnico, no solo vocabulario aislado.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
@@ -617,24 +617,24 @@ validación temporal antes de despliegue.</code></pre>
 <ul>
 <li><strong>Extensión matemática:</strong> construye un mapa de dependencias entre pérdida, métrica, regularización, validación y decisión.</li>
 <li><strong>Extensión computacional:</strong> rehace un experimento anterior desde cero y verifica si produce las mismas métricas dentro de tolerancias razonables.</li>
-<li><strong>Conexión con proyecto:</strong> escribe qué evidencia mínima necesitarías para defender que tu resultado no es accidental.</li>
+<li><strong>Conexión con proyecto:</strong> escribe qué comprobación mínima usarías para estudiar si tu resultado depende de una partición afortunada.</li>
 </ul>
 </div>
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Este capítulo reúne los conceptos necesarios para responder preguntas integradoras. Una buena respuesta no enumera fórmulas: conecta modelo, métrica, validación, evidencia y decisión.</p>
+<p>Este capítulo reúne los conceptos necesarios para responder preguntas integradoras. Una buena respuesta no enumera fórmulas: conecta modelo, métrica, validación, resultados y alcance.</p>
 <p>El Parcial 2 exige reconocer cuándo una mejora global es insuficiente, cuándo un slice crítico cambia la recomendación y cuándo una técnica no supervisada solo permite una conclusión exploratoria. También exige cálculos básicos estables, como softmax con resta del máximo.</p>
-<p>La estructura de respuesta esperada es evidencia -&gt; diagnóstico -&gt; acción -&gt; límite. Esa estructura permite calificar con claridad y, más importante, permite defender una decisión técnica sin exagerar.</p>
+<p>La estructura de respuesta esperada es resultado -&gt; lectura -&gt; comprobación -&gt; límite. Permite calificar con claridad y evita que una explicación plausible se presente como hecho demostrado.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
 <div class="key-terms">
 <ul>
-<li><strong>Respuesta integradora:</strong> explicación que conecta modelo, métrica, evidencia y límite.</li>
+<li><strong>Respuesta integradora:</strong> explicación que conecta modelo, métrica, resultado y límite.</li>
 <li><strong>Data mismatch temporal:</strong> diferencia entre datos antiguos y recientes que afecta generalización.</li>
-<li><strong>Síntesis conceptual:</strong> capacidad de relacionar contenidos de varios módulos en una decisión.</li>
-<li><strong>Evidencia proporcional:</strong> resultado suficiente para justificar una acción, sin exagerar alcance.</li>
+<li><strong>Síntesis conceptual:</strong> capacidad de relacionar contenidos de varios módulos en un argumento.</li>
+<li><strong>Alcance proporcional:</strong> conclusión ajustada a la partición, métrica y datos disponibles.</li>
 </ul>
 </div>
 </section>
@@ -664,7 +664,7 @@ validación temporal antes de despliegue.</code></pre>
 <section id="interpretación-y-pensamiento-crítico" class="level3">
 <h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
 <ol start="7" type="1">
-<li>Escriba una respuesta de 120 palabras con estructura evidencia -&gt; diagnóstico -&gt; acción -&gt; límite.</li>
+<li>Escriba una respuesta de 120 palabras con estructura resultado -&gt; lectura -&gt; comprobación -&gt; límite.</li>
 </ol>
 </section>
 <section id="proyecto-de-cierre" class="level3">

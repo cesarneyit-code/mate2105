@@ -206,12 +206,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -690,7 +690,7 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Bloque</th>
-<th>Evidencia de aprendizaje</th>
+<th>Qué comprueba</th>
 </tr>
 </thead>
 <tbody>
@@ -708,7 +708,7 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>D</td>
-<td>lectura profesional de PyTorch</td>
+<td>lectura de un loop de PyTorch</td>
 </tr>
 </tbody>
 </table>
@@ -719,7 +719,7 @@ ul.task-list li input[type="checkbox"] {
 <ol type="1">
 <li>si las formas de matrices son compatibles;</li>
 <li>si cada gradiente actualiza un parámetro con la misma forma;</li>
-<li>si tu diagnóstico distingue evidencia, causa probable y acción;</li>
+<li>si tu diagnóstico distingue resultado, causa probable y comprobación;</li>
 <li>si puedes explicar cada línea crítica de un loop de entrenamiento.</li>
 </ol>
 </section>
@@ -729,7 +729,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>A1.</strong> Una red recibe <code>X.shape == (400, 64)</code>, tiene 20 unidades ocultas y 10 clases. Escriba las formas de <code>W1</code>, <code>b1</code>, <code>Z1</code>, <code>A1</code>, <code>W2</code>, <code>b2</code>, <code>Z2</code> y <code>P</code>.</p>
 </div>
 <div class="exercise">
-<p><strong>A2.</strong> Explique por qué softmax se aplica por fila cuando <code>Z2</code> tiene forma <code>(n, k)</code>.</p>
+<p><strong>A2.</strong> Explique por qué softmax se aplica por fila cuando <code>Z2</code> tiene forma <code>(m, k)</code>.</p>
 </div>
 <div class="exercise">
 <p><strong>A3.</strong> Muestre con una frase por qué restar <code>max(Z, axis=1)</code> antes de <code>exp</code> no cambia softmax.</p>
@@ -738,7 +738,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="bloque-b-backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-b-backpropagation">Bloque B: backpropagation</h2>
 <div class="exercise">
-<p><strong>B1.</strong> Partiendo de <code>dZ2 = (P - Y) / n</code>, derive las formas de <code>dW2</code> y <code>db2</code>.</p>
+<p><strong>B1.</strong> Partiendo de <code>dZ2 = (P - Y) / m</code>, derive las formas de <code>dW2</code> y <code>db2</code>.</p>
 </div>
 <div class="exercise">
 <p><strong>B2.</strong> Describa qué debe guardarse en <code>cache</code> durante forward para poder ejecutar backward sin recalcular todo.</p>
@@ -753,7 +753,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>C1.</strong> Una red tiene pérdida de entrenamiento decreciente y pérdida de validación creciente después de la época 20. ¿Qué diagnóstico haría y qué dos acciones probaría?</p>
 </div>
 <div class="exercise">
-<p><strong>C2.</strong> Si al aumentar el learning rate la pérdida explota, ¿qué evidencia reportaría y qué ajuste haría?</p>
+<p><strong>C2.</strong> Si al aumentar el learning rate la pérdida explota, ¿qué resultado reportaría y qué ajuste haría?</p>
 </div>
 <div class="exercise">
 <p><strong>C3.</strong> Explique por qué un checkpoint técnico de proyecto debe incluir análisis de errores, no solo una métrica agregada.</p>
@@ -780,7 +780,7 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>B1.</strong> Si <code>dZ2.shape == (400, 10)</code> y <code>A1.shape == (400, 20)</code>, entonces <code>dW2 = A1.T @ dZ2</code> tiene forma <code>(20, 10)</code>, igual que <code>W2</code>. Además, <code>db2 = dZ2.sum(axis=0)</code> tiene forma <code>(10,)</code>, igual que <code>b2</code>.</p>
 </div>
 <div class="answer">
-<p><strong>C1.</strong> El patrón sugiere overfitting después de la época 20. Dos acciones defendibles son early stopping y aumentar regularización L2; también podría reducirse capacidad o ampliar datos si el proyecto lo permite.</p>
+<p><strong>C1.</strong> El patrón es compatible con overfitting después de la época 20. Dos experimentos son early stopping y aumentar regularización L2, uno por vez; también podría reducirse capacidad o ampliar datos si el proyecto lo permite.</p>
 </div>
 <div class="answer">
 <p><strong>D1.</strong> <code>optimizer.zero_grad()</code> borra gradientes acumulados antes del siguiente batch. Si no se llama, PyTorch suma gradientes de batches anteriores y la actualización ya no corresponde al gradiente del batch actual.</p>

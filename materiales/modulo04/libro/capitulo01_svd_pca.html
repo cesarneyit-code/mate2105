@@ -314,10 +314,11 @@ Figura&nbsp;2.1: PCA como proyección: datos centrados se factorizan con SVD; lo
 </section>
 <section id="svd" class="level2">
 <h2 class="anchored" data-anchor-id="svd">SVD</h2>
-<p>Para una matriz <span class="math inline">\(X \in \mathbb{R}^{n \times p}\)</span>:</p>
+<p>Para una matriz <span class="math inline">\(X \in \mathbb{R}^{m \times p}\)</span>, su SVD reducida puede escribirse:</p>
 <p><span class="math display">\[
-X = U\Sigma V^\top.
+X = U_r\Sigma_r V_r^\top,
 \]</span></p>
+<p>donde <span class="math inline">\(r=\operatorname{rank}(X)\)</span>, <span class="math inline">\(U_r\in\mathbb R^{m\times r}\)</span>, <span class="math inline">\(\Sigma_r\in\mathbb R^{r\times r}\)</span> y <span class="math inline">\(V_r\in\mathbb R^{p\times r}\)</span>.</p>
 <p>Donde:</p>
 <ul>
 <li><span class="math inline">\(U\)</span> contiene direcciones en el espacio de observaciones;</li>
@@ -327,9 +328,9 @@ X = U\Sigma V^\top.
 </section>
 <section id="pca-como-svd-del-dato-centrado" class="level2">
 <h2 class="anchored" data-anchor-id="pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</h2>
-<p>Primero centramos:</p>
+<p>Primero centramos cada columna con el vector de medias <span class="math inline">\(\mu\in\mathbb R^p\)</span>:</p>
 <p><span class="math display">\[
-X_c = X - \bar X.
+X_c = X - \mathbf 1_m\mu^\top.
 \]</span></p>
 <p>Luego:</p>
 <p><span class="math display">\[
@@ -343,7 +344,7 @@ X_c = U\Sigma V^\top.
 <p><span class="math display">\[
 Z = X_c V_k.
 \]</span></p>
-<p>Aquí <span class="math inline">\(Z \in \mathbb{R}^{n \times k}\)</span> es la representación reducida.</p>
+<p>Aquí <span class="math inline">\(Z \in \mathbb{R}^{m \times k}\)</span> es la representación reducida.</p>
 </section>
 <section id="varianza-explicada" class="level2">
 <h2 class="anchored" data-anchor-id="varianza-explicada">Varianza explicada</h2>
@@ -374,7 +375,7 @@ Z = X_c V_k.
 <p><span class="math display">\[
 \frac{9^2}{98}\approx 0.827.
 \]</span></p>
-<p>La lectura profesional es doble: un componente conserva cerca de 82.7% de la variabilidad medida por PCA, pero todavía descarta una parte que puede ser importante para ciertos grupos, variables o decisiones posteriores.</p>
+<p>La lectura tiene dos partes: un componente conserva cerca de 82.7% de la variabilidad medida por PCA, pero todavía descarta una parte que puede ser importante para ciertos grupos, variables o decisiones posteriores.</p>
 </section>
 <section id="derivación-guiada-reconstrucción-y-pérdida-de-información" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-guiada-reconstrucción-y-pérdida-de-información">Derivación guiada: reconstrucción y pérdida de información</h2>
@@ -386,7 +387,7 @@ X_c \approx U_k\Sigma_kV_k^\top.
 <p><span class="math display">\[
 \|X_c-\hat X_c\|_F^2=\sum_{j=k+1}^{r}\sigma_j^2.
 \]</span></p>
-<p>Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo diagnóstico. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.</p>
+<p>El teorema de Eckart-Young establece que esta reconstrucción truncada minimiza el error de Frobenius entre todas las matrices de rango a lo sumo <span class="math inline">\(k\)</span>. Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo cálculo. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.</p>
 </section>
 <section id="ejemplo-resuelto-elegir-k" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></h2>
@@ -422,7 +423,7 @@ X_c \approx U_k\Sigma_kV_k^\top.
 </tr>
 </tbody>
 </table>
-<p>Si la meta es visualizar, <span class="math inline">\(k=2\)</span> puede ser suficiente. Si la meta es reconstruir con poca pérdida, <span class="math inline">\(k=4\)</span> puede ser más razonable. La elección depende de la decisión, no de un número mágico.</p>
+<p>Si la meta es visualizar, <span class="math inline">\(k=2\)</span> puede ser suficiente. Si la meta es reconstruir con poca pérdida, <span class="math inline">\(k=4\)</span> puede ser más razonable. La elección depende del uso posterior y de una tolerancia declarada, no de un porcentaje universal.</p>
 </section>
 <section id="reconstrucción" class="level2">
 <h2 class="anchored" data-anchor-id="reconstrucción">Reconstrucción</h2>
@@ -432,7 +433,7 @@ X_c \approx U_k\Sigma_kV_k^\top.
 \]</span></p>
 <p>La reconstrucción en escala original:</p>
 <p><span class="math display">\[
-\hat X = \hat X_c + \bar X.
+\hat X = \hat X_c + \mathbf 1_m\mu^\top.
 \]</span></p>
 <p>El error de reconstrucción ayuda a medir pérdida de información.</p>
 </section>
@@ -490,11 +491,11 @@ Z=X_cv_1=
 </section>
 <section id="caso-longitudinal-pca-sintético" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-pca-sintético">Caso longitudinal: PCA sintético</h2>
-<p>El archivo <code>pca_sintetico.csv</code> contiene cuatro variables generadas desde una estructura latente de baja dimensión. El ejercicio profesional no es “hacer que PCA se vea bonito”, sino justificar qué se conserva y qué se pierde.</p>
+<p>El archivo <code>pca_sintetico.csv</code> contiene cuatro variables generadas desde una estructura latente de baja dimensión. El ejercicio consiste en justificar qué se conserva y qué se pierde.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Evidencia</th>
+<th>Resultado</th>
 <th>Pregunta</th>
 </tr>
 </thead>
@@ -521,7 +522,7 @@ Z=X_cv_1=
 </tr>
 </tbody>
 </table>
-<p>Si los dos primeros componentes explican mucha varianza, puedes usarlos para visualizar o comprimir. Eso no significa que los componentes sean causas, grupos naturales o factores reales del dominio. La interpretación exige evidencia adicional.</p>
+<p>Si los dos primeros componentes explican mucha varianza, puedes usarlos para visualizar o comprimir. Eso no significa que los componentes sean causas, grupos naturales o factores reales del dominio. Esa lectura requiere información de dominio adicional.</p>
 </section>
 <section id="pca-no-es-interpretabilidad-automática" class="level2">
 <h2 class="anchored" data-anchor-id="pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</h2>
@@ -545,6 +546,7 @@ Advertencia
 <li>visualizar proyecciones;</li>
 <li>conectar componentes con el dominio.</li>
 </ul>
+<p>Además, el signo de cada componente es arbitrario: si <span class="math inline">\(v_j\)</span> es una dirección principal, <span class="math inline">\(-v_j\)</span> representa el mismo eje y produce scores con signo opuesto. Dos implementaciones pueden diferir en esos signos y tener idéntica reconstrucción. Las pruebas deben comparar el subespacio o la reconstrucción, no forzar una orientación.</p>
 </section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
@@ -573,6 +575,7 @@ Advertencia
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"model"</span>, LogisticRegression())</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En validación cruzada, cada fold aprende su propio <code>scaler</code> y su propio <code>PCA</code> con el train fold. Hacer PCA con todo el dataset antes de partir datos introduce leakage porque la proyección ya vio validación o test.</p>
+<p><code>StandardScaler</code> también cambia la geometría: PCA sobre variables estandarizadas equivale a trabajar sobre correlaciones, mientras PCA solo centrado conserva las unidades y puede quedar dominado por variables de gran varianza. La elección debe declararse.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
@@ -588,7 +591,7 @@ Advertencia
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>SVD factoriza una matriz en direcciones y magnitudes de variación. PCA usa esa estructura sobre datos centrados para construir proyecciones de baja dimensión que conservan tanta varianza como sea posible bajo el número de componentes elegido.</p>
 <p>La forma de los objetos importa: <span class="math inline">\(V_k\)</span> define direcciones, <span class="math inline">\(Z=X_cV_k\)</span> contiene scores y la reconstrucción aproxima los datos originales. La varianza explicada ayuda a elegir <span class="math inline">\(k\)</span>, pero no convierte automáticamente los componentes en causas o conceptos de dominio.</p>
-<p>PCA es una herramienta de compresión, visualización o preprocesamiento. Su uso profesional exige declarar qué conserva, qué pierde y qué interpretación no está justificada por la proyección.</p>
+<p>PCA es una herramienta de compresión, visualización o preprocesamiento. Su uso exige declarar qué conserva, qué pierde y qué interpretación no está justificada por la proyección.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>

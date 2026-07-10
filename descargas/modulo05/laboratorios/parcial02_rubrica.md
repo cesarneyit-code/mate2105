@@ -8,10 +8,10 @@ Puntaje sugerido: 100 puntos.
 |---|---:|---|
 | Softmax estable y cross-entropy | 10 | Probabilidades válidas, estabilidad ante shifts y pérdida correcta. |
 | Particiones estratificadas | 10 | Train/dev/test cubren datos, no se solapan y preservan proporciones. |
-| Resumen CV y selección | 10 | Media, desviación y selección por desempeño con desempate prudente. |
+| Resumen CV y selección | 10 | Media, desviación y selección por el puntaje heurístico `media - desviación`. |
 | PCA desde SVD | 15 | Centrado, varianza explicada, reconstrucción y error coherente. |
 | K-Means y silhouette | 10 | Evalúa varios k y selecciona por mayor silhouette. |
-| Manifest reproducible | 15 | Hash SHA-256, parámetros, métricas y artefactos estructurados. |
+| Manifest reproducible | 15 | Entorno, semilla, partición, parámetros, métricas y hashes SHA-256. |
 
 ## Preguntas estructuradas: 20 puntos
 
@@ -26,12 +26,13 @@ Pueden calificarse en Gradescope como selección, respuesta numérica o fórmula
 
 ## Explicación breve: 10 puntos
 
+La revisión usa tres niveles y después escala el resultado a diez puntos.
+
 | Nivel | Puntos | Descriptor |
-|---|---:|---|
-| Excelente | 9-10 | Integra métrica, variabilidad, slices, reproducibilidad y decisión proporcional. |
-| Adecuado | 6-8 | Identifica evidencia principal, pero falta precisión o manifest. |
-| Insuficiente | 2-5 | Respuesta genérica o sin conexión con validación. |
-| No evaluable | 0-1 | Ausente o incompatible con el caso. |
+|---:|---:|---|
+| 2 | 10 | Nombra una métrica y su variabilidad, localiza el slice, propone una comprobación y especifica cómo registrarla. |
+| 1 | 5 | Identifica parte del problema, pero omite la comprobación o el registro reproducible. |
+| 0 | 0 | Ausente, incompatible con el caso o sin referencia a resultados del examen. |
 
 ## Carga manual esperada
 
@@ -42,4 +43,3 @@ El profesor revisa solo:
 - preguntas estructuradas no automatizadas;
 - explicación breve;
 - casos donde el autograder marque ejecución fallida o resultados sospechosos.
-

@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -787,11 +787,11 @@ window.Quarto = {
 </section>
 <section id="qué-reportar" class="level2">
 <h2 class="anchored" data-anchor-id="qué-reportar">Qué reportar</h2>
-<p>Un reporte profesional no dice solo:</p>
+<p>Un reporte no debe decir solo:</p>
 <pre class="text"><code>F1 = 0.84</code></pre>
 <p>Dice:</p>
 <pre class="text"><code>F1 CV = 0.84 ± 0.03</code></pre>
-<p>La desviación informa estabilidad.</p>
+<p>La desviación describe dispersión entre folds. No es, por sí sola, el error estándar de la media ni define un intervalo de confianza: los folds comparten gran parte de sus datos de entrenamiento y sus puntajes no son independientes.</p>
 </section>
 <section id="ejemplo-resuelto-elegir-entre-dos-modelos" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</h2>
@@ -818,7 +818,7 @@ window.Quarto = {
 </tbody>
 </table>
 <p>El modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse en slices o con más datos.</p>
-<p>La decisión profesional no mira solo el máximo promedio.</p>
+<p>La selección no mira solo el máximo promedio.</p>
 </section>
 <section id="derivación-guiada-media-y-variabilidad-de-cv" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-guiada-media-y-variabilidad-de-cv">Derivación guiada: media y variabilidad de CV</h2>
@@ -830,9 +830,13 @@ window.Quarto = {
 <p><span class="math display">\[
 \bar s=\frac{0.80+0.84+0.83+0.86+0.87}{5}=0.84.
 \]</span></p>
-<p>La desviación resume qué tanto cambian los resultados entre folds. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como evidencia universal. En reportes del curso, escribe media y variabilidad juntas:</p>
+<p>La desviación resume qué tanto cambian los resultados entre folds. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como regla universal. En reportes del curso, escribe media y variabilidad juntas:</p>
 <pre class="text"><code>F1 CV = 0.84 ± 0.03</code></pre>
-<p>Si dos modelos tienen medias parecidas, la variabilidad puede decidir cuál es más prudente.</p>
+<p>En Lab 4 usaremos la regla explícita</p>
+<p><span class="math display">\[
+s_{\text{cons}}=\bar s-s_{\text{folds}}
+\]</span></p>
+<p>para ordenar candidatos cuando mayor es mejor. Es un <strong>puntaje conservador heurístico</strong>: penaliza dispersión, pero no tiene cobertura probabilística ni reemplaza la inspección de los folds.</p>
 </section>
 <section id="grid-search" class="level2">
 <h2 class="anchored" data-anchor-id="grid-search">Grid search</h2>
@@ -986,7 +990,7 @@ regularización alta -&gt; modelo simple</code></pre>
 </tr>
 </tbody>
 </table>
-<p>La selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por <code>slice</code>, podría explorarse el modelo polinomial. Si se quiere una recomendación conservadora, el modelo regularizado puede ser más defendible. El punto es que media y desviación se leen juntas.</p>
+<p>La selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por <code>slice</code>, podría explorarse el modelo polinomial. Si se quiere una selección conservadora, el modelo regularizado puede ser preferible. El punto es que media y desviación se leen juntas.</p>
 </section>
 <section id="ejemplo-resuelto-decisión-con-diferencia-pequeña" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-decisión-con-diferencia-pequeña">Ejemplo resuelto: decisión con diferencia pequeña</h2>
@@ -1012,7 +1016,7 @@ regularización alta -&gt; modelo simple</code></pre>
 </tr>
 </tbody>
 </table>
-<p>La diferencia de medias es <span class="math inline">\(0.007\)</span>, menor que la variabilidad reportada de B. Una respuesta profesional no diría que B “gana” de forma clara. Diría que B tiene una mejora media pequeña, pero su inestabilidad exige revisar folds, slices o una partición temporal antes de cambiar la recomendación. En validación, ganar por una milésima no equivale a ganar una decisión.</p>
+<p>La diferencia de medias es <span class="math inline">\(0.007\)</span>, menor que la variabilidad reportada de B. Una lectura cuidadosa no diría que B “gana” de forma clara. Diría que B tiene una mejora media pequeña, pero su inestabilidad exige revisar folds, slices o una partición temporal antes de cambiar la recomendación. En validación, ganar por una milésima no equivale a ganar una decisión.</p>
 </section>
 <section id="sesgo-varianza-y-ruido" class="level2">
 <h2 class="anchored" data-anchor-id="sesgo-varianza-y-ruido">Sesgo, varianza y ruido</h2>
@@ -1058,14 +1062,14 @@ regularización alta -&gt; modelo simple</code></pre>
 </section>
 <section id="criterio-práctico-de-decisión" class="level2">
 <h2 class="anchored" data-anchor-id="criterio-práctico-de-decisión">Criterio práctico de decisión</h2>
-<p>Cuando dos modelos tienen métricas cercanas, la elección no debe depender solo del tercer decimal. Un criterio razonable compara desempeño medio, variabilidad, complejidad, costo de explicación y estabilidad por slice. Si el modelo más complejo mejora 0.003 en F1, pero tiene mayor varianza entre folds y errores más difíciles de explicar, la recomendación profesional puede ser conservar el modelo simple como baseline operativo.</p>
-<p>La validación no busca declarar un campeón universal. Busca decidir qué modelo es proporcional a la evidencia disponible. Esa frase importa para el curso: elegir bien también significa saber cuándo no hay evidencia suficiente para preferir una alternativa más complicada.</p>
+<p>Cuando dos modelos tienen métricas cercanas, la elección no debe depender solo del tercer decimal. Un criterio razonable compara desempeño medio, variabilidad, complejidad, costo de explicación y estabilidad por slice. Si el modelo más complejo mejora 0.003 en F1, pero tiene mayor varianza entre folds y errores más difíciles de explicar, puede conservarse el modelo simple como baseline operativo.</p>
+<p>La validación no declara un campeón universal. Compara candidatos bajo una partición, una métrica y un presupuesto. Elegir bien también significa registrar cuándo la diferencia observada no basta para preferir una alternativa más complicada.</p>
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>La validación cruzada estima desempeño con variabilidad. Reportar solo una media oculta si el modelo es estable o si depende demasiado de una partición particular. La desviación entre folds puede cambiar una decisión técnica.</p>
 <p>Grid search debe evaluar pipelines completos para no contaminar cada fold. Las learning curves y validation curves ayudan a distinguir sesgo, varianza, falta de datos, hiperparámetros mal calibrados y ruido irreducible.</p>
-<p>La pregunta profesional no es únicamente qué modelo gana. Es si la evidencia justifica cambiar complejidad, recolectar datos, ajustar regularización o aceptar un límite. La curva debe terminar en una acción, no solo en una imagen.</p>
+<p>La pregunta no es únicamente qué modelo gana. También importa si los resultados justifican cambiar complejidad, recolectar datos, ajustar regularización o aceptar un límite. La curva debe terminar en un experimento, no solo en una imagen.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>

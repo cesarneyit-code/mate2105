@@ -1,33 +1,33 @@
-# Rubrica Lab 2
+# Rúbrica Lab 2
 
-## Distribucion
+## Distribución
 
 | Componente | Puntos | Calificacion |
 |---|---:|---|
 | Particiones y escalamiento | 1.5 | Autograded |
-| Ridge/Lasso y validacion | 3.0 | Autograded |
-| Regresion logistica | 2.0 | Autograded |
-| Metricas y umbral | 2.0 | Autograded |
-| Recomendacion tecnica | 1.5 | Manual |
+| Ridge/Lasso y validación | 3.0 | Autograded |
+| Regresión logística | 2.0 | Autograded |
+| Métricas, umbral y protocolo | 2.0 | Autograded |
+| Recomendación técnica | 1.5 | Manual |
 
-## Revision manual
+## Revisión manual
 
 Pregunta:
 
-> Que modelo o umbral recomendarias y que limitacion comunicarias antes de usarlo?
+> ¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?
 
 | Puntaje manual | Criterio |
 |---:|---|
-| 0.0 | No hay decision tecnica clara |
-| 0.75 | Hay decision, pero la evidencia es incompleta o no menciona limitaciones |
-| 1.5 | La decision usa metrica adecuada, comparacion/baseline y una limitacion concreta |
+| 0.0 | No hay una recomendación técnica clara |
+| 0.75 | Hay una recomendación, pero los resultados citados son incompletos o no menciona limitaciones |
+| 1.5 | La recomendación usa una métrica adecuada, una comparación y una limitación concreta |
 
-## Senales de alerta
+## Señales de alerta
 
 - Escalamiento ajustado con todo el dataset.
-- Hiperparametro escogido por prueba o entrenamiento solamente.
-- Umbral elegido sin relacion con precision/recall.
-- Recomendacion sin contexto de decision.
-- Metricas reportadas sin declarar clase positiva.
+- Hiperparámetro escogido con prueba o solo con entrenamiento.
+- Umbral elegido sin relación con precision/recall.
+- Recomendación sin contexto de uso.
+- Métricas reportadas sin declarar la clase positiva.
 
-La revision manual se centra en decision, evidencia y limitacion.
+La revisión manual se concentra en la recomendación, sus resultados y sus límites.

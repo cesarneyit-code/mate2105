@@ -153,12 +153,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -197,8 +197,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
-  <li><a href="#opcion-recomendada-entorno-local" id="toc-opcion-recomendada-entorno-local" class="nav-link" data-scroll-target="#opcion-recomendada-entorno-local">Opcion recomendada: entorno local</a></li>
-  <li><a href="#verificacion-esperada" id="toc-verificacion-esperada" class="nav-link" data-scroll-target="#verificacion-esperada">Verificacion esperada</a></li>
+  <li><a href="#versión-de-python" id="toc-versión-de-python" class="nav-link" data-scroll-target="#versión-de-python">Versión de Python</a></li>
+  <li><a href="#opción-recomendada-entorno-semestral" id="toc-opción-recomendada-entorno-semestral" class="nav-link" data-scroll-target="#opción-recomendada-entorno-semestral">Opción recomendada: entorno semestral</a></li>
+  <li><a href="#alternativa-ligera-para-la-semana-1" id="toc-alternativa-ligera-para-la-semana-1" class="nav-link" data-scroll-target="#alternativa-ligera-para-la-semana-1">Alternativa ligera para la Semana 1</a></li>
+  <li><a href="#verificación-esperada" id="toc-verificación-esperada" class="nav-link" data-scroll-target="#verificación-esperada">Verificación esperada</a></li>
   <li><a href="#cómo-abrir-el-laboratorio" id="toc-cómo-abrir-el-laboratorio" class="nav-link" data-scroll-target="#cómo-abrir-el-laboratorio">Cómo abrir el laboratorio</a></li>
   <li><a href="#si-algo-falla" id="toc-si-algo-falla" class="nav-link" data-scroll-target="#si-algo-falla">Si algo falla</a></li>
   <li><a href="#fallback-temporal" id="toc-fallback-temporal" class="nav-link" data-scroll-target="#fallback-temporal">Fallback temporal</a></li>
@@ -207,7 +209,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#modulenotfounderror" id="toc-modulenotfounderror" class="nav-link" data-scroll-target="#modulenotfounderror"><code>ModuleNotFoundError</code></a></li>
   <li><a href="#el-notebook-abre-pero-no-ejecuta" id="toc-el-notebook-abre-pero-no-ejecuta" class="nav-link" data-scroll-target="#el-notebook-abre-pero-no-ejecuta">El notebook abre pero no ejecuta</a></li>
   <li><a href="#python-no-existe" id="toc-python-no-existe" class="nav-link" data-scroll-target="#python-no-existe"><code>python</code> no existe</a></li>
-  <li><a href="#instalacion-muy-lenta" id="toc-instalacion-muy-lenta" class="nav-link" data-scroll-target="#instalacion-muy-lenta">Instalacion muy lenta</a></li>
+  <li><a href="#instalación-muy-lenta" id="toc-instalación-muy-lenta" class="nav-link" data-scroll-target="#instalación-muy-lenta">Instalación muy lenta</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -238,22 +240,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h1>Objetivo</h1>
 <p>Esta guía te ayuda a preparar el entorno mínimo para la Semana 1. Si algo falla, no lo ocultes: documenta el error y llévalo a clase. El laboratorio diagnóstico también sirve para identificar problemas técnicos temprano.</p>
 </section>
-<section id="opcion-recomendada-entorno-local" class="level1">
-<h1>Opcion recomendada: entorno local</h1>
-<p>Desde la carpeta <code>modulo00_arranque</code>, ejecuta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/check_env.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>En Windows, la activacion suele ser:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv\Scripts\activate</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Si usas un Jupyter instalado fuera de este entorno virtual y no ves el kernel correcto, registra el entorno como kernel opcional:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mate2105 <span class="at">--display-name</span> <span class="st">"Python (MATE-2105)"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="versión-de-python" class="level1">
+<h1>Versión de Python</h1>
+<p>El entorno completo del semestre está probado con <strong>Python 3.11 o 3.12</strong>. No uses Python 3.13 o 3.14 para este curso: el Módulo 2 fija una versión de PyTorch compatible con el entorno comprobado.</p>
+<p>Verifica primero:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="verificacion-esperada" class="level1">
-<h1>Verificacion esperada</h1>
-<p>Si todo esta bien, <code>python scripts/check_env.py</code> debe imprimir algo parecido a:</p>
+<section id="opción-recomendada-entorno-semestral" class="level1">
+<h1>Opción recomendada: entorno semestral</h1>
+<p>Descarga <code>requirements_curso.txt</code> y <code>check_env_curso.py</code> desde la <a href="https://cesarneyit-code.github.io/mate2105/configuracion.html">página de configuración</a>. En la carpeta de descarga, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements_curso.txt</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> check_env_curso.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta instalación deja listos los módulos 0-5.</p>
+</section>
+<section id="alternativa-ligera-para-la-semana-1" class="level1">
+<h1>Alternativa ligera para la Semana 1</h1>
+<p>Desde la carpeta <code>modulo00_arranque</code>, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/check_env.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En Windows, la activación suele ser:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv\Scripts\activate</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si usas un Jupyter instalado fuera de este entorno virtual y no ves el kernel correcto, registra el entorno como kernel opcional:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mate2105 <span class="at">--display-name</span> <span class="st">"Python (MATE-2105)"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="verificación-esperada" class="level1">
+<h1>Verificación esperada</h1>
+<p>Si todo está bien, <code>python scripts/check_env.py</code> debe imprimir algo parecido a:</p>
 <pre class="text"><code>Python: ...
 numpy: ...
 pandas: ...
@@ -261,7 +279,7 @@ scikit-learn: ...
 Dataset wine: 178 observaciones, 13 variables
 Conteo por clase: {0: 59, 1: 71, 2: 48}
 Chequeo completado correctamente.</code></pre>
-<p>No es importante que las versiones sean identicas. Si el dataset carga y los paquetes importan, el entorno está listo para la Semana 1.</p>
+<p>Las versiones pueden variar dentro de los intervalos fijados en <code>requirements.txt</code>. Si el dataset carga y los paquetes importan, el entorno ligero está listo para la Semana 1; antes de la Semana 7 debes completar el entorno semestral para disponer de PyTorch.</p>
 </section>
 <section id="cómo-abrir-el-laboratorio" class="level1">
 <h1>Cómo abrir el laboratorio</h1>
@@ -280,21 +298,21 @@ Chequeo completado correctamente.</code></pre>
 <li>el mensaje de error completo;</li>
 <li>tu sistema operativo;</li>
 <li>la versión de Python, si aparece;</li>
-<li>que intentaste para resolverlo.</li>
+<li>qué intentaste para resolverlo.</li>
 </ol>
 <p>Ejemplo de reporte útil:</p>
 <pre class="text"><code>Comando: python scripts/check_env.py
 Error: ModuleNotFoundError: No module named 'sklearn'
 Sistema: macOS
 Python: 3.11.8
-Intento: ejecute pip install -r requirements.txt, pero fallo en scikit-learn.</code></pre>
+Intento: ejecuté pip install -r requirements.txt, pero falló en scikit-learn.</code></pre>
 <p>Un reporte así permite resolver el problema rápido. Un mensaje como “no me funciona” no contiene información suficiente.</p>
 </section>
 <section id="fallback-temporal" class="level1">
 <h1>Fallback temporal</h1>
 <p>Si no logras configurar el entorno antes de clase:</p>
 <ul>
-<li>trabaja con un companero durante el live coding;</li>
+<li>trabaja con un compañero durante el live coding;</li>
 <li>completa las respuestas conceptuales del laboratorio;</li>
 <li>entrega el notebook con el error documentado;</li>
 <li>agenda soporte con el asistente.</li>
@@ -305,25 +323,25 @@ Intento: ejecute pip install -r requirements.txt, pero fallo en scikit-learn.</c
 <h1>Errores frecuentes</h1>
 <section id="modulenotfounderror" class="level2">
 <h2 class="anchored" data-anchor-id="modulenotfounderror"><code>ModuleNotFoundError</code></h2>
-<p>Significa que falta instalar un paquete o que estas usando un kernel distinto al entorno donde instalaste los paquetes.</p>
-<p>Solucion usual:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mate2105 <span class="at">--display-name</span> <span class="st">"Python (MATE-2105)"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Significa que falta instalar un paquete o que estás usando un kernel distinto al entorno donde instalaste los paquetes.</p>
+<p>Solución usual:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mate2105 <span class="at">--display-name</span> <span class="st">"Python (MATE-2105)"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Después, en Jupyter, selecciona el kernel del entorno virtual o, si lo registraste manualmente, <code>Python (MATE-2105)</code>.</p>
 </section>
 <section id="el-notebook-abre-pero-no-ejecuta" class="level2">
 <h2 class="anchored" data-anchor-id="el-notebook-abre-pero-no-ejecuta">El notebook abre pero no ejecuta</h2>
-<p>Verifica que el kernel este seleccionado. En Jupyter normalmente aparece en la esquina superior derecha.</p>
+<p>Verifica que el kernel esté seleccionado. En Jupyter normalmente aparece en la esquina superior derecha.</p>
 </section>
 <section id="python-no-existe" class="level2">
 <h2 class="anchored" data-anchor-id="python-no-existe"><code>python</code> no existe</h2>
 <p>En algunos sistemas el comando correcto es <code>python3</code>.</p>
 <p>Prueba:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--versión</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="instalacion-muy-lenta" class="level2">
-<h2 class="anchored" data-anchor-id="instalacion-muy-lenta">Instalacion muy lenta</h2>
+<section id="instalación-muy-lenta" class="level2">
+<h2 class="anchored" data-anchor-id="instalación-muy-lenta">Instalación muy lenta</h2>
 <p>Espera a que termine. Si falla, copia el error completo. No cierres la terminal sin guardar el mensaje.</p>
 
 

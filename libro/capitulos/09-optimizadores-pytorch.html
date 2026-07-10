@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -773,7 +773,7 @@ Figura&nbsp;1: Optimizadores: SGD usa el gradiente actual, momentum suaviza dire
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> SGD, momentum y Adam no cambian el objetivo del entrenamiento; cambian la regla para convertir gradientes en actualizaciones. Por eso el optimizador debe reportarse como parte del experimento, junto con tasa de aprendizaje, batch size, épocas y métrica de validación.</p>
+<p><strong>Lectura de la figura.</strong> Sin regularización incorporada al optimizador, SGD, momentum y Adam conservan el objetivo y cambian la regla que convierte gradientes en actualizaciones. Por eso el optimizador debe reportarse como parte del experimento, junto con tasa de aprendizaje, batch size, épocas y métrica de validación.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -791,6 +791,7 @@ Figura&nbsp;1: Optimizadores: SGD usa el gradiente actual, momentum suaviza dire
 <p>En lugar de usar todo el dataset en cada paso, usamos lotes pequeños:</p>
 <pre class="text"><code>dataset -&gt; mini-batches -&gt; actualización por batch -&gt; época completa</code></pre>
 <p>Esto reduce costo por actualización y agrega ruido útil al entrenamiento.</p>
+<p>Ese ruido no es una garantía de mejora. El tamaño del lote modifica la varianza del gradiente, el número de actualizaciones por época y el uso de memoria.</p>
 </section>
 <section id="momentum" class="level2">
 <h2 class="anchored" data-anchor-id="momentum">Momentum</h2>
@@ -802,6 +803,7 @@ v_t = \beta v_{t-1} + (1-\beta)\nabla J(\theta_t),
 \theta_{t+1} = \theta_t - \alpha v_t.
 \]</span></p>
 <p>Intuición: evita que cada gradiente aislado cambie la dirección con demasiada fuerza.</p>
+<p>Esta es la convención de promedio exponencial usada en el desarrollo del curso. Algunas bibliotecas, incluido <code>torch.optim.SGD</code>, parametrizan el buffer sin el factor <span class="math inline">\((1-\beta)\)</span>; por eso no se comparan tasas de aprendizaje sin revisar la regla exacta del optimizador.</p>
 </section>
 <section id="ejemplo-resuelto-dos-pasos-con-momentum" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</h2>
@@ -890,6 +892,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 </ul>
 <p>El ciclo conceptual no cambia:</p>
 <pre class="text"><code>forward -&gt; loss -&gt; backward -&gt; optimizer.step()</code></pre>
+<p>Para clasificación multiclase, <code>torch.nn.CrossEntropyLoss</code> recibe <strong>logits</strong> y etiquetas enteras. Aplicar softmax antes cambia el cálculo y pierde la implementación numéricamente estable que ya combina la función de pérdida.</p>
 </section>
 <section id="loop-mínimo" class="level2">
 <h2 class="anchored" data-anchor-id="loop-mínimo">Loop mínimo</h2>
@@ -956,7 +959,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 </section>
 <section id="caso-longitudinal-experimento-reproducible-en-dígitos" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-experimento-reproducible-en-dígitos">Caso longitudinal: experimento reproducible en dígitos</h2>
-<p>Para <code>load_digits</code>, una comparación defendible entre NumPy y PyTorch debe fijar:</p>
+<p>Para <code>load_digits</code>, una comparación interpretable entre NumPy y PyTorch debe fijar:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -986,16 +989,16 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 <td>épocas, batch size y learning rate</td>
 </tr>
 <tr class="even">
-<td>evidencia</td>
+<td>resultados</td>
 <td>curva train/dev y métrica final</td>
 </tr>
 </tbody>
 </table>
-<p>Si PyTorch obtiene mejor resultado, hay que preguntar si cambió el modelo, el optimizador, el número de épocas o la inicialización. La biblioteca no es la evidencia; la evidencia es una comparación con condiciones controladas.</p>
+<p>Si PyTorch obtiene mejor resultado, hay que preguntar si cambió el modelo, el optimizador, el número de épocas o la inicialización. El nombre de la biblioteca no explica la diferencia; la comparación requiere condiciones controladas.</p>
 </section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
-<p>Una comparación NumPy vs PyTorch solo es defendible si:</p>
+<p>Una comparación NumPy vs PyTorch solo puede interpretarse si:</p>
 <ol type="1">
 <li>usa la misma partición;</li>
 <li>usa la misma métrica;</li>
@@ -1009,7 +1012,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 <ol type="1">
 <li>Con 1024 observaciones y batch size 64 hay <span class="math inline">\(1024/64=16\)</span> batches por época.</li>
 <li>Si se entrenan 20 épocas con 16 batches por época, <code>optimizer.step()</code> se ejecuta 320 veces.</li>
-<li><code>zero_grad()</code> debe ir antes de <code>backward()</code> en cada batch para evitar acumular gradientes de batches anteriores.</li>
+<li><code>zero_grad()</code> debe ejecutarse antes del siguiente <code>backward()</code> para evitar acumular gradientes entre batches, salvo que la acumulación sea intencional.</li>
 </ol>
 </section>
 <section id="ejemplo-resuelto-presupuesto-de-entrenamiento" class="level2">
@@ -1053,7 +1056,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 </section>
 <section id="convergencia-no-es-validación" class="level2">
 <h2 class="anchored" data-anchor-id="convergencia-no-es-validación">Convergencia no es validación</h2>
-<p>Un optimizador puede hacer que la pérdida de entrenamiento baje con más rapidez sin producir el mejor modelo para datos nuevos. Por eso el criterio de éxito no es “Adam bajó la pérdida antes”, sino “bajo la misma partición, presupuesto y métrica, el modelo validado sostiene una mejora defendible”. En particular, una curva suave de train loss puede esconder overfitting si no se acompaña de dev loss o de una métrica externa.</p>
+<p>Un optimizador puede hacer que la pérdida de entrenamiento baje con más rapidez sin producir el mejor modelo para datos nuevos. Por eso el criterio de éxito no es “Adam bajó la pérdida antes”, sino “bajo la misma partición, presupuesto y métrica, el modelo obtiene una mejora de validación”. En particular, una curva suave de train loss puede esconder overfitting si no se acompaña de dev loss o de una métrica externa.</p>
 <p>En una entrega, la comparación debe separar tres afirmaciones: velocidad de optimización, estabilidad de la curva y desempeño de validación. La primera se mide por épocas o pasos; la segunda por oscilaciones o sensibilidad a la tasa; la tercera por una métrica en datos no usados para ajustar parámetros.</p>
 </section>
 <section id="para-explorar-más" class="level2">
@@ -1062,7 +1065,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 <ul>
 <li><strong>Extensión matemática:</strong> compara una actualización de SGD con una de Adam en una dimensión y explica qué cambia por los momentos adaptativos.</li>
 <li><strong>Extensión computacional:</strong> guarda <code>seed</code>, arquitectura, optimizador, tasa de aprendizaje y época del mejor modelo en un registro reproducible.</li>
-<li><strong>Conexión con proyecto:</strong> define qué configuración mínima necesitas reportar para que otra persona pueda rerunear tu entrenamiento.</li>
+<li><strong>Conexión con proyecto:</strong> define qué configuración mínima necesitas reportar para que otra persona pueda repetir tu entrenamiento.</li>
 </ul>
 </div>
 </section>
@@ -1114,7 +1117,7 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 <h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
 <ol start="7" type="1">
 <li>Proponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.</li>
-<li>Si PyTorch entrena más rápido que NumPy, ¿qué evidencia necesita antes de afirmar que el modelo es mejor?</li>
+<li>Si PyTorch entrena más rápido que NumPy, ¿qué comparación necesita antes de afirmar que el modelo es mejor?</li>
 </ol>
 </section>
 <section id="proyecto-de-cierre" class="level3">

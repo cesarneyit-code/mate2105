@@ -15,12 +15,15 @@ lang: es
 
 Este laboratorio verifica que puedes pasar de la formulación matemática de
 regresión lineal a una implementación vectorizada en NumPy. También compara dos
-rutas hacia el mismo objetivo: ecuación normal y descenso del gradiente.
+rutas hacia el mismo ajuste: mínimos cuadrados con `np.linalg.lstsq` y descenso
+del gradiente. Las ecuaciones normales se derivan en el libro, pero no se forma
+$X^\top X$ para resolver numéricamente el problema.
 
 La pregunta técnica central es:
 
 > ¿La implementación desde cero produce las mismas predicciones y pérdidas que una
-> herramienta profesional, y puedes explicar cómo sabes que el algoritmo convergió?
+> implementación de referencia, y puedes explicar cómo sabes que el algoritmo
+> convergió?
 
 # Qué debes entregar
 
@@ -38,7 +41,8 @@ notebook. El autograder busca funciones por nombre.
 1. Ejecuta el notebook completo una vez para ver qué está incompleto.
 2. Completa primero las funciones pequeñas: `add_intercept`, `predict_linear`,
    `mse_loss`.
-3. Implementa `normal_equation` usando `np.linalg.solve`, no inversa explícita.
+3. Implementa `normal_equation` con `np.linalg.lstsq`. El nombre se conserva para
+   no romper el contrato del autograder.
 4. Implementa `mse_gradient` y verifica dimensiones.
 5. Implementa `gradient_descent` guardando historia de pérdida.
 6. Compara tus resultados con `sklearn.linear_model.LinearRegression`.
@@ -51,10 +55,10 @@ notebook. El autograder busca funciones por nombre.
 |---|---|---:|
 | Intercepto | `X` aumenta una columna de unos sin alterar filas | Automática |
 | Pérdida | valor de `1/(2n) * sum(residual^2)` correcto | Automática |
-| Ecuación normal | solución numérica sin usar inversa explícita | Automática |
+| Mínimos cuadrados | coincide con `lstsq`, incluso si la matriz pierde rango | Automática |
 | Gradiente | coincide con fórmula matricial y tolerancias | Automática |
 | Descenso del gradiente | pérdida decrece y parámetros son consistentes | Automática |
-| Comparación profesional | resultado cercano a `sklearn` | Automática |
+| Comparación de referencia | resultado compatible con `lstsq` en datos alternos | Automática |
 
 # Parte manual
 
@@ -78,7 +82,7 @@ Rúbrica manual:
 - No hay valores hardcodeados para pasar un ejemplo específico.
 - Las formas de `X`, `y`, `theta` y predicciones son consistentes.
 - La historia de pérdida permite diagnosticar convergencia.
-- El modelo se compara contra baseline o contra una referencia profesional.
+- El modelo se compara contra un baseline y contra una implementación de referencia.
 - La interpretación final menciona una limitación.
 :::
 
@@ -86,7 +90,7 @@ Rúbrica manual:
 
 1. Agregar intercepto dos veces.
 2. Devolver MSE cuando la función pide `1/(2n)` por suma de cuadrados.
-3. Usar `np.linalg.inv` en lugar de `np.linalg.solve`.
+3. Formar $X^\top X$ para resolver cuando `np.linalg.lstsq` evita ese paso.
 4. Confundir residual `y - y_hat` con `y_hat - y` dentro del gradiente.
 5. No guardar la pérdida en cada iteración.
 6. Usar una tasa de aprendizaje que diverge y no revisar la curva.
@@ -100,6 +104,6 @@ Ejecuta este control mental:
 ¿Mi notebook corre completo?
 ¿Cada función devuelve la forma esperada?
 ¿La pérdida del gradiente baja?
-¿La solución por gradiente se acerca a la ecuación normal?
-¿La respuesta manual usa evidencia y no solo opinión?
+¿La solución por gradiente se acerca a la obtenida con `lstsq`?
+¿La respuesta manual cita resultados concretos y no solo una opinión?
 ```

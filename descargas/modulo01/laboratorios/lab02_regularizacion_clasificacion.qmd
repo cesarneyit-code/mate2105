@@ -13,8 +13,8 @@ lang: es
 
 # Propósito
 
-Este laboratorio evalúa si puedes controlar complejidad, evitar leakage y tomar
-decisiones de clasificación con métricas apropiadas. Conecta tres ideas del
+Este laboratorio evalúa si puedes controlar complejidad, evitar leakage y justificar
+una regla de clasificación con métricas apropiadas. Conecta tres ideas del
 Módulo 1:
 
 1. regularización para estabilizar modelos;
@@ -29,32 +29,33 @@ Entrega el notebook:
 apellido_nombre_lab02_regularizacion_clasificacion.ipynb
 ```
 
-No cambies nombres de funciones. El autograder revisa funciones y resultados
-esperados con datos alternos.
+No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos
+y también verifica las respuestas estructuradas sobre el protocolo de evaluación.
 
 # Flujo recomendado
 
 1. Lee el enunciado completo antes de programar.
 2. Separa datos antes de ajustar cualquier transformación.
-3. Ajusta escalamiento solo con entrenamiento.
-4. Implementa Ridge sin penalizar intercepto.
-5. Compara valores de regularización usando validación.
+3. Implementa `standardize_from_train` y ajusta el escalamiento solo con entrenamiento.
+4. Implementa Ridge con la convención $X^\top X + \alpha P$, sin penalizar intercepto.
+5. Compara Ridge y Lasso con `select_regularization_alpha`, usando validación.
 6. Implementa funciones logísticas: `sigmoid`, `log_loss_binary`.
 7. Calcula métricas con una matriz de confusión.
-8. Evalúa umbrales y justifica una recomendación técnica.
-9. Reinicia kernel y ejecuta todo antes de entregar.
+8. Elige el umbral en validación; usa prueba una sola vez al final.
+9. Completa `protocol_answers` y justifica tu recomendación.
+10. Reinicia kernel y ejecuta todo antes de entregar.
 
 # Lo que autocalifica el notebook
 
 | Componente | Evidencia esperada | Calificación |
 |---|---|---:|
-| Particiones | separación reproducible sin mezclar evaluación | Automática |
 | Escalamiento | parámetros ajustados solo con entrenamiento | Automática |
-| Ridge | solución cerrada correcta sin penalizar intercepto | Automática |
-| Lasso/Ridge | comparación numérica coherente | Automática |
+| Ridge | convención numérica correcta sin penalizar intercepto | Automática |
+| Lasso/Ridge | selección por error de validación con datos alternos | Automática |
 | Sigmoide y log-loss | implementación vectorizada y estable | Automática |
 | Métricas | accuracy, precision, recall y F1 correctos | Automática |
 | Umbral | selección consistente con objetivo de recall | Automática |
+| Protocolo | escalamiento, hiperparámetros, umbral y prueba con papeles correctos | Automática |
 
 # Parte manual
 
@@ -77,7 +78,7 @@ Rúbrica manual:
 - La métrica elegida corresponde al problema.
 - La regularización se interpreta como control de complejidad, no como magia.
 - Los umbrales se justifican con costos de FP/FN o una restricción explícita.
-- La recomendación final distingue resultado numérico y decisión aplicada.
+- La recomendación final distingue resultado numérico y alcance aplicado.
 :::
 
 # Errores frecuentes

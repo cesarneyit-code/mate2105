@@ -44,9 +44,9 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 
 # Lo que autocalifica el notebook
 
-| Componente | Evidencia esperada | Calificación |
+| Componente | Resultado esperado | Calificación |
 |---|---|---:|
-| One-hot | matriz `(n, k)` correcta | Automática |
+| One-hot | matriz `(m, k)` correcta | Automática |
 | ReLU | activación y derivada correctas | Automática |
 | Softmax | filas suman 1 y es estable | Automática |
 | Entropía cruzada | pérdida positiva y correcta | Automática |
@@ -55,24 +55,39 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 | Backward | gradientes con formas correctas y valores consistentes | Automática |
 | Actualización/predicción | parámetros actualizados y clases predichas | Automática |
 
+## Convención de regularización
+
+La pérdida de datos es el promedio de entropía cruzada. Cuando `l2 > 0`, el
+laboratorio usa
+
+\[
+J_{\lambda}
+=J_{\text{datos}}
++\frac{\lambda}{2}
+\left(\lVert W^{[1]}\rVert_F^2+\lVert W^{[2]}\rVert_F^2\right).
+\]
+
+Por tanto, `backward_pass` añade `l2 * W1` y `l2 * W2` a los gradientes de
+pesos. No penaliza `b1` ni `b2`.
+
 # Parte manual
 
 Incluye una respuesta corta:
 
-> ¿Qué evidencia muestra que la red aprendió y cuál es una limitación del experimento?
+> ¿Qué resultados muestran que la red aprendió y cuál es una limitación del experimento?
 
 Rúbrica manual:
 
 | Puntaje | Criterio |
 |---:|---|
-| 0 | No responde o la respuesta no usa evidencia del notebook |
+| 0 | No responde o la respuesta no usa resultados del notebook |
 | 1 | Menciona accuracy o pérdida, pero sin diagnóstico ni limitación |
 | 2 | Conecta curva de pérdida, métrica de validación, comparación y una limitación concreta |
 
 # Errores frecuentes
 
 1. No estabilizar softmax.
-2. Olvidar dividir `dZ2` por `n`.
+2. Olvidar dividir `dZ2` por `m`.
 3. Devolver gradientes con formas transpuestas.
 4. Penalizar sesgos con L2 sin justificarlo.
 5. No guardar `Z1`, `A1`, `Z2` y `P` en cache.
@@ -86,5 +101,5 @@ Rúbrica manual:
 ¿Cada función devuelve la forma esperada?
 ¿Softmax suma 1 por fila?
 ¿La pérdida baja durante entrenamiento?
-¿La respuesta manual usa evidencia y no solo opinión?
+¿La respuesta manual usa resultados y no solo opinión?
 ```

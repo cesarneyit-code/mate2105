@@ -6,11 +6,11 @@
 <script src="semana01_presentacion_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="semana01_presentacion_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="semana01_presentacion_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="semana01_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="semana01_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-e39505f2b70156be49b8745853350b0f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.25">
 
-  <meta name="author" content="Cesar Galindo">
-  <title>MATE-2105</title>
+  <meta name="author" content="César Galindo">
+  <title>Semana 1 · Clase 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-f56d3004039941641dda84caec9cadc5.css">
+  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-ca9d51f3be5a2bdac2db71e767a76854.css">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -195,102 +195,312 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 1: ciencia de datos aplicada como ciclo de decisiones</p>
+  <h1 class="title">Semana 1 · Clase 1</h1>
+  <p class="subtitle">Antes del modelo: qué representan los datos</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Cesar Galindo 
+César Galindo 
 </div>
 </div>
 </div>
 
 </section>
-<section id="pregunta-de-entrada" class="slide level2 no-border">
-<h2>Pregunta de entrada</h2>
-<div class="kicker">
-<p>Primer contrato del semestre</p>
+<section id="antes-de-abrir-python" class="slide level2">
+<h2>Antes de abrir Python</h2>
+<div class="lead">
+<p>Una tabla no trae incorporada su interpretación. Hay que averiguar quién produjo cada fila, qué significa cada columna y para qué pregunta podría servir.</p>
 </div>
-<div class="big-question">
-<p>¿Que tendria que pasar para que un modelo con buena metrica produzca una mala decision?</p>
-</div>
-<div class="footer-note">
-<p>MATE-2105 no empieza por librerias. Empieza por decisiones, evidencia y responsabilidad tecnica.</p>
+<div class="question">
+<p>¿Qué error cometeríamos si tratáramos una subzona de Bogotá como si fuera una vivienda individual?</p>
 </div>
 </section>
-<section id="la-promesa-del-curso" class="slide level2 no-border">
-<h2>La promesa del curso</h2>
-<div class="large-statement">
-<p>Vamos a estudiar algoritmos como objetos matematicos, implementaciones computacionales y herramientas para tomar decisiones con datos.</p>
-</div>
-<div class="diagram-flow">
-<p><span>matematica</span><span class="arrow">+</span><span>codigo</span><span class="arrow">+</span><span>datos</span><span class="arrow">+</span><span>decision</span></p>
+<section id="una-fila-tiene-una-historia" class="slide level2">
+<h2>Una fila tiene una historia</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Pregunta</th>
+<th>Lo que necesitamos saber</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>¿Qué representa?</td>
+<td>persona, vivienda, subzona, día, transacción</td>
+</tr>
+<tr class="even">
+<td>¿Cómo entró a la tabla?</td>
+<td>muestreo, registro administrativo, sensor, encuesta</td>
+</tr>
+<tr class="odd">
+<td>¿Cuándo fue medida?</td>
+<td>periodo y frecuencia</td>
+</tr>
+<tr class="even">
+<td>¿Qué quedó por fuera?</td>
+<td>población no observada, faltantes, filtros</td>
+</tr>
+</tbody>
+</table>
+<p>Una fila es una <strong>unidad de observación</strong>, no solo una posición en un arreglo.</p>
+</section>
+<section id="un-caso-cercano" class="slide level2">
+<h2>Un caso cercano</h2>
+<p>La Secretaría Distrital del Hábitat publica un recurso sobre precios de vivienda nueva en Bogotá. Para el curso congelamos un subconjunto de <strong>32 subzonas</strong> y siete columnas.</p>
+
+<img src="../figuras/vivienda-bogota-subzonas.png" class="wide-figure r-stretch" alt="Treinta y dos subzonas ordenadas por el campo de precio reportado"><div class="source-line">
+<p>Fuente: Secretaría Distrital del Hábitat de Bogotá, <em>Caracterización precios vivienda nueva</em>, licencia CC BY 4.0. Adaptación MATE-2105.</p>
 </div>
 </section>
-<section id="lo-que-no-vamos-a-hacer" class="slide level2">
-<h2>Lo que no vamos a hacer</h2>
-<div class="three-panel">
-<div class="warning-card">
-<p><strong>Recetas sin criterio</strong></p>
-<p>No basta llamar <code>fit</code> y reportar una metrica.</p>
+<section id="cinco-filas-del-archivo" class="slide level2">
+<h2>Cinco filas del archivo</h2>
+<div class="dense-table">
+<table class="caption-top">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>subzona</th>
+<th style="text-align: right;">precio_reportado</th>
+<th style="text-align: right;">estrato_promedio</th>
+<th style="text-align: right;">area_promedio</th>
+<th style="text-align: right;">alcobas_promedio</th>
+<th style="text-align: right;">banos_promedio</th>
+<th style="text-align: right;">parqueaderos_promedio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rosales</td>
+<td style="text-align: right;">16.365</td>
+<td style="text-align: right;">5.922</td>
+<td style="text-align: right;">177.316</td>
+<td style="text-align: right;">2.673</td>
+<td style="text-align: right;">3.776</td>
+<td style="text-align: right;">2.981</td>
+</tr>
+<tr class="even">
+<td>Chicó</td>
+<td style="text-align: right;">13.939</td>
+<td style="text-align: right;">5.905</td>
+<td style="text-align: right;">128.044</td>
+<td style="text-align: right;">2.225</td>
+<td style="text-align: right;">3.105</td>
+<td style="text-align: right;">2.152</td>
+</tr>
+<tr class="odd">
+<td>Bosque Medina</td>
+<td style="text-align: right;">10.751</td>
+<td style="text-align: right;">4.699</td>
+<td style="text-align: right;">151.226</td>
+<td style="text-align: right;">2.533</td>
+<td style="text-align: right;">3.037</td>
+<td style="text-align: right;">2.467</td>
+</tr>
+<tr class="even">
+<td>Multicentro</td>
+<td style="text-align: right;">10.365</td>
+<td style="text-align: right;">5.647</td>
+<td style="text-align: right;">94.071</td>
+<td style="text-align: right;">2.086</td>
+<td style="text-align: right;">2.625</td>
+<td style="text-align: right;">1.786</td>
+</tr>
+<tr class="odd">
+<td>Centro</td>
+<td style="text-align: right;">9.504</td>
+<td style="text-align: right;">3.195</td>
+<td style="text-align: right;">63.383</td>
+<td style="text-align: right;">1.744</td>
+<td style="text-align: right;">1.799</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="warning-card">
-<p><strong>Teoria desconectada</strong></p>
-<p>Las formulas deben explicar comportamientos visibles en datos.</p>
-</div>
-<div class="warning-card">
-<p><strong>Competencia de puntajes</strong></p>
-<p>Una metrica aislada no reemplaza diagnostico, validacion ni comunicacion.</p>
-</div>
-</div>
+<p>¿Cuáles columnas describen una vivienda y cuáles resumen una subzona?</p>
 </section>
-<section id="lo-que-si-debe-quedar" class="slide level2">
-<h2>Lo que si debe quedar</h2>
-<div class="large-statement">
-<p>Al final del curso, una respuesta tecnica debe poder defender modelo, perdida, algoritmo, evaluacion y decision.</p>
-</div>
-<div class="takeaway">
-<p>La evidencia no es solo el resultado numerico. Tambien es el camino reproducible que produjo ese resultado.</p>
-</div>
-</section>
-<section id="el-ciclo-que-se-repetira" class="slide level2">
-<h2>El ciclo que se repetira</h2>
-<div class="case-split">
-<div class="image-frame">
-<p><img src="../figuras/ciclo-modelacion.png" class="slide-figure" alt="Ciclo de modelacion aplicada"></p>
-</div>
-<div>
-<p><strong>Una clase tipica</strong></p>
-<div class="small-list">
+<section id="el-nombre-no-basta" class="slide level2">
+<h2>El nombre no basta</h2>
+<p><code>area_promedio</code> parece claro, pero todavía quedan preguntas:</p>
 <ul>
-<li>pregunta aplicada;</li>
-<li>representacion de datos;</li>
-<li>modelo y perdida;</li>
-<li>algoritmo de ajuste;</li>
-<li>metrica y diagnostico;</li>
-<li>decision comunicable.</li>
+<li>¿área construida, privada o vendible?;</li>
+<li>¿promedio simple o ponderado?;</li>
+<li>¿qué periodo cubre?;</li>
+<li>¿qué proyectos entraron en el cálculo?;</li>
+<li>¿cómo se trataron los datos faltantes?</li>
 </ul>
+<p>La documentación de una variable forma parte del dato.</p>
+</section>
+<section id="una-limitación-que-no-vamos-a-ocultar" class="slide level2">
+<h2>Una limitación que no vamos a ocultar</h2>
+<p>El archivo original llama <code>precios</code> a una columna, pero el recurso descargado no documenta su unidad.</p>
+<div class="lead">
+<p>No afirmaremos que son pesos, millones de pesos ni precio por metro cuadrado.</p>
 </div>
-</div>
+<p>En el curso la llamamos <code>precio_reportado</code>: podemos operar con sus valores y, al mismo tiempo, limitar lo que interpretamos.</p>
+</section>
+<section id="primera-pausa" class="slide level2">
+<h2>Primera pausa</h2>
+<div class="pause">
+<p>En parejas, escriban una frase para cada punto:</p>
+<ol type="1">
+<li>unidad de observación;</li>
+<li>posible población de interés;</li>
+<li>una pregunta que sí admite esta tabla;</li>
+<li>una pregunta que no admite;</li>
+<li>información que pedirían a la entidad antes de usar <code>precio_reportado</code>.</li>
+</ol>
+<p>Tiempo: 6 minutos. Luego contrastamos dos respuestas en el tablero.</p>
 </div>
 </section>
-<section id="el-primer-objeto-no-es-el-algoritmo" class="slide level2">
-<h2>El primer objeto no es el algoritmo</h2>
+<section id="observación-y-población" class="slide level2">
+<h2>Observación y población</h2>
+<div class="split">
+<h3 id="lo-observado">Lo observado</h3>
+<p>32 subzonas incluidas en el archivo congelado.</p>
+<h3 id="lo-que-alguien-podría-querer-estudiar">Lo que alguien podría querer estudiar</h3>
+<p>Todas las subzonas, proyectos o viviendas nuevas de Bogotá en un periodo determinado.</p>
+</div>
+<p>Pasar de una a otra exige supuestos sobre cobertura y representatividad.</p>
+</section>
+<section id="una-pregunta-útil-tiene-estructura" class="slide level2">
+<h2>Una pregunta útil tiene estructura</h2>
+<div class="board">
+<p><strong>Unidad</strong> + <strong>cantidad o clase</strong> + <strong>momento de predicción</strong> + <strong>uso previsto</strong></p>
+</div>
+<p>Ejemplo:</p>
+<blockquote>
+<p>Para una subzona descrita por promedios observados, estimar el indicador <code>precio_reportado</code> y estudiar qué tan lejos quedan las predicciones en subzonas no usadas para ajustar.</p>
+</blockquote>
+<p>La frase no promete valorar viviendas particulares.</p>
+</section>
+<section id="no-todas-las-preguntas-producen-la-misma-tarea" class="slide level2">
+<h2>No todas las preguntas producen la misma tarea</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Pregunta</th>
+<th>Tipo de salida</th>
+<th>Familia de tarea</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>estimar un indicador numérico</td>
+<td>número continuo</td>
+<td>regresión</td>
+</tr>
+<tr class="even">
+<td>asignar una categoría</td>
+<td>clase</td>
+<td>clasificación</td>
+</tr>
+<tr class="odd">
+<td>encontrar grupos sin etiqueta</td>
+<td>grupo</td>
+<td>aprendizaje no supervisado</td>
+</tr>
+<tr class="even">
+<td>ordenar alternativas</td>
+<td>puntaje o rango</td>
+<td>recomendación / ranking</td>
+</tr>
+</tbody>
+</table>
+<p>Primero fijamos la salida; después escogemos una familia de modelos.</p>
+</section>
+<section id="de-la-tabla-a-x-y-y" class="slide level2">
+<h2>De la tabla a <span class="math inline">\(X\)</span> y <span class="math inline">\(y\)</span></h2>
 <div class="math-focus">
 <p><span class="math display">\[
-\text{pregunta} \longrightarrow \text{unidad de observacion} \longrightarrow \text{variables} \longrightarrow \text{decision}
+X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 \]</span></p>
 </div>
-<div class="checkpoint">
-<p><strong>Regla practica</strong></p>
-<p>Si no sabemos que representa una fila, no estamos listos para entrenar un modelo.</p>
+<ul>
+<li><span class="math inline">\(m\)</span>: número de observaciones;</li>
+<li><span class="math inline">\(p\)</span>: número de variables de entrada;</li>
+<li>fila <span class="math inline">\(x_i^\top\)</span>: descripción de la observación <span class="math inline">\(i\)</span>;</li>
+<li><span class="math inline">\(y_i\)</span>: objetivo asociado con esa observación.</li>
+</ul>
+</section>
+<section id="una-matriz-pierde-los-nombres" class="slide level2">
+<h2>Una matriz pierde los nombres</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>X <span class="op">=</span> tabla[[</span>
+<span id="cb1-2"><a href=""></a>    <span class="st">"estrato_promedio"</span>,</span>
+<span id="cb1-3"><a href=""></a>    <span class="st">"area_promedio"</span>,</span>
+<span id="cb1-4"><a href=""></a>    <span class="st">"alcobas_promedio"</span>,</span>
+<span id="cb1-5"><a href=""></a>    <span class="st">"banos_promedio"</span>,</span>
+<span id="cb1-6"><a href=""></a>    <span class="st">"parqueaderos_promedio"</span>,</span>
+<span id="cb1-7"><a href=""></a>]]</span>
+<span id="cb1-8"><a href=""></a>y <span class="op">=</span> tabla[<span class="st">"precio_reportado"</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Al pasar a <code>numpy</code>, los números siguen allí, pero el significado depende de conservar nombres, unidades y procedencia por separado.</p>
+</section>
+<section id="modelo-parámetro-e-hiperparámetro" class="slide level2">
+<h2>Modelo, parámetro e hiperparámetro</h2>
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Ejemplo</th>
+<th>¿Cómo se fija?</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>familia de modelos</td>
+<td>funciones lineales</td>
+<td>elección de modelación</td>
+</tr>
+<tr class="even">
+<td>parámetro</td>
+<td>coeficientes <span class="math inline">\(\theta\)</span></td>
+<td>se ajusta con datos de entrenamiento</td>
+</tr>
+<tr class="odd">
+<td>hiperparámetro</td>
+<td>intensidad de regularización</td>
+<td>se selecciona con validación</td>
+</tr>
+</tbody>
+</table>
+<p>No llamaremos “parámetro” a cualquier número que aparezca en el código.</p>
+</section>
+<section id="aprender-no-es-predecir" class="slide level2">
+<h2>Aprender no es predecir</h2>
+<div class="split">
+<h3 id="ajuste">Ajuste</h3>
+<p>Usa observaciones con resultado conocido para determinar parámetros.</p>
+<p><span class="math display">\[
+(X_{\mathrm{train}},y_{\mathrm{train}})\longmapsto \widehat\theta
+\]</span></p>
+<h3 id="uso">Uso</h3>
+<p>Mantiene <span class="math inline">\(\widehat\theta\)</span> fijo y calcula una salida para nuevas entradas.</p>
+<p><span class="math display">\[
+x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
+\]</span></p>
 </div>
 </section>
-<section id="fila-columna-objetivo" class="slide level2">
-<h2>Fila, columna, objetivo</h2>
-<div class="split">
-<div class="mini-table">
+<section id="pérdida-métrica-y-baseline" class="slide level2">
+<h2>Pérdida, métrica y baseline</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -300,306 +510,237 @@ Cesar Galindo
 </thead>
 <tbody>
 <tr class="odd">
-<td>fila</td>
-<td>¿que caso individual representa?</td>
+<td>pérdida</td>
+<td>¿qué cantidad guía el ajuste?</td>
 </tr>
 <tr class="even">
-<td>columna</td>
-<td>¿que se midio o codifico?</td>
+<td>métrica</td>
+<td>¿cómo resumimos el comportamiento del modelo?</td>
 </tr>
 <tr class="odd">
-<td>objetivo</td>
-<td>¿que queremos estimar o clasificar?</td>
-</tr>
-<tr class="even">
-<td>decision</td>
-<td>¿que accion podria cambiar?</td>
+<td>baseline</td>
+<td>¿qué regla simple debe superar?</td>
 </tr>
 </tbody>
 </table>
-</div>
-<div class="activity">
-<p><strong>Actividad de 4 minutos</strong></p>
-<p>Elijan un problema con datos. Escriban: fila, tres columnas posibles, objetivo y una decision que podria informar.</p>
-</div>
-</div>
+<p>Pueden coincidir, pero no son sinónimos. Un algoritmo puede minimizar log-loss y reportarse con accuracy, recall o una matriz de confusión.</p>
 </section>
-<section id="un-modelo-como-familia-de-funciones" class="slide level2">
-<h2>Un modelo como familia de funciones</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-f_\theta: \mathcal X \to \mathcal Y
-\qquad
-\theta = \text{parametros aprendidos con datos}
-\]</span></p>
-</div>
-<div class="diagram-flow">
-<p><span>entrada x</span><span class="arrow">→</span><span>modelo f_theta</span><span class="arrow">→</span><span>prediccion</span><span class="arrow">→</span><span>decision</span></p>
-</div>
-</section>
-<section id="perdida-y-metrica-no-son-sinonimos" class="slide level2">
-<h2>Perdida y metrica no son sinonimos</h2>
-<div class="split">
-<div class="definition-card">
-<p><strong>Perdida</strong></p>
-<p>Cantidad que el algoritmo minimiza durante entrenamiento.</p>
-</div>
-<div class="definition-card">
-<p><strong>Metrica</strong></p>
-<p>Cantidad que usamos para evaluar y comunicar desempeno.</p>
-</div>
-</div>
-<div class="takeaway">
-<p>Mas adelante veremos modelos que optimizan log-loss pero se reportan con accuracy, recall, F1 o costo esperado.</p>
-</div>
-</section>
-<section id="baseline-antes-de-celebrar" class="slide level2">
-<h2>Baseline antes de celebrar</h2>
-<div class="large-statement">
-<p>Un modelo que no supera una regla simple todavia no aporta evidencia tecnica.</p>
-</div>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Clasificacion</strong></p>
-<p>Predecir siempre la clase mayoritaria.</p>
-</div>
-<div class="panel">
-<p><strong>Regresion</strong></p>
-<p>Predecir siempre promedio o mediana.</p>
-</div>
-<div class="panel">
-<p><strong>Proyecto</strong></p>
-<p>Comparar contra una decision razonable sin modelo.</p>
-</div>
-</div>
-</section>
-<section id="entrenamiento-y-prueba" class="slide level2">
-<h2>Entrenamiento y prueba</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\text{datos} =
-\text{train} \cup \text{test},
-\qquad
-\text{train} \cap \text{test}=\varnothing
-\]</span></p>
-</div>
-<div class="split">
-<div class="panel">
-<p><strong>Train</strong></p>
-<p>Sirve para ajustar parametros y tomar decisiones de modelacion.</p>
-</div>
-<div class="panel">
-<p><strong>Test</strong></p>
-<p>Sirve para estimar comportamiento fuera de los datos usados para ajustar.</p>
-</div>
-</div>
-</section>
-<section id="caso-de-la-semana-load_wine" class="slide level2">
-<h2>Caso de la semana: <code>load_wine</code></h2>
-<div class="split-wide">
+<section id="la-referencia-viene-primero" class="slide level2">
+<h2>La referencia viene primero</h2>
+<div class="result">
 <div>
-<p>Usaremos un dataset pequeno de <code>scikit-learn</code>.</p>
-<div class="small-list">
+<span class="value">media</span><span class="label">baseline frecuente en regresión</span>
+</div>
+<div>
+<span class="value">mediana</span><span class="label">referencia robusta para error absoluto</span>
+</div>
+<div>
+<span class="value">moda</span><span class="label">clase mayoritaria en clasificación</span>
+</div>
+</div>
+<p>Un resultado solo tiene contexto cuando sabemos contra qué se compara.</p>
+</section>
+<section id="separar-datos-cambia-la-pregunta" class="slide level2">
+<h2>Separar datos cambia la pregunta</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\mathcal D=\mathcal D_{\mathrm{train}}\,\dot\cup\,\mathcal D_{\mathrm{test}}
+\]</span></p>
+</div>
+<p>Con <code>train</code> preguntamos: <strong>¿qué parámetros se ajustan a estos datos?</strong></p>
+<p>Con <code>test</code> preguntamos: <strong>¿cómo se comporta el procedimiento en observaciones que no participaron en el ajuste?</strong></p>
+</section>
+<section id="una-regla-para-test" class="slide level2">
+<h2>Una regla para test</h2>
+<div class="lead">
+<p>Si una elección cambió después de mirar test, test ya participó en el diseño.</p>
+</div>
+<p>Esto incluye escoger variables, transformaciones aprendidas, hiperparámetros, umbrales y hasta la semilla “que se ve mejor”.</p>
+<p>Para esas elecciones necesitaremos un conjunto de validación o validación cruzada.</p>
+</section>
+<section id="filtración-de-información" class="slide level2">
+<h2>Filtración de información</h2>
+<p>Hay <em>leakage</em> cuando el procedimiento de entrenamiento accede a información que no estaría disponible al predecir.</p>
+<p>Ejemplos:</p>
 <ul>
-<li>fila: un vino;</li>
-<li>columnas: mediciones quimicas;</li>
-<li>objetivo: clase de vino;</li>
-<li>tarea: clasificacion multiclase;</li>
-<li>uso: aprender el flujo, no resolver una industria.</li>
+<li>normalizar con media y desviación calculadas sobre toda la tabla;</li>
+<li>usar una variable registrada después del resultado;</li>
+<li>imputar faltantes antes de separar;</li>
+<li>seleccionar el modelo con la métrica de test.</li>
 </ul>
+</section>
+<section id="los-datos-futuros-pueden-ser-distintos" class="slide level2">
+<h2>Los datos futuros pueden ser distintos</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+(X,Y)_{\mathrm{train}}\sim P_{\mathrm{train}},\qquad
+(X,Y)_{\mathrm{uso}}\sim P_{\mathrm{uso}}
+\]</span></p>
 </div>
+<p>Una evaluación histórica es informativa cuando ambas distribuciones son suficientemente comparables para el uso previsto.</p>
+<p>Cambios de población, instrumento, política o tiempo pueden romper esa comparación.</p>
+</section>
+<section id="lo-que-una-asociación-no-demuestra" class="slide level2">
+<h2>Lo que una asociación no demuestra</h2>
+<p>Una tabla observacional puede mostrar que dos variables cambian juntas. Eso no identifica por sí solo el efecto de intervenir sobre una de ellas.</p>
+<div class="question">
+<p>Si <code>estrato_promedio</code> y <code>precio_reportado</code> están asociados, ¿subir administrativamente el estrato produciría el cambio predicho por una recta?</p>
 </div>
-<div class="mini-table">
+<p>Predicción y causalidad responden preguntas distintas.</p>
+</section>
+<section id="la-ruta-del-semestre" class="slide level2">
+<h2>La ruta del semestre</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th>Paso</th>
-<th>Pregunta</th>
+<th style="text-align: right;">Módulo</th>
+<th>Pregunta matemática dominante</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>cargar</td>
-<td>¿que objetos devuelve?</td>
+<td style="text-align: right;">0</td>
+<td>¿qué representan los datos y qué incertidumbre introducen?</td>
 </tr>
 <tr class="even">
-<td>inspeccionar</td>
-<td>¿dimensiones y clases?</td>
+<td style="text-align: right;">1</td>
+<td>¿cómo se ajustan y evalúan modelos de regresión y clasificación?</td>
 </tr>
 <tr class="odd">
-<td>partir</td>
-<td>¿hay fuga de informacion?</td>
+<td style="text-align: right;">2</td>
+<td>¿cómo se construyen y entrenan redes neuronales?</td>
 </tr>
 <tr class="even">
-<td>entrenar</td>
-<td>¿que aprende el modelo?</td>
+<td style="text-align: right;">3</td>
+<td>¿cómo se diagnostican errores y cambios de distribución?</td>
 </tr>
 <tr class="odd">
-<td>medir</td>
-<td>¿supera baseline?</td>
+<td style="text-align: right;">4</td>
+<td>¿qué estructura se aprende sin etiquetas?</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td>¿cómo se reproduce y comunica un análisis completo?</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 </section>
-<section id="live-coding-cargar" class="slide level2">
-<h2>Live coding: cargar</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-4"><a href=""></a>X <span class="op">=</span> data.data</span>
-<span id="cb1-5"><a href=""></a>y <span class="op">=</span> data.target</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="checkpoint">
-<p>Antes de entrenar: <code>X.shape</code>, <code>y.value_counts()</code> y significado de columnas.</p>
-</div>
+<section id="así-trabajaremos-en-clase" class="slide level2">
+<h2>Así trabajaremos en clase</h2>
+<p>Cada semana combina:</p>
+<ol type="1">
+<li>una pregunta y un ejemplo concreto;</li>
+<li>desarrollo matemático en el tablero;</li>
+<li>implementación pequeña desde cero;</li>
+<li>comparación con una biblioteca;</li>
+<li>ejercicios y un artefacto evaluable.</li>
+</ol>
+<p>Las diapositivas orientan la sesión; el libro contiene el desarrollo que debe sobrevivir después de la clase.</p>
 </section>
-<section id="live-coding-particion" class="slide level2">
-<h2>Live coding: particion</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
-<span id="cb2-2"><a href=""></a></span>
-<span id="cb2-3"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb2-4"><a href=""></a>    X, y,</span>
-<span id="cb2-5"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb2-6"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
-<span id="cb2-7"><a href=""></a>    stratify<span class="op">=</span>y</span>
-<span id="cb2-8"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="takeaway">
-<p><code>stratify=y</code> preserva aproximadamente la proporcion de clases en train y test.</p>
-</div>
+<section id="dónde-está-cada-material" class="slide level2">
+<h2>Dónde está cada material</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Recurso</th>
+<th>Uso principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>página web del curso</td>
+<td>fechas, ruta, materiales y entregas</td>
+</tr>
+<tr class="even">
+<td>libro</td>
+<td>definiciones, derivaciones, ejemplos y ejercicios</td>
+</tr>
+<tr class="odd">
+<td>notebook de clase</td>
+<td>cálculo reproducible de la sesión</td>
+</tr>
+<tr class="even">
+<td>Bloque Neón</td>
+<td>anuncios y entrega de actividades</td>
+</tr>
+</tbody>
+</table>
+<p>No use una copia local antigua para verificar una fecha de entrega.</p>
 </section>
-<section id="live-coding-baseline" class="slide level2">
-<h2>Live coding: baseline</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
-<span id="cb3-4"><a href=""></a>baseline.fit(X_train, y_train)</span>
-<span id="cb3-5"><a href=""></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="activity">
-<p><strong>Pregunta rapida</strong></p>
-<p>Si una clase domina el 80% de los datos, ¿que accuracy tendria este baseline?</p>
-</div>
+<section id="el-proyecto-empieza-con-una-pregunta" class="slide level2">
+<h2>El proyecto empieza con una pregunta</h2>
+<p>Una propuesta inicial debe nombrar:</p>
+<ul>
+<li>fuente del conjunto de datos;</li>
+<li>unidad de observación;</li>
+<li>variable objetivo o estructura buscada;</li>
+<li>pregunta aplicada;</li>
+<li>uso que podría tener la respuesta;</li>
+<li>limitación anticipada.</li>
+</ul>
+<p>La elección del algoritmo viene después.</p>
 </section>
-<section id="live-coding-modelo-de-referencia" class="slide level2">
-<h2>Live coding: modelo de referencia</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb4-2"><a href=""></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb4-3"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb4-4"><a href=""></a></span>
-<span id="cb4-5"><a href=""></a>model <span class="op">=</span> make_pipeline(</span>
-<span id="cb4-6"><a href=""></a>    StandardScaler(),</span>
-<span id="cb4-7"><a href=""></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
-<span id="cb4-8"><a href=""></a>)</span>
-<span id="cb4-9"><a href=""></a>model.fit(X_train, y_train)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="checkpoint">
-<p>La tuberia evita olvidar el escalamiento cuando el modelo se use de nuevo.</p>
-</div>
-</section>
-<section id="medir-no-es-cerrar" class="slide level2">
-<h2>Medir no es cerrar</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
-<span id="cb5-2"><a href=""></a></span>
-<span id="cb5-3"><a href=""></a>pred <span class="op">=</span> model.predict(X_test)</span>
-<span id="cb5-4"><a href=""></a>accuracy_score(y_test, pred)</span>
-<span id="cb5-5"><a href=""></a>confusion_matrix(y_test, pred)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="large-statement">
-<p>Una metrica abre preguntas: ¿donde falla?, ¿contra que baseline?, ¿con que riesgo?</p>
-</div>
-</section>
-<section id="primer-diagnostico" class="slide level2">
-<h2>Primer diagnostico</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Numero</strong></p>
-<p>Accuracy, error, perdida o costo.</p>
-</div>
-<div class="panel">
-<p><strong>Patron</strong></p>
-<p>Clases confundidas, residuos, segmentos debiles.</p>
-</div>
-<div class="panel">
-<p><strong>Decision</strong></p>
-<p>Que recomendaria, que no recomendaria y por que.</p>
-</div>
-</div>
-</section>
-<section id="proyecto-final-desde-hoy" class="slide level2">
-<h2>Proyecto final: desde hoy</h2>
-<div class="large-statement">
-<p>Un proyecto viable empieza con una pregunta que produce una decision, no con un dataset atractivo.</p>
-</div>
-<div class="numbered-steps">
-<div>
-<p>Tema o dataset posible.</p>
-</div>
-<div>
-<p>Unidad de observacion.</p>
-</div>
-<div>
-<p>Pregunta aplicada.</p>
-</div>
-<div>
-<p>Decision que podria informar.</p>
-</div>
-<div>
-<p>Riesgo o limitacion anticipada.</p>
-</div>
-</div>
-</section>
-<section id="politica-de-ia" class="slide level2">
-<h2>Politica de IA</h2>
+<section id="dos-formulaciones-dos-alcances" class="slide level2">
+<h2>Dos formulaciones, dos alcances</h2>
 <div class="split">
-<div class="panel">
-<p><strong>Uso permitido</strong></p>
-<p>Explicar errores, generar ejemplos, revisar redaccion, comparar alternativas.</p>
+<h3 id="demasiado-amplia">Demasiado amplia</h3>
+<blockquote>
+<p>Predecir el precio de la vivienda en Bogotá con inteligencia artificial.</p>
+</blockquote>
+<h3 id="revisable">Revisable</h3>
+<blockquote>
+<p>Estimar un indicador agregado de precio para subzonas presentes en una fuente determinada y comparar el error fuera del ajuste con predecir la media de entrenamiento.</p>
+</blockquote>
 </div>
-<div class="warning-card">
-<p><strong>Uso no defendible</strong></p>
-<p>Entregar codigo, resultados o interpretaciones que no puedes explicar.</p>
-</div>
-</div>
-<div class="takeaway">
-<p>En este curso, la autoria se mide por la capacidad de defender cada decision tecnica.</p>
+<p>La segunda deja a la vista qué observa y qué no promete.</p>
+</section>
+<section id="segunda-pausa" class="slide level2">
+<h2>Segunda pausa</h2>
+<div class="pause">
+<p>Lean esta idea: “detectar estudiantes que van a perder una materia”.</p>
+<p>En grupos de tres, formulen cuatro preguntas antes de aceptar el proyecto:</p>
+<ol type="1">
+<li>¿qué representa una fila?;</li>
+<li>¿cuándo se hace la predicción?;</li>
+<li>¿qué variable podría filtrar el resultado?;</li>
+<li>¿qué daño puede producir un falso positivo?</li>
+</ol>
+<p>Tiempo: 7 minutos.</p>
 </div>
 </section>
-<section id="laboratorio-diagnostico" class="slide level2">
-<h2>Laboratorio diagnostico</h2>
-<div class="split">
-<div class="deliverable">
-<p><strong>Entregable</strong></p>
-<p>Notebook ejecutado de arriba a abajo, con salidas visibles y respuestas breves.</p>
-</div>
-<div class="deliverable">
-<p><strong>Si hay bloqueo</strong></p>
-<p>Reportar comando, error completo, sistema operativo, version de Python y lo intentado.</p>
-</div>
-</div>
+<section id="trabajo-de-la-semana-1" class="slide level2">
+<h2>Trabajo de la Semana 1</h2>
+<p>El laboratorio diagnóstico pide:</p>
+<ul>
+<li>ejecutar un notebook de arriba abajo;</li>
+<li>reconocer filas, variables y objetivo;</li>
+<li>calcular una referencia simple;</li>
+<li>interpretar una salida sin exagerar;</li>
+<li>reportar con precisión cualquier bloqueo técnico;</li>
+<li>proponer dos ideas iniciales de proyecto.</li>
+</ul>
+<p>Su función principal es detectar a tiempo dificultades de entorno y lenguaje común.</p>
 </section>
-<section id="cierre-tecnico" class="slide level2 no-border">
-<h2>Cierre tecnico</h2>
-<div class="big-question">
-<p>La primera semana se aprueba cuando puedes contar el ciclo completo: pregunta, datos, modelo, perdida, metrica, diagnostico y decision.</p>
-</div>
-<div class="diagram-flow">
-<p><span>pregunta</span><span class="arrow">→</span><span>datos</span><span class="arrow">→</span><span>modelo</span><span class="arrow">→</span><span>diagnostico</span><span class="arrow">→</span><span>decision</span></p>
-</div>
+<section id="antes-del-jueves" class="slide level2">
+<h2>Antes del jueves</h2>
+<ol type="1">
+<li>Lea el programa y la ruta de la Semana 1.</li>
+<li>Revise la guía de configuración.</li>
+<li>Abra el notebook de clase.</li>
+<li>Traiga Python/Jupyter funcionando o el error completo.</li>
+<li>Prepare dos ideas de proyecto con unidad de observación y limitación.</li>
+</ol>
+<p>El jueves haremos el primer experimento completo con <code>load_wine</code>.</p>
 </section>
-<section id="para-la-proxima-clase" class="slide level2">
-<h2>Para la proxima clase</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Leer</strong></p>
-<p>Programa, ruta semanal y configuracion tecnica.</p>
+<section id="cierre" class="slide level2">
+<h2>Cierre</h2>
+<div class="lead">
+<p>Antes de ajustar un modelo debemos poder terminar tres frases:</p>
 </div>
-<div class="panel">
-<p><strong>Ejecutar</strong></p>
-<p>Notebook de clase y laboratorio diagnostico.</p>
+<div class="board">
+<p>Cada fila representa…<br> La salida que queremos estudiar es…<br> Con estos datos no podemos concluir…</p>
 </div>
-<div class="panel">
-<p><strong>Traer</strong></p>
-<p>Dos ideas iniciales de proyecto con decision y riesgo.</p>
-</div>
-</div>
+<p>Si falta una de las tres, todavía no estamos listos para interpretar un puntaje.</p>
 
 </section>
     </div>

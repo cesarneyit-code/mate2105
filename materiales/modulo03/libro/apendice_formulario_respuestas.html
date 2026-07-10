@@ -434,9 +434,9 @@ F1 = 2\frac{\text{precision}\cdot \text{recall}}{\text{precision}+\text{recall}}
 <h3 class="anchored" data-anchor-id="verificaciones-de-ejemplos-resueltos">Verificaciones de ejemplos resueltos</h3>
 <p><strong>Costo de errores.</strong> Con umbral A, <span class="math inline">\(FP=40\)</span>, <span class="math inline">\(FN=15\)</span>, costo de FP igual a 1 y costo de FN igual a 10, el costo es <span class="math inline">\(40+150=190\)</span>. Con umbral B, el costo es <span class="math inline">\(10+250=260\)</span>. Si el falso negativo es mucho más costoso, A puede ser preferible aunque tenga menor precision.</p>
 <p><strong>Partición estratificada.</strong> Si hay 2000 observaciones y 8% de positivos, hay 160 positivos. En una división 60/20/20 se esperan 96 positivos en train, 32 en dev y 32 en test. Esta cuenta solo verifica proporción de clase; no valida tiempo, grupos ni duplicados.</p>
-<p><strong>Learning curve.</strong> Si F1 de validación sube de <span class="math inline">\(0.63\)</span> a <span class="math inline">\(0.86\)</span> al aumentar datos y la brecha train-validación baja de <span class="math inline">\(0.35\)</span> a <span class="math inline">\(0.04\)</span>, la evidencia sugiere que más datos ayuda a reducir varianza. No es una señal para aumentar complejidad como primera acción.</p>
+<p><strong>Learning curve.</strong> Si F1 de validación sube de <span class="math inline">\(0.63\)</span> a <span class="math inline">\(0.86\)</span> al aumentar datos y la brecha train-validación baja de <span class="math inline">\(0.35\)</span> a <span class="math inline">\(0.04\)</span>, el patrón sugiere que más datos podría ayudar a reducir varianza. No es una señal para aumentar complejidad como primera acción.</p>
 <p><strong>Data mismatch.</strong> Si train y dev tienen cerca de 20% de positivos, pero test tiene 8% y recall cae de 0.82 a 0.55, antes de ajustar hiperparámetros hay que auditar fuente, periodo, población y construcción del split.</p>
-<p><strong>Brecha por slice.</strong> Si el F1 global es 0.81 y en fuente C es 0.57, la brecha es <span class="math inline">\(0.81-0.57=0.24\)</span>. La recomendación debe explicar evidencia, diagnóstico, acción y límite; no basta reportar el promedio global.</p>
+<p><strong>Brecha por slice.</strong> Si el F1 global es 0.81 y en fuente C es 0.57, la brecha es <span class="math inline">\(0.81-0.57=0.24\)</span>. La recomendación debe explicar resultado, lectura, comprobación y límite; no basta reportar el promedio global.</p>
 </section>
 <section id="capítulo-1" class="level3">
 <h3 class="anchored" data-anchor-id="capítulo-1">Capítulo 1</h3>
@@ -459,8 +459,8 @@ F1 = 2\frac{\text{precision}\cdot \text{recall}}{\text{precision}+\text{recall}}
 </section>
 <section id="ejercicios-integradores" class="level3">
 <h3 class="anchored" data-anchor-id="ejercicios-integradores">Ejercicios integradores</h3>
-<p><strong>Bloque A.</strong> Una respuesta profesional sobre métricas debe nombrar el costo del error. Por ejemplo, no basta decir “F1 es mejor”; hay que explicar si el problema castiga más falsos positivos, falsos negativos o ambos.</p>
-<p><strong>Bloque D.</strong> La estructura mínima de recomendación técnica es: evidencia observada, diagnóstico probable, acción concreta y límite. Si falta una de esas cuatro partes, la recomendación es difícil de auditar.</p>
+<p><strong>Bloque A.</strong> Una respuesta completa sobre métricas debe nombrar el costo del error. Por ejemplo, no basta decir “F1 es mejor”; hay que explicar si el problema castiga más falsos positivos, falsos negativos o ambos.</p>
+<p><strong>Bloque D.</strong> La estructura mínima de recomendación técnica es: resultado observado, lectura probable, comprobación concreta y límite. Si falta una de esas cuatro partes, la recomendación es difícil de auditar.</p>
 
 
 </section>

@@ -1,33 +1,33 @@
-# Rubrica Lab 1
+# Rúbrica Lab 1
 
-## Distribucion
+## Distribución
 
 | Componente | Puntos | Calificacion |
 |---|---:|---|
-| Implementacion vectorizada | 3.0 | Autograded |
-| Ecuacion normal | 2.0 | Autograded |
+| Implementación vectorizada | 3.0 | Autograded |
+| Mínimos cuadrados con `lstsq` | 2.0 | Autograded |
 | Gradiente y descenso | 2.0 | Autograded |
-| Comparacion con `sklearn` | 2.0 | Autograded |
-| Interpretacion breve | 1.0 | Manual |
+| Comparación con referencia | 2.0 | Autograded |
+| Interpretación breve | 1.0 | Manual |
 
-## Revision manual
+## Revisión manual
 
 Pregunta:
 
-> Que evidencia muestra que el descenso del gradiente convergio y cual es una limitacion del experimento?
+> ¿Qué resultados muestran que el descenso del gradiente convergió y cuál es una limitación del experimento?
 
 | Puntaje manual | Criterio |
 |---:|---|
-| 0.0 | No responde, responde algo no tecnico o no usa evidencia del notebook |
-| 0.5 | Menciona perdida, convergencia o limitacion, pero de forma aislada |
-| 1.0 | Conecta curva de perdida, comparacion contra ecuacion normal o `sklearn`, y una limitacion concreta |
+| 0.0 | No responde, responde algo no técnico o no usa resultados del notebook |
+| 0.5 | Menciona pérdida, convergencia o limitación, pero de forma aislada |
+| 1.0 | Conecta la pérdida con la comparación contra `lstsq` o `sklearn` y una limitación concreta |
 
-## Senales de alerta
+## Señales de alerta
 
 - Notebook no ejecuta desde cero.
 - Funciones con valores hardcodeados.
 - Gradiente con signo contrario.
-- Historia de perdida vacia o no numerica.
-- Interpretacion copiada sin relacion con resultados propios.
+- Historia de pérdida vacía o no numérica.
+- Interpretación sin relación con los resultados propios.
 
-La revision manual no debe superar dos minutos por estudiante.
+La revisión manual no debe superar dos minutos por estudiante.

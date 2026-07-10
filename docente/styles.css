@@ -11,6 +11,13 @@
 
 body {
   color: var(--mate-ink);
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 .navbar {
@@ -92,4 +99,45 @@ body {
 
 .table-wrap {
   overflow-x: auto;
+}
+
+@media (max-width: 900px) {
+  #quarto-content.page-columns {
+    display: block !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: clip;
+    width: 100% !important;
+  }
+
+  #quarto-content.page-columns > main.content,
+  main.content {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+    max-width: calc(100vw - 2rem) !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: calc(100vw - 2rem) !important;
+  }
+
+  .teacher-command-center,
+  .sync-grid,
+  .teacher-week-list,
+  .route-dashboard,
+  .milestone-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .teacher-note,
+  .private-warning,
+  .route-principle,
+  .teacher-command-card,
+  .sync-card,
+  .teacher-week,
+  .route-card,
+  .milestone-card {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
 }

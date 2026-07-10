@@ -1,4 +1,4 @@
-# Rubrica Lab 4: Diagnóstico de modelos
+# Rúbrica Lab 4: Diagnóstico de modelos
 
 ## Distribución
 
@@ -13,9 +13,15 @@ Tiempo esperado por estudiante: 2-3 minutos.
 
 | Puntaje | Criterio |
 |---:|---|
-| 0 | No hay diagnóstico o no usa evidencia del notebook |
+| 0 | No hay diagnóstico o no usa resultados del notebook |
 | 1 | Menciona un resultado, pero no conecta con baseline, validación o errores |
-| 2 | Justifica selección con métrica, baseline, validación, slices y siguiente experimento |
+| 2 | Justifica selección con métrica, baseline, puntaje `media - desviación`, slices y siguiente experimento |
+
+El nivel manual se escala al 15% del laboratorio:
+
+\[
+\text{puntaje manual}=15\frac{\text{nivel}}{2}.
+\]
 
 ## Señales de alerta
 
@@ -23,6 +29,7 @@ Tiempo esperado por estudiante: 2-3 minutos.
 - Transformaciones hechas antes de partir datos.
 - Métrica principal no corresponde al costo del problema.
 - Cross-validation sin pipeline.
+- Presentar `media - desviación` como intervalo de confianza.
 - Recomendación genérica sin acción técnica.
 
 ## Comentarios rápidos sugeridos
@@ -30,4 +37,4 @@ Tiempo esperado por estudiante: 2-3 minutos.
 - "La comparación contra baseline está bien; falta analizar errores."
 - "La métrica elegida necesita justificación por costo de error."
 - "No uses test para decidir hiperparámetros."
-- "La recomendación debe tener forma evidencia-diagnóstico-acción."
+- "La recomendación debe nombrar resultado, diagnóstico y siguiente experimento."

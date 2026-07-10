@@ -359,39 +359,44 @@ La tasa de aprendizaje <code>alpha</code> controla el tamaño del paso en cada i
 <h2 class="anchored" data-anchor-id="algoritmo-básico">Algoritmo básico</h2>
 <p>Para MSE:</p>
 <p><span class="math display">\[
-J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
+J(\theta)=\frac{1}{2m}\|X\theta-y\|_2^2,
 \]</span></p>
 <p>el gradiente es:</p>
 <p><span class="math display">\[
-\nabla J(\theta)=\frac{1}{n}X^\top(X\theta-y).
+\nabla J(\theta)=\frac{1}{m}X^\top(X\theta-y).
 \]</span></p>
 <p>El algoritmo es:</p>
 <pre class="text"><code>inicializar theta
 para t = 1, ..., max_iter:
-    grad = (X.T @ (X @ theta - y)) / n
+    grad = (X.T @ (X @ theta - y)) / m
     theta = theta - alpha * grad
     guardar pérdida</code></pre>
 <p>Implementación:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-8</span>):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    n, p <span class="op">=</span> X.shape</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.zeros(p)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> []</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> half_mse_loss(X, y, theta):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(error <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        residual <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(residual <span class="op">**</span> <span class="dv">2</span>)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> (X.T <span class="op">@</span> residual) <span class="op">/</span> n</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-8</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    m, p <span class="op">=</span> X.shape</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.zeros(p)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> [half_mse_loss(X, y, theta)]</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        history.append(loss)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        theta_next <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> grad</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.norm(theta_next <span class="op">-</span> theta) <span class="op">&lt;</span> tol:</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>            theta <span class="op">=</span> theta_next</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> (X.T <span class="op">@</span> (X <span class="op">@</span> theta <span class="op">-</span> y)) <span class="op">/</span> m</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(np.isfinite(grad)):</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"gradiente no finito"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.norm(grad) <span class="op">&lt;=</span> tol:</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> theta_next</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta, np.array(history)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> grad</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> half_mse_loss(X, y, theta)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.isfinite(loss):</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"pérdida no finita"</span>)</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        history.append(loss)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta, np.array(history)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>history[t]</code> corresponde al parámetro después de <span class="math inline">\(t\)</span> actualizaciones, y el criterio de parada usa la norma del gradiente. Así la última pérdida guardada coincide con el <code>theta</code> devuelto. Una tolerancia por cambio de parámetros también es posible, pero depende explícitamente de <code>alpha</code>.</p>
 </section>
 <section id="cómo-leer-una-curva-de-pérdida" class="level2">
 <h2 class="anchored" data-anchor-id="cómo-leer-una-curva-de-pérdida">Cómo leer una curva de pérdida</h2>
@@ -443,7 +448,7 @@ para t = 1, ..., max_iter:
 </tbody>
 </table>
 <div class="criterio">
-<p><strong>Criterio práctico.</strong> Una curva de pérdida sin eje, sin escala y sin comentario no es evidencia. Debes decir si converge, si oscila, si se estabiliza y qué harías después.</p>
+<p><strong>Criterio práctico.</strong> Una curva de pérdida sin eje, escala ni lectura no permite diagnosticar el algoritmo. Debes decir si converge, oscila o se estabiliza y qué comprobación harías después.</p>
 </div>
 </section>
 <section id="ejemplo-resuelto-una-variable-escalada" class="level2">
@@ -480,7 +485,10 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 </section>
 <section id="condicionamiento" class="level2">
 <h2 class="anchored" data-anchor-id="condicionamiento">Condicionamiento</h2>
-<p>El condicionamiento mide qué tan sensible es un problema numérico a cambios pequeños. Para mínimos cuadrados, una matriz <code>X.T @ X</code> mal condicionada puede producir coeficientes inestables y descenso lento.</p>
+<p>El condicionamiento mide qué tan sensible es un problema numérico a cambios pequeños. Para mínimos cuadrados, la geometría viene de la matriz de diseño <span class="math inline">\(X\)</span> y de la Hessiana</p>
+<p><span class="math display">\[
+H=\frac1mX^\top X.
+\]</span></p>
 <p>El número de condición de una matriz invertible <code>A</code> se define como:</p>
 <p><span class="math display">\[
 \kappa(A)=\|A\|\|A^{-1}\|.
@@ -489,8 +497,13 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <p><span class="math display">\[
 \kappa(A)=\frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}.
 \]</span></p>
-<p>Si <code>kappa</code> es grande, hay direcciones donde la curvatura de la pérdida cambia mucho.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cond <span class="op">=</span> np.linalg.cond(X.T <span class="op">@</span> X)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Si <span class="math inline">\(X\)</span> tiene rango columna completo, en norma 2,</p>
+<p><span class="math display">\[
+\kappa_2(H)=\kappa_2(X^\top X)=\kappa_2(X)^2.
+\]</span></p>
+<p>Por eso conviene diagnosticar primero <span class="math inline">\(X\)</span>. Un valor grande indica direcciones con escalas o dependencias muy distintas y puede producir avance en zigzag e inestabilidad de coeficientes.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cond_X <span class="op">=</span> np.linalg.cond(X)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cond_H <span class="op">=</span> np.linalg.cond((X.T <span class="op">@</span> X) <span class="op">/</span> X.shape[<span class="dv">0</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="criterio">
 <p><strong>Lectura práctica.</strong> Un número de condición grande no invalida automáticamente un modelo, pero alerta sobre inestabilidad, colinealidad o necesidad de regularización.</p>
 </div>
@@ -498,10 +511,10 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <section id="comparación-con-ecuación-normal" class="level2">
 <h2 class="anchored" data-anchor-id="comparación-con-ecuación-normal">Comparación con ecuación normal</h2>
 <p>Para regresión lineal con MSE, la ecuación normal y descenso del gradiente buscan el mismo mínimo. Por eso podemos usarlas como verificación mutua:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>theta_ne <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>theta_ref <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>theta_gd, history <span class="op">=</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(theta_ne <span class="op">-</span> theta_gd)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(theta_ref <span class="op">-</span> theta_gd)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Si la diferencia es grande, puede ocurrir:</p>
 <ul>
 <li>faltaron iteraciones;</li>
@@ -561,7 +574,8 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <li>Grafica la pérdida.</li>
 <li>Descarta valores que divergen u oscilan.</li>
 <li>Elige el mayor valor que baje de forma estable.</li>
-<li>Verifica desempeño en validación o prueba.</li>
+<li>Elige la tasa con comportamiento estable y desempeño de validación.</li>
+<li>Una vez fijado todo el procedimiento, reporta prueba una sola vez.</li>
 </ol>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> [<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>]</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
@@ -577,7 +591,7 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <li>Usar <code>alpha</code> grande y no detectar divergencia.</li>
 <li>Escalar entrenamiento y prueba por separado.</li>
 <li>Incluir la columna de intercepto en el escalamiento.</li>
-<li>Comparar gradiente contra ecuación normal sin usar la misma matriz <code>X</code>.</li>
+<li>Comparar gradiente contra <code>lstsq</code> sin usar la misma matriz <code>X</code>.</li>
 <li>Creer que más iteraciones arreglan un mal modelo.</li>
 </ol>
 </section>
@@ -590,7 +604,7 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <li>¿Puedes implementar el gradiente de MSE sin ciclos?</li>
 <li>¿Puedes interpretar una curva que oscila?</li>
 <li>¿Sabes por qué se escala con parámetros de entrenamiento?</li>
-<li>¿Puedes comparar <code>theta_gd</code> con <code>theta_ne</code>?</li>
+<li>¿Puedes comparar <code>theta_gd</code> con una solución de <code>lstsq</code>?</li>
 </ul>
 </div>
 </section>
@@ -608,7 +622,7 @@ Estandarizar una variable es restarle su media de entrenamiento y dividirla por 
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>El descenso del gradiente convierte cálculo diferencial en un algoritmo iterativo. En lugar de resolver directamente una ecuación cerrada, actualiza los parámetros en la dirección opuesta al gradiente de la pérdida.</p>
 <p>La tasa de aprendizaje controla el tamaño de cada paso. Una tasa demasiado pequeña produce avance lento; una tasa demasiado grande puede provocar oscilación o divergencia. El escalamiento de variables mejora el condicionamiento y hace que las direcciones de descenso sean más comparables.</p>
-<p>Una implementación confiable debe registrar la pérdida, verificar que las formas de matrices coincidan y comparar el resultado contra una referencia. La curva de pérdida no es decoración: es evidencia de convergencia o de un problema de escala, tasa o código.</p>
+<p>Una implementación confiable debe registrar la pérdida, verificar que las formas de matrices coincidan y comparar el resultado contra una referencia. La curva de pérdida permite detectar convergencia, oscilación o un problema de escala, tasa o código.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
@@ -655,7 +669,7 @@ y=\begin{bmatrix}1\\3\\5\end{bmatrix},\quad
 <li>Agrega un criterio de parada por norma del gradiente.</li>
 <li>Compara tres tasas de aprendizaje en un dataset generado con semilla fija.</li>
 <li>Estandariza variables sin tocar la columna de intercepto.</li>
-<li>Calcula <code>np.linalg.cond(X.T @ X)</code> antes y después de escalar.</li>
+<li>Calcula <code>np.linalg.cond(X)</code> y <code>np.linalg.cond(X.T @ X)</code> antes y después de escalar; verifica la relación entre ambos valores.</li>
 </ol>
 </section>
 <section id="interpretación-y-pensamiento-crítico" class="level3">

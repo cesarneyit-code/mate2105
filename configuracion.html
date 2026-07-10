@@ -202,72 +202,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="entorno-recomendado" class="level1">
-<h1>Entorno recomendado</h1>
-<p>Para trabajar localmente con los notebooks, descarga el paquete del Módulo 0 y ejecuta:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/check_env.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>En Windows, la activacion suele ser:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv\Scripts\activate</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="descargas-necesarias" class="level1">
-<h1>Descargas necesarias</h1>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Archivo</th>
-<th>Descargar</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Paquete estudiantes Módulo 0</td>
-<td><a href="descargas/modulo00_estudiantes.zip">modulo00_estudiantes.zip</a></td>
-</tr>
-<tr class="even">
-<td>Requirements</td>
-<td><a href="descargas/modulo00/requirements.txt">requirements.txt</a></td>
-</tr>
-<tr class="odd">
-<td>Chequeo de entorno</td>
-<td><a href="descargas/modulo00/check_env.py">check_env.py</a></td>
-</tr>
-<tr class="even">
-<td>Laboratorio Semana 1</td>
-<td><a href="descargas/modulo00/semana01_lab.ipynb">semana01_lab.ipynb</a></td>
-</tr>
-</tbody>
-</table>
+<section id="entorno-recomendado-para-el-semestre" class="level1">
+<h1>Entorno recomendado para el semestre</h1>
+<p>El entorno completo del curso está probado con <strong>Python 3.11 o 3.12</strong>. Antes de crear el entorno, verifica la versión:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">--version</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Descarga estos dos archivos en una misma carpeta:</p>
+<div class="env-downloads">
+<div class="env-download">
+<p><strong><code>requirements_curso.txt</code></strong></p>
+<p>Versiones compatibles para todo el semestre.</p>
+<p><a href="descargas/requirements_curso.txt">Descargar requisitos</a></p>
+</div>
+<div class="env-download">
+<p><strong><code>check_env_curso.py</code></strong></p>
+<p>Prueba NumPy, scikit-learn, PyTorch y el dataset de arranque.</p>
+<p><a href="descargas/check_env_curso.py">Descargar chequeo</a></p>
+</div>
+</div>
+<p>Desde esa carpeta, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">--upgrade</span> pip</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements_curso.txt</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> check_env_curso.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En Windows, la activación suele ser:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode powershell code-with-copy"><code class="sourceCode powershell"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="op">.</span><span class="fu">venv</span>\Scripts\activate</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La instalación puede tardar varios minutos porque incluye PyTorch, que se usa en el Módulo 2. No cambies a Python 3.13 o 3.14 dentro del mismo entorno: las versiones fijadas se eligieron para que los notebooks del semestre compartan una sola instalación reproducible.</p>
 </section>
 <section id="resultado-esperado" class="level1">
 <h1>Resultado esperado</h1>
-<p>Al ejecutar:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/check_env.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>debes ver:</p>
-<pre class="text"><code>Dataset wine: 178 observaciones, 13 variables
-Conteo por clase: {0: 59, 1: 71, 2: 48}
-Chequeo completado correctamente.</code></pre>
+<p>Al final del chequeo debes ver:</p>
+<pre class="text"><code>Wine: 178 observaciones, 13 variables, clases [59, 71, 48]
+NumPy, scikit-learn y PyTorch: operación mínima correcta
+Chequeo semestral completado correctamente.</code></pre>
+<p>Las versiones exactas aparecen antes de esas líneas. Si el chequeo termina sin <code>ERROR</code>, el entorno está listo para los módulos 0-5.</p>
+</section>
+<section id="alternativa-ligera-para-la-semana-1" class="level1">
+<h1>Alternativa ligera para la Semana 1</h1>
+<p>El <a href="descargas/modulo00_estudiantes.zip">paquete del Módulo 0</a> contiene un <code>requirements.txt</code> más pequeño. Sirve para el laboratorio diagnóstico y no instala PyTorch. Puedes usarlo si la instalación semestral no termina antes de la primera clase; deberás completar el entorno antes de la Semana 7.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> scripts/check_env.py</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="kernel-de-jupyter" class="level1">
+<h1>Kernel de Jupyter</h1>
+<p>Con el entorno activado, registra un kernel solo si Jupyter no lo muestra:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> mate2105 <span class="at">--display-name</span> <span class="st">"Python (MATE-2105)"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En cada notebook, confirma que el kernel seleccionado sea <code>Python (MATE-2105)</code> o el intérprete de <code>.venv</code>.</p>
 </section>
 <section id="si-algo-falla" class="level1">
 <h1>Si algo falla</h1>
-<p>Entrega o envia un reporte con:</p>
+<p>Entrega o envía un reporte con:</p>
 <ol type="1">
 <li>comando ejecutado;</li>
 <li>error completo;</li>
 <li>sistema operativo;</li>
 <li>versión de Python;</li>
-<li>que intentaste para resolverlo.</li>
+<li>qué intentaste para resolverlo.</li>
 </ol>
 <p>Ejemplo:</p>
-<pre class="text"><code>Comando: python scripts/check_env.py
-Error: ModuleNotFoundError: No module named 'sklearn'
+<pre class="text"><code>Comando: python check_env_curso.py
+Error: ModuleNotFoundError: No module named 'torch'
 Sistema: macOS
-Python: 3.11.8
-Intento: ejecute pip install -r requirements.txt, pero fallo en scikit-learn.</code></pre>
-<p><a href="materiales/modulo00/libro/recursos/configuracion_entorno.html">Abrir guía completa de configuración</a></p>
+Python: 3.12.4
+Intento: ejecuté pip install -r requirements_curso.txt; la instalación se interrumpió.</code></pre>
+<p>Un mensaje como “no funciona” no permite localizar el problema. Conserva la salida completa de la terminal.</p>
+<p><a href="materiales/modulo00/libro/recursos/configuracion_entorno.html">Abrir guía detallada de la Semana 1</a></p>
 <p>Cuando el entorno funcione, vuelve a la <a href="./ruta.html">ruta del curso</a> y continúa con la semana correspondiente.</p>
 
 

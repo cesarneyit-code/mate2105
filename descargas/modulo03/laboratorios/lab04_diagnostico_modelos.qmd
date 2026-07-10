@@ -13,11 +13,11 @@ lang: es
 
 # Propósito
 
-Este laboratorio evalúa si puedes desarrollar modelos de forma metodica: definir una métrica, construir particiones sin leakage, comparar contra baseline, usar cross-validation y diagnosticar errores.
+Este laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada y localizar errores.
 
 La pregunta técnica central es:
 
-> ¿Qué evidencia justifica elegir un modelo y cuál es el siguiente experimento razonable?
+> ¿Qué resultados justifican elegir un modelo y cuál es el siguiente experimento razonable?
 
 # Qué debes entregar
 
@@ -44,7 +44,7 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 
 # Lo que autocalifica el notebook
 
-| Componente | Evidencia esperada | Calificación |
+| Componente | Resultado esperado | Calificación |
 |---|---|---:|
 | Particiones | train/dev/test estratificados y reproducibles | Automática |
 | Baseline | `DummyClassifier` o regla equivalente | Automática |
@@ -53,20 +53,24 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 | Cross-validation | media y desviación de scores | Automática |
 | Learning curve | tamaños, train scores y validation scores consistentes | Automática |
 | Error slices | tabla por subgrupo con conteos y métricas | Automática |
-| Selección | mejor modelo según métrica principal | Automática |
+| Selección | mayor puntaje conservador `media - desviación` en validación | Automática |
+
+La regla `media - desviación` penaliza resultados variables y fija un criterio
+reproducible para este laboratorio. Es una **heurística de selección**, no un
+intervalo de confianza ni una garantía de desempeño futuro.
 
 # Parte manual
 
 Incluye una respuesta corta:
 
-> Con la evidencia del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?
+> Con los resultados del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?
 
 Rúbrica manual:
 
 | Puntaje | Criterio |
 |---:|---|
-| 0 | No responde o no usa evidencia |
-| 1 | Menciona métrica o modelo, pero sin diagnóstico accionable |
+| 0 | No responde o no usa resultados del notebook |
+| 1 | Menciona métrica o modelo, pero no propone una comprobación concreta |
 | 2 | Conecta métrica, baseline, validación, error analysis y siguiente experimento |
 
 # Errores frecuentes
@@ -77,4 +81,5 @@ Rúbrica manual:
 4. Comparar modelos con particiones distintas.
 5. Reportar cross-validation sin desviación.
 6. No mirar falsos negativos/falsos positivos.
-7. Hacer una recomendación sin acción concreta.
+7. Presentar `media - desviación` como un límite de confianza.
+8. Hacer una recomendación sin acción concreta.

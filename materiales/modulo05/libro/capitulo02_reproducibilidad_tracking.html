@@ -228,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#caso-longitudinal-manifest-del-clasificador" id="toc-caso-longitudinal-manifest-del-clasificador" class="nav-link" data-scroll-target="#caso-longitudinal-manifest-del-clasificador">Caso longitudinal: manifest del clasificador</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#ejemplo-resuelto-manifest-mínimo-en-json" id="toc-ejemplo-resuelto-manifest-mínimo-en-json" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo-en-json">Ejemplo resuelto: manifest mínimo en JSON</a></li>
-  <li><a href="#qué-debe-poder-rerunearse" id="toc-qué-debe-poder-rerunearse" class="nav-link" data-scroll-target="#qué-debe-poder-rerunearse">Qué debe poder rerunearse</a></li>
+  <li><a href="#qué-debe-poder-volver-a-ejecutarse" id="toc-qué-debe-poder-volver-a-ejecutarse" class="nav-link" data-scroll-target="#qué-debe-poder-volver-a-ejecutarse">Qué debe poder volver a ejecutarse</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -272,20 +272,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="qué-significa-reproducir" class="level2">
 <h2 class="anchored" data-anchor-id="qué-significa-reproducir">Qué significa reproducir</h2>
 <div class="definition-card">
-<p><strong>Reproducibilidad:</strong> capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados equivalentes.</p>
+<p><strong>Reproducibilidad:</strong> capacidad de volver a ejecutar el análisis con los mismos datos, código, entorno y parámetros para obtener resultados iguales o numéricamente equivalentes bajo una tolerancia declarada.</p>
 </div>
-<p>En ciencia de datos aplicada, reproducibilidad no es un lujo académico. Es lo que permite auditar una decisión, comparar experimentos y depurar errores.</p>
-<div id="fig-cap20-reproducibilidad-manifest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+<p>Esta propiedad permite comparar corridas y depurar errores. No demuestra que el modelo sea correcto ni que el resultado se replique con otra muestra.</p>
+<div id="fig-cap20-reproducibilidad-manifest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de datos, código, entorno y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y entorno permiten reconstruir los resultados.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap20-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+<img src="../figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, entorno y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y entorno permiten reconstruir los resultados.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap20-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
+Figura&nbsp;3.1: Reproducibilidad: datos, código, entorno y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> Una corrida reproducible no se identifica solo por el resultado final. Necesita registrar datos, código, ambiente, parámetros, métricas y artefactos para que la evidencia pueda reconstruirse.</p>
+<p><strong>Lectura de la figura.</strong> Una corrida reproducible no se identifica solo por el resultado final. Necesita registrar datos, código, entorno, parámetros, métricas y artefactos para reconstruir la corrida.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -326,7 +326,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 </tr>
 <tr class="even">
 <td><code>notebooks/</code></td>
-<td>¿Dónde está la exploración y evidencia narrativa?</td>
+<td>¿Dónde está la exploración documentada?</td>
 </tr>
 <tr class="odd">
 <td><code>data/README.md</code></td>
@@ -342,7 +342,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 </tr>
 <tr class="even">
 <td><code>manifest.json</code></td>
-<td>¿Qué parámetros, métricas y hashes prueban la corrida?</td>
+<td>¿Qué entorno, parámetros, métricas y hashes identifican la corrida?</td>
 </tr>
 </tbody>
 </table>
@@ -351,31 +351,51 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <h2 class="anchored" data-anchor-id="semillas">Semillas</h2>
 <p>La semilla controla generadores pseudoaleatorios:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>RANDOM_STATE <span class="op">=</span> <span class="dv">42</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Pero una semilla no garantiza reproducibilidad total si cambian dependencias, hardware, versiones o datos. Por eso se registra junto con el entorno y los artefactos.</p>
+<p>Pero una semilla no garantiza reproducibilidad total si cambian dependencias, hardware, versiones o datos. Algunas operaciones paralelas también pueden ser no deterministas. Por eso se registra junto con el entorno y los artefactos.</p>
 </section>
 <section id="manifest-de-experimento" class="level2">
 <h2 class="anchored" data-anchor-id="manifest-de-experimento">Manifest de experimento</h2>
 <p>Un manifest es un resumen estructurado:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"model"</span><span class="fu">:</span> <span class="st">"LogisticRegression"</span><span class="fu">,</span> <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">,</span> <span class="dt">"random_state"</span><span class="fu">:</span> <span class="dv">42</span><span class="fu">},</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"f1"</span><span class="fu">:</span> <span class="fl">0.91</span><span class="fu">,</span> <span class="dt">"roc_auc"</span><span class="fu">:</span> <span class="fl">0.96</span><span class="fu">},</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"model.joblib"</span><span class="fu">:</span> <span class="st">"sha256:..."</span><span class="fu">},</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"usar como baseline final"</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>El objetivo no es burocracia. Es poder responder: “¿qué corrida produjo este resultado?”.</p>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"schema_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"logreg-c01-s2105"</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"code"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"commit"</span><span class="fu">:</span> <span class="st">"4d92a1f"</span><span class="fu">},</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"environment"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python"</span><span class="fu">:</span> <span class="st">"3.13.5"</span><span class="fu">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"packages"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"numpy"</span><span class="fu">:</span> <span class="st">"2.3.1"</span><span class="fu">,</span> <span class="dt">"scikit-learn"</span><span class="fu">:</span> <span class="st">"1.7.1"</span><span class="fu">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"inputs"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"datos.csv"</span><span class="fu">:</span> <span class="st">"6f7d...a12c"</span><span class="fu">},</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"model"</span><span class="fu">:</span> <span class="st">"LogisticRegression"</span><span class="fu">,</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">,</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"split"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"train"</span><span class="fu">:</span> <span class="fl">0.6</span><span class="fu">,</span> <span class="dt">"dev"</span><span class="fu">:</span> <span class="fl">0.2</span><span class="fu">,</span> <span class="dt">"test"</span><span class="fu">:</span> <span class="fl">0.2</span><span class="fu">}</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_f1"</span><span class="fu">:</span> <span class="fl">0.81</span><span class="fu">},</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"metricas.csv"</span><span class="fu">:</span> <span class="st">"c2a8...90bf"</span><span class="fu">}</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Los hashes se muestran abreviados solo para lectura; el archivo real conserva los 64 caracteres hexadecimales de SHA-256. La pregunta que responde el manifest es: “¿qué corrida produjo este número?”.</p>
 </section>
 <section id="ejemplo-resuelto-manifest-mínimo" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-manifest-mínimo">Ejemplo resuelto: manifest mínimo</h2>
 <p>Un manifest suficientemente útil para un baseline podría ser:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"baseline_logreg_2026_09_10"</span><span class="fu">,</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"data_split"</span><span class="fu">:</span> <span class="st">"train/dev/test random_state=42"</span><span class="fu">,</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"model"</span><span class="fu">:</span> <span class="st">"LogisticRegression"</span><span class="fu">,</span> <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">},</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_f1"</span><span class="fu">:</span> <span class="fl">0.81</span><span class="fu">,</span> <span class="dt">"test_f1"</span><span class="fu">:</span> <span class="fl">0.78</span><span class="fu">},</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"report.html"</span><span class="fu">:</span> <span class="st">"sha256:..."</span><span class="fu">},</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"mantener como baseline de comparación"</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>No es necesario que sea largo. Debe ser suficiente para reconstruir la decisión.</p>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"schema_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"baseline-logreg-s2105"</span><span class="fu">,</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"environment"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python"</span><span class="fu">:</span> <span class="st">"3.13.5"</span><span class="fu">,</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"packages"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"scikit-learn"</span><span class="fu">:</span> <span class="st">"1.7.1"</span><span class="fu">}</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"model"</span><span class="fu">:</span> <span class="st">"LogisticRegression"</span><span class="fu">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"C"</span><span class="fu">:</span> <span class="fl">1.0</span><span class="fu">,</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"split"</span><span class="fu">:</span> <span class="st">"60/20/20 estratificado"</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_f1"</span><span class="fu">:</span> <span class="fl">0.81</span><span class="fu">},</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"metricas.csv"</span><span class="fu">:</span> <span class="st">"c2a8...90bf"</span><span class="fu">}</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>No es necesario que sea largo. Debe distinguir la partición de cada métrica y permitir localizar sus salidas. <code>test_f1</code> se agrega cuando el protocolo queda cerrado y se ejecuta la evaluación final.</p>
 </section>
 <section id="ejemplo-resuelto-resultado-no-reproducible" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-resultado-no-reproducible">Ejemplo resuelto: resultado no reproducible</h2>
@@ -387,24 +407,24 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <li>si las versiones de librerías cambiaron;</li>
 <li>si el reporte copió una métrica de una corrida anterior.</li>
 </ol>
-<p>Un resultado no reproducible no se defiende con memoria. Se defiende corrigiendo la cadena de evidencia hasta que la métrica pueda reconstruirse.</p>
+<p>Un resultado no reproducible no se corrige con memoria. Se reconstruye la secuencia de entradas y transformaciones hasta localizar por qué cambió la métrica.</p>
 </section>
 <section id="ejemplo-resuelto-auditar-un-manifest" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-auditar-un-manifest">Ejemplo resuelto: auditar un manifest</h2>
 <p>Supón que el manifest registra:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"run_id"</span><span class="fu">:</span> <span class="st">"ridge_v3"</span><span class="fu">,</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_rmse"</span><span class="fu">:</span> <span class="fl">12.4</span><span class="fu">},</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"predictions.csv"</span><span class="fu">:</span> <span class="st">"sha256:abc123"</span><span class="fu">},</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"usar ridge_v3 como modelo candidato"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"environment"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"python"</span><span class="fu">:</span> <span class="st">"3.13.5"</span><span class="fu">,</span> <span class="dt">"packages"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"numpy"</span><span class="fu">:</span> <span class="st">"2.3.1"</span><span class="fu">}},</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"model"</span><span class="fu">:</span> <span class="st">"Ridge"</span><span class="fu">,</span> <span class="dt">"alpha"</span><span class="fu">:</span> <span class="fl">10.0</span><span class="fu">,</span> <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">},</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_rmse"</span><span class="fu">:</span> <span class="fl">12.4</span><span class="fu">},</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"predictions.csv"</span><span class="fu">:</span> <span class="st">"abc123..."</span><span class="fu">}</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Dos semanas después, el archivo <code>predictions.csv</code> existe, pero su hash calculado es <code>sha256:def987</code>.</p>
 <p>La conclusión correcta no es “el modelo está mal”. La conclusión correcta es:</p>
 <ol type="1">
 <li>el artefacto actual no coincide con el artefacto registrado;</li>
 <li>la métrica <code>dev_rmse=12.4</code> ya no queda respaldada por ese archivo;</li>
-<li>hay que rerunear la evaluación o recuperar el artefacto original;</li>
+<li>hay que volver a ejecutar la evaluación o recuperar el artefacto original;</li>
 <li>cualquier reporte que use esa corrida debe marcarse como no verificado hasta resolver la discrepancia.</li>
 </ol>
 <p>Un hash no evalúa calidad estadística. Evalúa identidad del archivo.</p>
@@ -430,7 +450,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 </tr>
 <tr class="odd">
 <td>params</td>
-<td>hiperparámetros y decisiones</td>
+<td>hiperparámetros, semilla y protocolo de partición</td>
 </tr>
 <tr class="even">
 <td>metrics</td>
@@ -474,7 +494,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <li>¿El entorno está documentado?</li>
 <li>¿Las métricas finales se pueden recalcular?</li>
 <li>¿Los artefactos tienen nombre, versión o hash?</li>
-<li>¿El reporte distingue resultados de decisiones?</li>
+<li>¿El reporte distingue resultados, interpretación y recomendación?</li>
 </ol>
 </section>
 <section id="punto-de-control" class="level2">
@@ -484,7 +504,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <li>¿qué datos se usaron?;</li>
 <li>¿con qué entorno se ejecutó?;</li>
 <li>¿qué modelo produjo la métrica reportada?;</li>
-<li>¿qué archivos son evidencia y cuáles son auxiliares?;</li>
+<li>¿qué archivos sostienen los resultados y cuáles son auxiliares?;</li>
 <li>¿qué decisión se tomó a partir de la corrida?</li>
 </ol>
 </section>
@@ -533,40 +553,51 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 </tr>
 </tbody>
 </table>
-<p>El manifest no garantiza que el modelo sea bueno. Garantiza que la evidencia se puede reconstruir. Esa diferencia es central para una defensa técnica.</p>
+<p>El manifest no garantiza que el modelo sea bueno. Permite reconstruir qué corrida produjo los archivos registrados. Esa diferencia es central para una defensa técnica.</p>
 </section>
 <section id="verificaciones-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
 <ol type="1">
 <li>Un notebook ejecutable sin semilla puede ser reproducible en estructura, pero no necesariamente en resultados numéricos.</li>
-<li>Si el dataset cambia y no cambia el manifest, ya no sabes qué evidencia sostiene la conclusión.</li>
-<li>Una tabla de métricas sin partición asociada no es evidencia auditable.</li>
+<li>Si el dataset cambia y no cambia el manifest, ya no sabes qué archivo sostiene la conclusión.</li>
+<li>Una tabla de métricas sin partición asociada no permite reconstruir la evaluación.</li>
 </ol>
 </section>
 <section id="ejemplo-resuelto-manifest-mínimo-en-json" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-manifest-mínimo-en-json">Ejemplo resuelto: manifest mínimo en JSON</h2>
 <p>Un manifest pequeño puede verse así:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dataset"</span><span class="fu">:</span> <span class="st">"clasificacion_binaria_sintetica.csv"</span><span class="fu">,</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"target"</span><span class="fu">:</span> <span class="st">"target"</span><span class="fu">,</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"random_state"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"split"</span><span class="fu">:</span> <span class="st">"60/20/20 stratified"</span><span class="fu">,</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metric_primary"</span><span class="fu">:</span> <span class="st">"f1"</span><span class="fu">,</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"metrics.csv"</span><span class="ot">,</span> <span class="st">"confusion_matrix.png"</span><span class="ot">,</span> <span class="st">"slice_report.csv"</span><span class="ot">]</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Este archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué evidencia. Si cambian datos, métrica o partición, el manifest debe cambiar.</p>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"schema_version"</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"environment"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"python"</span><span class="fu">:</span> <span class="st">"3.13.5"</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"packages"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"pandas"</span><span class="fu">:</span> <span class="st">"2.3.1"</span><span class="fu">,</span> <span class="dt">"scikit-learn"</span><span class="fu">:</span> <span class="st">"1.7.1"</span><span class="fu">}</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"dataset"</span><span class="fu">:</span> <span class="st">"clasificacion_binaria_sintetica.csv"</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"target"</span><span class="fu">:</span> <span class="st">"target"</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"seed"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"split"</span><span class="fu">:</span> <span class="st">"60/20/20 estratificado"</span><span class="fu">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"metric_primary"</span><span class="fu">:</span> <span class="st">"f1"</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metrics"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"dev_f1"</span><span class="fu">:</span> <span class="fl">0.81</span><span class="fu">},</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"metrics.csv"</span><span class="fu">:</span> <span class="st">"c2a8...90bf"</span><span class="fu">,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="dt">"slice_report.csv"</span><span class="fu">:</span> <span class="st">"151f...2d8e"</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué resultado. Si cambian datos, métrica o partición, el manifest debe cambiar.</p>
 </section>
-<section id="qué-debe-poder-rerunearse" class="level2">
-<h2 class="anchored" data-anchor-id="qué-debe-poder-rerunearse">Qué debe poder rerunearse</h2>
+<section id="qué-debe-poder-volver-a-ejecutarse" class="level2">
+<h2 class="anchored" data-anchor-id="qué-debe-poder-volver-a-ejecutarse">Qué debe poder volver a ejecutarse</h2>
 <p>Un paquete reproducible no exige que todo el curso se ejecute en segundos, pero sí que exista una ruta verificable. Como mínimo, otra persona debe poder ejecutar un script o notebook que cargue datos permitidos, reconstruya particiones, entrene o cargue el modelo declarado, calcule métricas principales y regenere la tabla final. Si el entrenamiento completo es costoso, se debe incluir una versión reducida o un modo de evaluación que cargue artefactos ya generados y verifique sus métricas.</p>
-<p>La trazabilidad se rompe cuando una figura se pega manualmente, una métrica se copia sin archivo de origen o una tabla final no se puede regenerar. En ese caso, la discusión técnica puede ser buena, pero la evidencia no es auditable. El manifest debe apuntar a los archivos que sostienen cada afirmación importante.</p>
+<p>La trazabilidad se rompe cuando una figura se pega manualmente, una métrica se copia sin archivo de origen o una tabla final no se puede regenerar. En ese caso, la discusión técnica puede ser buena, pero el resultado no es auditable. El manifest debe apuntar a los archivos que sostienen cada afirmación importante.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
 <div class="explore">
 <ul>
 <li><strong>Extensión matemática:</strong> identifica qué cantidades numéricas deben quedar fijas para comparar dos corridas de entrenamiento.</li>
-<li><strong>Extensión computacional:</strong> crea un manifest mínimo con datos, código, semilla, ambiente, métricas y hash de salida.</li>
+<li><strong>Extensión computacional:</strong> crea un manifest mínimo con datos, commit, semilla, entorno, métricas y hash de salida.</li>
 <li><strong>Conexión con proyecto:</strong> define qué archivos entregados permitirían auditar tu resultado sin abrir tu notebook manualmente.</li>
 </ul>
 </div>
@@ -575,13 +606,13 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
 <p>Reproducibilidad significa que otra persona puede reconstruir el resultado desde datos, código, entorno, parámetros y artefactos. Una semilla ayuda, pero no basta si cambian datos, librerías, hardware o pasos manuales.</p>
 <p>El manifest registra qué corrida produjo qué métricas y qué artefactos. Los hashes detectan cambios en archivos, pero no prueban que el contenido sea correcto. El tracking de experimentos ordena comparaciones y evita depender de memoria o nombres informales.</p>
-<p>Un paquete reproducible debe permitir auditar la decisión final. Eso implica separar archivos de entrada, scripts, outputs, métricas, modelos y reporte, y declarar qué evidencia sostiene cada afirmación.</p>
+<p>Un paquete reproducible debe permitir auditar el resultado final. Eso implica separar archivos de entrada, scripts, outputs, métricas, modelos y reporte, y declarar qué archivo sostiene cada afirmación cuantitativa.</p>
 </section>
 <section id="términos-clave" class="level2">
 <h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
 <div class="key-terms">
 <ul>
-<li><strong>Reproducibilidad:</strong> capacidad de reconstruir resultados desde datos, código, entorno y decisiones.</li>
+<li><strong>Reproducibilidad:</strong> capacidad de reconstruir resultados desde datos, código, entorno y parámetros.</li>
 <li><strong>Manifest:</strong> archivo que registra configuración, rutas, semillas, métricas y artefactos.</li>
 <li><strong>Run:</strong> corrida individual de un experimento.</li>
 <li><strong>Artefacto:</strong> salida guardada, como modelo, figura, reporte, predicciones o tabla.</li>
@@ -596,7 +627,7 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
 <ol type="1">
 <li>¿Por qué una semilla fija no garantiza reproducibilidad completa?</li>
-<li>¿Qué diferencia hay entre código que corre y evidencia reproducible?</li>
+<li>¿Qué diferencia hay entre código que corre y un resultado reproducible?</li>
 </ol>
 </section>
 <section id="problemas-cuantitativos" class="level3">

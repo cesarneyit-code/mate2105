@@ -1,30 +1,30 @@
-# Rubrica Parcial 1
+# Rúbrica Parcial 1
 
-## Distribucion
+## Distribución
 
 | Componente | Puntos | Calificacion |
 |---|---:|---|
-| Codigo autograded | 70 | Autograded |
-| Matematica estructurada | 20 | Autograded |
-| Explicacion corta | 10 | Manual |
+| Código autograded | 70 | Automática |
+| Matemática estructurada | 20 | Automática |
+| Explicación corta | 10 | Manual |
 
-## Revision manual
+## Revisión manual
 
 Pregunta:
 
-> Si un modelo mejora el baseline por poco, que evidencia adicional pedirias antes de recomendarlo?
+> Si un modelo mejora el baseline por poco, ¿qué resultado adicional pedirías antes de recomendarlo?
 
-| Puntaje manual | Criterio |
-|---:|---|
-| 0 | No responde o la respuesta no es tecnica |
-| 5 | Menciona una evidencia aislada, como otra metrica, mas datos o validacion |
-| 10 | Menciona metrica, variabilidad/validacion, analisis de errores y contexto de decision |
+| Nivel | Puntos | Criterio |
+|---:|---:|---|
+| 0 | 0 | No responde o la respuesta no es técnica. |
+| 1 | 5 | Menciona un resultado aislado, como otra métrica, más datos o validación. |
+| 2 | 10 | Integra métrica, variabilidad de validación, análisis de errores y alcance de uso. |
 
-## Senales de alerta
+## Señales de alerta
 
 - Respuesta que recomienda el modelo solo porque "mejora".
 - No distingue entrenamiento, validacion y prueba.
-- No menciona incertidumbre, variabilidad o analisis de errores.
-- No conecta metrica con una decision aplicada.
+- No menciona variabilidad o análisis de errores.
+- No conecta la métrica con el uso propuesto.
 
 La parte manual debe tomar entre tres y cinco minutos por estudiante.

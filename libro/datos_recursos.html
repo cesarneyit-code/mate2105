@@ -206,12 +206,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -640,6 +640,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#paquete-descargable-del-libro" id="toc-paquete-descargable-del-libro" class="nav-link active" data-scroll-target="#paquete-descargable-del-libro">Paquete descargable del libro</a></li>
+  <li><a href="#caso-bogotá-vivienda-nueva-por-subzona" id="toc-caso-bogotá-vivienda-nueva-por-subzona" class="nav-link" data-scroll-target="#caso-bogotá-vivienda-nueva-por-subzona">Caso Bogotá: vivienda nueva por subzona</a></li>
   <li><a href="#datasets-incluidos-en-scikit-learn" id="toc-datasets-incluidos-en-scikit-learn" class="nav-link" data-scroll-target="#datasets-incluidos-en-scikit-learn">Datasets incluidos en scikit-learn</a></li>
   <li><a href="#datos-generados-para-práctica" id="toc-datos-generados-para-práctica" class="nav-link" data-scroll-target="#datos-generados-para-práctica">Datos generados para práctica</a></li>
   <li><a href="#regla-de-reproducibilidad" id="toc-regla-de-reproducibilidad" class="nav-link" data-scroll-target="#regla-de-reproducibilidad">Regla de reproducibilidad</a></li>
@@ -712,12 +713,65 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">32</td>
 <td>recomendación item-item y evaluación offline pequeña</td>
 </tr>
+<tr class="even">
+<td><a href="datos/vivienda_nueva_bogota_subzonas.csv">vivienda_nueva_bogota_subzonas.csv</a></td>
+<td style="text-align: right;">32</td>
+<td>unidad de observación, documentación y regresión con datos agregados reales</td>
+</tr>
 </tbody>
 </table>
 <p>El archivo <a href="datos/manifest_datos.json">manifest_datos.json</a> registra columnas, número de filas, tamaño, hash SHA-256, semilla y uso pedagógico de cada CSV. El README del paquete está en <a href="datos/README.md">datos/README.md</a>.</p>
 <div class="book-note">
-<p>Estos CSV fueron generados artificialmente. Están diseñados para práctica matemática y computacional, no para inferencias sobre poblaciones reales.</p>
+<p>Cinco CSV fueron generados artificialmente. El archivo de vivienda nueva es una adaptación de datos públicos agregados por subzona. Ninguno permite inferencias sobre viviendas individuales ni decisiones operativas sin validación adicional.</p>
 </div>
+</section>
+<section id="caso-bogotá-vivienda-nueva-por-subzona" class="level2">
+<h2 class="anchored" data-anchor-id="caso-bogotá-vivienda-nueva-por-subzona">Caso Bogotá: vivienda nueva por subzona</h2>
+<p>El archivo <code>vivienda_nueva_bogota_subzonas.csv</code> conserva 32 filas del conjunto oficial <strong>Caracterización precios vivienda nueva</strong>. Cada fila representa una subzona, no una vivienda. Las columnas publicadas son:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Columna</th>
+<th>Lectura usada en el curso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>subzona</code></td>
+<td>nombre de la unidad agregada</td>
+</tr>
+<tr class="even">
+<td><code>precio_reportado</code></td>
+<td>campo numérico llamado <code>precios</code> en el recurso original</td>
+</tr>
+<tr class="odd">
+<td><code>estrato_promedio</code></td>
+<td>promedio reportado para la subzona</td>
+</tr>
+<tr class="even">
+<td><code>area_promedio</code></td>
+<td>área promedio reportada</td>
+</tr>
+<tr class="odd">
+<td><code>alcobas_promedio</code></td>
+<td>promedio de alcobas</td>
+</tr>
+<tr class="even">
+<td><code>banos_promedio</code></td>
+<td>promedio de baños</td>
+</tr>
+<tr class="odd">
+<td><code>parqueaderos_promedio</code></td>
+<td>promedio de parqueaderos</td>
+</tr>
+</tbody>
+</table>
+<p>La fuente no especifica en el archivo descargado la unidad de <code>precios</code>. El curso no la infiere. Esta ausencia limita la interpretación de errores y funciona como un ejemplo de por qué la documentación forma parte del análisis.</p>
+<p>Fuente: <a href="https://datosabiertos.bogota.gov.co/dataset/caracterizacion">Datos Abiertos Bogotá</a>, Secretaría Distrital del Hábitat, licencia CC BY 4.0; consulta 2026-07-10.</p>
 </section>
 <section id="datasets-incluidos-en-scikit-learn" class="level2">
 <h2 class="anchored" data-anchor-id="datasets-incluidos-en-scikit-learn">Datasets incluidos en scikit-learn</h2>

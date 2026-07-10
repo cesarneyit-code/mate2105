@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -217,7 +246,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
-<p>Este laboratorio evalúa si puedes controlar complejidad, evitar leakage y tomar decisiones de clasificación con métricas apropiadas. Conecta tres ideas del Módulo 1:</p>
+<p>Este laboratorio evalúa si puedes controlar complejidad, evitar leakage y justificar una regla de clasificación con métricas apropiadas. Conecta tres ideas del Módulo 1:</p>
 <ol type="1">
 <li>regularización para estabilizar modelos;</li>
 <li>validación para escoger hiperparámetros;</li>
@@ -228,19 +257,20 @@ ul.task-list li input[type="checkbox"] {
 <h1>Qué debes entregar</h1>
 <p>Entrega el notebook:</p>
 <pre class="text"><code>apellido_nombre_lab02_regularizacion_clasificacion.ipynb</code></pre>
-<p>No cambies nombres de funciones. El autograder revisa funciones y resultados esperados con datos alternos.</p>
+<p>No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos y también verifica las respuestas estructuradas sobre el protocolo de evaluación.</p>
 </section>
 <section id="flujo-recomendado" class="level1">
 <h1>Flujo recomendado</h1>
 <ol type="1">
 <li>Lee el enunciado completo antes de programar.</li>
 <li>Separa datos antes de ajustar cualquier transformación.</li>
-<li>Ajusta escalamiento solo con entrenamiento.</li>
-<li>Implementa Ridge sin penalizar intercepto.</li>
-<li>Compara valores de regularización usando validación.</li>
+<li>Implementa <code>standardize_from_train</code> y ajusta el escalamiento solo con entrenamiento.</li>
+<li>Implementa Ridge con la convención <span class="math inline">\(X^\top X + \alpha P\)</span>, sin penalizar intercepto.</li>
+<li>Compara Ridge y Lasso con <code>select_regularization_alpha</code>, usando validación.</li>
 <li>Implementa funciones logísticas: <code>sigmoid</code>, <code>log_loss_binary</code>.</li>
 <li>Calcula métricas con una matriz de confusión.</li>
-<li>Evalúa umbrales y justifica una recomendación técnica.</li>
+<li>Elige el umbral en validación; usa prueba una sola vez al final.</li>
+<li>Completa <code>protocol_answers</code> y justifica tu recomendación.</li>
 <li>Reinicia kernel y ejecuta todo antes de entregar.</li>
 </ol>
 </section>
@@ -261,38 +291,38 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
-<td>Particiones</td>
-<td>separación reproducible sin mezclar evaluación</td>
-<td style="text-align: right;">Automática</td>
-</tr>
-<tr class="even">
 <td>Escalamiento</td>
 <td>parámetros ajustados solo con entrenamiento</td>
 <td style="text-align: right;">Automática</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Ridge</td>
-<td>solución cerrada correcta sin penalizar intercepto</td>
+<td>convención numérica correcta sin penalizar intercepto</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
+<td>Lasso/Ridge</td>
+<td>selección por error de validación con datos alternos</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
-<td>Lasso/Ridge</td>
-<td>comparación numérica coherente</td>
-<td style="text-align: right;">Automática</td>
-</tr>
-<tr class="odd">
 <td>Sigmoide y log-loss</td>
 <td>implementación vectorizada y estable</td>
 <td style="text-align: right;">Automática</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Métricas</td>
 <td>accuracy, precision, recall y F1 correctos</td>
 <td style="text-align: right;">Automática</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Umbral</td>
 <td>selección consistente con objetivo de recall</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
+<td>Protocolo</td>
+<td>escalamiento, hiperparámetros, umbral y prueba con papeles correctos</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 </tbody>
@@ -340,7 +370,7 @@ ul.task-list li input[type="checkbox"] {
 <li>La métrica elegida corresponde al problema.</li>
 <li>La regularización se interpreta como control de complejidad, no como magia.</li>
 <li>Los umbrales se justifican con costos de FP/FN o una restricción explícita.</li>
-<li>La recomendación final distingue resultado numérico y decisión aplicada.</li>
+<li>La recomendación final distingue resultado numérico y alcance aplicado.</li>
 </ul>
 </div>
 </section>

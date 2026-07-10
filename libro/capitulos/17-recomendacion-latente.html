@@ -235,12 +235,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -783,7 +783,7 @@ x^\top y = 1,\qquad \|x\|=\sqrt{2},\qquad \|y\|=\sqrt{2}.
 \cos(x,y)=\frac{x^\top y}{\|x\|\|y\|}.
 \]</span></p>
 <p>Eso significa que dos ítems pueden tener similitud alta si apuntan en dirección parecida, aunque uno tenga muchas más interacciones que el otro. Esta propiedad puede ser útil para reducir el sesgo por popularidad, pero no lo elimina. Si un ítem aparece en casi todos los perfiles, puede seguir dominando rankings por cobertura y disponibilidad de datos.</p>
-<p>La lectura profesional de una similitud debe incluir tres preguntas: qué usuarios comparten los ítems, cuántas interacciones sustentan el cálculo y qué ítems quedan invisibles por falta de datos.</p>
+<p>La lectura de una similitud debe incluir tres preguntas: qué usuarios comparten los ítems, cuántas interacciones sustentan el cálculo y qué ítems quedan invisibles por falta de datos.</p>
 </section>
 <section id="recomendación-item-item" class="level2">
 <h2 class="anchored" data-anchor-id="recomendación-item-item">Recomendación item-item</h2>
@@ -829,6 +829,7 @@ D=(0,0,1,1).
 <section id="evaluación-offline-precisionk" class="level2">
 <h2 class="anchored" data-anchor-id="evaluación-offline-precisionk">Evaluación offline: Precision@k</h2>
 <p>Una evaluación mínima de recomendación separa algunas interacciones conocidas como si fueran futuras. Luego pregunta si el recomendador las recupera entre sus primeras sugerencias.</p>
+<p>Si el orden temporal está disponible, se ocultan interacciones posteriores y el modelo se ajusta solo con las anteriores. Un split aleatorio puede usar el futuro para explicar el pasado. Los usuarios evaluados deben conservar al menos una interacción de entrenamiento; los casos de cold start se reportan por separado.</p>
 <p>Si para un usuario ocultamos los ítems relevantes <span class="math inline">\(\{C,D\}\)</span> y el sistema recomienda los tres primeros ítems:</p>
 <p><span class="math display">\[
 [B,C,E],
@@ -845,8 +846,8 @@ D=(0,0,1,1).
 </section>
 <section id="baseline-de-popularidad" class="level2">
 <h2 class="anchored" data-anchor-id="baseline-de-popularidad">Baseline de popularidad</h2>
-<p>Antes de celebrar un recomendador personalizado, compáralo contra una regla simple: recomendar los ítems más populares que el usuario no ha visto. Este baseline suele ser fuerte porque muchos datasets tienen concentración de interacciones en pocos ítems.</p>
-<p>Si el modelo latente no supera popularidad en Precision@k o cobertura, todavía no hay evidencia de personalización útil. Si lo supera, el reporte debe mostrar cuánto mejora y para qué grupos de usuarios. La personalización no se presume: se compara.</p>
+<p>Antes de celebrar un recomendador personalizado, compáralo contra una regla simple: recomendar los ítems más populares que el usuario no ha visto. La popularidad se calcula solo con entrenamiento. Este baseline suele ser fuerte porque muchos datasets tienen concentración de interacciones en pocos ítems.</p>
+<p>Si el modelo latente no supera popularidad en Precision@k o cobertura, todavía no hay una mejora offline de personalización. Si lo supera, el reporte debe mostrar cuánto mejora y para qué grupos de usuarios. La personalización no se presume: se compara.</p>
 </section>
 <section id="svd-para-factores-latentes" class="level2">
 <h2 class="anchored" data-anchor-id="svd-para-factores-latentes">SVD para factores latentes</h2>
@@ -866,7 +867,7 @@ Figura&nbsp;1: Sistemas de recomendación: una matriz usuario-item incompleta se
 </div>
 <p><strong>Lectura de la figura.</strong> La factorización representa usuarios e ítems en una baja dimensión compartida. Una recomendación es una predicción incompleta de la matriz, pero también una intervención que puede reforzar sesgos o popularidad.</p>
 <p>Esto produce representaciones latentes de usuarios e ítems.</p>
-<p>En este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.</p>
+<p>Esta igualdad requiere una advertencia. Una SVD directa trata cada entrada de la matriz numérica como observada; si se rellenan ratings faltantes con cero, se impone el supuesto de que “no observado” equivale a cero. Los métodos de factorización para recomendación suelen optimizar solo sobre entradas observadas o usar objetivos propios para retroalimentación implícita. Aquí la SVD introduce la geometría latente; no resuelve por sí sola el manejo de faltantes.</p>
 </section>
 <section id="caso-longitudinal-interacciones-de-recomendación" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-interacciones-de-recomendación">Caso longitudinal: interacciones de recomendación</h2>
@@ -874,7 +875,7 @@ Figura&nbsp;1: Sistemas de recomendación: una matriz usuario-item incompleta se
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Evidencia</th>
+<th>Resultado</th>
 <th>Pregunta</th>
 </tr>
 </thead>
@@ -901,7 +902,7 @@ Figura&nbsp;1: Sistemas de recomendación: una matriz usuario-item incompleta se
 </tr>
 </tbody>
 </table>
-<p>Un recomendador puede producir rankings plausibles y aun así amplificar popularidad, ignorar ítems nuevos o recomendar sin diversidad. Por eso la pregunta aplicada no es solo “qué ítem tiene mayor score”, sino “qué se omite y a quién afecta”.</p>
+<p>Un recomendador puede producir rankings plausibles y aun así amplificar popularidad, ignorar ítems nuevos o recomendar sin diversidad. Por eso la pregunta aplicada no es solo “qué ítem tiene mayor puntaje”, sino “qué se omite y a quién afecta”.</p>
 </section>
 <section id="riesgos-de-recomendación" class="level2">
 <h2 class="anchored" data-anchor-id="riesgos-de-recomendación">Riesgos de recomendación</h2>
@@ -940,7 +941,7 @@ Figura&nbsp;1: Sistemas de recomendación: una matriz usuario-item incompleta se
 \qquad
 \text{cobertura de ítems}=12/50=24\%.
 \]</span></p>
-<p>Aunque las recomendaciones visibles parezcan razonables, el sistema deja sin recomendación a 30% de usuarios y concentra exposición en pocos ítems. Esa evidencia debe aparecer antes de afirmar que el recomendador funciona bien.</p>
+<p>Aunque las recomendaciones visibles parezcan razonables, el sistema deja sin recomendación a 30% de usuarios y concentra exposición en pocos ítems. Esos conteos deben aparecer antes de afirmar que el recomendador funciona bien.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -278,7 +278,7 @@ window.Quarto = {
 <ol type="1">
 <li>softmax y entropía cruzada;</li>
 <li>particiones estratificadas y validación;</li>
-<li>selección de modelos con media y variabilidad;</li>
+<li>selección de modelos con una regla explícita de media y variabilidad;</li>
 <li>PCA desde SVD;</li>
 <li>K-Means y silhouette;</li>
 <li>manifest reproducible con hashes de artefactos.</li>
@@ -306,12 +306,13 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>choose_k_by_silhouette(X, k_values, random_state<span class="op">=</span><span class="dv">42</span>)</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>file_sha256(path)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>build_reproducibility_manifest(params, metrics, artifact_paths)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>cv_summary</code> debe llamar <code>conservative_score</code> al valor <code>mean - std</code>. En este parcial se usa como regla heurística para ordenar candidatos: no es un intervalo de confianza. En el manifest, <code>params</code> debe incluir semilla y protocolo de partición; la función agrega versiones de Python, NumPy, pandas y scikit-learn.</p>
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
 <p>Responde en 120 a 180 palabras:</p>
 <blockquote class="blockquote">
-<p>Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué evidencia adicional pedirías antes de recomendar una decisión real y cómo lo documentarías de forma reproducible?</p>
+<p>Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué resultado adicional pedirías antes de usarlo y cómo lo documentarías de forma reproducible?</p>
 </blockquote>
 <p>Rúbrica:</p>
 <table class="caption-top table">
@@ -332,7 +333,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td>Menciona evidencia o reproducibilidad de forma aislada</td>
+<td>Menciona un resultado o reproducibilidad de forma aislada</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
@@ -349,7 +350,8 @@ window.Quarto = {
 <li>No estratificar en clasificación.</li>
 <li>PCA sin centrar.</li>
 <li>Elegir <span class="math inline">\(k\)</span> solo por inertia.</li>
-<li>Crear un manifest sin parámetros, métricas o hashes.</li>
+<li>Presentar <code>mean - std</code> como un intervalo de confianza.</li>
+<li>Crear un manifest sin entorno, semilla, protocolo de partición, métricas o hashes.</li>
 </ol>
 
 

@@ -6,11 +6,11 @@
 <script src="semana02_presentacion_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="semana02_presentacion_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="semana02_presentacion_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="semana02_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="semana02_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-e39505f2b70156be49b8745853350b0f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.25">
 
-  <meta name="author" content="Cesar Galindo">
-  <title>MATE-2105</title>
+  <meta name="author" content="César Galindo">
+  <title>Semana 2 · Clase 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana02_presentacion_files/libs/revealjs/dist/theme/quarto-9b83917f405c5b34aeee76efbf11d255.css">
+  <link rel="stylesheet" href="semana02_presentacion_files/libs/revealjs/dist/theme/quarto-0ab2b8cd1ca1f4a3114ef3de2f9e2f3c.css">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -195,111 +195,51 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 2: regresión lineal múltiple y ecuación normal</p>
+  <h1 class="title">Semana 2 · Clase 1</h1>
+  <p class="subtitle">Regresión lineal: matriz de diseño, pérdida y ecuaciones normales</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Cesar Galindo 
+César Galindo 
 </div>
 </div>
 </div>
 
 </section>
-<section id="pregunta-de-entrada" class="slide level2 no-border">
-<h2>Pregunta de entrada</h2>
-<div class="kicker">
-<p>De tabla a decisión</p>
+<section id="una-cantidad-continua" class="slide level2">
+<h2>Una cantidad continua</h2>
+<div class="lead">
+<p>Queremos estimar un número a partir de varias características observadas y entender qué sistema matemático determina el mejor ajuste cuadrático.</p>
 </div>
-<div class="big-question">
-<p>Si una organización debe estimar una cantidad continua, ¿qué debe poder defender además del número final?</p>
-</div>
-<div class="footer-note">
-<p>Ejemplos: demanda, precio, riesgo, tiempo de atención, progresión clínica.</p>
-</div>
-</section>
-<section id="hoy-no-buscamos-una-recta-bonita" class="slide level2 no-border">
-<h2>Hoy no buscamos una recta bonita</h2>
-<div class="large-statement">
-<p>Buscamos una regla reproducible que convierta una tabla en predicciones y que pueda auditarse con álgebra lineal.</p>
-</div>
-<div class="diagram-flow">
-<p><span>datos</span><span class="arrow">→</span><span>modelo</span><span class="arrow">→</span><span>pérdida</span><span class="arrow">→</span><span>solución</span><span class="arrow">→</span><span>diagnóstico</span></p>
-</div>
-</section>
-<section id="recap-aprender-y-usar-un-modelo" class="slide level2">
-<h2>Recap: aprender y usar un modelo</h2>
-<div class="diagram-board">
-<div class="model-box">
-<p>hipótesis · pérdida · hiperparámetros</p>
-<div class="black-box">
-<p>Regresión</p>
-</div>
-</div>
-<div class="train-use">
-<div>
-<p><strong>Aprender</strong><br> ajustar parámetros con datos de entrenamiento</p>
-</div>
-<div>
-<p><strong>Usar</strong><br> predecir con parámetros ya fijados</p>
-</div>
-</div>
-</div>
-</section>
-<section id="caso-conductor" class="slide level2">
-<h2>Caso conductor</h2>
-<div class="case-split">
-<div class="image-frame">
-<p><img src="../figuras/geometria-minimos-cuadrados.svg" class="slide-figure" alt="Geometría de mínimos cuadrados"></p>
-</div>
-<div>
-<p><strong>Predicción continua</strong></p>
-<p>Una fila de datos describe una observación. El modelo produce un número.</p>
-<div class="small-list">
-<ul>
-<li>entrada: variables observadas;</li>
-<li>salida: cantidad continua;</li>
-<li>evaluación: error de predicción;</li>
-<li>riesgo: confundir ajuste con explicación causal.</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="contrato-de-la-semana" class="slide level2">
-<h2>Contrato de la semana</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Representar</strong></p>
-<p>Construir <code>X</code>, <code>y</code> y <code>theta</code> con dimensiones verificables.</p>
-</div>
-<div class="panel">
-<p><strong>Optimizar</strong></p>
-<p>Escribir una pérdida cuadrática y derivar su gradiente.</p>
-</div>
-<div class="panel">
-<p><strong>Resolver</strong></p>
-<p>Llegar a las ecuaciones normales sin usar inversas explícitas en código.</p>
-</div>
-</div>
-</section>
-<section id="objetos-mínimos" class="slide level2">
-<h2>Objetos mínimos</h2>
-<div class="split-wide">
-<div>
+<p>Hoy llegaremos desde una tabla hasta</p>
 <p><span class="math display">\[
-X \in \mathbb{R}^{n \times p},
-\qquad
-y \in \mathbb{R}^{n},
-\qquad
-\theta \in \mathbb{R}^{p}
+X^\top X\widehat\theta=X^\top y.
 \]</span></p>
-<div class="takeaway">
-<p>La primera prueba de profesionalismo es que las formas cuadren antes de interpretar.</p>
+<p>La solución numérica queda para la segunda clase.</p>
+</section>
+<section id="volvamos-a-las-subzonas" class="slide level2">
+<h2>Volvamos a las subzonas</h2>
+
+<img src="../figuras/vivienda-bogota-dispersion.png" class="full-figure r-stretch" alt="Estrato promedio frente a precio reportado en 32 subzonas de Bogotá"><div class="source-line">
+<p>Fuente: Secretaría Distrital del Hábitat de Bogotá. Datos agregados por subzona; la unidad de <code>precio_reportado</code> no está documentada en el archivo fuente.</p>
 </div>
-</div>
-<div class="mini-table">
+</section>
+<section id="una-nube-no-prueba-causalidad" class="slide level2">
+<h2>Una nube no prueba causalidad</h2>
+<p>La gráfica sugiere una asociación positiva entre <code>estrato_promedio</code> y <code>precio_reportado</code>.</p>
+<p>No establece que:</p>
+<ul>
+<li>cambiar el estrato cause un cambio de precio;</li>
+<li>una subzona determine el valor de cada vivienda;</li>
+<li>la relación sea lineal fuera del rango observado;</li>
+<li>las 32 filas representen toda Bogotá.</li>
+</ul>
+<p>Hoy formularemos una regla predictiva, no una intervención.</p>
+</section>
+<section id="entrada-y-objetivo" class="slide level2">
+<h2>Entrada y objetivo</h2>
+<p>Para cada subzona <span class="math inline">\(i\)</span>:</p>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -309,369 +249,463 @@ y \in \mathbb{R}^{n},
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>n</code></td>
-<td>observaciones</td>
+<td><span class="math inline">\(x_{i1}\)</span></td>
+<td>estrato promedio</td>
 </tr>
 <tr class="even">
-<td><code>p</code></td>
-<td>variables después de preparar diseño</td>
+<td><span class="math inline">\(x_{i2}\)</span></td>
+<td>área promedio</td>
 </tr>
 <tr class="odd">
-<td><code>theta</code></td>
-<td>parámetros aprendidos</td>
+<td><span class="math inline">\(x_{i3}\)</span></td>
+<td>alcobas promedio</td>
 </tr>
 <tr class="even">
-<td><code>X @ theta</code></td>
-<td>predicciones</td>
+<td><span class="math inline">\(x_{i4}\)</span></td>
+<td>baños promedio</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(x_{i5}\)</span></td>
+<td>parqueaderos promedio</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(y_i\)</span></td>
+<td>precio reportado</td>
 </tr>
 </tbody>
 </table>
-</div>
-</div>
 </section>
-<section id="de-una-tabla-a-una-matriz-de-diseño" class="slide level2">
-<h2>De una tabla a una matriz de diseño</h2>
-<div class="split">
-<div>
+<section id="el-caso-con-una-variable" class="slide level2">
+<h2>El caso con una variable</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat y_i=\theta_0+\theta_1x_i
+\]</span></p>
+</div>
+<p>La recta no afirma que todas las observaciones caigan sobre ella. Produce una predicción y deja un residual para cada fila.</p>
+<p>Con varias variables cambia la dimensión, no la idea.</p>
+</section>
+<section id="una-fila-una-predicción" class="slide level2">
+<h2>Una fila, una predicción</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat y_i
+=\theta_0+\theta_1x_{i1}+\cdots+\theta_{p-1}x_{i,p-1}
+=x_i^\top\theta
+\]</span></p>
+</div>
+<p>Usaremos <span class="math inline">\(p\)</span> para el número de columnas de la <strong>matriz de diseño</strong>, incluida la columna del intercepto.</p>
+</section>
+<section id="de-tabla-a-matriz" class="slide level2">
+<h2>De tabla a matriz</h2>
+<div class="dense-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
-<th style="text-align: right;">observación</th>
-<th style="text-align: right;">edad</th>
-<th style="text-align: right;">IMC</th>
-<th style="text-align: right;">presión</th>
+<th>subzona</th>
+<th style="text-align: right;">1</th>
+<th style="text-align: right;">estrato</th>
+<th style="text-align: right;">área</th>
+<th style="text-align: right;">alcobas</th>
+<th style="text-align: right;">baños</th>
+<th style="text-align: right;">parqueaderos</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td>Rosales</td>
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">31.2</td>
-<td style="text-align: right;">84</td>
+<td style="text-align: right;">5.922</td>
+<td style="text-align: right;">177.316</td>
+<td style="text-align: right;">2.673</td>
+<td style="text-align: right;">3.776</td>
+<td style="text-align: right;">2.981</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">61</td>
-<td style="text-align: right;">27.1</td>
-<td style="text-align: right;">76</td>
+<td>Chicó</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">5.905</td>
+<td style="text-align: right;">128.044</td>
+<td style="text-align: right;">2.225</td>
+<td style="text-align: right;">3.105</td>
+<td style="text-align: right;">2.152</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">24.8</td>
-<td style="text-align: right;">70</td>
+<td>Centro</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.195</td>
+<td style="text-align: right;">63.383</td>
+<td style="text-align: right;">1.744</td>
+<td style="text-align: right;">1.799</td>
+<td style="text-align: right;">0.988</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div>
+<p>La primera columna no fue medida: codifica el intercepto.</p>
+</section>
+<section id="la-matriz-de-diseño" class="slide level2">
+<h2>La matriz de diseño</h2>
+<div class="math-focus">
 <p><span class="math display">\[
-X =
+X=
 \begin{bmatrix}
-1 &amp; 48 &amp; 31.2 &amp; 84 \\
-1 &amp; 61 &amp; 27.1 &amp; 76 \\
-1 &amp; 39 &amp; 24.8 &amp; 70
+1&amp;x_{11}&amp;\cdots&amp;x_{1,p-1}\\
+1&amp;x_{21}&amp;\cdots&amp;x_{2,p-1}\\
+\vdots&amp;\vdots&amp;&amp;\vdots\\
+1&amp;x_{m1}&amp;\cdots&amp;x_{m,p-1}
 \end{bmatrix}
+\in\mathbb R^{m\times p}
 \]</span></p>
-<div class="caption">
-<p>La columna de unos no viene de los datos: codifica el intercepto.</p>
 </div>
-</div>
-</div>
+<p>Cada fila corresponde a una observación y cada columna a un término del modelo.</p>
 </section>
-<section id="intercepto" class="slide level2">
-<h2>Intercepto</h2>
+<section id="el-intercepto-es-una-columna" class="slide level2">
+<h2>El intercepto es una columna</h2>
+<p>En una implementación manual:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> add_intercept(X):</span>
+<span id="cb1-2"><a href=""></a>    <span class="cf">return</span> np.column_stack([np.ones(X.shape[<span class="dv">0</span>]), X])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En <code>LinearRegression</code>, <code>fit_intercept=True</code> lo maneja internamente. No debemos agregar unos y dejar simultáneamente que la biblioteca ajuste otro intercepto.</p>
+</section>
+<section id="las-formas-son-parte-del-argumento" class="slide level2">
+<h2>Las formas son parte del argumento</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-\hat y_i = \theta_0 + \theta_1 x_{i1} + \cdots + \theta_{p-1}x_{i,p-1}
+X\in\mathbb R^{m\times p},\qquad
+\theta\in\mathbb R^p,\qquad
+y\in\mathbb R^m
 \]</span></p>
 </div>
-<div class="split">
-<div class="panel">
-<p><strong>Matemáticamente</strong></p>
-<p>El intercepto permite una predicción base cuando las variables numéricas valen cero.</p>
-</div>
-<div class="panel">
-<p><strong>Computacionalmente</strong></p>
-<p>En implementación manual se agrega una columna de unos. En <code>sklearn</code>, <code>fit_intercept=True</code> la maneja internamente.</p>
-</div>
+<p>Entonces</p>
+<p><span class="math display">\[
+X\theta\in\mathbb R^m.
+\]</span></p>
+<p>El modelo produce exactamente una predicción por observación.</p>
+</section>
+<section id="primera-pausa" class="slide level2">
+<h2>Primera pausa</h2>
+<div class="pause">
+<p>Una tabla tiene 320 filas y 10 variables medidas. Agregamos intercepto.</p>
+<ol type="1">
+<li>¿Qué forma tiene <span class="math inline">\(X\)</span>?</li>
+<li>¿Qué forma tiene <span class="math inline">\(\theta\)</span>?</li>
+<li>¿Qué forma tiene <span class="math inline">\(X\theta\)</span>?</li>
+<li>¿Qué forma tiene <span class="math inline">\(X^\top(X\theta-y)\)</span>?</li>
+</ol>
+<p>Tiempo: 5 minutos. Escriba cada producto con sus dimensiones.</p>
 </div>
 </section>
-<section id="hipótesis-lineal" class="slide level2">
-<h2>Hipótesis lineal</h2>
+<section id="todas-las-predicciones-a-la-vez" class="slide level2">
+<h2>Todas las predicciones a la vez</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-h_\theta(x_i)=x_i^\top\theta
-\qquad\Longrightarrow\qquad
-\hat y=X\theta
+\widehat y=X\theta
 \]</span></p>
 </div>
-<div class="diagram-flow">
-<p><span>fila de X</span><span class="arrow">→</span><span>producto punto</span><span class="arrow">→</span><span>predicción individual</span> <span class="arrow">·</span> <span>matriz X</span><span class="arrow">→</span><span>producto matricial</span><span class="arrow">→</span><span>todas las predicciones</span></p>
-</div>
+<p>La fila <span class="math inline">\(i\)</span> de esta igualdad es</p>
+<p><span class="math display">\[
+\widehat y_i=x_i^\top\theta.
+\]</span></p>
+<p>No necesitamos un bucle para expresar ni calcular las predicciones.</p>
 </section>
-<section id="qué-significa-equivocarse" class="slide level2">
-<h2>Qué significa equivocarse</h2>
-<div class="split-wide">
+<section id="un-ejemplo-pequeño" class="slide level2">
+<h2>Un ejemplo pequeño</h2>
+<p>Tomemos</p>
+<p><span class="math display">\[
+x=(0,1,2,3)^\top,\qquad
+y=(1.1,2.9,5.2,6.8)^\top.
+\]</span></p>
+<p>Con intercepto,</p>
+<p><span class="math display">\[
+X=
+\begin{bmatrix}
+1&amp;0\\1&amp;1\\1&amp;2\\1&amp;3
+\end{bmatrix}.
+\]</span></p>
+</section>
+<section id="probar-un-parámetro" class="slide level2">
+<h2>Probar un parámetro</h2>
+<p>Si <span class="math inline">\(\theta=(1,2)^\top\)</span>, entonces</p>
 <div class="math-focus">
 <p><span class="math display">\[
-r(\theta)=X\theta-y
+X\theta=(1,3,5,7)^\top.
 \]</span></p>
 </div>
-<div>
-<p><strong>Residual</strong></p>
-<p>El residual no es un detalle técnico. Es la evidencia primaria de error del modelo.</p>
-<div class="small-list">
+<p>El producto matricial convierte una hipótesis sobre intercepto y pendiente en cuatro predicciones verificables.</p>
+</section>
+<section id="convención-de-residual" class="slide level2">
+<h2>Convención de residual</h2>
+<p>En este curso usaremos siempre</p>
+<div class="math-focus">
+<p><span class="math display">\[
+r(\theta)=y-X\theta=y-\widehat y.
+\]</span></p>
+</div>
 <ul>
-<li>signo: sobre/subestimación;</li>
-<li>magnitud: tamaño del error;</li>
-<li>patrón: diagnóstico de modelo.</li>
+<li><span class="math inline">\(r_i&gt;0\)</span>: el modelo subestima;</li>
+<li><span class="math inline">\(r_i&lt;0\)</span>: el modelo sobreestima;</li>
+<li><span class="math inline">\(|r_i|\)</span>: tamaño del error en la escala del objetivo.</li>
 </ul>
-</div>
-</div>
-</div>
 </section>
-<section id="pérdida-cuadrática" class="slide level2">
-<h2>Pérdida cuadrática</h2>
+<section id="residuales-del-candidato" class="slide level2">
+<h2>Residuales del candidato</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(x_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(y_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(\widehat y_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(r_i=y_i-\widehat y_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1.1</td>
+<td style="text-align: right;">1.0</td>
+<td style="text-align: right;">0.1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">2.9</td>
+<td style="text-align: right;">3.0</td>
+<td style="text-align: right;">-0.1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">5.2</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">0.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">6.8</td>
+<td style="text-align: right;">7.0</td>
+<td style="text-align: right;">-0.2</td>
+</tr>
+</tbody>
+</table>
+<p>La suma de residuales puede ser cero aunque ninguno de los errores sea cero.</p>
+</section>
+<section id="de-errores-a-una-cantidad" class="slide level2">
+<h2>De errores a una cantidad</h2>
+<p>Para comparar parámetros necesitamos resumir el vector residual. Usaremos la suma de cuadrados:</p>
+<p><span class="math display">\[
+\lVert r(\theta)\rVert_2^2
+=\sum_{i=1}^m (y_i-x_i^\top\theta)^2.
+\]</span></p>
+<p>El cuadrado evita cancelaciones de signo y da más peso a errores grandes.</p>
+</section>
+<section id="la-pérdida-que-derivaremos" class="slide level2">
+<h2>La pérdida que derivaremos</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2
+J(\theta)=\frac{1}{2m}\lVert X\theta-y\rVert_2^2.
 \]</span></p>
 </div>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Cuadrado</strong></p>
-<p>Penaliza errores grandes.</p>
-</div>
-<div class="panel">
-<p><strong>Promedio</strong></p>
-<p>Hace comparable el error entre tamaños de muestra.</p>
-</div>
-<div class="panel">
-<p><strong>Factor 1/2</strong></p>
-<p>Limpia la derivada; no cambia el minimizador.</p>
-</div>
-</div>
+<p>Para el candidato del ejemplo:</p>
+<p><span class="math display">\[
+J(1,2)=\frac{0.1^2+(-0.1)^2+0.2^2+(-0.2)^2}{8}=0.0125.
+\]</span></p>
 </section>
-<section id="derivación-escribir-antes-de-derivar" class="slide level2">
-<h2>Derivación: escribir antes de derivar</h2>
-<div class="equation-chain">
-<div class="current">
-<p><span class="math display">\[
-J(\theta)=\frac{1}{2n}(X\theta-y)^\top(X\theta-y)
-\]</span></p>
-</div>
-<div>
-<p><span class="math display">\[
-=\frac{1}{2n}
-\left(\theta^\top X^\top X\theta-2y^\top X\theta+y^\top y\right)
-\]</span></p>
-</div>
-</div>
-<div class="footer-note">
-<p>La derivación es una inspección de formas, no una memoria de fórmulas.</p>
-</div>
+<section id="por-qué-12m" class="slide level2">
+<h2>¿Por qué <span class="math inline">\(1/(2m)\)</span>?</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Factor</th>
+<th>Efecto</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(1/m\)</span></td>
+<td>convierte la suma en un promedio</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(1/2\)</span></td>
+<td>cancela el 2 que aparece al derivar</td>
+</tr>
+</tbody>
+</table>
+<p>Ninguno cambia el minimizador mientras sea una constante positiva. Sí cambia el valor numérico de la pérdida y del gradiente.</p>
 </section>
-<section id="derivación-gradiente" class="slide level2">
-<h2>Derivación: gradiente</h2>
-<div class="equation-chain">
-<div>
-<p><span class="math display">\[
-J(\theta)=\frac{1}{2n}
-\left(\theta^\top X^\top X\theta-2y^\top X\theta+y^\top y\right)
-\]</span></p>
-</div>
-<div class="current">
-<p><span class="math display">\[
-\nabla J(\theta)=\frac{1}{n}X^\top(X\theta-y)
-\]</span></p>
-</div>
-</div>
-<div class="checkpoint">
-<p>Chequeo de forma: <code>X.T @ (X @ theta - y)</code> debe producir un vector de tamaño <code>p</code>.</p>
-</div>
-</section>
-<section id="condición-de-óptimo" class="slide level2">
-<h2>Condición de óptimo</h2>
+<section id="preparar-la-derivación" class="slide level2">
+<h2>Preparar la derivación</h2>
+<p>Escribimos la norma como producto interno:</p>
 <div class="math-focus">
 <p><span class="math display">\[
-\nabla J(\theta)=0
+J(\theta)
+=\frac{1}{2m}(X\theta-y)^\top(X\theta-y).
 \]</span></p>
 </div>
+<p>Antes de expandir: el término entre paréntesis está en <span class="math inline">\(\mathbb R^m\)</span>, por tanto el producto es escalar.</p>
+</section>
+<section id="expandir-el-cuadrado" class="slide level2">
+<h2>Expandir el cuadrado</h2>
 <div class="equation-chain">
 <div class="current">
 <p><span class="math display">\[
-X^\top(X\theta-y)=0
+(X\theta-y)^\top(X\theta-y)
 \]</span></p>
 </div>
 <div>
 <p><span class="math display">\[
-X^\top X\theta=X^\top y
+=\theta^\top X^\top X\theta
+-\theta^\top X^\top y
+-y^\top X\theta
++y^\top y.
 \]</span></p>
 </div>
+</div>
+<p>Los dos términos cruzados son el mismo escalar.</p>
+</section>
+<section id="reunir-términos-cruzados" class="slide level2">
+<h2>Reunir términos cruzados</h2>
+<p>Como</p>
+<p><span class="math display">\[
+\theta^\top X^\top y=(\theta^\top X^\top y)^\top=y^\top X\theta,
+\]</span></p>
+<p>obtenemos</p>
+<div class="math-focus">
+<p><span class="math display">\[
+J(\theta)=\frac{1}{2m}
+\left(\theta^\top X^\top X\theta-2y^\top X\theta+y^\top y\right).
+\]</span></p>
+</div>
+</section>
+<section id="derivar-cada-parte" class="slide level2">
+<h2>Derivar cada parte</h2>
+<p>La matriz <span class="math inline">\(X^\top X\)</span> es simétrica, de modo que</p>
+<p><span class="math display">\[
+\nabla_\theta(\theta^\top X^\top X\theta)=2X^\top X\theta.
+\]</span></p>
+<p>Además,</p>
+<p><span class="math display">\[
+\nabla_\theta(y^\top X\theta)=X^\top y,\qquad
+\nabla_\theta(y^\top y)=0.
+\]</span></p>
+</section>
+<section id="el-gradiente" class="slide level2">
+<h2>El gradiente</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\nabla J(\theta)
+=\frac{1}{m}\left(X^\top X\theta-X^\top y\right)
+=\frac{1}{m}X^\top(X\theta-y).
+\]</span></p>
+</div>
+<p>Con nuestra convención <span class="math inline">\(r=y-X\theta\)</span>, también</p>
+<p><span class="math display">\[
+\nabla J(\theta)=-\frac{1}{m}X^\top r.
+\]</span></p>
+</section>
+<section id="comprobar-la-forma" class="slide level2">
+<h2>Comprobar la forma</h2>
+<div class="board">
+<p><span class="math display">\[
+\underbrace{X^\top}_{p\times m}
+\underbrace{(X\theta-y)}_{m}
+=
+\underbrace{\nabla J(\theta)}_{p}.
+\]</span></p>
+</div>
+<p>El gradiente tiene una componente por parámetro. Un resultado de forma <span class="math inline">\(m\)</span> no podría indicar cómo mover <span class="math inline">\(p\)</span> coeficientes.</p>
+</section>
+<section id="segunda-pausa" class="slide level2">
+<h2>Segunda pausa</h2>
+<div class="pause">
+<p>Para el candidato <span class="math inline">\(\theta=(1,2)^\top\)</span>, el gradiente es <span class="math inline">\((0,0.075)^\top\)</span>.</p>
+<ol type="1">
+<li>¿Qué componente corresponde al intercepto?</li>
+<li>Para reducir la pérdida, ¿la pendiente debe aumentar o disminuir?</li>
+<li>¿Por qué el gradiente puede tener primera componente cero sin estar en el óptimo?</li>
+</ol>
+<p>Tiempo: 6 minutos.</p>
+</div>
+</section>
+<section id="condición-de-primer-orden" class="slide level2">
+<h2>Condición de primer orden</h2>
+<p>En un mínimo de esta función convexa,</p>
+<p><span class="math display">\[
+\nabla J(\widehat\theta)=0.
+\]</span></p>
+<p>Por tanto,</p>
+<div class="math-focus">
+<p><span class="math display">\[
+X^\top(X\widehat\theta-y)=0.
+\]</span></p>
 </div>
 </section>
 <section id="ecuaciones-normales" class="slide level2">
 <h2>Ecuaciones normales</h2>
-<div class="large-statement">
-<p>Resolver mínimos cuadrados equivale a resolver un sistema lineal.</p>
-</div>
+<p>Reordenando la condición anterior:</p>
 <div class="math-focus">
 <p><span class="math display">\[
-X^\top X\theta=X^\top y
+X^\top X\widehat\theta=X^\top y.
 \]</span></p>
 </div>
-<div class="takeaway">
-<p>El objeto central no es la fórmula cerrada. Es el sistema que se resuelve.</p>
-</div>
+<p>Estas son las <strong>ecuaciones normales</strong>. Caracterizan los minimizadores de mínimos cuadrados incluso cuando no conviene formar <span class="math inline">\(X^\top X\)</span> en el computador.</p>
 </section>
-<section id="advertencia-profesional" class="slide level2">
-<h2>Advertencia profesional</h2>
-<div class="split">
-<div class="warning-card">
-<p><strong>Mala práctica</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>theta <span class="op">=</span> np.linalg.inv(X.T <span class="op">@</span> X) <span class="op">@</span> X.T <span class="op">@</span> y</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="checkpoint">
-<p><strong>Mejor práctica</strong></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>theta <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</div>
-<div class="caption">
-<p>Calcular la inversa explícita suele ser menos estable y menos claro que resolver el sistema.</p>
-</div>
+<section id="la-lectura-geométrica" class="slide level2">
+<h2>La lectura geométrica</h2>
+
+<img src="../figuras/geometria-minimos-cuadrados.svg" class="full-figure r-stretch" alt="Proyección de y sobre el espacio columna de X y residual ortogonal"><p>La predicción <span class="math inline">\(\widehat y=X\widehat\theta\)</span> pertenece al espacio generado por las columnas de <span class="math inline">\(X\)</span>.</p>
 </section>
-<section id="cuándo-falla-la-ecuación-normal" class="slide level2">
-<h2>¿Cuándo falla la ecuación normal?</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Colinealidad</strong></p>
-<p>Columnas de <code>X</code> casi redundantes.</p>
-</div>
-<div class="panel">
-<p><strong>Escala</strong></p>
-<p>Variables en magnitudes muy distintas.</p>
-</div>
-<div class="panel">
-<p><strong>Dimensión</strong></p>
-<p>Muchísimas variables o matriz mal condicionada.</p>
-</div>
-</div>
-<div class="footer-note">
-<p>La próxima semana veremos descenso del gradiente y condicionamiento.</p>
-</div>
-</section>
-<section id="baseline-primero" class="slide level2">
-<h2>Baseline primero</h2>
-<div class="split">
-<div class="model-box">
-<p>Baseline</p>
+<section id="el-residual-queda-perpendicular" class="slide level2">
+<h2>El residual queda perpendicular</h2>
+<p>Como <span class="math inline">\(r=y-X\widehat\theta\)</span>, la condición de primer orden equivale a</p>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat y_i = \bar y_{\text{train}}
+X^\top r=0.
 \]</span></p>
 </div>
-<div class="model-box">
-<p>Modelo lineal</p>
+<p>Cada columna de <span class="math inline">\(X\)</span> tiene producto interno cero con el residual. Con intercepto, una consecuencia es <span class="math inline">\(\sum_i r_i=0\)</span> sobre los datos de ajuste.</p>
+</section>
+<section id="existencia-y-unicidad" class="slide level2">
+<h2>Existencia y unicidad</h2>
+<p>Siempre existe al menos un minimizador de mínimos cuadrados.</p>
+<p>La solución en parámetros es única si</p>
+<div class="math-focus">
 <p><span class="math display">\[
-\hat y_i = x_i^\top\theta
+\operatorname{rank}(X)=p.
 \]</span></p>
 </div>
-</div>
-<div class="takeaway">
-<p>Un modelo solo merece atención si supera una regla simple y transparente.</p>
-</div>
+<p>Si las columnas son linealmente dependientes, distintas elecciones de <span class="math inline">\(\theta\)</span> pueden producir la misma proyección <span class="math inline">\(X\theta\)</span>.</p>
 </section>
-<section id="evaluación-mínima" class="slide level2">
-<h2>Evaluación mínima</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>MAE</strong></p>
-<p>Error promedio en unidades originales.</p>
-</div>
-<div class="panel">
-<p><strong>RMSE</strong></p>
-<p>Castiga más los errores grandes.</p>
-</div>
-<div class="panel">
-<p><strong>R²</strong></p>
-<p>Compara contra predecir la media.</p>
-</div>
-</div>
-</section>
-<section id="live-coding-ruta" class="slide level2">
-<h2>Live coding: ruta</h2>
-<div class="numbered-steps">
-<div>
-<p>Crear <code>X_train</code>, <code>X_test</code>, <code>y_train</code>, <code>y_test</code>.</p>
-</div>
-<div>
-<p>Agregar intercepto solo para la implementación manual.</p>
-</div>
-<div>
-<p>Implementar <code>predict_linear</code>, <code>mse_loss</code> y <code>normal_equation_fit</code>.</p>
-</div>
-<div>
-<p>Comparar baseline, solución manual y <code>LinearRegression</code>.</p>
-</div>
-</div>
-</section>
-<section id="código-mínimo-esperado" class="slide level2">
-<h2>Código mínimo esperado</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="kw">def</span> add_intercept(X):</span>
-<span id="cb3-2"><a href=""></a>    ones <span class="op">=</span> np.ones((X.shape[<span class="dv">0</span>], <span class="dv">1</span>))</span>
-<span id="cb3-3"><a href=""></a>    <span class="cf">return</span> np.hstack([ones, X])</span>
-<span id="cb3-4"><a href=""></a></span>
-<span id="cb3-5"><a href=""></a><span class="kw">def</span> fit_normal_equation(X, y):</span>
-<span id="cb3-6"><a href=""></a>    <span class="cf">return</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="checkpoint">
-<p>Antes de confiar en resultados, imprime formas y revisa que no haya fuga de test.</p>
-</div>
-</section>
-<section id="actividad-formas" class="slide level2">
-<h2>Actividad: formas</h2>
-<div class="activity">
-<p>Suponga que <code>X_train.shape == (320, 10)</code> antes de intercepto.</p>
-<ol type="1">
-<li>¿Cuál es la forma de <code>X_design</code>?</li>
-<li>¿Cuál es la forma de <code>theta</code>?</li>
-<li>¿Cuál es la forma de <code>X_design @ theta</code>?</li>
-<li>¿Qué forma debe tener el residual?</li>
-</ol>
-</div>
-</section>
-<section id="error-frecuente" class="slide level2">
-<h2>Error frecuente</h2>
-<div class="warning-card">
-<p><strong>Confundir observaciones con variables.</strong></p>
-<p>Si se invierte mentalmente <code>n</code> y <code>p</code>, todo lo demás puede “correr” por broadcasting accidental o por una transposición incorrecta.</p>
-</div>
-</section>
-<section id="proyecto-lista-corta-de-datasets" class="slide level2">
-<h2>Proyecto: lista corta de datasets</h2>
-<div class="split-wide">
-<div>
-<p>Para la próxima evidencia del proyecto, cada grupo debe traer 2-3 datasets posibles.</p>
-</div>
-<div class="small-list">
+<section id="qué-puede-quitar-rango" class="slide level2">
+<h2>Qué puede quitar rango</h2>
 <ul>
-<li>fuente;</li>
-<li>unidad de observación;</li>
-<li>variable objetivo;</li>
-<li>pregunta aplicada;</li>
-<li>decisión que podría informar;</li>
-<li>riesgo inicial.</li>
+<li>duplicar una columna;</li>
+<li>incluir todas las categorías dummy y un intercepto;</li>
+<li>construir una variable como combinación exacta de otras;</li>
+<li>tener más columnas que observaciones;</li>
+<li>medir variables casi redundantes, que no quita rango exacto pero sí puede causar inestabilidad.</li>
 </ul>
-</div>
-</div>
+<p>Rango y condicionamiento no son la misma pregunta.</p>
 </section>
-<section id="cierre-técnico" class="slide level2 no-border">
-<h2>Cierre técnico</h2>
-<div class="large-statement">
-<p>La regresión lineal múltiple no empieza con una línea: empieza con una matriz de diseño, una pérdida y un sistema lineal.</p>
+<section id="ecuación-matemática-algoritmo-numérico" class="slide level2">
+<h2>Ecuación matemática, algoritmo numérico</h2>
+<div class="split">
+<h3 id="hoy">Hoy</h3>
+<p>Derivamos</p>
+<p><span class="math display">\[
+X^\top X\widehat\theta=X^\top y.
+\]</span></p>
+<h3 id="jueves">Jueves</h3>
+<p>Compararemos inversa, <code>solve</code>, <code>lstsq</code> y <code>LinearRegression</code>, y mediremos condicionamiento.</p>
 </div>
-<div class="diagram-flow">
-<p><span>tabla</span><span class="arrow">→</span><span>X, y</span><span class="arrow">→</span><span>Xθ</span><span class="arrow">→</span><span>residual</span><span class="arrow">→</span><span>X’Xθ = X’y</span></p>
+<p>Una caracterización algebraica no prescribe automáticamente la implementación más estable.</p>
+</section>
+<section id="cierre" class="slide level2">
+<h2>Cierre</h2>
+<div class="lead">
+<p>La regresión lineal múltiple se construye con cuatro objetos:</p>
 </div>
+<div class="board">
+<p>matriz de diseño <span class="math inline">\(X\)</span><br> predicción <span class="math inline">\(X\theta\)</span><br> residual <span class="math inline">\(r=y-X\theta\)</span><br> condición <span class="math inline">\(X^\top r=0\)</span></p>
+</div>
+<p>En la próxima clase verificaremos cada igualdad con código.</p>
 
 </section>
     </div>

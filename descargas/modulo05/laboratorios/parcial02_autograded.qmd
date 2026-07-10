@@ -19,7 +19,7 @@ Temas incluidos:
 
 1. softmax y entropía cruzada;
 2. particiones estratificadas y validación;
-3. selección de modelos con media y variabilidad;
+3. selección de modelos con una regla explícita de media y variabilidad;
 4. PCA desde SVD;
 5. K-Means y silhouette;
 6. manifest reproducible con hashes de artefactos.
@@ -47,18 +47,23 @@ file_sha256(path)
 build_reproducibility_manifest(params, metrics, artifact_paths)
 ```
 
+`cv_summary` debe llamar `conservative_score` al valor `mean - std`. En este
+parcial se usa como regla heurística para ordenar candidatos: no es un intervalo
+de confianza. En el manifest, `params` debe incluir semilla y protocolo de
+partición; la función agrega versiones de Python, NumPy, pandas y scikit-learn.
+
 # Parte manual
 
 Responde en 120 a 180 palabras:
 
-> Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué evidencia adicional pedirías antes de recomendar una decisión real y cómo lo documentarías de forma reproducible?
+> Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué resultado adicional pedirías antes de usarlo y cómo lo documentarías de forma reproducible?
 
 Rúbrica:
 
 | Puntaje | Criterio |
 |---:|---|
 | 0 | No responde o la respuesta no es técnica |
-| 1 | Menciona evidencia o reproducibilidad de forma aislada |
+| 1 | Menciona un resultado o reproducibilidad de forma aislada |
 | 2 | Integra métrica, variabilidad, error analysis, manifest y decisión prudente |
 
 # Errores que cuestan puntos
@@ -68,5 +73,5 @@ Rúbrica:
 3. No estratificar en clasificación.
 4. PCA sin centrar.
 5. Elegir \(k\) solo por inertia.
-6. Crear un manifest sin parámetros, métricas o hashes.
-
+6. Presentar `mean - std` como un intervalo de confianza.
+7. Crear un manifest sin entorno, semilla, protocolo de partición, métricas o hashes.

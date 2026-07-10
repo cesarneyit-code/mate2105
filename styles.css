@@ -16,6 +16,12 @@ body {
   overflow-x: hidden;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 main.content {
   overflow-wrap: anywhere;
 }
@@ -44,7 +50,7 @@ main.content {
 
 .course-hero h1 {
   color: var(--mate-blue);
-  font-size: clamp(2.6rem, 7vw, 5rem);
+  font-size: 4.6rem;
   font-weight: 800;
   letter-spacing: 0;
   margin: 0.2rem 0 0.25rem;
@@ -61,7 +67,7 @@ main.content {
 
 .course-hero .subtitle {
   color: var(--mate-blue-2);
-  font-size: clamp(1.25rem, 2.4vw, 1.8rem);
+  font-size: 1.7rem;
   font-weight: 700;
   max-width: 68rem;
 }
@@ -202,6 +208,30 @@ main.content {
   background: #f1fbf8;
   padding: 0.85rem 1rem;
   margin: 1rem 0;
+}
+
+.env-downloads {
+  display: grid;
+  gap: 0.8rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 1rem 0 1.4rem;
+}
+
+.env-download {
+  border: 1px solid var(--mate-line);
+  border-left: 4px solid var(--mate-teal);
+  border-radius: 6px;
+  min-width: 0;
+  padding: 0.9rem 1rem;
+}
+
+.env-download p {
+  margin-bottom: 0.65rem;
+}
+
+.env-download a {
+  color: var(--mate-teal);
+  font-weight: 750;
 }
 
 .role-grid {
@@ -686,9 +716,29 @@ table {
 }
 
 @media (max-width: 900px) {
+  #quarto-content.page-columns {
+    display: block !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    overflow-x: clip;
+    width: 100% !important;
+  }
+
+  #quarto-content.page-columns > main.content,
+  main.content {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+    max-width: calc(100vw - 2rem) !important;
+    min-width: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    width: calc(100vw - 2rem) !important;
+  }
+
   .quick-grid,
   .week-focus,
   .role-grid,
+  .env-downloads,
   .week-card,
   .teacher-week {
     grid-template-columns: 1fr;
@@ -710,26 +760,29 @@ table {
   .course-hero {
     padding: 2.2rem 1rem 2rem;
   }
+
+  .course-hero h1 {
+    font-size: 3.2rem;
+  }
+
+  .course-hero .subtitle {
+    font-size: 1.4rem;
+  }
 }
 
 @media (max-width: 560px) {
-  .page-columns {
-    display: block;
-    max-width: 100vw;
-    min-width: 0;
-  }
-
-  body:not(.home-page) main.content {
-    max-width: 100%;
-    min-width: 0;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: 100%;
-  }
-
   body:not(.home-page) p,
   body:not(.home-page) li {
     max-width: 100%;
+  }
+
+  .course-hero h1 {
+    font-size: 2.6rem;
+    line-height: 1;
+  }
+
+  .course-hero .subtitle {
+    font-size: 1.22rem;
   }
 
   .resource-grid {

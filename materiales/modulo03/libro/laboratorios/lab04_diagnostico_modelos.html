@@ -195,10 +195,10 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
-<p>Este laboratorio evalúa si puedes desarrollar modelos de forma metodica: definir una métrica, construir particiones sin leakage, comparar contra baseline, usar cross-validation y diagnosticar errores.</p>
+<p>Este laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada y localizar errores.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
-<p>¿Qué evidencia justifica elegir un modelo y cuál es el siguiente experimento razonable?</p>
+<p>¿Qué resultados justifican elegir un modelo y cuál es el siguiente experimento razonable?</p>
 </blockquote>
 </section>
 <section id="qué-debes-entregar" class="level1">
@@ -233,7 +233,7 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Componente</th>
-<th>Evidencia esperada</th>
+<th>Resultado esperado</th>
 <th style="text-align: right;">Calificación</th>
 </tr>
 </thead>
@@ -275,17 +275,18 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td>Selección</td>
-<td>mejor modelo según métrica principal</td>
+<td>mayor puntaje conservador <code>media - desviación</code> en validación</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 </tbody>
 </table>
+<p>La regla <code>media - desviación</code> penaliza resultados variables y fija un criterio reproducible para este laboratorio. Es una <strong>heurística de selección</strong>, no un intervalo de confianza ni una garantía de desempeño futuro.</p>
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
 <p>Incluye una respuesta corta:</p>
 <blockquote class="blockquote">
-<p>Con la evidencia del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?</p>
+<p>Con los resultados del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -302,11 +303,11 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td>No responde o no usa evidencia</td>
+<td>No responde o no usa resultados del notebook</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td>Menciona métrica o modelo, pero sin diagnóstico accionable</td>
+<td>Menciona métrica o modelo, pero no propone una comprobación concreta</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
@@ -324,6 +325,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Comparar modelos con particiones distintas.</li>
 <li>Reportar cross-validation sin desviación.</li>
 <li>No mirar falsos negativos/falsos positivos.</li>
+<li>Presentar <code>media - desviación</code> como un límite de confianza.</li>
 <li>Hacer una recomendación sin acción concreta.</li>
 </ol>
 

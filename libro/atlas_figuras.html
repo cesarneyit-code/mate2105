@@ -235,12 +235,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -782,7 +782,7 @@ Figura&nbsp;5: Particiones: train ajusta parámetros, dev selecciona modelos y t
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura.</strong> La partición determina qué evidencia se puede usar. Train aprende, dev decide y test audita. Si test participa en decisiones, ya no estima desempeño final de forma honesta.</p>
+<p><strong>Lectura.</strong> La partición determina para qué puede usarse cada resultado. Train ajusta, dev selecciona y test estima desempeño final. Si test participa en la selección, deja de cumplir ese último papel.</p>
 </section>
 <section id="regresión-logística-y-umbrales" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-logística-y-umbrales">Regresión logística y umbrales</h2>
@@ -814,17 +814,17 @@ Figura&nbsp;7: Selección de métricas: el costo relativo de falsos positivos y 
 </section>
 <section id="error-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>
-<div id="fig-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+<div id="fig-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado lectura comprobación límite.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+<img src="figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado lectura comprobación límite.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con evidencia, diagnóstico, acción y límite.
+Figura&nbsp;8: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con resultado, lectura, comprobación y límite.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura.</strong> El promedio global ayuda a comparar, pero no basta para decidir. Un slice crítico debe convertirse en evidencia específica, diagnóstico probable, acción técnica y límite de interpretación.</p>
+<p><strong>Lectura.</strong> El promedio global ayuda a comparar, pero no describe cada grupo. Un slice crítico requiere tamaño, conteos de error, una lectura probable, una comprobación posterior y un límite de interpretación.</p>
 </section>
 <section id="backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
@@ -898,42 +898,42 @@ Figura&nbsp;13: Sistemas de recomendación: una matriz usuario-item incompleta s
 </section>
 <section id="reproducibilidad" class="level2">
 <h2 class="anchored" data-anchor-id="reproducibilidad">Reproducibilidad</h2>
-<div id="fig-reproducibilidad-manifest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+<div id="fig-reproducibilidad-manifest" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de datos, código, entorno y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y entorno permiten reconstruir los resultados.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
+<img src="figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, entorno y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y entorno permiten reconstruir los resultados.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;14: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
+Figura&nbsp;14: Reproducibilidad: datos, código, entorno y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura.</strong> Un resultado no es reproducible solo porque el notebook existe. La evidencia reproducible registra entradas, código, ambiente, parámetros y salidas con suficiente precisión para repetir la corrida.</p>
+<p><strong>Lectura.</strong> Un resultado no es reproducible solo porque el notebook existe. El manifest registra entradas, código, entorno, parámetros y salidas con precisión suficiente para repetir la corrida.</p>
 </section>
 <section id="comunicación-y-defensa" class="level2">
 <h2 class="anchored" data-anchor-id="comunicación-y-defensa">Comunicación y defensa</h2>
-<div id="fig-comunicacion-tecnica-reporte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+<div id="fig-comunicacion-tecnica-reporte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: resultados, diagnóstico, recomendación y límites.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figuras/comunicacion-tecnica-reporte.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+<img src="figuras/comunicacion-tecnica-reporte.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: resultados, diagnóstico, recomendación y límites.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;15: Comunicación técnica: un reporte organiza tesis, evidencia, diagnóstico, decisión y límites para que una audiencia pueda auditar la recomendación.
+Figura&nbsp;15: Comunicación técnica: un reporte organiza tesis, resultados, diagnóstico, recomendación y límites para que una audiencia pueda auditarla.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura.</strong> La comunicación técnica convierte outputs en una tesis defendible. Cada afirmación fuerte necesita una tabla, figura, cálculo o límite que la sostenga.</p>
-<div id="fig-defensa-oral-evidencia" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, evidencia y límite, seguido por criterios de calificación cero, uno y dos.">
+<p><strong>Lectura.</strong> La comunicación técnica convierte resultados en una tesis verificable. Cada afirmación fuerte necesita una tabla, figura, cálculo o límite que la sostenga.</p>
+<div id="fig-defensa-oral-evidencia" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, archivo y límite, seguido por criterios de calificación cero, uno y dos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-defensa-oral-evidencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figuras/defensa-oral-evidencia.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, evidencia y límite, seguido por criterios de calificación cero, uno y dos.">
+<img src="figuras/defensa-oral-evidencia.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, archivo y límite, seguido por criterios de calificación cero, uno y dos.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-defensa-oral-evidencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;16: Defensa oral: la respuesta individual conecta pregunta, respuesta breve, evidencia verificable y límite específico con una rúbrica 0/1/2.
+Figura&nbsp;16: Defensa oral: la respuesta individual conecta pregunta, respuesta breve, archivo verificable y límite específico con una rúbrica 0/1/2.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura.</strong> La defensa no premia recitar el reporte. Premia responder con autoría, evidencia concreta, criterio técnico y límites claros.</p>
+<p><strong>Lectura.</strong> La defensa no premia recitar el reporte. Evalúa autoría, comprensión, capacidad de abrir un archivo concreto y claridad sobre los límites.</p>
 
 
 </section>

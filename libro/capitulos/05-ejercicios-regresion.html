@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Ciencia de datos aplicada</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: Incertidumbre y datos observados</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
   </div>
 </li>
       </ul>
@@ -799,7 +799,7 @@ window.Quarto = {
 <li>calcular pérdidas, gradientes y métricas en casos pequeños;</li>
 <li>implementar mínimos cuadrados, descenso del gradiente y Ridge;</li>
 <li>diagnosticar underfitting, overfitting y leakage;</li>
-<li>justificar regularización, métrica y umbral con evidencia.</li>
+<li>justificar regularización, métrica y umbral a partir de resultados verificables.</li>
 </ol>
 </section>
 <section id="mapa-del-banco" class="level2">
@@ -841,7 +841,7 @@ window.Quarto = {
 <section id="a.-dimensiones-y-representación" class="level2">
 <h2 class="anchored" data-anchor-id="a.-dimensiones-y-representación">A. Dimensiones y representación</h2>
 <ol type="1">
-<li>Tienes un dataset con <code>n=250</code> observaciones y <code>d=6</code> variables originales. Si agregas intercepto, ¿cuál es la forma de <code>X</code> y de <code>theta</code>?</li>
+<li>Tienes un dataset con <span class="math inline">\(m=250\)</span> observaciones y <span class="math inline">\(d=6\)</span> variables originales. Si agregas intercepto, ¿cuál es la forma de <span class="math inline">\(X\)</span> y de <span class="math inline">\(\theta\)</span>? Use <span class="math inline">\(p=d+1\)</span> para las columnas de la matriz de diseño.</li>
 <li>Explica qué significa cada fila y cada columna de la matriz de diseño.</li>
 <li>Escribe la predicción de la observación <code>i</code> usando sumatoria.</li>
 <li>Escribe la misma predicción usando producto punto.</li>
@@ -875,7 +875,7 @@ y=\begin{bmatrix}
 <li>Escribe una función <code>add_intercept(X)</code>.</li>
 <li>Escribe una función <code>predict_linear(X, theta)</code>.</li>
 <li>Escribe una función <code>mse_loss(X, y, theta)</code>.</li>
-<li>Escribe una función <code>normal_equation(X, y)</code>.</li>
+<li>Escribe una función <code>fit_lstsq(X, y)</code> que devuelva parámetros, rango y valores singulares.</li>
 <li>Simula <code>y = 5 + 0.8x + ruido</code> y verifica si recuperas parámetros cercanos.</li>
 </ol>
 </section>
@@ -920,7 +920,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <li>Describe qué harías si la pérdida aumenta en las primeras iteraciones.</li>
 <li>Describe qué harías si la pérdida baja, pero muy lentamente.</li>
 <li>Describe qué harías si la pérdida de entrenamiento baja y la de validación sube.</li>
-<li>¿Cómo usarías la ecuación normal para probar tu implementación de gradiente?</li>
+<li>¿Cómo usarías <code>np.linalg.lstsq</code> para probar tu implementación de gradiente?</li>
 </ol>
 </section>
 <section id="d.-código" class="level2">
@@ -929,7 +929,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <li>Implementa <code>mse_gradient(X, y, theta)</code>.</li>
 <li>Implementa <code>gradient_descent</code>.</li>
 <li>Guarda <code>history</code> y grafica pérdida contra iteración.</li>
-<li>Compara <code>theta_gd</code> contra <code>theta_ne</code>.</li>
+<li>Compara <code>theta_gd</code> contra <code>theta_ref</code> obtenido con <code>np.linalg.lstsq</code>.</li>
 <li>Repite con datos sin escalar y escalados.</li>
 </ol>
 </section>
@@ -952,11 +952,12 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <li>¿Por qué no se debe usar test para escoger grado?</li>
 <li>¿Qué harías si solo tienes 80 observaciones?</li>
 <li>Da un ejemplo de leakage temporal.</li>
+<li>Explique por qué calcular <span class="math inline">\(x^2\)</span> fila por fila no aprende información de test, mientras que elegir el grado después de mirar test sí lo hace.</li>
 </ol>
 </section>
 <section id="c.-feature-engineering" class="level2">
 <h2 class="anchored" data-anchor-id="c.-feature-engineering">C. Feature engineering</h2>
-<ol start="9" type="1">
+<ol start="10" type="1">
 <li>Construye manualmente features para <code>x</code>: <code>1</code>, <code>x</code>, <code>x^2</code>, <code>x^3</code>.</li>
 <li>Para dos variables <code>x1</code>, <code>x2</code>, propone tres interacciones posibles.</li>
 <li>¿Cuándo usarías <code>log(x)</code>?</li>
@@ -965,7 +966,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 </section>
 <section id="d.-código-1" class="level2">
 <h2 class="anchored" data-anchor-id="d.-código-1">D. Código</h2>
-<ol start="13" type="1">
+<ol start="14" type="1">
 <li>Implementa <code>polynomial_features_1d</code>.</li>
 <li>Entrena grados <code>1</code> a <code>10</code>.</li>
 <li>Grafica MSE train y MSE validation contra grado.</li>
@@ -983,11 +984,12 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <li>Deriva la solución cerrada cuando se penalizan todos los coeficientes.</li>
 <li>Modifica la solución para no penalizar intercepto.</li>
 <li>Explica qué ocurre cuando <code>lambda=0</code>.</li>
+<li>Si el objetivo manual usa <span class="math inline">\(\|X\theta-y\|^2/(2m)+\lambda\|\theta\|^2/2\)</span>, ¿qué relación debe tener <code>alpha</code> de <code>sklearn.linear_model.Ridge</code> con <span class="math inline">\(\lambda\)</span>?</li>
 </ol>
 </section>
 <section id="b.-lasso" class="level2">
 <h2 class="anchored" data-anchor-id="b.-lasso">B. Lasso</h2>
-<ol start="6" type="1">
+<ol start="7" type="1">
 <li>Escribe el objetivo Lasso.</li>
 <li>¿Por qué Lasso puede producir coeficientes exactamente cero?</li>
 <li>¿Qué precaución tomarías con variables correlacionadas?</li>
@@ -996,19 +998,19 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 </section>
 <section id="c.-selección" class="level2">
 <h2 class="anchored" data-anchor-id="c.-selección">C. Selección</h2>
-<ol start="10" type="1">
+<ol start="11" type="1">
 <li>Diseña una tabla para comparar <code>lambda</code>, MSE train, MSE validation y norma de coeficientes.</li>
 <li>¿Qué <code>lambda</code> escogerías si el menor MSE validation está empatado entre dos valores?</li>
-<li>¿Qué evidencia reportarías para defender el modelo final?</li>
+<li>¿Qué resultados reportarías para justificar el modelo final?</li>
 </ol>
 </section>
 <section id="d.-código-2" class="level2">
 <h2 class="anchored" data-anchor-id="d.-código-2">D. Código</h2>
-<ol start="13" type="1">
+<ol start="14" type="1">
 <li>Implementa <code>ridge_closed_form</code>.</li>
 <li>Compara <code>lambda</code> en escala logarítmica.</li>
 <li>Grafica norma de coeficientes contra <code>lambda</code>.</li>
-<li>Compara con <code>sklearn.linear_model.Ridge</code>.</li>
+<li>Compara con <code>sklearn.linear_model.Ridge</code> después de hacer compatible la convención de penalización.</li>
 <li>Si usas Lasso de <code>sklearn</code>, revisa cuántos coeficientes quedan en cero.</li>
 </ol>
 </section>
@@ -1031,7 +1033,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <li>Calcula la pérdida para <code>y=1</code>, <code>p=0.9</code>.</li>
 <li>Calcula la pérdida para <code>y=1</code>, <code>p=0.1</code>.</li>
 <li>Explica por qué la segunda es mayor.</li>
-<li>Deriva el gradiente <code>X.T @ (p - y) / n</code>.</li>
+<li>Deriva el gradiente <code>X.T @ (p - y) / m</code>.</li>
 </ol>
 </section>
 <section id="c.-métricas" class="level2">
@@ -1059,14 +1061,14 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <h2 class="anchored" data-anchor-id="problema-1-regresión-de-principio-a-fin">Problema 1: regresión de principio a fin</h2>
 <p>Toma un dataset de regresión, por ejemplo <code>load_diabetes</code>.</p>
 <ol type="1">
-<li>Separa train/test.</li>
+<li>Separa train/validation/test.</li>
 <li>Define un baseline de promedio.</li>
 <li>Ajusta regresión lineal.</li>
-<li>Reporta MSE train y test.</li>
+<li>Reporta MSE train y validation durante la selección.</li>
 <li>Estandariza variables y repite.</li>
 <li>Ajusta Ridge con varios <code>lambda</code>.</li>
 <li>Escoge un modelo con validación.</li>
-<li>Escribe una conclusión técnica de máximo 150 palabras.</li>
+<li>Consulta test una vez y escribe una conclusión técnica de máximo 150 palabras.</li>
 </ol>
 <p>La conclusión debe responder:</p>
 <ul>
@@ -1080,11 +1082,11 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <h2 class="anchored" data-anchor-id="problema-2-regularización-y-estabilidad">Problema 2: regularización y estabilidad</h2>
 <p>Construye un dataset generado con variables correlacionadas:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">42</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">200</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> rng.normal(size<span class="op">=</span>n)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> x1 <span class="op">+</span> <span class="fl">0.05</span> <span class="op">*</span> rng.normal(size<span class="op">=</span>n)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x3 <span class="op">=</span> rng.normal(size<span class="op">=</span>n)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> x3 <span class="op">+</span> rng.normal(scale<span class="op">=</span><span class="fl">0.5</span>, size<span class="op">=</span>n)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>x1 <span class="op">=</span> rng.normal(size<span class="op">=</span>m)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>x2 <span class="op">=</span> x1 <span class="op">+</span> <span class="fl">0.05</span> <span class="op">*</span> rng.normal(size<span class="op">=</span>m)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>x3 <span class="op">=</span> rng.normal(size<span class="op">=</span>m)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">3</span> <span class="op">*</span> x1 <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> x3 <span class="op">+</span> rng.normal(scale<span class="op">=</span><span class="fl">0.5</span>, size<span class="op">=</span>m)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <ol type="1">
 <li>Ajusta regresión lineal.</li>
 <li>Ajusta Ridge.</li>
@@ -1098,11 +1100,12 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <p>Usa <code>load_breast_cancer</code> o un dataset binario similar.</p>
 <ol type="1">
 <li>Define clase positiva.</li>
-<li>Separa train/test con estratificación.</li>
+<li>Separa train/validation/test con estratificación.</li>
 <li>Estandariza variables.</li>
 <li>Ajusta regresión logística.</li>
-<li>Reporta matriz de confusión para umbral <code>0.5</code>.</li>
-<li>Escoge un umbral para recall mínimo <code>0.95</code>.</li>
+<li>Reporta métricas de validación para umbral <code>0.5</code>.</li>
+<li>Escoge en validación un umbral para recall mínimo <code>0.95</code>.</li>
+<li>Fija el umbral, consulta test una vez y reporta su matriz de confusión.</li>
 <li>Explica el tradeoff en lenguaje no técnico.</li>
 </ol>
 </section>
@@ -1135,7 +1138,7 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <thead>
 <tr class="header">
 <th>Nivel</th>
-<th>Evidencia</th>
+<th>Indicador</th>
 </tr>
 </thead>
 <tbody>
@@ -1166,10 +1169,10 @@ y=\begin{bmatrix}1\\2\\4\end{bmatrix}.
 <section id="guía-de-verificación-seleccionada" class="level1">
 <h1>Guía de verificación seleccionada</h1>
 <div class="answer">
-<p><strong>Semana 2, ejercicio 1.</strong> Si hay <span class="math inline">\(d=6\)</span> variables originales y se agrega intercepto, entonces <code>X</code> tiene forma <code>(250, 7)</code> y <code>theta</code> debe tener 7 entradas.</p>
+<p><strong>Semana 2, ejercicio 1.</strong> Si hay <span class="math inline">\(d=6\)</span> variables originales y se agrega intercepto, entonces <span class="math inline">\(p=7\)</span>, <code>X</code> tiene forma <code>(250, 7)</code> y <code>theta</code> debe tener 7 entradas.</p>
 </div>
 <div class="answer">
-<p><strong>Semana 5, ejercicio 8.</strong> Para <span class="math inline">\(\theta=(3,4,-1)\)</span>, sin incluir intercepto, la penalización L2 usa <span class="math inline">\(4^2+(-1)^2=17\)</span> y la penalización L1 usa <span class="math inline">\(|4|+|-1|=5\)</span>.</p>
+<p><strong>Semana 5, ejercicio 6.</strong> Al multiplicar el objetivo manual por <span class="math inline">\(2m\)</span> se obtiene <span class="math inline">\(\|X\theta-y\|^2+m\lambda\|\theta\|^2\)</span>. Por tanto, con la convención documentada por <code>Ridge</code>, debe usarse <code>alpha = m * lambda</code>.</p>
 </div>
 <div class="answer">
 <p><strong>Semana 6, ejercicio 10.</strong> Con <code>TP=25</code>, <code>FP=5</code>, <code>TN=60</code>, <code>FN=10</code>, accuracy es <span class="math inline">\(85/100=0.85\)</span>, precision es <span class="math inline">\(25/30\)</span>, recall es <span class="math inline">\(25/35\)</span> y F1 se calcula como media armónica de precision y recall.</p>

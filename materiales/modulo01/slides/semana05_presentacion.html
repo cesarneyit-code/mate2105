@@ -6,11 +6,11 @@
 <script src="semana05_presentacion_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="semana05_presentacion_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="semana05_presentacion_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="semana05_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="semana05_presentacion_files/libs/quarto-html/quarto-syntax-highlighting-e39505f2b70156be49b8745853350b0f.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.8.25">
 
-  <meta name="author" content="Cesar Galindo">
-  <title>MATE-2105</title>
+  <meta name="author" content="César Galindo">
+  <title>Semana 5 · Clase 1</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana05_presentacion_files/libs/revealjs/dist/theme/quarto-9b83917f405c5b34aeee76efbf11d255.css">
+  <link rel="stylesheet" href="semana05_presentacion_files/libs/revealjs/dist/theme/quarto-0ab2b8cd1ca1f4a3114ef3de2f9e2f3c.css">
   <link href="semana05_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana05_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana05_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -195,248 +195,276 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">MATE-2105</h1>
-  <p class="subtitle">Semana 5: regularización, validación y selección de modelo</p>
+  <h1 class="title">Semana 5 · Clase 1</h1>
+  <p class="subtitle">Ridge: objetivo, escala e intercepto</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Cesar Galindo 
+César Galindo 
 </div>
 </div>
 </div>
 
 </section>
-<section id="pregunta-de-entrada" class="slide level2 no-border">
-<h2>Pregunta de entrada</h2>
-<div class="kicker">
-<p>Controlar complejidad sin borrar señal</p>
+<section class="slide level2">
+
+<!-- Fuente editable. El generador puede reconstruirla desde scripts/contenido_sesiones_03_16.py. -->
+</section>
+<section id="reducir-varianza-sin-borrar-el-modelo" class="slide level2">
+<h2>Reducir varianza sin borrar el modelo</h2>
+<div class="lead">
+<p>¿Cómo cambia mínimos cuadrados cuando penalizamos coeficientes grandes pero conservamos libre el intercepto?</p>
 </div>
-<div class="big-question">
-<p>¿Cómo le decimos a un modelo: ajusta los datos, pero no uses parámetros innecesariamente grandes?</p>
+<p>Al final de la sesión: <strong>Relacionar penalización, solución matricial y convención alpha de scikit-learn.</strong></p>
+</section>
+<section id="punto-de-partida" class="slide level2">
+<h2>Punto de partida</h2>
+<p>La complejidad polinomial puede producir coeficientes inestables. Ridge modifica el objetivo para preferir soluciones con menor norma.</p>
+<div class="board">
+<p>Hoy cambia la pregunta: la familia de columnas permanece; cambia el criterio que decide entre parámetros.</p>
 </div>
 </section>
-<section id="recap" class="slide level2">
-<h2>Recap</h2>
-<div class="diagram-flow">
-<p><span>más features</span><span class="arrow">→</span><span>más flexibilidad</span><span class="arrow">→</span><span>más riesgo de overfitting</span></p>
-</div>
-<div class="takeaway">
-<p>La regularización no reemplaza validación. La acompaña.</p>
+<section id="el-caso-que-usaremos" class="slide level2">
+<h2>El caso que usaremos</h2>
+<p>Sobre <code>load_diabetes</code>, compararemos un modelo lineal escalado con varias intensidades de Ridge usando train/dev.</p>
+<div class="data-note">
+<p>Dataset local de scikit-learn; el ejercicio enseña la convención matemática y su traducción a biblioteca.</p>
 </div>
 </section>
-<section id="contrato-de-la-semana" class="slide level2">
-<h2>Contrato de la semana</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Penalizar</strong></p>
-<p>Agregar costo a la complejidad.</p>
-</div>
-<div class="panel">
-<p><strong>Comparar</strong></p>
-<p>Entender L2 y L1 como decisiones distintas.</p>
-</div>
-<div class="panel">
-<p><strong>Validar</strong></p>
-<p>Escoger <code>alpha</code> sin tocar test.</p>
-</div>
+<section id="una-imagen-para-orientar-la-discusión" class="slide level2">
+<h2>Una imagen para orientar la discusión</h2>
+
+<img src="../figuras/regularizacion-ridge-lasso.svg" class="wide-figure r-stretch" alt="Comparación geométrica de restricciones Ridge y Lasso"><p>Ridge contrae todas las coordenadas de forma continua. La geometría circular rara vez toca exactamente un eje.</p>
+</section>
+<section id="objetos-y-notación" class="slide level2">
+<h2>Objetos y notación</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Símbolo</th>
+<th>Convención del curso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(m\)</span></td>
+<td>observaciones de train</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\lambda\)</span></td>
+<td>intensidad en objetivo promedio</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(P\)</span></td>
+<td>diagonal con cero para intercepto</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\theta_{1:}\)</span></td>
+<td>coeficientes penalizados</td>
+</tr>
+</tbody>
+</table>
+<p>Antes de calcular, cada símbolo debe tener una lectura y una forma.</p>
+</section>
+<section id="la-pregunta-matemática" class="slide level2">
+<h2>La pregunta matemática</h2>
+<div class="question">
+<p>¿Qué ecuación satisface el minimizador Ridge cuando el intercepto no se penaliza?</p>
 </div>
 </section>
-<section id="idea-central" class="slide level2">
-<h2>Idea central</h2>
-<div class="large-statement">
-<p>Un modelo regularizado no solo busca bajo error: busca bajo error con parámetros controlados.</p>
-</div>
-<div class="diagram-flow">
-<p><span>error de predicción</span><span class="arrow">+</span><span>penalización</span><span class="arrow">→</span><span>objetivo regularizado</span></p>
-</div>
-</section>
-<section id="geometría-de-la-penalización" class="slide level2">
-<h2>Geometría de la penalización</h2>
-<div class="case-split">
-<div class="image-frame">
-<p><img src="../figuras/regularizacion-ridge-lasso.svg" class="slide-figure" alt="Comparación geométrica entre Ridge y Lasso"></p>
-</div>
-<div>
-<p><strong>Dos preferencias</strong></p>
-<div class="small-list">
-<ul>
-<li>Ridge: parámetros pequeños y repartidos.</li>
-<li>Lasso: algunos parámetros exactamente cero.</li>
-<li>Ambas requieren escala comparable.</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-<section id="ridge" class="slide level2">
-<h2>Ridge</h2>
+<section id="expresión-central" class="slide level2">
+<h2>Expresión central</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-J_{\text{Ridge}}(\theta)=
-\frac{1}{2n}\|X\theta-y\|_2^2+\lambda\|\theta\|_2^2
+J_\lambda(\theta)=\frac{1}{2m}\lVert X\theta-y\rVert_2^2
++\frac{\lambda}{2}\lVert P\theta\rVert_2^2.
 \]</span></p>
 </div>
-<div class="takeaway">
-<p>L2 castiga magnitudes grandes de forma suave. Rara vez apaga un coeficiente exactamente.</p>
+<p><span class="math inline">\(P=\operatorname{diag}(0,1,\ldots,1)\)</span> deja libre el intercepto y penaliza los demás coeficientes.</p>
+</section>
+<section id="primer-paso-de-la-derivación" class="slide level2">
+<h2>Primer paso de la derivación</h2>
+<p>El gradiente es <span class="math display">\[\nabla J_\lambda(\theta)=\frac1mX^\top(X\theta-y)+\lambda P\theta.\]</span></p>
+</section>
+<section id="segundo-paso-de-la-derivación" class="slide level2">
+<h2>Segundo paso de la derivación</h2>
+<p>Al igualarlo a cero, <span class="math display">\[\left(X^\top X+m\lambda P\right)\widehat\theta=X^\top y.\]</span> La penalización mejora invertibilidad en las direcciones penalizadas.</p>
+</section>
+<section id="qué-debe-coincidir" class="slide level2">
+<h2>Qué debe coincidir</h2>
+<p><span class="math inline">\(P\theta\in\mathbb R^p\)</span> y su primera componente es cero. Penalizar una matriz sin intercepto requiere una convención distinta, pero equivalente si se declara.</p>
+<div class="board">
+<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="solución-ridge" class="slide level2">
-<h2>Solución Ridge</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-(X^\top X+\lambda I)\theta=X^\top y
-\]</span></p>
-</div>
-<div class="warning-card">
-<p>No se penaliza el intercepto si se está modelando explícitamente.</p>
+<section id="lectura-del-resultado" class="slide level2">
+<h2>Lectura del resultado</h2>
+<p>Aumentar <span class="math inline">\(\lambda\)</span> intercambia ajuste por contracción. Coeficientes menores pueden ser más estables, pero no significan variables menos causales ni menos importantes por sí solas.</p>
+<p>No basta obtener la expresión: hay que decir qué cambia cuando cambia cada término.</p>
+</section>
+<section id="primera-pausa" class="slide level2">
+<h2>Primera pausa</h2>
+<div class="pause">
+<p>Con <span class="math inline">\(m=100\)</span> y <span class="math inline">\(\lambda=0.02\)</span> en nuestra convención, ¿qué <code>alpha</code> usa <code>sklearn.linear_model.Ridge</code>?</p>
+<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
 </div>
 </section>
-<section id="qué-cambia-con-ridge" class="slide level2">
-<h2>Qué cambia con Ridge</h2>
-<div class="three-panel">
-<div class="panel">
-<p><strong>Menor varianza</strong></p>
-<p>Coeficientes más estables.</p>
-</div>
-<div class="panel">
-<p><strong>Mayor sesgo</strong></p>
-<p>Más restricción sobre el ajuste.</p>
-</div>
-<div class="panel">
-<p><strong>Mejor generalización</strong></p>
-<p>Si el problema era varianza.</p>
-</div>
+<section id="discusión-de-la-primera-pausa" class="slide level2">
+<h2>Discusión de la primera pausa</h2>
+<p><code>Ridge</code> minimiza suma de cuadrados más <code>alpha * ||w||²</code>; por tanto <code>alpha = m * lambda = 2</code>, cuando el intercepto se maneja aparte.</p>
+<div class="source-line">
+<p>La respuesta se construye en el tablero antes de continuar.</p>
 </div>
 </section>
-<section id="lasso" class="slide level2">
-<h2>Lasso</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-J_{\text{Lasso}}(\theta)=
-\frac{1}{2n}\|X\theta-y\|_2^2+\lambda\|\theta\|_1
-\]</span></p>
-</div>
-<div class="takeaway">
-<p>L1 puede producir soluciones dispersas: una forma de selección de variables, no una prueba causal.</p>
-</div>
-</section>
-<section id="ridge-vs-lasso" class="slide level2">
-<h2>Ridge vs Lasso</h2>
-<div class="split">
-<div class="panel">
-<p><strong>Ridge</strong></p>
-<p>Bueno cuando muchas variables aportan un poco.</p>
-</div>
-<div class="panel">
-<p><strong>Lasso</strong></p>
-<p>Útil cuando se espera una representación más escasa.</p>
-</div>
-</div>
-</section>
-<section id="escala-antes-de-regularizar" class="slide level2">
-<h2>Escala antes de regularizar</h2>
-<div class="warning-card">
-<p>Una penalización sobre coeficientes depende de la escala de las variables.</p>
-</div>
-<div class="diagram-flow">
-<p><span>StandardScaler</span><span class="arrow">→</span><span>Ridge/Lasso</span><span class="arrow">→</span><span>validación</span></p>
-</div>
-</section>
-<section id="alpha-como-control" class="slide level2">
-<h2><code>alpha</code> como control</h2>
-<div class="split">
-<div class="panel">
-<p><strong><code>alpha</code> pequeño</strong></p>
-<p>El modelo se parece a mínimos cuadrados.</p>
-</div>
-<div class="panel">
-<p><strong><code>alpha</code> grande</strong></p>
-<p>Los coeficientes se contraen con fuerza.</p>
-</div>
-</div>
-</section>
-<section id="selección-de-alpha" class="slide level2">
-<h2>Selección de <code>alpha</code></h2>
-<div class="numbered-steps">
-<div>
-<p>Definir una grilla logarítmica.</p>
-</div>
-<div>
-<p>Entrenar un pipeline por valor.</p>
-</div>
-<div>
-<p>Medir validación o cross-validation.</p>
-</div>
-<div>
-<p>Escoger el modelo con mejor evidencia fuera de muestra.</p>
-</div>
-</div>
-</section>
-<section id="pipeline-de-comparación" class="slide level2">
-<h2>Pipeline de comparación</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>pipe <span class="op">=</span> Pipeline([</span>
-<span id="cb1-2"><a href=""></a>    (<span class="st">"scale"</span>, StandardScaler()),</span>
-<span id="cb1-3"><a href=""></a>    (<span class="st">"model"</span>, Ridge(alpha<span class="op">=</span>alpha))</span>
-<span id="cb1-4"><a href=""></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="checkpoint">
-<p>El escalador y el modelo deben vivir en el mismo pipeline para evitar leakage durante validación cruzada.</p>
-</div>
-</section>
-<section id="lectura-de-coeficientes" class="slide level2">
-<h2>Lectura de coeficientes</h2>
-<div class="large-statement">
-<p>Un coeficiente grande no significa importancia universal. Significa relación dentro de una representación, escala y partición específicas.</p>
-</div>
-</section>
-<section id="actividad-leer-coeficientes" class="slide level2">
-<h2>Actividad: leer coeficientes</h2>
-<div class="activity">
-<p>Dado un conjunto de coeficientes Ridge y Lasso:</p>
+<section id="del-cálculo-al-algoritmo" class="slide level2">
+<h2>Del cálculo al algoritmo</h2>
 <ol type="1">
-<li>Identifique variables estables.</li>
-<li>Identifique variables apagadas por Lasso.</li>
-<li>Explique qué no se puede concluir causalmente.</li>
+<li>escalar variables con train</li>
+<li>fijar rejilla de <span class="math inline">\(\lambda\)</span></li>
+<li>traducir a <code>alpha=m*lambda</code></li>
+<li>ajustar cada candidato</li>
+<li>elegir por dev y registrar norma de coeficientes</li>
 </ol>
-</div>
+<p>El orden importa: cada paso debe usar únicamente información disponible en ese momento.</p>
 </section>
-<section id="lab-2" class="slide level2">
-<h2>Lab 2</h2>
-<div class="split-wide">
+<section id="implementación-mínima" class="slide level2">
+<h2>Implementación mínima</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> ridge_closed_form(X, y, lam):</span>
+<span id="cb1-2"><a href=""></a>    penalty <span class="op">=</span> np.eye(X.shape[<span class="dv">1</span>])</span>
+<span id="cb1-3"><a href=""></a>    penalty[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb1-4"><a href=""></a>    lhs <span class="op">=</span> X.T <span class="op">@</span> X <span class="op">+</span> X.shape[<span class="dv">0</span>] <span class="op">*</span> lam <span class="op">*</span> penalty</span>
+<span id="cb1-5"><a href=""></a>    <span class="cf">return</span> np.linalg.solve(lhs, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La diagonal cero documenta la convención de intercepto y permite una prueba directa.</p>
+</section>
+<section id="ejemplo-controlado" class="slide level2">
+<h2>Ejemplo controlado</h2>
+<p>Con dos columnas correlacionadas, mínimos cuadrados produce coeficientes grandes y opuestos. Ridge reduce su magnitud y cambia poco ciertas predicciones.</p>
+<p>El ejemplo es pequeño para poder revisar cada número sin esconder errores detrás de una biblioteca.</p>
+</section>
+<section id="resultado-que-esperamos-reproducir" class="slide level2">
+<h2>Resultado que esperamos reproducir</h2>
+<div class="result">
 <div>
-<p><strong>Autocalificado</strong></p>
-<p>Ridge, Lasso, particiones, validación, logística y métricas.</p>
+<span class="value">0</span><span class="label">penalización del intercepto</span>
 </div>
-<div class="checkpoint">
-<p><strong>Manual mínimo</strong></p>
-<p>Seleccionar modelo, umbral y recomendación técnica.</p>
+<div>
+<span class="value">mλ</span><span class="label">equivalente <code>alpha</code></span>
 </div>
+<div>
+<span class="value">L2</span><span class="label">norma usada</span>
+</div>
+</div>
+<p>La equivalencia con scikit-learn depende del escalamiento del término de datos; se comprueba numéricamente, no por nombre del hiperparámetro.</p>
+</section>
+<section id="abra-el-notebook" class="slide level2">
+<h2>Abra el notebook</h2>
+<div class="lead">
+<p><code>semana05_live_coding.ipynb</code></p>
+</div>
+<p>Compare la solución cerrada y <code>Ridge</code> con el mismo escalamiento. Imprima la norma de coeficientes para cada candidato.</p>
+</section>
+<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2">
+<h2>Dos opciones que no responden lo mismo</h2>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th>Objetivo</th>
+<th>Comportamiento típico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>OLS</td>
+<td>solo ajuste</td>
+<td>sensible a colinealidad</td>
+</tr>
+<tr class="even">
+<td>Ridge</td>
+<td>ajuste + L2</td>
+<td>contrae todos los coeficientes</td>
+</tr>
+<tr class="odd">
+<td>baseline media</td>
+<td>sin variables</td>
+<td>referencia de MSE</td>
+</tr>
+</tbody>
+</table>
+<p>La comparación es válida solo si conserva datos, partición y métrica cuando corresponda.</p>
+</section>
+<section id="comprobación-numérica" class="slide level2">
+<h2>Comprobación numérica</h2>
+<p>Convierta <code>lambda</code> a <code>alpha=m*lambda</code> y exija <code>np.allclose</code> entre predicciones manuales y de scikit-learn bajo la misma matriz.</p>
+<div class="board">
+<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="comparación-con-sklearn" class="slide level2">
-<h2>Comparación con <code>sklearn</code></h2>
-<div class="diagram-flow">
-<p><span>implementación propia</span><span class="arrow">→</span><span>pruebas numéricas</span><span class="arrow">→</span><span>sklearn</span><span class="arrow">→</span><span>interpretación</span></p>
-</div>
-<div class="footer-note">
-<p>La librería no reemplaza la derivación; la derivación permite auditar la librería.</p>
+<section id="primer-modo-de-falla" class="slide level2">
+<h2>Primer modo de falla</h2>
+<p>Penalizar el intercepto desplaza el nivel global cuando las variables están centradas de otra forma.</p>
+<p><strong>Señal observable:</strong> la primera diagonal de <span class="math inline">\(P\)</span> vale uno</p>
+</section>
+<section id="segundo-modo-de-falla" class="slide level2">
+<h2>Segundo modo de falla</h2>
+<p>Comparar alphas sin escalar variables hace que la penalización dependa de unidades arbitrarias.</p>
+<p><strong>Señal observable:</strong> una variable domina por estar medida en una escala numérica mayor</p>
+</section>
+<section id="segunda-pausa" class="slide level2">
+<h2>Segunda pausa</h2>
+<div class="pause">
+<p>Ridge reduce la norma de coeficientes y empeora dev MSE 0.2 %. ¿Lo descarta automáticamente? Proponga una lectura.</p>
+<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="error-frecuente" class="slide level2">
-<h2>Error frecuente</h2>
-<div class="warning-card">
-<p><strong>Regularizar sin escalar.</strong></p>
-<p>El modelo termina penalizando más a variables por sus unidades que por su aporte real.</p>
+<section id="discusión-de-la-segunda-pausa" class="slide level2">
+<h2>Discusión de la segunda pausa</h2>
+<p>No.&nbsp;Hay que revisar variación entre particiones, estabilidad y costo de complejidad. Puede preferirse una contracción estable si la diferencia está dentro de la dispersión observada, sin afirmar que mejora población.</p>
+<p>La recomendación debe nombrar el archivo, cálculo o partición que permitiría comprobarla.</p>
+</section>
+<section id="qué-sí-permite-afirmar" class="slide level2">
+<h2>Qué sí permite afirmar</h2>
+<p>Bajo la convención declarada, Ridge añade <span class="math inline">\(m\lambda P\)</span> a las ecuaciones y coincide con scikit-learn tras traducir la escala.</p>
+<p>La afirmación queda ligada a la muestra, la partición y la configuración observadas.</p>
+</section>
+<section id="qué-no-permite-afirmar" class="slide level2">
+<h2>Qué no permite afirmar</h2>
+<p>Ridge no selecciona causalidad, no corrige leakage y no garantiza mejora en test por reducir la norma.</p>
+<div class="data-note">
+<p>Declarar el límite no debilita el análisis; define su alcance.</p>
 </div>
 </section>
-<section id="cierre-técnico" class="slide level2 no-border">
-<h2>Cierre técnico</h2>
-<div class="large-statement">
-<p>Regularizar es introducir una preferencia explícita: queremos modelos que predigan bien y no usen complejidad sin evidencia.</p>
+<section id="conexión-con-la-evaluación" class="slide level2">
+<h2>Conexión con la evaluación</h2>
+<p>Lab 2 autocalifica la penalización, la partición y la equivalencia con biblioteca; la interpretación manual compara error y estabilidad.</p>
+<p><strong>Hito de la semana:</strong> Entrega de Lab 2.</p>
+</section>
+<section id="trabajo-de-tablero-síntesis" class="slide level2">
+<h2>Trabajo de tablero: síntesis</h2>
+<ul>
+<li>objetivo promedio + <span class="math inline">\(\lambda\|P\theta\|^2/2\)</span></li>
+<li>intercepto no penalizado</li>
+<li>ecuación usa <span class="math inline">\(m\lambda P\)</span></li>
+<li>scikit-learn usa <code>alpha=m*lambda</code></li>
+</ul>
+<p>Estas cuatro líneas deben poder reconstruirse sin mirar las diapositivas.</p>
+</section>
+<section id="ticket-de-salida" class="slide level2">
+<h2>Ticket de salida</h2>
+<ol type="1">
+<li>¿Por qué aparece <span class="math inline">\(m\lambda\)</span> en la ecuación?</li>
+<li>¿Qué entrada de <span class="math inline">\(P\)</span> debe ser cero?</li>
+<li>¿Qué debe mantenerse fijo al comparar OLS y Ridge?</li>
+</ol>
+<p>Entregue una respuesta de cuatro a seis líneas.</p>
+</section>
+<section id="cierre" class="slide level2">
+<h2>Cierre</h2>
+<div class="lead">
+<p>Regularizar no reemplaza la validación: cambia las soluciones candidatas que la validación debe comparar.</p>
 </div>
-<div class="diagram-flow">
-<p><span>pérdida</span><span class="arrow">+</span><span>penalización</span><span class="arrow">→</span><span>validación</span><span class="arrow">→</span><span>selección defendible</span></p>
-</div>
+<p><strong>Antes de la próxima clase:</strong> prepare una diferencia concreta entre contracción L2 y sparsity L1.</p>
 
 </section>
     </div>

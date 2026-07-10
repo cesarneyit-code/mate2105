@@ -239,7 +239,7 @@ window.Quarto = {
 </header>
 
 
-<p>Esta sección sirve como ensayo final del curso. Cada ejercicio conecta matemática, implementación, evidencia y comunicación. La respuesta correcta no es solo la que calcula bien: también debe dejar claro qué decisión se puede defender con ese cálculo.</p>
+<p>Esta sección sirve como ensayo final del curso. Cada ejercicio conecta matemática, implementación y comunicación. La respuesta no termina en el cálculo: debe decir qué permite concluir y qué falta comprobar.</p>
 <section id="resultados-de-práctica" class="level2">
 <h2 class="anchored" data-anchor-id="resultados-de-práctica">Resultados de práctica</h2>
 <p>Al terminar este banco deberías poder:</p>
@@ -257,7 +257,7 @@ window.Quarto = {
 <thead>
 <tr class="header">
 <th>Ejercicio</th>
-<th>Evidencia de aprendizaje</th>
+<th>Qué comprueba</th>
 </tr>
 </thead>
 <tbody>
@@ -289,8 +289,8 @@ window.Quarto = {
 <p>Una respuesta final de curso debe:</p>
 <ol type="1">
 <li>usar una fórmula o procedimiento correcto;</li>
-<li>señalar la evidencia observada;</li>
-<li>traducir la evidencia en diagnóstico;</li>
+<li>señalar el resultado observado;</li>
+<li>traducirlo en una lectura técnica;</li>
 <li>proponer una acción proporcional;</li>
 <li>declarar un límite.</li>
 </ol>
@@ -315,12 +315,12 @@ Z =
 <p>Un modelo tiene:</p>
 <ul>
 <li>baseline F1 = 0.62;</li>
-<li>modelo F1 CV = <span class="math inline">\(0.78 \pm 0.09\)</span>;</li>
+<li>modelo F1 CV = <span class="math inline">\(0.78\)</span>, desviación entre folds <span class="math inline">\(0.09\)</span>;</li>
 <li>test F1 = 0.70;</li>
-<li>slice crítico F1 = 0.48.</li>
+<li>slice crítico de test F1 = 0.48 en 40 casos.</li>
 </ul>
 <p>Escribe una recomendación en cuatro partes:</p>
-<pre class="text"><code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code></pre>
+<pre class="text"><code>resultado -&gt; lectura -&gt; comprobación -&gt; límite</code></pre>
 </section>
 <section id="ejercicio-3-pca-y-reconstrucción" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicio-3-pca-y-reconstrucción">Ejercicio 3: PCA y reconstrucción</h2>
@@ -336,18 +336,20 @@ Z =
 <p>Diseña un <code>manifest.json</code> mínimo para un experimento de clasificación. Debe incluir:</p>
 <ul>
 <li>semilla;</li>
+<li>entorno y versiones;</li>
+<li>protocolo de partición;</li>
 <li>modelo;</li>
 <li>hiperparámetros;</li>
-<li>métrica principal;</li>
+<li>métrica principal con nombre de partición;</li>
 <li>hash de artefactos;</li>
-<li>decisión.</li>
+<li>commit o versión del código.</li>
 </ul>
 </section>
 <section id="ejercicio-5-defensa" class="level2">
 <h2 class="anchored" data-anchor-id="ejercicio-5-defensa">Ejercicio 5: Defensa</h2>
 <p>Responde en 120 palabras:</p>
 <blockquote class="blockquote">
-<p>¿Qué evidencia necesitarías antes de recomendar que un modelo se use en una decisión real?</p>
+<p>¿Qué resultados y comprobaciones necesitarías antes de recomendar el uso de un modelo?</p>
 </blockquote>
 </section>
 <section id="respuestas-seleccionadas" class="level2">
@@ -356,13 +358,16 @@ Z =
 <p><strong>Ejercicio 1.</strong> La implementación directa puede fallar porque <span class="math inline">\(e^{1002}\)</span> excede el rango numérico usual. Al restar el máximo, se calcula softmax sobre <span class="math inline">\((-2,-1,0)\)</span>. Las probabilidades son proporcionales a <span class="math inline">\((e^{-2},e^{-1},1)\)</span> y se normalizan dividiendo por <span class="math inline">\(e^{-2}+e^{-1}+1\)</span>. La suma final es 1 por construcción.</p>
 </div>
 <div class="check-card">
-<p><strong>Ejercicio 2.</strong> Una respuesta defendible sería: “Evidencia: el modelo supera el baseline, pero la variabilidad CV es alta, test cae y el slice crítico tiene F1 0.48. Diagnóstico: desempeño inestable y posible falla en un subgrupo importante. Acción: analizar errores del slice, ajustar métrica de selección y recolectar datos relevantes. Límite: no recomendar uso real si el slice crítico representa casos de alto costo.”</p>
+<p><strong>Ejercicio 2.</strong> Una respuesta posible sería: “Resultado: el modelo supera el baseline, pero varía entre folds, baja en test y obtiene F1 0.48 en 40 casos del slice crítico. Lectura: el resultado es inestable y puede haber una falla en ese subgrupo. Comprobación: revisar sus conteos de error y repetir la medición en otro periodo; no volver a escoger el modelo con test. Límite: no recomendar uso si el slice representa casos de alto costo.”</p>
 </div>
 <div class="check-card">
 <p><strong>Ejercicio 3.</strong> Los scores con <span class="math inline">\(k\)</span> componentes son <span class="math inline">\(Z=X_cV_k\)</span>. La reconstrucción aproximada es <span class="math inline">\(\hat X_k=ZV_k^\top\)</span>. Al aumentar <span class="math inline">\(k\)</span>, el subespacio disponible contiene al anterior, así que la mejor reconstrucción no puede empeorar.</p>
 </div>
 <div class="check-card">
-<p><strong>Ejercicio 5.</strong> La evidencia mínima incluye baseline, partición independiente, métrica alineada con la decisión, análisis por slices, matriz de errores, revisión de leakage, estabilidad ante variación de datos, limitaciones y costo de falsos positivos/falsos negativos. Sin esa evidencia, una métrica global no justifica una recomendación real.</p>
+<p><strong>Ejercicio 4.</strong> El manifest debe registrar <code>environment</code>, <code>params</code>, <code>metrics</code> y <code>artifacts</code>. En <code>params</code> se incluyen semilla y partición; cada métrica nombra su conjunto, y cada artefacto conserva el SHA-256 completo. Un hash identifica los bytes del archivo, no certifica que el análisis sea correcto.</p>
+</div>
+<div class="check-card">
+<p><strong>Ejercicio 5.</strong> La revisión mínima incluye baseline, partición independiente, métrica alineada con el costo, análisis por slices con tamaños y conteos, matriz de errores, revisión de leakage, estabilidad ante cambios de datos y límites. Una métrica global aislada no justifica una recomendación de uso.</p>
 </div>
 
 

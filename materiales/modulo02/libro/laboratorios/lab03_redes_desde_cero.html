@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -169,7 +198,10 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#propósito" id="toc-propósito" class="nav-link active" data-scroll-target="#propósito">Propósito</a></li>
   <li><a href="#qué-debes-entregar" id="toc-qué-debes-entregar" class="nav-link" data-scroll-target="#qué-debes-entregar">Qué debes entregar</a></li>
   <li><a href="#flujo-recomendado" id="toc-flujo-recomendado" class="nav-link" data-scroll-target="#flujo-recomendado">Flujo recomendado</a></li>
-  <li><a href="#lo-que-autocalifica-el-notebook" id="toc-lo-que-autocalifica-el-notebook" class="nav-link" data-scroll-target="#lo-que-autocalifica-el-notebook">Lo que autocalifica el notebook</a></li>
+  <li><a href="#lo-que-autocalifica-el-notebook" id="toc-lo-que-autocalifica-el-notebook" class="nav-link" data-scroll-target="#lo-que-autocalifica-el-notebook">Lo que autocalifica el notebook</a>
+  <ul class="collapse">
+  <li><a href="#convención-de-regularización" id="toc-convención-de-regularización" class="nav-link" data-scroll-target="#convención-de-regularización">Convención de regularización</a></li>
+  </ul></li>
   <li><a href="#parte-manual" id="toc-parte-manual" class="nav-link" data-scroll-target="#parte-manual">Parte manual</a></li>
   <li><a href="#errores-frecuentes" id="toc-errores-frecuentes" class="nav-link" data-scroll-target="#errores-frecuentes">Errores frecuentes</a></li>
   <li><a href="#antes-de-entregar" id="toc-antes-de-entregar" class="nav-link" data-scroll-target="#antes-de-entregar">Antes de entregar</a></li>
@@ -239,14 +271,14 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Componente</th>
-<th>Evidencia esperada</th>
+<th>Resultado esperado</th>
 <th style="text-align: right;">Calificación</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>One-hot</td>
-<td>matriz <code>(n, k)</code> correcta</td>
+<td>matriz <code>(m, k)</code> correcta</td>
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
@@ -286,12 +318,23 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<section id="convención-de-regularización" class="level2">
+<h2 class="anchored" data-anchor-id="convención-de-regularización">Convención de regularización</h2>
+<p>La pérdida de datos es el promedio de entropía cruzada. Cuando <code>l2 &gt; 0</code>, el laboratorio usa</p>
+<p><span class="math display">\[
+J_{\lambda}
+=J_{\text{datos}}
++\frac{\lambda}{2}
+\left(\lVert W^{[1]}\rVert_F^2+\lVert W^{[2]}\rVert_F^2\right).
+\]</span></p>
+<p>Por tanto, <code>backward_pass</code> añade <code>l2 * W1</code> y <code>l2 * W2</code> a los gradientes de pesos. No penaliza <code>b1</code> ni <code>b2</code>.</p>
+</section>
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
 <p>Incluye una respuesta corta:</p>
 <blockquote class="blockquote">
-<p>¿Qué evidencia muestra que la red aprendió y cuál es una limitación del experimento?</p>
+<p>¿Qué resultados muestran que la red aprendió y cuál es una limitación del experimento?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -308,7 +351,7 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td>No responde o la respuesta no usa evidencia del notebook</td>
+<td>No responde o la respuesta no usa resultados del notebook</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
@@ -325,7 +368,7 @@ ul.task-list li input[type="checkbox"] {
 <h1>Errores frecuentes</h1>
 <ol type="1">
 <li>No estabilizar softmax.</li>
-<li>Olvidar dividir <code>dZ2</code> por <code>n</code>.</li>
+<li>Olvidar dividir <code>dZ2</code> por <code>m</code>.</li>
 <li>Devolver gradientes con formas transpuestas.</li>
 <li>Penalizar sesgos con L2 sin justificarlo.</li>
 <li>No guardar <code>Z1</code>, <code>A1</code>, <code>Z2</code> y <code>P</code> en cache.</li>
@@ -339,7 +382,7 @@ ul.task-list li input[type="checkbox"] {
 ¿Cada función devuelve la forma esperada?
 ¿Softmax suma 1 por fila?
 ¿La pérdida baja durante entrenamiento?
-¿La respuesta manual usa evidencia y no solo opinión?</code></pre>
+¿La respuesta manual usa resultados y no solo opinión?</code></pre>
 
 
 </section>

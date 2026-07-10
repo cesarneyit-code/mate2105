@@ -20,7 +20,7 @@ Este laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 
 - reconstruir datos proyectados;
 - entrenar y diagnosticar K-Means;
 - calcular similitud coseno;
-- producir recomendaciones simples y defendibles.
+- producir recomendaciones simples con límites explícitos.
 
 La parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.
 
@@ -49,7 +49,7 @@ Puedes usar `sklearn` para K-Means, silhouette y similitud coseno. Para PCA, la 
 ```python
 def center_data(X):
     """
-    Recibe una matriz X de forma (n, p).
+    Recibe una matriz X de forma (m, p).
     Devuelve:
       X_centered: matriz centrada por columnas.
       mean: vector de medias de forma (p,).
@@ -61,10 +61,10 @@ def center_data(X):
 ```python
 def pca_from_svd(X, n_components):
     """
-    Recibe una matriz X de forma (n, p) y un número k.
+    Recibe una matriz X de forma (m, p) y un número k.
     Devuelve un diccionario con:
       components: matriz (k, p) con direcciones principales.
-      scores: matriz (n, k) con coordenadas proyectadas.
+      scores: matriz (m, k) con coordenadas proyectadas.
       explained_variance_ratio: vector (k,) con proporción de varianza explicada.
       mean: vector (p,) usado para centrar.
     """
@@ -76,7 +76,7 @@ def pca_from_svd(X, n_components):
 def reconstruct_from_pca(scores, components, mean):
     """
     Reconstruye una aproximación de X desde scores, components y mean.
-    Devuelve una matriz de forma (n, p).
+    Devuelve una matriz de forma (m, p).
     """
 ```
 
@@ -131,7 +131,7 @@ def choose_k_by_silhouette(X, k_values, random_state=42):
 ```python
 def cosine_similarity_matrix(M):
     """
-    Recibe una matriz donde cada fila representa un item.
+    Recibe una matriz donde cada fila representa un ítem.
     Devuelve matriz cuadrada de similitud coseno item-item.
     """
 ```
@@ -141,8 +141,8 @@ def cosine_similarity_matrix(M):
 ```python
 def recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):
     """
-    Devuelve una lista de índices de items más similares a item_index.
-    Excluye el item consultado y cualquier item en seen_items.
+    Devuelve una lista de índices de ítems más similares a item_index.
+    Excluye el ítem consultado y cualquier ítem en seen_items.
     Ordena de mayor a menor similitud.
     """
 ```
@@ -151,17 +151,16 @@ def recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):
 
 Escribe una respuesta de 120 a 180 palabras:
 
-1. ¿Qué evidencia usarías para decidir cuántos componentes principales o cuántos clusters reportar?
+1. ¿Qué resultados usarías para decidir cuántos componentes principales o cuántos clusters reportar?
 2. ¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?
 3. ¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?
 
-## Criterio profesional
+## Criterio de interpretación
 
 Un resultado no supervisado no se defiende solo con una gráfica bonita. Debe incluir:
 
 - preprocesamiento explícito;
-- métrica o evidencia cuantitativa;
+- métrica o resultado cuantitativo;
 - interpretación prudente;
 - límite técnico reconocido;
-- decisión siguiente concreta.
-
+- validación siguiente concreta.

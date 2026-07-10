@@ -163,7 +163,7 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link active" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
   <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
-  <li><a href="#criterio-de-respuesta-profesional" id="toc-criterio-de-respuesta-profesional" class="nav-link" data-scroll-target="#criterio-de-respuesta-profesional">Criterio de respuesta profesional</a></li>
+  <li><a href="#criterio-de-respuesta" id="toc-criterio-de-respuesta" class="nav-link" data-scroll-target="#criterio-de-respuesta">Criterio de respuesta</a></li>
   <li><a href="#bloque-a-métricas" id="toc-bloque-a-métricas" class="nav-link" data-scroll-target="#bloque-a-métricas">Bloque A: métricas</a></li>
   <li><a href="#bloque-b-particiones-y-leakage" id="toc-bloque-b-particiones-y-leakage" class="nav-link" data-scroll-target="#bloque-b-particiones-y-leakage">Bloque B: particiones y leakage</a></li>
   <li><a href="#bloque-c-validación-y-curvas" id="toc-bloque-c-validación-y-curvas" class="nav-link" data-scroll-target="#bloque-c-validación-y-curvas">Bloque C: validación y curvas</a></li>
@@ -194,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Esta sección entrena la habilidad central del módulo: convertir métricas y particiones en decisiones defendibles. Una buena respuesta debe nombrar la evidencia, justificar por qué esa evidencia es relevante y reconocer qué todavía no se sabe.</p>
+<p>Esta sección entrena la habilidad central del módulo: convertir métricas y particiones en comparaciones verificables. Una buena respuesta nombra el resultado, explica por qué es relevante y reconoce qué todavía no se sabe.</p>
 <section id="resultados-de-práctica" class="level2">
 <h2 class="anchored" data-anchor-id="resultados-de-práctica">Resultados de práctica</h2>
 <p>Al terminar este banco deberías poder:</p>
@@ -212,7 +212,7 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th>Bloque</th>
-<th>Evidencia de aprendizaje</th>
+<th>Qué comprueba</th>
 </tr>
 </thead>
 <tbody>
@@ -235,8 +235,8 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </section>
-<section id="criterio-de-respuesta-profesional" class="level2">
-<h2 class="anchored" data-anchor-id="criterio-de-respuesta-profesional">Criterio de respuesta profesional</h2>
+<section id="criterio-de-respuesta" class="level2">
+<h2 class="anchored" data-anchor-id="criterio-de-respuesta">Criterio de respuesta</h2>
 <p>En problemas aplicados, una respuesta completa suele tener esta forma:</p>
 <pre class="text"><code>métrica elegida -&gt; baseline -&gt; partición -&gt; riesgo de leakage -&gt; decisión o siguiente experimento</code></pre>
 <p>Si falta una de esas piezas, la comparación queda débil.</p>
@@ -298,10 +298,10 @@ ul.task-list li input[type="checkbox"] {
 <p><strong>B1.</strong> Escalar antes de partir datos usa media y desviación calculadas con información de validación. Eso contamina la evaluación porque el preprocesamiento ya vio datos que debían permanecer independientes.</p>
 </div>
 <div class="answer">
-<p><strong>C3.</strong> Cross-validation agrega una estimación de variabilidad. Un único split puede favorecer o perjudicar accidentalmente a un modelo; varios folds muestran si el desempeño es estable.</p>
+<p><strong>C3.</strong> Cross-validation muestra la dispersión de resultados entre folds. Un único split puede favorecer o perjudicar accidentalmente a un modelo. La desviación entre folds no es automáticamente un intervalo de confianza.</p>
 </div>
 <div class="answer">
-<p><strong>D2.</strong> Una recomendación mínima sería: “El F1 global cae de 0.80 a 0.55 en el slice crítico. El diagnóstico probable es que el modelo no representa bien ese subgrupo. Antes de recomendar despliegue, se debe analizar variables de ese slice, ajustar métrica de selección y recolectar o reponderar datos relevantes.”</p>
+<p><strong>D2.</strong> Una recomendación mínima sería: “El F1 global es 0.80 y el del slice crítico es 0.55. El patrón es compatible con una falla de representación o mismatch. Antes de recomendar uso, se deben revisar tamaño y conteos de error del slice y confirmar la caída en otra muestra.”</p>
 </div>
 
 
