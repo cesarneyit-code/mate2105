@@ -170,11 +170,51 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión",
+    "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Ejemplo resuelto: evidencia no supervisada dentro de una decisión",
+    "text": "Ejemplo resuelto: evidencia no supervisada dentro de una decisión\nSupón que PCA muestra separación visual entre dos grupos y K-Means produce dos clusters con silhouette razonable. Esa evidencia puede sugerir estructura, pero no prueba que los grupos correspondan a clases útiles para una decisión supervisada.\nUna respuesta integradora adecuada sería:\nEvidencia: PCA y K-Means sugieren dos grupos geométricos.\nDiagnóstico: puede haber estructura latente, pero no hay etiqueta ni costo de error.\nAcción: usar los clusters como hipótesis exploratoria y compararlos con variables de dominio.\nLímite: no afirmar que los clusters son segmentos reales ni que predicen una decisión.\nLa síntesis del curso exige separar evidencia exploratoria de evidencia predictiva. Un método no supervisado puede abrir una pregunta; no siempre puede cerrarla.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
     "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-respuesta-integradora",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
     "section": "Ejemplo resuelto: respuesta integradora",
     "text": "Ejemplo resuelto: respuesta integradora\nCaso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.\nRespuesta defendible:\nEvidencia: la accuracy global mejora, pero el slice reciente cae.\nDiagnóstico: posible data mismatch temporal.\nAcción: validar con partición temporal, revisar features y recolectar datos recientes.\nLímite: no recomendar despliegue si el uso real se parece al slice reciente.\nLa clave es no quedarse en “mejoró la métrica”.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#caso-longitudinal-respuesta-integradora",
+    "href": "capitulo01_parcial2_sintesis.html#caso-longitudinal-respuesta-integradora",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Caso longitudinal: respuesta integradora",
+    "text": "Caso longitudinal: respuesta integradora\nRetoma clasificacion_binaria_sintetica.csv. Una respuesta integradora no debe decir solo “el modelo regularizado ganó”. Debe conectar varias capas de evidencia:\n\n\n\nPieza\nEvidencia esperada\n\n\n\n\nmodelo\nlogística regularizada o baseline comparable\n\n\nvalidación\nmedia y variabilidad de F1/recall\n\n\nerror analysis\ndesempeño por slice\n\n\nreproducibilidad\nsemilla, partición, pipeline y manifest\n\n\ncomunicación\nrecomendación y límite\n\n\n\nUna respuesta de parcial aceptable sería:\nEl modelo regularizado mejora el baseline en F1 medio, pero el recall cae en el\nslice reciente. El diagnóstico probable es mismatch temporal o cambio de\ndistribución. Recomendaría usarlo solo como baseline interno y construir una\nvalidación temporal antes de despliegue.\nEsta respuesta no memoriza capítulos: integra métrica, validación, diagnóstico y decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#verificaciones-seleccionadas",
+    "href": "capitulo01_parcial2_sintesis.html#verificaciones-seleccionadas",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nUna mejora global no basta si el slice relevante para producción empeora.\nPCA o K-Means pueden apoyar exploración, pero no sustituyen una métrica supervisada cuando la decisión depende de etiquetas.\nLa forma evidencia -&gt; diagnóstico -&gt; acción -&gt; límite es una herramienta de razonamiento, no una frase decorativa.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-matriz-de-decisión-integradora",
+    "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-matriz-de-decisión-integradora",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Ejemplo resuelto: matriz de decisión integradora",
+    "text": "Ejemplo resuelto: matriz de decisión integradora\nSupón dos modelos:\n\n\n\nEvidencia\nModelo A\nModelo B\n\n\n\n\nF1 global\n0.83\n0.85\n\n\nF1 slice reciente\n0.62\n0.51\n\n\ndesviación CV\n0.03\n0.09\n\n\nmanifest completo\nsí\nno\n\n\n\nAunque B tiene mayor F1 global, A es más defendible si el slice reciente importa y si la reproducibilidad es requisito de entrega. La respuesta integradora debe explicar la tensión: B gana una métrica agregada, pero A tiene menor riesgo de decisión bajo la evidencia disponible.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
     ]
@@ -350,6 +390,36 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#caso-longitudinal-manifest-del-clasificador",
+    "href": "capitulo02_reproducibilidad_tracking.html#caso-longitudinal-manifest-del-clasificador",
+    "title": "Reproducibilidad y tracking",
+    "section": "Caso longitudinal: manifest del clasificador",
+    "text": "Caso longitudinal: manifest del clasificador\nPara clasificacion_binaria_sintetica.csv, un manifest mínimo debería registrar:\n\n\n\nCampo\nEjemplo\n\n\n\n\ndataset\nclasificacion_binaria_sintetica.csv\n\n\nhash o versión\nSHA-256 del archivo publicado\n\n\ntarget\ntarget\n\n\nslices auditados\nbase, reciente\n\n\npartición\nsemilla y proporciones\n\n\npipeline\nescalamiento dentro del pipeline y modelo\n\n\nmétrica primaria\nF1 o recall\n\n\nartefactos\ntabla de métricas, matriz de confusión, error por slice\n\n\n\nEl manifest no garantiza que el modelo sea bueno. Garantiza que la evidencia se puede reconstruir. Esa diferencia es central para una defensa técnica.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#verificaciones-seleccionadas",
+    "href": "capitulo02_reproducibilidad_tracking.html#verificaciones-seleccionadas",
+    "title": "Reproducibilidad y tracking",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nUn notebook ejecutable sin semilla puede ser reproducible en estructura, pero no necesariamente en resultados numéricos.\nSi el dataset cambia y no cambia el manifest, ya no sabes qué evidencia sostiene la conclusión.\nUna tabla de métricas sin partición asociada no es evidencia auditable.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-manifest-mínimo-en-json",
+    "href": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-manifest-mínimo-en-json",
+    "title": "Reproducibilidad y tracking",
+    "section": "Ejemplo resuelto: manifest mínimo en JSON",
+    "text": "Ejemplo resuelto: manifest mínimo en JSON\nUn manifest pequeño puede verse así:\n{\n  \"dataset\": \"clasificacion_binaria_sintetica.csv\",\n  \"target\": \"target\",\n  \"random_state\": 2105,\n  \"split\": \"60/20/20 stratified\",\n  \"metric_primary\": \"f1\",\n  \"artifacts\": [\"metrics.csv\", \"confusion_matrix.png\", \"slice_report.csv\"]\n}\nEste archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué evidencia. Si cambian datos, métrica o partición, el manifest debe cambiar.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html#para-explorar-más",
     "href": "capitulo02_reproducibilidad_tracking.html#para-explorar-más",
     "title": "Reproducibilidad y tracking",
@@ -404,7 +474,7 @@
     "href": "capitulo03_comunicacion_tecnica.html#tesis-de-un-reporte",
     "title": "Comunicación técnica",
     "section": "Tesis de un reporte",
-    "text": "Tesis de un reporte\nUn reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.",
+    "text": "Tesis de un reporte\nUn reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.\n\n\n\n\n\n\nFigura 4.1: Comunicación técnica: un reporte organiza tesis, evidencia, diagnóstico, decisión y límites para que una audiencia pueda auditar la recomendación.\n\n\n\nLectura de la figura. La tesis técnica aparece primero, pero no vive sola: debe estar sostenida por evidencia, diagnóstico, decisión y límites. Si una afirmación no puede conectarse con una tabla, figura, cálculo o archivo, debe suavizarse o eliminarse.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
@@ -475,6 +545,46 @@
     "title": "Comunicación técnica",
     "section": "Respuesta corta defendible",
     "text": "Respuesta corta defendible\nUna respuesta oral de defensa debe caber en 45 segundos:\nElegimos [método] porque [criterio].\nLa evidencia principal fue [métrica + validación].\nEl mayor error aparece en [slice o caso].\nLa limitación más importante es [límite].\nPor eso recomendamos [acción proporcional].",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#caso-longitudinal-conclusión-del-clasificador",
+    "href": "capitulo03_comunicacion_tecnica.html#caso-longitudinal-conclusión-del-clasificador",
+    "title": "Comunicación técnica",
+    "section": "Caso longitudinal: conclusión del clasificador",
+    "text": "Caso longitudinal: conclusión del clasificador\nCon clasificacion_binaria_sintetica.csv, una conclusión débil sería:\n\nEl modelo final tiene buen F1 y se recomienda usarlo.\n\nUna conclusión profesional sería:\n\nEl modelo regularizado mejora el baseline en F1 medio de validación, pero el recall del slice reciente es menor que el del slice base. Por tanto, el modelo puede usarse como baseline interno para priorizar revisión, pero no como sistema de decisión final hasta construir una validación temporal y auditar variables que cambian entre slices.\n\nLa segunda versión tiene tesis, evidencia, diagnóstico, recomendación y límite. También deja claro qué experimento falta.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#verificaciones-seleccionadas",
+    "href": "capitulo03_comunicacion_tecnica.html#verificaciones-seleccionadas",
+    "title": "Comunicación técnica",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nUna mejora relativa de 20% puede sonar grande; siempre debe leerse junto con la mejora absoluta y el baseline.\nUna figura funcional debe responder una pregunta: comparación, error, curva, slice o trazabilidad.\nSi una conclusión no declara límite, probablemente exagera el alcance de la evidencia.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones",
+    "href": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones",
+    "title": "Comunicación técnica",
+    "section": "Ejemplo resuelto: tabla de evidencia contra afirmaciones",
+    "text": "Ejemplo resuelto: tabla de evidencia contra afirmaciones\nAntes de entregar un reporte, cruza cada afirmación fuerte contra evidencia:\n\n\n\n\n\n\n\n\nAfirmación\nEvidencia necesaria\nEstado\n\n\n\n\nsupera el baseline\ntabla baseline vs modelo\nverificable\n\n\ngeneraliza bien\nvalidación y test final\nincompleto si no hay test\n\n\nfunciona para casos recientes\nmétrica por slice\nfalso si el slice cae\n\n\nes reproducible\nmanifest y entorno\nverificable\n\n\n\nUna afirmación sin evidencia debe cambiar de tono. Por ejemplo, “generaliza bien” puede convertirse en “muestra desempeño estable en validación, pendiente de test final independiente”.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#plantilla-de-resultados-defendible",
+    "href": "capitulo03_comunicacion_tecnica.html#plantilla-de-resultados-defendible",
+    "title": "Comunicación técnica",
+    "section": "Plantilla de resultados defendible",
+    "text": "Plantilla de resultados defendible\nUna sección de resultados puede tener esta forma:\nBaseline. [regla simple] obtiene [métrica] en [partición].\nModelo. [modelo elegido] obtiene [métrica media ± desviación] bajo [validación].\nError principal. El peor patrón aparece en [slice/tipo de error].\nDecisión. Con esta evidencia se recomienda [acción proporcional].\nLímite. No se puede afirmar [conclusión excesiva] porque [razón].\nEsta plantilla evita dos extremos: una bitácora larga sin tesis y una conclusión fuerte sin evidencia. Si una línea no puede llenarse con una tabla, figura, cálculo o archivo, el reporte todavía no está listo.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
@@ -594,7 +704,7 @@
     "href": "capitulo04_entrega_defensa.html#defensa-oral-individual",
     "title": "Entrega final y defensa",
     "section": "Defensa oral individual",
-    "text": "Defensa oral individual\nLa defensa no repite la presentación. Verifica autoría, comprensión y criterio.\nPreguntas típicas:\n\n¿Cuál fue tu contribución técnica concreta?\n¿Por qué esa métrica es la correcta?\n¿Dónde falla el modelo?\n¿Qué parte del pipeline podría producir leakage?\n¿Qué cambiaría si tuvieras dos semanas más?\n¿Qué conclusión no puedes afirmar con estos datos?",
+    "text": "Defensa oral individual\nLa defensa no repite la presentación. Verifica autoría, comprensión y criterio.\n\n\n\n\n\n\nFigura 5.1: Defensa oral: la respuesta individual conecta pregunta, respuesta breve, evidencia verificable y límite específico con una rúbrica 0/1/2.\n\n\n\nLectura de la figura. Una defensa fuerte no empieza con “yo hice varias cosas”; empieza con una respuesta breve, la conecta con evidencia verificable y declara un límite. Esa estructura permite evaluar rápido sin convertir la defensa en una conversación improvisada.\nPreguntas típicas:\n\n¿Cuál fue tu contribución técnica concreta?\n¿Por qué esa métrica es la correcta?\n¿Dónde falla el modelo?\n¿Qué parte del pipeline podría producir leakage?\n¿Qué cambiaría si tuvieras dos semanas más?\n¿Qué conclusión no puedes afirmar con estos datos?",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -605,6 +715,46 @@
     "title": "Entrega final y defensa",
     "section": "Rúbrica de defensa 0/1/2",
     "text": "Rúbrica de defensa 0/1/2\n\n\n\n\n\n\n\n\n\nCriterio\n0\n1\n2\n\n\n\n\nAutoría\nno identifica contribución\ncontribución vaga\ncontribución concreta y verificable\n\n\nMatemática\nerrores conceptuales\nidea parcial\nexplicación correcta y conectada\n\n\nValidación\nno justifica métrica\njustifica parcialmente\nconecta métrica, baseline y error\n\n\nLimitaciones\nno reconoce límites\nlímite genérico\nlímite específico y relevante\n\n\nDecisión\nrecomendación desproporcionada\nrecomendación débil\nacción prudente y defendible",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#caso-longitudinal-defensa-del-clasificador",
+    "href": "capitulo04_entrega_defensa.html#caso-longitudinal-defensa-del-clasificador",
+    "title": "Entrega final y defensa",
+    "section": "Caso longitudinal: defensa del clasificador",
+    "text": "Caso longitudinal: defensa del clasificador\nPara defender el caso clasificacion_binaria_sintetica.csv, prepara una tabla de evidencia antes de hablar:\n\n\n\n\n\n\n\nPregunta posible\nEvidencia que debes abrir\n\n\n\n\n¿por qué esa métrica?\ncosto de falsos positivos/falsos negativos y baseline\n\n\n¿dónde falla?\nmatriz de confusión y tabla por slice\n\n\n¿hay leakage?\npipeline y partición\n\n\n¿qué hiciste tú?\ncommit, notebook, función o tabla verificable\n\n\n¿qué no puedes afirmar?\nlímite sobre el slice reciente\n\n\n\nUna defensa de 45 segundos:\nMi contribución fue construir el pipeline de evaluación y la tabla por slice. El\nmodelo regularizado mejora el baseline en F1, pero el recall cae en el slice\nreciente. Por eso no recomiendo despliegue; recomiendo usarlo como baseline y\ncrear una validación temporal antes de tomar decisiones.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#verificaciones-seleccionadas",
+    "href": "capitulo04_entrega_defensa.html#verificaciones-seleccionadas",
+    "title": "Entrega final y defensa",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\n“Ayudé con el modelo” no prueba autoría; “implementé la partición y la tabla por slice en el archivo X” sí es verificable.\nUna defensa fuerte puede reconocer que el resultado no basta para despliegue.\nLa rúbrica 0/1/2 funciona cuando la respuesta tiene evidencia observable y no depende de impresiones.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#ejemplo-resuelto-pregunta-difícil",
+    "href": "capitulo04_entrega_defensa.html#ejemplo-resuelto-pregunta-difícil",
+    "title": "Entrega final y defensa",
+    "section": "Ejemplo resuelto: pregunta difícil",
+    "text": "Ejemplo resuelto: pregunta difícil\nPregunta:\n\nSi tu modelo tiene mejor F1, ¿por qué no recomiendas desplegarlo?\n\nRespuesta defendible:\nPorque la mejora global no se mantiene en el slice reciente. La evidencia por\nslice muestra una caída de recall, y ese slice se parece más al uso esperado.\nRecomiendo mantener el modelo como baseline interno y construir una validación\ntemporal antes de despliegue.\nLa respuesta obtiene puntaje alto porque no niega la mejora; la ubica dentro de su límite y propone una acción técnica.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#checklist-individual-antes-de-entrar-a-defensa",
+    "href": "capitulo04_entrega_defensa.html#checklist-individual-antes-de-entrar-a-defensa",
+    "title": "Entrega final y defensa",
+    "section": "Checklist individual antes de entrar a defensa",
+    "text": "Checklist individual antes de entrar a defensa\nCada estudiante debe poder abrir evidencia concreta para estas preguntas:\n\n\n\nPregunta\nEvidencia mínima\n\n\n\n\n¿qué hiciste tú?\narchivo, función, notebook, tabla o commit\n\n\n¿qué fórmula o métrica usaste?\ndefinición y razón aplicada\n\n\n¿qué baseline superaste?\ntabla comparativa\n\n\n¿dónde falla el modelo?\nmatriz de confusión, residuos o slice\n\n\n¿cómo evitas leakage?\npartición y pipeline\n\n\n¿qué no puedes concluir?\nlimitación específica\n\n\n\nSi una respuesta depende de “eso lo hizo mi compañero”, la defensa individual no está lista. La colaboración es válida, pero cada persona debe defender una parte técnica concreta del proyecto.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]

@@ -214,6 +214,10 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-mejorar-una-conclusión" id="toc-ejemplo-resuelto-mejorar-una-conclusión" class="nav-link" data-scroll-target="#ejemplo-resuelto-mejorar-una-conclusión">Ejemplo resuelto: mejorar una conclusión</a></li>
   <li><a href="#ejemplo-resuelto-mejora-absoluta-y-relativa" id="toc-ejemplo-resuelto-mejora-absoluta-y-relativa" class="nav-link" data-scroll-target="#ejemplo-resuelto-mejora-absoluta-y-relativa">Ejemplo resuelto: mejora absoluta y relativa</a></li>
   <li><a href="#respuesta-corta-defendible" id="toc-respuesta-corta-defendible" class="nav-link" data-scroll-target="#respuesta-corta-defendible">Respuesta corta defendible</a></li>
+  <li><a href="#caso-longitudinal-conclusión-del-clasificador" id="toc-caso-longitudinal-conclusión-del-clasificador" class="nav-link" data-scroll-target="#caso-longitudinal-conclusión-del-clasificador">Caso longitudinal: conclusión del clasificador</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones" id="toc-ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones" class="nav-link" data-scroll-target="#ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones">Ejemplo resuelto: tabla de evidencia contra afirmaciones</a></li>
+  <li><a href="#plantilla-de-resultados-defendible" id="toc-plantilla-de-resultados-defendible" class="nav-link" data-scroll-target="#plantilla-de-resultados-defendible">Plantilla de resultados defendible</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -257,6 +261,17 @@ window.Quarto = {
 <section id="tesis-de-un-reporte" class="level2">
 <h2 class="anchored" data-anchor-id="tesis-de-un-reporte">Tesis de un reporte</h2>
 <p>Un reporte final no debe ser una bitácora de todo lo que se intentó. Debe defender una conclusión.</p>
+<div id="fig-cap21-comunicacion-tecnica-reporte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap21-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/comunicacion-tecnica-reporte.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap21-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Comunicación técnica: un reporte organiza tesis, evidencia, diagnóstico, decisión y límites para que una audiencia pueda auditar la recomendación.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> La tesis técnica aparece primero, pero no vive sola: debe estar sostenida por evidencia, diagnóstico, decisión y límites. Si una afirmación no puede conectarse con una tabla, figura, cálculo o archivo, debe suavizarse o eliminarse.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -413,6 +428,77 @@ La evidencia principal fue [métrica + validación].
 El mayor error aparece en [slice o caso].
 La limitación más importante es [límite].
 Por eso recomendamos [acción proporcional].</code></pre>
+</section>
+<section id="caso-longitudinal-conclusión-del-clasificador" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-conclusión-del-clasificador">Caso longitudinal: conclusión del clasificador</h2>
+<p>Con <code>clasificacion_binaria_sintetica.csv</code>, una conclusión débil sería:</p>
+<blockquote class="blockquote">
+<p>El modelo final tiene buen F1 y se recomienda usarlo.</p>
+</blockquote>
+<p>Una conclusión profesional sería:</p>
+<blockquote class="blockquote">
+<p>El modelo regularizado mejora el baseline en F1 medio de validación, pero el recall del slice <code>reciente</code> es menor que el del slice <code>base</code>. Por tanto, el modelo puede usarse como baseline interno para priorizar revisión, pero no como sistema de decisión final hasta construir una validación temporal y auditar variables que cambian entre slices.</p>
+</blockquote>
+<p>La segunda versión tiene tesis, evidencia, diagnóstico, recomendación y límite. También deja claro qué experimento falta.</p>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Una mejora relativa de 20% puede sonar grande; siempre debe leerse junto con la mejora absoluta y el baseline.</li>
+<li>Una figura funcional debe responder una pregunta: comparación, error, curva, slice o trazabilidad.</li>
+<li>Si una conclusión no declara límite, probablemente exagera el alcance de la evidencia.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-tabla-de-evidencia-contra-afirmaciones">Ejemplo resuelto: tabla de evidencia contra afirmaciones</h2>
+<p>Antes de entregar un reporte, cruza cada afirmación fuerte contra evidencia:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Afirmación</th>
+<th>Evidencia necesaria</th>
+<th>Estado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>supera el baseline</td>
+<td>tabla baseline vs modelo</td>
+<td>verificable</td>
+</tr>
+<tr class="even">
+<td>generaliza bien</td>
+<td>validación y test final</td>
+<td>incompleto si no hay test</td>
+</tr>
+<tr class="odd">
+<td>funciona para casos recientes</td>
+<td>métrica por <code>slice</code></td>
+<td>falso si el slice cae</td>
+</tr>
+<tr class="even">
+<td>es reproducible</td>
+<td>manifest y entorno</td>
+<td>verificable</td>
+</tr>
+</tbody>
+</table>
+<p>Una afirmación sin evidencia debe cambiar de tono. Por ejemplo, “generaliza bien” puede convertirse en “muestra desempeño estable en validación, pendiente de test final independiente”.</p>
+</section>
+<section id="plantilla-de-resultados-defendible" class="level2">
+<h2 class="anchored" data-anchor-id="plantilla-de-resultados-defendible">Plantilla de resultados defendible</h2>
+<p>Una sección de resultados puede tener esta forma:</p>
+<pre class="text"><code>Baseline. [regla simple] obtiene [métrica] en [partición].
+Modelo. [modelo elegido] obtiene [métrica media ± desviación] bajo [validación].
+Error principal. El peor patrón aparece en [slice/tipo de error].
+Decisión. Con esta evidencia se recomienda [acción proporcional].
+Límite. No se puede afirmar [conclusión excesiva] porque [razón].</code></pre>
+<p>Esta plantilla evita dos extremos: una bitácora larga sin tesis y una conclusión fuerte sin evidencia. Si una línea no puede llenarse con una tabla, figura, cálculo o archivo, el reporte todavía no está listo.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

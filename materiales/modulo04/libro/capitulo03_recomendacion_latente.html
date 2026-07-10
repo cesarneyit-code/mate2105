@@ -200,11 +200,15 @@ window.Quarto = {
   <li><a href="#matriz-usuario-ítem" id="toc-matriz-usuario-ítem" class="nav-link" data-scroll-target="#matriz-usuario-ítem">Matriz usuario-ítem</a></li>
   <li><a href="#similitud-coseno" id="toc-similitud-coseno" class="nav-link" data-scroll-target="#similitud-coseno">Similitud coseno</a></li>
   <li><a href="#ejemplo-resuelto-similitud-coseno" id="toc-ejemplo-resuelto-similitud-coseno" class="nav-link" data-scroll-target="#ejemplo-resuelto-similitud-coseno">Ejemplo resuelto: similitud coseno</a></li>
+  <li><a href="#derivación-guiada-qué-ignora-la-similitud-coseno" id="toc-derivación-guiada-qué-ignora-la-similitud-coseno" class="nav-link" data-scroll-target="#derivación-guiada-qué-ignora-la-similitud-coseno">Derivación guiada: qué ignora la similitud coseno</a></li>
   <li><a href="#recomendación-item-item" id="toc-recomendación-item-item" class="nav-link" data-scroll-target="#recomendación-item-item">Recomendación item-item</a></li>
   <li><a href="#ejemplo-resuelto-recomendación-item-item" id="toc-ejemplo-resuelto-recomendación-item-item" class="nav-link" data-scroll-target="#ejemplo-resuelto-recomendación-item-item">Ejemplo resuelto: recomendación item-item</a></li>
   <li><a href="#svd-para-factores-latentes" id="toc-svd-para-factores-latentes" class="nav-link" data-scroll-target="#svd-para-factores-latentes">SVD para factores latentes</a></li>
+  <li><a href="#caso-longitudinal-interacciones-de-recomendación" id="toc-caso-longitudinal-interacciones-de-recomendación" class="nav-link" data-scroll-target="#caso-longitudinal-interacciones-de-recomendación">Caso longitudinal: interacciones de recomendación</a></li>
   <li><a href="#riesgos-de-recomendación" id="toc-riesgos-de-recomendación" class="nav-link" data-scroll-target="#riesgos-de-recomendación">Riesgos de recomendación</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-cobertura-mínima" id="toc-ejemplo-resuelto-cobertura-mínima" class="nav-link" data-scroll-target="#ejemplo-resuelto-cobertura-mínima">Ejemplo resuelto: cobertura mínima</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -297,6 +301,15 @@ x^\top y = 1,\qquad \|x\|=\sqrt{2},\qquad \|y\|=\sqrt{2}.
 \]</span></p>
 <p>La interpretación es moderada similitud: comparten un usuario, pero cada uno tiene otro usuario distinto.</p>
 </section>
+<section id="derivación-guiada-qué-ignora-la-similitud-coseno" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-qué-ignora-la-similitud-coseno">Derivación guiada: qué ignora la similitud coseno</h2>
+<p>La similitud coseno normaliza por las normas:</p>
+<p><span class="math display">\[
+\cos(x,y)=\frac{x^\top y}{\|x\|\|y\|}.
+\]</span></p>
+<p>Eso significa que dos ítems pueden tener similitud alta si apuntan en dirección parecida, aunque uno tenga muchas más interacciones que el otro. Esta propiedad puede ser útil para reducir el sesgo por popularidad, pero no lo elimina. Si un ítem aparece en casi todos los perfiles, puede seguir dominando rankings por cobertura y disponibilidad de datos.</p>
+<p>La lectura profesional de una similitud debe incluir tres preguntas: qué usuarios comparten los ítems, cuántas interacciones sustentan el cálculo y qué ítems quedan invisibles por falta de datos.</p>
+</section>
 <section id="recomendación-item-item" class="level2">
 <h2 class="anchored" data-anchor-id="recomendación-item-item">Recomendación item-item</h2>
 <p>Flujo básico:</p>
@@ -358,6 +371,41 @@ Figura&nbsp;4.1: Sistemas de recomendación: una matriz usuario-item incompleta 
 <p>Esto produce representaciones latentes de usuarios e ítems.</p>
 <p>En este curso usamos una versión introductoria, sin entrar en todos los detalles de datos faltantes, sesgos y evaluación offline de recomendadores.</p>
 </section>
+<section id="caso-longitudinal-interacciones-de-recomendación" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-interacciones-de-recomendación">Caso longitudinal: interacciones de recomendación</h2>
+<p>El archivo <code>recomendacion_interacciones.csv</code> contiene usuarios, ítems y ratings ficticios. Su función es mostrar la lógica de una matriz usuario-item pequeña:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Evidencia</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>matriz usuario-item</td>
+<td>¿qué entradas se observaron y cuáles faltan?</td>
+</tr>
+<tr class="even">
+<td>promedio por ítem</td>
+<td>¿hay sesgo de popularidad?</td>
+</tr>
+<tr class="odd">
+<td>similitud item-item</td>
+<td>¿qué ítems parecen cercanos?</td>
+</tr>
+<tr class="even">
+<td>cobertura</td>
+<td>¿a cuántos usuarios/ítems puede recomendar?</td>
+</tr>
+<tr class="odd">
+<td>evaluación offline</td>
+<td>¿qué ratings ocultos se predicen?</td>
+</tr>
+</tbody>
+</table>
+<p>Un recomendador puede producir rankings plausibles y aun así amplificar popularidad, ignorar ítems nuevos o recomendar sin diversidad. Por eso la pregunta aplicada no es solo “qué ítem tiene mayor score”, sino “qué se omite y a quién afecta”.</p>
+</section>
 <section id="riesgos-de-recomendación" class="level2">
 <h2 class="anchored" data-anchor-id="riesgos-de-recomendación">Riesgos de recomendación</h2>
 <p>Los sistemas de recomendación pueden:</p>
@@ -378,6 +426,24 @@ Figura&nbsp;4.1: Sistemas de recomendación: una matriz usuario-item incompleta 
 <li>¿qué ocurre con usuarios nuevos?</li>
 <li>¿qué sesgo puede amplificarse?</li>
 </ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Una entrada faltante en la matriz usuario-item no significa rating cero; significa no observado.</li>
+<li>La similitud coseno alta entre dos ítems no prueba que sean equivalentes; solo indica patrones de interacción parecidos bajo los datos disponibles.</li>
+<li>Un ranking sin cobertura puede verse preciso para usuarios frecuentes y fallar para usuarios o ítems con pocas interacciones.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-cobertura-mínima" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-cobertura-mínima">Ejemplo resuelto: cobertura mínima</h2>
+<p>Supón un recomendador que produce al menos una recomendación para 70 de 100 usuarios y cubre 12 de 50 ítems disponibles. Entonces:</p>
+<p><span class="math display">\[
+\text{cobertura de usuarios}=70/100=70\%,
+\qquad
+\text{cobertura de ítems}=12/50=24\%.
+\]</span></p>
+<p>Aunque las recomendaciones visibles parezcan razonables, el sistema deja sin recomendación a 30% de usuarios y concentra exposición en pocos ítems. Esa evidencia debe aparecer antes de afirmar que el recomendador funciona bien.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -174,7 +174,7 @@
     "href": "capitulo01_perceptron_forward.html#ejemplo-resuelto-softmax-y-pérdida",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Ejemplo resuelto: softmax y pérdida",
-    "text": "Ejemplo resuelto: softmax y pérdida\nSupón que una observación produce tres logits:\n\\[\nz=(2,1,0).\n\\]\nPara calcular softmax de forma estable restamos el máximo, que es 2:\n\\[\nz-\\max(z)=(0,-1,-2).\n\\]\nEntonces:\n\\[\ne^{z-\\max(z)}=(1,e^{-1},e^{-2})\\approx(1,0.368,0.135).\n\\]\nLa suma es aproximadamente \\(1.503\\), así que:\n\\[\n\\operatorname{softmax}(z)\\approx\n(0.665,0.245,0.090).\n\\]\nSi la clase correcta es la primera, la entropía cruzada para esta observación es:\n\\[\n-\\log(0.665)\\approx0.408.\n\\]\nSi la clase correcta fuera la tercera, la pérdida sería:\n\\[\n-\\log(0.090)\\approx2.408.\n\\]\nLa misma predicción puede ser buena o mala según la etiqueta verdadera. Por eso no basta mirar logits grandes: hay que mirar la probabilidad asignada a la clase correcta.",
+    "text": "Ejemplo resuelto: softmax y pérdida\nAntes del cálculo numérico, conviene entender por qué una activación no lineal importa. Supón dos capas lineales sin activación:\n\\[\nH = XW^{[1]} + b^{[1]},\n\\qquad\nZ = HW^{[2]} + b^{[2]}.\n\\]\nSustituyendo \\(H\\):\n\\[\nZ=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}\n=X(W^{[1]}W^{[2]}) + b^{[1]}W^{[2]} + b^{[2]}.\n\\]\nSi definimos \\(W^\\star=W^{[1]}W^{[2]}\\) y \\(b^\\star=b^{[1]}W^{[2]}+b^{[2]}\\), entonces:\n\\[\nZ=XW^\\star+b^\\star.\n\\]\nDos capas lineales sin activación equivalen a una sola capa lineal. La activación no lineal es lo que impide colapsar la red a un modelo lineal.\nSupón que una observación produce tres logits:\n\\[\nz=(2,1,0).\n\\]\nPara calcular softmax de forma estable restamos el máximo, que es 2:\n\\[\nz-\\max(z)=(0,-1,-2).\n\\]\nEntonces:\n\\[\ne^{z-\\max(z)}=(1,e^{-1},e^{-2})\\approx(1,0.368,0.135).\n\\]\nLa suma es aproximadamente \\(1.503\\), así que:\n\\[\n\\operatorname{softmax}(z)\\approx\n(0.665,0.245,0.090).\n\\]\nSi la clase correcta es la primera, la entropía cruzada para esta observación es:\n\\[\n-\\log(0.665)\\approx0.408.\n\\]\nSi la clase correcta fuera la tercera, la pérdida sería:\n\\[\n-\\log(0.090)\\approx2.408.\n\\]\nLa misma predicción puede ser buena o mala según la etiqueta verdadera. Por eso no basta mirar logits grandes: hay que mirar la probabilidad asignada a la clase correcta.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -190,11 +190,31 @@
     ]
   },
   {
+    "objectID": "capitulo01_perceptron_forward.html#caso-longitudinal-dígitos-escritos-a-mano",
+    "href": "capitulo01_perceptron_forward.html#caso-longitudinal-dígitos-escritos-a-mano",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Caso longitudinal: dígitos escritos a mano",
+    "text": "Caso longitudinal: dígitos escritos a mano\nEn los capítulos de redes usaremos como referencia conceptual el dataset load_digits: imágenes pequeñas de \\(8\\times 8\\) pixeles, convertidas en vectores de 64 entradas. Este dataset no representa visión por computador moderna; su valor pedagógico es que permite ver todas las formas de una red pequeña sin depender de internet ni de archivos pesados.\n\n\n\nObjeto\nForma típica\nInterpretación\n\n\n\n\n\\(X\\)\n\\(n\\times 64\\)\nintensidad de pixeles aplanados\n\n\n\\(W^{[1]}\\)\n\\(64\\times h\\)\npesos de entrada a capa oculta\n\n\n\\(A^{[1]}\\)\n\\(n\\times h\\)\nrepresentación intermedia\n\n\n\\(W^{[2]}\\)\n\\(h\\times 10\\)\npesos hacia diez clases\n\n\n\\(\\hat P\\)\n\\(n\\times 10\\)\nprobabilidades por dígito\n\n\n\nLa primera comparación profesional no debe ser contra una red grande. Debe ser contra un baseline simple: clase mayoritaria, regresión logística o una red pequeña sin tuning agresivo. Si la red mejora el baseline, todavía falta revisar validación, errores por clase y reproducibilidad del entrenamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_perceptron_forward.html#punto-de-control",
     "href": "capitulo01_perceptron_forward.html#punto-de-control",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Punto de control",
     "text": "Punto de control\nAntes de pasar a backpropagation, verifica que puedes responder sin mirar la tabla:\n\nSi una capa recibe 64 variables y produce 32 activaciones, ¿qué forma tiene su matriz de pesos?\nSi una red produce 10 logits por observación, ¿por qué softmax se aplica por fila?\nSi se quita ReLU, ¿qué tipo de frontera queda después de componer capas lineales?\n\n\nRespuesta corta. La matriz tiene forma \\(64 \\times 32\\). Softmax se aplica por fila porque cada fila contiene las probabilidades de una observación sobre las 10 clases. Sin activaciones no lineales, la composición de capas sigue siendo una transformación lineal.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#verificaciones-seleccionadas",
+    "href": "capitulo01_perceptron_forward.html#verificaciones-seleccionadas",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi \\(X\\) tiene forma \\(50\\times 64\\) y \\(W^{[1]}\\) tiene forma \\(64\\times 16\\), entonces \\(Z^{[1]}\\) tiene forma \\(50\\times 16\\).\nSi una red multiclase produce logits \\(50\\times 10\\), la suma de softmax debe ser 1 en cada fila, no en cada columna.\nSi se eliminan todas las activaciones no lineales, la red completa equivale a una transformación lineal; por eso no aumenta capacidad geométrica real.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -314,7 +334,7 @@
     "href": "capitulo02_backpropagation.html#backpropagation-como-algoritmo",
     "title": "Backpropagation",
     "section": "Backpropagation como algoritmo",
-    "text": "Backpropagation como algoritmo\ndef backward_pass(X, Y, cache, params):\n    P = cache[\"P\"]\n    A1 = cache[\"A1\"]\n    Z1 = cache[\"Z1\"]\n    W2 = params[\"W2\"]\n\n    dZ2 = (P - Y) / len(X)\n    dW2 = A1.T @ dZ2\n    db2 = np.sum(dZ2, axis=0)\n\n    dA1 = dZ2 @ W2.T\n    dZ1 = dA1 * (Z1 &gt; 0)\n    dW1 = X.T @ dZ1\n    db1 = np.sum(dZ1, axis=0)\n\n    return {\"W1\": dW1, \"b1\": db1, \"W2\": dW2, \"b2\": db2}",
+    "text": "Backpropagation como algoritmo\nLa identidad de salida merece una derivación corta. Para una observación, la entropía cruzada multiclase es:\n\\[\nL=-\\sum_{j=1}^{k}y_j\\log p_j,\n\\qquad\np_j=\\frac{e^{z_j}}{\\sum_{\\ell=1}^{k}e^{z_\\ell}}.\n\\]\nCuando \\(y\\) es one-hot, solo una clase \\(c\\) tiene \\(y_c=1\\), de modo que \\(L=-\\log p_c\\). Al derivar con respecto a un logit \\(z_j\\), el resultado compacto es:\n\\[\n\\frac{\\partial L}{\\partial z_j}=p_j-y_j.\n\\]\nPara un lote de \\(n\\) observaciones y pérdida promedio:\n\\[\ndZ^{[2]}=\\frac{\\hat P-Y}{n}.\n\\]\nEsta identidad explica por qué el código de salida es tan breve y por qué la forma de \\(dZ^{[2]}\\) coincide con la forma de los logits.\ndef backward_pass(X, Y, cache, params):\n    P = cache[\"P\"]\n    A1 = cache[\"A1\"]\n    Z1 = cache[\"Z1\"]\n    W2 = params[\"W2\"]\n\n    dZ2 = (P - Y) / len(X)\n    dW2 = A1.T @ dZ2\n    db2 = np.sum(dZ2, axis=0)\n\n    dA1 = dZ2 @ W2.T\n    dZ1 = dA1 * (Z1 &gt; 0)\n    dW1 = X.T @ dZ1\n    db1 = np.sum(dZ1, axis=0)\n\n    return {\"W1\": dW1, \"b1\": db1, \"W2\": dW2, \"b2\": db2}",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -365,6 +385,26 @@
     "title": "Backpropagation",
     "section": "Punto de control",
     "text": "Punto de control\nSi el autograder dice que dW2 tiene forma incorrecta, no empieces cambiando signos. Primero revisa:\n\n¿A1.T @ dZ2 produce la misma forma que W2?\n¿db2 suma sobre observaciones y no sobre clases?\n¿dividiste por \\(n\\) exactamente una vez?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#caso-longitudinal-backpropagation-en-dígitos",
+    "href": "capitulo02_backpropagation.html#caso-longitudinal-backpropagation-en-dígitos",
+    "title": "Backpropagation",
+    "section": "Caso longitudinal: backpropagation en dígitos",
+    "text": "Caso longitudinal: backpropagation en dígitos\nEn el caso load_digits, el forward produce probabilidades para diez clases. El backward debe producir gradientes con las mismas formas que los parámetros:\n\n\n\nParámetro\nForma si \\(h=32\\)\nGradiente esperado\n\n\n\n\n\\(W^{[1]}\\)\n\\(64\\times 32\\)\n\\(dW^{[1]}\\), misma forma\n\n\n\\(b^{[1]}\\)\n\\(32\\)\n\\(db^{[1]}\\), una entrada por neurona\n\n\n\\(W^{[2]}\\)\n\\(32\\times 10\\)\n\\(dW^{[2]}\\), misma forma\n\n\n\\(b^{[2]}\\)\n\\(10\\)\n\\(db^{[2]}\\), una entrada por clase\n\n\n\nLa prueba de gradiente no se hace sobre todo el dataset. Se hace sobre un caso pequeño, con pocas observaciones y parámetros controlados, porque ahí se puede comparar contra diferencias finitas. Una red que “entrena” sin pasar una prueba de gradiente puede estar reduciendo la pérdida por accidente o por un error de implementación no detectado.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#verificaciones-seleccionadas",
+    "href": "capitulo02_backpropagation.html#verificaciones-seleccionadas",
+    "title": "Backpropagation",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi \\(A^{[1]}\\) tiene forma \\(n\\times h\\) y \\(dZ^{[2]}\\) tiene forma \\(n\\times k\\), entonces \\(dW^{[2]}=(A^{[1]})^\\top dZ^{[2]}\\) tiene forma \\(h\\times k\\).\nUna diferencia finita central usa \\((J(\\theta+\\epsilon)-J(\\theta-\\epsilon))/(2\\epsilon)\\); suele ser más estable que usar solo \\(J(\\theta+\\epsilon)-J(\\theta)\\).\nUn error de forma que NumPy resuelve con broadcasting puede producir un valor numérico sin representar el gradiente correcto.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -454,7 +494,7 @@
     "href": "capitulo03_diagnostico_regularizacion.html#inicialización",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
     "section": "Inicialización",
-    "text": "Inicialización\nSi los pesos empiezan demasiado grandes, las activaciones pueden saturarse. Si empiezan demasiado pequeños, las señales pueden desaparecer.\nUna regla práctica para ReLU es inicialización He:\n\\[\nW \\sim \\mathcal{N}\\left(0, \\frac{2}{\\text{fan in}}\\right).\n\\]\nEn NumPy:\nW = rng.normal(0, np.sqrt(2 / fan_in), size=(fan_in, fan_out))",
+    "text": "Inicialización\nLa inicialización controla la escala inicial de las señales. Si una capa calcula:\n\\[\nz = \\sum_{j=1}^{d} w_j x_j,\n\\]\nla varianza de \\(z\\) crece con \\(d\\) si los pesos se inicializan sin controlar escala. Bajo independencia aproximada y media cero:\n\\[\n\\operatorname{Var}(z)\\approx d\\,\\operatorname{Var}(w)\\operatorname{Var}(x).\n\\]\nPara que la señal no crezca sin control al pasar por capas, se escoge \\(\\operatorname{Var}(w)\\) proporcional a \\(1/d\\). En redes con ReLU se usa a menudo la inicialización He porque compensa que ReLU anula una parte de las activaciones.\nSi los pesos empiezan demasiado grandes, las activaciones pueden saturarse. Si empiezan demasiado pequeños, las señales pueden desaparecer.\nUna regla práctica para ReLU es inicialización He:\n\\[\nW \\sim \\mathcal{N}\\left(0, \\frac{2}{\\text{fan in}}\\right).\n\\]\nEn NumPy:\nW = rng.normal(0, np.sqrt(2 / fan_in), size=(fan_in, fan_out))",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
     ]
@@ -530,6 +570,36 @@
     ]
   },
   {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#caso-longitudinal-curva-de-entrenamiento-en-dígitos",
+    "href": "capitulo03_diagnostico_regularizacion.html#caso-longitudinal-curva-de-entrenamiento-en-dígitos",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Caso longitudinal: curva de entrenamiento en dígitos",
+    "text": "Caso longitudinal: curva de entrenamiento en dígitos\nSupón que en load_digits una red con \\(h=64\\) obtiene este patrón:\n\n\n\nConfiguración\nTrain acc\nDev acc\nLectura\n\n\n\n\nsin regularización\n0.99\n0.86\nposible overfitting\n\n\nL2 moderado\n0.96\n0.90\nmejor generalización\n\n\nred muy pequeña\n0.82\n0.80\nposible underfitting\n\n\n\nLa conclusión no es que “L2 siempre gana”. La conclusión es que, para esta partición y esta arquitectura, L2 moderado reduce la brecha train/dev. Un reporte profesional debe conservar semilla, partición, tamaño de red, learning rate y número de épocas para que la comparación sea reproducible.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#verificaciones-seleccionadas",
+    "href": "capitulo03_diagnostico_regularizacion.html#verificaciones-seleccionadas",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi train accuracy sube y dev accuracy cae después de cierta época, el diagnóstico principal es overfitting, no falta de capacidad.\nSi train y dev son bajos, aumentar regularización rara vez es la primera acción; primero se revisan capacidad, features, épocas o learning rate.\nSi cambias arquitectura y regularización al mismo tiempo, no puedes atribuir la mejora a una sola causa sin un experimento adicional.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#ejemplo-resuelto-regla-de-parada",
+    "href": "capitulo03_diagnostico_regularizacion.html#ejemplo-resuelto-regla-de-parada",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Ejemplo resuelto: regla de parada",
+    "text": "Ejemplo resuelto: regla de parada\nSupón que el dev loss por época es:\n\n\n\nÉpoca\nDev loss\n\n\n\n\n10\n0.58\n\n\n20\n0.44\n\n\n30\n0.41\n\n\n40\n0.43\n\n\n50\n0.49\n\n\n\nUna regla de early stopping con paciencia de 2 revisiones guardaría el modelo de la época 30 y se detendría después de observar que las épocas 40 y 50 no mejoran. La acción correcta no es usar el modelo de la última época por costumbre; es usar el mejor modelo según validación y reportar la regla usada.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_diagnostico_regularizacion.html#punto-de-control",
     "href": "capitulo03_diagnostico_regularizacion.html#punto-de-control",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
@@ -584,7 +654,17 @@
     "href": "capitulo04_optimizadores_pytorch.html",
     "title": "Optimizadores y PyTorch",
     "section": "",
-    "text": "Pregunta aplicada\nHasta ahora actualizamos parámetros con descenso del gradiente simple:\n\\[\n\\theta \\leftarrow \\theta - \\alpha \\nabla J(\\theta).\n\\]\nPero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.",
+    "text": "Pregunta aplicada\nHasta ahora actualizamos parámetros con descenso del gradiente simple:\n\\[\n\\theta \\leftarrow \\theta - \\alpha \\nabla J(\\theta).\n\\]\nPero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.\nLectura de la figura. SGD, momentum y Adam no cambian el objetivo del entrenamiento; cambian la regla para convertir gradientes en actualizaciones. Por eso el optimizador debe reportarse como parte del experimento, junto con tasa de aprendizaje, batch size, épocas y métrica de validación.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#pregunta-aplicada",
+    "href": "capitulo04_optimizadores_pytorch.html#pregunta-aplicada",
+    "title": "Optimizadores y PyTorch",
+    "section": "",
+    "text": "Figura 5.1: Optimizadores: SGD usa el gradiente actual, momentum suaviza direcciones recientes y Adam combina memoria con escala adaptativa por coordenada.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -640,6 +720,16 @@
     ]
   },
   {
+    "objectID": "capitulo04_optimizadores_pytorch.html#ejemplo-resuelto-adam-en-una-coordenada",
+    "href": "capitulo04_optimizadores_pytorch.html#ejemplo-resuelto-adam-en-una-coordenada",
+    "title": "Optimizadores y PyTorch",
+    "section": "Ejemplo resuelto: Adam en una coordenada",
+    "text": "Ejemplo resuelto: Adam en una coordenada\nSupón una coordenada con gradiente inicial \\(g_1=4\\), \\(\\beta_1=0.9\\), \\(\\beta_2=0.999\\), \\(m_0=0\\) y \\(s_0=0\\). El primer momento queda:\n\\[\nm_1=0.9(0)+0.1(4)=0.4.\n\\]\nEl segundo momento queda:\n\\[\ns_1=0.999(0)+0.001(4^2)=0.016.\n\\]\nComo ambos promedios empiezan en cero, Adam usa corrección de sesgo:\n\\[\n\\hat m_1=\\frac{m_1}{1-\\beta_1}=4,\n\\qquad\n\\hat s_1=\\frac{s_1}{1-\\beta_2}=16.\n\\]\nLa dirección adaptativa es aproximadamente:\n\\[\n\\frac{\\hat m_1}{\\sqrt{\\hat s_1}+\\epsilon}\\approx 1.\n\\]\nLa lectura no es que Adam normaliza todo perfectamente. La lectura es que usa información sobre magnitud reciente del gradiente para ajustar el tamaño efectivo del paso por coordenada.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_optimizadores_pytorch.html#pytorch-qué-automatiza",
     "href": "capitulo04_optimizadores_pytorch.html#pytorch-qué-automatiza",
     "title": "Optimizadores y PyTorch",
@@ -680,11 +770,41 @@
     ]
   },
   {
+    "objectID": "capitulo04_optimizadores_pytorch.html#caso-longitudinal-experimento-reproducible-en-dígitos",
+    "href": "capitulo04_optimizadores_pytorch.html#caso-longitudinal-experimento-reproducible-en-dígitos",
+    "title": "Optimizadores y PyTorch",
+    "section": "Caso longitudinal: experimento reproducible en dígitos",
+    "text": "Caso longitudinal: experimento reproducible en dígitos\nPara load_digits, una comparación defendible entre NumPy y PyTorch debe fijar:\n\n\n\nElemento\nValor que debe registrarse\n\n\n\n\npartición\nsemilla y proporciones train/dev/test\n\n\narquitectura\n64 entradas, \\(h\\) ocultas, 10 salidas\n\n\npérdida\nentropía cruzada multiclase\n\n\noptimizador\nSGD, momentum o Adam\n\n\npresupuesto\népocas, batch size y learning rate\n\n\nevidencia\ncurva train/dev y métrica final\n\n\n\nSi PyTorch obtiene mejor resultado, hay que preguntar si cambió el modelo, el optimizador, el número de épocas o la inicialización. La biblioteca no es la evidencia; la evidencia es una comparación con condiciones controladas.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_optimizadores_pytorch.html#punto-de-control",
     "href": "capitulo04_optimizadores_pytorch.html#punto-de-control",
     "title": "Optimizadores y PyTorch",
     "section": "Punto de control",
     "text": "Punto de control\nUna comparación NumPy vs PyTorch solo es defendible si:\n\nusa la misma partición;\nusa la misma métrica;\nentrena una arquitectura comparable;\nreporta semilla y número de épocas;\ninterpreta diferencias con cautela.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#verificaciones-seleccionadas",
+    "href": "capitulo04_optimizadores_pytorch.html#verificaciones-seleccionadas",
+    "title": "Optimizadores y PyTorch",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nCon 1024 observaciones y batch size 64 hay \\(1024/64=16\\) batches por época.\nSi se entrenan 20 épocas con 16 batches por época, optimizer.step() se ejecuta 320 veces.\nzero_grad() debe ir antes de backward() en cada batch para evitar acumular gradientes de batches anteriores.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#ejemplo-resuelto-presupuesto-de-entrenamiento",
+    "href": "capitulo04_optimizadores_pytorch.html#ejemplo-resuelto-presupuesto-de-entrenamiento",
+    "title": "Optimizadores y PyTorch",
+    "section": "Ejemplo resuelto: presupuesto de entrenamiento",
+    "text": "Ejemplo resuelto: presupuesto de entrenamiento\nComparar dos optimizadores exige presupuesto comparable. Si Adam se entrena 100 épocas y SGD se entrena 20, la diferencia de métrica no aísla el efecto del optimizador. Una comparación mínima fija:\n\n\n\nElemento\nMismo valor\n\n\n\n\npartición\nsí\n\n\narquitectura\nsí\n\n\nbatch size\nsí\n\n\népocas máximas\nsí\n\n\ncriterio de parada\nsí\n\n\nmétrica final\nsí\n\n\n\nSolo después de fijar esos elementos se puede discutir si momentum o Adam mejoraron estabilidad, velocidad o desempeño.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]

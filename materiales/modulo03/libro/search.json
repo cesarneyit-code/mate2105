@@ -94,7 +94,7 @@
     "href": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
     "title": "Métricas y particiones",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.\n\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. La partición es un contrato de evidencia. Train puede aprender parámetros y transformaciones; dev puede guiar decisiones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -135,6 +135,16 @@
     "title": "Métricas y particiones",
     "section": "Ejemplo resuelto: costo de falsos negativos",
     "text": "Ejemplo resuelto: costo de falsos negativos\nSupón un problema con 50 positivos y 950 negativos. Comparamos dos umbrales:\n\n\n\nUmbral\nTP\nFP\nFN\nTN\n\n\n\n\nA\n35\n40\n15\n910\n\n\nB\n25\n10\n25\n940\n\n\n\nEl umbral A tiene:\n\\[\n\\text{precision}_A=\\frac{35}{35+40}\\approx0.467,\n\\qquad\n\\text{recall}_A=\\frac{35}{35+15}=0.70.\n\\]\nEl umbral B tiene:\n\\[\n\\text{precision}_B=\\frac{25}{25+10}\\approx0.714,\n\\qquad\n\\text{recall}_B=\\frac{25}{25+25}=0.50.\n\\]\nSi un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo esperado de cada umbral es:\n\\[\nC_A=40(1)+15(10)=190,\n\\qquad\nC_B=10(1)+25(10)=260.\n\\]\nAunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. La métrica correcta depende de la decisión, no de cuál número se ve más alto.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#derivación-guiada-f1-como-equilibrio-operativo",
+    "href": "capitulo01_metricas_particiones.html#derivación-guiada-f1-como-equilibrio-operativo",
+    "title": "Métricas y particiones",
+    "section": "Derivación guiada: F1 como equilibrio operativo",
+    "text": "Derivación guiada: F1 como equilibrio operativo\nPrecision y recall miden errores distintos:\n\\[\n\\operatorname{precision}=\\frac{TP}{TP+FP},\n\\qquad\n\\operatorname{recall}=\\frac{TP}{TP+FN}.\n\\]\nF1 es la media armónica de ambas:\n\\[\nF1=\n2\\frac{\\operatorname{precision}\\cdot\\operatorname{recall}}\n{\\operatorname{precision}+\\operatorname{recall}}.\n\\]\nLa media armónica penaliza valores muy bajos. Por eso un modelo con precision alta pero recall casi cero no obtiene buen F1. Esto es útil cuando ambos tipos de desempeño importan, pero no reemplaza una función de costo si los errores tienen costos muy asimétricos.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -210,11 +220,31 @@
     ]
   },
   {
+    "objectID": "capitulo01_metricas_particiones.html#caso-longitudinal-clasificación-con-slice-reciente",
+    "href": "capitulo01_metricas_particiones.html#caso-longitudinal-clasificación-con-slice-reciente",
+    "title": "Métricas y particiones",
+    "section": "Caso longitudinal: clasificación con slice reciente",
+    "text": "Caso longitudinal: clasificación con slice reciente\nEl archivo clasificacion_binaria_sintetica.csv acompaña varios capítulos. Tiene variables x1, x2, una etiqueta binaria target y una columna slice con valores base y reciente. El objetivo pedagógico es discutir qué pasa cuando un modelo parece razonable en promedio, pero cambia su comportamiento en una subpoblación o periodo.\nPara este caso, una primera partición defendible debe declarar:\n\n\n\n\n\n\n\nDecisión\nCriterio\n\n\n\n\nbaseline\nclase mayoritaria o logística simple\n\n\nmétrica primaria\nF1 o recall si la clase positiva importa\n\n\npartición\ntrain/dev/test con semilla fija\n\n\nestratificación\npreservar proporción de target cuando sea razonable\n\n\nauditoría\nrevisar desempeño por slice antes de recomendar\n\n\n\nLa columna slice no debe usarse automáticamente como variable predictora. A veces se usa para diagnóstico, no para entrenamiento. Esa distinción evita que el modelo aprenda un marcador de origen que no estará disponible o que no se quiere usar en producción.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_metricas_particiones.html#punto-de-control",
     "href": "capitulo01_metricas_particiones.html#punto-de-control",
     "title": "Métricas y particiones",
     "section": "Punto de control",
     "text": "Punto de control\nAntes de comparar modelos, escribe explícitamente:\n\nmétrica principal;\nbaseline;\npartición;\ntransformación dentro de pipeline;\nregla para no tocar test.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#verificaciones-seleccionadas",
+    "href": "capitulo01_metricas_particiones.html#verificaciones-seleccionadas",
+    "title": "Métricas y particiones",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi la clase positiva representa 8% de 2000 observaciones, hay 160 positivos.\nEn una división estratificada 60/20/20, se esperan aproximadamente 96 positivos en train, 32 en dev y 32 en test.\nSi se ajusta StandardScaler antes de partir datos, el promedio de dev/test ya contaminó el preprocesamiento.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -320,6 +350,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_validacion_curvas.html#derivación-guiada-media-y-variabilidad-de-cv",
+    "href": "capitulo02_validacion_curvas.html#derivación-guiada-media-y-variabilidad-de-cv",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Derivación guiada: media y variabilidad de CV",
+    "text": "Derivación guiada: media y variabilidad de CV\nSi los puntajes de cinco folds son:\n\\[\n0.80,\\ 0.84,\\ 0.83,\\ 0.86,\\ 0.87,\n\\]\nla media es:\n\\[\n\\bar s=\\frac{0.80+0.84+0.83+0.86+0.87}{5}=0.84.\n\\]\nLa desviación resume qué tanto cambian los resultados entre folds. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como evidencia universal. En reportes del curso, escribe media y variabilidad juntas:\nF1 CV = 0.84 ± 0.03\nSi dos modelos tienen medias parecidas, la variabilidad puede decidir cuál es más prudente.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_validacion_curvas.html#grid-search",
     "href": "capitulo02_validacion_curvas.html#grid-search",
     "title": "Validación cruzada y curvas de aprendizaje",
@@ -334,7 +374,7 @@
     "href": "capitulo02_validacion_curvas.html#learning-curve",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Learning curve",
-    "text": "Learning curve\nUna curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.\nSeñales típicas:\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico\nAcción\n\n\n\n\nTrain alto y val bajo\noverfitting\nregularizar, simplificar, más datos\n\n\nTrain bajo y val bajo\nunderfitting\nmodelo más expresivo, mejores features\n\n\nTrain y val se acercan\nestabilidad\nevaluar límite por ruido\n\n\nVal mejora con más datos\nconseguir más datos puede ayudar",
+    "text": "Learning curve\nUna curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.\n\n\n\n\n\n\nFigura 3.1: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.\n\n\n\nLectura de la figura. Una learning curve no se interpreta por el valor final aislado, sino por la relación entre entrenamiento y validación. La brecha sugiere varianza; valores bajos en ambas curvas sugieren sesgo; curvas que se acercan pueden indicar que más datos ayudan.\nSeñales típicas:\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico\nAcción\n\n\n\n\nTrain alto y val bajo\noverfitting\nregularizar, simplificar, más datos\n\n\nTrain bajo y val bajo\nunderfitting\nmodelo más expresivo, mejores features\n\n\nTrain y val se acercan\nestabilidad\nevaluar límite por ruido\n\n\nVal mejora con más datos\nconseguir más datos puede ayudar",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -360,6 +400,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_validacion_curvas.html#caso-longitudinal-estabilidad-del-modelo-de-clasificación",
+    "href": "capitulo02_validacion_curvas.html#caso-longitudinal-estabilidad-del-modelo-de-clasificación",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Caso longitudinal: estabilidad del modelo de clasificación",
+    "text": "Caso longitudinal: estabilidad del modelo de clasificación\nEn clasificacion_binaria_sintetica.csv, una validación de cinco folds puede producir algo como:\n\n\n\n\n\n\n\n\n\nModelo\nF1 CV medio\nDesviación\nLectura\n\n\n\n\nlogística simple\n0.71\n0.03\nbaseline estable\n\n\nlogística con features polinomiales\n0.76\n0.09\nmejora media, alta varianza\n\n\nmodelo regularizado\n0.74\n0.04\nbalance entre mejora y estabilidad\n\n\n\nLa selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por slice, podría explorarse el modelo polinomial. Si se quiere una recomendación conservadora, el modelo regularizado puede ser más defendible. El punto es que media y desviación se leen juntas.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_validacion_curvas.html#sesgo-varianza-y-ruido",
     "href": "capitulo02_validacion_curvas.html#sesgo-varianza-y-ruido",
     "title": "Validación cruzada y curvas de aprendizaje",
@@ -375,6 +425,26 @@
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Punto de control",
     "text": "Punto de control\nSi una learning curve muestra train alto y validación bajo, no concluyas “necesito una red más grande”. Primero pregunta:\n\n¿hay leakage?\n¿la métrica está alineada con la decisión?\n¿el modelo ya tiene demasiada varianza?\n¿más datos podría cerrar la brecha?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#verificaciones-seleccionadas",
+    "href": "capitulo02_validacion_curvas.html#verificaciones-seleccionadas",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nEvaluar 4 valores de C, 3 valores de penalty y 5 folds entrena \\(4\\cdot3\\cdot5=60\\) ajustes.\nSi la media CV mejora poco pero la desviación se triplica, la mejora puede no justificar el cambio de modelo.\nGridSearchCV debe recibir el pipeline completo cuando hay escalamiento, imputación o selección de variables.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande",
+    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Ejemplo resuelto: cuándo no hacer grid más grande",
+    "text": "Ejemplo resuelto: cuándo no hacer grid más grande\nSi una grilla inicial muestra que todos los valores de regularización fuerte tienen train y dev bajos, aumentar la grilla alrededor de regularización más fuerte probablemente no ayudará. La acción más razonable es revisar features, capacidad del modelo o métrica. Grid search no reemplaza diagnóstico: solo prueba combinaciones dentro del espacio que tú definiste.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -454,7 +524,7 @@
     "href": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
     "title": "Error analysis y data mismatch",
     "section": "Error analysis",
-    "text": "Error analysis\nUn análisis mínimo incluye:\n\nCasos correctamente clasificados.\nFalsos positivos.\nFalsos negativos.\nSubgrupos con peor desempeño.\nVariables o condiciones asociadas al error.",
+    "text": "Error analysis\nUn análisis mínimo incluye:\n\nCasos correctamente clasificados.\nFalsos positivos.\nFalsos negativos.\nSubgrupos con peor desempeño.\nVariables o condiciones asociadas al error.\n\n\n\n\n\n\n\nFigura 4.1: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con evidencia, diagnóstico, acción y límite.\n\n\n\nLectura de la figura. El promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un slice importante falla. La figura fuerza la secuencia mínima: evidencia, diagnóstico, acción y límite.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]
@@ -500,6 +570,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-promedio-global-como-mezcla-de-slices",
+    "href": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-promedio-global-como-mezcla-de-slices",
+    "title": "Error analysis y data mismatch",
+    "section": "Derivación guiada: promedio global como mezcla de slices",
+    "text": "Derivación guiada: promedio global como mezcla de slices\nUna métrica global suele mezclar subpoblaciones. Si un conjunto tiene dos slices con tamaños \\(n_A,n_B\\) y métricas \\(m_A,m_B\\), un promedio ponderado simple se escribe como:\n\\[\nm_{\\text{global}}\n=\n\\frac{n_A m_A+n_B m_B}{n_A+n_B}.\n\\]\nEsto explica por qué un slice grande puede esconder un slice pequeño con mal desempeño. El promedio global puede subir aunque el grupo crítico empeore, si ese grupo tiene poco peso. Por eso el análisis por slice no es opcional cuando la decisión afecta subpoblaciones distintas.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
     "href": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
     "title": "Error analysis y data mismatch",
@@ -530,11 +610,31 @@
     ]
   },
   {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#caso-longitudinal-slice-reciente",
+    "href": "capitulo03_error_analysis_data_mismatch.html#caso-longitudinal-slice-reciente",
+    "title": "Error analysis y data mismatch",
+    "section": "Caso longitudinal: slice reciente",
+    "text": "Caso longitudinal: slice reciente\nEn clasificacion_binaria_sintetica.csv, la columna slice permite construir una tabla mínima:\n\n\n\nSlice\nObservaciones\nF1\nRecall\nLectura\n\n\n\n\nbase\n180\n0.82\n0.79\ndesempeño esperado\n\n\nreciente\n60\n0.61\n0.48\nposible mismatch\n\n\n\nAunque el número exacto dependa de la partición y del modelo, la pregunta profesional permanece: si el uso real se parece al slice reciente, el promedio global no justifica despliegue. La acción razonable es construir un dev set más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
     "href": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
     "title": "Error analysis y data mismatch",
     "section": "Punto de control",
     "text": "Punto de control\nUna recomendación técnica es incompleta si no responde:\n\n¿qué evidencia observaste?;\n¿qué diagnóstico explica esa evidencia?;\n¿qué acción concreta sigue?;\n¿qué límite o riesgo debe comunicarse?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#verificaciones-seleccionadas",
+    "href": "capitulo03_error_analysis_data_mismatch.html#verificaciones-seleccionadas",
+    "title": "Error analysis y data mismatch",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi el F1 global es 0.81 y el F1 de un slice es 0.57, la brecha es 0.24.\nUna brecha por slice no prueba la causa; prueba que el promedio global es insuficiente para la decisión.\nSi dev y test tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de hacer más tuning.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]

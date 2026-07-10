@@ -140,6 +140,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#derivación-guiada-reconstrucción-y-pérdida-de-información",
+    "href": "capitulo01_svd_pca.html#derivación-guiada-reconstrucción-y-pérdida-de-información",
+    "title": "SVD y PCA",
+    "section": "Derivación guiada: reconstrucción y pérdida de información",
+    "text": "Derivación guiada: reconstrucción y pérdida de información\nSi usamos \\(k\\) componentes, retenemos:\n\\[\nX_c \\approx U_k\\Sigma_kV_k^\\top.\n\\]\nLa parte descartada corresponde a componentes \\(k+1,\\ldots,r\\). Bajo la norma de Frobenius, el error de reconstrucción queda ligado a los valores singulares descartados:\n\\[\n\\|X_c-\\hat X_c\\|_F^2=\\sum_{j=k+1}^{r}\\sigma_j^2.\n\\]\nEsta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo diagnóstico. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#ejemplo-resuelto-elegir-k",
     "href": "capitulo01_svd_pca.html#ejemplo-resuelto-elegir-k",
     "title": "SVD y PCA",
@@ -170,6 +180,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#caso-longitudinal-pca-sintético",
+    "href": "capitulo01_svd_pca.html#caso-longitudinal-pca-sintético",
+    "title": "SVD y PCA",
+    "section": "Caso longitudinal: PCA sintético",
+    "text": "Caso longitudinal: PCA sintético\nEl archivo pca_sintetico.csv contiene cuatro variables generadas desde una estructura latente de baja dimensión. El ejercicio profesional no es “hacer que PCA se vea bonito”, sino justificar qué se conserva y qué se pierde.\n\n\n\nEvidencia\nPregunta\n\n\n\n\nmedia de entrenamiento\n¿con qué parámetros se centró?\n\n\nvarianza explicada acumulada\n¿cuántos componentes se retienen?\n\n\nerror de reconstrucción\n¿qué se pierde al reducir dimensión?\n\n\ncargas principales\n¿qué variables dominan cada componente?\n\n\nadvertencia\n¿qué interpretación causal no se puede afirmar?\n\n\n\nSi los dos primeros componentes explican mucha varianza, puedes usarlos para visualizar o comprimir. Eso no significa que los componentes sean causas, grupos naturales o factores reales del dominio. La interpretación exige evidencia adicional.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
     "href": "capitulo01_svd_pca.html#pca-no-es-interpretabilidad-automática",
     "title": "SVD y PCA",
@@ -185,6 +205,26 @@
     "title": "SVD y PCA",
     "section": "Punto de control",
     "text": "Punto de control\nAntes de usar PCA en un proyecto, responde:\n\n¿centraste con parámetros aprendidos en entrenamiento?\n¿cuánta varianza explican los componentes usados?\n¿la proyección se usa para visualizar, modelar o comprimir?\n¿qué interpretación no puedes afirmar?",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#verificaciones-seleccionadas",
+    "href": "capitulo01_svd_pca.html#verificaciones-seleccionadas",
+    "title": "SVD y PCA",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nSi \\(X\\) tiene forma \\(500\\times 64\\) y se usan \\(k=2\\) componentes, la proyección \\(Z=X_cV_k\\) tiene forma \\(500\\times 2\\).\nSi los primeros 10 componentes explican 85% de la varianza, todavía se pierde 15% de la variabilidad bajo esa medida.\nUn scatterplot PCA 2D puede sugerir separación visual, pero no prueba causalidad ni garantiza buen desempeño predictivo.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#ejemplo-resuelto-pca-dentro-de-un-pipeline",
+    "href": "capitulo01_svd_pca.html#ejemplo-resuelto-pca-dentro-de-un-pipeline",
+    "title": "SVD y PCA",
+    "section": "Ejemplo resuelto: PCA dentro de un pipeline",
+    "text": "Ejemplo resuelto: PCA dentro de un pipeline\nSi PCA se usa antes de un clasificador, el centrado y los componentes deben aprenderse solo con entrenamiento. En scikit-learn, la forma segura es:\nPipeline([\n    (\"scaler\", StandardScaler()),\n    (\"pca\", PCA(n_components=10)),\n    (\"model\", LogisticRegression())\n])\nEn validación cruzada, cada fold aprende su propio scaler y su propio PCA con el train fold. Hacer PCA con todo el dataset antes de partir datos introduce leakage porque la proyección ya vio validación o test.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -320,6 +360,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_kmeans_clustering.html#derivación-guiada-por-qué-el-centroide-es-el-promedio",
+    "href": "capitulo02_kmeans_clustering.html#derivación-guiada-por-qué-el-centroide-es-el-promedio",
+    "title": "K-Means y clustering",
+    "section": "Derivación guiada: por qué el centroide es el promedio",
+    "text": "Derivación guiada: por qué el centroide es el promedio\nPara un cluster con puntos \\(x_1,\\ldots,x_m\\), K-Means escoge un centroide \\(\\mu\\) que minimiza:\n\\[\n\\sum_{i=1}^{m}\\|x_i-\\mu\\|_2^2.\n\\]\nEn una dimensión, derivar respecto a \\(\\mu\\) da:\n\\[\n\\frac{d}{d\\mu}\\sum_{i=1}^{m}(x_i-\\mu)^2\n=\n-2\\sum_{i=1}^{m}(x_i-\\mu).\n\\]\nIgualando a cero:\n\\[\n\\sum_{i=1}^{m}x_i-m\\mu=0\n\\quad\\Rightarrow\\quad\n\\mu=\\frac{1}{m}\\sum_{i=1}^{m}x_i.\n\\]\nEn varias dimensiones ocurre componente a componente. Por eso la actualización del centroide es el promedio de los puntos asignados.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_kmeans_clustering.html#escalamiento",
     "href": "capitulo02_kmeans_clustering.html#escalamiento",
     "title": "K-Means y clustering",
@@ -340,11 +390,41 @@
     ]
   },
   {
+    "objectID": "capitulo02_kmeans_clustering.html#caso-longitudinal-clusters-sintéticos",
+    "href": "capitulo02_kmeans_clustering.html#caso-longitudinal-clusters-sintéticos",
+    "title": "K-Means y clustering",
+    "section": "Caso longitudinal: clusters sintéticos",
+    "text": "Caso longitudinal: clusters sintéticos\nEl archivo clusters_sinteticos.csv fue generado con tres centros compactos. Eso lo hace útil para aprender K-Means, pero también peligroso si se generaliza demasiado: favorece justo la geometría que K-Means prefiere.\n\n\n\nEvidencia\nUso\n\n\n\n\nscatterplot escalado\ninspección geométrica inicial\n\n\ninertia por \\(k\\)\nreducción de compactación\n\n\nsilhouette\nseparación relativa\n\n\ntamaños de clusters\ndetectar grupos diminutos\n\n\nestabilidad por semilla\nrevisar sensibilidad\n\n\n\nSi \\(k=3\\) gana en este dataset, no significa que “siempre hay tres segmentos”. Significa que, bajo esta geometría sintética y esta escala, tres centroides resumen bien la nube de puntos.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_kmeans_clustering.html#punto-de-control",
     "href": "capitulo02_kmeans_clustering.html#punto-de-control",
     "title": "K-Means y clustering",
     "section": "Punto de control",
     "text": "Punto de control\nAntes de reportar clusters, verifica:\n\n¿las variables están en escalas comparables?\n¿probaste más de un \\(k\\)?\n¿los clusters son interpretables con variables originales?\n¿hay un cluster demasiado grande o demasiado pequeño?\n¿qué decisión concreta usaría esta segmentación?",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#verificaciones-seleccionadas",
+    "href": "capitulo02_kmeans_clustering.html#verificaciones-seleccionadas",
+    "title": "K-Means y clustering",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nLa inertia siempre tiende a bajar cuando aumenta \\(k\\); por eso no basta para elegir el número de clusters.\nSi dos variables tienen escalas muy distintas, K-Means puede agrupar por la variable de mayor escala aunque no sea la más relevante.\nUn cluster no es una categoría real hasta que se interpreta con variables originales y contexto de decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-elegir-k-con-evidencia-incompleta",
+    "href": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-elegir-k-con-evidencia-incompleta",
+    "title": "K-Means y clustering",
+    "section": "Ejemplo resuelto: elegir \\(k\\) con evidencia incompleta",
+    "text": "Ejemplo resuelto: elegir \\(k\\) con evidencia incompleta\nSupón:\n\n\n\n\\(k\\)\nInertia\nSilhouette\n\n\n\n\n2\n420\n0.48\n\n\n3\n260\n0.55\n\n\n4\n210\n0.51\n\n\n\nLa inertia baja de 3 a 4, pero silhouette cae. Una decisión defendible podría elegir \\(k=3\\), siempre que los clusters tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que \\(k=3\\) es una representación útil bajo esta geometría.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -450,6 +530,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#derivación-guiada-qué-ignora-la-similitud-coseno",
+    "href": "capitulo03_recomendacion_latente.html#derivación-guiada-qué-ignora-la-similitud-coseno",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Derivación guiada: qué ignora la similitud coseno",
+    "text": "Derivación guiada: qué ignora la similitud coseno\nLa similitud coseno normaliza por las normas:\n\\[\n\\cos(x,y)=\\frac{x^\\top y}{\\|x\\|\\|y\\|}.\n\\]\nEso significa que dos ítems pueden tener similitud alta si apuntan en dirección parecida, aunque uno tenga muchas más interacciones que el otro. Esta propiedad puede ser útil para reducir el sesgo por popularidad, pero no lo elimina. Si un ítem aparece en casi todos los perfiles, puede seguir dominando rankings por cobertura y disponibilidad de datos.\nLa lectura profesional de una similitud debe incluir tres preguntas: qué usuarios comparten los ítems, cuántas interacciones sustentan el cálculo y qué ítems quedan invisibles por falta de datos.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#recomendación-item-item",
     "href": "capitulo03_recomendacion_latente.html#recomendación-item-item",
     "title": "Recomendación básica y estructura latente",
@@ -480,6 +570,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#caso-longitudinal-interacciones-de-recomendación",
+    "href": "capitulo03_recomendacion_latente.html#caso-longitudinal-interacciones-de-recomendación",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Caso longitudinal: interacciones de recomendación",
+    "text": "Caso longitudinal: interacciones de recomendación\nEl archivo recomendacion_interacciones.csv contiene usuarios, ítems y ratings ficticios. Su función es mostrar la lógica de una matriz usuario-item pequeña:\n\n\n\nEvidencia\nPregunta\n\n\n\n\nmatriz usuario-item\n¿qué entradas se observaron y cuáles faltan?\n\n\npromedio por ítem\n¿hay sesgo de popularidad?\n\n\nsimilitud item-item\n¿qué ítems parecen cercanos?\n\n\ncobertura\n¿a cuántos usuarios/ítems puede recomendar?\n\n\nevaluación offline\n¿qué ratings ocultos se predicen?\n\n\n\nUn recomendador puede producir rankings plausibles y aun así amplificar popularidad, ignorar ítems nuevos o recomendar sin diversidad. Por eso la pregunta aplicada no es solo “qué ítem tiene mayor score”, sino “qué se omite y a quién afecta”.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#riesgos-de-recomendación",
     "href": "capitulo03_recomendacion_latente.html#riesgos-de-recomendación",
     "title": "Recomendación básica y estructura latente",
@@ -495,6 +595,26 @@
     "title": "Recomendación básica y estructura latente",
     "section": "Punto de control",
     "text": "Punto de control\nAntes de recomendar, responde:\n\n¿la similitud refleja preferencia o solo popularidad?\n¿se excluyen ítems ya vistos?\n¿qué ocurre con usuarios nuevos?\n¿qué sesgo puede amplificarse?",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#verificaciones-seleccionadas",
+    "href": "capitulo03_recomendacion_latente.html#verificaciones-seleccionadas",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Verificaciones seleccionadas",
+    "text": "Verificaciones seleccionadas\n\nUna entrada faltante en la matriz usuario-item no significa rating cero; significa no observado.\nLa similitud coseno alta entre dos ítems no prueba que sean equivalentes; solo indica patrones de interacción parecidos bajo los datos disponibles.\nUn ranking sin cobertura puede verse preciso para usuarios frecuentes y fallar para usuarios o ítems con pocas interacciones.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#ejemplo-resuelto-cobertura-mínima",
+    "href": "capitulo03_recomendacion_latente.html#ejemplo-resuelto-cobertura-mínima",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Ejemplo resuelto: cobertura mínima",
+    "text": "Ejemplo resuelto: cobertura mínima\nSupón un recomendador que produce al menos una recomendación para 70 de 100 usuarios y cubre 12 de 50 ítems disponibles. Entonces:\n\\[\n\\text{cobertura de usuarios}=70/100=70\\%,\n\\qquad\n\\text{cobertura de ítems}=12/50=24\\%.\n\\]\nAunque las recomendaciones visibles parezcan razonables, el sistema deja sin recomendación a 30% de usuarios y concentra exposición en pocos ítems. Esa evidencia debe aparecer antes de afirmar que el recomendador funciona bien.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]

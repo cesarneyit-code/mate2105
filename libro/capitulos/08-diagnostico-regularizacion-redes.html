@@ -361,6 +361,11 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
   </div>
 </li>
@@ -631,6 +636,11 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
@@ -682,6 +692,9 @@ window.Quarto = {
   <li><a href="#diagnósticos-comunes" id="toc-diagnósticos-comunes" class="nav-link" data-scroll-target="#diagnósticos-comunes">Diagnósticos comunes</a></li>
   <li><a href="#ejemplo-resuelto-leer-una-curva" id="toc-ejemplo-resuelto-leer-una-curva" class="nav-link" data-scroll-target="#ejemplo-resuelto-leer-una-curva">Ejemplo resuelto: leer una curva</a></li>
   <li><a href="#checkpoint-técnico-del-proyecto" id="toc-checkpoint-técnico-del-proyecto" class="nav-link" data-scroll-target="#checkpoint-técnico-del-proyecto">Checkpoint técnico del proyecto</a></li>
+  <li><a href="#caso-longitudinal-curva-de-entrenamiento-en-dígitos" id="toc-caso-longitudinal-curva-de-entrenamiento-en-dígitos" class="nav-link" data-scroll-target="#caso-longitudinal-curva-de-entrenamiento-en-dígitos">Caso longitudinal: curva de entrenamiento en dígitos</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-regla-de-parada" id="toc-ejemplo-resuelto-regla-de-parada" class="nav-link" data-scroll-target="#ejemplo-resuelto-regla-de-parada">Ejemplo resuelto: regla de parada</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
@@ -770,6 +783,15 @@ window.Quarto = {
 </section>
 <section id="inicialización" class="level2">
 <h2 class="anchored" data-anchor-id="inicialización">Inicialización</h2>
+<p>La inicialización controla la escala inicial de las señales. Si una capa calcula:</p>
+<p><span class="math display">\[
+z = \sum_{j=1}^{d} w_j x_j,
+\]</span></p>
+<p>la varianza de <span class="math inline">\(z\)</span> crece con <span class="math inline">\(d\)</span> si los pesos se inicializan sin controlar escala. Bajo independencia aproximada y media cero:</p>
+<p><span class="math display">\[
+\operatorname{Var}(z)\approx d\,\operatorname{Var}(w)\operatorname{Var}(x).
+\]</span></p>
+<p>Para que la señal no crezca sin control al pasar por capas, se escoge <span class="math inline">\(\operatorname{Var}(w)\)</span> proporcional a <span class="math inline">\(1/d\)</span>. En redes con ReLU se usa a menudo la inicialización He porque compensa que ReLU anula una parte de las activaciones.</p>
 <p>Si los pesos empiezan demasiado grandes, las activaciones pueden saturarse. Si empiezan demasiado pequeños, las señales pueden desaparecer.</p>
 <p>Una regla práctica para ReLU es inicialización He:</p>
 <p><span class="math display">\[
@@ -956,6 +978,84 @@ dW=dW_{\text{datos}}+\lambda W
 <li>Decisión de siguiente experimento.</li>
 <li>Riesgo técnico o de datos.</li>
 </ol>
+</section>
+<section id="caso-longitudinal-curva-de-entrenamiento-en-dígitos" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-curva-de-entrenamiento-en-dígitos">Caso longitudinal: curva de entrenamiento en dígitos</h2>
+<p>Supón que en <code>load_digits</code> una red con <span class="math inline">\(h=64\)</span> obtiene este patrón:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Configuración</th>
+<th style="text-align: right;">Train acc</th>
+<th style="text-align: right;">Dev acc</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>sin regularización</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">0.86</td>
+<td>posible overfitting</td>
+</tr>
+<tr class="even">
+<td>L2 moderado</td>
+<td style="text-align: right;">0.96</td>
+<td style="text-align: right;">0.90</td>
+<td>mejor generalización</td>
+</tr>
+<tr class="odd">
+<td>red muy pequeña</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.80</td>
+<td>posible underfitting</td>
+</tr>
+</tbody>
+</table>
+<p>La conclusión no es que “L2 siempre gana”. La conclusión es que, para esta partición y esta arquitectura, L2 moderado reduce la brecha train/dev. Un reporte profesional debe conservar semilla, partición, tamaño de red, learning rate y número de épocas para que la comparación sea reproducible.</p>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si train accuracy sube y dev accuracy cae después de cierta época, el diagnóstico principal es overfitting, no falta de capacidad.</li>
+<li>Si train y dev son bajos, aumentar regularización rara vez es la primera acción; primero se revisan capacidad, features, épocas o learning rate.</li>
+<li>Si cambias arquitectura y regularización al mismo tiempo, no puedes atribuir la mejora a una sola causa sin un experimento adicional.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-regla-de-parada" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-regla-de-parada">Ejemplo resuelto: regla de parada</h2>
+<p>Supón que el dev loss por época es:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Época</th>
+<th style="text-align: right;">Dev loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">0.58</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.41</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">40</td>
+<td style="text-align: right;">0.43</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">50</td>
+<td style="text-align: right;">0.49</td>
+</tr>
+</tbody>
+</table>
+<p>Una regla de early stopping con paciencia de 2 revisiones guardaría el modelo de la época 30 y se detendría después de observar que las épocas 40 y 50 no mejoran. La acción correcta no es usar el modelo de la última época por costumbre; es usar el mejor modelo según validación y reportar la regla usada.</p>
 </section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>

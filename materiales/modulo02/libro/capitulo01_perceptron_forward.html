@@ -241,7 +241,9 @@ window.Quarto = {
   <li><a href="#entropía-cruzada-multiclase" id="toc-entropía-cruzada-multiclase" class="nav-link" data-scroll-target="#entropía-cruzada-multiclase">Entropía cruzada multiclase</a></li>
   <li><a href="#ejemplo-resuelto-softmax-y-pérdida" id="toc-ejemplo-resuelto-softmax-y-pérdida" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</a></li>
   <li><a href="#ejemplo-resuelto-dimensiones" id="toc-ejemplo-resuelto-dimensiones" class="nav-link" data-scroll-target="#ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</a></li>
+  <li><a href="#caso-longitudinal-dígitos-escritos-a-mano" id="toc-caso-longitudinal-dígitos-escritos-a-mano" class="nav-link" data-scroll-target="#caso-longitudinal-dígitos-escritos-a-mano">Caso longitudinal: dígitos escritos a mano</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -409,6 +411,22 @@ J = -\frac{1}{n}\sum_{i=1}^n\sum_{j=1}^k Y_{ij}\log(\hat P_{ij}).
 </section>
 <section id="ejemplo-resuelto-softmax-y-pérdida" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</h2>
+<p>Antes del cálculo numérico, conviene entender por qué una activación no lineal importa. Supón dos capas lineales sin activación:</p>
+<p><span class="math display">\[
+H = XW^{[1]} + b^{[1]},
+\qquad
+Z = HW^{[2]} + b^{[2]}.
+\]</span></p>
+<p>Sustituyendo <span class="math inline">\(H\)</span>:</p>
+<p><span class="math display">\[
+Z=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}
+=X(W^{[1]}W^{[2]}) + b^{[1]}W^{[2]} + b^{[2]}.
+\]</span></p>
+<p>Si definimos <span class="math inline">\(W^\star=W^{[1]}W^{[2]}\)</span> y <span class="math inline">\(b^\star=b^{[1]}W^{[2]}+b^{[2]}\)</span>, entonces:</p>
+<p><span class="math display">\[
+Z=XW^\star+b^\star.
+\]</span></p>
+<p>Dos capas lineales sin activación equivalen a una sola capa lineal. La activación no lineal es lo que impide colapsar la red a un modelo lineal.</p>
 <p>Supón que una observación produce tres logits:</p>
 <p><span class="math display">\[
 z=(2,1,0).
@@ -481,6 +499,47 @@ e^{z-\max(z)}=(1,e^{-1},e^{-2})\approx(1,0.368,0.135).
 </tbody>
 </table>
 </section>
+<section id="caso-longitudinal-dígitos-escritos-a-mano" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-dígitos-escritos-a-mano">Caso longitudinal: dígitos escritos a mano</h2>
+<p>En los capítulos de redes usaremos como referencia conceptual el dataset <code>load_digits</code>: imágenes pequeñas de <span class="math inline">\(8\times 8\)</span> pixeles, convertidas en vectores de 64 entradas. Este dataset no representa visión por computador moderna; su valor pedagógico es que permite ver todas las formas de una red pequeña sin depender de internet ni de archivos pesados.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th style="text-align: right;">Forma típica</th>
+<th>Interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(X\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n\times 64\)</span></td>
+<td>intensidad de pixeles aplanados</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(W^{[1]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(64\times h\)</span></td>
+<td>pesos de entrada a capa oculta</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(A^{[1]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n\times h\)</span></td>
+<td>representación intermedia</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(W^{[2]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(h\times 10\)</span></td>
+<td>pesos hacia diez clases</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\hat P\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(n\times 10\)</span></td>
+<td>probabilidades por dígito</td>
+</tr>
+</tbody>
+</table>
+<p>La primera comparación profesional no debe ser contra una red grande. Debe ser contra un baseline simple: clase mayoritaria, regresión logística o una red pequeña sin tuning agresivo. Si la red mejora el baseline, todavía falta revisar validación, errores por clase y reproducibilidad del entrenamiento.</p>
+</section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Antes de pasar a backpropagation, verifica que puedes responder sin mirar la tabla:</p>
@@ -492,6 +551,14 @@ e^{z-\max(z)}=(1,e^{-1},e^{-2})\approx(1,0.368,0.135).
 <div class="answer">
 <p><strong>Respuesta corta.</strong> La matriz tiene forma <span class="math inline">\(64 \times 32\)</span>. Softmax se aplica por fila porque cada fila contiene las probabilidades de una observación sobre las 10 clases. Sin activaciones no lineales, la composición de capas sigue siendo una transformación lineal.</p>
 </div>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si <span class="math inline">\(X\)</span> tiene forma <span class="math inline">\(50\times 64\)</span> y <span class="math inline">\(W^{[1]}\)</span> tiene forma <span class="math inline">\(64\times 16\)</span>, entonces <span class="math inline">\(Z^{[1]}\)</span> tiene forma <span class="math inline">\(50\times 16\)</span>.</li>
+<li>Si una red multiclase produce logits <span class="math inline">\(50\times 10\)</span>, la suma de softmax debe ser 1 en cada fila, no en cada columna.</li>
+<li>Si se eliminan todas las activaciones no lineales, la red completa equivale a una transformación lineal; por eso no aumenta capacidad geométrica real.</li>
+</ol>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="720" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">Particiones train dev test y flujo de evaluacion</title>
+  <desc id="desc">Diagrama que separa datos en entrenamiento, desarrollo y prueba; entrenamiento ajusta parametros, desarrollo selecciona modelos y prueba estima desempeno final.</desc>
+  <rect width="1200" height="720" fill="#f8fafc"/>
+  <text x="70" y="74" font-family="Arial, sans-serif" font-size="34" font-weight="700" fill="#172033">Particiones: ajustar, seleccionar y estimar</text>
+  <text x="70" y="114" font-family="Arial, sans-serif" font-size="20" fill="#475569">La particion no es un detalle administrativo: define que evidencia puede usarse para cada decision.</text>
+
+  <g transform="translate(90 175)">
+    <rect x="0" y="0" width="1020" height="110" rx="14" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <rect x="28" y="32" width="500" height="46" rx="8" fill="#bfdbfe"/>
+    <rect x="538" y="32" width="220" height="46" rx="8" fill="#bbf7d0"/>
+    <rect x="768" y="32" width="220" height="46" rx="8" fill="#fed7aa"/>
+    <text x="230" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#172033">train</text>
+    <text x="620" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#172033">dev</text>
+    <text x="848" y="62" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="#172033">test</text>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-size="19" fill="#172033">
+    <rect x="145" y="360" width="260" height="170" rx="16" fill="#ffffff" stroke="#93c5fd" stroke-width="3"/>
+    <text x="180" y="404" font-size="24" font-weight="700">Train</text>
+    <text x="180" y="440">ajusta parametros</text>
+    <text x="180" y="472">aprende escaladores</text>
+    <text x="180" y="504">entrena modelos</text>
+
+    <rect x="470" y="360" width="260" height="170" rx="16" fill="#ffffff" stroke="#86efac" stroke-width="3"/>
+    <text x="505" y="404" font-size="24" font-weight="700">Dev</text>
+    <text x="505" y="440">elige hiperparametros</text>
+    <text x="505" y="472">compara modelos</text>
+    <text x="505" y="504">diagnostica errores</text>
+
+    <rect x="795" y="360" width="260" height="170" rx="16" fill="#ffffff" stroke="#fdba74" stroke-width="3"/>
+    <text x="830" y="404" font-size="24" font-weight="700">Test</text>
+    <text x="830" y="440">se usa una vez</text>
+    <text x="830" y="472">estima desempeno final</text>
+    <text x="830" y="504">no disena el modelo</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <line x1="405" y1="445" x2="470" y2="445" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="730" y1="445" x2="795" y2="445" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="190" y="585" width="820" height="54" rx="12" fill="#fee2e2" stroke="#fecaca"/>
+  <text x="225" y="620" font-family="Arial, sans-serif" font-size="20" fill="#7f1d1d">Si test participa en seleccion, deja de ser auditoria final y se vuelve parte del entrenamiento.</text>
+</svg>

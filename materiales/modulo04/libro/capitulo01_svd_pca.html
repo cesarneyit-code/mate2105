@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -201,11 +236,15 @@ window.Quarto = {
   <li><a href="#pca-como-svd-del-dato-centrado" id="toc-pca-como-svd-del-dato-centrado" class="nav-link" data-scroll-target="#pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</a></li>
   <li><a href="#proyección" id="toc-proyección" class="nav-link" data-scroll-target="#proyección">Proyección</a></li>
   <li><a href="#varianza-explicada" id="toc-varianza-explicada" class="nav-link" data-scroll-target="#varianza-explicada">Varianza explicada</a></li>
+  <li><a href="#derivación-guiada-reconstrucción-y-pérdida-de-información" id="toc-derivación-guiada-reconstrucción-y-pérdida-de-información" class="nav-link" data-scroll-target="#derivación-guiada-reconstrucción-y-pérdida-de-información">Derivación guiada: reconstrucción y pérdida de información</a></li>
   <li><a href="#ejemplo-resuelto-elegir-k" id="toc-ejemplo-resuelto-elegir-k" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></a></li>
   <li><a href="#reconstrucción" id="toc-reconstrucción" class="nav-link" data-scroll-target="#reconstrucción">Reconstrucción</a></li>
   <li><a href="#ejemplo-resuelto-proyección-y-reconstrucción" id="toc-ejemplo-resuelto-proyección-y-reconstrucción" class="nav-link" data-scroll-target="#ejemplo-resuelto-proyección-y-reconstrucción">Ejemplo resuelto: proyección y reconstrucción</a></li>
+  <li><a href="#caso-longitudinal-pca-sintético" id="toc-caso-longitudinal-pca-sintético" class="nav-link" data-scroll-target="#caso-longitudinal-pca-sintético">Caso longitudinal: PCA sintético</a></li>
   <li><a href="#pca-no-es-interpretabilidad-automática" id="toc-pca-no-es-interpretabilidad-automática" class="nav-link" data-scroll-target="#pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-pca-dentro-de-un-pipeline" id="toc-ejemplo-resuelto-pca-dentro-de-un-pipeline" class="nav-link" data-scroll-target="#ejemplo-resuelto-pca-dentro-de-un-pipeline">Ejemplo resuelto: PCA dentro de un pipeline</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -316,6 +355,18 @@ Z = X_c V_k.
 \frac{\sigma_j^2}{\sum_{\ell}\sigma_\ell^2}.
 \]</span></p>
 </section>
+<section id="derivación-guiada-reconstrucción-y-pérdida-de-información" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-reconstrucción-y-pérdida-de-información">Derivación guiada: reconstrucción y pérdida de información</h2>
+<p>Si usamos <span class="math inline">\(k\)</span> componentes, retenemos:</p>
+<p><span class="math display">\[
+X_c \approx U_k\Sigma_kV_k^\top.
+\]</span></p>
+<p>La parte descartada corresponde a componentes <span class="math inline">\(k+1,\ldots,r\)</span>. Bajo la norma de Frobenius, el error de reconstrucción queda ligado a los valores singulares descartados:</p>
+<p><span class="math display">\[
+\|X_c-\hat X_c\|_F^2=\sum_{j=k+1}^{r}\sigma_j^2.
+\]</span></p>
+<p>Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo diagnóstico. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.</p>
+</section>
 <section id="ejemplo-resuelto-elegir-k" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></h2>
 <p>Supón que los primeros componentes explican:</p>
@@ -416,6 +467,41 @@ Z=X_cv_1=
 \]</span></p>
 <p>En este ejemplo la reconstrucción con un componente es exacta porque los datos centrados tienen rango 1. En un dataset real, <span class="math inline">\(k=1\)</span> normalmente conserva solo una parte de la variación.</p>
 </section>
+<section id="caso-longitudinal-pca-sintético" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-pca-sintético">Caso longitudinal: PCA sintético</h2>
+<p>El archivo <code>pca_sintetico.csv</code> contiene cuatro variables generadas desde una estructura latente de baja dimensión. El ejercicio profesional no es “hacer que PCA se vea bonito”, sino justificar qué se conserva y qué se pierde.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Evidencia</th>
+<th>Pregunta</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>media de entrenamiento</td>
+<td>¿con qué parámetros se centró?</td>
+</tr>
+<tr class="even">
+<td>varianza explicada acumulada</td>
+<td>¿cuántos componentes se retienen?</td>
+</tr>
+<tr class="odd">
+<td>error de reconstrucción</td>
+<td>¿qué se pierde al reducir dimensión?</td>
+</tr>
+<tr class="even">
+<td>cargas principales</td>
+<td>¿qué variables dominan cada componente?</td>
+</tr>
+<tr class="odd">
+<td>advertencia</td>
+<td>¿qué interpretación causal no se puede afirmar?</td>
+</tr>
+</tbody>
+</table>
+<p>Si los dos primeros componentes explican mucha varianza, puedes usarlos para visualizar o comprimir. Eso no significa que los componentes sean causas, grupos naturales o factores reales del dominio. La interpretación exige evidencia adicional.</p>
+</section>
 <section id="pca-no-es-interpretabilidad-automática" class="level2">
 <h2 class="anchored" data-anchor-id="pca-no-es-interpretabilidad-automática">PCA no es interpretabilidad automática</h2>
 <div class="callout callout-style-default callout-warning callout-titled">
@@ -448,6 +534,24 @@ Advertencia
 <li>¿la proyección se usa para visualizar, modelar o comprimir?</li>
 <li>¿qué interpretación no puedes afirmar?</li>
 </ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si <span class="math inline">\(X\)</span> tiene forma <span class="math inline">\(500\times 64\)</span> y se usan <span class="math inline">\(k=2\)</span> componentes, la proyección <span class="math inline">\(Z=X_cV_k\)</span> tiene forma <span class="math inline">\(500\times 2\)</span>.</li>
+<li>Si los primeros 10 componentes explican 85% de la varianza, todavía se pierde 15% de la variabilidad bajo esa medida.</li>
+<li>Un scatterplot PCA 2D puede sugerir separación visual, pero no prueba causalidad ni garantiza buen desempeño predictivo.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-pca-dentro-de-un-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-pca-dentro-de-un-pipeline">Ejemplo resuelto: PCA dentro de un pipeline</h2>
+<p>Si PCA se usa antes de un clasificador, el centrado y los componentes deben aprenderse solo con entrenamiento. En scikit-learn, la forma segura es:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>Pipeline([</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"scaler"</span>, StandardScaler()),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"pca"</span>, PCA(n_components<span class="op">=</span><span class="dv">10</span>)),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    (<span class="st">"model"</span>, LogisticRegression())</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En validación cruzada, cada fold aprende su propio <code>scaler</code> y su propio <code>PCA</code> con el train fold. Hacer PCA con todo el dataset antes de partir datos introduce leakage porque la proyección ya vio validación o test.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -224,6 +224,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#hash-de-artefactos" id="toc-hash-de-artefactos" class="nav-link" data-scroll-target="#hash-de-artefactos">Hash de artefactos</a></li>
   <li><a href="#checklist-de-reproducibilidad" id="toc-checklist-de-reproducibilidad" class="nav-link" data-scroll-target="#checklist-de-reproducibilidad">Checklist de reproducibilidad</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#caso-longitudinal-manifest-del-clasificador" id="toc-caso-longitudinal-manifest-del-clasificador" class="nav-link" data-scroll-target="#caso-longitudinal-manifest-del-clasificador">Caso longitudinal: manifest del clasificador</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-manifest-mínimo-en-json" id="toc-ejemplo-resuelto-manifest-mínimo-en-json" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo-en-json">Ejemplo resuelto: manifest mínimo en JSON</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -470,6 +473,74 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <li>¿qué archivos son evidencia y cuáles son auxiliares?;</li>
 <li>¿qué decisión se tomó a partir de la corrida?</li>
 </ol>
+</section>
+<section id="caso-longitudinal-manifest-del-clasificador" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-manifest-del-clasificador">Caso longitudinal: manifest del clasificador</h2>
+<p>Para <code>clasificacion_binaria_sintetica.csv</code>, un manifest mínimo debería registrar:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Campo</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dataset</td>
+<td><code>clasificacion_binaria_sintetica.csv</code></td>
+</tr>
+<tr class="even">
+<td>hash o versión</td>
+<td>SHA-256 del archivo publicado</td>
+</tr>
+<tr class="odd">
+<td>target</td>
+<td><code>target</code></td>
+</tr>
+<tr class="even">
+<td>slices auditados</td>
+<td><code>base</code>, <code>reciente</code></td>
+</tr>
+<tr class="odd">
+<td>partición</td>
+<td>semilla y proporciones</td>
+</tr>
+<tr class="even">
+<td>pipeline</td>
+<td>escalamiento dentro del pipeline y modelo</td>
+</tr>
+<tr class="odd">
+<td>métrica primaria</td>
+<td>F1 o recall</td>
+</tr>
+<tr class="even">
+<td>artefactos</td>
+<td>tabla de métricas, matriz de confusión, error por slice</td>
+</tr>
+</tbody>
+</table>
+<p>El manifest no garantiza que el modelo sea bueno. Garantiza que la evidencia se puede reconstruir. Esa diferencia es central para una defensa técnica.</p>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Un notebook ejecutable sin semilla puede ser reproducible en estructura, pero no necesariamente en resultados numéricos.</li>
+<li>Si el dataset cambia y no cambia el manifest, ya no sabes qué evidencia sostiene la conclusión.</li>
+<li>Una tabla de métricas sin partición asociada no es evidencia auditable.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-manifest-mínimo-en-json" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-manifest-mínimo-en-json">Ejemplo resuelto: manifest mínimo en JSON</h2>
+<p>Un manifest pequeño puede verse así:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"dataset"</span><span class="fu">:</span> <span class="st">"clasificacion_binaria_sintetica.csv"</span><span class="fu">,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"target"</span><span class="fu">:</span> <span class="st">"target"</span><span class="fu">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"random_state"</span><span class="fu">:</span> <span class="dv">2105</span><span class="fu">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"split"</span><span class="fu">:</span> <span class="st">"60/20/20 stratified"</span><span class="fu">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"metric_primary"</span><span class="fu">:</span> <span class="st">"f1"</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"metrics.csv"</span><span class="ot">,</span> <span class="st">"confusion_matrix.png"</span><span class="ot">,</span> <span class="st">"slice_report.csv"</span><span class="ot">]</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Este archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué evidencia. Si cambian datos, métrica o partición, el manifest debe cambiar.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

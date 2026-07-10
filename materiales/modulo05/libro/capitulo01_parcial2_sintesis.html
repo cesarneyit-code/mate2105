@@ -216,7 +216,11 @@ window.Quarto = {
   <li><a href="#forma-del-parcial-2" id="toc-forma-del-parcial-2" class="nav-link" data-scroll-target="#forma-del-parcial-2">Forma del Parcial 2</a></li>
   <li><a href="#regla-de-preparación" id="toc-regla-de-preparación" class="nav-link" data-scroll-target="#regla-de-preparación">Regla de preparación</a></li>
   <li><a href="#ejemplo-resuelto-softmax-estable-en-síntesis" id="toc-ejemplo-resuelto-softmax-estable-en-síntesis" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-estable-en-síntesis">Ejemplo resuelto: softmax estable en síntesis</a></li>
+  <li><a href="#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" id="toc-ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" class="nav-link" data-scroll-target="#ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión">Ejemplo resuelto: evidencia no supervisada dentro de una decisión</a></li>
   <li><a href="#ejemplo-resuelto-respuesta-integradora" id="toc-ejemplo-resuelto-respuesta-integradora" class="nav-link" data-scroll-target="#ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</a></li>
+  <li><a href="#caso-longitudinal-respuesta-integradora" id="toc-caso-longitudinal-respuesta-integradora" class="nav-link" data-scroll-target="#caso-longitudinal-respuesta-integradora">Caso longitudinal: respuesta integradora</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-matriz-de-decisión-integradora" id="toc-ejemplo-resuelto-matriz-de-decisión-integradora" class="nav-link" data-scroll-target="#ejemplo-resuelto-matriz-de-decisión-integradora">Ejemplo resuelto: matriz de decisión integradora</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -418,6 +422,16 @@ z-\max(z)=(-2,-1,0).
 \]</span></p>
 <p>La respuesta integradora debe decir dos cosas: la resta del máximo no cambia las probabilidades y evita un problema numérico. Si la clase correcta es la tercera, la pérdida de esa observación sería <span class="math inline">\(-\log(0.665)\approx0.408\)</span>.</p>
 </section>
+<section id="ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-evidencia-no-supervisada-dentro-de-una-decisión">Ejemplo resuelto: evidencia no supervisada dentro de una decisión</h2>
+<p>Supón que PCA muestra separación visual entre dos grupos y K-Means produce dos clusters con silhouette razonable. Esa evidencia puede sugerir estructura, pero no prueba que los grupos correspondan a clases útiles para una decisión supervisada.</p>
+<p>Una respuesta integradora adecuada sería:</p>
+<pre class="text"><code>Evidencia: PCA y K-Means sugieren dos grupos geométricos.
+Diagnóstico: puede haber estructura latente, pero no hay etiqueta ni costo de error.
+Acción: usar los clusters como hipótesis exploratoria y compararlos con variables de dominio.
+Límite: no afirmar que los clusters son segmentos reales ni que predicen una decisión.</code></pre>
+<p>La síntesis del curso exige separar evidencia exploratoria de evidencia predictiva. Un método no supervisado puede abrir una pregunta; no siempre puede cerrarla.</p>
+</section>
 <section id="ejemplo-resuelto-respuesta-integradora" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-respuesta-integradora">Ejemplo resuelto: respuesta integradora</h2>
 <p>Caso: una red mejora accuracy global, pero el análisis por slice muestra caída fuerte en datos recientes.</p>
@@ -427,6 +441,90 @@ Diagnóstico: posible data mismatch temporal.
 Acción: validar con partición temporal, revisar features y recolectar datos recientes.
 Límite: no recomendar despliegue si el uso real se parece al slice reciente.</code></pre>
 <p>La clave es no quedarse en “mejoró la métrica”.</p>
+</section>
+<section id="caso-longitudinal-respuesta-integradora" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-respuesta-integradora">Caso longitudinal: respuesta integradora</h2>
+<p>Retoma <code>clasificacion_binaria_sintetica.csv</code>. Una respuesta integradora no debe decir solo “el modelo regularizado ganó”. Debe conectar varias capas de evidencia:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Pieza</th>
+<th>Evidencia esperada</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>modelo</td>
+<td>logística regularizada o baseline comparable</td>
+</tr>
+<tr class="even">
+<td>validación</td>
+<td>media y variabilidad de F1/recall</td>
+</tr>
+<tr class="odd">
+<td>error analysis</td>
+<td>desempeño por <code>slice</code></td>
+</tr>
+<tr class="even">
+<td>reproducibilidad</td>
+<td>semilla, partición, pipeline y manifest</td>
+</tr>
+<tr class="odd">
+<td>comunicación</td>
+<td>recomendación y límite</td>
+</tr>
+</tbody>
+</table>
+<p>Una respuesta de parcial aceptable sería:</p>
+<pre class="text"><code>El modelo regularizado mejora el baseline en F1 medio, pero el recall cae en el
+slice reciente. El diagnóstico probable es mismatch temporal o cambio de
+distribución. Recomendaría usarlo solo como baseline interno y construir una
+validación temporal antes de despliegue.</code></pre>
+<p>Esta respuesta no memoriza capítulos: integra métrica, validación, diagnóstico y decisión.</p>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Una mejora global no basta si el slice relevante para producción empeora.</li>
+<li>PCA o K-Means pueden apoyar exploración, pero no sustituyen una métrica supervisada cuando la decisión depende de etiquetas.</li>
+<li>La forma <code>evidencia -&gt; diagnóstico -&gt; acción -&gt; límite</code> es una herramienta de razonamiento, no una frase decorativa.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-matriz-de-decisión-integradora" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-matriz-de-decisión-integradora">Ejemplo resuelto: matriz de decisión integradora</h2>
+<p>Supón dos modelos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Evidencia</th>
+<th style="text-align: right;">Modelo A</th>
+<th style="text-align: right;">Modelo B</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>F1 global</td>
+<td style="text-align: right;">0.83</td>
+<td style="text-align: right;">0.85</td>
+</tr>
+<tr class="even">
+<td>F1 slice reciente</td>
+<td style="text-align: right;">0.62</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+<tr class="odd">
+<td>desviación CV</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">0.09</td>
+</tr>
+<tr class="even">
+<td>manifest completo</td>
+<td style="text-align: right;">sí</td>
+<td style="text-align: right;">no</td>
+</tr>
+</tbody>
+</table>
+<p>Aunque B tiene mayor F1 global, A es más defendible si el slice reciente importa y si la reproducibilidad es requisito de entrega. La respuesta integradora debe explicar la tensión: B gana una métrica agregada, pero A tiene menor riesgo de decisión bajo la evidencia disponible.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

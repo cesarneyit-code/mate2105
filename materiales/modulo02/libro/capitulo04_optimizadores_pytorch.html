@@ -236,11 +236,15 @@ window.Quarto = {
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
   <li><a href="#ejemplo-resuelto-dos-pasos-con-momentum" id="toc-ejemplo-resuelto-dos-pasos-con-momentum" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</a></li>
   <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam">RMSProp y Adam</a></li>
+  <li><a href="#ejemplo-resuelto-adam-en-una-coordenada" id="toc-ejemplo-resuelto-adam-en-una-coordenada" class="nav-link" data-scroll-target="#ejemplo-resuelto-adam-en-una-coordenada">Ejemplo resuelto: Adam en una coordenada</a></li>
   <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza">PyTorch: qué automatiza</a></li>
   <li><a href="#loop-mínimo" id="toc-loop-mínimo" class="nav-link" data-scroll-target="#loop-mínimo">Loop mínimo</a></li>
   <li><a href="#ejemplo-resuelto-lectura-de-un-loop" id="toc-ejemplo-resuelto-lectura-de-un-loop" class="nav-link" data-scroll-target="#ejemplo-resuelto-lectura-de-un-loop">Ejemplo resuelto: lectura de un loop</a></li>
   <li><a href="#comparación-justa" id="toc-comparación-justa" class="nav-link" data-scroll-target="#comparación-justa">Comparación justa</a></li>
+  <li><a href="#caso-longitudinal-experimento-reproducible-en-dígitos" id="toc-caso-longitudinal-experimento-reproducible-en-dígitos" class="nav-link" data-scroll-target="#caso-longitudinal-experimento-reproducible-en-dígitos">Caso longitudinal: experimento reproducible en dígitos</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-presupuesto-de-entrenamiento" id="toc-ejemplo-resuelto-presupuesto-de-entrenamiento" class="nav-link" data-scroll-target="#ejemplo-resuelto-presupuesto-de-entrenamiento">Ejemplo resuelto: presupuesto de entrenamiento</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -284,6 +288,17 @@ window.Quarto = {
 \theta \leftarrow \theta - \alpha \nabla J(\theta).
 \]</span></p>
 <p>Pero redes neuronales reales suelen entrenarse con variantes que usan memoria del gradiente, escalamiento adaptativo o mini-batches.</p>
+<div id="fig-cap09-optimizadores-momentum-adam" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles comparan SGD, momentum y Adam sobre una trayectoria de pérdida, mostrando gradiente actual, memoria de gradiente y escala adaptativa.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap09-optimizadores-momentum-adam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/optimizadores-momentum-adam.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles comparan SGD, momentum y Adam sobre una trayectoria de pérdida, mostrando gradiente actual, memoria de gradiente y escala adaptativa.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap09-optimizadores-momentum-adam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: Optimizadores: SGD usa el gradiente actual, momentum suaviza direcciones recientes y Adam combina memoria con escala adaptativa por coordenada.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> SGD, momentum y Adam no cambian el objetivo del entrenamiento; cambian la regla para convertir gradientes en actualizaciones. Por eso el optimizador debe reportarse como parte del experimento, junto con tasa de aprendizaje, batch size, épocas y métrica de validación.</p>
 </section>
 <section id="objetivos-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
@@ -343,6 +358,28 @@ v_2=0.9(0.4)+0.1(2)=0.56,
 <li>corrección de sesgo al inicio.</li>
 </ul>
 <p>En práctica, Adam suele ser un buen punto de partida, pero no elimina la necesidad de validar learning rate, regularización y arquitectura.</p>
+</section>
+<section id="ejemplo-resuelto-adam-en-una-coordenada" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-adam-en-una-coordenada">Ejemplo resuelto: Adam en una coordenada</h2>
+<p>Supón una coordenada con gradiente inicial <span class="math inline">\(g_1=4\)</span>, <span class="math inline">\(\beta_1=0.9\)</span>, <span class="math inline">\(\beta_2=0.999\)</span>, <span class="math inline">\(m_0=0\)</span> y <span class="math inline">\(s_0=0\)</span>. El primer momento queda:</p>
+<p><span class="math display">\[
+m_1=0.9(0)+0.1(4)=0.4.
+\]</span></p>
+<p>El segundo momento queda:</p>
+<p><span class="math display">\[
+s_1=0.999(0)+0.001(4^2)=0.016.
+\]</span></p>
+<p>Como ambos promedios empiezan en cero, Adam usa corrección de sesgo:</p>
+<p><span class="math display">\[
+\hat m_1=\frac{m_1}{1-\beta_1}=4,
+\qquad
+\hat s_1=\frac{s_1}{1-\beta_2}=16.
+\]</span></p>
+<p>La dirección adaptativa es aproximadamente:</p>
+<p><span class="math display">\[
+\frac{\hat m_1}{\sqrt{\hat s_1}+\epsilon}\approx 1.
+\]</span></p>
+<p>La lectura no es que Adam normaliza todo perfectamente. La lectura es que usa información sobre magnitud reciente del gradiente para ajustar el tamaño efectivo del paso por coordenada.</p>
 </section>
 <section id="pytorch-qué-automatiza" class="level2">
 <h2 class="anchored" data-anchor-id="pytorch-qué-automatiza">PyTorch: qué automatiza</h2>
@@ -421,6 +458,45 @@ v_2=0.9(0.4)+0.1(2)=0.56,
 <li>no confunda diferencia de implementación con diferencia de modelo.</li>
 </ul>
 </section>
+<section id="caso-longitudinal-experimento-reproducible-en-dígitos" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-experimento-reproducible-en-dígitos">Caso longitudinal: experimento reproducible en dígitos</h2>
+<p>Para <code>load_digits</code>, una comparación defendible entre NumPy y PyTorch debe fijar:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Valor que debe registrarse</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>partición</td>
+<td>semilla y proporciones train/dev/test</td>
+</tr>
+<tr class="even">
+<td>arquitectura</td>
+<td>64 entradas, <span class="math inline">\(h\)</span> ocultas, 10 salidas</td>
+</tr>
+<tr class="odd">
+<td>pérdida</td>
+<td>entropía cruzada multiclase</td>
+</tr>
+<tr class="even">
+<td>optimizador</td>
+<td>SGD, momentum o Adam</td>
+</tr>
+<tr class="odd">
+<td>presupuesto</td>
+<td>épocas, batch size y learning rate</td>
+</tr>
+<tr class="even">
+<td>evidencia</td>
+<td>curva train/dev y métrica final</td>
+</tr>
+</tbody>
+</table>
+<p>Si PyTorch obtiene mejor resultado, hay que preguntar si cambió el modelo, el optimizador, el número de épocas o la inicialización. La biblioteca no es la evidencia; la evidencia es una comparación con condiciones controladas.</p>
+</section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Una comparación NumPy vs PyTorch solo es defendible si:</p>
@@ -431,6 +507,53 @@ v_2=0.9(0.4)+0.1(2)=0.56,
 <li>reporta semilla y número de épocas;</li>
 <li>interpreta diferencias con cautela.</li>
 </ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Con 1024 observaciones y batch size 64 hay <span class="math inline">\(1024/64=16\)</span> batches por época.</li>
+<li>Si se entrenan 20 épocas con 16 batches por época, <code>optimizer.step()</code> se ejecuta 320 veces.</li>
+<li><code>zero_grad()</code> debe ir antes de <code>backward()</code> en cada batch para evitar acumular gradientes de batches anteriores.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-presupuesto-de-entrenamiento" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-presupuesto-de-entrenamiento">Ejemplo resuelto: presupuesto de entrenamiento</h2>
+<p>Comparar dos optimizadores exige presupuesto comparable. Si Adam se entrena 100 épocas y SGD se entrena 20, la diferencia de métrica no aísla el efecto del optimizador. Una comparación mínima fija:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Mismo valor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>partición</td>
+<td>sí</td>
+</tr>
+<tr class="even">
+<td>arquitectura</td>
+<td>sí</td>
+</tr>
+<tr class="odd">
+<td>batch size</td>
+<td>sí</td>
+</tr>
+<tr class="even">
+<td>épocas máximas</td>
+<td>sí</td>
+</tr>
+<tr class="odd">
+<td>criterio de parada</td>
+<td>sí</td>
+</tr>
+<tr class="even">
+<td>métrica final</td>
+<td>sí</td>
+</tr>
+</tbody>
+</table>
+<p>Solo después de fijar esos elementos se puede discutir si momentum o Adam mejoraron estabilidad, velocidad o desempeño.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

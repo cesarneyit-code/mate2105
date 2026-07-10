@@ -238,9 +238,13 @@ window.Quarto = {
   <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
   <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
   <li><a href="#ejemplo-resuelto-una-iteración-completa" id="toc-ejemplo-resuelto-una-iteración-completa" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</a></li>
+  <li><a href="#derivación-guiada-por-qué-el-centroide-es-el-promedio" id="toc-derivación-guiada-por-qué-el-centroide-es-el-promedio" class="nav-link" data-scroll-target="#derivación-guiada-por-qué-el-centroide-es-el-promedio">Derivación guiada: por qué el centroide es el promedio</a></li>
   <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
   <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
+  <li><a href="#caso-longitudinal-clusters-sintéticos" id="toc-caso-longitudinal-clusters-sintéticos" class="nav-link" data-scroll-target="#caso-longitudinal-clusters-sintéticos">Caso longitudinal: clusters sintéticos</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-elegir-k-con-evidencia-incompleta" id="toc-ejemplo-resuelto-elegir-k-con-evidencia-incompleta" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k-con-evidencia-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con evidencia incompleta</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -426,6 +430,26 @@ x=(1,2,8,10)
 \]</span></p>
 <p>La inertia bajó, pero eso no prueba que <span class="math inline">\(k=2\)</span> sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.</p>
 </section>
+<section id="derivación-guiada-por-qué-el-centroide-es-el-promedio" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-por-qué-el-centroide-es-el-promedio">Derivación guiada: por qué el centroide es el promedio</h2>
+<p>Para un cluster con puntos <span class="math inline">\(x_1,\ldots,x_m\)</span>, K-Means escoge un centroide <span class="math inline">\(\mu\)</span> que minimiza:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{m}\|x_i-\mu\|_2^2.
+\]</span></p>
+<p>En una dimensión, derivar respecto a <span class="math inline">\(\mu\)</span> da:</p>
+<p><span class="math display">\[
+\frac{d}{d\mu}\sum_{i=1}^{m}(x_i-\mu)^2
+=
+-2\sum_{i=1}^{m}(x_i-\mu).
+\]</span></p>
+<p>Igualando a cero:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{m}x_i-m\mu=0
+\quad\Rightarrow\quad
+\mu=\frac{1}{m}\sum_{i=1}^{m}x_i.
+\]</span></p>
+<p>En varias dimensiones ocurre componente a componente. Por eso la actualización del centroide es el promedio de los puntos asignados.</p>
+</section>
 <section id="escalamiento" class="level2">
 <h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
 <p>K-Means usa distancia euclídea. Por tanto, las escalas importan.</p>
@@ -444,6 +468,41 @@ x=(1,2,8,10)
 </ul>
 <p>Puede fallar con formas no convexas, densidades distintas o variables mal escaladas.</p>
 </section>
+<section id="caso-longitudinal-clusters-sintéticos" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-clusters-sintéticos">Caso longitudinal: clusters sintéticos</h2>
+<p>El archivo <code>clusters_sinteticos.csv</code> fue generado con tres centros compactos. Eso lo hace útil para aprender K-Means, pero también peligroso si se generaliza demasiado: favorece justo la geometría que K-Means prefiere.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Evidencia</th>
+<th>Uso</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>scatterplot escalado</td>
+<td>inspección geométrica inicial</td>
+</tr>
+<tr class="even">
+<td>inertia por <span class="math inline">\(k\)</span></td>
+<td>reducción de compactación</td>
+</tr>
+<tr class="odd">
+<td>silhouette</td>
+<td>separación relativa</td>
+</tr>
+<tr class="even">
+<td>tamaños de clusters</td>
+<td>detectar grupos diminutos</td>
+</tr>
+<tr class="odd">
+<td>estabilidad por semilla</td>
+<td>revisar sensibilidad</td>
+</tr>
+</tbody>
+</table>
+<p>Si <span class="math inline">\(k=3\)</span> gana en este dataset, no significa que “siempre hay tres segmentos”. Significa que, bajo esta geometría sintética y esta escala, tres centroides resumen bien la nube de puntos.</p>
+</section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Antes de reportar clusters, verifica:</p>
@@ -454,6 +513,45 @@ x=(1,2,8,10)
 <li>¿hay un cluster demasiado grande o demasiado pequeño?</li>
 <li>¿qué decisión concreta usaría esta segmentación?</li>
 </ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>La inertia siempre tiende a bajar cuando aumenta <span class="math inline">\(k\)</span>; por eso no basta para elegir el número de clusters.</li>
+<li>Si dos variables tienen escalas muy distintas, K-Means puede agrupar por la variable de mayor escala aunque no sea la más relevante.</li>
+<li>Un cluster no es una categoría real hasta que se interpreta con variables originales y contexto de decisión.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-elegir-k-con-evidencia-incompleta" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k-con-evidencia-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con evidencia incompleta</h2>
+<p>Supón:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(k\)</span></th>
+<th style="text-align: right;">Inertia</th>
+<th style="text-align: right;">Silhouette</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">420</td>
+<td style="text-align: right;">0.48</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">260</td>
+<td style="text-align: right;">0.55</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">210</td>
+<td style="text-align: right;">0.51</td>
+</tr>
+</tbody>
+</table>
+<p>La inertia baja de 3 a 4, pero silhouette cae. Una decisión defendible podría elegir <span class="math inline">\(k=3\)</span>, siempre que los clusters tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que <span class="math inline">\(k=3\)</span> es una representación útil bajo esta geometría.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

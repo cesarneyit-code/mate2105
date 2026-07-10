@@ -197,10 +197,13 @@ window.Quarto = {
   <li><a href="#data-mismatch" id="toc-data-mismatch" class="nav-link" data-scroll-target="#data-mismatch">Data mismatch</a></li>
   <li><a href="#diagnóstico-de-mismatch" id="toc-diagnóstico-de-mismatch" class="nav-link" data-scroll-target="#diagnóstico-de-mismatch">Diagnóstico de mismatch</a></li>
   <li><a href="#ejemplo-resuelto-mismatch-por-proporción-de-clase" id="toc-ejemplo-resuelto-mismatch-por-proporción-de-clase" class="nav-link" data-scroll-target="#ejemplo-resuelto-mismatch-por-proporción-de-clase">Ejemplo resuelto: mismatch por proporción de clase</a></li>
+  <li><a href="#derivación-guiada-promedio-global-como-mezcla-de-slices" id="toc-derivación-guiada-promedio-global-como-mezcla-de-slices" class="nav-link" data-scroll-target="#derivación-guiada-promedio-global-como-mezcla-de-slices">Derivación guiada: promedio global como mezcla de slices</a></li>
   <li><a href="#recomendación-técnica" id="toc-recomendación-técnica" class="nav-link" data-scroll-target="#recomendación-técnica">Recomendación técnica</a></li>
   <li><a href="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1" id="toc-ejemplo-resuelto-dos-modelos-con-el-mismo-f1" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1">Ejemplo resuelto: dos modelos con el mismo F1</a></li>
   <li><a href="#ejemplo-resuelto-brecha-contra-el-promedio" id="toc-ejemplo-resuelto-brecha-contra-el-promedio" class="nav-link" data-scroll-target="#ejemplo-resuelto-brecha-contra-el-promedio">Ejemplo resuelto: brecha contra el promedio</a></li>
+  <li><a href="#caso-longitudinal-slice-reciente" id="toc-caso-longitudinal-slice-reciente" class="nav-link" data-scroll-target="#caso-longitudinal-slice-reciente">Caso longitudinal: slice <code>reciente</code></a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -266,6 +269,17 @@ window.Quarto = {
 <li>Subgrupos con peor desempeño.</li>
 <li>Variables o condiciones asociadas al error.</li>
 </ol>
+<div id="fig-cap13-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap13-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap13-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con evidencia, diagnóstico, acción y límite.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> El promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un slice importante falla. La figura fuerza la secuencia mínima: evidencia, diagnóstico, acción y límite.</p>
 </section>
 <section id="slices" class="level2">
 <h2 class="anchored" data-anchor-id="slices">Slices</h2>
@@ -349,6 +363,16 @@ window.Quarto = {
 </ol>
 <p>Si test representa producción real, el resultado indica un riesgo de despliegue, no solo una oportunidad de tuning.</p>
 </section>
+<section id="derivación-guiada-promedio-global-como-mezcla-de-slices" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-promedio-global-como-mezcla-de-slices">Derivación guiada: promedio global como mezcla de slices</h2>
+<p>Una métrica global suele mezclar subpoblaciones. Si un conjunto tiene dos slices con tamaños <span class="math inline">\(n_A,n_B\)</span> y métricas <span class="math inline">\(m_A,m_B\)</span>, un promedio ponderado simple se escribe como:</p>
+<p><span class="math display">\[
+m_{\text{global}}
+=
+\frac{n_A m_A+n_B m_B}{n_A+n_B}.
+\]</span></p>
+<p>Esto explica por qué un slice grande puede esconder un slice pequeño con mal desempeño. El promedio global puede subir aunque el grupo crítico empeore, si ese grupo tiene poco peso. Por eso el análisis por slice no es opcional cuando la decisión afecta subpoblaciones distintas.</p>
+</section>
 <section id="recomendación-técnica" class="level2">
 <h2 class="anchored" data-anchor-id="recomendación-técnica">Recomendación técnica</h2>
 <p>Una recomendación debe seguir la forma:</p>
@@ -431,6 +455,38 @@ con datos representativos de esa fuente antes de recomendar despliegue.
 Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la brecha.</code></pre>
 <p>La magnitud de la brecha no prueba por sí sola la causa. Sí prueba que el promedio global es insuficiente para tomar la decisión.</p>
 </section>
+<section id="caso-longitudinal-slice-reciente" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-slice-reciente">Caso longitudinal: slice <code>reciente</code></h2>
+<p>En <code>clasificacion_binaria_sintetica.csv</code>, la columna <code>slice</code> permite construir una tabla mínima:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Slice</th>
+<th style="text-align: right;">Observaciones</th>
+<th style="text-align: right;">F1</th>
+<th style="text-align: right;">Recall</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>base</td>
+<td style="text-align: right;">180</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">0.79</td>
+<td>desempeño esperado</td>
+</tr>
+<tr class="even">
+<td>reciente</td>
+<td style="text-align: right;">60</td>
+<td style="text-align: right;">0.61</td>
+<td style="text-align: right;">0.48</td>
+<td>posible mismatch</td>
+</tr>
+</tbody>
+</table>
+<p>Aunque el número exacto dependa de la partición y del modelo, la pregunta profesional permanece: si el uso real se parece al slice <code>reciente</code>, el promedio global no justifica despliegue. La acción razonable es construir un dev set más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.</p>
+</section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Una recomendación técnica es incompleta si no responde:</p>
@@ -439,6 +495,14 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
 <li>¿qué diagnóstico explica esa evidencia?;</li>
 <li>¿qué acción concreta sigue?;</li>
 <li>¿qué límite o riesgo debe comunicarse?</li>
+</ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si el F1 global es 0.81 y el F1 de un slice es 0.57, la brecha es 0.24.</li>
+<li>Una brecha por slice no prueba la causa; prueba que el promedio global es insuficiente para la decisión.</li>
+<li>Si dev y test tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de hacer más tuning.</li>
 </ol>
 </section>
 <section id="para-explorar-más" class="level2">

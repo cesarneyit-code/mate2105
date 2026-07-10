@@ -361,6 +361,11 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
   </div>
 </li>
@@ -631,6 +636,11 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
@@ -677,6 +687,7 @@ window.Quarto = {
   <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
   <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
   <li><a href="#ejemplo-resuelto-costo-de-falsos-negativos" id="toc-ejemplo-resuelto-costo-de-falsos-negativos" class="nav-link" data-scroll-target="#ejemplo-resuelto-costo-de-falsos-negativos">Ejemplo resuelto: costo de falsos negativos</a></li>
+  <li><a href="#derivación-guiada-f1-como-equilibrio-operativo" id="toc-derivación-guiada-f1-como-equilibrio-operativo" class="nav-link" data-scroll-target="#derivación-guiada-f1-como-equilibrio-operativo">Derivación guiada: F1 como equilibrio operativo</a></li>
   <li><a href="#baseline" id="toc-baseline" class="nav-link" data-scroll-target="#baseline">Baseline</a></li>
   <li><a href="#particiones" id="toc-particiones" class="nav-link" data-scroll-target="#particiones">Particiones</a></li>
   <li><a href="#test-se-toca-una-vez" id="toc-test-se-toca-una-vez" class="nav-link" data-scroll-target="#test-se-toca-una-vez">Test se toca una vez</a></li>
@@ -684,7 +695,9 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-conteos-en-una-partición-estratificada" id="toc-ejemplo-resuelto-conteos-en-una-partición-estratificada" class="nav-link" data-scroll-target="#ejemplo-resuelto-conteos-en-una-partición-estratificada">Ejemplo resuelto: conteos en una partición estratificada</a></li>
   <li><a href="#leakage" id="toc-leakage" class="nav-link" data-scroll-target="#leakage">Leakage</a></li>
   <li><a href="#pipeline-como-defensa" id="toc-pipeline-como-defensa" class="nav-link" data-scroll-target="#pipeline-como-defensa">Pipeline como defensa</a></li>
+  <li><a href="#caso-longitudinal-clasificación-con-slice-reciente" id="toc-caso-longitudinal-clasificación-con-slice-reciente" class="nav-link" data-scroll-target="#caso-longitudinal-clasificación-con-slice-reciente">Caso longitudinal: clasificación con slice reciente</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -738,6 +751,17 @@ window.Quarto = {
 <li>separar train, dev y test sin leakage;</li>
 <li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
 </ol>
+<div id="fig-cap11-particiones-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap11-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/particiones-evaluacion.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap11-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> La partición es un contrato de evidencia. Train puede aprender parámetros y transformaciones; dev puede guiar decisiones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.</p>
 </section>
 <section id="métrica-principal" class="level2">
 <h2 class="anchored" data-anchor-id="métrica-principal">Métrica principal</h2>
@@ -858,6 +882,22 @@ C_B=10(1)+25(10)=260.
 \]</span></p>
 <p>Aunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. La métrica correcta depende de la decisión, no de cuál número se ve más alto.</p>
 </section>
+<section id="derivación-guiada-f1-como-equilibrio-operativo" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-f1-como-equilibrio-operativo">Derivación guiada: F1 como equilibrio operativo</h2>
+<p>Precision y recall miden errores distintos:</p>
+<p><span class="math display">\[
+\operatorname{precision}=\frac{TP}{TP+FP},
+\qquad
+\operatorname{recall}=\frac{TP}{TP+FN}.
+\]</span></p>
+<p>F1 es la media armónica de ambas:</p>
+<p><span class="math display">\[
+F1=
+2\frac{\operatorname{precision}\cdot\operatorname{recall}}
+{\operatorname{precision}+\operatorname{recall}}.
+\]</span></p>
+<p>La media armónica penaliza valores muy bajos. Por eso un modelo con precision alta pero recall casi cero no obtiene buen F1. Esto es útil cuando ambos tipos de desempeño importan, pero no reemplaza una función de costo si los errores tienen costos muy asimétricos.</p>
+</section>
 <section id="baseline" class="level2">
 <h2 class="anchored" data-anchor-id="baseline">Baseline</h2>
 <div class="rule">
@@ -962,6 +1002,46 @@ Advertencia
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>En cross-validation, cada fold ajusta sus transformaciones solo con el train fold.</p>
 </section>
+<section id="caso-longitudinal-clasificación-con-slice-reciente" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-clasificación-con-slice-reciente">Caso longitudinal: clasificación con slice reciente</h2>
+<p>El archivo <code>clasificacion_binaria_sintetica.csv</code> acompaña varios capítulos. Tiene variables <code>x1</code>, <code>x2</code>, una etiqueta binaria <code>target</code> y una columna <code>slice</code> con valores <code>base</code> y <code>reciente</code>. El objetivo pedagógico es discutir qué pasa cuando un modelo parece razonable en promedio, pero cambia su comportamiento en una subpoblación o periodo.</p>
+<p>Para este caso, una primera partición defendible debe declarar:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Decisión</th>
+<th>Criterio</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>baseline</td>
+<td>clase mayoritaria o logística simple</td>
+</tr>
+<tr class="even">
+<td>métrica primaria</td>
+<td>F1 o recall si la clase positiva importa</td>
+</tr>
+<tr class="odd">
+<td>partición</td>
+<td>train/dev/test con semilla fija</td>
+</tr>
+<tr class="even">
+<td>estratificación</td>
+<td>preservar proporción de <code>target</code> cuando sea razonable</td>
+</tr>
+<tr class="odd">
+<td>auditoría</td>
+<td>revisar desempeño por <code>slice</code> antes de recomendar</td>
+</tr>
+</tbody>
+</table>
+<p>La columna <code>slice</code> no debe usarse automáticamente como variable predictora. A veces se usa para diagnóstico, no para entrenamiento. Esa distinción evita que el modelo aprenda un marcador de origen que no estará disponible o que no se quiere usar en producción.</p>
+</section>
 <section id="punto-de-control" class="level2">
 <h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
 <p>Antes de comparar modelos, escribe explícitamente:</p>
@@ -971,6 +1051,14 @@ Advertencia
 <li>partición;</li>
 <li>transformación dentro de pipeline;</li>
 <li>regla para no tocar test.</li>
+</ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si la clase positiva representa 8% de 2000 observaciones, hay 160 positivos.</li>
+<li>En una división estratificada 60/20/20, se esperan aproximadamente 96 positivos en train, 32 en dev y 32 en test.</li>
+<li>Si se ajusta <code>StandardScaler</code> antes de partir datos, el promedio de dev/test ya contaminó el preprocesamiento.</li>
 </ol>
 </section>
 <section id="para-explorar-más" class="level2">

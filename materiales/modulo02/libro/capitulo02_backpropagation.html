@@ -242,6 +242,8 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-formas-de-los-gradientes" id="toc-ejemplo-resuelto-formas-de-los-gradientes" class="nav-link" data-scroll-target="#ejemplo-resuelto-formas-de-los-gradientes">Ejemplo resuelto: formas de los gradientes</a></li>
   <li><a href="#errores-frecuentes" id="toc-errores-frecuentes" class="nav-link" data-scroll-target="#errores-frecuentes">Errores frecuentes</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#caso-longitudinal-backpropagation-en-dígitos" id="toc-caso-longitudinal-backpropagation-en-dígitos" class="nav-link" data-scroll-target="#caso-longitudinal-backpropagation-en-dígitos">Caso longitudinal: backpropagation en dígitos</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -372,6 +374,21 @@ db^{[1]} = \sum_i dZ^{[1]}_i.
 </section>
 <section id="backpropagation-como-algoritmo" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation-como-algoritmo">Backpropagation como algoritmo</h2>
+<p>La identidad de salida merece una derivación corta. Para una observación, la entropía cruzada multiclase es:</p>
+<p><span class="math display">\[
+L=-\sum_{j=1}^{k}y_j\log p_j,
+\qquad
+p_j=\frac{e^{z_j}}{\sum_{\ell=1}^{k}e^{z_\ell}}.
+\]</span></p>
+<p>Cuando <span class="math inline">\(y\)</span> es one-hot, solo una clase <span class="math inline">\(c\)</span> tiene <span class="math inline">\(y_c=1\)</span>, de modo que <span class="math inline">\(L=-\log p_c\)</span>. Al derivar con respecto a un logit <span class="math inline">\(z_j\)</span>, el resultado compacto es:</p>
+<p><span class="math display">\[
+\frac{\partial L}{\partial z_j}=p_j-y_j.
+\]</span></p>
+<p>Para un lote de <span class="math inline">\(n\)</span> observaciones y pérdida promedio:</p>
+<p><span class="math display">\[
+dZ^{[2]}=\frac{\hat P-Y}{n}.
+\]</span></p>
+<p>Esta identidad explica por qué el código de salida es tan breve y por qué la forma de <span class="math inline">\(dZ^{[2]}\)</span> coincide con la forma de los logits.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> backward_pass(X, Y, cache, params):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> cache[<span class="st">"P"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    A1 <span class="op">=</span> cache[<span class="st">"A1"</span>]</span>
@@ -498,6 +515,50 @@ J(1.99)=(-1.01)^2=1.0201.
 <li>¿<code>A1.T @ dZ2</code> produce la misma forma que <code>W2</code>?</li>
 <li>¿<code>db2</code> suma sobre observaciones y no sobre clases?</li>
 <li>¿dividiste por <span class="math inline">\(n\)</span> exactamente una vez?</li>
+</ol>
+</section>
+<section id="caso-longitudinal-backpropagation-en-dígitos" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-backpropagation-en-dígitos">Caso longitudinal: backpropagation en dígitos</h2>
+<p>En el caso <code>load_digits</code>, el forward produce probabilidades para diez clases. El backward debe producir gradientes con las mismas formas que los parámetros:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th style="text-align: right;">Forma si <span class="math inline">\(h=32\)</span></th>
+<th style="text-align: right;">Gradiente esperado</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(W^{[1]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(64\times 32\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(dW^{[1]}\)</span>, misma forma</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(b^{[1]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(32\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(db^{[1]}\)</span>, una entrada por neurona</td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(W^{[2]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(32\times 10\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(dW^{[2]}\)</span>, misma forma</td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(b^{[2]}\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(10\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(db^{[2]}\)</span>, una entrada por clase</td>
+</tr>
+</tbody>
+</table>
+<p>La prueba de gradiente no se hace sobre todo el dataset. Se hace sobre un caso pequeño, con pocas observaciones y parámetros controlados, porque ahí se puede comparar contra diferencias finitas. Una red que “entrena” sin pasar una prueba de gradiente puede estar reduciendo la pérdida por accidente o por un error de implementación no detectado.</p>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Si <span class="math inline">\(A^{[1]}\)</span> tiene forma <span class="math inline">\(n\times h\)</span> y <span class="math inline">\(dZ^{[2]}\)</span> tiene forma <span class="math inline">\(n\times k\)</span>, entonces <span class="math inline">\(dW^{[2]}=(A^{[1]})^\top dZ^{[2]}\)</span> tiene forma <span class="math inline">\(h\times k\)</span>.</li>
+<li>Una diferencia finita central usa <span class="math inline">\((J(\theta+\epsilon)-J(\theta-\epsilon))/(2\epsilon)\)</span>; suele ser más estable que usar solo <span class="math inline">\(J(\theta+\epsilon)-J(\theta)\)</span>.</li>
+<li>Un error de forma que NumPy resuelve con broadcasting puede producir un valor numérico sin representar el gradiente correcto.</li>
 </ol>
 </section>
 <section id="para-explorar-más" class="level2">

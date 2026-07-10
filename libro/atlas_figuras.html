@@ -326,6 +326,11 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
   </div>
 </li>
@@ -596,6 +601,11 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
   </div>
 </li>
@@ -639,14 +649,19 @@ window.Quarto = {
   <li><a href="#manifiesto-editorial" id="toc-manifiesto-editorial" class="nav-link active" data-scroll-target="#manifiesto-editorial">Manifiesto editorial</a></li>
   <li><a href="#regresión-lineal" id="toc-regresión-lineal" class="nav-link" data-scroll-target="#regresión-lineal">Regresión lineal</a></li>
   <li><a href="#regularización" id="toc-regularización" class="nav-link" data-scroll-target="#regularización">Regularización</a></li>
+  <li><a href="#descenso-del-gradiente" id="toc-descenso-del-gradiente" class="nav-link" data-scroll-target="#descenso-del-gradiente">Descenso del gradiente</a></li>
   <li><a href="#validación-y-curvas-de-aprendizaje" id="toc-validación-y-curvas-de-aprendizaje" class="nav-link" data-scroll-target="#validación-y-curvas-de-aprendizaje">Validación y curvas de aprendizaje</a></li>
+  <li><a href="#particiones-y-evaluación" id="toc-particiones-y-evaluación" class="nav-link" data-scroll-target="#particiones-y-evaluación">Particiones y evaluación</a></li>
   <li><a href="#regresión-logística-y-umbrales" id="toc-regresión-logística-y-umbrales" class="nav-link" data-scroll-target="#regresión-logística-y-umbrales">Regresión logística y umbrales</a></li>
   <li><a href="#métricas-para-decidir" id="toc-métricas-para-decidir" class="nav-link" data-scroll-target="#métricas-para-decidir">Métricas para decidir</a></li>
+  <li><a href="#error-analysis" id="toc-error-analysis" class="nav-link" data-scroll-target="#error-analysis">Error analysis</a></li>
   <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation">Backpropagation</a></li>
+  <li><a href="#optimizadores" id="toc-optimizadores" class="nav-link" data-scroll-target="#optimizadores">Optimizadores</a></li>
   <li><a href="#pca-y-svd" id="toc-pca-y-svd" class="nav-link" data-scroll-target="#pca-y-svd">PCA y SVD</a></li>
   <li><a href="#k-means" id="toc-k-means" class="nav-link" data-scroll-target="#k-means">K-Means</a></li>
   <li><a href="#recomendación-latente" id="toc-recomendación-latente" class="nav-link" data-scroll-target="#recomendación-latente">Recomendación latente</a></li>
   <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad">Reproducibilidad</a></li>
+  <li><a href="#comunicación-y-defensa" id="toc-comunicación-y-defensa" class="nav-link" data-scroll-target="#comunicación-y-defensa">Comunicación y defensa</a></li>
   </ul>
 </nav>
     </div>
@@ -705,6 +720,20 @@ Figura&nbsp;2: Regularización: OLS puede producir coeficientes grandes, Ridge r
 </div>
 <p><strong>Lectura.</strong> Regularizar no es castigar el modelo por estética. Es introducir una preferencia cuantitativa por soluciones más estables. La fuerza de la penalización se valida fuera del entrenamiento.</p>
 </section>
+<section id="descenso-del-gradiente" class="level2">
+<h2 class="anchored" data-anchor-id="descenso-del-gradiente">Descenso del gradiente</h2>
+<div id="fig-descenso-gradiente-trayectoria" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa de contornos de una pérdida convexa con puntos sucesivos que avanzan hacia el mínimo, junto con tres escenarios de tasa de aprendizaje pequeña, razonable y grande.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-descenso-gradiente-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/descenso-gradiente-trayectoria.svg" class="img-fluid figure-img" style="width:100.0%" alt="Mapa de contornos de una pérdida convexa con puntos sucesivos que avanzan hacia el mínimo, junto con tres escenarios de tasa de aprendizaje pequeña, razonable y grande.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-descenso-gradiente-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3: Descenso del gradiente: la trayectoria avanza sobre contornos de pérdida y la tasa de aprendizaje controla si el avance es lento, estable u oscilatorio.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> El gradiente define una dirección local; la tasa de aprendizaje define cuánto se avanza. La convergencia se diagnostica con pérdida, escala y estabilidad, no solo con el número de iteraciones.</p>
+</section>
 <section id="validación-y-curvas-de-aprendizaje" class="level2">
 <h2 class="anchored" data-anchor-id="validación-y-curvas-de-aprendizaje">Validación y curvas de aprendizaje</h2>
 <div id="fig-curvas-aprendizaje" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
@@ -713,11 +742,25 @@ Figura&nbsp;2: Regularización: OLS puede producir coeficientes grandes, Ridge r
 <img src="figuras/curvas-aprendizaje.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.
+Figura&nbsp;4: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.
 </figcaption>
 </figure>
 </div>
 <p><strong>Lectura.</strong> Una curva no es decoración. Debe producir una acción: regularizar, simplificar, aumentar capacidad, recolectar datos, revisar leakage o aceptar un límite por ruido.</p>
+</section>
+<section id="particiones-y-evaluación" class="level2">
+<h2 class="anchored" data-anchor-id="particiones-y-evaluación">Particiones y evaluación</h2>
+<div id="fig-particiones-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/particiones-evaluacion.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> La partición determina qué evidencia se puede usar. Train aprende, dev decide y test audita. Si test participa en decisiones, ya no estima desempeño final de forma honesta.</p>
 </section>
 <section id="regresión-logística-y-umbrales" class="level2">
 <h2 class="anchored" data-anchor-id="regresión-logística-y-umbrales">Regresión logística y umbrales</h2>
@@ -727,7 +770,7 @@ Figura&nbsp;3: Curvas de aprendizaje: un caso de overfitting mantiene una brecha
 <img src="figuras/logistica-umbral-metricas.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama con una curva sigmoide, una línea vertical de umbral, reglas p mayor o igual a tau y p menor que tau, y una matriz de confusión con TN, FP, FN y TP.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4: Regresión logística: la curva sigmoide produce probabilidades; un umbral convierte probabilidades en clases y modifica la matriz de confusión.
+Figura&nbsp;6: Regresión logística: la curva sigmoide produce probabilidades; un umbral convierte probabilidades en clases y modifica la matriz de confusión.
 </figcaption>
 </figure>
 </div>
@@ -741,11 +784,25 @@ Figura&nbsp;4: Regresión logística: la curva sigmoide produce probabilidades; 
 <img src="figuras/metricas-decision.svg" class="img-fluid figure-img" style="width:100.0%" alt="Mapa con ejes de costo de falso positivo y falso negativo. Cuadrantes sugieren accuracy, precision, recall y F beta. A la derecha aparece un reporte mínimo con métrica primaria, umbral, matriz de confusión y costo de errores.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-metricas-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5: Selección de métricas: el costo relativo de falsos positivos y falsos negativos orienta si conviene mirar accuracy, precisión, recall o una métrica F beta.
+Figura&nbsp;7: Selección de métricas: el costo relativo de falsos positivos y falsos negativos orienta si conviene mirar accuracy, precisión, recall o una métrica F beta.
 </figcaption>
 </figure>
 </div>
 <p><strong>Lectura.</strong> Una métrica es una traducción operativa de una preferencia. Reportar solo accuracy en datos desbalanceados puede esconder el error que más importa.</p>
+</section>
+<section id="error-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>
+<div id="fig-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo evidencia diagnóstico acción límite.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;8: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con evidencia, diagnóstico, acción y límite.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> El promedio global ayuda a comparar, pero no basta para decidir. Un slice crítico debe convertirse en evidencia específica, diagnóstico probable, acción técnica y límite de interpretación.</p>
 </section>
 <section id="backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
@@ -755,11 +812,25 @@ Figura&nbsp;5: Selección de métricas: el costo relativo de falsos positivos y 
 <img src="figuras/backpropagation-grafo.svg" class="img-fluid figure-img" style="width:100.0%" alt="Grafo con flechas hacia adelante desde X hasta la pérdida J y flechas de regreso desde J hacia los gradientes dZ2, dW2, dA1, dZ1 y dW1. La cache conecta forward y backward.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-backpropagation-grafo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;6: Backpropagation como grafo: el forward calcula X, Z1, A1, Z2, P y J; el backward propaga dJ hacia dZ2, dW2, dA1, dZ1 y dW1 usando la cache.
+Figura&nbsp;9: Backpropagation como grafo: el forward calcula X, Z1, A1, Z2, P y J; el backward propaga dJ hacia dZ2, dW2, dA1, dZ1 y dW1 usando la cache.
 </figcaption>
 </figure>
 </div>
 <p><strong>Lectura.</strong> Backpropagation no es una fórmula aislada. Es una forma organizada de recorrer el grafo de cómputo en sentido inverso y producir gradientes con las mismas formas que los parámetros.</p>
+</section>
+<section id="optimizadores" class="level2">
+<h2 class="anchored" data-anchor-id="optimizadores">Optimizadores</h2>
+<div id="fig-optimizadores-momentum-adam" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles comparan SGD, momentum y Adam sobre una trayectoria de pérdida, mostrando gradiente actual, memoria de gradiente y escala adaptativa.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-optimizadores-momentum-adam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/optimizadores-momentum-adam.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles comparan SGD, momentum y Adam sobre una trayectoria de pérdida, mostrando gradiente actual, memoria de gradiente y escala adaptativa.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-optimizadores-momentum-adam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;10: Optimizadores: SGD usa el gradiente actual, momentum suaviza direcciones recientes y Adam combina memoria con escala adaptativa por coordenada.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> Cambiar de optimizador cambia la actualización, no la lógica científica. Deben reportarse semilla, tasa, épocas, arquitectura y métrica de validación.</p>
 </section>
 <section id="pca-y-svd" class="level2">
 <h2 class="anchored" data-anchor-id="pca-y-svd">PCA y SVD</h2>
@@ -769,7 +840,7 @@ Figura&nbsp;6: Backpropagation como grafo: el forward calcula X, Z1, A1, Z2, P y
 <img src="figuras/pca-svd-proyeccion.svg" class="img-fluid figure-img" style="width:100.0%" alt="Nube elíptica de puntos centrados con ejes v1 y v2. La proyección sobre v1 produce coordenadas Z. A la derecha aparece X centrada igual a U Sigma V transpuesta.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pca-svd-proyeccion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;7: PCA como proyección: datos centrados se factorizan con SVD; los primeros vectores de V definen ejes principales y la matriz Z contiene coordenadas de baja dimensión.
+Figura&nbsp;11: PCA como proyección: datos centrados se factorizan con SVD; los primeros vectores de V definen ejes principales y la matriz Z contiene coordenadas de baja dimensión.
 </figcaption>
 </figure>
 </div>
@@ -783,7 +854,7 @@ Figura&nbsp;7: PCA como proyección: datos centrados se factorizan con SVD; los 
 <img src="figuras/kmeans-centroides.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;8: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.
+Figura&nbsp;12: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.
 </figcaption>
 </figure>
 </div>
@@ -797,7 +868,7 @@ Figura&nbsp;8: K-Means alterna dos pasos: asignar cada punto al centroide más c
 <img src="figuras/recomendacion-latente.svg" class="img-fluid figure-img" style="width:100.0%" alt="Una matriz de calificaciones usuario item con una entrada faltante pasa a una factorización con matriz de usuarios y matriz de ítems transpuesta. El producto produce una calificación predicha.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-recomendacion-latente-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;9: Sistemas de recomendación: una matriz usuario-item incompleta se aproxima mediante factores latentes de usuarios e ítems; una calificación faltante se predice con un producto punto.
+Figura&nbsp;13: Sistemas de recomendación: una matriz usuario-item incompleta se aproxima mediante factores latentes de usuarios e ítems; una calificación faltante se predice con un producto punto.
 </figcaption>
 </figure>
 </div>
@@ -811,11 +882,36 @@ Figura&nbsp;9: Sistemas de recomendación: una matriz usuario-item incompleta se
 <img src="figuras/reproducibilidad-manifest.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de datos, código, ambiente y parámetros hacia una corrida de notebook o script. La salida incluye métricas, artefactos y manifest dot json. El criterio es que la misma entrada, código y ambiente producen la misma evidencia.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reproducibilidad-manifest-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;10: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
+Figura&nbsp;14: Reproducibilidad: datos, código, ambiente y parámetros alimentan una corrida que produce métricas, artefactos y un manifiesto verificable.
 </figcaption>
 </figure>
 </div>
 <p><strong>Lectura.</strong> Un resultado no es reproducible solo porque el notebook existe. La evidencia reproducible registra entradas, código, ambiente, parámetros y salidas con suficiente precisión para repetir la corrida.</p>
+</section>
+<section id="comunicación-y-defensa" class="level2">
+<h2 class="anchored" data-anchor-id="comunicación-y-defensa">Comunicación y defensa</h2>
+<div id="fig-comunicacion-tecnica-reporte" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/comunicacion-tecnica-reporte.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama de un reporte técnico con una tesis central y cuatro bloques: evidencia, diagnóstico, decisión y límites.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-comunicacion-tecnica-reporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;15: Comunicación técnica: un reporte organiza tesis, evidencia, diagnóstico, decisión y límites para que una audiencia pueda auditar la recomendación.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> La comunicación técnica convierte outputs en una tesis defendible. Cada afirmación fuerte necesita una tabla, figura, cálculo o límite que la sostenga.</p>
+<div id="fig-defensa-oral-evidencia" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, evidencia y límite, seguido por criterios de calificación cero, uno y dos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-defensa-oral-evidencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/defensa-oral-evidencia.svg" class="img-fluid figure-img" style="width:100.0%" alt="Flujo de defensa oral con cuatro cajas: pregunta, respuesta, evidencia y límite, seguido por criterios de calificación cero, uno y dos.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-defensa-oral-evidencia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;16: Defensa oral: la respuesta individual conecta pregunta, respuesta breve, evidencia verificable y límite específico con una rúbrica 0/1/2.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura.</strong> La defensa no premia recitar el reporte. Premia responder con autoría, evidencia concreta, criterio técnico y límites claros.</p>
 
 
 </section>

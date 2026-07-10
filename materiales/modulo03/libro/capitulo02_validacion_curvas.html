@@ -230,12 +230,16 @@ window.Quarto = {
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a></li>
   <li><a href="#qué-reportar" id="toc-qué-reportar" class="nav-link" data-scroll-target="#qué-reportar">Qué reportar</a></li>
   <li><a href="#ejemplo-resuelto-elegir-entre-dos-modelos" id="toc-ejemplo-resuelto-elegir-entre-dos-modelos" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</a></li>
+  <li><a href="#derivación-guiada-media-y-variabilidad-de-cv" id="toc-derivación-guiada-media-y-variabilidad-de-cv" class="nav-link" data-scroll-target="#derivación-guiada-media-y-variabilidad-de-cv">Derivación guiada: media y variabilidad de CV</a></li>
   <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search">Grid search</a></li>
   <li><a href="#learning-curve" id="toc-learning-curve" class="nav-link" data-scroll-target="#learning-curve">Learning curve</a></li>
   <li><a href="#ejemplo-resuelto-leer-una-learning-curve" id="toc-ejemplo-resuelto-leer-una-learning-curve" class="nav-link" data-scroll-target="#ejemplo-resuelto-leer-una-learning-curve">Ejemplo resuelto: leer una learning curve</a></li>
   <li><a href="#validation-curve" id="toc-validation-curve" class="nav-link" data-scroll-target="#validation-curve">Validation curve</a></li>
+  <li><a href="#caso-longitudinal-estabilidad-del-modelo-de-clasificación" id="toc-caso-longitudinal-estabilidad-del-modelo-de-clasificación" class="nav-link" data-scroll-target="#caso-longitudinal-estabilidad-del-modelo-de-clasificación">Caso longitudinal: estabilidad del modelo de clasificación</a></li>
   <li><a href="#sesgo-varianza-y-ruido" id="toc-sesgo-varianza-y-ruido" class="nav-link" data-scroll-target="#sesgo-varianza-y-ruido">Sesgo, varianza y ruido</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
+  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande" id="toc-ejemplo-resuelto-cuándo-no-hacer-grid-más-grande" class="nav-link" data-scroll-target="#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande">Ejemplo resuelto: cuándo no hacer grid más grande</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -336,20 +340,45 @@ window.Quarto = {
 <p>El modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse en slices o con más datos.</p>
 <p>La decisión profesional no mira solo el máximo promedio.</p>
 </section>
+<section id="derivación-guiada-media-y-variabilidad-de-cv" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-media-y-variabilidad-de-cv">Derivación guiada: media y variabilidad de CV</h2>
+<p>Si los puntajes de cinco folds son:</p>
+<p><span class="math display">\[
+0.80,\ 0.84,\ 0.83,\ 0.86,\ 0.87,
+\]</span></p>
+<p>la media es:</p>
+<p><span class="math display">\[
+\bar s=\frac{0.80+0.84+0.83+0.86+0.87}{5}=0.84.
+\]</span></p>
+<p>La desviación resume qué tanto cambian los resultados entre folds. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como evidencia universal. En reportes del curso, escribe media y variabilidad juntas:</p>
+<pre class="text"><code>F1 CV = 0.84 ± 0.03</code></pre>
+<p>Si dos modelos tienen medias parecidas, la variabilidad puede decidir cuál es más prudente.</p>
+</section>
 <section id="grid-search" class="level2">
 <h2 class="anchored" data-anchor-id="grid-search">Grid search</h2>
 <p>Para seleccionar hiperparámetros:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>GridSearchCV(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>pipeline,</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    param_grid<span class="op">=</span>grid,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"f1"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>GridSearchCV(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>pipeline,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    param_grid<span class="op">=</span>grid,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    scoring<span class="op">=</span><span class="st">"f1"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El grid search debe ocurrir dentro de entrenamiento/desarrollo, no sobre test.</p>
 </section>
 <section id="learning-curve" class="level2">
 <h2 class="anchored" data-anchor-id="learning-curve">Learning curve</h2>
 <p>Una curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.</p>
+<div id="fig-cap12-curvas-aprendizaje" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap12-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/curvas-aprendizaje.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap12-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.1: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> Una learning curve no se interpreta por el valor final aislado, sino por la relación entre entrenamiento y validación. La brecha sugiere varianza; valores bajos en ambas curvas sugieren sesgo; curvas que se acercan pueden indicar que más datos ayudan.</p>
 <p>Señales típicas:</p>
 <table class="caption-top table">
 <colgroup>
@@ -438,6 +467,47 @@ window.Quarto = {
 regularización alta -&gt; modelo simple</code></pre>
 <p>Permite detectar si el hiperparámetro está empujando al modelo hacia overfitting o underfitting.</p>
 </section>
+<section id="caso-longitudinal-estabilidad-del-modelo-de-clasificación" class="level2">
+<h2 class="anchored" data-anchor-id="caso-longitudinal-estabilidad-del-modelo-de-clasificación">Caso longitudinal: estabilidad del modelo de clasificación</h2>
+<p>En <code>clasificacion_binaria_sintetica.csv</code>, una validación de cinco folds puede producir algo como:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 28%">
+<col style="width: 28%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th style="text-align: right;">F1 CV medio</th>
+<th style="text-align: right;">Desviación</th>
+<th>Lectura</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>logística simple</td>
+<td style="text-align: right;">0.71</td>
+<td style="text-align: right;">0.03</td>
+<td>baseline estable</td>
+</tr>
+<tr class="even">
+<td>logística con features polinomiales</td>
+<td style="text-align: right;">0.76</td>
+<td style="text-align: right;">0.09</td>
+<td>mejora media, alta varianza</td>
+</tr>
+<tr class="odd">
+<td>modelo regularizado</td>
+<td style="text-align: right;">0.74</td>
+<td style="text-align: right;">0.04</td>
+<td>balance entre mejora y estabilidad</td>
+</tr>
+</tbody>
+</table>
+<p>La selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por <code>slice</code>, podría explorarse el modelo polinomial. Si se quiere una recomendación conservadora, el modelo regularizado puede ser más defendible. El punto es que media y desviación se leen juntas.</p>
+</section>
 <section id="sesgo-varianza-y-ruido" class="level2">
 <h2 class="anchored" data-anchor-id="sesgo-varianza-y-ruido">Sesgo, varianza y ruido</h2>
 <p>La generalización puede entenderse como una combinación de:</p>
@@ -457,6 +527,18 @@ regularización alta -&gt; modelo simple</code></pre>
 <li>¿el modelo ya tiene demasiada varianza?</li>
 <li>¿más datos podría cerrar la brecha?</li>
 </ol>
+</section>
+<section id="verificaciones-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<ol type="1">
+<li>Evaluar 4 valores de <code>C</code>, 3 valores de <code>penalty</code> y 5 folds entrena <span class="math inline">\(4\cdot3\cdot5=60\)</span> ajustes.</li>
+<li>Si la media CV mejora poco pero la desviación se triplica, la mejora puede no justificar el cambio de modelo.</li>
+<li><code>GridSearchCV</code> debe recibir el pipeline completo cuando hay escalamiento, imputación o selección de variables.</li>
+</ol>
+</section>
+<section id="ejemplo-resuelto-cuándo-no-hacer-grid-más-grande" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-cuándo-no-hacer-grid-más-grande">Ejemplo resuelto: cuándo no hacer grid más grande</h2>
+<p>Si una grilla inicial muestra que todos los valores de regularización fuerte tienen train y dev bajos, aumentar la grilla alrededor de regularización más fuerte probablemente no ayudará. La acción más razonable es revisar features, capacidad del modelo o métrica. Grid search no reemplaza diagnóstico: solo prueba combinaciones dentro del espacio que tú definiste.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
