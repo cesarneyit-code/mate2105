@@ -6,9 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Cesar Galindo">
 
-<title>MATE-2105: Módulo 3</title>
+<title>Distribución de carga – MATE-2105 · Panel docente</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +30,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./capitulo01_metricas_particiones.html" rel="next">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -42,13 +40,13 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-b3b235ae6ba71d6e5c2a90c00144237d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 50,
   "keyboard-shortcut": [
     "f",
@@ -70,106 +68,66 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Buscar"
   }
 }</script>
+<meta name="robots" content="noindex,nofollow">
 
 
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-title">Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-        </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </nav>
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">MATE-2105 · Panel docente</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Panel docente</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./guia_presentaciones.html"> 
+<span class="menu-text">Guía de presentaciones</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./distribucion_carga.html" aria-current="page"> 
+<span class="menu-text">Distribución de carga</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">MATE-2105: Módulo 3</a> 
-    </div>
-      </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Buscar"></div>
-        </div>
-        </div>
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Módulo 3: Estrategia ML, diagnóstico y análisis de errores</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./capitulo01_metricas_particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./capitulo02_validacion_curvas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./capitulo03_error_analysis_data_mismatch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Error analysis y data mismatch</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./apendice_formulario_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./laboratorios/lab04_diagnostico_modelos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Lab 4: Diagnóstico de modelos</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./recursos/guia_proyecto_modulo03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: estrategia de mejora del modelo</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
+    <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#módulo-3-estrategia-ml-diagnóstico-y-análisis-de-errores" id="toc-módulo-3-estrategia-ml-diagnóstico-y-análisis-de-errores" class="nav-link active" data-scroll-target="#módulo-3-estrategia-ml-diagnóstico-y-análisis-de-errores">Módulo 3: Estrategia ML, diagnóstico y análisis de errores</a>
-  <ul class="collapse">
-  <li><a href="#propósito" id="toc-propósito" class="nav-link" data-scroll-target="#propósito">Propósito</a></li>
-  <li><a href="#semana-cubierta" id="toc-semana-cubierta" class="nav-link" data-scroll-target="#semana-cubierta">Semana cubierta</a></li>
-  <li><a href="#resultados-de-aprendizaje" id="toc-resultados-de-aprendizaje" class="nav-link" data-scroll-target="#resultados-de-aprendizaje">Resultados de aprendizaje</a></li>
-  <li><a href="#evaluación" id="toc-evaluación" class="nav-link" data-scroll-target="#evaluación">Evaluación</a></li>
-  <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a></li>
-  <li><a href="#principio-operativo" id="toc-principio-operativo" class="nav-link" data-scroll-target="#principio-operativo">Principio operativo</a></li>
-  </ul></li>
+  <li><a href="#propósito-docente" id="toc-propósito-docente" class="nav-link active" data-scroll-target="#propósito-docente">Propósito docente</a></li>
+  <li><a href="#diagnóstico-actual" id="toc-diagnóstico-actual" class="nav-link" data-scroll-target="#diagnóstico-actual">Diagnóstico actual</a></li>
+  <li><a href="#semáforo-semanal" id="toc-semáforo-semanal" class="nav-link" data-scroll-target="#semáforo-semanal">Semáforo semanal</a></li>
+  <li><a href="#decisiones-de-redistribución" id="toc-decisiones-de-redistribución" class="nav-link" data-scroll-target="#decisiones-de-redistribución">Decisiones de redistribución</a></li>
+  <li><a href="#cómo-se-sincroniza-todo" id="toc-cómo-se-sincroniza-todo" class="nav-link" data-scroll-target="#cómo-se-sincroniza-todo">Cómo se sincroniza todo</a></li>
+  <li><a href="#reglas-de-edición" id="toc-reglas-de-edición" class="nav-link" data-scroll-target="#reglas-de-edición">Reglas de edición</a></li>
+  <li><a href="#checklist-de-publicación" id="toc-checklist-de-publicación" class="nav-link" data-scroll-target="#checklist-de-publicación">Checklist de publicación</a></li>
   </ul>
 </nav>
     </div>
@@ -178,27 +136,14 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">MATE-2105: Módulo 3</h1>
-<p class="subtitle lead">Estrategia ML, diagnóstico y análisis de errores</p>
+<h1 class="title">Distribución de carga</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Autor/a</div>
-    <div class="quarto-title-meta-contents">
-             <p>Cesar Galindo </p>
-          </div>
-  </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Fecha de publicación</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">6 de julio de 2026</p>
-    </div>
-  </div>
   
     
   </div>
@@ -208,18 +153,24 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="módulo-3-estrategia-ml-diagnóstico-y-análisis-de-errores" class="level1">
-<h1>Módulo 3: Estrategia ML, diagnóstico y análisis de errores</h1>
-<section id="propósito" class="level2">
-<h2 class="anchored" data-anchor-id="propósito">Propósito</h2>
-<p>Este módulo cubre la semana 11 del curso. Su función es cambiar la pregunta:</p>
-<blockquote class="blockquote">
-<p>de “¿puedo entrenar un modelo?” a “¿cómo desarrollo un modelo de forma metodica y defendible?”</p>
-</blockquote>
-<p>Después de los Módulos 1 y 2, el estudiante ya tiene modelos lineales y redes neuronales. Ahora necesita criterio para comparar, diagnosticar y decidir.</p>
+<section id="propósito-docente" class="level2">
+<h2 class="anchored" data-anchor-id="propósito-docente">Propósito docente</h2>
+<p>Esta página sirve para revisar si la carga semanal está razonablemente distribuida antes de publicar anuncios, abrir laboratorios o mover hitos. Es una vista de control para el profesor; no está enlazada desde el portal de estudiantes ni desde el libro.</p>
+<p>La regla de operación es simple: el estudiante debe ver una ruta limpia y ejecutable; el profesor debe ver la carga completa de lectura, clase, notebook, laboratorio, proyecto y evaluación.</p>
 </section>
-<section id="semana-cubierta" class="level2">
-<h2 class="anchored" data-anchor-id="semana-cubierta">Semana cubierta</h2>
+<section id="diagnóstico-actual" class="level2">
+<h2 class="anchored" data-anchor-id="diagnóstico-actual">Diagnóstico actual</h2>
+<p>El curso tiene tres zonas naturalmente intensas:</p>
+<ol type="1">
+<li><strong>Semana 1:</strong> arranque, entorno, navegación, diagnóstico y proyecto. Es pesada, pero necesaria.</li>
+<li><strong>Semanas 3-6:</strong> regresión, optimización, regularización, clasificación y Parcial 1. La carga se controla publicando Labs 1 y 2 con anticipación.</li>
+<li><strong>Semanas 11-15:</strong> estrategia ML, no supervisado, Parcial 2, reproducibilidad y proyecto. Esta es la zona que requiere mayor cuidado operativo.</li>
+</ol>
+<p>La corrección principal del cronograma fue incorporar explícitamente el receso institucional del <strong>28 de septiembre al 3 de octubre de 2026</strong> y desplazar las semanas 9-16 una semana hacia adelante. Con eso, la Semana 9 inicia el <strong>6 de octubre</strong> y el cierre del curso queda el <strong>24 y 26 de noviembre</strong>.</p>
+</section>
+<section id="semáforo-semanal" class="level2">
+<h2 class="anchored" data-anchor-id="semáforo-semanal">Semáforo semanal</h2>
+<div class="table-wrap">
 <table class="caption-top table">
 <colgroup>
 <col style="width: 30%">
@@ -230,71 +181,249 @@ ul.task-list li input[type="checkbox"] {
 <thead>
 <tr class="header">
 <th style="text-align: right;">Semana</th>
-<th>Tema</th>
-<th>Artefacto central</th>
-<th>Evaluación / hito</th>
+<th>Estado</th>
+<th>Riesgo principal</th>
+<th>Decisión docente</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
+<td style="text-align: right;">1</td>
+<td>Alta</td>
+<td>entorno, reglas y navegación al mismo tiempo</td>
+<td>mantener diagnóstico formativo y soporte técnico</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>Media</td>
+<td>álgebra matricial desigual entre estudiantes</td>
+<td>usar ejemplos pequeños y shapes explícitos</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>Media-alta</td>
+<td>gradiente + prepropuesta + Lab 1</td>
+<td>cerrar con convergencia e interpretación, no solo código</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>Media-alta</td>
+<td>overfitting + propuesta + publicación Lab 2</td>
+<td>separar intuición de validación antes de complejidad</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td>Media</td>
+<td>regularización + Lab 2</td>
+<td>revisar selección de modelo con rúbrica corta</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>Alta</td>
+<td>logística + Parcial 1 + baseline</td>
+<td>limitar revisión manual a interpretación breve</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td>Baja-media</td>
+<td>primer contacto con redes</td>
+<td>aprovechar para reforzar dimensiones</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td>Media</td>
+<td>backpropagation y publicación Lab 3</td>
+<td>no convertir la clase en álgebra simbólica larga</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Receso</td>
+<td>Recuperación</td>
+<td>pérdida de continuidad</td>
+<td>usar para cerrar Lab 3, bloqueos y proyecto</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">9</td>
+<td>Media</td>
+<td>diagnóstico de redes después del receso</td>
+<td>abrir con errores recurrentes de Lab 3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10</td>
+<td>Media-alta</td>
+<td>optimizadores + entrega Lab 3</td>
+<td>mantener comparación NumPy/PyTorch acotada</td>
+</tr>
+<tr class="even">
 <td style="text-align: right;">11</td>
-<td>Métricas, particiones, validación cruzada, curvas de aprendizaje, sesgo-varianza, error analysis y data mismatch</td>
-<td>Notebook de diagnóstico aplicado</td>
-<td>Se publica Lab 4: diagnóstico de modelos</td>
+<td>Alta conceptual</td>
+<td>métricas, CV, curvas y error analysis</td>
+<td>publicar Lab 4, no exigir entrega esa semana</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">12</td>
+<td>Media-alta</td>
+<td>SVD/PCA + entrega Lab 4 + publicación Lab 5</td>
+<td>no agregar hito extra de proyecto calificado</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">13</td>
+<td>Media-alta</td>
+<td>Lab 5 + guía Parcial 2</td>
+<td>usar guía como preparación, no como tarea extensa</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14</td>
+<td>Alta</td>
+<td>Parcial 2 + reproducibilidad</td>
+<td>pedir manifest preliminar, no pipeline final completo</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">15</td>
+<td>Media</td>
+<td>clínica de proyecto + entrega preliminar</td>
+<td>enfocar retroalimentación en evidencia mínima defendible</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16</td>
+<td>Alta final</td>
+<td>defensas y cierre</td>
+<td>no introducir contenido nuevo</td>
 </tr>
 </tbody>
 </table>
+</div>
 </section>
-<section id="resultados-de-aprendizaje" class="level2">
-<h2 class="anchored" data-anchor-id="resultados-de-aprendizaje">Resultados de aprendizaje</h2>
-<p>Al finalizar el módulo, el estudiante estará en capacidad de:</p>
+<section id="decisiones-de-redistribución" class="level2">
+<h2 class="anchored" data-anchor-id="decisiones-de-redistribución">Decisiones de redistribución</h2>
+<div class="table-wrap">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elemento</th>
+<th>Antes</th>
+<th>Ahora</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Receso</td>
+<td>no aparecía como semana explícita en la ruta</td>
+<td>aparece entre semanas 8 y 9</td>
+</tr>
+<tr class="even">
+<td>Semana 9</td>
+<td>caía en receso institucional</td>
+<td>se mueve a 6 y 8 de octubre</td>
+</tr>
+<tr class="odd">
+<td>Lab 4</td>
+<td>se veía como hito de Semana 11</td>
+<td>se publica en Semana 11 y se entrega en Semana 12</td>
+</tr>
+<tr class="even">
+<td>Lab 5</td>
+<td>concentrado en Semana 13</td>
+<td>se publica en Semana 12 y se entrega en Semana 13</td>
+</tr>
+<tr class="odd">
+<td>Semana 14</td>
+<td>Parcial 2 + pipeline y tracking completo</td>
+<td>Parcial 2 + manifest preliminar</td>
+</tr>
+<tr class="even">
+<td>Semana 15</td>
+<td>solo entrega preliminar</td>
+<td>entrega preliminar + manifest reproducible</td>
+</tr>
+<tr class="odd">
+<td>Semana 16</td>
+<td>terminaba antes de la última semana institucional</td>
+<td>usa 24 y 26 de noviembre para defensa y cierre</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="cómo-se-sincroniza-todo" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-se-sincroniza-todo">Cómo se sincroniza todo</h2>
+<div class="table-wrap">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Página o fuente</th>
+<th>Función</th>
+<th>Qué debe controlar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Programa</td>
+<td>contrato oficial del curso</td>
+<td>porcentajes, políticas, cronograma macro y reglas</td>
+</tr>
+<tr class="even">
+<td>Calendario</td>
+<td>fechas e hitos</td>
+<td>día exacto de clase, receso, entregas y parciales</td>
+</tr>
+<tr class="odd">
+<td>Ruta</td>
+<td>acción semanal del estudiante</td>
+<td>qué estudiar, qué abrir en clase y qué entregar</td>
+</tr>
+<tr class="even">
+<td>Materiales</td>
+<td>descargas públicas</td>
+<td>que notebooks, slides, laboratorios y zips estén disponibles</td>
+</tr>
+<tr class="odd">
+<td>Libro</td>
+<td>explicación académica</td>
+<td>conceptos, derivaciones, ejemplos, ejercicios y glosario</td>
+</tr>
+<tr class="even">
+<td>Panel docente</td>
+<td>operación de clase</td>
+<td>preparación, cierre, revisión y carga semanal</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="reglas-de-edición" class="level2">
+<h2 class="anchored" data-anchor-id="reglas-de-edición">Reglas de edición</h2>
+<p>Cuando cambie una fecha o entrega:</p>
 <ol type="1">
-<li>Elegir una métrica principal según el costo de errores.</li>
-<li>Construir particiones <code>train/dev/test</code> sin leakage.</li>
-<li>Usar cross-validation para estimar variabilidad de desempeño.</li>
-<li>Interpretar curvas de aprendizaje y validation curves.</li>
-<li>Diagnosticar underfitting, overfitting y data mismatch.</li>
-<li>Realizar análisis de errores por subgrupos o casos difíciles.</li>
-<li>Convertir evidencia de evaluación en una siguiente decisión técnica.</li>
+<li>Cambiar primero <code>sitio_curso/programa.qmd</code> y <code>sitio_curso/calendario.qmd</code>.</li>
+<li>Actualizar <code>sitio_curso/ruta.qmd</code> y <code>sitio_curso/materiales.qmd</code>.</li>
+<li>Actualizar esta página y <code>docente_curso/index.qmd</code>.</li>
+<li>Si el hito aparece en el libro modular, actualizar el <code>index.qmd</code> del módulo correspondiente.</li>
+<li>Renderizar y correr auditorías antes de publicar.</li>
 </ol>
 </section>
-<section id="evaluación" class="level2">
-<h2 class="anchored" data-anchor-id="evaluación">Evaluación</h2>
-<ul>
-<li><strong>Lab 4: diagnóstico de modelos.</strong>
-<ul>
-<li>85% autograded: particiones, métricas, baseline, pipeline, cross-validation, learning curve, error slices y selección de modelo.</li>
-<li>15% manual: diagnóstico y recomendación técnica.</li>
-</ul></li>
+<section id="checklist-de-publicación" class="level2">
+<h2 class="anchored" data-anchor-id="checklist-de-publicación">Checklist de publicación</h2>
+<p>Antes de anunciar una semana en Bloque Neón:</p>
+<ul class="task-list">
+<li><label><input type="checkbox">programa, calendario y ruta dicen la misma fecha;</label></li>
+<li><label><input type="checkbox">materiales muestra el mismo hito que la ruta;</label></li>
+<li><label><input type="checkbox">panel docente tiene el mismo hito, pero con instrucciones operativas;</label></li>
+<li><label><input type="checkbox">el libro o módulo no contradice la entrega;</label></li>
+<li><label><input type="checkbox">no hay soluciones, pruebas ocultas ni autograders publicados;</label></li>
+<li><label><input type="checkbox">la semana siguiente no queda con dos entregas pesadas sin justificación.</label></li>
 </ul>
-</section>
-<section id="datasets" class="level2">
-<h2 class="anchored" data-anchor-id="datasets">Datasets</h2>
-<p>No se requiere internet.</p>
-<ul>
-<li><code>sklearn.datasets.load_breast_cancer</code> para clasificación binaria con métricas sensibles.</li>
-<li><code>sklearn.datasets.load_diabetes</code> para ejemplos de regresión cuando sea útil.</li>
-<li>Ejemplos generados con semilla fija para detectar leakage y sesgo-varianza.</li>
-</ul>
-</section>
-<section id="principio-operativo" class="level2">
-<h2 class="anchored" data-anchor-id="principio-operativo">Principio operativo</h2>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Nota
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>El test se toca una vez. La validación se usa para decidir. El entrenamiento se usa para aprender parámetros.</p>
-</div>
-</div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -698,16 +827,20 @@ Nota
     }
   });
   </script>
-<nav class="page-navigation">
-  <div class="nav-page nav-page-previous">
-  </div>
-  <div class="nav-page nav-page-next">
-      <a href="./capitulo01_metricas_particiones.html" class="pagination-link" aria-label="Métricas y particiones">
-        <span class="nav-page-text"><span class="chapter-title">Métricas y particiones</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
-  </div>
-</nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>MATE-2105 · Panel docente</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>URL docente no enlazada desde el portal estudiantil</p>
+</div>
+  </div>
+</footer>
 
 
 
