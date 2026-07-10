@@ -204,6 +204,7 @@ window.Quarto = {
   <li><a href="#caso-longitudinal-slice-reciente" id="toc-caso-longitudinal-slice-reciente" class="nav-link" data-scroll-target="#caso-longitudinal-slice-reciente">Caso longitudinal: slice <code>reciente</code></a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#procedimiento-de-auditoría-por-slice" id="toc-procedimiento-de-auditoría-por-slice" class="nav-link" data-scroll-target="#procedimiento-de-auditoría-por-slice">Procedimiento de auditoría por slice</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -504,6 +505,11 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
 <li>Una brecha por slice no prueba la causa; prueba que el promedio global es insuficiente para la decisión.</li>
 <li>Si dev y test tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de hacer más tuning.</li>
 </ol>
+</section>
+<section id="procedimiento-de-auditoría-por-slice" class="level2">
+<h2 class="anchored" data-anchor-id="procedimiento-de-auditoría-por-slice">Procedimiento de auditoría por slice</h2>
+<p>Una auditoría mínima por slice sigue cuatro pasos. Primero, define slices antes de mirar demasiados resultados: periodo, fuente, región, rango de edad, instrumento de medición o categoría operativa relevante. Segundo, calcula para cada slice tamaño, tasa de clase positiva, métrica principal y tipo de error dominante. Tercero, compara contra el desempeño global y contra el baseline; un slice puede tener bajo desempeño absoluto pero seguir mejorando el baseline, o puede empeorar aunque el promedio global suba. Cuarto, escribe una acción: recoger más datos, cambiar partición, ajustar umbral, crear feature, separar modelo o limitar el uso.</p>
+<p>La auditoría también debe proteger contra conclusiones exageradas. Un slice con 12 observaciones no sostiene una afirmación fuerte, pero sí puede activar una revisión. Un slice grande con caída persistente sí cambia la recomendación. En el reporte, el tamaño del slice y la métrica deben aparecer juntos.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -140,6 +140,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#ejemplo-resuelto-error-desde-valores-singulares",
+    "href": "capitulo01_svd_pca.html#ejemplo-resuelto-error-desde-valores-singulares",
+    "title": "SVD y PCA",
+    "section": "Ejemplo resuelto: error desde valores singulares",
+    "text": "Ejemplo resuelto: error desde valores singulares\nSupón que una matriz centrada tiene valores singulares:\n\\[\n\\sigma_1=9,\\qquad \\sigma_2=4,\\qquad \\sigma_3=1.\n\\]\nLa energía total bajo la norma de Frobenius es:\n\\[\n9^2+4^2+1^2=98.\n\\]\nSi usamos solo \\(k=1\\), descartamos \\(\\sigma_2\\) y \\(\\sigma_3\\). El error de reconstrucción cuadrático es:\n\\[\n4^2+1^2=17.\n\\]\nLa varianza explicada acumulada por el primer componente es:\n\\[\n\\frac{9^2}{98}\\approx 0.827.\n\\]\nLa lectura profesional es doble: un componente conserva cerca de 82.7% de la variabilidad medida por PCA, pero todavía descarta una parte que puede ser importante para ciertos grupos, variables o decisiones posteriores.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#derivación-guiada-reconstrucción-y-pérdida-de-información",
     "href": "capitulo01_svd_pca.html#derivación-guiada-reconstrucción-y-pérdida-de-información",
     "title": "SVD y PCA",
@@ -340,6 +350,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-por-qué-escalar-cambia-clusters",
+    "href": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-por-qué-escalar-cambia-clusters",
+    "title": "K-Means y clustering",
+    "section": "Ejemplo resuelto: por qué escalar cambia clusters",
+    "text": "Ejemplo resuelto: por qué escalar cambia clusters\nSupón dos variables: ingreso mensual en pesos y número de visitas a una página. Dos observaciones son:\n\\[\nx_1=(5{,}000{,}000, 10),\\qquad x_2=(5{,}100{,}000, 80).\n\\]\nLa diferencia en ingreso es \\(100{,}000\\), mientras la diferencia en visitas es 70. En distancia euclídea sin escalar, el ingreso domina casi todo:\n\\[\n\\sqrt{100000^2+70^2}\\approx 100000.\n\\]\nK-Means tenderá a agrupar por ingreso aunque visitas sea más relevante para la decisión. Después de estandarizar, cada variable se mide en desviaciones estándar y la distancia refleja patrones relativos, no unidades arbitrarias. Esto no garantiza clusters correctos, pero evita que una unidad de medida decida el resultado sin justificación.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-asignación-a-centroides",
     "href": "capitulo02_kmeans_clustering.html#ejemplo-resuelto-asignación-a-centroides",
     "title": "K-Means y clustering",
@@ -395,6 +415,16 @@
     "title": "K-Means y clustering",
     "section": "Caso longitudinal: clusters sintéticos",
     "text": "Caso longitudinal: clusters sintéticos\nEl archivo clusters_sinteticos.csv fue generado con tres centros compactos. Eso lo hace útil para aprender K-Means, pero también peligroso si se generaliza demasiado: favorece justo la geometría que K-Means prefiere.\n\n\n\nEvidencia\nUso\n\n\n\n\nscatterplot escalado\ninspección geométrica inicial\n\n\ninertia por \\(k\\)\nreducción de compactación\n\n\nsilhouette\nseparación relativa\n\n\ntamaños de clusters\ndetectar grupos diminutos\n\n\nestabilidad por semilla\nrevisar sensibilidad\n\n\n\nSi \\(k=3\\) gana en este dataset, no significa que “siempre hay tres segmentos”. Significa que, bajo esta geometría sintética y esta escala, tres centroides resumen bien la nube de puntos.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#estabilidad-por-inicialización",
+    "href": "capitulo02_kmeans_clustering.html#estabilidad-por-inicialización",
+    "title": "K-Means y clustering",
+    "section": "Estabilidad por inicialización",
+    "text": "Estabilidad por inicialización\nK-Means puede converger a soluciones distintas si cambian los centroides iniciales. Por eso un reporte debe fijar random_state y usar varias inicializaciones (n_init). Si dos corridas con el mismo \\(k\\) producen centroides muy distintos o clusters con tamaños incompatibles, la segmentación no es estable.\nLa estabilidad no convierte los clusters en categorías reales. Solo indica que el algoritmo encuentra una partición parecida bajo pequeñas variaciones de inicialización. La interpretación de dominio sigue siendo una segunda etapa.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -555,6 +585,26 @@
     "title": "Recomendación básica y estructura latente",
     "section": "Ejemplo resuelto: recomendación item-item",
     "text": "Ejemplo resuelto: recomendación item-item\nSupón la siguiente matriz binaria de interacción:\n\\[\n\\begin{array}{c|rrrr}\n\\text{Usuario} & A & B & C & D\\\\\n\\hline\nu1 & 1 & 1 & 0 & 0\\\\\nu2 & 1 & 1 & 1 & 0\\\\\nu3 & 0 & 0 & 1 & 1\\\\\nu4 & 0 & 1 & 0 & 1\n\\end{array}\n\\]\nLos vectores de ítems son:\n\\[\nA=(1,1,0,0),\\quad\nB=(1,1,0,1),\\quad\nC=(0,1,1,0),\\quad\nD=(0,0,1,1).\n\\]\nPara recomendar a partir del ítem \\(A\\), calculamos similitudes:\n\\[\n\\cos(A,B)=\\frac{2}{\\sqrt2\\sqrt3}\\approx0.816,\n\\]\n\\[\n\\cos(A,C)=\\frac{1}{\\sqrt2\\sqrt2}=0.5,\n\\qquad\n\\cos(A,D)=0.\n\\]\nSi el usuario semilla interactuó con \\(A\\), el ítem más similar es \\(B\\). Si ese usuario ya vio \\(B\\), el siguiente candidato por similitud sería \\(C\\). La recomendación debe excluir ítems ya vistos y declarar que esta regla no resuelve cold start ni sesgo de popularidad.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#evaluación-offline-precisionk",
+    "href": "capitulo03_recomendacion_latente.html#evaluación-offline-precisionk",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Evaluación offline: Precision@k",
+    "text": "Evaluación offline: Precision@k\nUna evaluación mínima de recomendación separa algunas interacciones conocidas como si fueran futuras. Luego pregunta si el recomendador las recupera entre sus primeras sugerencias.\nSi para un usuario ocultamos los ítems relevantes \\(\\{C,D\\}\\) y el sistema recomienda los tres primeros ítems:\n\\[\n[B,C,E],\n\\]\nentonces solo uno de los tres recomendados es relevante. La precisión en 3 es:\n\\[\n\\text{Precision@3}=\\frac{1}{3}.\n\\]\nSi además queremos saber cuántos relevantes recuperó:\n\\[\n\\text{Recall@3}=\\frac{1}{2}.\n\\]\nEstas métricas no prueban satisfacción real. Solo verifican si el ranking recupera interacciones ocultas bajo una simulación offline. Un reporte debe decir qué se ocultó, cómo se partió el dato y qué usuarios o ítems quedaron sin recomendación.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#baseline-de-popularidad",
+    "href": "capitulo03_recomendacion_latente.html#baseline-de-popularidad",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Baseline de popularidad",
+    "text": "Baseline de popularidad\nAntes de celebrar un recomendador personalizado, compáralo contra una regla simple: recomendar los ítems más populares que el usuario no ha visto. Este baseline suele ser fuerte porque muchos datasets tienen concentración de interacciones en pocos ítems.\nSi el modelo latente no supera popularidad en Precision@k o cobertura, todavía no hay evidencia de personalización útil. Si lo supera, el reporte debe mostrar cuánto mejora y para qué grupos de usuarios. La personalización no se presume: se compara.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]

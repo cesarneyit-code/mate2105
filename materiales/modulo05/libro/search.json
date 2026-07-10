@@ -160,6 +160,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#cómo-leer-una-pregunta-integradora",
+    "href": "capitulo01_parcial2_sintesis.html#cómo-leer-una-pregunta-integradora",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Cómo leer una pregunta integradora",
+    "text": "Cómo leer una pregunta integradora\nUna pregunta integradora suele mezclar cálculo, implementación y decisión. Antes de responder, separa cuatro capas:\n\n\n\n\n\n\n\nCapa\nPregunta que debes responder\n\n\n\n\nObjeto matemático\n¿qué función, matriz, métrica o pérdida aparece?\n\n\nProcedimiento\n¿qué algoritmo o transformación se aplica?\n\n\nEvidencia\n¿qué número, curva, tabla o slice sostiene la afirmación?\n\n\nDecisión\n¿qué acción se justifica y qué límite queda?\n\n\n\nPor ejemplo, si una pregunta combina PCA y clasificación, no basta con decir que PCA “mejora” el modelo. Debes decir si PCA se ajustó dentro del pipeline, cuánta varianza conserva, cómo cambia la métrica de validación y qué interpretación no puede hacerse de los componentes. Esta lectura evita respuestas largas pero desordenadas.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-softmax-estable-en-síntesis",
     "href": "capitulo01_parcial2_sintesis.html#ejemplo-resuelto-softmax-estable-en-síntesis",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
@@ -215,6 +225,16 @@
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
     "section": "Ejemplo resuelto: matriz de decisión integradora",
     "text": "Ejemplo resuelto: matriz de decisión integradora\nSupón dos modelos:\n\n\n\nEvidencia\nModelo A\nModelo B\n\n\n\n\nF1 global\n0.83\n0.85\n\n\nF1 slice reciente\n0.62\n0.51\n\n\ndesviación CV\n0.03\n0.09\n\n\nmanifest completo\nsí\nno\n\n\n\nAunque B tiene mayor F1 global, A es más defendible si el slice reciente importa y si la reproducibilidad es requisito de entrega. La respuesta integradora debe explicar la tensión: B gana una métrica agregada, pero A tiene menor riesgo de decisión bajo la evidencia disponible.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_parcial2_sintesis.html#mini-rúbrica-para-una-respuesta-integradora",
+    "href": "capitulo01_parcial2_sintesis.html#mini-rúbrica-para-una-respuesta-integradora",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Mini-rúbrica para una respuesta integradora",
+    "text": "Mini-rúbrica para una respuesta integradora\nUna respuesta de parcial puede calificarse de forma consistente con cuatro criterios 0/1/2.\n\n\n\n\n\n\n\n\n\nCriterio\n0\n1\n2\n\n\n\n\nevidencia\nno cita resultados\ncita un resultado aislado\nconecta métrica global, slice y variabilidad\n\n\ndiagnóstico\nno explica causa probable\nnombra una causa sin sostenerla\nrelaciona patrón observado con causa plausible\n\n\nacción\npropone algo genérico\npropone una acción parcial\npropone acción proporcional y verificable\n\n\nlímite\nno declara límite\nlímite vago\nlímite específico sobre uso, datos o despliegue\n\n\n\nEsta rúbrica también guía el estudio. Antes del parcial, el estudiante debe practicar respuestas que no sean listas de conceptos, sino argumentos breves con evidencia. Para el profesor, la ventaja es que la parte manual se concentra en juicio técnico observable, mientras los cálculos, formas y métricas pueden quedar autocalificados.\nUn error común es responder solo con el nombre del método: “usaría regularización” o “miraría PCA”. Eso rara vez basta. La respuesta debe decir qué evidencia activa esa decisión y qué resultado esperaría observar después. Si la acción propuesta no produce una verificación posterior, todavía no es una decisión técnica cerrada. El objetivo es mostrar criterio técnico, no solo vocabulario aislado.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
     ]
@@ -330,6 +350,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-resultado-no-reproducible",
+    "href": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-resultado-no-reproducible",
+    "title": "Reproducibilidad y tracking",
+    "section": "Ejemplo resuelto: resultado no reproducible",
+    "text": "Ejemplo resuelto: resultado no reproducible\nSupón que un equipo reporta test_f1 = 0.84, pero al ejecutar el notebook desde cero aparece test_f1 = 0.77. La primera hipótesis no debe ser mala fe; debe ser falta de trazabilidad. Revisa en orden:\n\nsi la partición usa la misma semilla;\nsi el pipeline aprende transformaciones solo en entrenamiento;\nsi el dataset tiene el mismo hash;\nsi las versiones de librerías cambiaron;\nsi el reporte copió una métrica de una corrida anterior.\n\nUn resultado no reproducible no se defiende con memoria. Se defiende corrigiendo la cadena de evidencia hasta que la métrica pueda reconstruirse.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-auditar-un-manifest",
     "href": "capitulo02_reproducibilidad_tracking.html#ejemplo-resuelto-auditar-un-manifest",
     "title": "Reproducibilidad y tracking",
@@ -415,6 +445,16 @@
     "title": "Reproducibilidad y tracking",
     "section": "Ejemplo resuelto: manifest mínimo en JSON",
     "text": "Ejemplo resuelto: manifest mínimo en JSON\nUn manifest pequeño puede verse así:\n{\n  \"dataset\": \"clasificacion_binaria_sintetica.csv\",\n  \"target\": \"target\",\n  \"random_state\": 2105,\n  \"split\": \"60/20/20 stratified\",\n  \"metric_primary\": \"f1\",\n  \"artifacts\": [\"metrics.csv\", \"confusion_matrix.png\", \"slice_report.csv\"]\n}\nEste archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué evidencia. Si cambian datos, métrica o partición, el manifest debe cambiar.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#qué-debe-poder-rerunearse",
+    "href": "capitulo02_reproducibilidad_tracking.html#qué-debe-poder-rerunearse",
+    "title": "Reproducibilidad y tracking",
+    "section": "Qué debe poder rerunearse",
+    "text": "Qué debe poder rerunearse\nUn paquete reproducible no exige que todo el curso se ejecute en segundos, pero sí que exista una ruta verificable. Como mínimo, otra persona debe poder ejecutar un script o notebook que cargue datos permitidos, reconstruya particiones, entrene o cargue el modelo declarado, calcule métricas principales y regenere la tabla final. Si el entrenamiento completo es costoso, se debe incluir una versión reducida o un modo de evaluación que cargue artefactos ya generados y verifique sus métricas.\nLa trazabilidad se rompe cuando una figura se pega manualmente, una métrica se copia sin archivo de origen o una tabla final no se puede regenerar. En ese caso, la discusión técnica puede ser buena, pero la evidencia no es auditable. El manifest debe apuntar a los archivos que sostienen cada afirmación importante.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
     ]
@@ -520,6 +560,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-de-bitácora-a-argumento",
+    "href": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-de-bitácora-a-argumento",
+    "title": "Comunicación técnica",
+    "section": "Ejemplo resuelto: de bitácora a argumento",
+    "text": "Ejemplo resuelto: de bitácora a argumento\nUna bitácora dice:\nProbamos regresión logística, random forest y varias variables. La mejor métrica\nfue la del modelo regularizado. También hicimos gráficas y revisamos errores.\nUn argumento técnico dice:\nLa regresión logística regularizada se elige porque mejora el baseline en F1\nmedio y mantiene menor variabilidad que el modelo más complejo. El análisis por\nslice muestra caída en observaciones recientes; por eso la recomendación se\nlimita a usarlo como baseline interno y priorizar validación temporal.\nLa diferencia no es estilo literario. La bitácora enumera acciones; el argumento conecta criterio, evidencia, diagnóstico y límite. Un lector puede auditar el segundo texto porque sabe qué tabla buscar y qué afirmación verificar.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejorar-una-conclusión",
     "href": "capitulo03_comunicacion_tecnica.html#ejemplo-resuelto-mejorar-una-conclusión",
     "title": "Comunicación técnica",
@@ -585,6 +635,16 @@
     "title": "Comunicación técnica",
     "section": "Plantilla de resultados defendible",
     "text": "Plantilla de resultados defendible\nUna sección de resultados puede tener esta forma:\nBaseline. [regla simple] obtiene [métrica] en [partición].\nModelo. [modelo elegido] obtiene [métrica media ± desviación] bajo [validación].\nError principal. El peor patrón aparece en [slice/tipo de error].\nDecisión. Con esta evidencia se recomienda [acción proporcional].\nLímite. No se puede afirmar [conclusión excesiva] porque [razón].\nEsta plantilla evita dos extremos: una bitácora larga sin tesis y una conclusión fuerte sin evidencia. Si una línea no puede llenarse con una tabla, figura, cálculo o archivo, el reporte todavía no está listo.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#de-resultado-a-recomendación",
+    "href": "capitulo03_comunicacion_tecnica.html#de-resultado-a-recomendación",
+    "title": "Comunicación técnica",
+    "section": "De resultado a recomendación",
+    "text": "De resultado a recomendación\nLa recomendación final debe tener un verbo de acción. “El modelo alcanza 0.84 de F1” es un resultado; “usar el modelo como filtro preliminar con revisión humana en casos de baja confianza” es una recomendación. Entre ambos debe aparecer el razonamiento: baseline superado, error principal, costo de fallo y límite de uso. En ciencia de datos aplicada, una métrica sin acción suele quedarse corta.\nTambién importa el tono. Si la evidencia viene de validación interna, la recomendación debe decirlo. Si el test final es pequeño, debe aparecer el tamaño. Si un slice falla, no se debe esconder detrás del promedio global. La escritura profesional no consiste en sonar segura; consiste en ser precisa sobre lo que la evidencia permite sostener.\nUna buena prueba de lectura es subrayar cada afirmación del reporte y preguntar: ¿qué tabla, figura, cálculo o archivo la sostiene? Si no hay respuesta, la frase debe debilitarse, eliminarse o convertirse en trabajo futuro. Esta disciplina hace que el texto sea más corto, pero más fuerte y auditable. Además, ayuda a distinguir entre una conclusión lista para entrega y una idea que aún necesita validación adicional.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
@@ -665,6 +725,16 @@
     "title": "Entrega final y defensa",
     "section": "Estructura del repositorio de proyecto",
     "text": "Estructura del repositorio de proyecto\nproyecto-final/\n  README.md\n  requirements.txt\n  data/\n    README.md\n  notebooks/\n    01_exploracion.ipynb\n    02_modelado.ipynb\n    03_reporte_final.ipynb\n  src/\n    features.py\n    evaluation.py\n  reports/\n    reporte_final.pdf\n  artifacts/\n    metrics.json\n    manifest.json\nNo todos los proyectos tendrán exactamente la misma estructura, pero sí deben separar datos, código, evidencia y reporte.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#criterio-de-paquete-ejecutable",
+    "href": "capitulo04_entrega_defensa.html#criterio-de-paquete-ejecutable",
+    "title": "Entrega final y defensa",
+    "section": "Criterio de paquete ejecutable",
+    "text": "Criterio de paquete ejecutable\nUn proyecto no está listo porque “corre en mi computador”. Está listo cuando otra persona puede reconstruir el resultado principal con instrucciones mínimas. El README debe responder:\n\n\n\n\n\n\n\nPregunta\nEvidencia esperada\n\n\n\n\n¿qué problema resuelve?\npregunta aplicada y decisión\n\n\n¿qué datos usa?\nfuente, licencia, columnas y restricciones\n\n\n¿cómo se ejecuta?\ncomandos o notebooks en orden\n\n\n¿qué resultado debe aparecer?\nmétrica, tabla o figura esperada\n\n\n¿qué no se publica?\ndatos privados, credenciales o archivos sensibles\n\n\n\nSi el notebook final depende de rutas locales, celdas ejecutadas fuera de orden o archivos no incluidos, la defensa se vuelve una explicación informal. La entrega profesional reduce esa fragilidad antes de que el profesor tenga que descubrirla.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -765,6 +835,16 @@
     "title": "Entrega final y defensa",
     "section": "Carga docente mínima",
     "text": "Carga docente mínima\nPara grupos grandes:\n\nrevisar el reporte con rúbrica estructurada;\nusar checklist de reproducibilidad antes de leer detalles;\nevaluar defensa individual con 5 criterios 0/1/2;\npedir evidencia de contribución en una tabla;\nmuestrear notebooks solo cuando haya inconsistencia.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#evidencia-individual-y-trazabilidad",
+    "href": "capitulo04_entrega_defensa.html#evidencia-individual-y-trazabilidad",
+    "title": "Entrega final y defensa",
+    "section": "Evidencia individual y trazabilidad",
+    "text": "Evidencia individual y trazabilidad\nLa defensa individual debe apoyarse en evidencia concreta. Una respuesta fuerte no dice solamente “yo hice el modelo”; señala el archivo, la función, el commit, la tabla o la figura que prueba la contribución. Esta trazabilidad evita dos problemas frecuentes: estudiantes que entienden el proyecto pero no pueden mostrar su aporte, y estudiantes que presentan artefactos sin poder defender las decisiones técnicas.\nUna forma simple de prepararse es construir una tabla con tres columnas: pregunta posible, evidencia que abriría y respuesta de 30 segundos. Por ejemplo, si la pregunta es “¿cómo evitaron leakage?”, la evidencia puede ser el pipeline de preprocesamiento y la partición; la respuesta debe explicar qué pasos se ajustaron solo con entrenamiento y cuáles se aplicaron después a validación o test. Esta preparación hace la defensa más justa y reduce tiempo de evaluación.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]

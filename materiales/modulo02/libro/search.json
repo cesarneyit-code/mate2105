@@ -220,6 +220,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_perceptron_forward.html#ejemplo-resuelto-auditoría-de-formas-en-dos-capas",
+    "href": "capitulo01_perceptron_forward.html#ejemplo-resuelto-auditoría-de-formas-en-dos-capas",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Ejemplo resuelto: auditoría de formas en dos capas",
+    "text": "Ejemplo resuelto: auditoría de formas en dos capas\nSupón un lote \\(X\\in\\mathbb{R}^{32\\times 8}\\), una capa oculta con 5 neuronas y una salida de 3 clases. Una implementación consistente debe declarar\n\\[\nW^{[1]}\\in\\mathbb{R}^{8\\times 5},\\quad b^{[1]}\\in\\mathbb{R}^{5},\\quad\nW^{[2]}\\in\\mathbb{R}^{5\\times 3},\\quad b^{[2]}\\in\\mathbb{R}^{3}.\n\\]\nEntonces \\(Z^{[1]}=XW^{[1]}+b^{[1]}\\) tiene forma \\(32\\times 5\\), la activación \\(A^{[1]}\\) conserva esa forma y los logits finales tienen forma \\(32\\times 3\\). Softmax se aplica sobre las 3 columnas de cada fila, porque cada fila representa una observación. Si softmax se aplicara por columna, se estarían normalizando observaciones distintas entre sí, lo cual no tiene interpretación como distribución de clases para un caso individual.\nEsta auditoría debe hacerse antes de entrenar. Un notebook profesional imprime o verifica formas en puntos intermedios, porque un error de broadcasting puede producir un arreglo numérico sin representar el modelo matemático esperado.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_perceptron_forward.html#para-explorar-más",
     "href": "capitulo01_perceptron_forward.html#para-explorar-más",
     "title": "Perceptron, neurona logística y forward propagation",
@@ -600,6 +610,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#lectura-de-curvas-tres-patrones-frecuentes",
+    "href": "capitulo03_diagnostico_regularizacion.html#lectura-de-curvas-tres-patrones-frecuentes",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Lectura de curvas: tres patrones frecuentes",
+    "text": "Lectura de curvas: tres patrones frecuentes\nUna curva profesional se lee comparando entrenamiento y validación, no mirando una sola línea. Hay tres patrones básicos.\nPrimero, si train loss baja de forma sostenida y dev loss también baja, el entrenamiento todavía está produciendo evidencia útil. No conviene detenerlo solo porque ya pasaron muchas épocas. Segundo, si train loss baja pero dev loss sube, la red está memorizando estructura específica del conjunto de entrenamiento. La acción natural es guardar el mejor modelo de validación, revisar regularización, reducir capacidad o aumentar datos. Tercero, si train y dev loss se mantienen altos, el problema no se resuelve aumentando regularización; probablemente faltan capacidad, variables, épocas, una tasa de aprendizaje adecuada o una revisión de etiquetas.\nEl reporte debe nombrar el patrón observado. Es distinto decir “el modelo no mejora” que decir “hay overfitting después de la época 30” o “hay underfitting persistente en train y dev”. Esa diferencia reduce ambigüedad para el lector y para quien califica.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_diagnostico_regularizacion.html#punto-de-control",
     "href": "capitulo03_diagnostico_regularizacion.html#punto-de-control",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
@@ -710,6 +730,16 @@
     ]
   },
   {
+    "objectID": "capitulo04_optimizadores_pytorch.html#derivación-guiada-momentum-como-memoria-exponencial",
+    "href": "capitulo04_optimizadores_pytorch.html#derivación-guiada-momentum-como-memoria-exponencial",
+    "title": "Optimizadores y PyTorch",
+    "section": "Derivación guiada: momentum como memoria exponencial",
+    "text": "Derivación guiada: momentum como memoria exponencial\nLa fórmula\n\\[\nv_t=\\beta v_{t-1}+(1-\\beta)g_t\n\\]\nparece local, pero al expandirla se ve su memoria. Como\n\\[\nv_{t-1}=\\beta v_{t-2}+(1-\\beta)g_{t-1},\n\\]\nentonces\n\\[\nv_t=(1-\\beta)g_t+\\beta(1-\\beta)g_{t-1}+\\beta^2 v_{t-2}.\n\\]\nSi repetimos la sustitución:\n\\[\nv_t=(1-\\beta)g_t+\\beta(1-\\beta)g_{t-1}\n+\\beta^2(1-\\beta)g_{t-2}+\\cdots.\n\\]\nLos gradientes recientes pesan más que los antiguos, pero los antiguos no desaparecen de inmediato. Por eso momentum puede avanzar de forma más estable en valles alargados de la pérdida. La contraparte es que una memoria demasiado alta puede retrasar la reacción cuando la dirección útil cambia.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_optimizadores_pytorch.html#rmsprop-y-adam",
     "href": "capitulo04_optimizadores_pytorch.html#rmsprop-y-adam",
     "title": "Optimizadores y PyTorch",
@@ -805,6 +835,16 @@
     "title": "Optimizadores y PyTorch",
     "section": "Ejemplo resuelto: presupuesto de entrenamiento",
     "text": "Ejemplo resuelto: presupuesto de entrenamiento\nComparar dos optimizadores exige presupuesto comparable. Si Adam se entrena 100 épocas y SGD se entrena 20, la diferencia de métrica no aísla el efecto del optimizador. Una comparación mínima fija:\n\n\n\nElemento\nMismo valor\n\n\n\n\npartición\nsí\n\n\narquitectura\nsí\n\n\nbatch size\nsí\n\n\népocas máximas\nsí\n\n\ncriterio de parada\nsí\n\n\nmétrica final\nsí\n\n\n\nSolo después de fijar esos elementos se puede discutir si momentum o Adam mejoraron estabilidad, velocidad o desempeño.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#convergencia-no-es-validación",
+    "href": "capitulo04_optimizadores_pytorch.html#convergencia-no-es-validación",
+    "title": "Optimizadores y PyTorch",
+    "section": "Convergencia no es validación",
+    "text": "Convergencia no es validación\nUn optimizador puede hacer que la pérdida de entrenamiento baje con más rapidez sin producir el mejor modelo para datos nuevos. Por eso el criterio de éxito no es “Adam bajó la pérdida antes”, sino “bajo la misma partición, presupuesto y métrica, el modelo validado sostiene una mejora defendible”. En particular, una curva suave de train loss puede esconder overfitting si no se acompaña de dev loss o de una métrica externa.\nEn una entrega, la comparación debe separar tres afirmaciones: velocidad de optimización, estabilidad de la curva y desempeño de validación. La primera se mide por épocas o pasos; la segunda por oscilaciones o sensibilidad a la tasa; la tercera por una métrica en datos no usados para ajustar parámetros.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]

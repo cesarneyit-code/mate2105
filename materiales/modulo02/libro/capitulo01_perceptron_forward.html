@@ -244,6 +244,7 @@ window.Quarto = {
   <li><a href="#caso-longitudinal-dígitos-escritos-a-mano" id="toc-caso-longitudinal-dígitos-escritos-a-mano" class="nav-link" data-scroll-target="#caso-longitudinal-dígitos-escritos-a-mano">Caso longitudinal: dígitos escritos a mano</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#ejemplo-resuelto-auditoría-de-formas-en-dos-capas" id="toc-ejemplo-resuelto-auditoría-de-formas-en-dos-capas" class="nav-link" data-scroll-target="#ejemplo-resuelto-auditoría-de-formas-en-dos-capas">Ejemplo resuelto: auditoría de formas en dos capas</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -559,6 +560,16 @@ e^{z-\max(z)}=(1,e^{-1},e^{-2})\approx(1,0.368,0.135).
 <li>Si una red multiclase produce logits <span class="math inline">\(50\times 10\)</span>, la suma de softmax debe ser 1 en cada fila, no en cada columna.</li>
 <li>Si se eliminan todas las activaciones no lineales, la red completa equivale a una transformación lineal; por eso no aumenta capacidad geométrica real.</li>
 </ol>
+</section>
+<section id="ejemplo-resuelto-auditoría-de-formas-en-dos-capas" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-auditoría-de-formas-en-dos-capas">Ejemplo resuelto: auditoría de formas en dos capas</h2>
+<p>Supón un lote <span class="math inline">\(X\in\mathbb{R}^{32\times 8}\)</span>, una capa oculta con 5 neuronas y una salida de 3 clases. Una implementación consistente debe declarar</p>
+<p><span class="math display">\[
+W^{[1]}\in\mathbb{R}^{8\times 5},\quad b^{[1]}\in\mathbb{R}^{5},\quad
+W^{[2]}\in\mathbb{R}^{5\times 3},\quad b^{[2]}\in\mathbb{R}^{3}.
+\]</span></p>
+<p>Entonces <span class="math inline">\(Z^{[1]}=XW^{[1]}+b^{[1]}\)</span> tiene forma <span class="math inline">\(32\times 5\)</span>, la activación <span class="math inline">\(A^{[1]}\)</span> conserva esa forma y los logits finales tienen forma <span class="math inline">\(32\times 3\)</span>. Softmax se aplica sobre las 3 columnas de cada fila, porque cada fila representa una observación. Si softmax se aplicara por columna, se estarían normalizando observaciones distintas entre sí, lo cual no tiene interpretación como distribución de clases para un caso individual.</p>
+<p>Esta auditoría debe hacerse antes de entrenar. Un notebook profesional imprime o verifica formas en puntos intermedios, porque un error de broadcasting puede producir un arreglo numérico sin representar el modelo matemático esperado.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

@@ -218,6 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#semillas" id="toc-semillas" class="nav-link" data-scroll-target="#semillas">Semillas</a></li>
   <li><a href="#manifest-de-experimento" id="toc-manifest-de-experimento" class="nav-link" data-scroll-target="#manifest-de-experimento">Manifest de experimento</a></li>
   <li><a href="#ejemplo-resuelto-manifest-mínimo" id="toc-ejemplo-resuelto-manifest-mínimo" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo">Ejemplo resuelto: manifest mínimo</a></li>
+  <li><a href="#ejemplo-resuelto-resultado-no-reproducible" id="toc-ejemplo-resuelto-resultado-no-reproducible" class="nav-link" data-scroll-target="#ejemplo-resuelto-resultado-no-reproducible">Ejemplo resuelto: resultado no reproducible</a></li>
   <li><a href="#ejemplo-resuelto-auditar-un-manifest" id="toc-ejemplo-resuelto-auditar-un-manifest" class="nav-link" data-scroll-target="#ejemplo-resuelto-auditar-un-manifest">Ejemplo resuelto: auditar un manifest</a></li>
   <li><a href="#tracking-de-experimentos" id="toc-tracking-de-experimentos" class="nav-link" data-scroll-target="#tracking-de-experimentos">Tracking de experimentos</a></li>
   <li><a href="#persistencia-de-modelos" id="toc-persistencia-de-modelos" class="nav-link" data-scroll-target="#persistencia-de-modelos">Persistencia de modelos</a></li>
@@ -227,6 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#caso-longitudinal-manifest-del-clasificador" id="toc-caso-longitudinal-manifest-del-clasificador" class="nav-link" data-scroll-target="#caso-longitudinal-manifest-del-clasificador">Caso longitudinal: manifest del clasificador</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#ejemplo-resuelto-manifest-mínimo-en-json" id="toc-ejemplo-resuelto-manifest-mínimo-en-json" class="nav-link" data-scroll-target="#ejemplo-resuelto-manifest-mínimo-en-json">Ejemplo resuelto: manifest mínimo en JSON</a></li>
+  <li><a href="#qué-debe-poder-rerunearse" id="toc-qué-debe-poder-rerunearse" class="nav-link" data-scroll-target="#qué-debe-poder-rerunearse">Qué debe poder rerunearse</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -374,6 +376,18 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"decision"</span><span class="fu">:</span> <span class="st">"mantener como baseline de comparación"</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>No es necesario que sea largo. Debe ser suficiente para reconstruir la decisión.</p>
+</section>
+<section id="ejemplo-resuelto-resultado-no-reproducible" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-resultado-no-reproducible">Ejemplo resuelto: resultado no reproducible</h2>
+<p>Supón que un equipo reporta <code>test_f1 = 0.84</code>, pero al ejecutar el notebook desde cero aparece <code>test_f1 = 0.77</code>. La primera hipótesis no debe ser mala fe; debe ser falta de trazabilidad. Revisa en orden:</p>
+<ol type="1">
+<li>si la partición usa la misma semilla;</li>
+<li>si el pipeline aprende transformaciones solo en entrenamiento;</li>
+<li>si el dataset tiene el mismo hash;</li>
+<li>si las versiones de librerías cambiaron;</li>
+<li>si el reporte copió una métrica de una corrida anterior.</li>
+</ol>
+<p>Un resultado no reproducible no se defiende con memoria. Se defiende corrigiendo la cadena de evidencia hasta que la métrica pueda reconstruirse.</p>
 </section>
 <section id="ejemplo-resuelto-auditar-un-manifest" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-auditar-un-manifest">Ejemplo resuelto: auditar un manifest</h2>
@@ -541,6 +555,11 @@ Figura&nbsp;3.1: Reproducibilidad: datos, código, ambiente y parámetros alimen
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"artifacts"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"metrics.csv"</span><span class="ot">,</span> <span class="st">"confusion_matrix.png"</span><span class="ot">,</span> <span class="st">"slice_report.csv"</span><span class="ot">]</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Este archivo no sustituye el reporte, pero permite auditar qué corrida produjo qué evidencia. Si cambian datos, métrica o partición, el manifest debe cambiar.</p>
+</section>
+<section id="qué-debe-poder-rerunearse" class="level2">
+<h2 class="anchored" data-anchor-id="qué-debe-poder-rerunearse">Qué debe poder rerunearse</h2>
+<p>Un paquete reproducible no exige que todo el curso se ejecute en segundos, pero sí que exista una ruta verificable. Como mínimo, otra persona debe poder ejecutar un script o notebook que cargue datos permitidos, reconstruya particiones, entrene o cargue el modelo declarado, calcule métricas principales y regenere la tabla final. Si el entrenamiento completo es costoso, se debe incluir una versión reducida o un modo de evaluación que cargue artefactos ya generados y verifique sus métricas.</p>
+<p>La trazabilidad se rompe cuando una figura se pega manualmente, una métrica se copia sin archivo de origen o una tabla final no se puede regenerar. En ese caso, la discusión técnica puede ser buena, pero la evidencia no es auditable. El manifest debe apuntar a los archivos que sostienen cada afirmación importante.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>

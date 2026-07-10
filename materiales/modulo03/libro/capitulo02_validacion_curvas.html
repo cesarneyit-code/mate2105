@@ -236,11 +236,13 @@ window.Quarto = {
   <li><a href="#ejemplo-resuelto-leer-una-learning-curve" id="toc-ejemplo-resuelto-leer-una-learning-curve" class="nav-link" data-scroll-target="#ejemplo-resuelto-leer-una-learning-curve">Ejemplo resuelto: leer una learning curve</a></li>
   <li><a href="#validation-curve" id="toc-validation-curve" class="nav-link" data-scroll-target="#validation-curve">Validation curve</a></li>
   <li><a href="#caso-longitudinal-estabilidad-del-modelo-de-clasificación" id="toc-caso-longitudinal-estabilidad-del-modelo-de-clasificación" class="nav-link" data-scroll-target="#caso-longitudinal-estabilidad-del-modelo-de-clasificación">Caso longitudinal: estabilidad del modelo de clasificación</a></li>
+  <li><a href="#ejemplo-resuelto-decisión-con-diferencia-pequeña" id="toc-ejemplo-resuelto-decisión-con-diferencia-pequeña" class="nav-link" data-scroll-target="#ejemplo-resuelto-decisión-con-diferencia-pequeña">Ejemplo resuelto: decisión con diferencia pequeña</a></li>
   <li><a href="#sesgo-varianza-y-ruido" id="toc-sesgo-varianza-y-ruido" class="nav-link" data-scroll-target="#sesgo-varianza-y-ruido">Sesgo, varianza y ruido</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande" id="toc-ejemplo-resuelto-cuándo-no-hacer-grid-más-grande" class="nav-link" data-scroll-target="#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande">Ejemplo resuelto: cuándo no hacer grid más grande</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
+  <li><a href="#criterio-práctico-de-decisión" id="toc-criterio-práctico-de-decisión" class="nav-link" data-scroll-target="#criterio-práctico-de-decisión">Criterio práctico de decisión</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
   <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
@@ -508,6 +510,32 @@ regularización alta -&gt; modelo simple</code></pre>
 </table>
 <p>La selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por <code>slice</code>, podría explorarse el modelo polinomial. Si se quiere una recomendación conservadora, el modelo regularizado puede ser más defendible. El punto es que media y desviación se leen juntas.</p>
 </section>
+<section id="ejemplo-resuelto-decisión-con-diferencia-pequeña" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-decisión-con-diferencia-pequeña">Ejemplo resuelto: decisión con diferencia pequeña</h2>
+<p>Supón que dos modelos tienen:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Modelo</th>
+<th style="text-align: right;">F1 CV medio</th>
+<th style="text-align: right;">Desviación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A</td>
+<td style="text-align: right;">0.812</td>
+<td style="text-align: right;">0.018</td>
+</tr>
+<tr class="even">
+<td>B</td>
+<td style="text-align: right;">0.819</td>
+<td style="text-align: right;">0.061</td>
+</tr>
+</tbody>
+</table>
+<p>La diferencia de medias es <span class="math inline">\(0.007\)</span>, menor que la variabilidad reportada de B. Una respuesta profesional no diría que B “gana” de forma clara. Diría que B tiene una mejora media pequeña, pero su inestabilidad exige revisar folds, slices o una partición temporal antes de cambiar la recomendación. En validación, ganar por una milésima no equivale a ganar una decisión.</p>
+</section>
 <section id="sesgo-varianza-y-ruido" class="level2">
 <h2 class="anchored" data-anchor-id="sesgo-varianza-y-ruido">Sesgo, varianza y ruido</h2>
 <p>La generalización puede entenderse como una combinación de:</p>
@@ -549,6 +577,11 @@ regularización alta -&gt; modelo simple</code></pre>
 <li><strong>Conexión con proyecto:</strong> decide qué experimento harías primero: más datos, más regularización, más features o modelo más flexible.</li>
 </ul>
 </div>
+</section>
+<section id="criterio-práctico-de-decisión" class="level2">
+<h2 class="anchored" data-anchor-id="criterio-práctico-de-decisión">Criterio práctico de decisión</h2>
+<p>Cuando dos modelos tienen métricas cercanas, la elección no debe depender solo del tercer decimal. Un criterio razonable compara desempeño medio, variabilidad, complejidad, costo de explicación y estabilidad por slice. Si el modelo más complejo mejora 0.003 en F1, pero tiene mayor varianza entre folds y errores más difíciles de explicar, la recomendación profesional puede ser conservar el modelo simple como baseline operativo.</p>
+<p>La validación no busca declarar un campeón universal. Busca decidir qué modelo es proporcional a la evidencia disponible. Esa frase importa para el curso: elegir bien también significa saber cuándo no hay evidencia suficiente para preferir una alternativa más complicada.</p>
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>

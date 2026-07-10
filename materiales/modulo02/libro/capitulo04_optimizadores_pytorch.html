@@ -235,6 +235,7 @@ window.Quarto = {
   <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
   <li><a href="#ejemplo-resuelto-dos-pasos-con-momentum" id="toc-ejemplo-resuelto-dos-pasos-con-momentum" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</a></li>
+  <li><a href="#derivación-guiada-momentum-como-memoria-exponencial" id="toc-derivación-guiada-momentum-como-memoria-exponencial" class="nav-link" data-scroll-target="#derivación-guiada-momentum-como-memoria-exponencial">Derivación guiada: momentum como memoria exponencial</a></li>
   <li><a href="#rmsprop-y-adam" id="toc-rmsprop-y-adam" class="nav-link" data-scroll-target="#rmsprop-y-adam">RMSProp y Adam</a></li>
   <li><a href="#ejemplo-resuelto-adam-en-una-coordenada" id="toc-ejemplo-resuelto-adam-en-una-coordenada" class="nav-link" data-scroll-target="#ejemplo-resuelto-adam-en-una-coordenada">Ejemplo resuelto: Adam en una coordenada</a></li>
   <li><a href="#pytorch-qué-automatiza" id="toc-pytorch-qué-automatiza" class="nav-link" data-scroll-target="#pytorch-qué-automatiza">PyTorch: qué automatiza</a></li>
@@ -245,6 +246,7 @@ window.Quarto = {
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
   <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
   <li><a href="#ejemplo-resuelto-presupuesto-de-entrenamiento" id="toc-ejemplo-resuelto-presupuesto-de-entrenamiento" class="nav-link" data-scroll-target="#ejemplo-resuelto-presupuesto-de-entrenamiento">Ejemplo resuelto: presupuesto de entrenamiento</a></li>
+  <li><a href="#convergencia-no-es-validación" id="toc-convergencia-no-es-validación" class="nav-link" data-scroll-target="#convergencia-no-es-validación">Convergencia no es validación</a></li>
   <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
   <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
   <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
@@ -347,6 +349,27 @@ v_2=0.9(0.4)+0.1(2)=0.56,
 \theta_2=4.96-0.1(0.56)=4.904.
 \]</span></p>
 <p>Aunque el segundo gradiente es menor que el primero, la velocidad conserva parte de la dirección previa. Esa memoria suaviza actualizaciones ruidosas, pero también puede sostener una mala dirección si el learning rate o <span class="math inline">\(\beta\)</span> no son adecuados.</p>
+</section>
+<section id="derivación-guiada-momentum-como-memoria-exponencial" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-momentum-como-memoria-exponencial">Derivación guiada: momentum como memoria exponencial</h2>
+<p>La fórmula</p>
+<p><span class="math display">\[
+v_t=\beta v_{t-1}+(1-\beta)g_t
+\]</span></p>
+<p>parece local, pero al expandirla se ve su memoria. Como</p>
+<p><span class="math display">\[
+v_{t-1}=\beta v_{t-2}+(1-\beta)g_{t-1},
+\]</span></p>
+<p>entonces</p>
+<p><span class="math display">\[
+v_t=(1-\beta)g_t+\beta(1-\beta)g_{t-1}+\beta^2 v_{t-2}.
+\]</span></p>
+<p>Si repetimos la sustitución:</p>
+<p><span class="math display">\[
+v_t=(1-\beta)g_t+\beta(1-\beta)g_{t-1}
++\beta^2(1-\beta)g_{t-2}+\cdots.
+\]</span></p>
+<p>Los gradientes recientes pesan más que los antiguos, pero los antiguos no desaparecen de inmediato. Por eso momentum puede avanzar de forma más estable en valles alargados de la pérdida. La contraparte es que una memoria demasiado alta puede retrasar la reacción cuando la dirección útil cambia.</p>
 </section>
 <section id="rmsprop-y-adam" class="level2">
 <h2 class="anchored" data-anchor-id="rmsprop-y-adam">RMSProp y Adam</h2>
@@ -554,6 +577,11 @@ s_1=0.999(0)+0.001(4^2)=0.016.
 </tbody>
 </table>
 <p>Solo después de fijar esos elementos se puede discutir si momentum o Adam mejoraron estabilidad, velocidad o desempeño.</p>
+</section>
+<section id="convergencia-no-es-validación" class="level2">
+<h2 class="anchored" data-anchor-id="convergencia-no-es-validación">Convergencia no es validación</h2>
+<p>Un optimizador puede hacer que la pérdida de entrenamiento baje con más rapidez sin producir el mejor modelo para datos nuevos. Por eso el criterio de éxito no es “Adam bajó la pérdida antes”, sino “bajo la misma partición, presupuesto y métrica, el modelo validado sostiene una mejora defendible”. En particular, una curva suave de train loss puede esconder overfitting si no se acompaña de dev loss o de una métrica externa.</p>
+<p>En una entrega, la comparación debe separar tres afirmaciones: velocidad de optimización, estabilidad de la curva y desempeño de validación. La primera se mide por épocas o pasos; la segunda por oscilaciones o sensibilidad a la tasa; la tercera por una métrica en datos no usados para ajustar parámetros.</p>
 </section>
 <section id="para-explorar-más" class="level2">
 <h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
