@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.">
 
-<title>Distribución de carga – MATE-2105 · Panel docente</title>
+<title>Semana 1 · Clase 2 – MATE-2105 · Panel docente</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,24 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-b3b235ae6ba71d6e5c2a90c00144237d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b3b235ae6ba71d6e5c2a90c00144237d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,8 +71,37 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <meta name="robots" content="noindex,nofollow">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<link rel="stylesheet" href="styles.css">
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -81,9 +111,9 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">MATE-2105 · Panel docente</span>
     </a>
   </div>
@@ -94,27 +124,27 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Panel docente</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./primera-clase.html"> 
+    <a class="nav-link" href="../primera-clase.html"> 
 <span class="menu-text">Primera clase</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./sesiones/index.html"> 
+    <a class="nav-link" href="../sesiones/index.html"> 
 <span class="menu-text">Sesiones</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./guia_presentaciones.html"> 
+    <a class="nav-link" href="../guia_presentaciones.html"> 
 <span class="menu-text">Guía de presentaciones</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./distribucion_carga.html" aria-current="page"> 
+    <a class="nav-link" href="../distribucion_carga.html"> 
 <span class="menu-text">Distribución de carga</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./estandar_slides_profesionales.html"> 
+    <a class="nav-link" href="../estandar_slides_profesionales.html"> 
 <span class="menu-text">Estándar slides</span></a>
   </li>  
 </ul>
@@ -133,13 +163,22 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">En esta página</h2>
    
   <ul>
-  <li><a href="#propósito-docente" id="toc-propósito-docente" class="nav-link active" data-scroll-target="#propósito-docente">Propósito docente</a></li>
-  <li><a href="#diagnóstico-actual" id="toc-diagnóstico-actual" class="nav-link" data-scroll-target="#diagnóstico-actual">Diagnóstico actual</a></li>
-  <li><a href="#semáforo-semanal" id="toc-semáforo-semanal" class="nav-link" data-scroll-target="#semáforo-semanal">Semáforo semanal</a></li>
-  <li><a href="#decisiones-de-redistribución" id="toc-decisiones-de-redistribución" class="nav-link" data-scroll-target="#decisiones-de-redistribución">Decisiones de redistribución</a></li>
-  <li><a href="#cómo-se-sincroniza-todo" id="toc-cómo-se-sincroniza-todo" class="nav-link" data-scroll-target="#cómo-se-sincroniza-todo">Cómo se sincroniza todo</a></li>
-  <li><a href="#reglas-de-edición" id="toc-reglas-de-edición" class="nav-link" data-scroll-target="#reglas-de-edición">Reglas de edición</a></li>
-  <li><a href="#checklist-de-publicación" id="toc-checklist-de-publicación" class="nav-link" data-scroll-target="#checklist-de-publicación">Checklist de publicación</a></li>
+  <li><a href="#cómo-usar-esta-página" id="toc-cómo-usar-esta-página" class="nav-link active" data-scroll-target="#cómo-usar-esta-página">Cómo usar esta página</a></li>
+  <li><a href="#preparación-previa" id="toc-preparación-previa" class="nav-link" data-scroll-target="#preparación-previa">Preparación previa</a></li>
+  <li><a href="#frase-de-apertura" id="toc-frase-de-apertura" class="nav-link" data-scroll-target="#frase-de-apertura">Frase de apertura</a></li>
+  <li><a href="#guion-de-110-minutos" id="toc-guion-de-110-minutos" class="nav-link" data-scroll-target="#guion-de-110-minutos">Guion de 110 minutos</a></li>
+  <li><a href="#transiciones-que-conviene-decir" id="toc-transiciones-que-conviene-decir" class="nav-link" data-scroll-target="#transiciones-que-conviene-decir">Transiciones que conviene decir</a></li>
+  <li><a href="#trabajo-de-tablero" id="toc-trabajo-de-tablero" class="nav-link" data-scroll-target="#trabajo-de-tablero">Trabajo de tablero</a>
+  <ul class="collapse">
+  <li><a href="#tablero-1-minuto-26" id="toc-tablero-1-minuto-26" class="nav-link" data-scroll-target="#tablero-1-minuto-26">Tablero 1, minuto 26</a></li>
+  <li><a href="#tablero-2-minuto-84" id="toc-tablero-2-minuto-84" class="nav-link" data-scroll-target="#tablero-2-minuto-84">Tablero 2, minuto 84</a></li>
+  <li><a href="#tablero-3-minuto-94" id="toc-tablero-3-minuto-94" class="nav-link" data-scroll-target="#tablero-3-minuto-94">Tablero 3, minuto 94</a></li>
+  </ul></li>
+  <li><a href="#respuestas-esperadas" id="toc-respuestas-esperadas" class="nav-link" data-scroll-target="#respuestas-esperadas">Respuestas esperadas</a></li>
+  <li><a href="#errores-frecuentes-y-respuesta-docente" id="toc-errores-frecuentes-y-respuesta-docente" class="nav-link" data-scroll-target="#errores-frecuentes-y-respuesta-docente">Errores frecuentes y respuesta docente</a></li>
+  <li><a href="#qué-recortar-si-faltan-minutos" id="toc-qué-recortar-si-faltan-minutos" class="nav-link" data-scroll-target="#qué-recortar-si-faltan-minutos">Qué recortar si faltan minutos</a></li>
+  <li><a href="#contingencias" id="toc-contingencias" class="nav-link" data-scroll-target="#contingencias">Contingencias</a></li>
+  <li><a href="#después-de-clase" id="toc-después-de-clase" class="nav-link" data-scroll-target="#después-de-clase">Después de clase</a></li>
   </ul>
 </nav>
     </div>
@@ -148,9 +187,15 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Distribución de carga</h1>
+<h1 class="title">Semana 1 · Clase 2</h1>
+<p class="subtitle lead">Primer experimento de clasificación</p>
 </div>
 
+<div>
+  <div class="description">
+    Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -165,275 +210,255 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="propósito-docente" class="level2">
-<h2 class="anchored" data-anchor-id="propósito-docente">Propósito docente</h2>
-<p>Esta página sirve para revisar si la carga semanal está razonablemente distribuida antes de publicar anuncios, abrir laboratorios o mover hitos. Es una vista de control para el profesor; no está enlazada desde el portal de estudiantes ni desde el libro.</p>
-<p>La regla de operación es simple: el estudiante debe ver una ruta limpia y ejecutable; el profesor debe ver la carga completa de lectura, clase, notebook, laboratorio, proyecto y evaluación.</p>
-</section>
-<section id="diagnóstico-actual" class="level2">
-<h2 class="anchored" data-anchor-id="diagnóstico-actual">Diagnóstico actual</h2>
-<p>El curso tiene tres zonas naturalmente intensas:</p>
+<!-- Generado por scripts/generar_panel_docente_publico.py. -->
+<div class="session-summary">
+<p><strong>Módulo 0 · Arranque</strong><br> <strong>Fecha:</strong> 6 de agosto de 2026 · <strong>Duración:</strong> 110 minutos<br> <strong>Resultado esperado:</strong> Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.<br> <strong>Hito de la semana:</strong> Laboratorio diagnóstico e ideas iniciales de proyecto</p>
+</div>
+<div class="session-actions">
+<p><a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo00/slides/semana01_clase02_presentacion.html" class="session-action primary" target="_blank">Abrir presentación</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_live_coding.ipynb" class="session-action" target="_blank">Abrir notebook semanal</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00-lenguaje-comun.html" class="session-action" target="_blank">Lenguaje común</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00b-incertidumbre-datos.html" class="session-action" target="_blank">Incertidumbre y datos</a> <a href="https://cesarneyit-code.github.io/mate2105/ruta.html#semana-1" class="session-action" target="_blank">Ruta de la semana</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_lab.ipynb" class="session-action" target="_blank">Laboratorio diagnóstico</a></p>
+</div>
+<section id="cómo-usar-esta-página" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-usar-esta-página">Cómo usar esta página</h2>
 <ol type="1">
-<li><strong>Semana 1:</strong> arranque, entorno, navegación, diagnóstico y proyecto. Es pesada, pero necesaria.</li>
-<li><strong>Semanas 3-6:</strong> regresión, optimización, regularización, clasificación y Parcial 1. La carga se controla publicando Labs 1 y 2 con anticipación.</li>
-<li><strong>Semanas 11-15:</strong> estrategia ML, no supervisado, Parcial 2, reproducibilidad y proyecto. Esta es la zona que requiere mayor cuidado operativo.</li>
+<li>Abra los enlaces anteriores antes de entrar al salón.</li>
+<li>Siga el guion por minutos; no intente cubrir todas las diapositivas si una comprobación central falla.</li>
+<li>Mantenga visibles el trabajo de tablero y las respuestas esperadas.</li>
+<li>Use los recortes y contingencias si cambia el tiempo o falla el entorno.</li>
+<li>Registre las acciones posteriores antes de cerrar la sesión.</li>
 </ol>
-<p>La corrección principal del cronograma fue incorporar explícitamente el receso institucional del <strong>28 de septiembre al 3 de octubre de 2026</strong> y desplazar las semanas 9-16 una semana hacia adelante. Con eso, la Semana 9 inicia el <strong>6 de octubre</strong> y el cierre del curso queda el <strong>24 y 26 de noviembre</strong>.</p>
-</section>
-<section id="semáforo-semanal" class="level2">
-<h2 class="anchored" data-anchor-id="semáforo-semanal">Semáforo semanal</h2>
-<div class="table-wrap">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 30%">
-<col style="width: 23%">
-<col style="width: 23%">
-<col style="width: 23%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: right;">Semana</th>
-<th>Estado</th>
-<th>Riesgo principal</th>
-<th>Decisión docente</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;">1</td>
-<td>Alta</td>
-<td>entorno, reglas y navegación al mismo tiempo</td>
-<td>mantener diagnóstico formativo y soporte técnico</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">2</td>
-<td>Media</td>
-<td>álgebra matricial desigual entre estudiantes</td>
-<td>usar ejemplos pequeños y shapes explícitos</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">3</td>
-<td>Media-alta</td>
-<td>gradiente + prepropuesta + Lab 1</td>
-<td>cerrar con convergencia e interpretación, no solo código</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">4</td>
-<td>Media-alta</td>
-<td>overfitting + propuesta + publicación Lab 2</td>
-<td>separar intuición de validación antes de complejidad</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">5</td>
-<td>Media</td>
-<td>regularización + Lab 2</td>
-<td>revisar selección de modelo con rúbrica corta</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">6</td>
-<td>Alta</td>
-<td>logística + Parcial 1 + baseline</td>
-<td>limitar revisión manual a interpretación breve</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">7</td>
-<td>Baja-media</td>
-<td>primer contacto con redes</td>
-<td>aprovechar para reforzar dimensiones</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">8</td>
-<td>Media</td>
-<td>backpropagation y publicación Lab 3</td>
-<td>no convertir la clase en álgebra simbólica larga</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">Receso</td>
-<td>Recuperación</td>
-<td>pérdida de continuidad</td>
-<td>usar para cerrar Lab 3, bloqueos y proyecto</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">9</td>
-<td>Media</td>
-<td>diagnóstico de redes después del receso</td>
-<td>abrir con errores recurrentes de Lab 3</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">10</td>
-<td>Media-alta</td>
-<td>optimizadores + entrega Lab 3</td>
-<td>mantener comparación NumPy/PyTorch acotada</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">11</td>
-<td>Alta conceptual</td>
-<td>métricas, CV, curvas y error analysis</td>
-<td>publicar Lab 4, no exigir entrega esa semana</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">12</td>
-<td>Media-alta</td>
-<td>SVD/PCA + entrega Lab 4 + publicación Lab 5</td>
-<td>no agregar hito extra de proyecto calificado</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">13</td>
-<td>Media-alta</td>
-<td>Lab 5 + guía Parcial 2</td>
-<td>usar guía como preparación, no como tarea extensa</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">14</td>
-<td>Alta</td>
-<td>Parcial 2 + reproducibilidad</td>
-<td>pedir manifest preliminar, no pipeline final completo</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">15</td>
-<td>Media</td>
-<td>clínica de proyecto + entrega preliminar</td>
-<td>enfocar retroalimentación en evidencia mínima defendible</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">16</td>
-<td>Alta final</td>
-<td>defensas y cierre</td>
-<td>no introducir contenido nuevo</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="decisiones-de-redistribución" class="level2">
-<h2 class="anchored" data-anchor-id="decisiones-de-redistribución">Decisiones de redistribución</h2>
-<div class="table-wrap">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Elemento</th>
-<th>Antes</th>
-<th>Ahora</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Receso</td>
-<td>no aparecía como semana explícita en la ruta</td>
-<td>aparece entre semanas 8 y 9</td>
-</tr>
-<tr class="even">
-<td>Semana 9</td>
-<td>caía en receso institucional</td>
-<td>se mueve a 6 y 8 de octubre</td>
-</tr>
-<tr class="odd">
-<td>Lab 4</td>
-<td>se veía como hito de Semana 11</td>
-<td>se publica en Semana 11 y se entrega en Semana 12</td>
-</tr>
-<tr class="even">
-<td>Lab 5</td>
-<td>concentrado en Semana 13</td>
-<td>se publica en Semana 12 y se entrega en Semana 13</td>
-</tr>
-<tr class="odd">
-<td>Semana 14</td>
-<td>Parcial 2 + pipeline y tracking completo</td>
-<td>Parcial 2 + manifest preliminar</td>
-</tr>
-<tr class="even">
-<td>Semana 15</td>
-<td>solo entrega preliminar</td>
-<td>entrega preliminar + manifest reproducible</td>
-</tr>
-<tr class="odd">
-<td>Semana 16</td>
-<td>terminaba antes de la última semana institucional</td>
-<td>usa 24 y 26 de noviembre para defensa y cierre</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="cómo-se-sincroniza-todo" class="level2">
-<h2 class="anchored" data-anchor-id="cómo-se-sincroniza-todo">Cómo se sincroniza todo</h2>
-<div class="table-wrap">
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Página o fuente</th>
-<th>Función</th>
-<th>Qué debe controlar</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Programa</td>
-<td>contrato oficial del curso</td>
-<td>porcentajes, políticas, cronograma macro y reglas</td>
-</tr>
-<tr class="even">
-<td>Calendario</td>
-<td>fechas e hitos</td>
-<td>día exacto de clase, receso, entregas y parciales</td>
-</tr>
-<tr class="odd">
-<td>Ruta</td>
-<td>acción semanal del estudiante</td>
-<td>qué estudiar, qué abrir en clase y qué entregar</td>
-</tr>
-<tr class="even">
-<td>Materiales</td>
-<td>descargas públicas</td>
-<td>que notebooks, slides, laboratorios y zips estén disponibles</td>
-</tr>
-<tr class="odd">
-<td>Libro</td>
-<td>explicación académica</td>
-<td>conceptos, derivaciones, ejemplos, ejercicios y glosario</td>
-</tr>
-<tr class="even">
-<td>Panel docente</td>
-<td>operación de clase</td>
-<td>preparación, cierre, revisión y carga semanal</td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="reglas-de-edición" class="level2">
-<h2 class="anchored" data-anchor-id="reglas-de-edición">Reglas de edición</h2>
-<p>Cuando cambie una fecha o entrega:</p>
-<ol type="1">
-<li>Cambiar primero <code>sitio_curso/programa.qmd</code> y <code>sitio_curso/calendario.qmd</code>.</li>
-<li>Actualizar <code>sitio_curso/ruta.qmd</code> y <code>sitio_curso/materiales.qmd</code>.</li>
-<li>Actualizar esta página y <code>docente_curso/index.qmd</code>.</li>
-<li>Si el hito aparece en el libro modular, actualizar el <code>index.qmd</code> del módulo correspondiente.</li>
-<li>Renderizar y correr auditorías antes de publicar.</li>
-</ol>
-</section>
-<section id="checklist-de-publicación" class="level2">
-<h2 class="anchored" data-anchor-id="checklist-de-publicación">Checklist de publicación</h2>
-<p>Antes de anunciar una semana en Bloque Neón:</p>
-<ul class="task-list">
-<li><label><input type="checkbox">programa, calendario y ruta dicen la misma fecha;</label></li>
-<li><label><input type="checkbox">materiales muestra el mismo hito que la ruta;</label></li>
-<li><label><input type="checkbox">panel docente tiene el mismo hito, pero con instrucciones operativas;</label></li>
-<li><label><input type="checkbox">el libro o módulo no contradice la entrega;</label></li>
-<li><label><input type="checkbox">no hay soluciones, pruebas ocultas ni autograders publicados;</label></li>
-<li><label><input type="checkbox">la semana siguiente no queda con dos entregas pesadas sin justificación.</label></li>
+<hr>
+<ul>
+<li>Presentación: <a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo00/slides/semana01_clase02_presentacion.html">presentación</a></li>
+<li>Notebook: <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_live_coding.ipynb">semana01_live_coding.ipynb</a></li>
+<li>Duración: 110 minutos</li>
+<li>Propósito: ejecutar y leer un primer experimento de clasificación con baseline, partición y matriz de confusión.</li>
 </ul>
+</section>
+<section id="preparación-previa" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-previa">Preparación previa</h2>
+<p>Reiniciar y ejecutar el notebook completo. Confirmar estas salidas:</p>
+<pre class="text"><code>X.shape = (178, 13)
+train = 133
+test = 45
+accuracy baseline = 0.400
+accuracy modelo = 0.978
+matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
+<p>Abrir 20 minutos antes:</p>
+<ul>
+<li>presentación, página 1;</li>
+<li>JupyterLab con el notebook cerrado en la primera celda;</li>
+<li>terminal en la raíz del repositorio;</li>
+<li>laboratorio diagnóstico y rúbrica, sin soluciones;</li>
+<li>Bloque Neón en la tarea de Semana 1.</li>
+</ul>
+<p>Mantener el notebook descargado sin celdas editadas durante la preparación. Si se necesita una copia limpia, volver a descargarla desde el enlace del panel.</p>
+</section>
+<section id="frase-de-apertura" class="level2">
+<h2 class="anchored" data-anchor-id="frase-de-apertura">Frase de apertura</h2>
+<blockquote class="blockquote">
+<p>Hoy quiero que el primer número del modelo aparezca tarde. Antes vamos a predecir su baseline, el tamaño de test y qué información necesitaremos para localizar un error.</p>
+</blockquote>
+</section>
+<section id="guion-de-110-minutos" class="level2">
+<h2 class="anchored" data-anchor-id="guion-de-110-minutos">Guion de 110 minutos</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Tiempo</th>
+<th>Diapositivas / recurso</th>
+<th>Acción y transición</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0-6</td>
+<td>1-3</td>
+<td>Recuperar la clase anterior con tres preguntas: fila, objetivo y límite. Presentar <code>load_wine</code> sin abrir aún el notebook.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6-16</td>
+<td>4-6</td>
+<td>Leer forma y distribución de clases. Pedir el cálculo <span class="math inline">\(71/178\)</span> y discutir por qué todavía no es la métrica de test.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">16-26</td>
+<td>7-9</td>
+<td>Explicar partición fija y estratificación. Hacer que el grupo anticipe tamaños y proporciones.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">26-36</td>
+<td>10</td>
+<td>Pausa, 5 minutos; puesta en común, 5 minutos. Escribir en el tablero las respuestas 45, 18, 44/45 y “tipo de confusión”.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">36-47</td>
+<td>11-15</td>
+<td>Mostrar baseline, tubería, escalamiento y regresión logística como herramienta. Leer el código completo sin ejecutarlo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">47-50</td>
+<td>16</td>
+<td><strong>Abrir el notebook exactamente aquí.</strong> Mostrar índice y detenerse en la pregunta inicial.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">50-72</td>
+<td>Notebook, secciones 1-5</td>
+<td>Ejecutar preparación, carga, distribución, partición, baseline y modelo. Antes de cada celda pedir una predicción de forma o valor. No ejecutar en bloque.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">72-82</td>
+<td>17-19</td>
+<td>Volver a slides. Comparar 0.400 y 0.978 y limitar la afirmación. No usar “casi perfecto”.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">82-92</td>
+<td>Notebook sección 6 + slides 20-23</td>
+<td>Ejecutar matriz y reporte. Leer una celda concreta y conectar recall de clase 1 con precision de clase 2.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">92-100</td>
+<td>24-26</td>
+<td>Construir la conclusión de cuatro líneas, discutir alcance externo y enumerar los elementos de reproducibilidad.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">100-106</td>
+<td>27-29</td>
+<td>Explicar laboratorio, ideas de proyecto y segunda pausa. Pedir una reformulación oral de la frase exagerada.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">106-110</td>
+<td>30-31</td>
+<td>Recordar reinicio/ejecución completa y cerrar con las cuatro preguntas. Mostrar la fecha de entrega en Bloque Neón, no confiar en una fecha escrita solo en slides.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="transiciones-que-conviene-decir" class="level2">
+<h2 class="anchored" data-anchor-id="transiciones-que-conviene-decir">Transiciones que conviene decir</h2>
+<ul>
+<li>De distribución a baseline: “La barra más alta ya nos da un competidor sin usar química”.</li>
+<li>De partición a pausa: “Ahora el problema tiene 45 casos; calculen antes de que Python lo haga”.</li>
+<li>De tubería a notebook: “Ya sabemos qué debe ocurrir. Abramos el archivo para comprobarlo”.</li>
+<li>De accuracy a matriz: “Cuarenta y cuatro aciertos dejan un error; queremos saber cuál”.</li>
+<li>De matriz a límite: “Localizar el error en estas 45 filas no nos dice qué ocurrirá en otro laboratorio”.</li>
+</ul>
+</section>
+<section id="trabajo-de-tablero" class="level2">
+<h2 class="anchored" data-anchor-id="trabajo-de-tablero">Trabajo de tablero</h2>
+<section id="tablero-1-minuto-26" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-1-minuto-26">Tablero 1, minuto 26</h3>
+<pre class="text"><code>test: 45
+baseline: 18/45 = 0.400
+modelo hipotético: 44/45 = 0.978
+falta: ubicación del error</code></pre>
+<p>No mostrar 44 antes de que lo calculen; está en la consigna para verificar división, no para simular descubrimiento.</p>
+</section>
+<section id="tablero-2-minuto-84" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-2-minuto-84">Tablero 2, minuto 84</h3>
+<p>Dibujar una matriz 3 × 3 y marcar filas como observado, columnas como predicho. Colocar solo el 1 fuera de la diagonal.</p>
+<p>Preguntar:</p>
+<ul>
+<li>¿qué clase perdió recall? Respuesta: clase 1.</li>
+<li>¿qué clase perdió precision? Respuesta: clase 2.</li>
+</ul>
+</section>
+<section id="tablero-3-minuto-94" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-3-minuto-94">Tablero 3, minuto 94</h3>
+<p>Plantilla de conclusión:</p>
+<pre class="text"><code>comparación + error concreto + partición + cambio no evaluado</code></pre>
+</section>
+</section>
+<section id="respuestas-esperadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-esperadas">Respuestas esperadas</h2>
+<ul>
+<li>La clase mayoritaria es 1, con 71 observaciones.</li>
+<li>En test hay 45 filas; el baseline acierta las 18 de clase 1.</li>
+<li><code>stratify=y</code> conserva aproximadamente proporciones, no garantiza idénticos porcentajes.</li>
+<li>El escalador aprende media y desviación solo con train porque vive dentro de la tubería.</li>
+<li>El modelo acierta 44 de 45; el único error es clase 1 predicha como 2.</li>
+<li>El recall de clase 1 es <span class="math inline">\(17/18\)</span>; la precision de clase 2 es <span class="math inline">\(12/13\)</span>.</li>
+<li>El resultado no evalúa otros laboratorios, regiones ni periodos.</li>
+</ul>
+</section>
+<section id="errores-frecuentes-y-respuesta-docente" class="level2">
+<h2 class="anchored" data-anchor-id="errores-frecuentes-y-respuesta-docente">Errores frecuentes y respuesta docente</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Error</th>
+<th>Respuesta breve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Calcular baseline sobre todo <code>y</code>.</td>
+<td>Para la intuición inicial sirve; el baseline evaluado debe aprender la moda solo en train.</td>
+</tr>
+<tr class="even">
+<td>Escalar antes de separar.</td>
+<td>Preguntar qué media habría conocido el procedimiento antes de ver test.</td>
+</tr>
+<tr class="odd">
+<td>Interpretar <code>random_state</code> como mejora estadística.</td>
+<td>Es reproducibilidad de una partición, no garantía de representatividad.</td>
+</tr>
+<tr class="even">
+<td>Leer columnas como observado en la matriz.</td>
+<td>Volver a los ejes impresos y leer una celda en una oración completa.</td>
+</tr>
+<tr class="odd">
+<td>Decir que 97.8 % será el desempeño futuro.</td>
+<td>Pedir tamaño de test, procedencia y cambios no evaluados.</td>
+</tr>
+<tr class="even">
+<td>Creer que el notebook “demuestra” regresión logística.</td>
+<td>Recordar que hoy se usa la implementación; la derivación llega en Semana 6.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qué-recortar-si-faltan-minutos" class="level2">
+<h2 class="anchored" data-anchor-id="qué-recortar-si-faltan-minutos">Qué recortar si faltan minutos</h2>
+<p>No recortar la pausa 1, la ejecución de baseline/modelo, la matriz ni el cierre.</p>
+<p>Si hay 12 minutos de retraso:</p>
+<ol type="1">
+<li>no imprimir el reporte completo; mostrar solo la tabla de slides 22;</li>
+<li>resumir slides 25-26 en tres minutos;</li>
+<li>dejar la segunda pausa como ticket de salida escrito;</li>
+<li>explicar el formato de entrega mediante el anuncio ya publicado.</li>
+</ol>
+</section>
+<section id="contingencias" class="level2">
+<h2 class="anchored" data-anchor-id="contingencias">Contingencias</h2>
+<ul>
+<li><strong>Kernel no inicia:</strong> usar las salidas guardadas del notebook y ejecutar solo las aserciones en otro equipo al final. No improvisar cifras.</li>
+<li><strong>Falla <code>scikit-learn</code>:</strong> mostrar <code>python -m pip show scikit-learn</code>, registrar el error y continuar con las figuras congeladas.</li>
+<li><strong>Muchos estudiantes sin entorno:</strong> trabajar en parejas durante el live coding; la entrega individual conserva el reporte de bloqueo.</li>
+<li><strong>Sin internet:</strong> <code>load_wine</code> es local y no requiere descarga.</li>
+<li><strong>Resultado distinto:</strong> detenerse. Revisar semilla, <code>stratify</code>, tamaño de test y versión del notebook antes de interpretar.</li>
+</ul>
+</section>
+<section id="después-de-clase" class="level2">
+<h2 class="anchored" data-anchor-id="después-de-clase">Después de clase</h2>
+<ul>
+<li>Publicar recordatorio del laboratorio diagnóstico.</li>
+<li>Clasificar bloqueos en instalación, kernel, rutas o conceptos.</li>
+<li>Revisar una muestra de cinco conclusiones y anotar expresiones exageradas recurrentes.</li>
+<li>Llevar a Semana 2 dos ideas de proyecto con unidad de observación bien definida y una que todavía la confunda.</li>
+</ul>
+<hr>
+<div class="session-navigation">
+<p><a href="index.html">Índice de sesiones</a> · <a href="semana01-clase01.html">Sesión anterior</a> · <a href="semana02-clase01.html">Sesión siguiente</a></p>
+</div>
 
 
 </section>

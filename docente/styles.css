@@ -26,12 +26,86 @@ body {
 
 .teacher-note,
 .private-warning,
-.route-principle {
+.route-principle,
+.handoff-note,
+.session-summary {
   background: var(--mate-soft);
   border-left: 4px solid var(--mate-teal);
   border-radius: 6px;
   margin: 1.25rem 0;
   padding: 1rem 1.15rem;
+}
+
+.handoff-hero {
+  border-bottom: 1px solid var(--mate-line);
+  border-top: 5px solid var(--mate-blue);
+  margin: 1.25rem 0 2rem;
+  padding: 1.25rem 0 1.5rem;
+}
+
+.handoff-hero h2 {
+  font-size: 1.35rem;
+  margin-top: 0;
+}
+
+.handoff-note {
+  background: #eef7f5;
+  border-left-color: var(--mate-teal);
+}
+
+.session-summary {
+  background: #f4f7fa;
+  border-left-color: var(--mate-blue);
+}
+
+.session-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.session-action {
+  border: 1px solid var(--mate-blue);
+  border-radius: 5px;
+  color: var(--mate-blue);
+  display: inline-flex;
+  font-size: .92rem;
+  font-weight: 700;
+  justify-content: center;
+  line-height: 1.2;
+  padding: .62rem .82rem;
+  text-decoration: none;
+}
+
+.session-action:hover,
+.session-action:focus-visible {
+  background: #eef3f7;
+  color: var(--mate-blue);
+}
+
+.session-action.primary {
+  background: var(--mate-blue);
+  color: #fff;
+}
+
+.session-action.primary:hover,
+.session-action.primary:focus-visible {
+  background: #244b6d;
+  color: #fff;
+}
+
+.session-navigation {
+  border-top: 1px solid var(--mate-line);
+  color: var(--mate-muted);
+  margin-top: 2rem;
+  padding-top: 1rem;
+}
+
+.teacher-week table {
+  font-size: .9rem;
+  margin-bottom: .8rem;
 }
 
 .private-warning {
@@ -48,6 +122,10 @@ body {
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   margin: 1.25rem 0;
+}
+
+.teacher-week-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .teacher-command-card,
@@ -97,6 +175,21 @@ body {
   margin-bottom: .75rem;
 }
 
+.teacher-week table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.teacher-week th:first-child,
+.teacher-week td:first-child {
+  width: 24%;
+}
+
+.teacher-week th:last-child,
+.teacher-week td:last-child {
+  width: 22%;
+}
+
 .table-wrap {
   overflow-x: auto;
 }
@@ -132,6 +225,9 @@ body {
   .teacher-note,
   .private-warning,
   .route-principle,
+  .handoff-note,
+  .session-summary,
+  .handoff-hero,
   .teacher-command-card,
   .sync-card,
   .teacher-week,
@@ -139,5 +235,14 @@ body {
   .milestone-card {
     min-width: 0;
     overflow-wrap: anywhere;
+  }
+
+  .session-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .session-action {
+    width: 100%;
   }
 }

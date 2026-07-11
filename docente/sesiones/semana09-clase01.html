@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Medir saturación, unidades inactivas y escala de activaciones bajo distintas inicializaciones.">
+
+<title>Semana 9 · Clase 1 – MATE-2105 · Panel docente</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-b3b235ae6ba71d6e5c2a90c00144237d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<meta name="robots" content="noindex,nofollow">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">MATE-2105 · Panel docente</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Buscar"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Navegación de palanca" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Panel docente</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../primera-clase.html"> 
+<span class="menu-text">Primera clase</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../sesiones/index.html"> 
+<span class="menu-text">Sesiones</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../guia_presentaciones.html"> 
+<span class="menu-text">Guía de presentaciones</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../distribucion_carga.html"> 
+<span class="menu-text">Distribución de carga</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../estandar_slides_profesionales.html"> 
+<span class="menu-text">Estándar slides</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">En esta página</h2>
+   
+  <ul>
+  <li><a href="#cómo-usar-esta-página" id="toc-cómo-usar-esta-página" class="nav-link active" data-scroll-target="#cómo-usar-esta-página">Cómo usar esta página</a></li>
+  <li><a href="#preparación-previa" id="toc-preparación-previa" class="nav-link" data-scroll-target="#preparación-previa">Preparación previa</a></li>
+  <li><a href="#frase-de-apertura" id="toc-frase-de-apertura" class="nav-link" data-scroll-target="#frase-de-apertura">Frase de apertura</a></li>
+  <li><a href="#guion-de-110-minutos" id="toc-guion-de-110-minutos" class="nav-link" data-scroll-target="#guion-de-110-minutos">Guion de 110 minutos</a></li>
+  <li><a href="#momento-exacto-para-abrir-el-notebook" id="toc-momento-exacto-para-abrir-el-notebook" class="nav-link" data-scroll-target="#momento-exacto-para-abrir-el-notebook">Momento exacto para abrir el notebook</a></li>
+  <li><a href="#mapa-de-slides-y-transiciones" id="toc-mapa-de-slides-y-transiciones" class="nav-link" data-scroll-target="#mapa-de-slides-y-transiciones">Mapa de slides y transiciones</a></li>
+  <li><a href="#trabajo-de-tablero" id="toc-trabajo-de-tablero" class="nav-link" data-scroll-target="#trabajo-de-tablero">Trabajo de tablero</a>
+  <ul class="collapse">
+  <li><a href="#zona-izquierda-objetos-que-no-se-borran" id="toc-zona-izquierda-objetos-que-no-se-borran" class="nav-link" data-scroll-target="#zona-izquierda-objetos-que-no-se-borran">Zona izquierda: objetos que no se borran</a></li>
+  <li><a href="#zona-central-expresión-y-derivación" id="toc-zona-central-expresión-y-derivación" class="nav-link" data-scroll-target="#zona-central-expresión-y-derivación">Zona central: expresión y derivación</a></li>
+  <li><a href="#zona-derecha-síntesis-final" id="toc-zona-derecha-síntesis-final" class="nav-link" data-scroll-target="#zona-derecha-síntesis-final">Zona derecha: síntesis final</a></li>
+  </ul></li>
+  <li><a href="#respuestas-esperadas" id="toc-respuestas-esperadas" class="nav-link" data-scroll-target="#respuestas-esperadas">Respuestas esperadas</a>
+  <ul class="collapse">
+  <li><a href="#primera-pausa" id="toc-primera-pausa" class="nav-link" data-scroll-target="#primera-pausa">Primera pausa</a></li>
+  <li><a href="#segunda-pausa" id="toc-segunda-pausa" class="nav-link" data-scroll-target="#segunda-pausa">Segunda pausa</a></li>
+  <li><a href="#salida-numérica-de-referencia" id="toc-salida-numérica-de-referencia" class="nav-link" data-scroll-target="#salida-numérica-de-referencia">Salida numérica de referencia</a></li>
+  <li><a href="#ticket-de-salida" id="toc-ticket-de-salida" class="nav-link" data-scroll-target="#ticket-de-salida">Ticket de salida</a></li>
+  </ul></li>
+  <li><a href="#errores-frecuentes-y-respuesta-docente" id="toc-errores-frecuentes-y-respuesta-docente" class="nav-link" data-scroll-target="#errores-frecuentes-y-respuesta-docente">Errores frecuentes y respuesta docente</a></li>
+  <li><a href="#qué-recortar-si-faltan-minutos" id="toc-qué-recortar-si-faltan-minutos" class="nav-link" data-scroll-target="#qué-recortar-si-faltan-minutos">Qué recortar si faltan minutos</a></li>
+  <li><a href="#contingencias" id="toc-contingencias" class="nav-link" data-scroll-target="#contingencias">Contingencias</a></li>
+  <li><a href="#después-de-clase" id="toc-después-de-clase" class="nav-link" data-scroll-target="#después-de-clase">Después de clase</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Semana 9 · Clase 1</h1>
+<p class="subtitle lead">Activaciones e inicialización</p>
+</div>
+
+<div>
+  <div class="description">
+    Medir saturación, unidades inactivas y escala de activaciones bajo distintas inicializaciones.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Generado por scripts/generar_panel_docente_publico.py. -->
+<div class="session-summary">
+<p><strong>Módulo 2 · Redes neuronales</strong><br> <strong>Fecha:</strong> 6 de octubre de 2026 · <strong>Duración:</strong> 110 minutos<br> <strong>Resultado esperado:</strong> Medir saturación, unidades inactivas y escala de activaciones bajo distintas inicializaciones.<br> <strong>Hito de la semana:</strong> Checkpoint técnico del proyecto</p>
+</div>
+<div class="session-actions">
+<p><a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo02/slides/semana09_presentacion.html" class="session-action primary" target="_blank">Abrir presentación</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo02/notebooks/semana09_live_coding.ipynb" class="session-action" target="_blank">Abrir notebook semanal</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-diagnostico-regularizacion-redes.html" class="session-action" target="_blank">Diagnóstico y regularización de redes</a> <a href="https://cesarneyit-code.github.io/mate2105/ruta.html#semana-9" class="session-action" target="_blank">Ruta de la semana</a></p>
+</div>
+<section id="cómo-usar-esta-página" class="level2">
+<h2 class="anchored" data-anchor-id="cómo-usar-esta-página">Cómo usar esta página</h2>
+<ol type="1">
+<li>Abra los enlaces anteriores antes de entrar al salón.</li>
+<li>Siga el guion por minutos; no intente cubrir todas las diapositivas si una comprobación central falla.</li>
+<li>Mantenga visibles el trabajo de tablero y las respuestas esperadas.</li>
+<li>Use los recortes y contingencias si cambia el tiempo o falla el entorno.</li>
+<li>Registre las acciones posteriores antes de cerrar la sesión.</li>
+</ol>
+<hr>
+<ul>
+<li>Fecha: 2026-10-06</li>
+<li>Presentación: <a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo02/slides/semana09_presentacion.html">presentación</a></li>
+<li>Notebook: <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo02/notebooks/semana09_live_coding.ipynb">semana09_live_coding.ipynb</a></li>
+<li>Duración: 110 minutos</li>
+<li>Propósito: Medir saturación, unidades inactivas y escala de activaciones bajo distintas inicializaciones.</li>
+</ul>
+</section>
+<section id="preparación-previa" class="level2">
+<h2 class="anchored" data-anchor-id="preparación-previa">Preparación previa</h2>
+<p>Leer:</p>
+<ul>
+<li><a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-diagnostico-regularizacion-redes.html">Diagnóstico y regularización de redes</a></li>
+</ul>
+<p>Antes de entrar:</p>
+<ol type="1">
+<li>ejecutar el notebook de arriba abajo y confirmar que no contiene errores;</li>
+<li>abrir la presentación en la portada y probar la figura principal;</li>
+<li>resolver las dos pausas sin mirar este libreto;</li>
+<li>preparar tablero con la expresión central y las formas;</li>
+<li>revisar el hito: <strong>Checkpoint técnico del proyecto</strong>.</li>
+</ol>
+</section>
+<section id="frase-de-apertura" class="level2">
+<h2 class="anchored" data-anchor-id="frase-de-apertura">Frase de apertura</h2>
+<blockquote class="blockquote">
+<p>¿Cómo producen distintas inicializaciones saturación, activaciones inactivas o gradientes de escala razonable?</p>
+</blockquote>
+<p>Después de leerla, guardar diez segundos de silencio y pedir dos respuestas breves. No corregir todavía.</p>
+</section>
+<section id="guion-de-110-minutos" class="level2">
+<h2 class="anchored" data-anchor-id="guion-de-110-minutos">Guion de 110 minutos</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 36%">
+<col style="width: 36%">
+<col style="width: 27%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Tiempo</th>
+<th style="text-align: right;">Slides</th>
+<th>Acción</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0-6</td>
+<td style="text-align: right;">1-2</td>
+<td>Abrir la pregunta y recuperar el punto de partida.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6-14</td>
+<td style="text-align: right;">3-5</td>
+<td>Presentar el caso, leer la figura y fijar objetos.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">14-26</td>
+<td style="text-align: right;">6-9</td>
+<td>Construir la pregunta matemática y la derivación en el tablero.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">26-34</td>
+<td style="text-align: right;">10-11</td>
+<td>Verificar formas y leer el resultado sin código.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">34-43</td>
+<td style="text-align: right;">12</td>
+<td>Primera pausa: seis minutos de trabajo y tres de sondeo.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">43-49</td>
+<td style="text-align: right;">13</td>
+<td>Puesta en común y corrección del argumento.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">49-58</td>
+<td style="text-align: right;">14-16</td>
+<td>Pasar al algoritmo, código mínimo y ejemplo controlado.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">58-78</td>
+<td style="text-align: right;">17-18</td>
+<td>Abrir el notebook, ejecutar la comprobación y leer salidas.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">78-84</td>
+<td style="text-align: right;">19-20</td>
+<td>Comparar opciones y verificar una propiedad numérica.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">84-90</td>
+<td style="text-align: right;">21-22</td>
+<td>Mostrar dos fallos y sus señales observables.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">90-99</td>
+<td style="text-align: right;">23</td>
+<td>Segunda pausa con una comprobación ejecutable.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">99-104</td>
+<td style="text-align: right;">24</td>
+<td>Discutir la respuesta y fijar la prueba siguiente.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">104-106</td>
+<td style="text-align: right;">25-26</td>
+<td>Separar afirmación y límite.</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">106-108</td>
+<td style="text-align: right;">27-28</td>
+<td>Conectar con evaluación y dejar la síntesis en tablero.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">108-110</td>
+<td style="text-align: right;">29-30</td>
+<td>Ticket de salida, cierre y preparación siguiente.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="momento-exacto-para-abrir-el-notebook" class="level2">
+<h2 class="anchored" data-anchor-id="momento-exacto-para-abrir-el-notebook">Momento exacto para abrir el notebook</h2>
+<p><strong>Minuto 58.</strong> Abrir <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo02/notebooks/semana09_live_coding.ipynb">semana09_live_coding.ipynb</a>. Ejecute el cuadro de estadísticas antes de cualquier loop de entrenamiento y explique una anomalía por inicialización.</p>
+<p>No ejecutar celdas posteriores si una comprobación de forma, finitud o referencia falla.</p>
+</section>
+<section id="mapa-de-slides-y-transiciones" class="level2">
+<h2 class="anchored" data-anchor-id="mapa-de-slides-y-transiciones">Mapa de slides y transiciones</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Slide</th>
+<th>Título</th>
+<th>Acción y transición</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>La escala inicial decide qué señal atraviesa la red</td>
+<td>Lea la pregunta sin responderla y espere dos intervenciones. Transición: “Para responderla, volvamos al punto de partida.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>Punto de partida</td>
+<td>Recupere una sola idea de la sesión anterior; no haga un resumen completo. Transición: “Necesitamos ahora un caso concreto.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>El caso que usaremos</td>
+<td>Nombre la unidad de observación y la fuente antes de mostrar notación. Transición: “Antes de formalizar, miremos una representación.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>Una imagen para orientar la discusión</td>
+<td>Pida una lectura visual y después añada la cautela indicada. Transición: “Con la figura en mente, nombremos los objetos.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td>Objetos y notación</td>
+<td>Escriba formas junto a los símbolos y manténgalas visibles. Transición: “Con las formas visibles, formulemos la pregunta matemática.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td>La pregunta matemática</td>
+<td>Formule la pregunta que la expresión debe resolver. Transición: “Esa pregunta se concentra en la expresión central.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">7</td>
+<td>Expresión central</td>
+<td>Lea la fórmula en voz alta, término por término. Transición: “No memoricemos la fórmula; construyamos el primer paso.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">8</td>
+<td>Primer paso de la derivación</td>
+<td>Construya este paso en tablero antes de revelarlo. Transición: “El primer paso deja listo el segundo.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">9</td>
+<td>Segundo paso de la derivación</td>
+<td>Complete la derivación y conecte con el paso anterior. Transición: “Antes de interpretarlo, revisemos dimensiones.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td>Qué debe coincidir</td>
+<td>Pida dimensiones; corrija productos, no solo resultados. Transición: “Las formas coinciden; ahora leamos lo que dice.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td>Lectura del resultado</td>
+<td>Interprete signo, escala o geometría con una frase concreta. Transición: “Pongamos esta lectura a prueba.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">12</td>
+<td>Primera pausa</td>
+<td>Dé seis minutos y circule; no explique durante el primer minuto. Transición: “Recojamos las respuestas y escribamos una versión común.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">13</td>
+<td>Discusión de la primera pausa</td>
+<td>Recoja dos respuestas y escriba la versión común en tablero. Transición: “Con la respuesta fijada, traduzcamos cálculo a algoritmo.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">14</td>
+<td>Del cálculo al algoritmo</td>
+<td>Convierta la expresión en una secuencia numerada. Transición: “Veamos cómo se expresa ese orden en código.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">15</td>
+<td>Implementación mínima</td>
+<td>Lea solo las líneas que fijan el contrato de la función. Transición: “Probemos la función en un ejemplo que podamos controlar.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">16</td>
+<td>Ejemplo controlado</td>
+<td>Calcule una parte a mano; el ejemplo no se delega al notebook. Transición: “El cálculo manual nos permite anticipar el resultado.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">17</td>
+<td>Resultado que esperamos reproducir</td>
+<td>Muestre las cifras esperadas y pregunte qué comprueba cada una. Transición: “Ahora sí, abramos el notebook y reproduzcámoslo.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">18</td>
+<td>Abra el notebook</td>
+<td>Abra el notebook ahora y ejecute únicamente la sección indicada. Transición: “Con la salida en pantalla, comparemos dos opciones.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19</td>
+<td>Dos opciones que no responden lo mismo</td>
+<td>Mantenga fijas partición, métrica y presupuesto al comparar. Transición: “Antes de elegir, ejecutemos una comprobación numérica.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">20</td>
+<td>Comprobación numérica</td>
+<td>Ejecute la prueba y deténgase si no pasa. Transición: “Si la prueba falla, estas son las primeras señales.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">21</td>
+<td>Primer modo de falla</td>
+<td>Presente el fallo como hipótesis ligada a una señal. Transición: “Hay un segundo fallo que conviene distinguir.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">22</td>
+<td>Segundo modo de falla</td>
+<td>Contraste el segundo fallo con el primero. Transición: “Usemos ambos fallos en una pregunta nueva.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">23</td>
+<td>Segunda pausa</td>
+<td>Pida una comprobación reproducible, no una opinión. Transición: “Comparemos la propuesta del grupo con la respuesta esperada.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">24</td>
+<td>Discusión de la segunda pausa</td>
+<td>Escriba la respuesta esperada en forma de acción verificable. Transición: “Ya podemos separar lo que sí sostiene el resultado.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">25</td>
+<td>Qué sí permite afirmar</td>
+<td>Restrinja la afirmación a los datos y configuración observados. Transición: “La afirmación necesita su límite inmediato.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">26</td>
+<td>Qué no permite afirmar</td>
+<td>Diga el límite inmediatamente, sin reservarlo para el final. Transición: “Con ese alcance, veamos dónde reaparece en la evaluación.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">27</td>
+<td>Conexión con la evaluación</td>
+<td>Muestre qué producto de evaluación reutiliza esta capacidad. Transición: “Cerremos la parte técnica con cuatro líneas en el tablero.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">28</td>
+<td>Trabajo de tablero: síntesis</td>
+<td>Deje cuatro líneas de síntesis en el tablero. Transición: “Cada estudiante resume ahora su propia lectura.”</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">29</td>
+<td>Ticket de salida</td>
+<td>Recoja el ticket sin abrir una discusión nueva. Transición: “Recogemos el ticket y cerramos.”</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">30</td>
+<td>Cierre</td>
+<td>Cierre con la frase prevista y anuncie una preparación concreta.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="trabajo-de-tablero" class="level2">
+<h2 class="anchored" data-anchor-id="trabajo-de-tablero">Trabajo de tablero</h2>
+<section id="zona-izquierda-objetos-que-no-se-borran" class="level3">
+<h3 class="anchored" data-anchor-id="zona-izquierda-objetos-que-no-se-borran">Zona izquierda: objetos que no se borran</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Inicialización</th>
+<th>Escala típica</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ceros</td>
+<td><span class="math inline">\(W=0\)</span></td>
+</tr>
+<tr class="even">
+<td>Xavier</td>
+<td><span class="math inline">\(\sqrt{1/d_{in}}\)</span></td>
+</tr>
+<tr class="odd">
+<td>He</td>
+<td><span class="math inline">\(\sqrt{2/d_{in}}\)</span></td>
+</tr>
+<tr class="even">
+<td>grande</td>
+<td>escala arbitraria alta</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="zona-central-expresión-y-derivación" class="level3">
+<h3 class="anchored" data-anchor-id="zona-central-expresión-y-derivación">Zona central: expresión y derivación</h3>
+<p><span class="math display">\[
+W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
+\quad\text{para capas ReLU.}
+\]</span></p>
+<p>Si entradas y pesos son centrados e independientes, la varianza del preactivado suma aproximadamente <span class="math inline">\(d_{in}\operatorname{Var}(W)\operatorname{Var}(A)\)</span>.</p>
+<p>ReLU anula aproximadamente la mitad de una distribución simétrica; elegir <span class="math inline">\(\operatorname{Var}(W)\approx2/d_{in}\)</span> compensa esa reducción en una aproximación inicial.</p>
+</section>
+<section id="zona-derecha-síntesis-final" class="level3">
+<h3 class="anchored" data-anchor-id="zona-derecha-síntesis-final">Zona derecha: síntesis final</h3>
+<ul>
+<li>romper simetría</li>
+<li>He usa <span class="math inline">\(2/fan\_in\)</span> con ReLU</li>
+<li>medir por capa</li>
+<li>cambiar un factor por comparación</li>
+</ul>
+</section>
+</section>
+<section id="respuestas-esperadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-esperadas">Respuestas esperadas</h2>
+<section id="primera-pausa" class="level3">
+<h3 class="anchored" data-anchor-id="primera-pausa">Primera pausa</h3>
+<p>Todas reciben la misma entrada, producen la misma activación y obtienen gradientes iguales. La simetría se conserva bajo las actualizaciones.</p>
+</section>
+<section id="segunda-pausa" class="level3">
+<h3 class="anchored" data-anchor-id="segunda-pausa">Segunda pausa</h3>
+<p>Comparar reglas de inicialización con la misma arquitectura y batch, medir activaciones/gradientes por capa y observar si la escala se recupera.</p>
+</section>
+<section id="salida-numérica-de-referencia" class="level3">
+<h3 class="anchored" data-anchor-id="salida-numérica-de-referencia">Salida numérica de referencia</h3>
+<p>≈0.5 (ReLU inactiva inicial), fan-in (escala por capa), semilla (registrada).</p>
+</section>
+<section id="ticket-de-salida" class="level3">
+<h3 class="anchored" data-anchor-id="ticket-de-salida">Ticket de salida</h3>
+<p>Una respuesta aceptable debe nombrar la expresión o procedimiento central, una comprobación ejecutable y el límite de la conclusión. No exigir la redacción exacta del deck.</p>
+</section>
+</section>
+<section id="errores-frecuentes-y-respuesta-docente" class="level2">
+<h2 class="anchored" data-anchor-id="errores-frecuentes-y-respuesta-docente">Errores frecuentes y respuesta docente</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Error</th>
+<th>Respuesta docente breve</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Declarar una unidad ‘muerta’ porque fue cero en un solo batch confunde estado local con comportamiento persistente.</td>
+<td>Pedir que localicen esta señal: no se mide actividad en otros batches.</td>
+</tr>
+<tr class="even">
+<td>Cambiar inicialización y tasa a la vez impide atribuir la diferencia.</td>
+<td>Pedir que localicen esta señal: la tabla compara configuraciones con más de un factor modificado.</td>
+</tr>
+<tr class="odd">
+<td>Confundir una salida correcta con una conclusión general.</td>
+<td>Pedir partición, tamaño, baseline y alcance antes de aceptar la frase.</td>
+</tr>
+<tr class="even">
+<td>Cambiar dos factores durante la comparación.</td>
+<td>Volver a la tabla y fijar qué debe permanecer constante.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="qué-recortar-si-faltan-minutos" class="level2">
+<h2 class="anchored" data-anchor-id="qué-recortar-si-faltan-minutos">Qué recortar si faltan minutos</h2>
+<p>No recortar la expresión central, la primera pausa ni la comprobación del notebook.</p>
+<p>Si faltan 10 minutos:</p>
+<ol type="1">
+<li>resumir caso y figura en dos minutos;</li>
+<li>mostrar el ejemplo controlado sin repetir todo el cálculo;</li>
+<li>convertir la segunda pausa en una respuesta de cuatro minutos;</li>
+<li>dejar el ticket de salida como entrega en Bloque Neón.</li>
+</ol>
+<p>Si faltan 20 minutos, ejecutar solo las celdas de comprobación ya preparadas y asignar la comparación secundaria para lectura posterior.</p>
+</section>
+<section id="contingencias" class="level2">
+<h2 class="anchored" data-anchor-id="contingencias">Contingencias</h2>
+<ul>
+<li><strong>Sin proyector:</strong> usar la expresión central, el ejemplo y las cuatro líneas de tablero; el deck no es imprescindible.</li>
+<li><strong>Notebook no abre:</strong> mostrar la salida HTML o capturas verificadas y entregar el archivo después; no improvisar resultados.</li>
+<li><strong>Entorno roto para varios estudiantes:</strong> trabajar en parejas durante la demostración y registrar el error para soporte posterior.</li>
+<li><strong>Pregunta fuera de alcance:</strong> anotar la pregunta y responder después con una referencia o un cálculo, sin inventar una certeza.</li>
+</ul>
+</section>
+<section id="después-de-clase" class="level2">
+<h2 class="anchored" data-anchor-id="después-de-clase">Después de clase</h2>
+<p>Registrar en cinco líneas:</p>
+<ol type="1">
+<li>qué paso matemático produjo más errores;</li>
+<li>qué celda del notebook exigió más apoyo;</li>
+<li>qué respuesta de pausa conviene recuperar la próxima clase;</li>
+<li>qué estudiante o grupo necesita soporte;</li>
+<li>si el hito semanal requiere un anuncio adicional.</li>
+</ol>
+<hr>
+<div class="session-navigation">
+<p><a href="index.html">Índice de sesiones</a> · <a href="semana08-clase02.html">Sesión anterior</a> · <a href="semana09-clase02.html">Sesión siguiente</a></p>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>MATE-2105 · Panel docente</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Guía compartible para preparar y dictar cada sesión</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
