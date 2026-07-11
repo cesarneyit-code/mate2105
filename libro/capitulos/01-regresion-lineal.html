@@ -953,6 +953,18 @@ El error cuadrático medio es <span class="math display">\[
 J(\theta)=\frac{1}{2}\operatorname{MSE}(\theta)
 \]</span> tiene el mismo minimizador, pero un gradiente más limpio.</p>
 </div>
+<p>En el ejemplo controlado <span class="math inline">\(x=(0,1,2,3)\)</span> y <span class="math inline">\(y=(1.1,2.9,5.2,6.8)\)</span>, cada par <span class="math inline">\((\theta_0,\theta_1)\)</span> determina una recta y, por tanto, un valor de <span class="math inline">\(J\)</span>. La figura muestra esa pérdida como una superficie de contornos.</p>
+<div id="fig-cap01-minimos-cuadrados-superficie" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa de contornos de la pérdida cuadrática según intercepto y coeficiente lineal. Un punto rojo marca el candidato uno coma dos, una estrella verde marca el mínimo calculado con least squares y una flecha señala una dirección de descenso.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap01-minimos-cuadrados-superficie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/minimos-cuadrados-superficie.svg" class="img-fluid figure-img" style="width:90.0%" alt="Mapa de contornos de la pérdida cuadrática según intercepto y coeficiente lineal. Un punto rojo marca el candidato uno coma dos, una estrella verde marca el mínimo calculado con least squares y una flecha señala una dirección de descenso.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-minimos-cuadrados-superficie-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: La pérdida cuadrática del ejemplo es convexa. El punto candidato queda cerca del mínimo calculado con <code>lstsq</code>, y el gradiente local señala cómo reducir la pérdida.
+</figcaption>
+</figure>
+</div>
+<p><strong>Lectura de la figura.</strong> Los contornos son conjuntos de parámetros con pérdida constante. La convexidad implica que el mínimo local también es global; no implica que formar <span class="math inline">\((X^\top X)^{-1}\)</span> sea el método numérico apropiado para encontrarlo.</p>
 <p>Implementación:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mse_loss(X, y, theta):</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    residual <span class="op">=</span> y <span class="op">-</span> X <span class="op">@</span> theta</span>
@@ -1168,7 +1180,7 @@ x =
 <img src="../figuras/vivienda-bogota-dispersion.svg" class="img-fluid figure-img" style="width:90.0%" alt="Diagrama de dispersión de estrato promedio frente a precio reportado para 32 subzonas. Rosales aparece arriba a la derecha, Ciudad Verde abajo y Centro se aparta de la tendencia general.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-dispersion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;2: Estrato promedio y precio reportado presentan una asociación positiva en las 32 subzonas, pero la gráfica no identifica una relación causal.
+Figura&nbsp;3: Estrato promedio y precio reportado presentan una asociación positiva en las 32 subzonas, pero la gráfica no identifica una relación causal.
 </figcaption>
 </figure>
 </div>
@@ -1200,7 +1212,7 @@ Figura&nbsp;2: Estrato promedio y precio reportado presentan una asociación pos
 <img src="../figuras/vivienda-bogota-prediccion-residuales.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos paneles. El primero compara valores observados y predichos alrededor de la diagonal. El segundo muestra residuales y menos y sombrero alrededor de cero. El título informa MAE 1.723 para el baseline y 0.615 para el modelo.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-prediccion-residuales-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3: En la partición con semilla 2105, el modelo mejora el baseline. Los dos paneles muestran predicciones fuera del ajuste y residuales definidos como observado menos predicho.
+Figura&nbsp;4: En la partición con semilla 2105, el modelo mejora el baseline. Los dos paneles muestran predicciones fuera del ajuste y residuales definidos como observado menos predicho.
 </figcaption>
 </figure>
 </div>
@@ -1211,7 +1223,7 @@ Figura&nbsp;3: En la partición con semilla 2105, el modelo mejora el baseline. 
 <img src="../figuras/vivienda-bogota-variacion-particiones.svg" class="img-fluid figure-img" style="width:90.0%" alt="Gráfico de líneas del MAE para ocho semillas. El baseline varía aproximadamente entre 1.7 y 3.6, y el modelo lineal entre 0.4 y 1.5.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap01-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4: El MAE cambia entre particiones. Con una muestra pequeña, la semilla forma parte de la variación observada y no debe elegirse por producir el menor error.
+Figura&nbsp;5: El MAE cambia entre particiones. Con una muestra pequeña, la semilla forma parte de la variación observada y no debe elegirse por producir el menor error.
 </figcaption>
 </figure>
 </div>

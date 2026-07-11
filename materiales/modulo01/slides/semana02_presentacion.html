@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana02_presentacion_files/libs/revealjs/dist/theme/quarto-0ab2b8cd1ca1f4a3114ef3de2f9e2f3c.css">
+  <link rel="stylesheet" href="semana02_presentacion_files/libs/revealjs/dist/theme/quarto-6b49f49443d25a33434f8a99c07e429c.css">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -298,7 +298,7 @@ X^\top X\widehat\theta=X^\top y.
 </section>
 <section id="de-tabla-a-matriz" class="slide level2">
 <h2>De tabla a matriz</h2>
-<div class="dense-table">
+<div class="dense-table semantic-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -350,15 +350,15 @@ X^\top X\widehat\theta=X^\top y.
 <p><span class="math display">\[
 X=
 \begin{bmatrix}
-1&amp;x_{11}&amp;\cdots&amp;x_{1,p-1}\\
-1&amp;x_{21}&amp;\cdots&amp;x_{2,p-1}\\
-\vdots&amp;\vdots&amp;&amp;\vdots\\
-1&amp;x_{m1}&amp;\cdots&amp;x_{m,p-1}
+\color{#b73535}{1}&amp;\color{#b73535}{5.922}&amp;\color{#b73535}{177.316}&amp;\color{#b73535}{2.673}&amp;\color{#b73535}{3.776}&amp;\color{#b73535}{2.981}\\
+\color{#245bbf}{1}&amp;\color{#245bbf}{5.905}&amp;\color{#245bbf}{128.044}&amp;\color{#245bbf}{2.225}&amp;\color{#245bbf}{3.105}&amp;\color{#245bbf}{2.152}\\
+\color{#287a4b}{1}&amp;\color{#287a4b}{3.195}&amp;\color{#287a4b}{63.383}&amp;\color{#287a4b}{1.744}&amp;\color{#287a4b}{1.799}&amp;\color{#287a4b}{0.988}\\
+\vdots&amp;\vdots&amp;\vdots&amp;\vdots&amp;\vdots&amp;\vdots
 \end{bmatrix}
-\in\mathbb R^{m\times p}
+\in\mathbb R^{32\times 6}
 \]</span></p>
 </div>
-<p>Cada fila corresponde a una observación y cada columna a un término del modelo.</p>
+<p>Los colores conservan la identidad de Rosales, Chicó y Centro al pasar de tabla a matriz.</p>
 </section>
 <section id="el-intercepto-es-una-columna" class="slide level2">
 <h2>El intercepto es una columna</h2>
@@ -399,14 +399,25 @@ X\theta\in\mathbb R^m.
 <h2>Todas las predicciones a la vez</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-\widehat y=X\theta
+\underbrace{
+\begin{bmatrix}
+\color{#b73535}{x_1^\top}\\
+\color{#245bbf}{x_2^\top}\\
+\color{#287a4b}{x_3^\top}\\
+\vdots\\x_m^\top
+\end{bmatrix}}_{X}
+\theta
+=
+\underbrace{
+\begin{bmatrix}
+\color{#b73535}{\widehat y_1}\\
+\color{#245bbf}{\widehat y_2}\\
+\color{#287a4b}{\widehat y_3}\\
+\vdots\\\widehat y_m
+\end{bmatrix}}_{\widehat y}
 \]</span></p>
 </div>
-<p>La fila <span class="math inline">\(i\)</span> de esta igualdad es</p>
-<p><span class="math display">\[
-\widehat y_i=x_i^\top\theta.
-\]</span></p>
-<p>No necesitamos un bucle para expresar ni calcular las predicciones.</p>
+<p>Cada fila conserva su correspondencia: <span class="math inline">\(\widehat y_i=x_i^\top\theta\)</span>. No necesitamos un bucle para expresar ni calcular las predicciones.</p>
 </section>
 <section id="un-ejemplo-pequeño" class="slide level2">
 <h2>Un ejemplo pequeño</h2>
@@ -449,6 +460,7 @@ r(\theta)=y-X\theta=y-\widehat y.
 </section>
 <section id="residuales-del-candidato" class="slide level2">
 <h2>Residuales del candidato</h2>
+<div class="semantic-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -485,6 +497,7 @@ r(\theta)=y-X\theta=y-\widehat y.
 </tr>
 </tbody>
 </table>
+</div>
 <p>La suma de residuales puede ser cero aunque ninguno de los errores sea cero.</p>
 </section>
 <section id="de-errores-a-una-cantidad" class="slide level2">
@@ -498,15 +511,22 @@ r(\theta)=y-X\theta=y-\widehat y.
 </section>
 <section id="la-pérdida-que-derivaremos" class="slide level2">
 <h2>La pérdida que derivaremos</h2>
+<div class="figure-split">
+<div>
 <div class="math-focus">
 <p><span class="math display">\[
 J(\theta)=\frac{1}{2m}\lVert X\theta-y\rVert_2^2.
 \]</span></p>
 </div>
-<p>Para el candidato del ejemplo:</p>
+<p>Para el candidato <span class="math inline">\(\theta=(1,2)^\top\)</span>:</p>
 <p><span class="math display">\[
 J(1,2)=\frac{0.1^2+(-0.1)^2+0.2^2+(-0.2)^2}{8}=0.0125.
 \]</span></p>
+</div>
+<div>
+<p><img src="../figuras/minimos-cuadrados-superficie.png" alt="Contornos de la pérdida del ejemplo en función del intercepto y la pendiente"></p>
+</div>
+</div>
 </section>
 <section id="por-qué-12m" class="slide level2">
 <h2>¿Por qué <span class="math inline">\(1/(2m)\)</span>?</h2>
@@ -549,7 +569,7 @@ J(\theta)
 (X\theta-y)^\top(X\theta-y)
 \]</span></p>
 </div>
-<div>
+<div class="fragment">
 <p><span class="math display">\[
 =\theta^\top X^\top X\theta
 -\theta^\top X^\top y
@@ -563,11 +583,13 @@ J(\theta)
 <section id="reunir-términos-cruzados" class="slide level2">
 <h2>Reunir términos cruzados</h2>
 <p>Como</p>
+<div class="fragment">
 <p><span class="math display">\[
 \theta^\top X^\top y=(\theta^\top X^\top y)^\top=y^\top X\theta,
 \]</span></p>
+</div>
 <p>obtenemos</p>
-<div class="math-focus">
+<div class="math-focus fragment">
 <p><span class="math display">\[
 J(\theta)=\frac{1}{2m}
 \left(\theta^\top X^\top X\theta-2y^\top X\theta+y^\top y\right).
@@ -581,10 +603,12 @@ J(\theta)=\frac{1}{2m}
 \nabla_\theta(\theta^\top X^\top X\theta)=2X^\top X\theta.
 \]</span></p>
 <p>Además,</p>
+<div class="fragment">
 <p><span class="math display">\[
 \nabla_\theta(y^\top X\theta)=X^\top y,\qquad
 \nabla_\theta(y^\top y)=0.
 \]</span></p>
+</div>
 </section>
 <section id="el-gradiente" class="slide level2">
 <h2>El gradiente</h2>
@@ -595,10 +619,12 @@ J(\theta)=\frac{1}{2m}
 =\frac{1}{m}X^\top(X\theta-y).
 \]</span></p>
 </div>
+<div class="fragment">
 <p>Con nuestra convención <span class="math inline">\(r=y-X\theta\)</span>, también</p>
 <p><span class="math display">\[
 \nabla J(\theta)=-\frac{1}{m}X^\top r.
 \]</span></p>
+</div>
 </section>
 <section id="comprobar-la-forma" class="slide level2">
 <h2>Comprobar la forma</h2>

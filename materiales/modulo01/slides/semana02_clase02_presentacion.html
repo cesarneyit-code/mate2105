@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana02_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-0ab2b8cd1ca1f4a3114ef3de2f9e2f3c.css">
+  <link rel="stylesheet" href="semana02_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-6b49f49443d25a33434f8a99c07e429c.css">
   <link href="semana02_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana02_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana02_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -222,36 +222,46 @@ X^\top X\widehat\theta=X^\top y.
 </section>
 <section id="cuatro-expresiones-que-parecen-equivalentes" class="slide level2">
 <h2>Cuatro expresiones que parecen equivalentes</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>np.linalg.inv(X.T <span class="op">@</span> X) <span class="op">@</span> X.T <span class="op">@</span> y</span>
-<span id="cb1-2"><a href=""></a>np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span>
-<span id="cb1-3"><a href=""></a>np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
-<span id="cb1-4"><a href=""></a>LinearRegression().fit(X_raw, y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="method-ladder">
+<div class="method-row">
+<code>inv(X.T @ X) @ X.T @ y</code><span>forma <span class="math inline">\(X^\top X\)</span> y construye una inversa completa</span><span class="verdict">evitar</span>
+</div>
+<div class="method-row fragment">
+<code>solve(X.T @ X, X.T @ y)</code><span>resuelve las ecuaciones normales, pero forma <span class="math inline">\(X^\top X\)</span></span><span class="verdict">limitado</span>
+</div>
+<div class="method-row preferred fragment">
+<code>lstsq(X, y)</code><span>factoriza <span class="math inline">\(X\)</span> directamente e informa rango y valores singulares</span><span class="verdict">preferido</span>
+</div>
+<div class="method-row fragment">
+<code>LinearRegression().fit(X_raw, y)</code><span>interfaz de biblioteca con intercepto y predicción</span><span class="verdict">contraste</span>
+</div>
+</div>
 <p>En aritmética exacta y bajo rango completo pueden llevar al mismo parámetro. En un computador no hacen el mismo trabajo ni fallan de la misma manera.</p>
 </section>
 <section id="evitar-la-inversa-explícita" class="slide level2">
 <h2>Evitar la inversa explícita</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>theta <span class="op">=</span> np.linalg.inv(X.T <span class="op">@</span> X) <span class="op">@</span> X.T <span class="op">@</span> y</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>theta <span class="op">=</span> np.linalg.inv(X.T <span class="op">@</span> X) <span class="op">@</span> X.T <span class="op">@</span> y</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>obliga a:</p>
 <ol type="1">
-<li>formar <span class="math inline">\(X^\top X\)</span>;</li>
-<li>construir una matriz inversa completa;</li>
-<li>multiplicarla por <span class="math inline">\(X^\top y\)</span>.</li>
+<li class="fragment">formar <span class="math inline">\(X^\top X\)</span>;</li>
+<li class="fragment">construir una matriz inversa completa;</li>
+<li class="fragment">multiplicarla por <span class="math inline">\(X^\top y\)</span>.</li>
 </ol>
 <p>Para resolver un sistema lineal no necesitamos conocer la inversa entrada por entrada.</p>
 </section>
 <section id="solve-útil-pero-limitado" class="slide level2">
 <h2><code>solve</code>: útil, pero limitado</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>theta <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>theta <span class="op">=</span> np.linalg.solve(X.T <span class="op">@</span> X, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Es preferible a calcular la inversa y resulta claro en un ejemplo pequeño de rango completo.</p>
 <p>Sin embargo, todavía forma <span class="math inline">\(X^\top X\)</span> y exige que esa matriz sea cuadrada y no singular.</p>
 </section>
 <section id="lstsq-la-opción-de-esta-semana" class="slide level2">
 <h2><code>lstsq</code>: la opción de esta semana</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>theta, residuals, rank, singular_values <span class="op">=</span> np.linalg.lstsq(</span>
-<span id="cb4-2"><a href=""></a>    X,</span>
-<span id="cb4-3"><a href=""></a>    y,</span>
-<span id="cb4-4"><a href=""></a>    rcond<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb4-5"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a>theta, residuals, rank, singular_values <span class="op">=</span> np.linalg.lstsq(</span>
+<span id="cb3-2"><a href=""></a>    X,</span>
+<span id="cb3-3"><a href=""></a>    y,</span>
+<span id="cb3-4"><a href=""></a>    rcond<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb3-5"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Resuelve directamente el problema de mínimos cuadrados mediante una factorización numérica. También informa rango y valores singulares.</p>
 </section>
 <section id="si-no-hay-solución-única" class="slide level2">
@@ -288,11 +298,26 @@ X^\top X\widehat\theta=X^\top y.
 </section>
 <section id="columnas-casi-redundantes" class="slide level2">
 <h2>Columnas casi redundantes</h2>
-<p>Suponga</p>
-<p><span class="math display">\[
-x_2=x_1+10^{-8}z.
-\]</span></p>
-<p>Las dos columnas no son idénticas en aritmética exacta, pero separarlas puede exigir coeficientes enormes y opuestos. Una predicción puede cambiar poco mientras los coeficientes cambian mucho.</p>
+<div class="object-map">
+<div class="object-card">
+<strong>Primera columna</strong>
+<p>
+<span class="math inline">\(x_1\)</span>: dirección observada en los datos
+</p>
+</div>
+<div class="map-arrow fragment">
+≈
+</div>
+<div class="object-card sample-blue fragment">
+<strong>Segunda columna</strong>
+<p>
+<span class="math inline">\(x_2=x_1+10^{-8}z\)</span>: casi la misma dirección
+</p>
+</div>
+</div>
+<div class="lead fragment">
+<p>La predicción puede cambiar poco mientras los coeficientes cambian mucho y en sentidos opuestos.</p>
+</div>
 <p>Interpretar coeficientes exige revisar escala, rango y condicionamiento.</p>
 </section>
 <section id="primera-pausa" class="slide level2">
@@ -310,20 +335,20 @@ x_2=x_1+10^{-8}z.
 </section>
 <section id="las-funciones-del-notebook" class="slide level2">
 <h2>Las funciones del notebook</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="kw">def</span> add_intercept(X): ...</span>
-<span id="cb5-2"><a href=""></a><span class="kw">def</span> predict_linear(X, theta): ...</span>
-<span id="cb5-3"><a href=""></a><span class="kw">def</span> half_mse_loss(X, y, theta): ...</span>
-<span id="cb5-4"><a href=""></a><span class="kw">def</span> mse_gradient(X, y, theta): ...</span>
-<span id="cb5-5"><a href=""></a><span class="kw">def</span> fit_lstsq(X, y): ...</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a><span class="kw">def</span> add_intercept(X): ...</span>
+<span id="cb4-2"><a href=""></a><span class="kw">def</span> predict_linear(X, theta): ...</span>
+<span id="cb4-3"><a href=""></a><span class="kw">def</span> half_mse_loss(X, y, theta): ...</span>
+<span id="cb4-4"><a href=""></a><span class="kw">def</span> mse_gradient(X, y, theta): ...</span>
+<span id="cb4-5"><a href=""></a><span class="kw">def</span> fit_lstsq(X, y): ...</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Cada función hace una operación pequeña. Así podemos probar formas, signos y valores sin depender de una celda extensa.</p>
 </section>
 <section id="pruebas-de-formas" class="slide level2">
 <h2>Pruebas de formas</h2>
 <p>Para <span class="math inline">\(m=4\)</span> y una variable medida:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>X <span class="op">=</span> add_intercept(x)</span>
-<span id="cb6-2"><a href=""></a><span class="cf">assert</span> X.shape <span class="op">==</span> (<span class="dv">4</span>, <span class="dv">2</span>)</span>
-<span id="cb6-3"><a href=""></a><span class="cf">assert</span> predict_linear(X, theta).shape <span class="op">==</span> (<span class="dv">4</span>,)</span>
-<span id="cb6-4"><a href=""></a><span class="cf">assert</span> mse_gradient(X, y, theta).shape <span class="op">==</span> (<span class="dv">2</span>,)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a>X <span class="op">=</span> add_intercept(x)</span>
+<span id="cb5-2"><a href=""></a><span class="cf">assert</span> X.shape <span class="op">==</span> (<span class="dv">4</span>, <span class="dv">2</span>)</span>
+<span id="cb5-3"><a href=""></a><span class="cf">assert</span> predict_linear(X, theta).shape <span class="op">==</span> (<span class="dv">4</span>,)</span>
+<span id="cb5-4"><a href=""></a><span class="cf">assert</span> mse_gradient(X, y, theta).shape <span class="op">==</span> (<span class="dv">2</span>,)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Estas pruebas detectan transposiciones y broadcasting accidental antes de mirar una métrica.</p>
 </section>
 <section id="comprobar-el-gradiente" class="slide level2">
@@ -378,33 +403,37 @@ X^\top r\approx(-4.4\times10^{-16},-4.4\times10^{-16})^\top.
 </section>
 <section id="comparar-con-la-biblioteca" class="slide level2">
 <h2>Comparar con la biblioteca</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>modelo <span class="op">=</span> LinearRegression()</span>
-<span id="cb7-2"><a href=""></a>modelo.fit(x, y)</span>
-<span id="cb7-3"><a href=""></a></span>
-<span id="cb7-4"><a href=""></a>theta_sklearn <span class="op">=</span> np.r_[</span>
-<span id="cb7-5"><a href=""></a>    modelo.intercept_,</span>
-<span id="cb7-6"><a href=""></a>    modelo.coef_,</span>
-<span id="cb7-7"><a href=""></a>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href=""></a>modelo <span class="op">=</span> LinearRegression()</span>
+<span id="cb6-2"><a href=""></a>modelo.fit(x, y)</span>
+<span id="cb6-3"><a href=""></a></span>
+<span id="cb6-4"><a href=""></a>theta_sklearn <span class="op">=</span> np.r_[</span>
+<span id="cb6-5"><a href=""></a>    modelo.intercept_,</span>
+<span id="cb6-6"><a href=""></a>    modelo.coef_,</span>
+<span id="cb6-7"><a href=""></a>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La diferencia máxima entre <code>theta_sklearn</code> y <code>theta_lstsq</code> es menor que <span class="math inline">\(10^{-12}\)</span> en el ejemplo.</p>
 </section>
 <section id="un-detalle-sobre-el-intercepto" class="slide level2">
 <h2>Un detalle sobre el intercepto</h2>
 <div class="split">
+<div class="fragment">
 <h3 id="implementación-manual">Implementación manual</h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>X <span class="op">=</span> add_intercept(X_raw)</span>
-<span id="cb8-2"><a href=""></a>theta <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href=""></a>X <span class="op">=</span> add_intercept(X_raw)</span>
+<span id="cb7-2"><a href=""></a>theta <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment">
 <h3 id="scikit-learn"><code>scikit-learn</code></h3>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>model <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-2"><a href=""></a>model.fit(X_raw, y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href=""></a>model <span class="op">=</span> LinearRegression(fit_intercept<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb8-2"><a href=""></a>model.fit(X_raw, y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 <p>Ambos representan el mismo modelo con convenciones distintas de interfaz.</p>
 </section>
 <section id="cargar-el-caso-bogotá" class="slide level2">
 <h2>Cargar el caso Bogotá</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>bogota <span class="op">=</span> pd.read_csv(</span>
-<span id="cb10-2"><a href=""></a>    <span class="st">"libro_curso/datos/"</span></span>
-<span id="cb10-3"><a href=""></a>    <span class="st">"vivienda_nueva_bogota_subzonas.csv"</span></span>
-<span id="cb10-4"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href=""></a>bogota <span class="op">=</span> pd.read_csv(</span>
+<span id="cb9-2"><a href=""></a>    <span class="st">"libro_curso/datos/"</span></span>
+<span id="cb9-3"><a href=""></a>    <span class="st">"vivienda_nueva_bogota_subzonas.csv"</span></span>
+<span id="cb9-4"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -433,21 +462,31 @@ X^\top r\approx(-4.4\times10^{-16},-4.4\times10^{-16})^\top.
 <section id="el-baseline-de-regresión" class="slide level2">
 <h2>El baseline de regresión</h2>
 <p>Calculamos la media únicamente en entrenamiento:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>pred_baseline <span class="op">=</span> np.full(</span>
-<span id="cb11-2"><a href=""></a>    <span class="bu">len</span>(y_test),</span>
-<span id="cb11-3"><a href=""></a>    y_train.mean(),</span>
-<span id="cb11-4"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href=""></a>pred_baseline <span class="op">=</span> np.full(</span>
+<span id="cb10-2"><a href=""></a>    <span class="bu">len</span>(y_test),</span>
+<span id="cb10-3"><a href=""></a>    y_train.mean(),</span>
+<span id="cb10-4"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El baseline no usa las cinco variables. Su función es preguntar si el modelo lineal extrae información predictiva adicional en la partición reservada.</p>
 </section>
 <section id="una-partición-fijada" class="slide level2">
 <h2>Una partición fijada</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb12-2"><a href=""></a>    X_bogota,</span>
-<span id="cb12-3"><a href=""></a>    y_bogota,</span>
-<span id="cb12-4"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb12-5"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
-<span id="cb12-6"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Quedan 24 subzonas para ajuste y solo 8 para test. Cada error individual pesa 12.5 % del promedio de test.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb11-2"><a href=""></a>    X_bogota,</span>
+<span id="cb11-3"><a href=""></a>    y_bogota,</span>
+<span id="cb11-4"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb11-5"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb11-6"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="pipeline-flow">
+<div class="pipeline-stage">
+<strong>24 subzonas</strong><span>ajuste de intercepto y coeficientes</span>
+</div>
+<div class="flow-arrow fragment">
+|
+</div>
+<div class="pipeline-stage fragment">
+<strong>8 subzonas</strong><span>evaluación reservada; cada fila pesa 12.5 %</span>
+</div>
+</div>
 </section>
 <section id="resultado-fuera-del-ajuste" class="slide level2">
 <h2>Resultado fuera del ajuste</h2>

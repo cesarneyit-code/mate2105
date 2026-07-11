@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-ca9d51f3be5a2bdac2db71e767a76854.css">
+  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-cae63aed8dd283f8207488f2b4f3d457.css">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -218,37 +218,32 @@ César Galindo
 </section>
 <section id="una-fila-tiene-una-historia" class="slide level2">
 <h2>Una fila tiene una historia</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Pregunta</th>
-<th>Lo que necesitamos saber</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>¿Qué representa?</td>
-<td>persona, vivienda, subzona, día, transacción</td>
-</tr>
-<tr class="even">
-<td>¿Cómo entró a la tabla?</td>
-<td>muestreo, registro administrativo, sensor, encuesta</td>
-</tr>
-<tr class="odd">
-<td>¿Cuándo fue medida?</td>
-<td>periodo y frecuencia</td>
-</tr>
-<tr class="even">
-<td>¿Qué quedó por fuera?</td>
-<td>población no observada, faltantes, filtros</td>
-</tr>
-</tbody>
-</table>
+<div class="concept-flow">
+<div class="concept-node">
+<strong>Qué representa</strong><span>persona, vivienda, subzona, día o transacción</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Cómo fue registrada</strong><span>muestreo, registro administrativo, sensor o encuesta</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Cuándo fue medida</strong><span>periodo, frecuencia y momento de observación</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Qué quedó fuera</strong><span>población no observada, faltantes y filtros</span>
+</div>
+</div>
+<div class="lead fragment">
 <p>Una fila es una <strong>unidad de observación</strong>, no solo una posición en un arreglo.</p>
+</div>
 </section>
 <section id="un-caso-cercano" class="slide level2">
 <h2>Un caso cercano</h2>
@@ -260,7 +255,7 @@ César Galindo
 </section>
 <section id="cinco-filas-del-archivo" class="slide level2">
 <h2>Cinco filas del archivo</h2>
-<div class="dense-table">
+<div class="dense-table semantic-table">
 <table class="caption-top">
 <colgroup>
 <col style="width: 11%">
@@ -302,6 +297,15 @@ César Galindo
 <td style="text-align: right;">2.152</td>
 </tr>
 <tr class="odd">
+<td>Centro</td>
+<td style="text-align: right;">9.504</td>
+<td style="text-align: right;">3.195</td>
+<td style="text-align: right;">63.383</td>
+<td style="text-align: right;">1.744</td>
+<td style="text-align: right;">1.799</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+<tr class="even">
 <td>Bosque Medina</td>
 <td style="text-align: right;">10.751</td>
 <td style="text-align: right;">4.699</td>
@@ -310,7 +314,7 @@ César Galindo
 <td style="text-align: right;">3.037</td>
 <td style="text-align: right;">2.467</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Multicentro</td>
 <td style="text-align: right;">10.365</td>
 <td style="text-align: right;">5.647</td>
@@ -318,15 +322,6 @@ César Galindo
 <td style="text-align: right;">2.086</td>
 <td style="text-align: right;">2.625</td>
 <td style="text-align: right;">1.786</td>
-</tr>
-<tr class="odd">
-<td>Centro</td>
-<td style="text-align: right;">9.504</td>
-<td style="text-align: right;">3.195</td>
-<td style="text-align: right;">63.383</td>
-<td style="text-align: right;">1.744</td>
-<td style="text-align: right;">1.799</td>
-<td style="text-align: right;">0.988</td>
 </tr>
 </tbody>
 </table>
@@ -425,17 +420,35 @@ César Galindo
 </section>
 <section id="de-la-tabla-a-x-y-y" class="slide level2">
 <h2>De la tabla a <span class="math inline">\(X\)</span> y <span class="math inline">\(y\)</span></h2>
-<div class="math-focus">
+<div class="object-map">
+<div class="object-card">
+<strong><span class="semantic-red">Rosales</span>: una observación</strong>
+<p>
+cinco variables de entrada y un resultado asociado
+</p>
+<p><code>estrato, área, alcobas, baños, parqueaderos | precio</code></p>
+</div>
+<div class="map-arrow fragment">
+→
+</div>
+<div class="object-card fragment">
+<strong>La fila se separa, no pierde identidad</strong>
+<p>
+<span class="semantic-red"><span class="math inline">\(x_i^\top\)</span></span>: descripción de la subzona
+</p>
+<p>
+<span class="semantic-red"><span class="math inline">\(y_i\)</span></span>: objetivo reportado
+</p>
+</div>
+</div>
+<div class="math-focus fragment">
 <p><span class="math display">\[
 X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 \]</span></p>
 </div>
-<ul>
-<li><span class="math inline">\(m\)</span>: número de observaciones;</li>
-<li><span class="math inline">\(p\)</span>: número de variables de entrada;</li>
-<li>fila <span class="math inline">\(x_i^\top\)</span>: descripción de la observación <span class="math inline">\(i\)</span>;</li>
-<li><span class="math inline">\(y_i\)</span>: objetivo asociado con esa observación.</li>
-</ul>
+<div class="fragment">
+<p><span class="math inline">\(m\)</span> cuenta observaciones; <span class="math inline">\(p\)</span> cuenta variables de entrada.</p>
+</div>
 </section>
 <section id="una-matriz-pierde-los-nombres" class="slide level2">
 <h2>Una matriz pierde los nombres</h2>
@@ -487,16 +500,20 @@ X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 <section id="aprender-no-es-predecir" class="slide level2">
 <h2>Aprender no es predecir</h2>
 <div class="split">
+<div class="fragment">
 <h3 id="ajuste">Ajuste</h3>
 <p>Usa observaciones con resultado conocido para determinar parámetros.</p>
 <p><span class="math display">\[
 (X_{\mathrm{train}},y_{\mathrm{train}})\longmapsto \widehat\theta
 \]</span></p>
+</div>
+<div class="fragment">
 <h3 id="uso">Uso</h3>
 <p>Mantiene <span class="math inline">\(\widehat\theta\)</span> fijo y calcula una salida para nuevas entradas.</p>
 <p><span class="math display">\[
 x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 \]</span></p>
+</div>
 </div>
 </section>
 <section id="pérdida-métrica-y-baseline" class="slide level2">
@@ -544,11 +561,26 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <h2>Separar datos cambia la pregunta</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-\mathcal D=\mathcal D_{\mathrm{train}}\,\dot\cup\,\mathcal D_{\mathrm{test}}
+\mathsf D=\mathsf D_{\mathrm{train}}\,\dot\cup\,\mathsf D_{\mathrm{test}}
 \]</span></p>
 </div>
-<p>Con <code>train</code> preguntamos: <strong>¿qué parámetros se ajustan a estos datos?</strong></p>
-<p>Con <code>test</code> preguntamos: <strong>¿cómo se comporta el procedimiento en observaciones que no participaron en el ajuste?</strong></p>
+<div class="object-map">
+<div class="object-card fragment">
+<strong>train: construir</strong>
+<p>
+¿Qué parámetros se ajustan a estos datos?
+</p>
+</div>
+<div class="map-arrow fragment">
+≠
+</div>
+<div class="object-card sample-blue fragment">
+<strong>test: estimar al final</strong>
+<p>
+¿Cómo se comporta el procedimiento en observaciones que no participaron en el ajuste?
+</p>
+</div>
+</div>
 </section>
 <section id="una-regla-para-test" class="slide level2">
 <h2>Una regla para test</h2>
@@ -627,14 +659,35 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 </section>
 <section id="así-trabajaremos-en-clase" class="slide level2">
 <h2>Así trabajaremos en clase</h2>
-<p>Cada semana combina:</p>
-<ol type="1">
-<li>una pregunta y un ejemplo concreto;</li>
-<li>desarrollo matemático en el tablero;</li>
-<li>implementación pequeña desde cero;</li>
-<li>comparación con una biblioteca;</li>
-<li>ejercicios y un artefacto evaluable.</li>
-</ol>
+<div class="pipeline-flow">
+<div class="pipeline-stage">
+<strong>1 · Pregunta</strong><span>caso y objeto concreto</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>2 · Matemática</strong><span>desarrollo en el tablero</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>3 · Algoritmo</strong><span>implementación pequeña</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>4 · Contraste</strong><span>biblioteca y comprobación</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>5 · Producto</strong><span>ejercicio o artefacto evaluable</span>
+</div>
+</div>
 <p>Las diapositivas orientan la sesión; el libro contiene el desarrollo que debe sobrevivir después de la clase.</p>
 </section>
 <section id="dónde-está-cada-material" class="slide level2">

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana01_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-ca9d51f3be5a2bdac2db71e767a76854.css">
+  <link rel="stylesheet" href="semana01_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-cae63aed8dd283f8207488f2b4f3d457.css">
   <link href="semana01_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana01_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana01_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -301,7 +301,7 @@ César Galindo
 </section>
 <section id="qué-hace-stratifyy" class="slide level2">
 <h2>¿Qué hace <code>stratify=y</code>?</h2>
-<div class="dense-table">
+<div class="dense-table semantic-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -367,12 +367,45 @@ César Galindo
 </section>
 <section id="la-tubería-del-modelo" class="slide level2">
 <h2>La tubería del modelo</h2>
-<div class="board">
-<p><code>X_train</code> → aprender escalas → transformar <code>X_train</code> → ajustar regresión logística</p>
+<div class="pipeline-flow">
+<div class="pipeline-stage">
+<strong><code>X_train</code></strong><span>133 vinos reservados para ajuste</span>
 </div>
-<p>Al predecir:</p>
-<div class="board">
-<p><code>X_test</code> → usar las escalas ya aprendidas → usar coeficientes ya ajustados → clase predicha</p>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>Aprender escalas</strong><span>media y desviación de cada columna</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>Transformar train</strong><span>usar las escalas recién estimadas</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>Ajustar el modelo</strong><span>coeficientes de regresión logística</span>
+</div>
+</div>
+<div class="pipeline-flow fragment">
+<div class="pipeline-stage">
+<strong><code>X_test</code></strong><span>45 vinos nunca usados para ajustar</span>
+</div>
+<div class="flow-arrow">
+→
+</div>
+<div class="pipeline-stage">
+<strong>Reusar escalas</strong><span>no volver a estimarlas</span>
+</div>
+<div class="flow-arrow">
+→
+</div>
+<div class="pipeline-stage">
+<strong>Predecir</strong><span>coeficientes fijos, clase final</span>
+</div>
 </div>
 <p>Test no determina medias, desviaciones ni coeficientes.</p>
 </section>
@@ -450,14 +483,16 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 </section>
 <section id="superar-el-baseline-no-termina-el-análisis" class="slide level2">
 <h2>Superar el baseline no termina el análisis</h2>
-<p>La comparación permite afirmar:</p>
-<blockquote>
-<p>Con este procedimiento y esta partición, las variables contienen información útil para separar las clases mejor que repetir la clase mayoritaria.</p>
-</blockquote>
-<p>No permite afirmar todavía:</p>
-<blockquote>
-<p>El modelo tendrá 97.8 % de accuracy en cualquier vino medido en cualquier laboratorio.</p>
-</blockquote>
+<div class="split">
+<div class="object-card sample-green">
+<p><strong>Lo que sí observamos</strong></p>
+<p>Con este procedimiento y esta partición, las variables separan las clases mejor que repetir la clase mayoritaria.</p>
+</div>
+<div class="object-card fragment">
+<p><strong>Lo que todavía no sabemos</strong></p>
+<p>Si el modelo conservará 97.8 % de accuracy en vinos medidos en otro laboratorio, región o periodo.</p>
+</div>
+</div>
 </section>
 <section id="la-matriz-localiza-el-error" class="slide level2">
 <h2>La matriz localiza el error</h2>
@@ -476,7 +511,7 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 </section>
 <section id="tres-métricas-por-clase" class="slide level2">
 <h2>Tres métricas por clase</h2>
-<div class="dense-table">
+<div class="dense-table semantic-table">
 <table class="caption-top">
 <thead>
 <tr class="header">
