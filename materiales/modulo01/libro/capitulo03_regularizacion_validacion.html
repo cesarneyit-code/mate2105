@@ -256,7 +256,9 @@ window.Quarto = {
   <li><a href="#regularización" id="toc-regularización" class="nav-link" data-scroll-target="#regularización">Regularización</a></li>
   <li><a href="#ridge" id="toc-ridge" class="nav-link" data-scroll-target="#ridge">Ridge</a></li>
   <li><a href="#efecto-de-lambda" id="toc-efecto-de-lambda" class="nav-link" data-scroll-target="#efecto-de-lambda">Efecto de <code>lambda</code></a></li>
+  <li><a href="#ridge-visto-en-las-direcciones-singulares" id="toc-ridge-visto-en-las-direcciones-singulares" class="nav-link" data-scroll-target="#ridge-visto-en-las-direcciones-singulares">Ridge visto en las direcciones singulares</a></li>
   <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso">Lasso</a></li>
+  <li><a href="#por-qué-lasso-puede-producir-ceros" id="toc-por-qué-lasso-puede-producir-ceros" class="nav-link" data-scroll-target="#por-qué-lasso-puede-producir-ceros">Por qué Lasso puede producir ceros</a></li>
   <li><a href="#ridge-vs-lasso" id="toc-ridge-vs-lasso" class="nav-link" data-scroll-target="#ridge-vs-lasso">Ridge vs Lasso</a></li>
   <li><a href="#estandarización-antes-de-regularizar" id="toc-estandarización-antes-de-regularizar" class="nav-link" data-scroll-target="#estandarización-antes-de-regularizar">Estandarización antes de regularizar</a></li>
   <li><a href="#selección-de-modelo" id="toc-selección-de-modelo" class="nav-link" data-scroll-target="#selección-de-modelo">Selección de modelo</a></li>
@@ -272,6 +274,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -316,6 +319,8 @@ window.Quarto = {
 <li>interpretar el efecto de <code>lambda</code>;</li>
 <li>seleccionar modelos con una métrica de validación;</li>
 <li>justificar un modelo final sin mirar la prueba repetidamente.</li>
+<li>explicar el efecto espectral de Ridge y la condición de optimalidad de Lasso;</li>
+<li>distinguir la solución matemática de un problema regularizado del algoritmo usado para calcularla.</li>
 </ol>
 <p>El Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?</p>
 <p>La respuesta usa los fundamentos probabilísticos de la Parte I. Entrenamiento minimiza una pérdida empírica sobre datos observados, pero la meta aplicada es bajo riesgo en casos futuros. Validación y prueba producen estimadores de ese riesgo; no lo convierten en una constante conocida.</p>
@@ -620,6 +625,20 @@ J_{\text{ridge}}(\theta)
 <p><strong>Lectura aplicada.</strong> Ridge no elimina variables; reduce coeficientes. Es útil cuando muchas variables aportan algo y queremos estabilidad.</p>
 </div>
 </section>
+<section id="ridge-visto-en-las-direcciones-singulares" class="level2">
+<h2 class="anchored" data-anchor-id="ridge-visto-en-las-direcciones-singulares">Ridge visto en las direcciones singulares</h2>
+<p>Para ver qué significa «encoger», ignoremos por un momento el intercepto y escribamos la SVD <span class="math inline">\(X=U\Sigma V^\top\)</span>. La solución Ridge es</p>
+<p><span class="math display">\[
+\widehat\theta_{\lambda}
+=V(\Sigma^\top\Sigma+m\lambda I)^{-1}\Sigma^\top U^\top y.
+\]</span></p>
+<p>En la dirección singular <span class="math inline">\(v_j\)</span>, el factor que multiplica la componente de <span class="math inline">\(U^\top y\)</span> es</p>
+<p><span class="math display">\[
+\frac{\sigma_j}{\sigma_j^2+m\lambda}.
+\]</span></p>
+<p>Cuando <span class="math inline">\(\sigma_j\)</span> es pequeño, mínimos cuadrados puede amplificar ruido mediante <span class="math inline">\(1/\sigma_j\)</span>. Ridge reemplaza ese factor por uno acotado y reduce especialmente las direcciones peor determinadas por los datos. Esta es la conexión precisa entre regularización, multicolinealidad y estabilidad. El precio es sesgo: incluso con una muestra sin ruido, <span class="math inline">\(\lambda&gt;0\)</span> desplaza la solución hacia cero.</p>
+<p>La matriz <span class="math inline">\(X^\top X+m\lambda I\)</span> tiene valores propios <span class="math inline">\(\sigma_j^2+m\lambda\)</span>. Si se penalizan todas las direcciones, <span class="math inline">\(\lambda&gt;0\)</span> la hace invertible aunque <span class="math inline">\(X\)</span> no tenga rango completo. Cuando el intercepto no se penaliza, la afirmación debe hacerse sobre el bloque de variables centradas.</p>
+</section>
 <section id="lasso" class="level2">
 <h2 class="anchored" data-anchor-id="lasso">Lasso</h2>
 <p>Lasso agrega una penalización L1:</p>
@@ -638,6 +657,39 @@ J_{\text{lasso}}(\theta)
 <div class="criterio">
 <p><strong>Lectura aplicada.</strong> Lasso es atractivo cuando se espera que pocas variables sean dominantes. Pero con variables muy correlacionadas puede elegir una y descartar otra de forma inestable.</p>
 </div>
+</section>
+<section id="por-qué-lasso-puede-producir-ceros" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-lasso-puede-producir-ceros">Por qué Lasso puede producir ceros</h2>
+<p>La función <span class="math inline">\(|t|\)</span> no es diferenciable en <span class="math inline">\(t=0\)</span>. Su subdiferencial es</p>
+<p><span class="math display">\[
+\partial |t|=
+\begin{cases}
+\{1\}, &amp; t&gt;0,\\
+[-1,1], &amp; t=0,\\
+\{-1\}, &amp; t&lt;0.
+\end{cases}
+\]</span></p>
+<p>Sea <span class="math inline">\(x_j\)</span> la columna <span class="math inline">\(j\)</span> de <span class="math inline">\(X\)</span> y supongamos que el intercepto está tratado por separado. Una solución Lasso satisface la condición</p>
+<p><span class="math display">\[
+0\in \frac1m x_j^\top(X\widehat\theta-y)
++\lambda\,\partial|\widehat\theta_j|.
+\]</span></p>
+<p>Si <span class="math inline">\(\widehat\theta_j=0\)</span>, esta condición puede cumplirse siempre que</p>
+<p><span class="math display">\[
+\left|\frac1m x_j^\top(y-X\widehat\theta)\right|\leq\lambda.
+\]</span></p>
+<p>Es decir, una variable queda en cero cuando su correlación residual no supera el umbral impuesto por la penalización. No es un efecto misterioso de la librería; proviene de la esquina de la norma L1.</p>
+<p>Una forma de calcular Lasso es descenso por coordenadas. Manteniendo fijas las demás coordenadas, la actualización usa el operador de umbral suave</p>
+<p><span class="math display">\[
+S(a,\lambda)=\operatorname{sign}(a)\max\{|a|-\lambda,0\}.
+\]</span></p>
+<p>Si <span class="math inline">\(r_{-j}=y-\sum_{k\neq j}x_k\theta_k\)</span>, entonces</p>
+<p><span class="math display">\[
+\theta_j\leftarrow
+\frac{S\!\left(x_j^\top r_{-j}/m,\lambda\right)}
+{\|x_j\|_2^2/m}.
+\]</span></p>
+<p>Una barrida por las <span class="math inline">\(p\)</span> coordenadas cuesta <span class="math inline">\(O(mp)\)</span> si el residual se actualiza de forma incremental. La convergencia es hacia un minimizador global porque el objetivo es convexo, pero el vector de coeficientes puede no ser único cuando hay dependencias entre columnas. La selección de variables, por tanto, puede ser inestable aun cuando las predicciones sean parecidas.</p>
 </section>
 <section id="ridge-vs-lasso" class="level2">
 <h2 class="anchored" data-anchor-id="ridge-vs-lasso">Ridge vs Lasso</h2>
@@ -870,9 +922,17 @@ J_{\text{lasso}}(\theta)
 <li>Si Ridge mejora validación pero empeora entrenamiento, ¿eso es necesariamente malo?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="19" type="1">
+<li>Usa la SVD para mostrar cómo cambia el factor <span class="math inline">\(\sigma_j/(\sigma_j^2+m\lambda)\)</span> cuando <span class="math inline">\(\sigma_j\)</span> es grande o pequeño.</li>
+<li>Verifica la condición de subgradiente de Lasso para una coordenada igual a cero y explica por qué permite soluciones esparsas.</li>
+<li>Deriva la actualización de umbral suave de descenso por coordenadas en el caso de una sola variable estandarizada.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="19" type="1">
+<ol start="22" type="1">
 <li>Diseña una comparación reproducible entre regresión polinomial sin regularización y Ridge. Usa una partición train/validation/test, reporta una tabla de resultados y escribe una conclusión que mencione explícitamente cómo evitaste leakage.</li>
 </ol>
 

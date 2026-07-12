@@ -256,6 +256,8 @@ window.Quarto = {
   <li><a href="#escalamiento-y-geometría" id="toc-escalamiento-y-geometría" class="nav-link" data-scroll-target="#escalamiento-y-geometría">Escalamiento y geometría</a></li>
   <li><a href="#condicionamiento" id="toc-condicionamiento" class="nav-link" data-scroll-target="#condicionamiento">Condicionamiento</a></li>
   <li><a href="#comparación-con-ecuación-normal" id="toc-comparación-con-ecuación-normal" class="nav-link" data-scroll-target="#comparación-con-ecuación-normal">Comparación con ecuación normal</a></li>
+  <li><a href="#por-qué-converge-en-la-cuadrática" id="toc-por-qué-converge-en-la-cuadrática" class="nav-link" data-scroll-target="#por-qué-converge-en-la-cuadrática">Por qué converge en la cuadrática</a></li>
+  <li><a href="#costo-de-una-iteración" id="toc-costo-de-una-iteración" class="nav-link" data-scroll-target="#costo-de-una-iteración">Costo de una iteración</a></li>
   <li><a href="#batch-stochastic-y-mini-batch" id="toc-batch-stochastic-y-mini-batch" class="nav-link" data-scroll-target="#batch-stochastic-y-mini-batch">Batch, stochastic y mini-batch</a></li>
   <li><a href="#tasa-de-aprendizaje-una-rutina-práctica" id="toc-tasa-de-aprendizaje-una-rutina-práctica" class="nav-link" data-scroll-target="#tasa-de-aprendizaje-una-rutina-práctica">Tasa de aprendizaje: una rutina práctica</a></li>
   <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes">Errores comunes</a></li>
@@ -269,6 +271,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -312,6 +315,8 @@ window.Quarto = {
 <li>explicar por qué el escalamiento afecta la optimización;</li>
 <li>reconocer problemas de condicionamiento;</li>
 <li>comparar una solución iterativa con la ecuación normal.</li>
+<li>relacionar la tasa de aprendizaje con el espectro de la Hessiana;</li>
+<li>estimar el costo de una iteración y distinguir convergencia matemática de buena generalización.</li>
 </ol>
 <p>En el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.</p>
 </section>
@@ -546,6 +551,46 @@ H=\frac1mX^\top X.
 <li>la matriz está mal condicionada.</li>
 </ul>
 </section>
+<section id="por-qué-converge-en-la-cuadrática" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-converge-en-la-cuadrática">Por qué converge en la cuadrática</h2>
+<p>Para mínimos cuadrados, la Hessiana es constante:</p>
+<p><span class="math display">\[
+H=\nabla^2J(\theta)=\frac1mX^\top X.
+\]</span></p>
+<p>Supongamos primero que <span class="math inline">\(X\)</span> tiene rango columna completo. Entonces <span class="math inline">\(H\)</span> es definida positiva y existe un único minimizador <span class="math inline">\(\theta^\star\)</span>. Como <span class="math inline">\(\nabla J(\theta)=H(\theta-\theta^\star)\)</span>, el error <span class="math inline">\(e_t=\theta_t-\theta^\star\)</span> satisface</p>
+<p><span class="math display">\[
+e_{t+1}
+=e_t-\alpha He_t
+=(I-\alpha H)e_t.
+\]</span></p>
+<p>Si <span class="math inline">\(H=Q\Lambda Q^\top\)</span>, cada componente del error en la dirección propia <span class="math inline">\(q_j\)</span> se multiplica por <span class="math inline">\(1-\alpha\lambda_j\)</span> en una iteración. Por tanto, todas las componentes se contraen cuando</p>
+<p><span class="math display">\[
+|1-\alpha\lambda_j|&lt;1\quad\text{para todo }j,
+\]</span></p>
+<p>lo cual equivale a</p>
+<p><span class="math display">\[
+0&lt;\alpha&lt;\frac{2}{\lambda_{\max}(H)}.
+\]</span></p>
+<p>Esta deducción explica tres observaciones del código: un paso demasiado grande diverge, un paso muy pequeño converge lentamente y un espectro muy desigual produce direcciones con velocidades muy distintas. Para paso constante, la elección que minimiza la peor contracción de esta cuadrática es</p>
+<p><span class="math display">\[
+\alpha_{\mathrm{opt}}
+=\frac{2}{\lambda_{\min}(H)+\lambda_{\max}(H)},
+\]</span></p>
+<p>con factor</p>
+<p><span class="math display">\[
+\rho=\frac{\kappa_2(H)-1}{\kappa_2(H)+1}.
+\]</span></p>
+<p>No usamos esta fórmula como receta general porque calcular el espectro puede ser tan costoso como resolver el problema y porque, fuera de una cuadrática, la Hessiana cambia con <span class="math inline">\(\theta\)</span>. Su valor pedagógico es mostrar con precisión por qué el condicionamiento controla la velocidad.</p>
+<div class="proposicion">
+<p><strong>Convergencia para mínimos cuadrados de rango completo.</strong> Si <span class="math inline">\(0&lt;\alpha&lt;2/\lambda_{\max}(H)\)</span>, el descenso del gradiente con paso constante converge linealmente al único minimizador de la pérdida cuadrática. Si <span class="math inline">\(H\)</span> es singular, el método puede converger a un minimizador, pero la componente inicial en el espacio nulo no se modifica y los parámetros no tienen por qué ser únicos.</p>
+</div>
+</section>
+<section id="costo-de-una-iteración" class="level2">
+<h2 class="anchored" data-anchor-id="costo-de-una-iteración">Costo de una iteración</h2>
+<p>Calcular <span class="math inline">\(X\theta\)</span> cuesta <span class="math inline">\(O(mp)\)</span>, y multiplicar el residual por <span class="math inline">\(X^\top\)</span> cuesta otro <span class="math inline">\(O(mp)\)</span>. Una iteración batch requiere entonces <span class="math inline">\(O(mp)\)</span> operaciones y <span class="math inline">\(O(p)\)</span> memoria adicional, aparte de almacenar los datos. Tras <span class="math inline">\(T\)</span> iteraciones, el costo es <span class="math inline">\(O(Tmp)\)</span>.</p>
+<p>Esta comparación aclara cuándo un método iterativo resulta atractivo. Una factorización directa paga un costo mayor al comienzo, pero termina en un número fijo de pasos algebraicos. Gradiente evita formar <span class="math inline">\(X^\top X\)</span>, puede explotar datos dispersos y permite detenerse temprano, pero su costo depende de cuántas iteraciones exige el condicionamiento.</p>
+<p>Con mini-batches de tamaño <span class="math inline">\(b\)</span>, el costo por paso baja a <span class="math inline">\(O(bp)\)</span>, aunque ahora el gradiente varía entre pasos. Ese ruido no cambia el objetivo empírico esperado, pero sí cambia el análisis de convergencia y obliga a decidir un esquema de tasas.</p>
+</section>
 <section id="batch-stochastic-y-mini-batch" class="level2">
 <h2 class="anchored" data-anchor-id="batch-stochastic-y-mini-batch">Batch, stochastic y mini-batch</h2>
 <p>En este módulo usamos descenso del gradiente batch: cada paso calcula el gradiente con todos los datos.</p>
@@ -702,9 +747,17 @@ y=\begin{bmatrix}1\\3\\5\end{bmatrix},\quad
 <li>¿Qué decisión tomarías si <code>alpha=0.1</code> converge en 200 iteraciones y <code>alpha=0.01</code> converge en 5000?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="17" type="1">
+<li>Sea <span class="math inline">\(H=\operatorname{diag}(1,25)\)</span>. Determina el intervalo de tasas constantes para el que gradiente converge y calcula el factor de contracción para <span class="math inline">\(\alpha=0.04\)</span>.</li>
+<li>A partir de <span class="math inline">\(e_{t+1}=(I-\alpha H)e_t\)</span>, demuestra la condición <span class="math inline">\(0&lt;\alpha&lt;2/\lambda_{\max}(H)\)</span>.</li>
+<li>Compara el costo <span class="math inline">\(O(Tmp)\)</span> de gradiente con <span class="math inline">\(O(mp^2)\)</span> de una factorización directa. Describe un régimen de <span class="math inline">\(m,p,T\)</span> donde cada alternativa sea razonable.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="17" type="1">
+<ol start="20" type="1">
 <li>Construye un experimento pequeño con dos variables en escalas muy distintas. Ejecuta descenso del gradiente antes y después de estandarizar, grafica la pérdida y redacta un diagnóstico que explique qué cambió y qué no demuestra el experimento.</li>
 </ol>
 

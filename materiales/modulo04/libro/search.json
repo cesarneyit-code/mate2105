@@ -94,7 +94,7 @@
     "href": "capitulo01_svd_pca.html#objetivos-del-capítulo",
     "title": "SVD y PCA",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir la SVD de una matriz;\nexplicar por qué PCA requiere centrar datos;\ncalcular la forma de una proyección \\(Z=X_cV_k\\);\ninterpretar varianza explicada y error de reconstrucción;\ndistinguir reducción de dimensión de interpretación causal.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir la SVD de una matriz;\nexplicar por qué PCA requiere centrar datos;\ncalcular la forma de una proyección \\(Z=X_cV_k\\);\ninterpretar varianza explicada y error de reconstrucción;\ndistinguir reducción de dimensión de interpretación causal.\nderivar las direcciones principales mediante un problema restringido;\ncomparar la descomposición por covarianza con una SVD directa en costo y estabilidad.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -104,7 +104,7 @@
     "href": "capitulo01_svd_pca.html#pca-poblacional-y-pca-empírico",
     "title": "SVD y PCA",
     "section": "PCA poblacional y PCA empírico",
-    "text": "PCA poblacional y PCA empírico\nSea \\(X\\in\\mathbb R^p\\) un vector aleatorio con media \\(\\mu\\) y matriz de covarianza\n\\[\n\\Sigma=\\mathbb E[(X-\\mu)(X-\\mu)^\\top].\n\\]\nLa primera dirección principal poblacional resuelve\n\\[\nv_1^*=\\arg\\max_{\\lVert v\\rVert_2=1}\n\\operatorname{Var}(v^\\top X)\n=\\arg\\max_{\\lVert v\\rVert_2=1}v^\\top\\Sigma v.\n\\]\nPor el cociente de Rayleigh, \\(v_1^*\\) es un autovector asociado al mayor autovalor de \\(\\Sigma\\). No conocemos \\(\\Sigma\\); con una muestra usamos\n\\[\n\\widehat\\Sigma_m=\\frac1mX_c^\\top X_c.\n\\]\nSi \\(X_c=U\\Sigma_sV^\\top\\) es la SVD, entonces\n\\[\n\\widehat\\Sigma_m\n=V\\frac{\\Sigma_s^2}{m}V^\\top.\n\\]\nAsí, los vectores singulares derechos son direcciones principales empíricas y \\(\\sigma_j^2/m\\) son autovalores de la covarianza empírica. Cambiar la muestra puede cambiar direcciones, especialmente cuando autovalores consecutivos son cercanos.\n\nMáxima varianza empírica. Para \\(X_c\\) centrada,\n\\[\n\\max_{\\lVert v\\rVert=1}\\frac1m\\lVert X_cv\\rVert_2^2\n=\\frac{\\sigma_1^2}{m},\n\\]\ny cualquier primer vector singular derecho alcanza el máximo.\n\nLa indeterminación de signo de un componente no es incertidumbre muestral: \\(v\\) y \\(-v\\) describen el mismo eje. La inestabilidad entre subespacios al cambiar la muestra sí es una cuestión estadística y debe estudiarse por remuestreo o particiones.",
+    "text": "PCA poblacional y PCA empírico\nSea \\(X\\in\\mathbb R^p\\) un vector aleatorio con media \\(\\mu\\) y matriz de covarianza\n\\[\n\\Sigma=\\mathbb E[(X-\\mu)(X-\\mu)^\\top].\n\\]\nLa primera dirección principal poblacional resuelve\n\\[\nv_1^*=\\arg\\max_{\\lVert v\\rVert_2=1}\n\\operatorname{Var}(v^\\top X)\n=\\arg\\max_{\\lVert v\\rVert_2=1}v^\\top\\Sigma v.\n\\]\nPor el cociente de Rayleigh, \\(v_1^*\\) es un autovector asociado al mayor autovalor de \\(\\Sigma\\). No conocemos \\(\\Sigma\\); con una muestra usamos\n\\[\n\\widehat\\Sigma_m=\\frac1mX_c^\\top X_c.\n\\]\nSi \\(X_c=U\\Sigma_sV^\\top\\) es la SVD, entonces\n\\[\n\\widehat\\Sigma_m\n=V\\frac{\\Sigma_s^2}{m}V^\\top.\n\\]\nAsí, los vectores singulares derechos son direcciones principales empíricas y \\(\\sigma_j^2/m\\) son autovalores de la covarianza empírica. Cambiar la muestra puede cambiar direcciones, especialmente cuando autovalores consecutivos son cercanos.\n\nMáxima varianza empírica. Para \\(X_c\\) centrada,\n\\[\n\\max_{\\lVert v\\rVert=1}\\frac1m\\lVert X_cv\\rVert_2^2\n=\\frac{\\sigma_1^2}{m},\n\\]\ny cualquier primer vector singular derecho alcanza el máximo.\n\nLa afirmación se obtiene con multiplicadores de Lagrange. Para una matriz de covarianza simétrica \\(\\Sigma\\), maximizamos \\(v^\\top\\Sigma v\\) sujeto a \\(v^\\top v=1\\). La función de Lagrange es\n\\[\n\\mathcal L(v,\\lambda)\n=v^\\top\\Sigma v-\\lambda(v^\\top v-1).\n\\]\nSu condición estacionaria respecto a \\(v\\) es\n\\[\n2\\Sigma v-2\\lambda v=0,\n\\]\nde modo que una dirección candidata debe satisfacer \\(\\Sigma v=\\lambda v\\). Además, en un autovector unitario,\n\\[\nv^\\top\\Sigma v=\\lambda.\n\\]\nPor tanto, el máximo corresponde al mayor autovalor. Para \\(k\\) direcciones ortonormales, el problema se escribe\n\\[\n\\max_{V_k^\\top V_k=I_k}\n\\operatorname{tr}(V_k^\\top\\Sigma V_k),\n\\]\ny el máximo es la suma de los \\(k\\) mayores autovalores. Si hay autovalores repetidos, el subespacio principal está determinado, pero una base particular dentro de él no es única.\nLa indeterminación de signo de un componente no es incertidumbre muestral: \\(v\\) y \\(-v\\) describen el mismo eje. La inestabilidad entre subespacios al cambiar la muestra sí es una cuestión estadística y debe estudiarse por remuestreo o particiones.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -124,7 +124,7 @@
     "href": "capitulo01_svd_pca.html#pca-como-svd-del-dato-centrado",
     "title": "SVD y PCA",
     "section": "PCA como SVD del dato centrado",
-    "text": "PCA como SVD del dato centrado\nPrimero centramos cada columna con el vector de medias \\(\\mu\\in\\mathbb R^p\\):\n\\[\nX_c = X - \\mathbf 1_m\\mu^\\top.\n\\]\nLuego:\n\\[\nX_c = U\\Sigma V^\\top.\n\\]\nLos componentes principales son las primeras filas de \\(V^\\top\\), o columnas de \\(V\\), asociadas a los valores singulares más grandes.",
+    "text": "PCA como SVD del dato centrado\nPrimero centramos cada columna con el vector de medias \\(\\mu\\in\\mathbb R^p\\):\n\\[\nX_c = X - \\mathbf 1_m\\mu^\\top.\n\\]\nLuego:\n\\[\nX_c = U\\Sigma V^\\top.\n\\]\nLos componentes principales son las primeras filas de \\(V^\\top\\), o columnas de \\(V\\), asociadas a los valores singulares más grandes.\nCentrar no es una formalidad. Sin centrado se maximiza \\(m^{-1}\\|Xv\\|^2\\), que mezcla variación con la distancia del promedio al origen. La primera dirección puede entonces apuntar hacia la media de las observaciones, no hacia la dirección en que fluctúan alrededor de ella. Si además se estandarizan columnas, PCA analiza la matriz de correlaciones y responde una pregunta distinta: cada variable aporta en unidades de desviación estándar en lugar de conservar su escala original.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -164,7 +164,17 @@
     "href": "capitulo01_svd_pca.html#derivación-guiada-reconstrucción-y-pérdida-de-información",
     "title": "SVD y PCA",
     "section": "Derivación guiada: reconstrucción y pérdida de información",
-    "text": "Derivación guiada: reconstrucción y pérdida de información\nSi usamos \\(k\\) componentes, retenemos:\n\\[\nX_c \\approx U_k\\Sigma_kV_k^\\top.\n\\]\nLa parte descartada corresponde a componentes \\(k+1,\\ldots,r\\). Bajo la norma de Frobenius, el error de reconstrucción queda ligado a los valores singulares descartados:\n\\[\n\\|X_c-\\hat X_c\\|_F^2=\\sum_{j=k+1}^{r}\\sigma_j^2.\n\\]\nEl teorema de Eckart-Young establece que esta reconstrucción truncada minimiza el error de Frobenius entre todas las matrices de rango a lo sumo \\(k\\). Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo cálculo. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.",
+    "text": "Derivación guiada: reconstrucción y pérdida de información\nSi usamos \\(k\\) componentes, retenemos:\n\\[\nX_c \\approx U_k\\Sigma_kV_k^\\top.\n\\]\nLa parte descartada corresponde a componentes \\(k+1,\\ldots,r\\). Bajo la norma de Frobenius, el error de reconstrucción queda ligado a los valores singulares descartados:\n\\[\n\\|X_c-\\hat X_c\\|_F^2=\\sum_{j=k+1}^{r}\\sigma_j^2.\n\\]\nEl teorema de Eckart-Young establece que esta reconstrucción truncada minimiza el error de Frobenius entre todas las matrices de rango a lo sumo \\(k\\). Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo cálculo. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.\nUna forma de ver el resultado usa proyecciones ortogonales. Sea \\(B\\) una matriz de rango a lo sumo \\(k\\) y sea \\(S\\) su espacio columna. Entre todas las matrices cuyas columnas pertenecen a \\(S\\), la más cercana a \\(X_c\\) es \\(P_SX_c\\), donde \\(P_S\\) es la proyección ortogonal sobre \\(S\\). Por Pitágoras,\n\\[\n\\|X_c-P_SX_c\\|_F^2\n=\\|X_c\\|_F^2-\\|P_SX_c\\|_F^2.\n\\]\nMinimizar el error equivale entonces a escoger un subespacio de dimensión \\(k\\) que capture la mayor energía \\(\\|P_SX_c\\|_F^2\\). La caracterización variacional aplicada a \\(X_cX_c^\\top\\) selecciona \\(S=\\operatorname{span}(u_1,\\ldots,u_k)\\), las primeras direcciones singulares izquierdas. Si \\(X_c=U\\Sigma V^\\top\\),\n\\[\nP_SX_c\n=U_kU_k^\\top U\\Sigma V^\\top\n=U_k\\Sigma_kV_k^\\top.\n\\]\nEl error restante es \\(\\sum_{j&gt;k}\\sigma_j^2\\). Esta es una justificación de optimalidad respecto a error cuadrático de reconstrucción, no respecto a clasificación, interpretabilidad o utilidad de una variable minoritaria.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_svd_pca.html#costo-y-elección-del-método-numérico",
+    "href": "capitulo01_svd_pca.html#costo-y-elección-del-método-numérico",
+    "title": "SVD y PCA",
+    "section": "Costo y elección del método numérico",
+    "text": "Costo y elección del método numérico\nHay dos rutas densas comunes. Formar la covarianza \\(X_c^\\top X_c/m\\) cuesta \\(O(mp^2)\\) y diagonalizarla cuesta \\(O(p^3)\\). Una SVD directa evita formar la covarianza y no eleva al cuadrado el número de condición. Si \\(m\\geq p\\), su costo denso también es del orden de \\(O(mp^2)\\); si \\(p\\gg m\\), puede ser preferible trabajar con \\(X_cX_c^\\top\\) o con una SVD truncada.\nCuando solo se necesitan \\(k\\ll\\min(m,p)\\) componentes, algoritmos iterativos o aleatorizados aproximan el subespacio dominante sin calcular toda la SVD. Deben verificarse con error de reconstrucción y estabilidad, porque ahora aparece una aproximación algorítmica adicional a la variación muestral.\n\n\n\n\n\n\n\n\nElección\nVentaja\nRiesgo principal\n\n\n\n\nautodescomposición de covarianza\nconecta directamente con varianza\nforma \\(X_c^\\top X_c\\) y empeora condicionamiento\n\n\nSVD directa de \\(X_c\\)\nmayor estabilidad numérica\npuede ser costosa si solo se requieren pocos componentes\n\n\nSVD truncada\naprovecha \\(k\\) pequeño\nagrega tolerancia y posible error aproximado\n\n\n\nEl ajuste del centrado, el escalamiento y los componentes debe ocurrir dentro de cada conjunto de entrenamiento. Proyectar validación o test usa las medias, escalas y direcciones ya aprendidas; recalcularlas sería leakage.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -284,7 +294,7 @@
     "href": "capitulo01_svd_pca.html#ejercicios",
     "title": "SVD y PCA",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué PCA debe centrar los datos antes de calcular componentes.\n¿Por qué un componente principal no es automáticamente interpretable?\n\n\n\nProblemas cuantitativos\n\nSi \\(X\\) tiene forma (500, 64) y usamos k=2, ¿qué forma tiene la proyección PCA?\n¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?\n\n\n\nPráctica computacional\n\nImplemente una proyección PCA usando SVD sobre datos centrados.\nCalcule y grafique varianza explicada acumulada.\n\n\n\nInterpretación y pensamiento crítico\n\nSi dos componentes explican poca varianza pero separan visualmente grupos, ¿qué conclusión puede y no puede afirmar?\n\n\n\nProyecto de cierre\n\nAplique PCA a un dataset de su proyecto o a uno pequeño generado para práctica, justifique \\(k\\), muestre una proyección y escriba una advertencia de interpretación.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué PCA debe centrar los datos antes de calcular componentes.\n¿Por qué un componente principal no es automáticamente interpretable?\n\n\n\nProblemas cuantitativos\n\nSi \\(X\\) tiene forma (500, 64) y usamos k=2, ¿qué forma tiene la proyección PCA?\n¿Qué significa que los primeros 10 componentes expliquen 85% de la varianza?\n\n\n\nPráctica computacional\n\nImplemente una proyección PCA usando SVD sobre datos centrados.\nCalcule y grafique varianza explicada acumulada.\n\n\n\nInterpretación y pensamiento crítico\n\nSi dos componentes explican poca varianza pero separan visualmente grupos, ¿qué conclusión puede y no puede afirmar?\n\n\n\nProfundización matemática y algorítmica\n\nUse multiplicadores de Lagrange para derivar el problema de máxima varianza de la primera dirección principal.\nDemuestre que el problema de \\(k\\) direcciones maximiza la traza \\(\\operatorname{tr}(V_k^\\top\\Sigma V_k)\\).\nExplique el argumento central de Eckart-Young y distinga optimalidad de reconstrucción de utilidad predictiva.\nCompare costo y estabilidad de formar la covarianza frente a calcular la SVD directa de la matriz centrada.\n\n\n\nProyecto de cierre\n\nAplique PCA a un dataset de su proyecto o a uno pequeño generado para práctica, justifique \\(k\\), muestre una proyección y escriba una advertencia de interpretación.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -314,7 +324,7 @@
     "href": "capitulo02_kmeans_clustering.html#objetivos-del-capítulo",
     "title": "K-Means y clustering",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir la función objetivo de K-Means;\nexplicar los pasos de asignación y actualización;\ninterpretar inertia y silhouette sin absolutizarlos;\njustificar el escalamiento antes de usar distancias euclídeas;\nreconocer cuándo un cluster no debe traducirse directamente en una decisión.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir la función objetivo de K-Means;\nexplicar los pasos de asignación y actualización;\ninterpretar inertia y silhouette sin absolutizarlos;\njustificar el escalamiento antes de usar distancias euclídeas;\nreconocer cuándo un cluster no debe traducirse directamente en una decisión.\ndemostrar por qué cada paso no aumenta la función objetivo;\ndistinguir convergencia a un punto fijo de optimalidad global y estimar el costo del algoritmo.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -334,7 +344,7 @@
     "href": "capitulo02_kmeans_clustering.html#función-objetivo",
     "title": "K-Means y clustering",
     "section": "Función objetivo",
-    "text": "Función objetivo\nK-Means minimiza la suma de distancias cuadradas a centroides:\n\\[\n\\sum_{i=1}^m \\|x_i-\\mu_{c_i}\\|_2^2.\n\\]\nDonde:\n\n\\(c_i\\) es el cluster asignado a \\(x_i\\);\n\\(\\mu_{c_i}\\) es el centroide correspondiente.",
+    "text": "Función objetivo\nCon indicadores \\(r_{ij}\\in\\{0,1\\}\\) y \\(\\sum_jr_{ij}=1\\), K-Means minimiza\n\\[\nJ(R,C)=\\sum_{i=1}^m\\sum_{j=1}^k\nr_{ij}\\|x_i-\\mu_j\\|_2^2.\n\\]\nLa representación separa dos bloques de variables:\n\n\\(R=(r_{ij})\\) contiene asignaciones discretas;\n\\(C=(\\mu_1,\\ldots,\\mu_k)\\) contiene centroides continuos.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -344,7 +354,17 @@
     "href": "capitulo02_kmeans_clustering.html#algoritmo",
     "title": "K-Means y clustering",
     "section": "Algoritmo",
-    "text": "Algoritmo\n\nInicializar centroides.\nAsignar cada punto al centroide más cercano.\nRecalcular cada centroide como promedio del grupo.\nRepetir hasta convergencia.",
+    "text": "Algoritmo\n\nInicializar centroides.\nAsignar cada punto al centroide más cercano.\nRecalcular cada centroide como promedio del grupo.\nRepetir hasta convergencia.\n\nLa frase «hasta convergencia» necesita una regla: ausencia de cambios en las asignaciones, desplazamiento máximo de centroides menor que una tolerancia, reducción de inertia menor que una tolerancia o número máximo de iteraciones. También debe definirse qué ocurre con empates y clusters vacíos.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#por-qué-la-inertia-no-aumenta",
+    "href": "capitulo02_kmeans_clustering.html#por-qué-la-inertia-no-aumenta",
+    "title": "K-Means y clustering",
+    "section": "Por qué la inertia no aumenta",
+    "text": "Por qué la inertia no aumenta\nCon centroides fijos, cada fila \\(r_i\\) aparece solo en\n\\[\n\\sum_{j=1}^k r_{ij}\\|x_i-\\mu_j\\|^2.\n\\]\nAsignar \\(x_i\\) al centroide más cercano minimiza ese término entre todas las asignaciones posibles. Por tanto, el paso de asignación no aumenta \\(J\\).\nCon asignaciones fijas, cada centroide resuelve un problema independiente:\n\\[\n\\min_{\\mu_j}\\sum_{i:r_{ij}=1}\\|x_i-\\mu_j\\|^2.\n\\]\nComo se deriva más adelante, su minimizador es el promedio del cluster. El paso de actualización tampoco aumenta \\(J\\). La secuencia de inertias es no creciente y está acotada inferiormente por cero.\nLa monotonía implica que la secuencia de valores de \\(J\\) converge. Para concluir terminación finita de las asignaciones hace falta algo más: que todo cambio de asignación reduzca \\(J\\) estrictamente. Esto ocurre, por ejemplo, cuando no hay empates de distancia y ningún cluster queda vacío. Como solo hay un número finito de asignaciones, bajo esas condiciones el algoritmo alcanza una que ya no cambia. Con empates o degeneraciones puede haber pasos de costo idéntico; una implementación debe fijar desempate, tolerancia y número máximo de iteraciones.\n\nDescenso por bloques de Lloyd. Cada iteración completa de asignación y actualización no aumenta la función objetivo de K-Means. Si todo cambio de asignación produce descenso estricto y no aparecen clusters vacíos, Lloyd termina en un punto fijo después de un número finito de iteraciones. Ese punto no tiene por qué ser un óptimo global.\n\nK-Means++ escoge centros iniciales favoreciendo puntos alejados de los ya seleccionados. Reduce la probabilidad de una inicialización muy mala, pero no elimina mínimos locales. n_init ejecuta varias inicializaciones y conserva la de menor inertia.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -405,6 +425,16 @@
     "title": "K-Means y clustering",
     "section": "Derivación guiada: por qué el centroide es el promedio",
     "text": "Derivación guiada: por qué el centroide es el promedio\nPara un cluster con puntos \\(x_1,\\ldots,x_m\\), K-Means escoge un centroide \\(\\mu\\) que minimiza:\n\\[\n\\sum_{i=1}^{m}\\|x_i-\\mu\\|_2^2.\n\\]\nEn una dimensión, derivar respecto a \\(\\mu\\) da:\n\\[\n\\frac{d}{d\\mu}\\sum_{i=1}^{m}(x_i-\\mu)^2\n=\n-2\\sum_{i=1}^{m}(x_i-\\mu).\n\\]\nIgualando a cero:\n\\[\n\\sum_{i=1}^{m}x_i-m\\mu=0\n\\quad\\Rightarrow\\quad\n\\mu=\\frac{1}{m}\\sum_{i=1}^{m}x_i.\n\\]\nEn varias dimensiones ocurre componente a componente. Por eso la actualización del centroide es el promedio de los puntos asignados.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#complejidad-y-casos-degenerados",
+    "href": "capitulo02_kmeans_clustering.html#complejidad-y-casos-degenerados",
+    "title": "K-Means y clustering",
+    "section": "Complejidad y casos degenerados",
+    "text": "Complejidad y casos degenerados\nCalcular las distancias de \\(m\\) puntos en \\(\\mathbb R^p\\) a \\(k\\) centroides cuesta \\(O(mkp)\\) por iteración. Actualizar centroides cuesta \\(O(mp)\\). Con \\(T\\) iteraciones y \\(s\\) inicializaciones, el costo dominante es\n\\[\nO(sTmkp).\n\\]\nUna implementación vectorizada puede almacenar una matriz de distancias \\(m\\times k\\), con memoria \\(O(mk)\\); también puede procesar bloques para reducirla.\nUn cluster vacío no tiene promedio. Las implementaciones deben conservar el centro anterior, reubicarlo o reinicializarlo según una regla explícita. Los empates también necesitan desempate determinista si se quiere reproducibilidad. Estas decisiones rara vez aparecen en la fórmula del objetivo, pero forman parte del algoritmo ejecutado.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -514,7 +544,7 @@
     "href": "capitulo02_kmeans_clustering.html#ejercicios",
     "title": "K-Means y clustering",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué la inertia óptima no aumenta cuando crece \\(k\\).\n¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?\n\n\n\nProblemas cuantitativos\n\nAsigne tres puntos en una dimensión a dos centroides dados y calcule inertia.\nSi un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?\n\n\n\nPráctica computacional\n\nAjuste K-Means para varios valores de \\(k\\) y reporte inertia y silhouette.\nConstruya un pipeline con escalamiento y K-Means.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.\n¿Qué resultados usaría para nombrar un cluster sin caer en sobreinterpretación?\n\n\n\nProyecto de cierre\n\nGenere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué la inertia óptima no aumenta cuando crece \\(k\\).\n¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?\n\n\n\nProblemas cuantitativos\n\nAsigne tres puntos en una dimensión a dos centroides dados y calcule inertia.\nSi un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?\n\n\n\nPráctica computacional\n\nAjuste K-Means para varios valores de \\(k\\) y reporte inertia y silhouette.\nConstruya un pipeline con escalamiento y K-Means.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.\n¿Qué resultados usaría para nombrar un cluster sin caer en sobreinterpretación?\n\n\n\nProfundización matemática y algorítmica\n\nDemuestre que el paso de asignación y el paso de actualización no aumentan la función objetivo.\nExplique por qué monotonía de la inertia no implica alcanzar el mínimo global.\nCalcule el costo asintótico para \\(T\\) iteraciones, \\(s\\) inicializaciones, \\(m\\) observaciones, \\(k\\) clusters y \\(p\\) variables.\nProponga reglas reproducibles para un empate y para un cluster vacío.\n\n\n\nProyecto de cierre\n\nGenere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -544,7 +574,7 @@
     "href": "capitulo03_recomendacion_latente.html#objetivos-del-capítulo",
     "title": "Recomendación básica y estructura latente",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nconstruir una matriz usuario-ítem simple;\ncalcular e interpretar similitud coseno;\ndescribir una recomendación item-item;\nexplicar la idea de factores latentes por SVD;\nreconocer problemas de popularidad, cold start y sesgo.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nconstruir una matriz usuario-ítem simple;\ncalcular e interpretar similitud coseno;\ndescribir una recomendación item-item;\nexplicar la idea de factores latentes por SVD;\nreconocer problemas de popularidad, cold start y sesgo.\nformular una factorización regularizada sobre entradas observadas y derivar sus gradientes;\nestimar costo, memoria y límites de identificación de los factores.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]
@@ -660,6 +690,26 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#factorización-sobre-entradas-observadas",
+    "href": "capitulo03_recomendacion_latente.html#factorización-sobre-entradas-observadas",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Factorización sobre entradas observadas",
+    "text": "Factorización sobre entradas observadas\nSea \\(\\Omega\\) el conjunto de pares \\((u,i)\\) para los que existe una interacción o rating. Asignamos a cada usuario un vector \\(p_u\\in\\mathbb R^k\\) y a cada ítem un vector \\(q_i\\in\\mathbb R^k\\). Un objetivo básico para ratings explícitos es\n\\[\n\\begin{aligned}\nJ(P,Q)\n&=\\frac12\\sum_{(u,i)\\in\\Omega}\n(R_{ui}-p_u^\\top q_i)^2\\\\\n&+\\frac\\lambda2\n\\left(\\sum_u\\|p_u\\|^2+\\sum_i\\|q_i\\|^2\\right).\n\\end{aligned}\n\\]\nLa suma recorre solo entradas observadas; no convierte faltantes en ceros. Si \\(e_{ui}=R_{ui}-p_u^\\top q_i\\), los gradientes son\n\\[\n\\nabla_{p_u}J\n=-\\sum_{i:(u,i)\\in\\Omega}e_{ui}q_i+\\lambda p_u,\n\\]\n\\[\n\\nabla_{q_i}J\n=-\\sum_{u:(u,i)\\in\\Omega}e_{ui}p_u+\\lambda q_i.\n\\]\nPara obtener actualizaciones por interacción consistentes con este mismo objetivo, definimos los grados\n\\[\nd_u=|\\{i:(u,i)\\in\\Omega\\}|,\n\\]\n\\[\nd_i=|\\{u:(u,i)\\in\\Omega\\}|.\n\\]\nLa penalización puede distribuirse exactamente entre las interacciones:\n\\[\n\\begin{aligned}\nJ(P,Q)\n&=\\frac12\\sum_{(u,i)\\in\\Omega}\\Biggl[\ne_{ui}^2+\\frac{\\lambda}{d_u}\\|p_u\\|^2\\\\\n&\\quad+\\frac{\\lambda}{d_i}\\|q_i\\|^2\n\\Biggr].\n\\end{aligned}\n\\]\nCada vector aparece en tantas sumas como indica su grado, de modo que esta expresión coincide con el objetivo global anterior. Una actualización SGD sobre un par observado usa entonces\n\\[\n\\begin{aligned}\np_u&\\leftarrow p_u+\\alpha\n\\left(e_{ui}q_i-\\frac{\\lambda}{d_u}p_u\\right),\\\\\nq_i&\\leftarrow q_i+\\alpha\n\\left(e_{ui}p_u^{\\mathrm{anterior}}-\\frac{\\lambda}{d_i}q_i\\right).\n\\end{aligned}\n\\]\nSe conserva \\(p_u^{\\mathrm{anterior}}\\) en la segunda expresión para que ambas actualizaciones correspondan al mismo gradiente. Usar \\(\\lambda p_u\\) y \\(\\lambda q_i\\) en cada interacción también es posible, pero corresponde a una penalización ponderada por los grados, no al objetivo global escrito arriba. También pueden añadirse un promedio global y sesgos de usuario e ítem; sin ellos, los factores deben explicar diferencias de nivel que no son necesariamente interacciones latentes.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#alternancia-costo-e-identificación",
+    "href": "capitulo03_recomendacion_latente.html#alternancia-costo-e-identificación",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Alternancia, costo e identificación",
+    "text": "Alternancia, costo e identificación\nEl objetivo no es conjuntamente convexo en \\((P,Q)\\), pero sí es cuadrático en un bloque cuando el otro queda fijo. Alternating least squares fija \\(Q\\) y resuelve un problema Ridge por usuario; luego fija \\(P\\) y resuelve uno por ítem. Cada paso no aumenta el objetivo si los subproblemas se resuelven exactamente, pero el resultado puede depender de la inicialización.\nUna época SGD que recorre \\(|\\Omega|\\) interacciones cuesta \\(O(|\\Omega|k)\\) y almacena \\(O((n_{\\mathrm{usuarios}}+n_{\\mathrm{ítems}})k)\\) parámetros. Esta estructura aprovecha dispersión: el costo depende de interacciones observadas, no del producto completo de usuarios por ítems.\nLos factores no son únicos. Si \\(A\\) es invertible,\n\\[\np_u^\\top q_i\n=(A^\\top p_u)^\\top(A^{-1}q_i).\n\\]\nPor tanto, una coordenada latente aislada no tiene significado intrínseco. La regularización reduce parte de la indeterminación, pero las interpretaciones de «factor de acción», «factor de drama» o similares requieren evidencia externa. Lo identificable para el objetivo son principalmente los productos y rankings, no los nombres de los ejes.\nPara retroalimentación implícita, una ausencia puede significar falta de exposición. Se usan objetivos ponderados, muestreo de negativos o pérdidas de ranking; el objetivo cuadrático anterior no debe trasladarse sin declarar ese cambio de modelo.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#caso-longitudinal-interacciones-de-recomendación",
     "href": "capitulo03_recomendacion_latente.html#caso-longitudinal-interacciones-de-recomendación",
     "title": "Recomendación básica y estructura latente",
@@ -744,7 +794,7 @@
     "href": "capitulo03_recomendacion_latente.html#ejercicios",
     "title": "Recomendación básica y estructura latente",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.\n¿Qué problema aparece para recomendar a un usuario nuevo sin historial?\n\n\n\nProblemas cuantitativos\n\nCalcule similitud coseno entre dos vectores binarios de interacción.\nDada una matriz usuario-ítem pequeña, identifique los dos ítems más similares.\n\n\n\nPráctica computacional\n\nImplemente una función de similitud coseno para matrices.\nConstruya una recomendación item-item simple excluyendo ítems ya vistos.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.\n¿Cómo detectaría si el recomendador solo amplifica popularidad?\n\n\n\nProyecto de cierre\n\nDiseñe un recomendador item-item mínimo, reporte tres recomendaciones y escriba una advertencia sobre cold start, popularidad o sesgo.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué similitud coseno puede ser útil cuando algunos ítems son mucho más populares que otros.\n¿Qué problema aparece para recomendar a un usuario nuevo sin historial?\n\n\n\nProblemas cuantitativos\n\nCalcule similitud coseno entre dos vectores binarios de interacción.\nDada una matriz usuario-ítem pequeña, identifique los dos ítems más similares.\n\n\n\nPráctica computacional\n\nImplemente una función de similitud coseno para matrices.\nConstruya una recomendación item-item simple excluyendo ítems ya vistos.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una limitación ética de un sistema de recomendación basado solo en comportamiento pasado.\n¿Cómo detectaría si el recomendador solo amplifica popularidad?\n\n\n\nProfundización matemática y algorítmica\n\nFormule el objetivo regularizado de factorización sobre \\(\\Omega\\) y derive los gradientes respecto a un vector de usuario y uno de ítem.\nEscriba una actualización SGD para un rating observado, distribuya la regularización mediante \\(d_u\\) y \\(d_i\\), y explique por qué debe conservarse el valor anterior de uno de los factores.\nCompare el costo de una época dispersa \\(O(|\\Omega|k)\\) con operar sobre toda la matriz usuario-ítem.\nDemuestre la indeterminación de los factores bajo un cambio invertible de base y explique qué limita su interpretación.\n\n\n\nProyecto de cierre\n\nDiseñe un recomendador item-item mínimo, reporte tres recomendaciones y escriba una advertencia sobre cold start, popularidad o sesgo.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
     ]
@@ -804,7 +854,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-a-pca",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
     "section": "Bloque A: PCA",
-    "text": "Bloque A: PCA\n\nA1. Derive las formas de \\(U\\), \\(\\Sigma\\) y \\(V^\\top\\) si \\(X_c\\) tiene forma (100, 20).\n\n\nA2. Implemente mentalmente los pasos de PCA desde cero: centrar, SVD, seleccionar componentes, proyectar.\n\n\nA3. Explique por qué un componente con alta varianza no necesariamente es causal ni justo para tomar decisiones.",
+    "text": "Bloque A: PCA\n\nA1. Derive las formas de \\(U\\), \\(\\Sigma\\) y \\(V^\\top\\) si \\(X_c\\) tiene forma (100, 20).\n\n\nA2. Implemente mentalmente los pasos de PCA desde cero: centrar, SVD, seleccionar componentes, proyectar.\n\n\nA3. Explique por qué un componente con alta varianza no necesariamente es causal ni justo para tomar decisiones.\n\n\nA4. Use multiplicadores de Lagrange para obtener la ecuación de autovectores del problema de máxima varianza.\n\n\nA5. Explique por qué la SVD truncada es óptima para reconstrucción en norma de Frobenius y por qué eso no la hace óptima para una tarea supervisada posterior.\n\n\nA6. Compare costo y condicionamiento de formar \\(X_c^\\top X_c\\) frente a calcular una SVD directa o truncada.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
     ]
@@ -814,7 +864,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-b-k-means",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
     "section": "Bloque B: K-Means",
-    "text": "Bloque B: K-Means\n\nB1. Escriba la función objetivo de K-Means y explique cada término.\n\n\nB2. Compare inertia y silhouette como criterios geométricos para elegir \\(k\\).\n\n\nB3. Proponga un diagnóstico si K-Means produce un cluster con 95% de los datos.",
+    "text": "Bloque B: K-Means\n\nB1. Escriba la función objetivo de K-Means y explique cada término.\n\n\nB2. Compare inertia y silhouette como criterios geométricos para elegir \\(k\\).\n\n\nB3. Proponga un diagnóstico si K-Means produce un cluster con 95% de los datos.\n\n\nB4. Demuestre que los dos pasos de Lloyd no aumentan la inertia y explique por qué el resultado sigue dependiendo de la inicialización.\n\n\nB5. Derive el costo \\(O(sTmkp)\\) y proponga una regla para clusters vacíos.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
     ]
@@ -824,7 +874,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-c-recomendación",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
     "section": "Bloque C: recomendación",
-    "text": "Bloque C: recomendación\n\nC1. Calcule similitud coseno entre dos vectores binarios simples.\n\n\nC2. Explique cómo excluir ítems ya vistos por el usuario.\n\n\nC3. ¿Qué diferencia hay entre recomendar por similitud de contenido y por comportamiento colaborativo?",
+    "text": "Bloque C: recomendación\n\nC1. Calcule similitud coseno entre dos vectores binarios simples.\n\n\nC2. Explique cómo excluir ítems ya vistos por el usuario.\n\n\nC3. ¿Qué diferencia hay entre recomendar por similitud de contenido y por comportamiento colaborativo?\n\n\nC4. Formule una factorización regularizada sobre el conjunto observado \\(\\Omega\\) y derive los gradientes de usuario e ítem.\n\n\nC5. Compare una época SGD de costo \\(O(|\\Omega|k)\\) con una SVD sobre una matriz densa rellenada con ceros. Identifique el supuesto estadístico que cambia.\n\n\nC6. Demuestre que una transformación invertible de la base puede conservar los productos usuario-ítem y discuta por qué los factores no tienen nombres intrínsecos.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
     ]

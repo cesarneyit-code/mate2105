@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-50e6cae712993b2def437ae04c4a4a2b.css">
+  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-6efdc9048376145433d3d66870b3d2b5.css">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,37 +207,37 @@ César Galindo
 </div>
 
 </section>
-<section class="slide level2">
-
-<!-- Fuente editable. El generador puede reconstruirla desde scripts/contenido_sesiones_03_16.py. -->
-</section>
-<section id="el-mismo-objetivo-reglas-de-actualización-distintas" class="slide level2">
+<section id="el-mismo-objetivo-reglas-de-actualización-distintas" class="slide level2 session-opening">
 <h2>El mismo objetivo, reglas de actualización distintas</h2>
-<div class="lead">
+<div class="session-question">
 <p>¿Cómo cambian ruido, memoria y escala al pasar de SGD a momentum y Adam?</p>
 </div>
-<p>Al final de la sesión: <strong>Comparar reglas de actualización bajo el mismo gradiente y presupuesto de pasos.</strong></p>
+<div class="session-outcome">
+<p><span class="label">Al salir de esta sesión</span> <strong>Comparar reglas de actualización bajo el mismo gradiente y presupuesto de pasos.</strong></p>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2">
+<section id="punto-de-partida" class="slide level2 recap-slide">
 <h2>Punto de partida</h2>
 <p>Hasta ahora usamos un gradiente por todo train. En redes, estimar el gradiente con mini-batches reduce costo por actualización y añade variación.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: compararemos optimizadores bajo el mismo número de actualizaciones y la misma secuencia de batches.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2">
+<section id="el-caso-que-usaremos" class="slide level2 case-slide">
 <h2>El caso que usaremos</h2>
 <p>Una MLP pequeña en dígitos se entrena con SGD, momentum y Adam; medimos pérdida de train y dev por actualización, no solo por época.</p>
 <div class="data-note">
 <p>Arquitectura, datos, batches, semilla y presupuesto permanecen fijos; las tasas se declaran por optimizador.</p>
 </div>
 </section>
-<section id="una-imagen-para-orientar-la-discusión" class="slide level2">
-<h2>Una imagen para orientar la discusión</h2>
+<section id="tres-trayectorias-conceptuales-para-sgd-momentum-y-adam" class="slide level2 visual-slide">
+<h2>Tres trayectorias conceptuales para SGD, momentum y Adam</h2>
 
-<img src="../figuras/optimizadores-momentum-adam.svg" class="wide-figure r-stretch" alt="Tres trayectorias conceptuales para SGD, momentum y Adam"><p>Momentum acumula dirección reciente; Adam añade una escala por coordenada. Ninguna regla elimina la necesidad de validación.</p>
+<img src="../figuras/optimizadores-momentum-adam.svg" class="wide-figure r-stretch" alt="Tres trayectorias conceptuales para SGD, momentum y Adam"><div class="figure-reading">
+<p>Momentum acumula dirección reciente; Adam añade una escala por coordenada. Ninguna regla elimina la necesidad de validación.</p>
+</div>
 </section>
-<section id="objetos-y-notación" class="slide level2">
+<section id="objetos-y-notación" class="slide level2 notation-slide">
 <h2>Objetos y notación</h2>
 <table class="caption-top">
 <thead>
@@ -269,53 +269,34 @@ César Galindo
 </tr>
 </tbody>
 </table>
-<p>Antes de calcular, cada símbolo debe tener una lectura y una forma.</p>
 </section>
-<section id="objeto-poblacional-y-aproximación-empírica" class="slide level2">
-<h2>Objeto poblacional y aproximación empírica</h2>
-<div class="dense-table semantic-table">
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Pregunta</th>
-<th>Respuesta de esta sesión</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>¿Qué queremos aprender?</td>
-<td>gradiente esperado bajo el muestreo de datos</td>
-</tr>
-<tr class="even">
-<td>¿Qué podemos calcular?</td>
-<td>actualización calculada con minibatches</td>
-</tr>
-<tr class="odd">
-<td>¿Qué supuesto los conecta?</td>
-<td>muestreo de minibatches compatible con el objetivo</td>
-</tr>
-<tr class="even">
-<td>¿Qué variación permanece?</td>
-<td>ruido del gradiente y semilla</td>
-</tr>
-</tbody>
-</table>
+<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
+<h2>Del objeto poblacional al cálculo</h2>
+<div class="probability-grid">
+<div class="population">
+<span class="label">Objeto poblacional</span><strong>gradiente esperado bajo el muestreo de datos</strong>
 </div>
-<div class="question">
-<p>¿Cuál de estas cuatro filas cambiaría si observáramos una nueva muestra?</p>
+<div class="empirical">
+<span class="label">Cantidad calculable</span><strong>actualización calculada con minibatches</strong>
+</div>
+<div class="assumption">
+<span class="label">Supuesto de enlace</span><strong>muestreo de minibatches compatible con el objetivo</strong>
+</div>
+<div class="uncertainty">
+<span class="label">Variación restante</span><strong>ruido del gradiente y semilla</strong>
+</div>
+</div>
+<div class="probability-prompt">
+<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2">
+<section id="la-pregunta-matemática" class="slide level2 question-slide">
 <h2>La pregunta matemática</h2>
 <div class="question">
 <p>¿Qué información histórica usa cada actualización y cómo hacemos una comparación justa?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2">
+<section id="expresión-central" class="slide level2 formula-slide">
 <h2>Expresión central</h2>
 <div class="math-focus">
 <p><span class="math display">\[
@@ -324,68 +305,76 @@ v_t=\beta v_{t-1}+(1-\beta)g_t,
 \theta_{t+1}=\theta_t-\alpha v_t.
 \]</span></p>
 </div>
+<div class="formula-reading">
 <p>Esta es la convención de momentum del libro. Algunas bibliotecas escalan o nombran la memoria de otra manera; se compara la actualización efectiva.</p>
+</div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2">
+<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Primer paso de la derivación</h2>
 <p>Un mini-batch estima <span class="math display">\[g_t=\frac1{|B_t|}\sum_{i\in B_t}\nabla_\theta\ell_i(\theta_t).\]</span></p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2">
+<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Segundo paso de la derivación</h2>
 <p>Adam mantiene un promedio de <span class="math inline">\(g_t\)</span> y otro de <span class="math inline">\(g_t^2\)</span>, corrige sesgo inicial y divide por una raíz de segundo momento más <span class="math inline">\(\varepsilon\)</span>.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2">
+<section id="qué-debe-coincidir" class="slide level2 shape-slide">
 <h2>Qué debe coincidir</h2>
 <p><span class="math inline">\(v_t\)</span>, <span class="math inline">\(s_t\)</span>, <span class="math inline">\(g_t\)</span> y <span class="math inline">\(\theta_t\)</span> tienen la misma estructura por parámetro. El estado del optimizador no es un escalar global.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2">
+<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
 <h2>Lectura del resultado</h2>
 <p>Una pérdida que baja más rápido en train no identifica el mejor modelo validado. También cambian la escala efectiva y el ruido de las actualizaciones.</p>
-<p>No basta obtener la expresión: hay que decir qué cambia cuando cambia cada término.</p>
 </section>
-<section id="primera-pausa" class="slide level2">
+<section id="primera-pausa" class="slide level2 pause-slide">
 <h2>Primera pausa</h2>
 <div class="pause">
 <p>Con <span class="math inline">\(v_0=0\)</span>, <span class="math inline">\(g_1=4\)</span>, <span class="math inline">\(g_2=2\)</span> y <span class="math inline">\(\beta=0.9\)</span>, calcule <span class="math inline">\(v_1\)</span> y <span class="math inline">\(v_2\)</span> bajo la convención mostrada.</p>
 <p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2">
+<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la primera pausa</h2>
 <p><span class="math inline">\(v_1=0.4\)</span> y <span class="math inline">\(v_2=0.9(0.4)+0.1(2)=0.56\)</span>.</p>
-<div class="source-line">
-<p>La respuesta se construye en el tablero antes de continuar.</p>
+</section>
+<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
+<h2>Del cálculo al algoritmo</h2>
+<div class="algorithm-flow">
+<div>
+<span>1</span><strong>fijar orden de batches</strong>
+</div>
+<div>
+<span>2</span><strong>inicializar mismo modelo</strong>
+</div>
+<div>
+<span>3</span><strong>asignar tasa declarada</strong>
+</div>
+<div>
+<span>4</span><strong>contar actualizaciones y ejemplos vistos</strong>
+</div>
+<div>
+<span>5</span><strong>comparar train/dev y tiempo</strong>
+</div>
 </div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2">
-<h2>Del cálculo al algoritmo</h2>
-<ol type="1">
-<li>fijar orden de batches</li>
-<li>inicializar mismo modelo</li>
-<li>asignar tasa declarada</li>
-<li>contar actualizaciones y ejemplos vistos</li>
-<li>comparar train/dev y tiempo</li>
-</ol>
-<p>El orden importa: cada paso debe usar únicamente información disponible en ese momento.</p>
-</section>
-<section id="implementación-mínima" class="slide level2">
+<section id="implementación-mínima" class="slide level2 code-slide">
 <h2>Implementación mínima</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> momentum_step(theta, grad, velocity, alpha, beta<span class="op">=</span><span class="fl">0.9</span>):</span>
 <span id="cb1-2"><a href=""></a>    velocity <span class="op">=</span> beta <span class="op">*</span> velocity <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> beta) <span class="op">*</span> grad</span>
 <span id="cb1-3"><a href=""></a>    theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> velocity</span>
 <span id="cb1-4"><a href=""></a>    <span class="cf">return</span> theta, velocity</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-note">
 <p>La función devuelve el estado nuevo; reiniciar <code>velocity</code> dentro del loop elimina la memoria.</p>
+</div>
 </section>
-<section id="ejemplo-controlado" class="slide level2">
+<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
 <h2>Ejemplo controlado</h2>
 <p>Sobre una cuadrática anisotrópica, SGD zigzaguea y momentum suaviza la trayectoria. En la red, la ventaja debe medirse con dev bajo presupuesto fijo.</p>
-<p>El ejemplo es pequeño para poder revisar cada número sin esconder errores detrás de una biblioteca.</p>
 </section>
-<section id="resultado-que-esperamos-reproducir" class="slide level2">
-<h2>Resultado que esperamos reproducir</h2>
+<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
+<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
 <div>
 <span class="value">mismo</span><span class="label">número de updates</span>
@@ -399,14 +388,14 @@ v_t=\beta v_{t-1}+(1-\beta)g_t,
 </div>
 <p>Las tasas no tienen que ser numéricamente iguales: deben declararse y seleccionarse bajo el mismo protocolo.</p>
 </section>
-<section id="abra-el-notebook" class="slide level2">
+<section id="abra-el-notebook" class="slide level2 notebook-slide">
 <h2>Abra el notebook</h2>
-<div class="lead">
+<div class="notebook-file">
 <p><code>semana10_live_coding.ipynb</code></p>
 </div>
 <p>Ejecute primero la cuadrática 2D y después la red. Registre pérdida contra actualización y contra tiempo.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2">
+<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
 <h2>Dos opciones que no responden lo mismo</h2>
 <table class="caption-top">
 <thead>
@@ -434,55 +423,59 @@ v_t=\beta v_{t-1}+(1-\beta)g_t,
 </tr>
 </tbody>
 </table>
-<p>La comparación es válida solo si conserva datos, partición y métrica cuando corresponda.</p>
 </section>
-<section id="comprobación-numérica" class="slide level2">
+<section id="comprobación-numérica" class="slide level2 verification-slide">
 <h2>Comprobación numérica</h2>
 <p>Alimente una secuencia de gradientes conocida y compare cada estado con cálculos manuales antes de usar matrices de red.</p>
 <div class="board">
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2">
+<section id="primer-modo-de-falla" class="slide level2 failure-slide">
 <h2>Primer modo de falla</h2>
+<div class="failure-statement">
 <p>Comparar por épocas con batch sizes distintos cambia el número de actualizaciones.</p>
-<p><strong>Señal observable:</strong> los candidatos ven diferente número de batches</p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong>los candidatos ven diferente número de batches</strong></p>
+</div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2">
+<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
 <h2>Segundo modo de falla</h2>
+<div class="failure-statement">
 <p>Reiniciar el estado del optimizador en cada época convierte momentum o Adam en otra regla.</p>
-<p><strong>Señal observable:</strong> <code>velocity=zeros</code> aparece dentro del loop de épocas</p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong><code>velocity=zeros</code> aparece dentro del loop de épocas</strong></p>
+</div>
 </section>
-<section id="segunda-pausa" class="slide level2">
+<section id="segunda-pausa" class="slide level2 pause-slide">
 <h2>Segunda pausa</h2>
 <div class="pause">
 <p>Adam llega antes a baja train loss, pero dev empeora frente a SGD. ¿Qué afirmación sí puede hacer y qué probaría después?</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2">
+<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la segunda pausa</h2>
 <p>Adam optimiza train más rápido bajo esa configuración, pero no selecciona mejor modelo. Probaría tasas y regularización en dev manteniendo presupuesto y semillas.</p>
-<p>La recomendación debe nombrar el archivo, cálculo o partición que permitiría comprobarla.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2">
+<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
 <h2>Qué sí permite afirmar</h2>
 <p>SGD, momentum y Adam pueden compararse si se fijan datos, inicialización, batches, presupuesto y métrica de validación.</p>
-<p>La afirmación queda ligada a la muestra, la partición y la configuración observadas.</p>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2">
+<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
 <h2>Qué no permite afirmar</h2>
 <p>Un ganador de una semilla o una tasa no establece superioridad general del optimizador.</p>
-<div class="data-note">
-<p>Declarar el límite no debilita el análisis; define su alcance.</p>
-</div>
 </section>
-<section id="conexión-con-la-evaluación" class="slide level2">
+<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
 <h2>Conexión con la evaluación</h2>
 <p>Lab 3 exige documentar configuración y comparar con la referencia bajo la misma partición; el código numérico se autocalifica.</p>
-<p><strong>Hito de la semana:</strong> Entrega de Lab 3.</p>
+<div class="assessment-milestone">
+<p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 3.</strong></p>
+</div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2">
+<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
 <h2>Trabajo de tablero: síntesis</h2>
 <ul>
 <li>mini-batch estima gradiente</li>
@@ -490,18 +483,16 @@ v_t=\beta v_{t-1}+(1-\beta)g_t,
 <li>Adam adapta escala</li>
 <li>comparar por updates y dev</li>
 </ul>
-<p>Estas cuatro líneas deben poder reconstruirse sin mirar las diapositivas.</p>
 </section>
-<section id="ticket-de-salida" class="slide level2">
+<section id="ticket-de-salida" class="slide level2 exit-slide">
 <h2>Ticket de salida</h2>
 <ol type="1">
 <li>¿Qué estado conserva momentum?</li>
 <li>¿Por qué épocas no bastan para comparar?</li>
 <li>¿Qué salida decide el modelo final?</li>
 </ol>
-<p>Entregue una respuesta de cuatro a seis líneas.</p>
 </section>
-<section id="cierre" class="slide level2">
+<section id="cierre" class="slide level2 closing-slide">
 <h2>Cierre</h2>
 <div class="lead">
 <p>El optimizador cambia cómo recorremos el objetivo; la evaluación decide si ese recorrido produjo un modelo útil fuera de train.</p>

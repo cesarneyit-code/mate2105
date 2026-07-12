@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
 <title>Ejercicios integradores: redes neuronales – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
 <meta property="og:title" content="Ejercicios integradores: redes neuronales – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -785,6 +785,9 @@ window.Quarto = {
 <div class="exercise">
 <p><strong>A3.</strong> Muestre con una frase por qué restar <code>max(Z, axis=1)</code> antes de <code>exp</code> no cambia softmax.</p>
 </div>
+<div class="exercise">
+<p><strong>A4.</strong> Para una red <span class="math inline">\(d\to h\to k\)</span>, derive el número total de parámetros y el costo dominante de un forward con lote de tamaño <span class="math inline">\(m\)</span>. Compare duplicar <span class="math inline">\(h\)</span> con duplicar <span class="math inline">\(m\)</span>.</p>
+</div>
 </section>
 <section id="bloque-b-backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-b-backpropagation">Bloque B: backpropagation</h2>
@@ -796,6 +799,12 @@ window.Quarto = {
 </div>
 <div class="exercise">
 <p><strong>B3.</strong> Diseñe una prueba de gradientes por diferencias finitas para un solo peso de <code>W1</code>.</p>
+</div>
+<div class="exercise">
+<p><strong>B4.</strong> Derive el Jacobiano de softmax y muestre paso a paso por qué, con entropía cruzada, el gradiente respecto a los logits es <span class="math inline">\(p-y\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>B5.</strong> Si una red tiene <span class="math inline">\(P\)</span> parámetros, compare el número de pasadas forward requerido por diferencias centrales para todas las coordenadas con el costo de backpropagation.</p>
 </div>
 </section>
 <section id="bloque-c-diagnóstico" class="level2">
@@ -809,6 +818,12 @@ window.Quarto = {
 <div class="exercise">
 <p><strong>C3.</strong> Explique por qué un checkpoint técnico de proyecto debe incluir análisis de errores, no solo una métrica agregada.</p>
 </div>
+<div class="exercise">
+<p><strong>C4.</strong> Bajo independencia, media cero y entradas simétricas, derive las escalas Xavier y He. Identifique en qué paso se usa la aproximación sobre ReLU.</p>
+</div>
+<div class="exercise">
+<p><strong>C5.</strong> Para dropout invertido con probabilidad de apagado <span class="math inline">\(p\)</span>, calcule esperanza y varianza condicional de una activación fija. Explique la diferencia entre modo entrenamiento y evaluación.</p>
+</div>
 </section>
 <section id="bloque-d-pytorch" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-d-pytorch">Bloque D: PyTorch</h2>
@@ -820,6 +835,12 @@ window.Quarto = {
 </div>
 <div class="exercise">
 <p><strong>D3.</strong> Proponga dos razones por las que una implementación NumPy y una PyTorch podrían producir métricas distintas aun usando el mismo dataset.</p>
+</div>
+<div class="exercise">
+<p><strong>D4.</strong> Escriba las cuatro ecuaciones de Adam: dos momentos, dos correcciones de sesgo y actualización. Justifique los factores <span class="math inline">\(1-\beta_1^t\)</span> y <span class="math inline">\(1-\beta_2^t\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>D5.</strong> Compare memoria auxiliar y costo por actualización de SGD, momentum y Adam para <span class="math inline">\(P\)</span> parámetros. Separe ese costo del forward y backward.</p>
 </div>
 </section>
 <section id="respuestas-seleccionadas" class="level2">

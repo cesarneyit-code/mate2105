@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-b467ea9cd85f57e7075e380538c21a8a.css">
+  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-f4b23d84e21de3a7a3695a351600d897.css">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,37 +207,37 @@ César Galindo
 </div>
 
 </section>
-<section class="slide level2">
-
-<!-- Fuente editable. El generador puede reconstruirla desde scripts/contenido_sesiones_03_16.py. -->
-</section>
-<section id="reproducir-exige-más-que-recordar-la-métrica" class="slide level2">
+<section id="reproducir-exige-más-que-recordar-la-métrica" class="slide level2 session-opening">
 <h2>Reproducir exige más que recordar la métrica</h2>
-<div class="lead">
+<div class="session-question">
 <p>¿Qué archivos y metadatos necesita otra persona para reconstruir una corrida sin usar nuestro computador?</p>
 </div>
-<p>Al final de la sesión: <strong>Construir un paquete mínimo que otra persona pueda ejecutar y auditar.</strong></p>
+<div class="session-outcome">
+<p><span class="label">Al salir de esta sesión</span> <strong>Construir un paquete mínimo que otra persona pueda ejecutar y auditar.</strong></p>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2">
+<section id="punto-de-partida" class="slide level2 recap-slide">
 <h2>Punto de partida</h2>
 <p>El parcial verificó algoritmos. El proyecto final debe además conservar el rastro que produjo cada resultado.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: construiremos un manifiesto mínimo y comprobaremos hashes, rutas y ejecución limpia.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2">
+<section id="el-caso-que-usaremos" class="slide level2 case-slide">
 <h2>El caso que usaremos</h2>
 <p>Empaquetaremos un pipeline de clasificación con fuente de datos, commit, semilla, parámetros, métricas por partición y artefactos.</p>
 <div class="data-note">
 <p>El manifiesto registra la corrida observada; no demuestra que el modelo sea correcto ni que se replique en otra muestra.</p>
 </div>
 </section>
-<section id="una-imagen-para-orientar-la-discusión" class="slide level2">
-<h2>Una imagen para orientar la discusión</h2>
+<section id="flujo-de-datos-código-entorno-y-parámetros-hacia-métricas-artefactos-y-manifest" class="slide level2 visual-slide">
+<h2>Flujo de datos, código, entorno y parámetros hacia métricas, artefactos y manifest</h2>
 
-<img src="../figuras/reproducibilidad-manifest.svg" class="wide-figure r-stretch" alt="Flujo de datos, código, entorno y parámetros hacia métricas, artefactos y manifest"><p>Reproducibilidad conecta entradas y salidas. Un hash identifica bytes; no certifica su calidad científica.</p>
+<img src="../figuras/reproducibilidad-manifest.svg" class="wide-figure r-stretch" alt="Flujo de datos, código, entorno y parámetros hacia métricas, artefactos y manifest"><div class="figure-reading">
+<p>Reproducibilidad conecta entradas y salidas. Un hash identifica bytes; no certifica su calidad científica.</p>
+</div>
 </section>
-<section id="objetos-y-notación" class="slide level2">
+<section id="objetos-y-notación" class="slide level2 notation-slide">
 <h2>Objetos y notación</h2>
 <table class="caption-top">
 <thead>
@@ -269,105 +269,101 @@ César Galindo
 </tr>
 </tbody>
 </table>
-<p>Antes de calcular, cada símbolo debe tener una lectura y una forma.</p>
 </section>
-<section id="objeto-poblacional-y-aproximación-empírica" class="slide level2">
-<h2>Objeto poblacional y aproximación empírica</h2>
-<div class="dense-table semantic-table">
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Pregunta</th>
-<th>Respuesta de esta sesión</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>¿Qué queremos aprender?</td>
-<td>desempeño del procedimiento completo</td>
-</tr>
-<tr class="even">
-<td>¿Qué podemos calcular?</td>
-<td>métricas y artefactos reproducidos</td>
-</tr>
-<tr class="odd">
-<td>¿Qué supuesto los conecta?</td>
-<td>misma pregunta, población y protocolo</td>
-</tr>
-<tr class="even">
-<td>¿Qué variación permanece?</td>
-<td>muestra frente a variación computacional</td>
-</tr>
-</tbody>
-</table>
+<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
+<h2>Del objeto poblacional al cálculo</h2>
+<div class="probability-grid">
+<div class="population">
+<span class="label">Objeto poblacional</span><strong>desempeño del procedimiento completo</strong>
 </div>
-<div class="question">
-<p>¿Cuál de estas cuatro filas cambiaría si observáramos una nueva muestra?</p>
+<div class="empirical">
+<span class="label">Cantidad calculable</span><strong>métricas y artefactos reproducidos</strong>
+</div>
+<div class="assumption">
+<span class="label">Supuesto de enlace</span><strong>misma pregunta, población y protocolo</strong>
+</div>
+<div class="uncertainty">
+<span class="label">Variación restante</span><strong>muestra frente a variación computacional</strong>
+</div>
+</div>
+<div class="probability-prompt">
+<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2">
+<section id="la-pregunta-matemática" class="slide level2 question-slide">
 <h2>La pregunta matemática</h2>
 <div class="question">
 <p>¿Qué propiedad verifica un hash criptográfico y qué queda fuera de esa verificación?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2">
+<section id="expresión-central" class="slide level2 formula-slide">
 <h2>Expresión central</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 h=\operatorname{SHA256}(\text{bytes del archivo}).
 \]</span></p>
 </div>
+<div class="formula-reading">
 <p>Hashes iguales implican identidad de bytes con probabilidad práctica muy alta. No implican datos válidos, código correcto ni inferencia adecuada.</p>
+</div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2">
+<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Primer paso de la derivación</h2>
 <p>El manifiesto fija una función de reconstrucción: entradas + código + entorno + parámetros deben producir artefactos y métricas equivalentes dentro de tolerancia.</p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2">
+<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Segundo paso de la derivación</h2>
 <p>Si cambia un byte del dataset o modelo, cambia el hash. Para resultados numéricos puede requerirse tolerancia por plataforma, pero el cambio debe registrarse.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2">
+<section id="qué-debe-coincidir" class="slide level2 shape-slide">
 <h2>Qué debe coincidir</h2>
 <p>Métricas se almacenan por partición y nombre; un escalar <code>score</code> sin contexto no permite saber qué se midió ni dónde.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2">
+<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
 <h2>Lectura del resultado</h2>
 <p>Un commit identifica código versionado; un entorno identifica dependencias; una semilla reconstruye elecciones pseudoaleatorias cuando la biblioteca es determinista.</p>
-<p>No basta obtener la expresión: hay que decir qué cambia cuando cambia cada término.</p>
 </section>
-<section id="primera-pausa" class="slide level2">
+<section id="primera-pausa" class="slide level2 pause-slide">
 <h2>Primera pausa</h2>
 <div class="pause">
 <p>Dos manifests tienen la misma métrica y distinto hash del dataset. ¿Son la misma corrida? ¿Qué puede haber ocurrido?</p>
 <p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2">
+<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la primera pausa</h2>
 <p>No.&nbsp;Las entradas difieren en bytes: versión, orden, limpieza o encoding. Debe reconstruirse qué archivo se usó antes de comparar métricas.</p>
-<div class="source-line">
-<p>La respuesta se construye en el tablero antes de continuar.</p>
+</section>
+<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
+<h2>Del cálculo al algoritmo</h2>
+<div class="algorithm-flow">
+<div>
+<span>1</span><strong>guardar fuente y snapshot de datos</strong>
+</div>
+<div>
+<span>2</span><strong>registrar commit</strong>
+</div>
+<div>
+<span>3</span><strong>capturar entorno</strong>
+</div>
+<div>
+<span>4</span><strong>guardar parámetros/split</strong>
+</div>
+<div>
+<span>5</span><strong>exportar métricas y artefactos</strong>
+</div>
+<div>
+<span>6</span><strong>calcular hashes</strong>
+</div>
+<div>
+<span>7</span><strong>ejecutar desde limpio</strong>
+</div>
 </div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2">
-<h2>Del cálculo al algoritmo</h2>
-<ol type="1">
-<li>guardar fuente y snapshot de datos</li>
-<li>registrar commit</li>
-<li>capturar entorno</li>
-<li>guardar parámetros/split</li>
-<li>exportar métricas y artefactos</li>
-<li>calcular hashes</li>
-<li>ejecutar desde limpio</li>
-</ol>
-<p>El orden importa: cada paso debe usar únicamente información disponible en ese momento.</p>
-</section>
-<section id="implementación-mínima" class="slide level2">
+<section id="implementación-mínima" class="slide level2 code-slide">
 <h2>Implementación mínima</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> sha256_file(path):</span>
 <span id="cb1-2"><a href=""></a>    digest <span class="op">=</span> hashlib.sha256()</span>
@@ -377,15 +373,16 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <span id="cb1-6"><a href=""></a>    <span class="cf">return</span> digest.hexdigest()</span>
 <span id="cb1-7"><a href=""></a></span>
 <span id="cb1-8"><a href=""></a>manifest[<span class="st">"artifacts"</span>][<span class="bu">str</span>(model_path)] <span class="op">=</span> sha256_file(model_path)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-note">
 <p>El hash se calcula después de cerrar el archivo y sobre la versión que realmente se entregará.</p>
+</div>
 </section>
-<section id="ejemplo-controlado" class="slide level2">
+<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
 <h2>Ejemplo controlado</h2>
 <p>El notebook guarda modelo, tabla de métricas y manifest. Luego una carpeta temporal ejecuta el script usando solo archivos incluidos.</p>
-<p>El ejemplo es pequeño para poder revisar cada número sin esconder errores detrás de una biblioteca.</p>
 </section>
-<section id="resultado-que-esperamos-reproducir" class="slide level2">
-<h2>Resultado que esperamos reproducir</h2>
+<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
+<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
 <div>
 <span class="value">4</span><span class="label">campos obligatorios</span>
@@ -399,14 +396,14 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 </div>
 <p>La prueba útil es que un tercero siga instrucciones y reconstruya, no que el autor vuelva a ejecutar en un estado ya preparado.</p>
 </section>
-<section id="abra-el-notebook" class="slide level2">
+<section id="abra-el-notebook" class="slide level2 notebook-slide">
 <h2>Abra el notebook</h2>
-<div class="lead">
+<div class="notebook-file">
 <p><code>semana14_reproducibilidad.ipynb</code></p>
 </div>
 <p>Genere el manifest, cierre el kernel y abra una copia del repositorio desde otra ruta antes de declarar la corrida reproducible.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2">
+<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
 <h2>Dos opciones que no responden lo mismo</h2>
 <table class="caption-top">
 <thead>
@@ -439,55 +436,59 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 </tr>
 </tbody>
 </table>
-<p>La comparación es válida solo si conserva datos, partición y métrica cuando corresponda.</p>
 </section>
-<section id="comprobación-numérica" class="slide level2">
+<section id="comprobación-numérica" class="slide level2 verification-slide">
 <h2>Comprobación numérica</h2>
 <p>Valide JSON, recalcule hashes y ejecute el pipeline en una carpeta sin rutas absolutas. Compare métricas con tolerancia declarada.</p>
 <div class="board">
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2">
+<section id="primer-modo-de-falla" class="slide level2 failure-slide">
 <h2>Primer modo de falla</h2>
+<div class="failure-statement">
 <p>Rutas locales absolutas hacen que la corrida dependa del computador del autor.</p>
-<p><strong>Señal observable:</strong> aparece <code>/Users/...</code> en código o manifest</p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong>aparece <code>/Users/...</code> en código o manifest</strong></p>
+</div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2">
+<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
 <h2>Segundo modo de falla</h2>
+<div class="failure-statement">
 <p>Guardar solo <code>requirements.txt</code> sin versiones puede reconstruir un entorno distinto meses después.</p>
-<p><strong>Señal observable:</strong> dependencias no tienen versión ni archivo de lock</p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong>dependencias no tienen versión ni archivo de lock</strong></p>
+</div>
 </section>
-<section id="segunda-pausa" class="slide level2">
+<section id="segunda-pausa" class="slide level2 pause-slide">
 <h2>Segunda pausa</h2>
 <div class="pause">
 <p>El hash del modelo coincide, pero la tabla de métricas no. Diseñe una secuencia de auditoría.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2">
+<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la segunda pausa</h2>
 <p>Verificar hash de datos, commit, parámetros y partición; cargar el modelo y recomputar métricas; comparar definición y orden de etiquetas. El hash solo identifica el modelo.</p>
-<p>La recomendación debe nombrar el archivo, cálculo o partición que permitiría comprobarla.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2">
+<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
 <h2>Qué sí permite afirmar</h2>
 <p>Un manifiesto con entorno, parámetros, métricas y artefactos conecta una corrida con archivos verificables y una ruta de reconstrucción.</p>
-<p>La afirmación queda ligada a la muestra, la partición y la configuración observadas.</p>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2">
+<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
 <h2>Qué no permite afirmar</h2>
 <p>Reproducibilidad computacional no demuestra validez externa, ausencia de sesgo ni corrección de la pregunta.</p>
-<div class="data-note">
-<p>Declarar el límite no debilita el análisis; define su alcance.</p>
-</div>
 </section>
-<section id="conexión-con-la-evaluación" class="slide level2">
+<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
 <h2>Conexión con la evaluación</h2>
 <p>El manifest preliminar del proyecto debe incluir campos obligatorios y hashes; la defensa puede pedir abrir cualquiera de esos archivos.</p>
-<p><strong>Hito de la semana:</strong> Parcial 2 y manifest preliminar.</p>
+<div class="assessment-milestone">
+<p><span class="label">Hito de la semana</span> <strong>Parcial 2 y manifest preliminar.</strong></p>
+</div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2">
+<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
 <h2>Trabajo de tablero: síntesis</h2>
 <ul>
 <li>entorno + parámetros + métricas + artefactos</li>
@@ -495,18 +496,16 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <li>commit no incluye datos</li>
 <li>probar desde una ruta limpia</li>
 </ul>
-<p>Estas cuatro líneas deben poder reconstruirse sin mirar las diapositivas.</p>
 </section>
-<section id="ticket-de-salida" class="slide level2">
+<section id="ticket-de-salida" class="slide level2 exit-slide">
 <h2>Ticket de salida</h2>
 <ol type="1">
 <li>¿Qué demuestra SHA-256?</li>
 <li>¿Qué métrica debe llevar partición?</li>
 <li>¿Qué ruta local debe desaparecer?</li>
 </ol>
-<p>Entregue una respuesta de cuatro a seis líneas.</p>
 </section>
-<section id="cierre" class="slide level2">
+<section id="cierre" class="slide level2 closing-slide">
 <h2>Cierre</h2>
 <div class="lead">
 <p>Reproducir es reducir la distancia entre una afirmación y los archivos que permiten volver a calcularla.</p>

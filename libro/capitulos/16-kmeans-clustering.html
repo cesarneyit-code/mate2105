@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
 <title>K-Means y clustering – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
 <meta property="og:title" content="K-Means y clustering – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -708,12 +708,14 @@ window.Quarto = {
   <li><a href="#distorsión-poblacional-y-objetivo-empírico" id="toc-distorsión-poblacional-y-objetivo-empírico" class="nav-link" data-scroll-target="#distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</a></li>
   <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo">Función objetivo</a></li>
   <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo">Algoritmo</a></li>
+  <li><a href="#por-qué-la-inertia-no-aumenta" id="toc-por-qué-la-inertia-no-aumenta" class="nav-link" data-scroll-target="#por-qué-la-inertia-no-aumenta">Por qué la inertia no aumenta</a></li>
   <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
   <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
   <li><a href="#ejemplo-resuelto-por-qué-escalar-cambia-clusters" id="toc-ejemplo-resuelto-por-qué-escalar-cambia-clusters" class="nav-link" data-scroll-target="#ejemplo-resuelto-por-qué-escalar-cambia-clusters">Ejemplo resuelto: por qué escalar cambia clusters</a></li>
   <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
   <li><a href="#ejemplo-resuelto-una-iteración-completa" id="toc-ejemplo-resuelto-una-iteración-completa" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</a></li>
   <li><a href="#derivación-guiada-por-qué-el-centroide-es-el-promedio" id="toc-derivación-guiada-por-qué-el-centroide-es-el-promedio" class="nav-link" data-scroll-target="#derivación-guiada-por-qué-el-centroide-es-el-promedio">Derivación guiada: por qué el centroide es el promedio</a></li>
+  <li><a href="#complejidad-y-casos-degenerados" id="toc-complejidad-y-casos-degenerados" class="nav-link" data-scroll-target="#complejidad-y-casos-degenerados">Complejidad y casos degenerados</a></li>
   <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
   <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
   <li><a href="#caso-longitudinal-clusters-sintéticos" id="toc-caso-longitudinal-clusters-sintéticos" class="nav-link" data-scroll-target="#caso-longitudinal-clusters-sintéticos">Caso longitudinal: clusters sintéticos</a></li>
@@ -730,6 +732,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -785,6 +788,8 @@ Figura&nbsp;1: K-Means alterna dos pasos: asignar cada punto al centroide más c
 <li>interpretar inertia y silhouette sin absolutizarlos;</li>
 <li>justificar el escalamiento antes de usar distancias euclídeas;</li>
 <li>reconocer cuándo un cluster no debe traducirse directamente en una decisión.</li>
+<li>demostrar por qué cada paso no aumenta la función objetivo;</li>
+<li>distinguir convergencia a un punto fijo de optimalidad global y estimar el costo del algoritmo.</li>
 </ol>
 </section>
 <section id="distorsión-poblacional-y-objetivo-empírico" class="level2">
@@ -812,14 +817,15 @@ R_P(C)=\mathbb E_{X\sim P}
 </section>
 <section id="función-objetivo" class="level2">
 <h2 class="anchored" data-anchor-id="función-objetivo">Función objetivo</h2>
-<p>K-Means minimiza la suma de distancias cuadradas a centroides:</p>
+<p>Con indicadores <span class="math inline">\(r_{ij}\in\{0,1\}\)</span> y <span class="math inline">\(\sum_jr_{ij}=1\)</span>, K-Means minimiza</p>
 <p><span class="math display">\[
-\sum_{i=1}^m \|x_i-\mu_{c_i}\|_2^2.
+J(R,C)=\sum_{i=1}^m\sum_{j=1}^k
+r_{ij}\|x_i-\mu_j\|_2^2.
 \]</span></p>
-<p>Donde:</p>
+<p>La representación separa dos bloques de variables:</p>
 <ul>
-<li><span class="math inline">\(c_i\)</span> es el cluster asignado a <span class="math inline">\(x_i\)</span>;</li>
-<li><span class="math inline">\(\mu_{c_i}\)</span> es el centroide correspondiente.</li>
+<li><span class="math inline">\(R=(r_{ij})\)</span> contiene asignaciones discretas;</li>
+<li><span class="math inline">\(C=(\mu_1,\ldots,\mu_k)\)</span> contiene centroides continuos.</li>
 </ul>
 </section>
 <section id="algoritmo" class="level2">
@@ -830,6 +836,25 @@ R_P(C)=\mathbb E_{X\sim P}
 <li>Recalcular cada centroide como promedio del grupo.</li>
 <li>Repetir hasta convergencia.</li>
 </ol>
+<p>La frase «hasta convergencia» necesita una regla: ausencia de cambios en las asignaciones, desplazamiento máximo de centroides menor que una tolerancia, reducción de inertia menor que una tolerancia o número máximo de iteraciones. También debe definirse qué ocurre con empates y clusters vacíos.</p>
+</section>
+<section id="por-qué-la-inertia-no-aumenta" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-la-inertia-no-aumenta">Por qué la inertia no aumenta</h2>
+<p>Con centroides fijos, cada fila <span class="math inline">\(r_i\)</span> aparece solo en</p>
+<p><span class="math display">\[
+\sum_{j=1}^k r_{ij}\|x_i-\mu_j\|^2.
+\]</span></p>
+<p>Asignar <span class="math inline">\(x_i\)</span> al centroide más cercano minimiza ese término entre todas las asignaciones posibles. Por tanto, el paso de asignación no aumenta <span class="math inline">\(J\)</span>.</p>
+<p>Con asignaciones fijas, cada centroide resuelve un problema independiente:</p>
+<p><span class="math display">\[
+\min_{\mu_j}\sum_{i:r_{ij}=1}\|x_i-\mu_j\|^2.
+\]</span></p>
+<p>Como se deriva más adelante, su minimizador es el promedio del cluster. El paso de actualización tampoco aumenta <span class="math inline">\(J\)</span>. La secuencia de inertias es no creciente y está acotada inferiormente por cero.</p>
+<p>La monotonía implica que la secuencia de valores de <span class="math inline">\(J\)</span> converge. Para concluir terminación finita de las asignaciones hace falta algo más: que todo cambio de asignación reduzca <span class="math inline">\(J\)</span> estrictamente. Esto ocurre, por ejemplo, cuando no hay empates de distancia y ningún cluster queda vacío. Como solo hay un número finito de asignaciones, bajo esas condiciones el algoritmo alcanza una que ya no cambia. Con empates o degeneraciones puede haber pasos de costo idéntico; una implementación debe fijar desempate, tolerancia y número máximo de iteraciones.</p>
+<div class="proposicion">
+<p><strong>Descenso por bloques de Lloyd.</strong> Cada iteración completa de asignación y actualización no aumenta la función objetivo de K-Means. Si todo cambio de asignación produce descenso estricto y no aparecen clusters vacíos, Lloyd termina en un punto fijo después de un número finito de iteraciones. Ese punto no tiene por qué ser un óptimo global.</p>
+</div>
+<p>K-Means++ escoge centros iniciales favoreciendo puntos alejados de los ya seleccionados. Reduce la probabilidad de una inicialización muy mala, pero no elimina mínimos locales. <code>n_init</code> ejecuta varias inicializaciones y conserva la de menor inertia.</p>
 </section>
 <section id="inertia" class="level2">
 <h2 class="anchored" data-anchor-id="inertia">Inertia</h2>
@@ -960,6 +985,15 @@ x=(1,2,8,10)
 \mu=\frac{1}{m}\sum_{i=1}^{m}x_i.
 \]</span></p>
 <p>En varias dimensiones ocurre componente a componente. Por eso la actualización del centroide es el promedio de los puntos asignados.</p>
+</section>
+<section id="complejidad-y-casos-degenerados" class="level2">
+<h2 class="anchored" data-anchor-id="complejidad-y-casos-degenerados">Complejidad y casos degenerados</h2>
+<p>Calcular las distancias de <span class="math inline">\(m\)</span> puntos en <span class="math inline">\(\mathbb R^p\)</span> a <span class="math inline">\(k\)</span> centroides cuesta <span class="math inline">\(O(mkp)\)</span> por iteración. Actualizar centroides cuesta <span class="math inline">\(O(mp)\)</span>. Con <span class="math inline">\(T\)</span> iteraciones y <span class="math inline">\(s\)</span> inicializaciones, el costo dominante es</p>
+<p><span class="math display">\[
+O(sTmkp).
+\]</span></p>
+<p>Una implementación vectorizada puede almacenar una matriz de distancias <span class="math inline">\(m\times k\)</span>, con memoria <span class="math inline">\(O(mk)\)</span>; también puede procesar bloques para reducirla.</p>
+<p>Un cluster vacío no tiene promedio. Las implementaciones deben conservar el centro anterior, reubicarlo o reinicializarlo según una regla explícita. Los empates también necesitan desempate determinista si se quiere reproducibilidad. Estas decisiones rara vez aparecen en la fórmula del objetivo, pero forman parte del algoritmo ejecutado.</p>
 </section>
 <section id="escalamiento" class="level2">
 <h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
@@ -1128,9 +1162,18 @@ x=(1,2,8,10)
 <li>¿Qué resultados usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="9" type="1">
+<li>Demuestre que el paso de asignación y el paso de actualización no aumentan la función objetivo.</li>
+<li>Explique por qué monotonía de la inertia no implica alcanzar el mínimo global.</li>
+<li>Calcule el costo asintótico para <span class="math inline">\(T\)</span> iteraciones, <span class="math inline">\(s\)</span> inicializaciones, <span class="math inline">\(m\)</span> observaciones, <span class="math inline">\(k\)</span> clusters y <span class="math inline">\(p\)</span> variables.</li>
+<li>Proponga reglas reproducibles para un empate y para un cluster vacío.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="9" type="1">
+<ol start="13" type="1">
 <li>Genere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.</li>
 </ol>
 

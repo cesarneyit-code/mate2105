@@ -239,6 +239,7 @@ window.Quarto = {
   <li><a href="#varianza-explicada" id="toc-varianza-explicada" class="nav-link" data-scroll-target="#varianza-explicada">Varianza explicada</a></li>
   <li><a href="#ejemplo-resuelto-error-desde-valores-singulares" id="toc-ejemplo-resuelto-error-desde-valores-singulares" class="nav-link" data-scroll-target="#ejemplo-resuelto-error-desde-valores-singulares">Ejemplo resuelto: error desde valores singulares</a></li>
   <li><a href="#derivación-guiada-reconstrucción-y-pérdida-de-información" id="toc-derivación-guiada-reconstrucción-y-pérdida-de-información" class="nav-link" data-scroll-target="#derivación-guiada-reconstrucción-y-pérdida-de-información">Derivación guiada: reconstrucción y pérdida de información</a></li>
+  <li><a href="#costo-y-elección-del-método-numérico" id="toc-costo-y-elección-del-método-numérico" class="nav-link" data-scroll-target="#costo-y-elección-del-método-numérico">Costo y elección del método numérico</a></li>
   <li><a href="#ejemplo-resuelto-elegir-k" id="toc-ejemplo-resuelto-elegir-k" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></a></li>
   <li><a href="#reconstrucción" id="toc-reconstrucción" class="nav-link" data-scroll-target="#reconstrucción">Reconstrucción</a></li>
   <li><a href="#ejemplo-resuelto-proyección-y-reconstrucción" id="toc-ejemplo-resuelto-proyección-y-reconstrucción" class="nav-link" data-scroll-target="#ejemplo-resuelto-proyección-y-reconstrucción">Ejemplo resuelto: proyección y reconstrucción</a></li>
@@ -256,6 +257,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -311,6 +313,8 @@ Figura&nbsp;2.1: PCA como proyección: datos centrados se factorizan con SVD; lo
 <li>calcular la forma de una proyección <span class="math inline">\(Z=X_cV_k\)</span>;</li>
 <li>interpretar varianza explicada y error de reconstrucción;</li>
 <li>distinguir reducción de dimensión de interpretación causal.</li>
+<li>derivar las direcciones principales mediante un problema restringido;</li>
+<li>comparar la descomposición por covarianza con una SVD directa en costo y estabilidad.</li>
 </ol>
 </section>
 <section id="pca-poblacional-y-pca-empírico" class="level2">
@@ -343,6 +347,25 @@ v_1^*=\arg\max_{\lVert v\rVert_2=1}
 \]</span></p>
 <p>y cualquier primer vector singular derecho alcanza el máximo.</p>
 </div>
+<p>La afirmación se obtiene con multiplicadores de Lagrange. Para una matriz de covarianza simétrica <span class="math inline">\(\Sigma\)</span>, maximizamos <span class="math inline">\(v^\top\Sigma v\)</span> sujeto a <span class="math inline">\(v^\top v=1\)</span>. La función de Lagrange es</p>
+<p><span class="math display">\[
+\mathcal L(v,\lambda)
+=v^\top\Sigma v-\lambda(v^\top v-1).
+\]</span></p>
+<p>Su condición estacionaria respecto a <span class="math inline">\(v\)</span> es</p>
+<p><span class="math display">\[
+2\Sigma v-2\lambda v=0,
+\]</span></p>
+<p>de modo que una dirección candidata debe satisfacer <span class="math inline">\(\Sigma v=\lambda v\)</span>. Además, en un autovector unitario,</p>
+<p><span class="math display">\[
+v^\top\Sigma v=\lambda.
+\]</span></p>
+<p>Por tanto, el máximo corresponde al mayor autovalor. Para <span class="math inline">\(k\)</span> direcciones ortonormales, el problema se escribe</p>
+<p><span class="math display">\[
+\max_{V_k^\top V_k=I_k}
+\operatorname{tr}(V_k^\top\Sigma V_k),
+\]</span></p>
+<p>y el máximo es la suma de los <span class="math inline">\(k\)</span> mayores autovalores. Si hay autovalores repetidos, el subespacio principal está determinado, pero una base particular dentro de él no es única.</p>
 <p>La indeterminación de signo de un componente no es incertidumbre muestral: <span class="math inline">\(v\)</span> y <span class="math inline">\(-v\)</span> describen el mismo eje. La inestabilidad entre subespacios al cambiar la muestra sí es una cuestión estadística y debe estudiarse por remuestreo o particiones.</p>
 </section>
 <section id="svd" class="level2">
@@ -370,6 +393,7 @@ X_c = X - \mathbf 1_m\mu^\top.
 X_c = U\Sigma V^\top.
 \]</span></p>
 <p>Los componentes principales son las primeras filas de <span class="math inline">\(V^\top\)</span>, o columnas de <span class="math inline">\(V\)</span>, asociadas a los valores singulares más grandes.</p>
+<p>Centrar no es una formalidad. Sin centrado se maximiza <span class="math inline">\(m^{-1}\|Xv\|^2\)</span>, que mezcla variación con la distancia del promedio al origen. La primera dirección puede entonces apuntar hacia la media de las observaciones, no hacia la dirección en que fluctúan alrededor de ella. Si además se estandarizan columnas, PCA analiza la matriz de correlaciones y responde una pregunta distinta: cada variable aporta en unidades de desviación estándar en lugar de conservar su escala original.</p>
 </section>
 <section id="proyección" class="level2">
 <h2 class="anchored" data-anchor-id="proyección">Proyección</h2>
@@ -422,6 +446,55 @@ X_c \approx U_k\Sigma_kV_k^\top.
 \|X_c-\hat X_c\|_F^2=\sum_{j=k+1}^{r}\sigma_j^2.
 \]</span></p>
 <p>El teorema de Eckart-Young establece que esta reconstrucción truncada minimiza el error de Frobenius entre todas las matrices de rango a lo sumo <span class="math inline">\(k\)</span>. Esta fórmula explica por qué la varianza explicada acumulada y el error de reconstrucción son dos caras del mismo cálculo. Retener pocos componentes puede ser útil para visualizar, pero siempre descarta variación.</p>
+<p>Una forma de ver el resultado usa proyecciones ortogonales. Sea <span class="math inline">\(B\)</span> una matriz de rango a lo sumo <span class="math inline">\(k\)</span> y sea <span class="math inline">\(S\)</span> su espacio columna. Entre todas las matrices cuyas columnas pertenecen a <span class="math inline">\(S\)</span>, la más cercana a <span class="math inline">\(X_c\)</span> es <span class="math inline">\(P_SX_c\)</span>, donde <span class="math inline">\(P_S\)</span> es la proyección ortogonal sobre <span class="math inline">\(S\)</span>. Por Pitágoras,</p>
+<p><span class="math display">\[
+\|X_c-P_SX_c\|_F^2
+=\|X_c\|_F^2-\|P_SX_c\|_F^2.
+\]</span></p>
+<p>Minimizar el error equivale entonces a escoger un subespacio de dimensión <span class="math inline">\(k\)</span> que capture la mayor energía <span class="math inline">\(\|P_SX_c\|_F^2\)</span>. La caracterización variacional aplicada a <span class="math inline">\(X_cX_c^\top\)</span> selecciona <span class="math inline">\(S=\operatorname{span}(u_1,\ldots,u_k)\)</span>, las primeras direcciones singulares izquierdas. Si <span class="math inline">\(X_c=U\Sigma V^\top\)</span>,</p>
+<p><span class="math display">\[
+P_SX_c
+=U_kU_k^\top U\Sigma V^\top
+=U_k\Sigma_kV_k^\top.
+\]</span></p>
+<p>El error restante es <span class="math inline">\(\sum_{j&gt;k}\sigma_j^2\)</span>. Esta es una justificación de optimalidad respecto a error cuadrático de reconstrucción, no respecto a clasificación, interpretabilidad o utilidad de una variable minoritaria.</p>
+</section>
+<section id="costo-y-elección-del-método-numérico" class="level2">
+<h2 class="anchored" data-anchor-id="costo-y-elección-del-método-numérico">Costo y elección del método numérico</h2>
+<p>Hay dos rutas densas comunes. Formar la covarianza <span class="math inline">\(X_c^\top X_c/m\)</span> cuesta <span class="math inline">\(O(mp^2)\)</span> y diagonalizarla cuesta <span class="math inline">\(O(p^3)\)</span>. Una SVD directa evita formar la covarianza y no eleva al cuadrado el número de condición. Si <span class="math inline">\(m\geq p\)</span>, su costo denso también es del orden de <span class="math inline">\(O(mp^2)\)</span>; si <span class="math inline">\(p\gg m\)</span>, puede ser preferible trabajar con <span class="math inline">\(X_cX_c^\top\)</span> o con una SVD truncada.</p>
+<p>Cuando solo se necesitan <span class="math inline">\(k\ll\min(m,p)\)</span> componentes, algoritmos iterativos o aleatorizados aproximan el subespacio dominante sin calcular toda la SVD. Deben verificarse con error de reconstrucción y estabilidad, porque ahora aparece una aproximación algorítmica adicional a la variación muestral.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Elección</th>
+<th>Ventaja</th>
+<th>Riesgo principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>autodescomposición de covarianza</td>
+<td>conecta directamente con varianza</td>
+<td>forma <span class="math inline">\(X_c^\top X_c\)</span> y empeora condicionamiento</td>
+</tr>
+<tr class="even">
+<td>SVD directa de <span class="math inline">\(X_c\)</span></td>
+<td>mayor estabilidad numérica</td>
+<td>puede ser costosa si solo se requieren pocos componentes</td>
+</tr>
+<tr class="odd">
+<td>SVD truncada</td>
+<td>aprovecha <span class="math inline">\(k\)</span> pequeño</td>
+<td>agrega tolerancia y posible error aproximado</td>
+</tr>
+</tbody>
+</table>
+<p>El ajuste del centrado, el escalamiento y los componentes debe ocurrir dentro de cada conjunto de entrenamiento. Proyectar validación o test usa las medias, escalas y direcciones ya aprendidas; recalcularlas sería leakage.</p>
 </section>
 <section id="ejemplo-resuelto-elegir-k" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span></h2>
@@ -669,9 +742,18 @@ Advertencia
 <li>Si dos componentes explican poca varianza pero separan visualmente grupos, ¿qué conclusión puede y no puede afirmar?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="8" type="1">
+<li>Use multiplicadores de Lagrange para derivar el problema de máxima varianza de la primera dirección principal.</li>
+<li>Demuestre que el problema de <span class="math inline">\(k\)</span> direcciones maximiza la traza <span class="math inline">\(\operatorname{tr}(V_k^\top\Sigma V_k)\)</span>.</li>
+<li>Explique el argumento central de Eckart-Young y distinga optimalidad de reconstrucción de utilidad predictiva.</li>
+<li>Compare costo y estabilidad de formar la covarianza frente a calcular la SVD directa de la matriz centrada.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="8" type="1">
+<ol start="12" type="1">
 <li>Aplique PCA a un dataset de su proyecto o a uno pequeño generado para práctica, justifique <span class="math inline">\(k\)</span>, muestre una proyección y escriba una advertencia de interpretación.</li>
 </ol>
 
