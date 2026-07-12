@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
 <title>Capítulo 1: Regresión lineal múltiple – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
@@ -124,7 +124,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
 <meta property="og:title" content="Capítulo 1: Regresión lineal múltiple – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -713,6 +713,7 @@ window.Quarto = {
   <li><a href="#residuales-y-pérdida" id="toc-residuales-y-pérdida" class="nav-link" data-scroll-target="#residuales-y-pérdida">Residuales y pérdida</a></li>
   <li><a href="#derivación-del-gradiente" id="toc-derivación-del-gradiente" class="nav-link" data-scroll-target="#derivación-del-gradiente">Derivación del gradiente</a></li>
   <li><a href="#ecuación-normal" id="toc-ecuación-normal" class="nav-link" data-scroll-target="#ecuación-normal">Ecuación normal</a></li>
+  <li><a href="#costo-computacional-y-estabilidad" id="toc-costo-computacional-y-estabilidad" class="nav-link" data-scroll-target="#costo-computacional-y-estabilidad">Costo computacional y estabilidad</a></li>
   <li><a href="#interpretación-geométrica" id="toc-interpretación-geométrica" class="nav-link" data-scroll-target="#interpretación-geométrica">Interpretación geométrica</a></li>
   <li><a href="#ejemplo-resuelto-1-datos-exactos" id="toc-ejemplo-resuelto-1-datos-exactos" class="nav-link" data-scroll-target="#ejemplo-resuelto-1-datos-exactos">Ejemplo resuelto 1: datos exactos</a></li>
   <li><a href="#ejemplo-resuelto-2-datos-con-ruido" id="toc-ejemplo-resuelto-2-datos-con-ruido" class="nav-link" data-scroll-target="#ejemplo-resuelto-2-datos-con-ruido">Ejemplo resuelto 2: datos con ruido</a></li>
@@ -731,6 +732,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -1116,6 +1118,50 @@ Si <code>X</code> tiene rango columna completo, entonces <code>X.T @ X</code> es
 \]</span></p>
 <p>Por eso formar <span class="math inline">\(X^\top X\)</span> puede amplificar un problema de condicionamiento. Para diagnosticarlo conviene inspeccionar <code>np.linalg.cond(X)</code>, no únicamente la matriz de las ecuaciones normales.</p>
 </section>
+<section id="costo-computacional-y-estabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="costo-computacional-y-estabilidad">Costo computacional y estabilidad</h2>
+<p>La identidad algebraica y el método numérico deben distinguirse. Supongamos <span class="math inline">\(m\geq p\)</span>. Formar <span class="math inline">\(X^\top X\)</span> cuesta del orden de <span class="math inline">\(mp^2\)</span> operaciones y resolver el sistema resultante cuesta del orden de <span class="math inline">\(p^3\)</span>. Una factorización QR trabaja directamente con <span class="math inline">\(X\)</span> y tiene también costo <span class="math inline">\(O(mp^2)\)</span>, pero evita elevar al cuadrado el número de condición. La SVD es más costosa en constantes, aunque permite diagnosticar rango y construir una solución de norma mínima cuando la solución no es única.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 23%">
+<col style="width: 30%">
+<col style="width: 23%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Método</th>
+<th>Objeto principal</th>
+<th style="text-align: right;">Costo dominante</th>
+<th>Comentario</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ecuaciones normales</td>
+<td><span class="math inline">\(X^\top X\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(O(mp^2+p^3)\)</span></td>
+<td>simple, pero empeora el condicionamiento</td>
+</tr>
+<tr class="even">
+<td>QR</td>
+<td><span class="math inline">\(X=QR\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(O(mp^2)\)</span></td>
+<td>estable para mínimos cuadrados de rango completo</td>
+</tr>
+<tr class="odd">
+<td>SVD / <code>lstsq</code></td>
+<td><span class="math inline">\(X=U\Sigma V^\top\)</span></td>
+<td style="text-align: right;"><span class="math inline">\(O(mp^2)\)</span> si <span class="math inline">\(m\geq p\)</span></td>
+<td>revela rango y valores singulares</td>
+</tr>
+</tbody>
+</table>
+<p>Almacenar la matriz densa requiere <span class="math inline">\(O(mp)\)</span> números. Cuando <span class="math inline">\(m\)</span> y <span class="math inline">\(p\)</span> son muy grandes o <span class="math inline">\(X\)</span> es dispersa, formar matrices densas puede ser el verdadero obstáculo y conviene usar métodos iterativos. Por eso «tener solución cerrada» no significa «tener el mejor algoritmo para cualquier tamaño».</p>
+<div class="criterio">
+<p><strong>Decisión numérica.</strong> En este curso, <code>np.linalg.lstsq</code> es la referencia para ajustes densos pequeños o medianos. Las ecuaciones normales se derivan porque explican la geometría y la condición de optimalidad, no porque debamos invertir <span class="math inline">\(X^\top X\)</span> en código.</p>
+</div>
+</section>
 <section id="interpretación-geométrica" class="level2">
 <h2 class="anchored" data-anchor-id="interpretación-geométrica">Interpretación geométrica</h2>
 <p>El modelo busca un vector <code>X theta</code> en el espacio generado por las columnas de <code>X</code>. Ese espacio es un subespacio de <span class="math inline">\(\mathbb R^m\)</span>. El vector observado <code>y</code> puede no estar exactamente en ese subespacio. Mínimos cuadrados encuentra la proyección de <code>y</code> sobre el espacio columna de <code>X</code>.</p>
@@ -1408,9 +1454,17 @@ J(\theta)=\frac{1}{2n}\|X\theta-y\|_2^2,
 <li>Si una variable está medida en pesos y otra en millones de pesos, ¿por qué sus coeficientes no son directamente comparables?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="17" type="1">
+<li>Compara ecuaciones normales, QR y SVD en términos de objeto factorizado, costo asintótico y efecto sobre el número de condición.</li>
+<li>Construye una matriz de diseño de rango deficiente y muestra dos vectores de parámetros distintos que producen las mismas predicciones.</li>
+<li>Explica por qué <code>lstsq</code> puede devolver una solución de norma mínima aunque los coeficientes no sean identificables de manera única.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="17" type="1">
+<ol start="20" type="1">
 <li>Elige un dataset tabular de regresión o genera uno pequeño con semilla fija. Define la matriz de diseño, ajusta mínimos cuadrados, compara contra el baseline del promedio y escribe una recomendación de máximo 150 palabras que incluya métrica, limitación y siguiente verificación.</li>
 </ol>
 

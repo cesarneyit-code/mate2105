@@ -238,6 +238,7 @@ window.Quarto = {
   <li><a href="#gradientes-de-la-segunda-capa" id="toc-gradientes-de-la-segunda-capa" class="nav-link" data-scroll-target="#gradientes-de-la-segunda-capa">Gradientes de la segunda capa</a></li>
   <li><a href="#propagar-hacia-la-capa-oculta" id="toc-propagar-hacia-la-capa-oculta" class="nav-link" data-scroll-target="#propagar-hacia-la-capa-oculta">Propagar hacia la capa oculta</a></li>
   <li><a href="#backpropagation-como-algoritmo" id="toc-backpropagation-como-algoritmo" class="nav-link" data-scroll-target="#backpropagation-como-algoritmo">Backpropagation como algoritmo</a></li>
+  <li><a href="#costo-memoria-y-alcance-de-la-garantía" id="toc-costo-memoria-y-alcance-de-la-garantía" class="nav-link" data-scroll-target="#costo-memoria-y-alcance-de-la-garantía">Costo, memoria y alcance de la garantía</a></li>
   <li><a href="#verificación-por-diferencias-finitas" id="toc-verificación-por-diferencias-finitas" class="nav-link" data-scroll-target="#verificación-por-diferencias-finitas">Verificación por diferencias finitas</a></li>
   <li><a href="#ejemplo-resuelto-diferencia-finita-escalar" id="toc-ejemplo-resuelto-diferencia-finita-escalar" class="nav-link" data-scroll-target="#ejemplo-resuelto-diferencia-finita-escalar">Ejemplo resuelto: diferencia finita escalar</a></li>
   <li><a href="#ejemplo-resuelto-formas-de-los-gradientes" id="toc-ejemplo-resuelto-formas-de-los-gradientes" class="nav-link" data-scroll-target="#ejemplo-resuelto-formas-de-los-gradientes">Ejemplo resuelto: formas de los gradientes</a></li>
@@ -254,6 +255,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -298,6 +300,8 @@ window.Quarto = {
 <li>explicar por qué softmax con entropía cruzada produce <span class="math inline">\(dZ^{[2]}=(\hat P-Y)/m\)</span>;</li>
 <li>usar una cache de forward para calcular backward;</li>
 <li>diseñar una prueba básica de gradientes.</li>
+<li>derivar el Jacobiano de softmax y la regla de una capa afín;</li>
+<li>explicar por qué backward tiene costo comparable con forward y por qué necesita una cache.</li>
 </ol>
 </section>
 <section id="del-riesgo-esperado-al-gradiente-calculable" class="level2">
@@ -350,11 +354,31 @@ Figura&nbsp;3.1: Backpropagation como grafo: el forward calcula X, Z1, A1, Z2, P
 </section>
 <section id="gradiente-de-softmax-con-entropía-cruzada" class="level2">
 <h2 class="anchored" data-anchor-id="gradiente-de-softmax-con-entropía-cruzada">Gradiente de softmax con entropía cruzada</h2>
-<p>Para softmax + entropía cruzada, el gradiente se simplifica:</p>
+<p>La simplificación no se toma como una regla memorizada. Para una observación, escribamos</p>
+<p><span class="math display">\[
+p_a=\frac{e^{z_a}}{\sum_{r=1}^k e^{z_r}}.
+\]</span></p>
+<p>Al derivar <span class="math inline">\(p_a\)</span> respecto a <span class="math inline">\(z_b\)</span> aparecen dos casos, que se reúnen con la delta de Kronecker <span class="math inline">\(\delta_{ab}\)</span>:</p>
+<p><span class="math display">\[
+\frac{\partial p_a}{\partial z_b}
+=p_a(\delta_{ab}-p_b).
+\]</span></p>
+<p>Si <span class="math inline">\(L=-\sum_{a=1}^k y_a\log p_a\)</span>, la regla de la cadena da</p>
+<p><span class="math display">\[
+\begin{aligned}
+\frac{\partial L}{\partial z_b}
+&amp;=-\sum_{a=1}^k\frac{y_a}{p_a}
+  \frac{\partial p_a}{\partial z_b}\\
+&amp;=-\sum_{a=1}^k y_a(\delta_{ab}-p_b)\\
+&amp;=-y_b+p_b\sum_{a=1}^k y_a\\
+&amp;=p_b-y_b,
+\end{aligned}
+\]</span></p>
+<p>porque una etiqueta one-hot satisface <span class="math inline">\(\sum_a y_a=1\)</span>. Al promediar <span class="math inline">\(m\)</span> observaciones:</p>
 <p><span class="math display">\[
 \frac{\partial J}{\partial Z^{[2]}} = \frac{1}{m}(\hat P - Y).
 \]</span></p>
-<p>Esta fórmula es una de las razones por las que esta combinación es estándar en clasificación multiclase.</p>
+<p>La cancelación entre el Jacobiano de softmax y la derivada del logaritmo es una de las razones por las que esta combinación es estándar. Si se cambia la pérdida o la transformación de salida, esta identidad debe derivarse de nuevo.</p>
 </section>
 <section id="gradientes-de-la-segunda-capa" class="level2">
 <h2 class="anchored" data-anchor-id="gradientes-de-la-segunda-capa">Gradientes de la segunda capa</h2>
@@ -373,6 +397,19 @@ dW^{[2]} = (A^{[1]})^\top dZ^{[2]},
 <p><span class="math display">\[
 db^{[2]} = \sum_i dZ^{[2]}_i.
 \]</span></p>
+<p>Estas tres fórmulas provienen de una sola regla de capa. Para <span class="math inline">\(Z=AW+\mathbf 1_m b^\top\)</span> y una perturbación diferencial,</p>
+<p><span class="math display">\[
+dZ=dA\,W+A\,dW+\mathbf 1_m\,(db)^\top.
+\]</span></p>
+<p>Al emparejar cada término con el gradiente que llega desde la pérdida se obtiene</p>
+<p><span class="math display">\[
+\nabla_W J=A^\top\nabla_ZJ,
+\qquad
+\nabla_b J=\mathbf 1^\top\nabla_ZJ,
+\qquad
+\nabla_A J=\nabla_ZJ\,W^\top.
+\]</span></p>
+<p>La regla no depende de que la capa sea la primera o la última. Lo que cambia entre capas es la derivada de la activación y el gradiente que llega desde arriba.</p>
 </section>
 <section id="propagar-hacia-la-capa-oculta" class="level2">
 <h2 class="anchored" data-anchor-id="propagar-hacia-la-capa-oculta">Propagar hacia la capa oculta</h2>
@@ -394,21 +431,7 @@ db^{[1]} = \sum_i dZ^{[1]}_i.
 </section>
 <section id="backpropagation-como-algoritmo" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation-como-algoritmo">Backpropagation como algoritmo</h2>
-<p>La identidad de salida merece una derivación corta. Para una observación, la entropía cruzada multiclase es:</p>
-<p><span class="math display">\[
-L=-\sum_{j=1}^{k}y_j\log p_j,
-\qquad
-p_j=\frac{e^{z_j}}{\sum_{\ell=1}^{k}e^{z_\ell}}.
-\]</span></p>
-<p>Cuando <span class="math inline">\(y\)</span> es one-hot, solo una clase <span class="math inline">\(c\)</span> tiene <span class="math inline">\(y_c=1\)</span>, de modo que <span class="math inline">\(L=-\log p_c\)</span>. Al derivar con respecto a un logit <span class="math inline">\(z_j\)</span>, el resultado compacto es:</p>
-<p><span class="math display">\[
-\frac{\partial L}{\partial z_j}=p_j-y_j.
-\]</span></p>
-<p>Para un lote de <span class="math inline">\(m\)</span> observaciones y pérdida promedio:</p>
-<p><span class="math display">\[
-dZ^{[2]}=\frac{\hat P-Y}{m}.
-\]</span></p>
-<p>Esta identidad explica por qué el código de salida es tan breve y por qué la forma de <span class="math inline">\(dZ^{[2]}\)</span> coincide con la forma de los logits.</p>
+<p>Las identidades anteriores ya contienen la deducción. El algoritmo debe conservar los valores del forward correspondiente, iniciar con <span class="math inline">\(dZ^{[2]}=(\widehat P-Y)/m\)</span> y aplicar la regla de capa en orden inverso. El código para dos capas es:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> backward_pass(X, Y, cache, params):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> cache[<span class="st">"P"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    A1 <span class="op">=</span> cache[<span class="st">"A1"</span>]</span>
@@ -425,6 +448,23 @@ dZ^{[2]}=\frac{\hat P-Y}{m}.
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    db1 <span class="op">=</span> np.<span class="bu">sum</span>(dZ1, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"W1"</span>: dW1, <span class="st">"b1"</span>: db1, <span class="st">"W2"</span>: dW2, <span class="st">"b2"</span>: db2}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para una red con <span class="math inline">\(L\)</span> capas, el mismo argumento se recorre desde <span class="math inline">\(\ell=L\)</span> hasta <span class="math inline">\(1\)</span>:</p>
+<pre class="text"><code>calcular el gradiente de la pérdida respecto a la salida
+para ell = L, ..., 1:
+    atravesar la activación de la capa ell
+    calcular dW[ell] y db[ell]
+    propagar el gradiente hacia A[ell-1]</code></pre>
+<p>Backpropagation no es una fórmula particular de dos capas. Es evaluación en modo reverso de la regla de la cadena sobre un grafo acíclico de operaciones.</p>
+</section>
+<section id="costo-memoria-y-alcance-de-la-garantía" class="level2">
+<h2 class="anchored" data-anchor-id="costo-memoria-y-alcance-de-la-garantía">Costo, memoria y alcance de la garantía</h2>
+<p>Cada producto matricial del forward reaparece con dimensiones transpuestas en el backward. Por ello, el costo de backpropagation es del mismo orden que el forward: para la red de una capa oculta,</p>
+<p><span class="math display">\[
+O\big(mh(d+k)\big).
+\]</span></p>
+<p>El ahorro frente a diferencias finitas es decisivo. Si hay <span class="math inline">\(P\)</span> parámetros, verificar todas las coordenadas por diferencias centrales requiere aproximadamente <span class="math inline">\(2P\)</span> evaluaciones forward; backpropagation obtiene los <span class="math inline">\(P\)</span> gradientes en un solo recorrido inverso de costo comparable a unas pocas pasadas.</p>
+<p>El precio es memoria. El backward necesita los valores de <span class="math inline">\(X\)</span>, <span class="math inline">\(Z^{[1]}\)</span>, <span class="math inline">\(A^{[1]}\)</span> y las probabilidades producidas por el mismo forward. Recalcularlos puede ahorrar memoria a cambio de más cómputo, estrategia conocida como <em>checkpointing</em>.</p>
+<p>La eficiencia no es una garantía de encontrar el mínimo global. Backpropagation calcula, salvo errores numéricos y puntos no diferenciables elegidos por convención, el gradiente de la pérdida empírica para los parámetros actuales. El optimizador decide cómo usarlo; la no convexidad de una red permanece.</p>
 </section>
 <section id="verificación-por-diferencias-finitas" class="level2">
 <h2 class="anchored" data-anchor-id="verificación-por-diferencias-finitas">Verificación por diferencias finitas</h2>
@@ -640,9 +680,18 @@ J(1.99)=(-1.01)^2=1.0201.
 <li>Un gradiente tiene la forma correcta pero el entrenamiento no mejora. Proponga tres causas posibles.</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="8" type="1">
+<li>Derive <span class="math inline">\(\partial p_a/\partial z_b=p_a(\delta_{ab}-p_b)\)</span> y úsela para obtener <span class="math inline">\(\nabla_zL=p-y\)</span>.</li>
+<li>A partir del diferencial de <span class="math inline">\(Z=AW+\mathbf 1b^\top\)</span>, obtenga los gradientes respecto a <span class="math inline">\(A\)</span>, <span class="math inline">\(W\)</span> y <span class="math inline">\(b\)</span>.</li>
+<li>Compare el costo de verificar <span class="math inline">\(P\)</span> parámetros por diferencias centrales con el costo de una pasada backward.</li>
+<li>Explique el intercambio memoria-cómputo de guardar activaciones frente a recalcularlas durante backward.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="8" type="1">
+<ol start="12" type="1">
 <li>Tome una red pequeña de dos capas y documente una auditoría de gradientes: formas esperadas, formas obtenidas, norma de cada gradiente y resultado de una prueba numérica para un parámetro.</li>
 </ol>
 

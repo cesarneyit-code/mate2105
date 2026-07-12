@@ -94,7 +94,7 @@
     "href": "capitulo01_perceptron_forward.html#objetivos-del-capítulo",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nreconocer una neurona logística como una capa lineal seguida de una activación;\nescribir las dimensiones correctas de una capa densa;\nexplicar por qué una activación no lineal cambia la capacidad del modelo;\nimplementar softmax de forma estable;\ninterpretar entropía cruzada como pérdida para clasificación multiclase.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nreconocer una neurona logística como una capa lineal seguida de una activación;\nescribir las dimensiones correctas de una capa densa;\nexplicar por qué una activación no lineal cambia la capacidad del modelo;\nimplementar softmax de forma estable;\ninterpretar entropía cruzada como pérdida para clasificación multiclase.\ncontar parámetros y estimar el costo de una pasada forward;\ndistinguir capacidad expresiva, estabilidad numérica y calidad estadística.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -144,7 +144,7 @@
     "href": "capitulo01_perceptron_forward.html#red-de-una-capa-oculta",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Red de una capa oculta",
-    "text": "Red de una capa oculta\nPara clasificación multiclase con \\(k\\) clases:\n\\[\nZ^{[1]} = XW^{[1]} + b^{[1]},\n\\]\n\\[\nA^{[1]} = \\operatorname{ReLU}(Z^{[1]}),\n\\]\n\\[\nZ^{[2]} = A^{[1]}W^{[2]} + b^{[2]},\n\\]\n\\[\n\\hat P = \\operatorname{softmax}(Z^{[2]}).\n\\]",
+    "text": "Red de una capa oculta\nPara clasificación multiclase con \\(k\\) clases:\n\\[\nZ^{[1]} = XW^{[1]} + b^{[1]},\n\\]\n\\[\nA^{[1]} = \\operatorname{ReLU}(Z^{[1]}),\n\\]\n\\[\nZ^{[2]} = A^{[1]}W^{[2]} + b^{[2]},\n\\]\n\\[\n\\hat P = \\operatorname{softmax}(Z^{[2]}).\n\\]\nEsta escritura define una función parametrizada\n\\[\nf_\\theta:\\mathbb R^d\\longrightarrow\\Delta^{k-1},\n\\]\ndonde \\(\\Delta^{k-1}\\) es el simplex de probabilidades sobre \\(k\\) clases y\n\\[\n\\theta=(W^{[1]},b^{[1]},W^{[2]},b^{[2]}).\n\\]\nCon \\(h\\) unidades ocultas, el número de parámetros escalares es\n\\[\ndh+h+hk+k.\n\\]\nEl ancho \\(h\\) modifica simultáneamente la capacidad del modelo, el costo de cómputo y el número de cantidades estimadas a partir de la muestra. Aumentarlo no es una mejora gratuita.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -164,7 +164,7 @@
     "href": "capitulo01_perceptron_forward.html#softmax",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Softmax",
-    "text": "Softmax\nPara logits \\(z_1,\\dots,z_k\\):\n\\[\n\\operatorname{softmax}(z)_j =\n\\frac{e^{z_j}}{\\sum_{\\ell=1}^k e^{z_\\ell}}.\n\\]\nEn implementación usamos una versión estable:\nshifted = Z - np.max(Z, axis=1, keepdims=True)\nexp_scores = np.exp(shifted)\nprobs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)\nRestar el máximo no cambia las probabilidades, pero evita overflow.",
+    "text": "Softmax\nPara logits \\(z_1,\\dots,z_k\\):\n\\[\n\\operatorname{softmax}(z)_j =\n\\frac{e^{z_j}}{\\sum_{\\ell=1}^k e^{z_\\ell}}.\n\\]\nEn implementación usamos una versión estable:\nshifted = Z - np.max(Z, axis=1, keepdims=True)\nexp_scores = np.exp(shifted)\nprobs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)\nRestar el máximo no cambia las probabilidades, pero evita overflow.\nLa invariancia se verifica directamente. Para cualquier constante \\(c\\),\n\\[\n\\operatorname{softmax}(z+c\\mathbf 1)_j\n=\\frac{e^{z_j+c}}{\\sum_\\ell e^{z_\\ell+c}}\n=\\frac{e^c e^{z_j}}{e^c\\sum_\\ell e^{z_\\ell}}\n=\\operatorname{softmax}(z)_j.\n\\]\nElegir \\(c=-\\max_j z_j\\) hace que el mayor exponente sea \\(e^0=1\\) y que los demás no excedan 1. Esta transformación resuelve overflow; no evita por sí sola que probabilidades muy pequeñas se redondeen a cero. Para calcular la pérdida es preferible usar una operación logsumexp estable sobre logits.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -184,7 +184,17 @@
     "href": "capitulo01_perceptron_forward.html#por-qué-hace-falta-una-no-linealidad",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Por qué hace falta una no linealidad",
-    "text": "Por qué hace falta una no linealidad\nAntes del cálculo numérico, conviene entender por qué una activación no lineal importa. Supón dos capas lineales sin activación:\n\\[\nH = XW^{[1]} + b^{[1]},\n\\qquad\nZ = HW^{[2]} + b^{[2]}.\n\\]\nSustituyendo \\(H\\):\n\\[\nZ=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}\n=X(W^{[1]}W^{[2]}) + b^{[1]}W^{[2]} + b^{[2]}.\n\\]\nSi definimos \\(W^\\star=W^{[1]}W^{[2]}\\) y \\(b^\\star=b^{[1]}W^{[2]}+b^{[2]}\\), entonces:\n\\[\nZ=XW^\\star+b^\\star.\n\\]\nDos capas afines sin activación equivalen a una sola transformación afín. La activación no lineal es lo que evita ese colapso.",
+    "text": "Por qué hace falta una no linealidad\nAntes del cálculo numérico, conviene entender por qué una activación no lineal importa. Supón dos capas lineales sin activación:\n\\[\nH = XW^{[1]} + b^{[1]},\n\\qquad\nZ = HW^{[2]} + b^{[2]}.\n\\]\nSustituyendo \\(H\\):\n\\[\nZ=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}\n=X(W^{[1]}W^{[2]}) + b^{[1]}W^{[2]} + b^{[2]}.\n\\]\nSi definimos \\(W^\\star=W^{[1]}W^{[2]}\\) y \\(b^\\star=b^{[1]}W^{[2]}+b^{[2]}\\), entonces:\n\\[\nZ=XW^\\star+b^\\star.\n\\]\nDos capas afines sin activación equivalen a una sola transformación afín. La activación no lineal es lo que evita ese colapso.\nLa conclusión es estructural, no una afirmación de que cualquier red con ReLU aprenderá una buena frontera. ReLU hace que la función sea afín por regiones; la cantidad y disposición de esas regiones dependen de pesos, profundidad y ancho. La optimización todavía debe encontrar parámetros útiles y la evaluación debe determinar si la representación generaliza.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_perceptron_forward.html#costo-de-una-pasada-forward",
+    "href": "capitulo01_perceptron_forward.html#costo-de-una-pasada-forward",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Costo de una pasada forward",
+    "text": "Costo de una pasada forward\nPara un lote de \\(m\\) observaciones, la multiplicación \\(XW^{[1]}\\) cuesta \\(O(mdh)\\) y \\(A^{[1]}W^{[2]}\\) cuesta \\(O(mhk)\\). ReLU y softmax añaden \\(O(mh+mk)\\). El costo dominante es, por tanto,\n\\[\nO\\big(mh(d+k)\\big).\n\\]\nDurante entrenamiento se guardan activaciones y preactivaciones para calcular gradientes. En esta red pequeña, la cache ocupa \\(O(mh+mk)\\) números, además de los parámetros. En inferencia no hace falta conservar todo el grafo y la memoria puede reducirse.\nEsta cuenta permite detectar un error conceptual frecuente: la notación de una capa puede caber en una línea, pero su costo crece con el tamaño del lote, la entrada, el ancho y la salida. Una comparación de arquitecturas debe reportar al menos parámetros, presupuesto de actualizaciones y tamaño de lote.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -284,7 +294,7 @@
     "href": "capitulo01_perceptron_forward.html#ejercicios",
     "title": "Perceptron, neurona logística y forward propagation",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué una red sin activaciones no lineales se reduce a una transformación lineal.\n¿Qué diferencia hay entre logits y probabilidades?\n\n\n\nProblemas cuantitativos\n\nSi \\(X\\) tiene forma (250, 20) y una capa oculta tiene 12 neuronas, ¿qué forma deben tener W1, b1 y Z1?\nPara una salida con 5 clases y batch de 32 observaciones, indique la forma de los logits, las probabilidades softmax y la matriz one-hot \\(Y\\).\n\n\n\nPráctica computacional\n\nImplemente una función softmax_stable(Z) y verifique que cada fila suma 1.\nImplemente un forward_pass(X, params) para una red con una capa oculta ReLU y salida softmax.\n\n\n\nInterpretación y pensamiento crítico\n\nUna red obtiene probabilidades casi uniformes para todas las clases. Proponga dos hipótesis técnicas.\n\n\n\nProyecto de cierre\n\nUse un dataset multiclase generado con semilla fija o una muestra pequeña de imágenes. Defina dimensiones, implemente forward propagation y entregue una tabla con formas de cada objeto intermedio.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué una red sin activaciones no lineales se reduce a una transformación lineal.\n¿Qué diferencia hay entre logits y probabilidades?\n\n\n\nProblemas cuantitativos\n\nSi \\(X\\) tiene forma (250, 20) y una capa oculta tiene 12 neuronas, ¿qué forma deben tener W1, b1 y Z1?\nPara una salida con 5 clases y batch de 32 observaciones, indique la forma de los logits, las probabilidades softmax y la matriz one-hot \\(Y\\).\n\n\n\nPráctica computacional\n\nImplemente una función softmax_stable(Z) y verifique que cada fila suma 1.\nImplemente un forward_pass(X, params) para una red con una capa oculta ReLU y salida softmax.\n\n\n\nInterpretación y pensamiento crítico\n\nUna red obtiene probabilidades casi uniformes para todas las clases. Proponga dos hipótesis técnicas.\n\n\n\nProfundización matemática y algorítmica\n\nDemuestre que softmax(z + c) coincide con softmax(z) para cualquier constante \\(c\\) y explique por qué se elige \\(c=-\\max_jz_j\\).\nPara \\(d=64\\), \\(h=32\\) y \\(k=10\\), calcule el número de parámetros de la red, incluidos sesgos.\nEstime el costo dominante de un forward con lote \\(m=128\\) y compare qué ocurre al duplicar \\(h\\).\nExplique por qué mayor número de regiones lineales no garantiza menor riesgo de validación.\n\n\n\nProyecto de cierre\n\nUse un dataset multiclase generado con semilla fija o una muestra pequeña de imágenes. Defina dimensiones, implemente forward propagation y entregue una tabla con formas de cada objeto intermedio.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
     ]
@@ -314,7 +324,7 @@
     "href": "capitulo02_backpropagation.html#objetivos-del-capítulo",
     "title": "Backpropagation",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nleer una red como grafo de cómputo;\nderivar las formas de \\(dW^{[2]}\\), \\(db^{[2]}\\), \\(dW^{[1]}\\) y \\(db^{[1]}\\);\nexplicar por qué softmax con entropía cruzada produce \\(dZ^{[2]}=(\\hat P-Y)/m\\);\nusar una cache de forward para calcular backward;\ndiseñar una prueba básica de gradientes.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nleer una red como grafo de cómputo;\nderivar las formas de \\(dW^{[2]}\\), \\(db^{[2]}\\), \\(dW^{[1]}\\) y \\(db^{[1]}\\);\nexplicar por qué softmax con entropía cruzada produce \\(dZ^{[2]}=(\\hat P-Y)/m\\);\nusar una cache de forward para calcular backward;\ndiseñar una prueba básica de gradientes.\nderivar el Jacobiano de softmax y la regla de una capa afín;\nexplicar por qué backward tiene costo comparable con forward y por qué necesita una cache.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -344,7 +354,7 @@
     "href": "capitulo02_backpropagation.html#gradiente-de-softmax-con-entropía-cruzada",
     "title": "Backpropagation",
     "section": "Gradiente de softmax con entropía cruzada",
-    "text": "Gradiente de softmax con entropía cruzada\nPara softmax + entropía cruzada, el gradiente se simplifica:\n\\[\n\\frac{\\partial J}{\\partial Z^{[2]}} = \\frac{1}{m}(\\hat P - Y).\n\\]\nEsta fórmula es una de las razones por las que esta combinación es estándar en clasificación multiclase.",
+    "text": "Gradiente de softmax con entropía cruzada\nLa simplificación no se toma como una regla memorizada. Para una observación, escribamos\n\\[\np_a=\\frac{e^{z_a}}{\\sum_{r=1}^k e^{z_r}}.\n\\]\nAl derivar \\(p_a\\) respecto a \\(z_b\\) aparecen dos casos, que se reúnen con la delta de Kronecker \\(\\delta_{ab}\\):\n\\[\n\\frac{\\partial p_a}{\\partial z_b}\n=p_a(\\delta_{ab}-p_b).\n\\]\nSi \\(L=-\\sum_{a=1}^k y_a\\log p_a\\), la regla de la cadena da\n\\[\n\\begin{aligned}\n\\frac{\\partial L}{\\partial z_b}\n&=-\\sum_{a=1}^k\\frac{y_a}{p_a}\n  \\frac{\\partial p_a}{\\partial z_b}\\\\\n&=-\\sum_{a=1}^k y_a(\\delta_{ab}-p_b)\\\\\n&=-y_b+p_b\\sum_{a=1}^k y_a\\\\\n&=p_b-y_b,\n\\end{aligned}\n\\]\nporque una etiqueta one-hot satisface \\(\\sum_a y_a=1\\). Al promediar \\(m\\) observaciones:\n\\[\n\\frac{\\partial J}{\\partial Z^{[2]}} = \\frac{1}{m}(\\hat P - Y).\n\\]\nLa cancelación entre el Jacobiano de softmax y la derivada del logaritmo es una de las razones por las que esta combinación es estándar. Si se cambia la pérdida o la transformación de salida, esta identidad debe derivarse de nuevo.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -354,7 +364,7 @@
     "href": "capitulo02_backpropagation.html#gradientes-de-la-segunda-capa",
     "title": "Backpropagation",
     "section": "Gradientes de la segunda capa",
-    "text": "Gradientes de la segunda capa\nCon:\n\\[\nZ^{[2]} = A^{[1]}W^{[2]} + b^{[2]},\n\\]\ndefinimos:\n\\[\ndZ^{[2]} = \\frac{1}{m}(\\hat P - Y).\n\\]\nEntonces:\n\\[\ndW^{[2]} = (A^{[1]})^\\top dZ^{[2]},\n\\]\n\\[\ndb^{[2]} = \\sum_i dZ^{[2]}_i.\n\\]",
+    "text": "Gradientes de la segunda capa\nCon:\n\\[\nZ^{[2]} = A^{[1]}W^{[2]} + b^{[2]},\n\\]\ndefinimos:\n\\[\ndZ^{[2]} = \\frac{1}{m}(\\hat P - Y).\n\\]\nEntonces:\n\\[\ndW^{[2]} = (A^{[1]})^\\top dZ^{[2]},\n\\]\n\\[\ndb^{[2]} = \\sum_i dZ^{[2]}_i.\n\\]\nEstas tres fórmulas provienen de una sola regla de capa. Para \\(Z=AW+\\mathbf 1_m b^\\top\\) y una perturbación diferencial,\n\\[\ndZ=dA\\,W+A\\,dW+\\mathbf 1_m\\,(db)^\\top.\n\\]\nAl emparejar cada término con el gradiente que llega desde la pérdida se obtiene\n\\[\n\\nabla_W J=A^\\top\\nabla_ZJ,\n\\qquad\n\\nabla_b J=\\mathbf 1^\\top\\nabla_ZJ,\n\\qquad\n\\nabla_A J=\\nabla_ZJ\\,W^\\top.\n\\]\nLa regla no depende de que la capa sea la primera o la última. Lo que cambia entre capas es la derivada de la activación y el gradiente que llega desde arriba.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -374,7 +384,17 @@
     "href": "capitulo02_backpropagation.html#backpropagation-como-algoritmo",
     "title": "Backpropagation",
     "section": "Backpropagation como algoritmo",
-    "text": "Backpropagation como algoritmo\nLa identidad de salida merece una derivación corta. Para una observación, la entropía cruzada multiclase es:\n\\[\nL=-\\sum_{j=1}^{k}y_j\\log p_j,\n\\qquad\np_j=\\frac{e^{z_j}}{\\sum_{\\ell=1}^{k}e^{z_\\ell}}.\n\\]\nCuando \\(y\\) es one-hot, solo una clase \\(c\\) tiene \\(y_c=1\\), de modo que \\(L=-\\log p_c\\). Al derivar con respecto a un logit \\(z_j\\), el resultado compacto es:\n\\[\n\\frac{\\partial L}{\\partial z_j}=p_j-y_j.\n\\]\nPara un lote de \\(m\\) observaciones y pérdida promedio:\n\\[\ndZ^{[2]}=\\frac{\\hat P-Y}{m}.\n\\]\nEsta identidad explica por qué el código de salida es tan breve y por qué la forma de \\(dZ^{[2]}\\) coincide con la forma de los logits.\ndef backward_pass(X, Y, cache, params):\n    P = cache[\"P\"]\n    A1 = cache[\"A1\"]\n    Z1 = cache[\"Z1\"]\n    W2 = params[\"W2\"]\n\n    dZ2 = (P - Y) / len(X)\n    dW2 = A1.T @ dZ2\n    db2 = np.sum(dZ2, axis=0)\n\n    dA1 = dZ2 @ W2.T\n    dZ1 = dA1 * (Z1 &gt; 0)\n    dW1 = X.T @ dZ1\n    db1 = np.sum(dZ1, axis=0)\n\n    return {\"W1\": dW1, \"b1\": db1, \"W2\": dW2, \"b2\": db2}",
+    "text": "Backpropagation como algoritmo\nLas identidades anteriores ya contienen la deducción. El algoritmo debe conservar los valores del forward correspondiente, iniciar con \\(dZ^{[2]}=(\\widehat P-Y)/m\\) y aplicar la regla de capa en orden inverso. El código para dos capas es:\ndef backward_pass(X, Y, cache, params):\n    P = cache[\"P\"]\n    A1 = cache[\"A1\"]\n    Z1 = cache[\"Z1\"]\n    W2 = params[\"W2\"]\n\n    dZ2 = (P - Y) / len(X)\n    dW2 = A1.T @ dZ2\n    db2 = np.sum(dZ2, axis=0)\n\n    dA1 = dZ2 @ W2.T\n    dZ1 = dA1 * (Z1 &gt; 0)\n    dW1 = X.T @ dZ1\n    db1 = np.sum(dZ1, axis=0)\n\n    return {\"W1\": dW1, \"b1\": db1, \"W2\": dW2, \"b2\": db2}\nPara una red con \\(L\\) capas, el mismo argumento se recorre desde \\(\\ell=L\\) hasta \\(1\\):\ncalcular el gradiente de la pérdida respecto a la salida\npara ell = L, ..., 1:\n    atravesar la activación de la capa ell\n    calcular dW[ell] y db[ell]\n    propagar el gradiente hacia A[ell-1]\nBackpropagation no es una fórmula particular de dos capas. Es evaluación en modo reverso de la regla de la cadena sobre un grafo acíclico de operaciones.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_backpropagation.html#costo-memoria-y-alcance-de-la-garantía",
+    "href": "capitulo02_backpropagation.html#costo-memoria-y-alcance-de-la-garantía",
+    "title": "Backpropagation",
+    "section": "Costo, memoria y alcance de la garantía",
+    "text": "Costo, memoria y alcance de la garantía\nCada producto matricial del forward reaparece con dimensiones transpuestas en el backward. Por ello, el costo de backpropagation es del mismo orden que el forward: para la red de una capa oculta,\n\\[\nO\\big(mh(d+k)\\big).\n\\]\nEl ahorro frente a diferencias finitas es decisivo. Si hay \\(P\\) parámetros, verificar todas las coordenadas por diferencias centrales requiere aproximadamente \\(2P\\) evaluaciones forward; backpropagation obtiene los \\(P\\) gradientes en un solo recorrido inverso de costo comparable a unas pocas pasadas.\nEl precio es memoria. El backward necesita los valores de \\(X\\), \\(Z^{[1]}\\), \\(A^{[1]}\\) y las probabilidades producidas por el mismo forward. Recalcularlos puede ahorrar memoria a cambio de más cómputo, estrategia conocida como checkpointing.\nLa eficiencia no es una garantía de encontrar el mínimo global. Backpropagation calcula, salvo errores numéricos y puntos no diferenciables elegidos por convención, el gradiente de la pérdida empírica para los parámetros actuales. El optimizador decide cómo usarlo; la no convexidad de una red permanece.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -484,7 +504,7 @@
     "href": "capitulo02_backpropagation.html#ejercicios",
     "title": "Backpropagation",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué backpropagation necesita valores guardados del forward pass.\nExplique por qué dZ1 = dA1 * (Z1 &gt; 0) para ReLU.\n\n\n\nProblemas cuantitativos\n\nDerive la forma de dW2 a partir de Z2 = A1 @ W2 + b2.\nSi \\(A^{[1]}\\in\\mathbb{R}^{80\\times 16}\\) y \\(dZ^{[2]}\\in\\mathbb{R}^{80\\times 4}\\), calcule la forma de \\(dW^{[2]}\\) y \\(db^{[2]}\\).\n\n\n\nPráctica computacional\n\nDiseñe una prueba pequeña para verificar que backward_pass devuelve gradientes con la misma forma que los parámetros.\nImplemente una verificación por diferencias finitas para un parámetro escalar.\n\nDurante esta verificación desactive dropout y cualquier otra operación aleatoria; la pérdida evaluada en \\(\\theta+\\varepsilon\\) y \\(\\theta-\\varepsilon\\) debe usar exactamente los mismos datos y el mismo grafo.\n\n\nInterpretación y pensamiento crítico\n\nUn gradiente tiene la forma correcta pero el entrenamiento no mejora. Proponga tres causas posibles.\n\n\n\nProyecto de cierre\n\nTome una red pequeña de dos capas y documente una auditoría de gradientes: formas esperadas, formas obtenidas, norma de cada gradiente y resultado de una prueba numérica para un parámetro.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué backpropagation necesita valores guardados del forward pass.\nExplique por qué dZ1 = dA1 * (Z1 &gt; 0) para ReLU.\n\n\n\nProblemas cuantitativos\n\nDerive la forma de dW2 a partir de Z2 = A1 @ W2 + b2.\nSi \\(A^{[1]}\\in\\mathbb{R}^{80\\times 16}\\) y \\(dZ^{[2]}\\in\\mathbb{R}^{80\\times 4}\\), calcule la forma de \\(dW^{[2]}\\) y \\(db^{[2]}\\).\n\n\n\nPráctica computacional\n\nDiseñe una prueba pequeña para verificar que backward_pass devuelve gradientes con la misma forma que los parámetros.\nImplemente una verificación por diferencias finitas para un parámetro escalar.\n\nDurante esta verificación desactive dropout y cualquier otra operación aleatoria; la pérdida evaluada en \\(\\theta+\\varepsilon\\) y \\(\\theta-\\varepsilon\\) debe usar exactamente los mismos datos y el mismo grafo.\n\n\nInterpretación y pensamiento crítico\n\nUn gradiente tiene la forma correcta pero el entrenamiento no mejora. Proponga tres causas posibles.\n\n\n\nProfundización matemática y algorítmica\n\nDerive \\(\\partial p_a/\\partial z_b=p_a(\\delta_{ab}-p_b)\\) y úsela para obtener \\(\\nabla_zL=p-y\\).\nA partir del diferencial de \\(Z=AW+\\mathbf 1b^\\top\\), obtenga los gradientes respecto a \\(A\\), \\(W\\) y \\(b\\).\nCompare el costo de verificar \\(P\\) parámetros por diferencias centrales con el costo de una pasada backward.\nExplique el intercambio memoria-cómputo de guardar activaciones frente a recalcularlas durante backward.\n\n\n\nProyecto de cierre\n\nTome una red pequeña de dos capas y documente una auditoría de gradientes: formas esperadas, formas obtenidas, norma de cada gradiente y resultado de una prueba numérica para un parámetro.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
     ]
@@ -514,7 +534,7 @@
     "href": "capitulo03_diagnostico_regularizacion.html#objetivos-del-capítulo",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nidentificar fallas de saturación, overfitting y learning rate;\nexplicar por qué la inicialización afecta el entrenamiento;\nincorporar regularización L2 en la pérdida y en los gradientes;\nleer curvas de entrenamiento y validación;\nconvertir una curva en una hipótesis y un siguiente experimento.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nidentificar fallas de saturación, overfitting y learning rate;\nexplicar por qué la inicialización afecta el entrenamiento;\nincorporar regularización L2 en la pérdida y en los gradientes;\nleer curvas de entrenamiento y validación;\nconvertir una curva en una hipótesis y un siguiente experimento.\ndeducir la escala de una inicialización a partir de propagación de segundos momentos;\nexplicar qué preserva dropout invertido en esperanza y qué variación añade.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
     ]
@@ -550,6 +570,16 @@
     ]
   },
   {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#de-la-propagación-de-varianza-a-xavier-y-he",
+    "href": "capitulo03_diagnostico_regularizacion.html#de-la-propagación-de-varianza-a-xavier-y-he",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "De la propagación de varianza a Xavier y He",
+    "text": "De la propagación de varianza a Xavier y He\nLa regla \\(1/d\\) no se elige solo por costumbre. Si \\(x_j\\) y \\(w_j\\) son independientes, centrados y con igual segundo momento dentro de la capa,\n\\[\n\\mathbb E[z^2]\n=\\mathbb E\\!\\left[\\left(\\sum_{j=1}^d w_jx_j\\right)^2\\right]\n=d\\,\\mathbb E[w_j^2]\\,\\mathbb E[x_j^2],\n\\]\nporque los términos cruzados tienen esperanza cero. Para una activación lineal, preservar el segundo momento en la propagación hacia adelante sugiere \\(\\mathbb E[w_j^2]=1/d_{\\mathrm{in}}\\). Este es el argumento fan-in que está en la base de las inicializaciones de tipo Xavier. La variante Glorot/Xavier que equilibra propagación hacia adelante y hacia atrás usa con frecuencia\n\\[\n\\operatorname{Var}(w_j)=\n\\frac{2}{d_{\\mathrm{in}}+d_{\\mathrm{out}}}.\n\\]\nCuando \\(d_{\\mathrm{in}}=d_{\\mathrm{out}}=d\\), ambas escalas coinciden con \\(1/d\\). La distinción importa cuando las capas tienen anchos muy diferentes.\nSi \\(z\\) tiene una distribución aproximadamente simétrica alrededor de cero, ReLU conserva el lado positivo y anula el negativo. Bajo esa aproximación,\n\\[\n\\mathbb E[\\operatorname{ReLU}(z)^2]\n\\approx\\frac12\\mathbb E[z^2].\n\\]\nCompensar ese factor \\(1/2\\) lleva a\n\\[\n\\operatorname{Var}(w_j)\\approx\\frac{2}{d},\n\\]\nque es la escala He. La deducción depende de independencia aproximada, centrado y simetría; durante el entrenamiento esas hipótesis dejan de ser exactas. La inicialización intenta evitar explosión o desaparición al comienzo, no garantiza que todas las capas mantengan la misma varianza para siempre.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_diagnostico_regularizacion.html#regularización-l2-en-redes",
     "href": "capitulo03_diagnostico_regularizacion.html#regularización-l2-en-redes",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
@@ -574,7 +604,7 @@
     "href": "capitulo03_diagnostico_regularizacion.html#dropout-como-idea",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
     "section": "Dropout como idea",
-    "text": "Dropout como idea\nDropout apaga unidades al azar durante entrenamiento. En este curso se introduce conceptualmente, no como requisito central del autograder.\nSu intuición:\n\nevita dependencia excesiva de una neurona;\nfunciona como ensamble implícito;\nrequiere cuidado al pasar de entrenamiento a evaluación.",
+    "text": "Dropout como idea\nDropout apaga unidades al azar durante entrenamiento. En este curso se introduce conceptualmente, no como requisito central del autograder. Si la probabilidad de apagado es \\(p\\), el dropout invertido usa\n\\[\n\\widetilde A=\\frac{M}{1-p}A,\n\\qquad M\\sim\\operatorname{Bernoulli}(1-p).\n\\]\nCondicionado en \\(A\\),\n\\[\n\\mathbb E[\\widetilde A\\mid A]=A,\n\\qquad\n\\operatorname{Var}(\\widetilde A\\mid A)\n=A^2\\frac{p}{1-p}.\n\\]\nLa escala \\(1/(1-p)\\) evita tener que reescalar en evaluación, pero muestra también el costo: dropout conserva la activación en esperanza y aumenta su variación durante entrenamiento. En evaluación se desactiva la máscara; dejar dropout activo hace aleatorias las predicciones, salvo que se use deliberadamente un procedimiento como Monte Carlo dropout.\nSu intuición:\n\nevita dependencia excesiva de una neurona;\nfunciona como ensamble implícito;\nrequiere cuidado al pasar de entrenamiento a evaluación.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
     ]
@@ -704,7 +734,7 @@
     "href": "capitulo03_diagnostico_regularizacion.html#ejercicios",
     "title": "Activaciones, inicialización, regularización y diagnóstico",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué una red con train accuracy 99% y validation accuracy 70% no debe reportarse como exitosa.\n¿Por qué la regularización no reemplaza una partición de validación?\n\n\n\nProblemas cuantitativos\n\nDada una tabla de pérdidas por época, identifique la primera señal de overfitting y proponga una época candidata para early stopping.\nSi la penalización L2 es \\(\\frac{\\lambda}{2}\\sum_j w_j^2\\), calcule la penalización para \\(w=(2,-1,0.5)\\) y \\(\\lambda=0.1\\), y escriba el término que se añade al gradiente.\n\n\n\nPráctica computacional\n\nDiseñe un experimento para comparar dos valores de lambda sin usar el conjunto de test.\nGrafique pérdida de entrenamiento y validación para al menos dos configuraciones.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué señal en la curva de pérdida sugeriría revisar el learning rate antes de cambiar la arquitectura?\nUn modelo mejora la métrica global pero empeora un subconjunto importante. ¿Qué decisión técnica tomaría?\n\n\n\nProyecto de cierre\n\nRedacte un memo técnico de una página sobre una red entrenada: baseline, curva, diagnóstico, cambio propuesto, riesgo y siguiente experimento.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué una red con train accuracy 99% y validation accuracy 70% no debe reportarse como exitosa.\n¿Por qué la regularización no reemplaza una partición de validación?\n\n\n\nProblemas cuantitativos\n\nDada una tabla de pérdidas por época, identifique la primera señal de overfitting y proponga una época candidata para early stopping.\nSi la penalización L2 es \\(\\frac{\\lambda}{2}\\sum_j w_j^2\\), calcule la penalización para \\(w=(2,-1,0.5)\\) y \\(\\lambda=0.1\\), y escriba el término que se añade al gradiente.\n\n\n\nPráctica computacional\n\nDiseñe un experimento para comparar dos valores de lambda sin usar el conjunto de test.\nGrafique pérdida de entrenamiento y validación para al menos dos configuraciones.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué señal en la curva de pérdida sugeriría revisar el learning rate antes de cambiar la arquitectura?\nUn modelo mejora la métrica global pero empeora un subconjunto importante. ¿Qué decisión técnica tomaría?\n\n\n\nProfundización matemática y algorítmica\n\nDeduzca la escala fan-in \\(1/d_{\\mathrm{in}}\\) a partir de la conservación aproximada del segundo momento en una capa lineal. Explique por qué la variante Glorot/Xavier \\(2/(d_{\\mathrm{in}}+d_{\\mathrm{out}})\\) coincide con ella cuando ambos anchos son iguales.\nJustifique el factor 2 de la inicialización He bajo una entrada simétrica y una activación ReLU.\nCalcule esperanza y varianza condicional de dropout invertido para una activación fija \\(A=a\\) y probabilidad de apagado \\(p\\).\n\n\n\nProyecto de cierre\n\nRedacte un memo técnico de una página sobre una red entrenada: baseline, curva, diagnóstico, cambio propuesto, riesgo y siguiente experimento.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
     ]
@@ -734,7 +764,7 @@
     "href": "capitulo04_optimizadores_pytorch.html#objetivos-del-capítulo",
     "title": "Optimizadores y PyTorch",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\ndistinguir batch, mini-batch y época;\nexplicar la intuición de momentum, RMSProp y Adam;\nubicar forward, loss, backward y actualización en un loop de PyTorch;\ncomparar una implementación desde cero con PyTorch sin cambiar la pregunta experimental;\nreconocer que un optimizador no reemplaza validación.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\ndistinguir batch, mini-batch y época;\nexplicar la intuición de momentum, RMSProp y Adam;\nubicar forward, loss, backward y actualización en un loop de PyTorch;\ncomparar una implementación desde cero con PyTorch sin cambiar la pregunta experimental;\nreconocer que un optimizador no reemplaza validación.\nescribir las ecuaciones completas de Adam y explicar la corrección de sesgo;\ncomparar costo, memoria y alcance de las garantías de SGD, momentum y Adam.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -794,7 +824,7 @@
     "href": "capitulo04_optimizadores_pytorch.html#rmsprop-y-adam",
     "title": "Optimizadores y PyTorch",
     "section": "RMSProp y Adam",
-    "text": "RMSProp y Adam\nRMSProp escala cada coordenada según magnitudes recientes del gradiente.\nAdam combina:\n\npromedio móvil del gradiente;\npromedio móvil del gradiente al cuadrado;\ncorrección de sesgo al inicio.\n\nEn práctica, Adam suele ser un buen punto de partida, pero no elimina la necesidad de validar learning rate, regularización y arquitectura.",
+    "text": "RMSProp y Adam\nRMSProp mantiene un promedio exponencial de gradientes al cuadrado y divide cada coordenada por su escala reciente. Adam añade un promedio exponencial del gradiente. Con \\(g_t\\) como gradiente de mini-batch:\n\\[\nm_t=\\beta_1m_{t-1}+(1-\\beta_1)g_t,\n\\]\n\\[\ns_t=\\beta_2s_{t-1}+(1-\\beta_2)g_t\\odot g_t.\n\\]\nComo \\(m_0=s_0=0\\), los primeros momentos están sesgados hacia cero. Si, para entender el efecto, imaginamos un gradiente constante \\(g\\), entonces\n\\[\nm_t=(1-\\beta_1^t)g,\n\\qquad\ns_t=(1-\\beta_2^t)(g\\odot g).\n\\]\nEsto motiva las correcciones\n\\[\n\\widehat m_t=\\frac{m_t}{1-\\beta_1^t},\n\\qquad\n\\widehat s_t=\\frac{s_t}{1-\\beta_2^t}.\n\\]\nLa actualización es\n\\[\n\\theta_{t+1}\n=\\theta_t-\\alpha\n\\frac{\\widehat m_t}{\\sqrt{\\widehat s_t}+\\varepsilon},\n\\]\ndonde raíz, división y suma se aplican por coordenadas. El término \\(\\varepsilon\\) evita división por cero y también influye en la escala efectiva cuando \\(\\widehat s_t\\) es muy pequeño. Usamos \\(s_t\\) para el segundo momento de Adam y reservamos \\(v_t\\) para la velocidad de momentum.\nAdam suele ser un punto de partida útil, pero no elimina la necesidad de validar tasa, regularización y arquitectura. Tampoco debe confundirse Adam con AdamW: este último desacopla el decaimiento de pesos de la normalización adaptativa del gradiente.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -805,6 +835,26 @@
     "title": "Optimizadores y PyTorch",
     "section": "Ejemplo resuelto: Adam en una coordenada",
     "text": "Ejemplo resuelto: Adam en una coordenada\nSupón una coordenada con gradiente inicial \\(g_1=4\\), \\(\\beta_1=0.9\\), \\(\\beta_2=0.999\\), \\(m_0=0\\) y \\(s_0=0\\). El primer momento queda:\n\\[\nm_1=0.9(0)+0.1(4)=0.4.\n\\]\nEl segundo momento queda:\n\\[\ns_1=0.999(0)+0.001(4^2)=0.016.\n\\]\nComo ambos promedios empiezan en cero, Adam usa corrección de sesgo:\n\\[\n\\hat m_1=\\frac{m_1}{1-\\beta_1}=4,\n\\qquad\n\\hat s_1=\\frac{s_1}{1-\\beta_2}=16.\n\\]\nLa dirección adaptativa es aproximadamente:\n\\[\n\\frac{\\hat m_1}{\\sqrt{\\hat s_1}+\\epsilon}\\approx 1.\n\\]\nLa lectura no es que Adam normaliza todo perfectamente. La lectura es que usa información sobre magnitud reciente del gradiente para ajustar el tamaño efectivo del paso por coordenada.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#qué-puede-afirmarse-sobre-convergencia",
+    "href": "capitulo04_optimizadores_pytorch.html#qué-puede-afirmarse-sobre-convergencia",
+    "title": "Optimizadores y PyTorch",
+    "section": "Qué puede afirmarse sobre convergencia",
+    "text": "Qué puede afirmarse sobre convergencia\nPara SGD sobre una función suave, con gradientes insesgados, varianza controlada y una secuencia de pasos que disminuye apropiadamente, pueden obtenerse resultados de convergencia hacia puntos estacionarios en promedio. Con una tasa constante, el ruido del mini-batch suele impedir convergencia exacta y deja iteraciones en una región cuyo tamaño depende del paso y la varianza.\nLas redes hacen el problema no convexo. Llegar a \\(\\|\\nabla J\\|\\) pequeño no prueba que se alcanzó un mínimo global ni que el riesgo de validación sea bajo. Para Adam, la adaptatividad exige hipótesis y variantes técnicas adicionales; no es correcto afirmar que siempre converge mejor que SGD. En este curso, las garantías teóricas orientan el diagnóstico, mientras la comparación empírica se hace con presupuesto y protocolo fijados.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#costo-y-memoria-del-optimizador",
+    "href": "capitulo04_optimizadores_pytorch.html#costo-y-memoria-del-optimizador",
+    "title": "Optimizadores y PyTorch",
+    "section": "Costo y memoria del optimizador",
+    "text": "Costo y memoria del optimizador\nSea \\(P\\) el número de parámetros y \\(C_B\\) el costo de forward más backward para un mini-batch. La actualización de SGD cuesta \\(O(P)\\) y almacena parámetros y gradientes. Momentum añade un vector de velocidad de tamaño \\(P\\). Adam añade dos vectores, \\(m_t\\) y \\(s_t\\), de modo que su estado auxiliar es aproximadamente \\(2P\\) números.\n\n\n\nMétodo\nEstado adicional\nCosto de actualización\n\n\n\n\nSGD\nninguno\n\\(O(P)\\)\n\n\nmomentum\n\\(P\\)\n\\(O(P)\\)\n\n\nAdam\n\\(2P\\)\n\\(O(P)\\)\n\n\n\nEl costo total por paso sigue dominado normalmente por \\(C_B\\), pero el estado del optimizador puede ser relevante en modelos grandes. Reportar solo «usamos Adam» omite tasa, betas, epsilon, decaimiento, batch size y número de pasos: todos forman parte del algoritmo ejecutado.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -934,7 +984,7 @@
     "href": "capitulo04_optimizadores_pytorch.html#ejercicios",
     "title": "Optimizadores y PyTorch",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué Adam no reemplaza la validación.\n¿Por qué PyTorch acumula gradientes y por qué normalmente llamamos zero_grad()?\n\n\n\nProblemas cuantitativos\n\nSi un dataset tiene 1024 observaciones y batch size 64, ¿cuántos batches tiene una época?\nSi se entrenan 20 épocas con 16 batches por época, ¿cuántas veces se ejecuta optimizer.step()?\n\n\n\nPráctica computacional\n\nIdentifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.\nImplemente un loop mínimo que registre pérdida promedio por época.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.\nSi PyTorch entrena más rápido que NumPy, ¿qué comparación necesita antes de afirmar que el modelo es mejor?\n\n\n\nProyecto de cierre\n\nReproduzca el mismo experimento con NumPy y PyTorch usando la misma partición, semilla y métrica. Entregue una tabla comparativa y una conclusión cautelosa.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nExplique por qué Adam no reemplaza la validación.\n¿Por qué PyTorch acumula gradientes y por qué normalmente llamamos zero_grad()?\n\n\n\nProblemas cuantitativos\n\nSi un dataset tiene 1024 observaciones y batch size 64, ¿cuántos batches tiene una época?\nSi se entrenan 20 épocas con 16 batches por época, ¿cuántas veces se ejecuta optimizer.step()?\n\n\n\nPráctica computacional\n\nIdentifique en el loop de PyTorch dónde ocurren forward, pérdida, backward y actualización.\nImplemente un loop mínimo que registre pérdida promedio por época.\n\n\n\nInterpretación y pensamiento crítico\n\nProponga una comparación justa entre una red NumPy pequeña y una red PyTorch equivalente.\nSi PyTorch entrena más rápido que NumPy, ¿qué comparación necesita antes de afirmar que el modelo es mejor?\n\n\n\nProfundización matemática y algorítmica\n\nExpanda la recurrencia de momentum y determine el peso de \\(g_{t-r}\\) en \\(v_t\\).\nPara un gradiente constante, derive los factores \\(1-\\beta_1^t\\) y \\(1-\\beta_2^t\\) que motivan la corrección de sesgo de Adam.\nCompare la memoria auxiliar de SGD, momentum y Adam para \\(P\\) parámetros.\nExplique por qué convergencia a un punto estacionario de entrenamiento no implica optimalidad global ni bajo riesgo de validación.\n\n\n\nProyecto de cierre\n\nReproduzca el mismo experimento con NumPy y PyTorch usando la misma partición, semilla y métrica. Entregue una tabla comparativa y una conclusión cautelosa.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -994,7 +1044,7 @@
     "href": "capitulo05_ejercicios_integradores.html#bloque-a-dimensiones-y-forward",
     "title": "Ejercicios integradores: redes neuronales",
     "section": "Bloque A: dimensiones y forward",
-    "text": "Bloque A: dimensiones y forward\n\nA1. Una red recibe X.shape == (400, 64), tiene 20 unidades ocultas y 10 clases. Escriba las formas de W1, b1, Z1, A1, W2, b2, Z2 y P.\n\n\nA2. Explique por qué softmax se aplica por fila cuando Z2 tiene forma (m, k).\n\n\nA3. Muestre con una frase por qué restar max(Z, axis=1) antes de exp no cambia softmax.",
+    "text": "Bloque A: dimensiones y forward\n\nA1. Una red recibe X.shape == (400, 64), tiene 20 unidades ocultas y 10 clases. Escriba las formas de W1, b1, Z1, A1, W2, b2, Z2 y P.\n\n\nA2. Explique por qué softmax se aplica por fila cuando Z2 tiene forma (m, k).\n\n\nA3. Muestre con una frase por qué restar max(Z, axis=1) antes de exp no cambia softmax.\n\n\nA4. Para una red \\(d\\to h\\to k\\), derive el número total de parámetros y el costo dominante de un forward con lote de tamaño \\(m\\). Compare duplicar \\(h\\) con duplicar \\(m\\).",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: redes neuronales</span>"
     ]
@@ -1004,7 +1054,7 @@
     "href": "capitulo05_ejercicios_integradores.html#bloque-b-backpropagation",
     "title": "Ejercicios integradores: redes neuronales",
     "section": "Bloque B: backpropagation",
-    "text": "Bloque B: backpropagation\n\nB1. Partiendo de dZ2 = (P - Y) / m, derive las formas de dW2 y db2.\n\n\nB2. Describa qué debe guardarse en cache durante forward para poder ejecutar backward sin recalcular todo.\n\n\nB3. Diseñe una prueba de gradientes por diferencias finitas para un solo peso de W1.",
+    "text": "Bloque B: backpropagation\n\nB1. Partiendo de dZ2 = (P - Y) / m, derive las formas de dW2 y db2.\n\n\nB2. Describa qué debe guardarse en cache durante forward para poder ejecutar backward sin recalcular todo.\n\n\nB3. Diseñe una prueba de gradientes por diferencias finitas para un solo peso de W1.\n\n\nB4. Derive el Jacobiano de softmax y muestre paso a paso por qué, con entropía cruzada, el gradiente respecto a los logits es \\(p-y\\).\n\n\nB5. Si una red tiene \\(P\\) parámetros, compare el número de pasadas forward requerido por diferencias centrales para todas las coordenadas con el costo de backpropagation.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: redes neuronales</span>"
     ]
@@ -1014,7 +1064,7 @@
     "href": "capitulo05_ejercicios_integradores.html#bloque-c-diagnóstico",
     "title": "Ejercicios integradores: redes neuronales",
     "section": "Bloque C: diagnóstico",
-    "text": "Bloque C: diagnóstico\n\nC1. Una red tiene pérdida de entrenamiento decreciente y pérdida de validación creciente después de la época 20. ¿Qué diagnóstico haría y qué dos acciones probaría?\n\n\nC2. Si al aumentar el learning rate la pérdida explota, ¿qué resultado reportaría y qué ajuste haría?\n\n\nC3. Explique por qué un checkpoint técnico de proyecto debe incluir análisis de errores, no solo una métrica agregada.",
+    "text": "Bloque C: diagnóstico\n\nC1. Una red tiene pérdida de entrenamiento decreciente y pérdida de validación creciente después de la época 20. ¿Qué diagnóstico haría y qué dos acciones probaría?\n\n\nC2. Si al aumentar el learning rate la pérdida explota, ¿qué resultado reportaría y qué ajuste haría?\n\n\nC3. Explique por qué un checkpoint técnico de proyecto debe incluir análisis de errores, no solo una métrica agregada.\n\n\nC4. Bajo independencia, media cero y entradas simétricas, derive las escalas Xavier y He. Identifique en qué paso se usa la aproximación sobre ReLU.\n\n\nC5. Para dropout invertido con probabilidad de apagado \\(p\\), calcule esperanza y varianza condicional de una activación fija. Explique la diferencia entre modo entrenamiento y evaluación.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: redes neuronales</span>"
     ]
@@ -1024,7 +1074,7 @@
     "href": "capitulo05_ejercicios_integradores.html#bloque-d-pytorch",
     "title": "Ejercicios integradores: redes neuronales",
     "section": "Bloque D: PyTorch",
-    "text": "Bloque D: PyTorch\n\nD1. En un loop de entrenamiento de PyTorch, explique el propósito de optimizer.zero_grad().\n\n\nD2. ¿Qué significa que loss.backward() use diferenciación automática?\n\n\nD3. Proponga dos razones por las que una implementación NumPy y una PyTorch podrían producir métricas distintas aun usando el mismo dataset.",
+    "text": "Bloque D: PyTorch\n\nD1. En un loop de entrenamiento de PyTorch, explique el propósito de optimizer.zero_grad().\n\n\nD2. ¿Qué significa que loss.backward() use diferenciación automática?\n\n\nD3. Proponga dos razones por las que una implementación NumPy y una PyTorch podrían producir métricas distintas aun usando el mismo dataset.\n\n\nD4. Escriba las cuatro ecuaciones de Adam: dos momentos, dos correcciones de sesgo y actualización. Justifique los factores \\(1-\\beta_1^t\\) y \\(1-\\beta_2^t\\).\n\n\nD5. Compare memoria auxiliar y costo por actualización de SGD, momentum y Adam para \\(P\\) parámetros. Separe ese costo del forward y backward.",
     "crumbs": [
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: redes neuronales</span>"
     ]

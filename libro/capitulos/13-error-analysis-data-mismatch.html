@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
 <title>Error analysis y data mismatch – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
@@ -89,7 +89,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
 <meta property="og:title" content="Error analysis y data mismatch – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -674,6 +674,7 @@ window.Quarto = {
   <li><a href="#cambio-de-distribución-como-cambio-de-medida" id="toc-cambio-de-distribución-como-cambio-de-medida" class="nav-link" data-scroll-target="#cambio-de-distribución-como-cambio-de-medida">Cambio de distribución como cambio de medida</a></li>
   <li><a href="#error-analysis" id="toc-error-analysis" class="nav-link" data-scroll-target="#error-analysis">Error analysis</a></li>
   <li><a href="#slices" id="toc-slices" class="nav-link" data-scroll-target="#slices">Slices</a></li>
+  <li><a href="#incertidumbre-y-búsqueda-entre-slices" id="toc-incertidumbre-y-búsqueda-entre-slices" class="nav-link" data-scroll-target="#incertidumbre-y-búsqueda-entre-slices">Incertidumbre y búsqueda entre slices</a></li>
   <li><a href="#data-mismatch" id="toc-data-mismatch" class="nav-link" data-scroll-target="#data-mismatch">Data mismatch</a></li>
   <li><a href="#diagnóstico-de-mismatch" id="toc-diagnóstico-de-mismatch" class="nav-link" data-scroll-target="#diagnóstico-de-mismatch">Diagnóstico de mismatch</a></li>
   <li><a href="#ejemplo-resuelto-mismatch-por-proporción-de-clase" id="toc-ejemplo-resuelto-mismatch-por-proporción-de-clase" class="nav-link" data-scroll-target="#ejemplo-resuelto-mismatch-por-proporción-de-clase">Ejemplo resuelto: mismatch por proporción de clase</a></li>
@@ -694,6 +695,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-estadística" id="toc-profundización-matemática-y-estadística" class="nav-link" data-scroll-target="#profundización-matemática-y-estadística">Profundización matemática y estadística</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -738,6 +740,8 @@ window.Quarto = {
 <li>detectar señales de data mismatch;</li>
 <li>escribir una recomendación con resultado, diagnóstico y acción;</li>
 <li>reconocer cuándo una métrica agregada oculta daño o riesgo.</li>
+<li>cuantificar la variación de una métrica por slice usando su denominador efectivo;</li>
+<li>separar slices predefinidos de hallazgos exploratorios seleccionados después de mirar los errores.</li>
 </ol>
 </section>
 <section id="riesgo-condicional-por-slice" class="level2">
@@ -798,6 +802,23 @@ Figura&nbsp;1: Error analysis por slices: el promedio global puede ocultar un sl
 <li>ejemplos de una fuente específica.</li>
 </ul>
 <p>El objetivo es detectar fallas ocultas por el promedio.</p>
+</section>
+<section id="incertidumbre-y-búsqueda-entre-slices" class="level2">
+<h2 class="anchored" data-anchor-id="incertidumbre-y-búsqueda-entre-slices">Incertidumbre y búsqueda entre slices</h2>
+<p>Sea <span class="math inline">\(n_S\)</span> el número de observaciones de un slice. Para una pérdida promedio,</p>
+<p><span class="math display">\[
+\widehat R_S=\frac1{n_S}\sum_{i:Z_i\in S}L_i,
+\qquad
+\widehat{\operatorname{se}}(\widehat R_S)
+=\frac{s_S}{\sqrt{n_S}}.
+\]</span></p>
+<p>Si <span class="math inline">\(L_i\)</span> es el indicador de error, una aproximación binomial usa</p>
+<p><span class="math display">\[
+\sqrt{\frac{\widehat e_S(1-\widehat e_S)}{n_S}}.
+\]</span></p>
+<p>Para recall, el denominador no es <span class="math inline">\(n_S\)</span>, sino el número de positivos del slice; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.</p>
+<p>Hay además un problema de selección. Si se inspeccionan cien slices y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los slices ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.</p>
+<p>No imponemos una prueba de hipótesis automática para cada slice. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra baseline y etiqueta clara de análisis confirmatorio o exploratorio.</p>
 </section>
 <section id="data-mismatch" class="level2">
 <h2 class="anchored" data-anchor-id="data-mismatch">Data mismatch</h2>
@@ -1076,9 +1097,18 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
 <li>Escriba una recomendación técnica con la estructura resultado-diagnóstico-acción.</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-estadística" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-estadística">Profundización matemática y estadística</h3>
+<ol start="9" type="1">
+<li>Para un slice con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.</li>
+<li>Explique por qué el denominador efectivo de recall por slice es el número de positivos y no el tamaño total del slice.</li>
+<li>Se inspeccionaron 80 slices y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.</li>
+<li>Indique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="9" type="1">
+<ol start="13" type="1">
 <li>Para su proyecto, entregue una tabla de error analysis con al menos tres slices, diagnóstico por slice y una acción concreta.</li>
 </ol>
 

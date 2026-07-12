@@ -208,6 +208,8 @@ window.Quarto = {
   <li><a href="#evaluación-offline-precisionk" id="toc-evaluación-offline-precisionk" class="nav-link" data-scroll-target="#evaluación-offline-precisionk">Evaluación offline: Precision@k</a></li>
   <li><a href="#baseline-de-popularidad" id="toc-baseline-de-popularidad" class="nav-link" data-scroll-target="#baseline-de-popularidad">Baseline de popularidad</a></li>
   <li><a href="#svd-para-factores-latentes" id="toc-svd-para-factores-latentes" class="nav-link" data-scroll-target="#svd-para-factores-latentes">SVD para factores latentes</a></li>
+  <li><a href="#factorización-sobre-entradas-observadas" id="toc-factorización-sobre-entradas-observadas" class="nav-link" data-scroll-target="#factorización-sobre-entradas-observadas">Factorización sobre entradas observadas</a></li>
+  <li><a href="#alternancia-costo-e-identificación" id="toc-alternancia-costo-e-identificación" class="nav-link" data-scroll-target="#alternancia-costo-e-identificación">Alternancia, costo e identificación</a></li>
   <li><a href="#caso-longitudinal-interacciones-de-recomendación" id="toc-caso-longitudinal-interacciones-de-recomendación" class="nav-link" data-scroll-target="#caso-longitudinal-interacciones-de-recomendación">Caso longitudinal: interacciones de recomendación</a></li>
   <li><a href="#riesgos-de-recomendación" id="toc-riesgos-de-recomendación" class="nav-link" data-scroll-target="#riesgos-de-recomendación">Riesgos de recomendación</a></li>
   <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
@@ -222,6 +224,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -265,6 +268,8 @@ window.Quarto = {
 <li>describir una recomendación item-item;</li>
 <li>explicar la idea de factores latentes por SVD;</li>
 <li>reconocer problemas de popularidad, cold start y sesgo.</li>
+<li>formular una factorización regularizada sobre entradas observadas y derivar sus gradientes;</li>
+<li>estimar costo, memoria y límites de identificación de los factores.</li>
 </ol>
 </section>
 <section id="el-mecanismo-de-observación-no-es-neutral" class="level2">
@@ -419,6 +424,67 @@ Figura&nbsp;4.1: Sistemas de recomendación: una matriz usuario-item incompleta 
 <p>Esto produce representaciones latentes de usuarios e ítems.</p>
 <p>Esta igualdad requiere una advertencia. Una SVD directa trata cada entrada de la matriz numérica como observada; si se rellenan ratings faltantes con cero, se impone el supuesto de que “no observado” equivale a cero. Los métodos de factorización para recomendación suelen optimizar solo sobre entradas observadas o usar objetivos propios para retroalimentación implícita. Aquí la SVD introduce la geometría latente; no resuelve por sí sola el manejo de faltantes.</p>
 </section>
+<section id="factorización-sobre-entradas-observadas" class="level2">
+<h2 class="anchored" data-anchor-id="factorización-sobre-entradas-observadas">Factorización sobre entradas observadas</h2>
+<p>Sea <span class="math inline">\(\Omega\)</span> el conjunto de pares <span class="math inline">\((u,i)\)</span> para los que existe una interacción o rating. Asignamos a cada usuario un vector <span class="math inline">\(p_u\in\mathbb R^k\)</span> y a cada ítem un vector <span class="math inline">\(q_i\in\mathbb R^k\)</span>. Un objetivo básico para ratings explícitos es</p>
+<p><span class="math display">\[
+\begin{aligned}
+J(P,Q)
+&amp;=\frac12\sum_{(u,i)\in\Omega}
+(R_{ui}-p_u^\top q_i)^2\\
+&amp;+\frac\lambda2
+\left(\sum_u\|p_u\|^2+\sum_i\|q_i\|^2\right).
+\end{aligned}
+\]</span></p>
+<p>La suma recorre solo entradas observadas; no convierte faltantes en ceros. Si <span class="math inline">\(e_{ui}=R_{ui}-p_u^\top q_i\)</span>, los gradientes son</p>
+<p><span class="math display">\[
+\nabla_{p_u}J
+=-\sum_{i:(u,i)\in\Omega}e_{ui}q_i+\lambda p_u,
+\]</span></p>
+<p><span class="math display">\[
+\nabla_{q_i}J
+=-\sum_{u:(u,i)\in\Omega}e_{ui}p_u+\lambda q_i.
+\]</span></p>
+<p>Para obtener actualizaciones por interacción consistentes con este mismo objetivo, definimos los grados</p>
+<p><span class="math display">\[
+d_u=|\{i:(u,i)\in\Omega\}|,
+\]</span></p>
+<p><span class="math display">\[
+d_i=|\{u:(u,i)\in\Omega\}|.
+\]</span></p>
+<p>La penalización puede distribuirse exactamente entre las interacciones:</p>
+<p><span class="math display">\[
+\begin{aligned}
+J(P,Q)
+&amp;=\frac12\sum_{(u,i)\in\Omega}\Biggl[
+e_{ui}^2+\frac{\lambda}{d_u}\|p_u\|^2\\
+&amp;\quad+\frac{\lambda}{d_i}\|q_i\|^2
+\Biggr].
+\end{aligned}
+\]</span></p>
+<p>Cada vector aparece en tantas sumas como indica su grado, de modo que esta expresión coincide con el objetivo global anterior. Una actualización SGD sobre un par observado usa entonces</p>
+<p><span class="math display">\[
+\begin{aligned}
+p_u&amp;\leftarrow p_u+\alpha
+\left(e_{ui}q_i-\frac{\lambda}{d_u}p_u\right),\\
+q_i&amp;\leftarrow q_i+\alpha
+\left(e_{ui}p_u^{\mathrm{anterior}}-\frac{\lambda}{d_i}q_i\right).
+\end{aligned}
+\]</span></p>
+<p>Se conserva <span class="math inline">\(p_u^{\mathrm{anterior}}\)</span> en la segunda expresión para que ambas actualizaciones correspondan al mismo gradiente. Usar <span class="math inline">\(\lambda p_u\)</span> y <span class="math inline">\(\lambda q_i\)</span> en cada interacción también es posible, pero corresponde a una penalización ponderada por los grados, no al objetivo global escrito arriba. También pueden añadirse un promedio global y sesgos de usuario e ítem; sin ellos, los factores deben explicar diferencias de nivel que no son necesariamente interacciones latentes.</p>
+</section>
+<section id="alternancia-costo-e-identificación" class="level2">
+<h2 class="anchored" data-anchor-id="alternancia-costo-e-identificación">Alternancia, costo e identificación</h2>
+<p>El objetivo no es conjuntamente convexo en <span class="math inline">\((P,Q)\)</span>, pero sí es cuadrático en un bloque cuando el otro queda fijo. Alternating least squares fija <span class="math inline">\(Q\)</span> y resuelve un problema Ridge por usuario; luego fija <span class="math inline">\(P\)</span> y resuelve uno por ítem. Cada paso no aumenta el objetivo si los subproblemas se resuelven exactamente, pero el resultado puede depender de la inicialización.</p>
+<p>Una época SGD que recorre <span class="math inline">\(|\Omega|\)</span> interacciones cuesta <span class="math inline">\(O(|\Omega|k)\)</span> y almacena <span class="math inline">\(O((n_{\mathrm{usuarios}}+n_{\mathrm{ítems}})k)\)</span> parámetros. Esta estructura aprovecha dispersión: el costo depende de interacciones observadas, no del producto completo de usuarios por ítems.</p>
+<p>Los factores no son únicos. Si <span class="math inline">\(A\)</span> es invertible,</p>
+<p><span class="math display">\[
+p_u^\top q_i
+=(A^\top p_u)^\top(A^{-1}q_i).
+\]</span></p>
+<p>Por tanto, una coordenada latente aislada no tiene significado intrínseco. La regularización reduce parte de la indeterminación, pero las interpretaciones de «factor de acción», «factor de drama» o similares requieren evidencia externa. Lo identificable para el objetivo son principalmente los productos y rankings, no los nombres de los ejes.</p>
+<p>Para retroalimentación implícita, una ausencia puede significar falta de exposición. Se usan objetivos ponderados, muestreo de negativos o pérdidas de ranking; el objetivo cuadrático anterior no debe trasladarse sin declarar ese cambio de modelo.</p>
+</section>
 <section id="caso-longitudinal-interacciones-de-recomendación" class="level2">
 <h2 class="anchored" data-anchor-id="caso-longitudinal-interacciones-de-recomendación">Caso longitudinal: interacciones de recomendación</h2>
 <p>El archivo <code>recomendacion_interacciones.csv</code> contiene usuarios, ítems y ratings ficticios. Su función es mostrar la lógica de una matriz usuario-item pequeña:</p>
@@ -552,9 +618,18 @@ Figura&nbsp;4.1: Sistemas de recomendación: una matriz usuario-item incompleta 
 <li>¿Cómo detectaría si el recomendador solo amplifica popularidad?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="9" type="1">
+<li>Formule el objetivo regularizado de factorización sobre <span class="math inline">\(\Omega\)</span> y derive los gradientes respecto a un vector de usuario y uno de ítem.</li>
+<li>Escriba una actualización SGD para un rating observado, distribuya la regularización mediante <span class="math inline">\(d_u\)</span> y <span class="math inline">\(d_i\)</span>, y explique por qué debe conservarse el valor anterior de uno de los factores.</li>
+<li>Compare el costo de una época dispersa <span class="math inline">\(O(|\Omega|k)\)</span> con operar sobre toda la matriz usuario-ítem.</li>
+<li>Demuestre la indeterminación de los factores bajo un cambio invertible de base y explique qué limita su interpretación.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="9" type="1">
+<ol start="13" type="1">
 <li>Diseñe un recomendador item-item mínimo, reporte tres recomendaciones y escriba una advertencia sobre cold start, popularidad o sesgo.</li>
 </ol>
 

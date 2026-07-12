@@ -253,6 +253,8 @@ window.Quarto = {
   <li><a href="#log-odds" id="toc-log-odds" class="nav-link" data-scroll-target="#log-odds">Log-odds</a></li>
   <li><a href="#por-qué-no-usamos-mse" id="toc-por-qué-no-usamos-mse" class="nav-link" data-scroll-target="#por-qué-no-usamos-mse">Por qué no usamos MSE</a></li>
   <li><a href="#gradiente-de-la-pérdida-logística" id="toc-gradiente-de-la-pérdida-logística" class="nav-link" data-scroll-target="#gradiente-de-la-pérdida-logística">Gradiente de la pérdida logística</a></li>
+  <li><a href="#hessiana-convexidad-y-existencia-de-la-solución" id="toc-hessiana-convexidad-y-existencia-de-la-solución" class="nav-link" data-scroll-target="#hessiana-convexidad-y-existencia-de-la-solución">Hessiana, convexidad y existencia de la solución</a></li>
+  <li><a href="#algoritmos-y-costo" id="toc-algoritmos-y-costo" class="nav-link" data-scroll-target="#algoritmos-y-costo">Algoritmos y costo</a></li>
   <li><a href="#de-probabilidades-a-clases" id="toc-de-probabilidades-a-clases" class="nav-link" data-scroll-target="#de-probabilidades-a-clases">De probabilidades a clases</a></li>
   <li><a href="#matriz-de-confusión" id="toc-matriz-de-confusión" class="nav-link" data-scroll-target="#matriz-de-confusión">Matriz de confusión</a></li>
   <li><a href="#métricas" id="toc-métricas" class="nav-link" data-scroll-target="#métricas">Métricas</a></li>
@@ -272,6 +274,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -316,6 +319,8 @@ window.Quarto = {
 <li>calcular matriz de confusión, accuracy, precision, recall y F1;</li>
 <li>elegir un umbral con validación según costos de error;</li>
 <li>comparar un clasificador contra un baseline.</li>
+<li>obtener la log-loss a partir del modelo Bernoulli y justificar su convexidad;</li>
+<li>reconocer separabilidad, regularización y costo computacional como parte del análisis del algoritmo.</li>
 </ol>
 <p>La regresión logística se llama “regresión”, pero se usa para clasificación. La cantidad poblacional de interés es:</p>
 <p><span class="math display">\[
@@ -539,6 +544,39 @@ Para regresión logística binaria con log-loss, el gradiente respecto a <code>t
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> logistic_gradient(X, y, theta):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> sigmoid(X <span class="op">@</span> theta)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (X.T <span class="op">@</span> (p <span class="op">-</span> y)) <span class="op">/</span> X.shape[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="hessiana-convexidad-y-existencia-de-la-solución" class="level2">
+<h2 class="anchored" data-anchor-id="hessiana-convexidad-y-existencia-de-la-solución">Hessiana, convexidad y existencia de la solución</h2>
+<p>La derivada anterior permite estudiar la geometría del objetivo. Sea <span class="math inline">\(W(\theta)\)</span> la matriz diagonal con entradas</p>
+<p><span class="math display">\[
+W_{ii}=\widehat p_i(1-\widehat p_i).
+\]</span></p>
+<p>Al derivar de nuevo,</p>
+<p><span class="math display">\[
+\nabla^2J(\theta)=\frac1mX^\top W(\theta)X.
+\]</span></p>
+<p>Para cualquier vector <span class="math inline">\(v\)</span>,</p>
+<p><span class="math display">\[
+v^\top\nabla^2J(\theta)v
+=\frac1m(Xv)^\top W(\theta)(Xv)
+=\frac1m\sum_{i=1}^m
+\widehat p_i(1-\widehat p_i)(x_i^\top v)^2\geq 0.
+\]</span></p>
+<p>La log-loss logística es, por tanto, convexa. No tiene mínimos locales malos. La convexidad no asegura, sin embargo, que exista un minimizador finito. Si los datos son linealmente separables, puede haber una dirección que empuje las probabilidades de todas las clases hacia 0 o 1 mientras la pérdida se acerca a cero y <span class="math inline">\(\|\theta\|\)</span> crece sin cota.</p>
+<p>Añadir una penalización L2 produce</p>
+<p><span class="math display">\[
+J_\lambda(\theta)=J(\theta)+\frac\lambda2\|\theta_{1:p}\|_2^2.
+\]</span></p>
+<p>Además de controlar variación, esta penalización evita el crecimiento indefinido de los coeficientes en las direcciones penalizadas. El intercepto suele quedar fuera de la penalización y las variables deben escalarse antes de comparar magnitudes.</p>
+<div class="proposicion">
+<p><strong>Convexidad de la pérdida logística.</strong> La log-loss empírica de regresión logística es convexa porque su Hessiana tiene la forma <span class="math inline">\(X^\top W X/m\)</span> con <span class="math inline">\(W\succeq0\)</span>. Es estrictamente convexa si no quedan direcciones no identificadas por <span class="math inline">\(X\)</span> y los pesos son positivos, pero la separabilidad puede impedir que el ínfimo se alcance en un parámetro finito.</p>
+</div>
+</section>
+<section id="algoritmos-y-costo" class="level2">
+<h2 class="anchored" data-anchor-id="algoritmos-y-costo">Algoritmos y costo</h2>
+<p>Un paso de gradiente calcula logits, probabilidades y <span class="math inline">\(X^\top(\widehat p-y)\)</span>; su costo es <span class="math inline">\(O(mp)\)</span> y necesita <span class="math inline">\(O(m+p)\)</span> memoria auxiliar. El método de Newton usa además la Hessiana: formarla cuesta <span class="math inline">\(O(mp^2)\)</span> y resolver el sistema cuesta <span class="math inline">\(O(p^3)\)</span>. Newton puede requerir menos iteraciones, pero resulta poco atractivo cuando <span class="math inline">\(p\)</span> es grande.</p>
+<p>Las bibliotecas suelen usar variantes de Newton, quasi-Newton, gradiente o descenso por coordenadas según la penalización y el tamaño. «Ajustar regresión logística» no identifica un único algoritmo. Lo que permanece fijo es el objetivo; el solver determina cómo se aproxima su minimizador y qué criterio de parada se usa.</p>
+<p>La evaluación debe incluir dos comprobaciones distintas: convergencia del solver y desempeño fuera del ajuste. Un solver puede converger con precisión a un modelo mal especificado; una buena métrica de validación tampoco demuestra que el solver haya resuelto el objetivo con la tolerancia declarada.</p>
 </section>
 <section id="de-probabilidades-a-clases" class="level2">
 <h2 class="anchored" data-anchor-id="de-probabilidades-a-clases">De probabilidades a clases</h2>
@@ -857,9 +895,18 @@ Figura&nbsp;5.2: Selección de métricas: el costo relativo de falsos positivos 
 <li>Si dos modelos tienen F1 similar, pero uno tiene mejor calibración, ¿en qué situación preferirías el calibrado?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="19" type="1">
+<li>Deriva la Hessiana <span class="math inline">\(X^\top W X/m\)</span> y demuestra que es semidefinida positiva.</li>
+<li>Construye un dataset linealmente separable y explica por qué la log-loss puede disminuir mientras la norma de los coeficientes crece.</li>
+<li>Compara el costo de un paso de gradiente con el de un paso de Newton para <span class="math inline">\(m\)</span> observaciones y <span class="math inline">\(p\)</span> variables.</li>
+<li>Para costos <span class="math inline">\(C_{FP}=2\)</span> y <span class="math inline">\(C_{FN}=8\)</span>, deriva el umbral de Bayes suponiendo probabilidades calibradas. Explica por qué debe comprobarse con validación.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="19" type="1">
+<ol start="23" type="1">
 <li>Entrena o simula un clasificador binario con probabilidades. Evalúa tres umbrales, reporta matriz de confusión, precision, recall y F1, y recomienda un umbral para un contexto donde el falso negativo sea más costoso que el falso positivo.</li>
 </ol>
 

@@ -94,7 +94,7 @@
     "href": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
     "title": "Métricas y particiones",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.\ninterpretar métricas como estimadores de probabilidades poblacionales;\ndeducir un umbral de decisión a partir de costos de error y reconocer cuándo esa deducción no basta.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -114,7 +114,7 @@
     "href": "capitulo01_metricas_particiones.html#matriz-de-confusión-poblacional-y-empírica",
     "title": "Métricas y particiones",
     "section": "Matriz de confusión poblacional y empírica",
-    "text": "Matriz de confusión poblacional y empírica\nCada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo\n\\[\n\\mathbb P(\\widehat Y=1,Y=0)\n\\quad\\text{mediante}\\quad\n\\frac{\\#\\{i:\\widehat y_i=1,y_i=0\\}}{n}.\n\\]\nPrecision y recall son probabilidades condicionales estimadas:\n\\[\n\\operatorname{precision}=\\mathbb P(Y=1\\mid\\widehat Y=1),\n\\qquad\n\\operatorname{recall}=\\mathbb P(\\widehat Y=1\\mid Y=1).\n\\]\nEl denominador efectivo de cada métrica puede ser mucho menor que \\(n\\), por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
+    "text": "Matriz de confusión poblacional y empírica\nCada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo\n\\[\n\\mathbb P(\\widehat Y=1,Y=0)\n\\quad\\text{mediante}\\quad\n\\frac{\\#\\{i:\\widehat y_i=1,y_i=0\\}}{n}.\n\\]\nPrecision y recall son probabilidades condicionales estimadas:\n\\[\n\\operatorname{precision}=\\mathbb P(Y=1\\mid\\widehat Y=1),\n\\qquad\n\\operatorname{recall}=\\mathbb P(\\widehat Y=1\\mid Y=1).\n\\]\nEl denominador efectivo de cada métrica puede ser mucho menor que \\(n\\), por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.\nLas definiciones poblacionales requieren denominadores positivos:\n\\[\n\\operatorname{precision}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(\\widehat Y=1)},\n\\qquad\n\\operatorname{recall}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(Y=1)}.\n\\]\nSi el clasificador no predice positivos, precision no está definida; asignarle cero es una convención de software, no una identidad matemática. Si el conjunto evaluado no contiene positivos, recall tampoco está definido para esa muestra. Un reporte debe mostrar conteos para que el lector pueda detectar estos casos.\nPara recall, el tamaño efectivo es \\(TP+FN\\), es decir, el número de positivos observados. Bajo una aproximación binomial condicional, su error estándar es\n\\[\n\\widehat{\\operatorname{se}}(\\widehat{\\operatorname{recall}})\n\\approx\n\\sqrt{\\frac{\\widehat r(1-\\widehat r)}{TP+FN}}.\n\\]\nLa fórmula análoga para precision usa \\(TP+FP\\). Estas aproximaciones requieren casos independientes y un procedimiento fijado; no incluyen la incertidumbre por haber escogido modelo y umbral con los mismos datos.\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -165,6 +165,16 @@
     "title": "Métricas y particiones",
     "section": "Derivación guiada: F1 como equilibrio operativo",
     "text": "Derivación guiada: F1 como equilibrio operativo\nPrecision y recall miden errores distintos:\n\\[\n\\operatorname{precision}=\\frac{TP}{TP+FP},\n\\qquad\n\\operatorname{recall}=\\frac{TP}{TP+FN}.\n\\]\nF1 es la media armónica de ambas:\n\\[\nF1=\n2\\frac{\\operatorname{precision}\\cdot\\operatorname{recall}}\n{\\operatorname{precision}+\\operatorname{recall}}.\n\\]\nLa media armónica penaliza valores muy bajos. Por eso un modelo con precision alta pero recall casi cero no obtiene buen F1. Esto es útil cuando ambos tipos de desempeño importan, pero no reemplaza una función de costo si los errores tienen costos muy asimétricos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#de-costos-a-una-regla-de-decisión",
+    "href": "capitulo01_metricas_particiones.html#de-costos-a-una-regla-de-decisión",
+    "title": "Métricas y particiones",
+    "section": "De costos a una regla de decisión",
+    "text": "De costos a una regla de decisión\nSupongamos que el modelo entrega la probabilidad condicional bien calibrada \\(\\eta(x)=\\mathbb P(Y=1\\mid X=x)\\). Si predecir 1 cuando \\(Y=0\\) cuesta \\(C_{FP}\\) y predecir 0 cuando \\(Y=1\\) cuesta \\(C_{FN}\\), los costos condicionales son\n\\[\n\\mathcal C(1\\mid x)=C_{FP}[1-\\eta(x)],\n\\qquad\n\\mathcal C(0\\mid x)=C_{FN}\\eta(x).\n\\]\nElegimos la clase 1 cuando \\(\\mathcal C(1\\mid x)\\leq\\mathcal C(0\\mid x)\\). Al reordenar,\n\\[\n\\eta(x)\\geq\n\\frac{C_{FP}}{C_{FP}+C_{FN}}.\n\\]\nCon costos iguales se obtiene el umbral \\(1/2\\). Si los falsos negativos son más costosos, el umbral disminuye. La deducción muestra que el umbral pertenece a la decisión, no al ajuste de la distribución predictiva.\nEn datos reales usamos \\(\\widehat p(x)\\), no \\(\\eta(x)\\) conocida. El umbral teórico solo es aplicable si las probabilidades están suficientemente calibradas, los costos representan el uso y no hay restricciones adicionales de capacidad. Por eso se comprueba y, cuando hace falta, se selecciona con validación; después se fija antes de evaluar test.\n\nRegla de Bayes con dos costos. Bajo probabilidades condicionales conocidas y costos constantes \\(C_{FP},C_{FN}&gt;0\\), la regla que minimiza el costo esperado condicional predice 1 exactamente cuando \\(\\eta(x)\\geq C_{FP}/(C_{FP}+C_{FN})\\).",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -304,7 +314,7 @@
     "href": "capitulo01_metricas_particiones.html#ejercicios",
     "title": "Métricas y particiones",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nPara un problema de fraude, explique cuándo preferiría recall y cuándo precision.\n¿Por qué accuracy puede ser una mala métrica en clases desbalanceadas?\n\n\n\nProblemas cuantitativos\n\nDiseñe una partición train/dev/test para un dataset de 2000 observaciones con clases desbalanceadas.\nSi una clase positiva representa 8% de los datos, estime cuántos positivos deberían aparecer en cada partición de una división 60/20/20 estratificada.\n\n\n\nPráctica computacional\n\nImplemente una partición estratificada con semilla fija.\nConstruya un Pipeline que escale variables numéricas y ajuste un modelo.\n\n\n\nInterpretación y pensamiento crítico\n\nIdentifique el leakage: se imputa la media de cada variable usando todo el dataset antes de train_test_split.\nEscriba una regla concreta para decidir cuándo se permite tocar el conjunto de test.\n\n\n\nProyecto de cierre\n\nPara su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nPara un problema de fraude, explique cuándo preferiría recall y cuándo precision.\n¿Por qué accuracy puede ser una mala métrica en clases desbalanceadas?\n\n\n\nProblemas cuantitativos\n\nDiseñe una partición train/dev/test para un dataset de 2000 observaciones con clases desbalanceadas.\nSi una clase positiva representa 8% de los datos, estime cuántos positivos deberían aparecer en cada partición de una división 60/20/20 estratificada.\n\n\n\nPráctica computacional\n\nImplemente una partición estratificada con semilla fija.\nConstruya un Pipeline que escale variables numéricas y ajuste un modelo.\n\n\n\nInterpretación y pensamiento crítico\n\nIdentifique el leakage: se imputa la media de cada variable usando todo el dataset antes de train_test_split.\nEscriba una regla concreta para decidir cuándo se permite tocar el conjunto de test.\n\n\n\nProfundización matemática y estadística\n\nDerive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\) a partir de los dos costos condicionales.\nCompare el error estándar aproximado de recall 0.80 con 10 y con 500 positivos.\nConstruya un caso donde precision no esté definida y distinga la definición matemática de la convención de una biblioteca.\nExplique por qué seleccionar el umbral con test invalida la interpretación de su métrica final, aunque el modelo no se vuelva a entrenar.\n\n\n\nProyecto de cierre\n\nPara su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -334,7 +344,7 @@
     "href": "capitulo02_validacion_curvas.html#objetivos-del-capítulo",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nexplicar qué estima cross-validation;\nreportar media y variabilidad de una métrica;\nusar grid search sin contaminar test;\nleer learning curves y validation curves;\ndistinguir problemas de sesgo, varianza y ruido.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nexplicar qué estima cross-validation;\nreportar media y variabilidad de una métrica;\nusar grid search sin contaminar test;\nleer learning curves y validation curves;\ndistinguir problemas de sesgo, varianza y ruido.\ndistinguir validación para selección de validación para estimación;\ndiseñar validación anidada y calcular su costo en número de ajustes.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -405,6 +415,26 @@
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Grid search",
     "text": "Grid search\nPara seleccionar hiperparámetros:\nGridSearchCV(\n    estimator=pipeline,\n    param_grid=grid,\n    scoring=\"f1\",\n    cv=5\n)\nEl grid search debe ocurrir dentro de entrenamiento/desarrollo, no sobre test.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#selección-y-validación-anidada",
+    "href": "capitulo02_validacion_curvas.html#selección-y-validación-anidada",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Selección y validación anidada",
+    "text": "Selección y validación anidada\nSupongamos que comparamos \\(M\\) configuraciones y escogemos\n\\[\n\\widehat\\lambda\n=\\arg\\min_{\\lambda\\in\\Lambda}\n\\widehat R_{\\mathrm{CV}}(A_\\lambda).\n\\]\nEl mismo ruido que hace fluctuar los puntajes también influye en qué configuración gana. El mínimo observado tiende a ser optimista porque se escogió después de mirar \\(M\\) estimaciones. Aumentar la grilla puede aumentar este sesgo de selección aunque ninguna configuración nueva sea realmente mejor.\nLa validación cruzada anidada separa ambos papeles:\npara cada fold exterior:\n    reservar el fold exterior para evaluación\n    dentro de los datos restantes:\n        comparar hiperparámetros con folds interiores\n        escoger una configuración\n        reajustar con todo el train exterior\n    evaluar una vez en el fold exterior\nagregar los puntajes exteriores\nLos folds exteriores estiman el desempeño del procedimiento de selección, no de una configuración elegida de antemano. Después de cerrar el análisis, se selecciona una configuración con todos los datos de desarrollo, se reajusta y se usa el test externo una sola vez si existe.\n\nCuándo usarla. En el curso, un train/dev/test bien definido suele ser suficiente para laboratorios y proyecto. La CV anidada resulta apropiada cuando el dataset es pequeño, se comparan muchas configuraciones y se necesita una estimación menos optimista del procedimiento de selección.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#costo-computacional-de-validar",
+    "href": "capitulo02_validacion_curvas.html#costo-computacional-de-validar",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Costo computacional de validar",
+    "text": "Costo computacional de validar\nSi una búsqueda evalúa \\(M\\) configuraciones con \\(k\\) folds, requiere \\(Mk\\) ajustes, más el ajuste final. Con validación anidada de \\(r\\) folds exteriores y \\(k\\) interiores, la búsqueda requiere aproximadamente\n\\[\nr(Mk+1)\n\\]\najustes, antes del modelo final. El costo real depende de que cada fold usa menos datos y de si la biblioteca reutiliza cálculos, pero el orden explica por qué una grilla indiscriminada puede consumir el presupuesto sin aportar comprensión.\nLa comparación debe fijar también el presupuesto. Si una configuración recibe más épocas, más semillas o una grilla más favorable, el resultado mezcla calidad del modelo con esfuerzo de búsqueda.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -544,7 +574,7 @@
     "href": "capitulo02_validacion_curvas.html#ejercicios",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nUna learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.\n¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?\n\n\n\nProblemas cuantitativos\n\nCompare dos modelos con medias CV similares pero desviaciones estándar diferentes. ¿Cuál elegiría si la estabilidad es prioritaria?\nSi se evalúan 4 valores de C, 3 valores de penalty y 5 folds, ¿cuántos ajustes se entrenan?\n\n\n\nPráctica computacional\n\nExplique por qué GridSearchCV debe recibir un Pipeline completo si hay escalamiento.\nGenere una tabla con media y desviación estándar de CV para al menos tres configuraciones.\n\n\n\nInterpretación y pensamiento crítico\n\nUna validation curve mejora hasta cierto punto y luego cae. Explique qué sugiere sobre el hiperparámetro.\n¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?\n\n\n\nProyecto de cierre\n\nConstruya una learning curve o validation curve para un modelo de su proyecto y escriba un diagnóstico de sesgo/varianza/ruido con una acción siguiente.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nUna learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.\n¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?\n\n\n\nProblemas cuantitativos\n\nCompare dos modelos con medias CV similares pero desviaciones estándar diferentes. ¿Cuál elegiría si la estabilidad es prioritaria?\nSi se evalúan 4 valores de C, 3 valores de penalty y 5 folds, ¿cuántos ajustes se entrenan?\n\n\n\nPráctica computacional\n\nExplique por qué GridSearchCV debe recibir un Pipeline completo si hay escalamiento.\nGenere una tabla con media y desviación estándar de CV para al menos tres configuraciones.\n\n\n\nInterpretación y pensamiento crítico\n\nUna validation curve mejora hasta cierto punto y luego cae. Explique qué sugiere sobre el hiperparámetro.\n¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?\n\n\n\nProfundización matemática y estadística\n\nExplique por qué el mínimo entre muchas estimaciones ruidosas de CV tiende a ser optimista para la configuración seleccionada.\nDiseñe una validación anidada con 5 folds exteriores, 4 interiores y 12 configuraciones. Calcule el número aproximado de ajustes.\nDistinga el riesgo de una configuración fija del riesgo del procedimiento que escoge una configuración con los datos.\nExplique por qué dividir la desviación entre folds por \\(\\sqrt{k}\\) no produce automáticamente un error estándar válido.\n\n\n\nProyecto de cierre\n\nConstruya una learning curve o validation curve para un modelo de su proyecto y escriba un diagnóstico de sesgo/varianza/ruido con una acción siguiente.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -574,7 +604,7 @@
     "href": "capitulo03_error_analysis_data_mismatch.html#objetivos-del-capítulo",
     "title": "Error analysis y data mismatch",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nseparar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;\ndefinir slices relevantes para un proyecto;\ndetectar señales de data mismatch;\nescribir una recomendación con resultado, diagnóstico y acción;\nreconocer cuándo una métrica agregada oculta daño o riesgo.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nseparar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;\ndefinir slices relevantes para un proyecto;\ndetectar señales de data mismatch;\nescribir una recomendación con resultado, diagnóstico y acción;\nreconocer cuándo una métrica agregada oculta daño o riesgo.\ncuantificar la variación de una métrica por slice usando su denominador efectivo;\nseparar slices predefinidos de hallazgos exploratorios seleccionados después de mirar los errores.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]
@@ -615,6 +645,16 @@
     "title": "Error analysis y data mismatch",
     "section": "Slices",
     "text": "Slices\nUn slice es un subconjunto interpretable de datos:\n\npacientes mayores de cierta edad;\nobservaciones con medición faltante;\nimágenes de baja calidad;\ntransacciones de monto alto;\nejemplos de una fuente específica.\n\nEl objetivo es detectar fallas ocultas por el promedio.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-slices",
+    "href": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-slices",
+    "title": "Error analysis y data mismatch",
+    "section": "Incertidumbre y búsqueda entre slices",
+    "text": "Incertidumbre y búsqueda entre slices\nSea \\(n_S\\) el número de observaciones de un slice. Para una pérdida promedio,\n\\[\n\\widehat R_S=\\frac1{n_S}\\sum_{i:Z_i\\in S}L_i,\n\\qquad\n\\widehat{\\operatorname{se}}(\\widehat R_S)\n=\\frac{s_S}{\\sqrt{n_S}}.\n\\]\nSi \\(L_i\\) es el indicador de error, una aproximación binomial usa\n\\[\n\\sqrt{\\frac{\\widehat e_S(1-\\widehat e_S)}{n_S}}.\n\\]\nPara recall, el denominador no es \\(n_S\\), sino el número de positivos del slice; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.\nHay además un problema de selección. Si se inspeccionan cien slices y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los slices ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.\nNo imponemos una prueba de hipótesis automática para cada slice. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra baseline y etiqueta clara de análisis confirmatorio o exploratorio.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]
@@ -764,7 +804,7 @@
     "href": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
     "title": "Error analysis y data mismatch",
     "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nProponga tres slices relevantes para un proyecto de predicción de abandono de clientes.\n¿Por qué un F1 global puede ocultar una falla grave?\n\n\n\nProblemas cuantitativos\n\nDada una tabla de métricas por slice, identifique el slice crítico y calcule la brecha contra el desempeño global.\nSi dev tiene 30% de clase positiva y test 12%, ¿qué sospecha antes de ajustar hiperparámetros?\n\n\n\nPráctica computacional\n\nEscriba una función que calcule una métrica por grupo.\nCompare distribución de una variable clave entre dev y test con una tabla o gráfico.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué resultados sugerirían data mismatch entre dev y test?\nEscriba una recomendación técnica con la estructura resultado-diagnóstico-acción.\n\n\n\nProyecto de cierre\n\nPara su proyecto, entregue una tabla de error analysis con al menos tres slices, diagnóstico por slice y una acción concreta.",
+    "text": "Ejercicios\n\nPreguntas conceptuales\n\nProponga tres slices relevantes para un proyecto de predicción de abandono de clientes.\n¿Por qué un F1 global puede ocultar una falla grave?\n\n\n\nProblemas cuantitativos\n\nDada una tabla de métricas por slice, identifique el slice crítico y calcule la brecha contra el desempeño global.\nSi dev tiene 30% de clase positiva y test 12%, ¿qué sospecha antes de ajustar hiperparámetros?\n\n\n\nPráctica computacional\n\nEscriba una función que calcule una métrica por grupo.\nCompare distribución de una variable clave entre dev y test con una tabla o gráfico.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué resultados sugerirían data mismatch entre dev y test?\nEscriba una recomendación técnica con la estructura resultado-diagnóstico-acción.\n\n\n\nProfundización matemática y estadística\n\nPara un slice con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.\nExplique por qué el denominador efectivo de recall por slice es el número de positivos y no el tamaño total del slice.\nSe inspeccionaron 80 slices y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.\nIndique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.\n\n\n\nProyecto de cierre\n\nPara su proyecto, entregue una tabla de error analysis con al menos tres slices, diagnóstico por slice y una acción concreta.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
     ]
@@ -824,7 +864,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
     "title": "Ejercicios integradores: estrategia de machine learning",
     "section": "Bloque A: métricas",
-    "text": "Bloque A: métricas\n\nA1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.",
+    "text": "Bloque A: métricas\n\nA1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.\n\n\nA4. Derive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\). Indique qué supuestos sobre calibración y costos necesita para usarlo con un score estimado.\n\n\nA5. Dos clasificadores tienen recall 0.80, uno con 12 positivos y otro con 480. Calcule errores estándar aproximados y discuta qué comparación puede sostenerse.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
     ]
@@ -834,7 +874,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-b-particiones-y-leakage",
     "title": "Ejercicios integradores: estrategia de machine learning",
     "section": "Bloque B: particiones y leakage",
-    "text": "Bloque B: particiones y leakage\n\nB1. Explique por qué escalar antes de partir datos puede contaminar validación.\n\n\nB2. Diseñe una partición para datos temporales. ¿Por qué shuffle=True puede ser inadecuado?\n\n\nB3. Identifique dos formas de leakage en proyectos estudiantiles.",
+    "text": "Bloque B: particiones y leakage\n\nB1. Explique por qué escalar antes de partir datos puede contaminar validación.\n\n\nB2. Diseñe una partición para datos temporales. ¿Por qué shuffle=True puede ser inadecuado?\n\n\nB3. Identifique dos formas de leakage en proyectos estudiantiles.\n\n\nB4. Explique por qué elegir un umbral o una figura después de mirar test es selección, aunque los parámetros del modelo permanezcan fijos.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
     ]
@@ -844,7 +884,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-c-validación-y-curvas",
     "title": "Ejercicios integradores: estrategia de machine learning",
     "section": "Bloque C: validación y curvas",
-    "text": "Bloque C: validación y curvas\n\nC1. Interprete una curva con train alto y validation bajo.\n\n\nC2. Explique cuándo más datos probablemente ayudarían.\n\n\nC3. ¿Qué información agrega cross-validation frente a un único split?",
+    "text": "Bloque C: validación y curvas\n\nC1. Interprete una curva con train alto y validation bajo.\n\n\nC2. Explique cuándo más datos probablemente ayudarían.\n\n\nC3. ¿Qué información agrega cross-validation frente a un único split?\n\n\nC4. Diseñe una validación cruzada anidada para 20 configuraciones, 5 folds interiores y 4 exteriores. Calcule el número aproximado de ajustes.\n\n\nC5. Explique por qué la mejor de muchas estimaciones de CV suele ser optimista para el candidato seleccionado.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
     ]
@@ -854,7 +894,7 @@
     "href": "capitulo04_ejercicios_integradores.html#bloque-d-error-analysis",
     "title": "Ejercicios integradores: estrategia de machine learning",
     "section": "Bloque D: error analysis",
-    "text": "Bloque D: error analysis\n\nD1. Proponga slices para analizar errores en clasificación de dígitos escritos a mano.\n\n\nD2. Escriba una recomendación técnica basada en un slice donde el F1 cae de 0.80 a 0.55.\n\n\nD3. Explique por qué una métrica agregada no reemplaza inspección de errores.",
+    "text": "Bloque D: error analysis\n\nD1. Proponga slices para analizar errores en clasificación de dígitos escritos a mano.\n\n\nD2. Escriba una recomendación técnica basada en un slice donde el F1 cae de 0.80 a 0.55.\n\n\nD3. Explique por qué una métrica agregada no reemplaza inspección de errores.\n\n\nD4. Se exploraron cincuenta slices y se reportó el de peor resultado. Diseñe un protocolo para distinguir hallazgo exploratorio de confirmación y especifique qué denominadores publicaría.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
     ]
