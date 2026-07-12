@@ -1,0 +1,2100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
+
+<title>Condicionamiento, estimación, riesgo e incertidumbre – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../partes/parte02_regresion.html" rel="next">
+<link href="../capitulos/00b-incertidumbre-datos.html" rel="prev">
+<link href="../favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
+<meta name="citation_author" content="Galindo, Cesar">
+<meta name="citation_publication_date" content="2026-07-07">
+<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_language" content="es">
+<meta name="citation_publisher" content="Universidad de los Andes">
+<meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta name="DC.creator" content="César Galindo">
+<meta name="DC.language" content="es">
+<meta name="DC.date" content="2026-07-07">
+<meta name="DC.type" content="Textbook">
+<meta name="DC.format" content="text/html, application/pdf, text/csv">
+<meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
+<meta property="og:type" content="book">
+<meta property="og:title" content="Condicionamiento, estimación, riesgo e incertidumbre – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
+<meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Book",
+  "name": "Matemáticas y Algoritmos en Ciencia de Datos Aplicada",
+  "alternateName": "Libro del curso MATE-2105",
+  "author": {
+    "@type": "Person",
+    "name": "César Galindo"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Universidad de los Andes"
+  },
+  "datePublished": "2026-07-07",
+  "inLanguage": "es",
+  "url": "https://cesarneyit-code.github.io/mate2105/libro/",
+  "encodingFormat": [
+    "text/html",
+    "application/pdf",
+    "text/csv"
+  ],
+  "educationalLevel": "undergraduate",
+  "learningResourceType": "textbook",
+  "about": [
+    "ciencia de datos",
+    "matemáticas aplicadas",
+    "machine learning",
+    "optimización",
+    "reproducibilidad"
+  ],
+  "isAccessibleForFree": true,
+  "license": "https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html",
+  "citation": "Galindo, C. (2026). Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105. Universidad de los Andes."
+}
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Matemáticas y Algoritmos en Ciencia de Datos Aplicada</a>
+        <div class="sidebar-tools-main">
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Alternar modo lector">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container">
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Orientación para el lector</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte I: Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Observaciones, variables y preguntas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte II: Regresión, optimización y clasificación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte III: Redes neuronales</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/07-backpropagation.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Backpropagation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/08-diagnostico-regularizacion-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Activaciones, inicialización, regularización y diagnóstico</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/09-optimizadores-pytorch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Optimizadores y PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/10-ejercicios-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte IV: Estrategia de machine learning</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/12-validacion-curvas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación cruzada y curvas de aprendizaje</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/13-error-analysis-data-mismatch.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Error analysis y data mismatch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/14-ejercicios-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte V: Aprendizaje no supervisado</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/16-kmeans-clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">K-Means y clustering</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/17-recomendacion-latente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recomendación básica y estructura latente</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/18-ejercicios-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/20-reproducibilidad-tracking.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Reproducibilidad y tracking</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/21-comunicacion-tecnica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Comunicación técnica</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/22-entrega-defensa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Entrega final y defensa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../capitulos/23-ejercicios-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Herramientas de estudio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Apéndices de consulta</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/indice-tematico.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice temático</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/formularios-respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formularios y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/apendice01-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 1: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/apendice02-redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 2: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/apendice03-estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 3: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/apendice04-no-supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 4: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Información editorial y publicación</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a>
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container">
+  <a href="../decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+
+  <ul>
+  <li><a href="#probabilidad-condicional" id="toc-probabilidad-condicional" class="nav-link active" data-scroll-target="#probabilidad-condicional">Probabilidad condicional</a>
+  <ul class="collapse">
+  <li><a href="#fórmula-de-bayes" id="toc-fórmula-de-bayes" class="nav-link" data-scroll-target="#fórmula-de-bayes">Fórmula de Bayes</a></li>
+  <li><a href="#independencia-vista-mediante-condicionamiento" id="toc-independencia-vista-mediante-condicionamiento" class="nav-link" data-scroll-target="#independencia-vista-mediante-condicionamiento">Independencia vista mediante condicionamiento</a></li>
+  </ul></li>
+  <li><a href="#distribuciones-condicionales" id="toc-distribuciones-condicionales" class="nav-link" data-scroll-target="#distribuciones-condicionales">Distribuciones condicionales</a></li>
+  <li><a href="#esperanza-condicional" id="toc-esperanza-condicional" class="nav-link" data-scroll-target="#esperanza-condicional">Esperanza condicional</a>
+  <ul class="collapse">
+  <li><a href="#propiedades-fundamentales" id="toc-propiedades-fundamentales" class="nav-link" data-scroll-target="#propiedades-fundamentales">Propiedades fundamentales</a></li>
+  </ul></li>
+  <li><a href="#objetivos-poblacionales-en-aprendizaje-supervisado" id="toc-objetivos-poblacionales-en-aprendizaje-supervisado" class="nav-link" data-scroll-target="#objetivos-poblacionales-en-aprendizaje-supervisado">Objetivos poblacionales en aprendizaje supervisado</a>
+  <ul class="collapse">
+  <li><a href="#pérdida-cuadrática-y-media-condicional" id="toc-pérdida-cuadrática-y-media-condicional" class="nav-link" data-scroll-target="#pérdida-cuadrática-y-media-condicional">Pérdida cuadrática y media condicional</a></li>
+  <li><a href="#clasificación-binaria-y-probabilidad-condicional" id="toc-clasificación-binaria-y-probabilidad-condicional" class="nav-link" data-scroll-target="#clasificación-binaria-y-probabilidad-condicional">Clasificación binaria y probabilidad condicional</a></li>
+  <li><a href="#de-probabilidad-a-decisión" id="toc-de-probabilidad-a-decisión" class="nav-link" data-scroll-target="#de-probabilidad-a-decisión">De probabilidad a decisión</a></li>
+  </ul></li>
+  <li><a href="#ruido-residual-y-error-de-medición" id="toc-ruido-residual-y-error-de-medición" class="nav-link" data-scroll-target="#ruido-residual-y-error-de-medición">Ruido, residual y error de medición</a></li>
+  <li><a href="#estimandos-estimadores-y-estimaciones" id="toc-estimandos-estimadores-y-estimaciones" class="nav-link" data-scroll-target="#estimandos-estimadores-y-estimaciones">Estimandos, estimadores y estimaciones</a>
+  <ul class="collapse">
+  <li><a href="#sesgo" id="toc-sesgo" class="nav-link" data-scroll-target="#sesgo">Sesgo</a></li>
+  <li><a href="#varianza-y-error-cuadrático-medio" id="toc-varianza-y-error-cuadrático-medio" class="nav-link" data-scroll-target="#varianza-y-error-cuadrático-medio">Varianza y error cuadrático medio</a></li>
+  <li><a href="#consistencia" id="toc-consistencia" class="nav-link" data-scroll-target="#consistencia">Consistencia</a></li>
+  <li><a href="#error-estándar" id="toc-error-estándar" class="nav-link" data-scroll-target="#error-estándar">Error estándar</a></li>
+  </ul></li>
+  <li><a href="#pérdida-y-riesgo-esperado" id="toc-pérdida-y-riesgo-esperado" class="nav-link" data-scroll-target="#pérdida-y-riesgo-esperado">Pérdida y riesgo esperado</a>
+  <ul class="collapse">
+  <li><a href="#riesgo-empírico" id="toc-riesgo-empírico" class="nav-link" data-scroll-target="#riesgo-empírico">Riesgo empírico</a></li>
+  <li><a href="#minimización-empírica-del-riesgo" id="toc-minimización-empírica-del-riesgo" class="nav-link" data-scroll-target="#minimización-empírica-del-riesgo">Minimización empírica del riesgo</a></li>
+  <li><a href="#baselines" id="toc-baselines" class="nav-link" data-scroll-target="#baselines">Baselines</a></li>
+  <li><a href="#riesgo-del-modelo-ajustado-y-riesgo-del-algoritmo" id="toc-riesgo-del-modelo-ajustado-y-riesgo-del-algoritmo" class="nav-link" data-scroll-target="#riesgo-del-modelo-ajustado-y-riesgo-del-algoritmo">Riesgo del modelo ajustado y riesgo del algoritmo</a></li>
+  </ul></li>
+  <li><a href="#entrenamiento-validación-y-prueba" id="toc-entrenamiento-validación-y-prueba" class="nav-link" data-scroll-target="#entrenamiento-validación-y-prueba">Entrenamiento, validación y prueba</a>
+  <ul class="collapse">
+  <li><a href="#qué-debe-ajustarse-dentro-de-entrenamiento" id="toc-qué-debe-ajustarse-dentro-de-entrenamiento" class="nav-link" data-scroll-target="#qué-debe-ajustarse-dentro-de-entrenamiento">Qué debe ajustarse dentro de entrenamiento</a></li>
+  <li><a href="#el-conjunto-de-prueba-se-utiliza-una-vez" id="toc-el-conjunto-de-prueba-se-utiliza-una-vez" class="nav-link" data-scroll-target="#el-conjunto-de-prueba-se-utiliza-una-vez">El conjunto de prueba se utiliza una vez</a></li>
+  </ul></li>
+  <li><a href="#incertidumbre-de-una-métrica" id="toc-incertidumbre-de-una-métrica" class="nav-link" data-scroll-target="#incertidumbre-de-una-métrica">Incertidumbre de una métrica</a>
+  <ul class="collapse">
+  <li><a href="#aproximación-normal-e-intervalos" id="toc-aproximación-normal-e-intervalos" class="nav-link" data-scroll-target="#aproximación-normal-e-intervalos">Aproximación normal e intervalos</a></li>
+  <li><a href="#una-cota-para-pérdidas-acotadas" id="toc-una-cota-para-pérdidas-acotadas" class="nav-link" data-scroll-target="#una-cota-para-pérdidas-acotadas">Una cota para pérdidas acotadas</a></li>
+  <li><a href="#comparar-dos-modelos-en-los-mismos-casos" id="toc-comparar-dos-modelos-en-los-mismos-casos" class="nav-link" data-scroll-target="#comparar-dos-modelos-en-los-mismos-casos">Comparar dos modelos en los mismos casos</a></li>
+  </ul></li>
+  <li><a href="#bootstrap" id="toc-bootstrap" class="nav-link" data-scroll-target="#bootstrap">Bootstrap</a>
+  <ul class="collapse">
+  <li><a href="#qué-incertidumbre-se-quiere-medir" id="toc-qué-incertidumbre-se-quiere-medir" class="nav-link" data-scroll-target="#qué-incertidumbre-se-quiere-medir">¿Qué incertidumbre se quiere medir?</a></li>
+  <li><a href="#dependencia-y-unidad-de-remuestreo" id="toc-dependencia-y-unidad-de-remuestreo" class="nav-link" data-scroll-target="#dependencia-y-unidad-de-remuestreo">Dependencia y unidad de remuestreo</a></li>
+  </ul></li>
+  <li><a href="#cambio-de-distribución" id="toc-cambio-de-distribución" class="nav-link" data-scroll-target="#cambio-de-distribución">Cambio de distribución</a>
+  <ul class="collapse">
+  <li><a href="#cambio-de-covariables" id="toc-cambio-de-covariables" class="nav-link" data-scroll-target="#cambio-de-covariables">Cambio de covariables</a></li>
+  <li><a href="#cambio-de-prevalencia" id="toc-cambio-de-prevalencia" class="nav-link" data-scroll-target="#cambio-de-prevalencia">Cambio de prevalencia</a></li>
+  <li><a href="#cambio-conceptual" id="toc-cambio-conceptual" class="nav-link" data-scroll-target="#cambio-conceptual">Cambio conceptual</a></li>
+  <li><a href="#cambio-de-medición" id="toc-cambio-de-medición" class="nav-link" data-scroll-target="#cambio-de-medición">Cambio de medición</a></li>
+  </ul></li>
+  <li><a href="#ejemplo-completo-clasificación-de-vinos" id="toc-ejemplo-completo-clasificación-de-vinos" class="nav-link" data-scroll-target="#ejemplo-completo-clasificación-de-vinos">Ejemplo completo: clasificación de vinos</a>
+  <ul class="collapse">
+  <li><a href="#qué-se-estimó" id="toc-qué-se-estimó" class="nav-link" data-scroll-target="#qué-se-estimó">Qué se estimó</a></li>
+  </ul></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#comprensión-conceptual" id="toc-comprensión-conceptual" class="nav-link" data-scroll-target="#comprensión-conceptual">Comprensión conceptual</a></li>
+  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
+  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
+  <li><a href="#interpretación-y-formulación" id="toc-interpretación-y-formulación" class="nav-link" data-scroll-target="#interpretación-y-formulación">Interpretación y formulación</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></h1>
+<p class="subtitle lead">Qué puede aprenderse de una muestra</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+
+
+
+  </div>
+
+
+
+</header>
+
+
+<p>Los datos se utilizan para aprender cantidades que no aparecen directamente en una tabla: la respuesta media entre unidades con ciertas características, la probabilidad de una clase, el desempeño esperado de una regla de predicción o la variación que tendría una estimación bajo otra muestra. Estas cantidades se definen respecto a una distribución, mientras que los cálculos disponibles se realizan sobre una muestra particular.</p>
+<p>Este capítulo estudia el vínculo entre ambos niveles. El condicionamiento permite formular cómo cambia la distribución de una salida cuando se conocen las entradas. La teoría de estimación distingue la cantidad poblacional, el procedimiento que la aproxima y el valor obtenido. El riesgo esperado establece el objetivo de una regla de predicción, y la incertidumbre cuantifica cuánto puede variar la evidencia empírica utilizada para evaluarla.</p>
+<p>Al terminar el capítulo, el lector podrá:</p>
+<ol type="1">
+<li>calcular e interpretar probabilidades y distribuciones condicionales;</li>
+<li>utilizar esperanza condicional y sus propiedades fundamentales;</li>
+<li>explicar por qué la media condicional y la probabilidad condicional son objetivos naturales de regresión y clasificación;</li>
+<li>distinguir estimando, estimador, estimación y distribución muestral;</li>
+<li>analizar sesgo, varianza, error cuadrático medio y consistencia;</li>
+<li>separar riesgo esperado y riesgo empírico;</li>
+<li>explicar los papeles de entrenamiento, validación y prueba;</li>
+<li>estimar el error estándar de una media de pérdidas e interpretar un intervalo;</li>
+<li>decidir qué debe remuestrearse en un bootstrap;</li>
+<li>reconocer cuándo un cambio de distribución limita la evaluación.</li>
+</ol>
+<section id="probabilidad-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="probabilidad-condicional">Probabilidad condicional</h2>
+<p>La información modifica las probabilidades relevantes. Si <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son eventos con <span class="math inline">\(\mathbb P(B)&gt;0\)</span>, la probabilidad condicional de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es</p>
+<p><span class="math display">\[
+\mathbb P(A\mid B)
+=\frac{\mathbb P(A\cap B)}{\mathbb P(B)}.
+\]</span></p>
+<p>El numerador conserva los resultados en los que ocurren ambos eventos; el denominador renormaliza la probabilidad dentro del conjunto <span class="math inline">\(B\)</span>.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo 1: una tabla de contingencia.</strong> En una muestra de 200 solicitudes, 50 corresponden al grupo <span class="math inline">\(B\)</span> y 20 de esas 50 presentan el resultado <span class="math inline">\(A\)</span>. Las proporciones empíricas son</p>
+<p><span class="math display">\[
+\widehat P(B)=\frac{50}{200},
+\qquad
+\widehat P(A\cap B)=\frac{20}{200},
+\]</span></p>
+<p>de modo que</p>
+<p><span class="math display">\[
+\widehat P(A\mid B)=\frac{20/200}{50/200}=0.4.
+\]</span></p>
+<p>El denominador de la proporción condicional es 50, no 200.</p>
+</div>
+<p>De la definición se obtiene la regla del producto:</p>
+<p><span class="math display">\[
+\mathbb P(A\cap B)
+=\mathbb P(A\mid B)\mathbb P(B).
+\]</span></p>
+<p>Si <span class="math inline">\(B_1,\ldots,B_K\)</span> forman una partición de <span class="math inline">\(\Omega\)</span>, entonces la ley de probabilidad total establece</p>
+<p><span class="math display">\[
+\mathbb P(A)
+=\sum_{k=1}^K\mathbb P(A\mid B_k)\mathbb P(B_k).
+\]</span></p>
+<p>Esta identidad separa la frecuencia del resultado dentro de cada grupo de la frecuencia con la que aparecen los grupos.</p>
+<section id="fórmula-de-bayes" class="level3">
+<h3 class="anchored" data-anchor-id="fórmula-de-bayes">Fórmula de Bayes</h3>
+<p>Siempre que <span class="math inline">\(\mathbb P(A)&gt;0\)</span> y <span class="math inline">\(\mathbb P(B)&gt;0\)</span>,</p>
+<p><span class="math display">\[
+\mathbb P(B\mid A)
+=\frac{\mathbb P(A\mid B)\mathbb P(B)}{\mathbb P(A)}.
+\]</span></p>
+<p>Con una partición <span class="math inline">\(B_1,\ldots,B_K\)</span>,</p>
+<p><span class="math display">\[
+\mathbb P(B_j\mid A)
+=\frac{\mathbb P(A\mid B_j)\mathbb P(B_j)}
+{\sum_{k=1}^K\mathbb P(A\mid B_k)\mathbb P(B_k)}.
+\]</span></p>
+<p>La fórmula muestra por qué una tasa de acierto condicional no basta para interpretar una prueba: también importa la prevalencia previa de cada grupo.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo 2: una prueba y una condición poco frecuente.</strong> Suponga que una condición afecta al 1% de una población, una prueba es positiva en el 95% de quienes tienen la condición y en el 5% de quienes no la tienen. Entonces</p>
+<p><span class="math display">\[
+\mathbb P(C\mid +)
+=\frac{0.95(0.01)}{0.95(0.01)+0.05(0.99)}
+\approx0.161.
+\]</span></p>
+<p>Un resultado positivo no implica una probabilidad posterior de 95%. La diferencia proviene de intercambiar <span class="math inline">\(\mathbb P(+\mid C)\)</span> con <span class="math inline">\(\mathbb P(C\mid +)\)</span> y de ignorar la prevalencia.</p>
+</div>
+</section>
+<section id="independencia-vista-mediante-condicionamiento" class="level3">
+<h3 class="anchored" data-anchor-id="independencia-vista-mediante-condicionamiento">Independencia vista mediante condicionamiento</h3>
+<p>Si <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son independientes y <span class="math inline">\(\mathbb P(B)&gt;0\)</span>, entonces</p>
+<p><span class="math display">\[
+\mathbb P(A\mid B)=\mathbb P(A).
+\]</span></p>
+<p>Observar <span class="math inline">\(B\)</span> no modifica la probabilidad de <span class="math inline">\(A\)</span>. Esta igualdad es equivalente a <span class="math inline">\(\mathbb P(A\cap B)=\mathbb P(A)\mathbb P(B)\)</span> cuando las probabilidades necesarias son positivas.</p>
+</section>
+</section>
+<section id="distribuciones-condicionales" class="level2">
+<h2 class="anchored" data-anchor-id="distribuciones-condicionales">Distribuciones condicionales</h2>
+<p>Para variables discretas <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span>, la función de masa condicional es</p>
+<p><span class="math display">\[
+p_{Y\mid X}(y\mid x)
+=\mathbb P(Y=y\mid X=x)
+=\frac{p_{X,Y}(x,y)}{p_X(x)},
+\]</span></p>
+<p>si <span class="math inline">\(p_X(x)&gt;0\)</span>. Para cada valor fijo de <span class="math inline">\(x\)</span>,</p>
+<p><span class="math display">\[
+\sum_y p_{Y\mid X}(y\mid x)=1.
+\]</span></p>
+<p>Si <span class="math inline">\((X,Y)\)</span> posee densidad conjunta y <span class="math inline">\(f_X(x)&gt;0\)</span>, una densidad condicional puede definirse como</p>
+<p><span class="math display">\[
+f_{Y\mid X}(y\mid x)
+=\frac{f_{X,Y}(x,y)}{f_X(x)}.
+\]</span></p>
+<p>Cuando <span class="math inline">\(X\)</span> es continua, normalmente <span class="math inline">\(\mathbb P(X=x)=0\)</span>. Por ello la distribución de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X=x\)</span> no se obtiene dividiendo por esa probabilidad puntual. La fórmula de densidades, o más generalmente una distribución condicional regular, proporciona el objeto adecuado. En los modelos de este libro asumiremos que existe una versión condicional bien definida para los valores relevantes de <span class="math inline">\(x\)</span>.</p>
+<p>La distribución conjunta puede reconstruirse a partir de una marginal y una condicional. En el caso de densidades,</p>
+<p><span class="math display">\[
+f_{X,Y}(x,y)=f_{Y\mid X}(y\mid x)f_X(x).
+\]</span></p>
+<p>Este factor permite separar cómo aparecen las entradas de cómo se distribuye la salida entre unidades con entradas semejantes.</p>
+</section>
+<section id="esperanza-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="esperanza-condicional">Esperanza condicional</h2>
+<p>La esperanza condicional de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X\)</span> es una variable aleatoria que depende de <span class="math inline">\(X\)</span>. Se denota por</p>
+<p><span class="math display">\[
+\mathbb E[Y\mid X].
+\]</span></p>
+<p>En condiciones usuales puede escribirse como una función <span class="math inline">\(\mu(X)\)</span>, donde</p>
+<p><span class="math display">\[
+\mu(x)=\mathbb E[Y\mid X=x].
+\]</span></p>
+<p>Para variables discretas,</p>
+<p><span class="math display">\[
+\mu(x)=\sum_y y\,p_{Y\mid X}(y\mid x).
+\]</span></p>
+<p>Si existe una densidad condicional,</p>
+<p><span class="math display">\[
+\mu(x)=\int y f_{Y\mid X}(y\mid x)\,dy.
+\]</span></p>
+<p>La función <span class="math inline">\(\mu\)</span> se denomina <strong>función de regresión poblacional</strong>. No tiene que ser lineal. Una regresión lineal aproxima esta función dentro de una familia lineal; una red neuronal utiliza una familia más flexible.</p>
+<section id="propiedades-fundamentales" class="level3">
+<h3 class="anchored" data-anchor-id="propiedades-fundamentales">Propiedades fundamentales</h3>
+<p>Si <span class="math inline">\(g(X)\)</span> es integrable, entonces</p>
+<p><span class="math display">\[
+\mathbb E[g(X)Y\mid X]
+=g(X)\mathbb E[Y\mid X].
+\]</span></p>
+<p>La ley de la esperanza total afirma</p>
+<p><span class="math display">\[
+\mathbb E[\mathbb E[Y\mid X]]=\mathbb E[Y].
+\]</span></p>
+<p>Es decir, promediar primero dentro de cada valor de <span class="math inline">\(X\)</span> y luego sobre la distribución de <span class="math inline">\(X\)</span> recupera la media marginal.</p>
+<p>Cuando <span class="math inline">\(Y\)</span> tiene segundo momento finito, la varianza total se descompone como</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y)
+=\mathbb E[\operatorname{Var}(Y\mid X)]
++\operatorname{Var}(\mathbb E[Y\mid X]).
+\]</span></p>
+<p>El primer término es la variación promedio que permanece entre unidades con el mismo <span class="math inline">\(X\)</span>. El segundo es la variación de las medias condicionales entre distintos valores de <span class="math inline">\(X\)</span>. Esta identidad separa variación no explicada por <span class="math inline">\(X\)</span> de variación asociada a cambios en <span class="math inline">\(X\)</span>, sin convertir la asociación en una afirmación causal.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo 3: media por grupos.</strong> Si <span class="math inline">\(X\)</span> indica dos grupos con probabilidades 0.6 y 0.4, y las medias condicionales de <span class="math inline">\(Y\)</span> son 10 y 15, entonces</p>
+<p><span class="math display">\[
+\mathbb E[Y]=0.6(10)+0.4(15)=12.
+\]</span></p>
+<p>Conocer solo la media marginal 12 no revela las diferencias entre grupos.</p>
+</div>
+</section>
+</section>
+<section id="objetivos-poblacionales-en-aprendizaje-supervisado" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-poblacionales-en-aprendizaje-supervisado">Objetivos poblacionales en aprendizaje supervisado</h2>
+<p>El condicionamiento permite identificar qué cantidad intenta aproximar un modelo.</p>
+<section id="pérdida-cuadrática-y-media-condicional" class="level3">
+<h3 class="anchored" data-anchor-id="pérdida-cuadrática-y-media-condicional">Pérdida cuadrática y media condicional</h3>
+<p>Sean <span class="math inline">\(Y\)</span> y <span class="math inline">\(g(X)\)</span> variables con segundo momento finito. Para un valor de <span class="math inline">\(X\)</span>, se puede escribir</p>
+<p><span class="math display">\[
+Y-g(X)
+=\big(Y-\mathbb E[Y\mid X]\big)
++\big(\mathbb E[Y\mid X]-g(X)\big).
+\]</span></p>
+<p>Al elevar al cuadrado y condicionar en <span class="math inline">\(X\)</span>, el término cruzado tiene esperanza cero porque</p>
+<p><span class="math display">\[
+\mathbb E[Y-\mathbb E[Y\mid X]\mid X]=0.
+\]</span></p>
+<p>Por tanto,</p>
+<p><span class="math display">\[
+\mathbb E[(Y-g(X))^2\mid X]
+=\operatorname{Var}(Y\mid X)
++\big(\mathbb E[Y\mid X]-g(X)\big)^2.
+\]</span></p>
+<p>El primer término no depende de <span class="math inline">\(g\)</span> y el segundo es no negativo. En consecuencia,</p>
+<p><span class="math display">\[
+g^*(x)=\mathbb E[Y\mid X=x]
+\]</span></p>
+<p>minimiza el riesgo cuadrático entre todas las funciones admisibles. Si restringimos <span class="math inline">\(g\)</span> a una familia, por ejemplo funciones lineales, el mejor elemento de esa familia no tiene por qué coincidir con la media condicional verdadera.</p>
+</section>
+<section id="clasificación-binaria-y-probabilidad-condicional" class="level3">
+<h3 class="anchored" data-anchor-id="clasificación-binaria-y-probabilidad-condicional">Clasificación binaria y probabilidad condicional</h3>
+<p>Si <span class="math inline">\(Y\in\{0,1\}\)</span>, definimos</p>
+<p><span class="math display">\[
+\eta(x)=\mathbb P(Y=1\mid X=x).
+\]</span></p>
+<p>Para una predicción probabilística <span class="math inline">\(q\in(0,1)\)</span>, la pérdida logarítmica es</p>
+<p><span class="math display">\[
+\ell(q,y)=-y\log q-(1-y)\log(1-q).
+\]</span></p>
+<p>El riesgo condicional es</p>
+<p><span class="math display">\[
+L_x(q)
+=-\eta(x)\log q-(1-\eta(x))\log(1-q).
+\]</span></p>
+<p>Cuando <span class="math inline">\(0&lt;\eta(x)&lt;1\)</span>, su derivada y segunda derivada son</p>
+<p><span class="math display">\[
+L_x'(q)
+=-\frac{\eta(x)}q+\frac{1-\eta(x)}{1-q},
+\]</span></p>
+<p><span class="math display">\[
+L_x''(q)
+=\frac{\eta(x)}{q^2}
++\frac{1-\eta(x)}{(1-q)^2}&gt;0.
+\]</span></p>
+<p>La única solución de <span class="math inline">\(L_x'(q)=0\)</span> es <span class="math inline">\(q=\eta(x)\)</span> y es el mínimo. Si se extiende la pérdida a <span class="math inline">\(q\in[0,1]\)</span> con la convención usual <span class="math inline">\(0\log0=0\)</span>, entonces para <span class="math inline">\(\eta(x)=0\)</span> o <span class="math inline">\(1\)</span> el mínimo se alcanza en el borde correspondiente.</p>
+<p>Un modelo logístico produce</p>
+<p><span class="math display">\[
+\widehat p_\theta(x)=\sigma(x^\top\theta).
+\]</span></p>
+<p>Esta es una probabilidad estimada. Solo bajo supuestos de especificación y ajuste adecuados puede identificarse con <span class="math inline">\(\eta(x)\)</span>. Incluso una probabilidad estimada que ordena bien los casos puede estar mal calibrada.</p>
+</section>
+<section id="de-probabilidad-a-decisión" class="level3">
+<h3 class="anchored" data-anchor-id="de-probabilidad-a-decisión">De probabilidad a decisión</h3>
+<p>Una probabilidad no determina por sí sola una clase. Si el costo de un falso negativo es <span class="math inline">\(c_{\mathrm{FN}}\)</span> y el de un falso positivo es <span class="math inline">\(c_{\mathrm{FP}}\)</span>, una regla idealizada con costos constantes predice la clase positiva cuando</p>
+<p><span class="math display">\[
+\eta(x)&gt;
+\frac{c_{\mathrm{FP}}}{c_{\mathrm{FP}}+c_{\mathrm{FN}}}.
+\]</span></p>
+<p>En la práctica usamos <span class="math inline">\(\widehat p(x)\)</span> y elegimos el umbral con datos de validación, no con el conjunto reservado para la estimación final. El umbral depende del uso, los costos, la prevalencia y la calibración; <span class="math inline">\(0.5\)</span> no es una ley universal.</p>
+</section>
+</section>
+<section id="ruido-residual-y-error-de-medición" class="level2">
+<h2 class="anchored" data-anchor-id="ruido-residual-y-error-de-medición">Ruido, residual y error de medición</h2>
+<p>Si definimos</p>
+<p><span class="math display">\[
+\mu(X)=\mathbb E[Y\mid X],
+\qquad
+\varepsilon=Y-\mu(X),
+\]</span></p>
+<p>entonces, por construcción,</p>
+<p><span class="math display">\[
+\mathbb E[\varepsilon\mid X]=0.
+\]</span></p>
+<p>La igualdad no afirma que <span class="math inline">\(\varepsilon\)</span> sea independiente de <span class="math inline">\(X\)</span> ni que tenga varianza constante. Tampoco implica una distribución normal.</p>
+<p>Cuando se propone un modelo <span class="math inline">\(f_\theta(X)\)</span> y se escribe</p>
+<p><span class="math display">\[
+Y=f_\theta(X)+\varepsilon,
+\]</span></p>
+<p>la condición <span class="math inline">\(\mathbb E[\varepsilon\mid X]=0\)</span> es un supuesto de especificación. Se cumple automáticamente solo si <span class="math inline">\(f_\theta(X)=\mu(X)\)</span>.</p>
+<p>Conviene distinguir:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Objeto</th>
+<th>Definición</th>
+<th>Momento en que existe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ruido <span class="math inline">\(\varepsilon\)</span></td>
+<td>componente aleatoria no explicada dentro del modelo poblacional</td>
+<td>antes de observar</td>
+</tr>
+<tr class="even">
+<td>residual <span class="math inline">\(r_i\)</span></td>
+<td><span class="math inline">\(y_i-\widehat y_i\)</span></td>
+<td>después de ajustar y observar</td>
+</tr>
+<tr class="odd">
+<td>error de medición</td>
+<td>diferencia entre registro y cantidad que se pretendía medir</td>
+<td>durante la medición</td>
+</tr>
+<tr class="even">
+<td>error de predicción</td>
+<td>pérdida entre predicción y resultado en un caso</td>
+<td>después de conocer el resultado</td>
+</tr>
+</tbody>
+</table>
+<p>Un residual puede reflejar variación intrínseca, variables omitidas, forma funcional inadecuada, cambio de población o error de medición. Un residual pequeño en los datos de ajuste no demuestra que el modelo represente correctamente el proceso.</p>
+</section>
+<section id="estimandos-estimadores-y-estimaciones" class="level2">
+<h2 class="anchored" data-anchor-id="estimandos-estimadores-y-estimaciones">Estimandos, estimadores y estimaciones</h2>
+<div class="definicion">
+<p><strong>Estimando.</strong> Un estimando es la cantidad poblacional que se desea conocer. Puede ser un número, un vector, una función o una característica de una distribución.</p>
+</div>
+<p>Ejemplos de estimandos son</p>
+<p><span class="math display">\[
+\mu=\mathbb E[Y],
+\qquad
+p=\mathbb P(Y=1),
+\qquad
+\Sigma=\operatorname{Cov}(X),
+\qquad
+\mu(x)=\mathbb E[Y\mid X=x].
+\]</span></p>
+<p>En un modelo paramétrico <span class="math inline">\(\{P_\theta:\theta\in\Theta\}\)</span>, el parámetro <span class="math inline">\(\theta\)</span> es un estimando si representa la característica poblacional que se desea conocer. En modelos predictivos, los coeficientes también pueden ser cantidades internas del procedimiento y no siempre poseen una interpretación poblacional única fuera de la familia elegida.</p>
+<div class="definicion">
+<p><strong>Estimador.</strong> Un estimador es una función de la muestra aleatoria,</p>
+<p><span class="math display">\[
+\widehat\theta_m=T(D_m),
+\]</span></p>
+<p>diseñada para aproximar un estimando <span class="math inline">\(\theta\)</span>.</p>
+</div>
+<p>Antes de observar la muestra, <span class="math inline">\(\widehat\theta_m\)</span> es una variable aleatoria. Después de observar <span class="math inline">\(d_m\)</span>, el valor</p>
+<p><span class="math display">\[
+\widehat\theta_m(d_m)
+\]</span></p>
+<p>es una <strong>estimación</strong>. El estimador es la regla; la estimación es el resultado numérico de aplicarla.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nivel</th>
+<th>Notación</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>estimando</td>
+<td><span class="math inline">\(\mu=\mathbb E[Y]\)</span></td>
+<td>media poblacional</td>
+</tr>
+<tr class="even">
+<td>estimador</td>
+<td><span class="math inline">\(\overline Y_m\)</span></td>
+<td>media de una muestra todavía aleatoria</td>
+</tr>
+<tr class="odd">
+<td>estimación</td>
+<td><span class="math inline">\(\overline y_m=12.4\)</span></td>
+<td>valor calculado con la muestra observada</td>
+</tr>
+<tr class="even">
+<td>distribución muestral</td>
+<td>ley de <span class="math inline">\(\overline Y_m\)</span></td>
+<td>variación bajo muestras repetidas</td>
+</tr>
+</tbody>
+</table>
+<section id="sesgo" class="level3">
+<h3 class="anchored" data-anchor-id="sesgo">Sesgo</h3>
+<p>El sesgo de <span class="math inline">\(\widehat\theta_m\)</span> para estimar <span class="math inline">\(\theta\)</span> es</p>
+<p><span class="math display">\[
+\operatorname{Bias}(\widehat\theta_m)
+=\mathbb E[\widehat\theta_m]-\theta.
+\]</span></p>
+<p>Un estimador es insesgado si el sesgo es cero. Esta es una propiedad bajo un modelo de muestreo, no una garantía de que la estimación observada sea igual al estimando. Un estimador insesgado puede tener gran variación.</p>
+<p>Para una muestra iid con esperanza <span class="math inline">\(\mu\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E[\overline Y_m]
+=\frac1m\sum_{i=1}^m\mathbb E[Y_i]
+=\mu,
+\]</span></p>
+<p>de modo que la media muestral es insesgada para <span class="math inline">\(\mu\)</span>.</p>
+</section>
+<section id="varianza-y-error-cuadrático-medio" class="level3">
+<h3 class="anchored" data-anchor-id="varianza-y-error-cuadrático-medio">Varianza y error cuadrático medio</h3>
+<p>Para un estimador escalar, su varianza es</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat\theta_m)
+=\mathbb E\left[
+(\widehat\theta_m-\mathbb E[\widehat\theta_m])^2
+\right].
+\]</span></p>
+<p>El error cuadrático medio respecto a <span class="math inline">\(\theta\)</span> es</p>
+<p><span class="math display">\[
+\operatorname{MSE}(\widehat\theta_m)
+=\mathbb E[(\widehat\theta_m-\theta)^2].
+\]</span></p>
+<p>Al sumar y restar <span class="math inline">\(\mathbb E[\widehat\theta_m]\)</span> se obtiene</p>
+<p><span class="math display">\[
+\operatorname{MSE}(\widehat\theta_m)
+=\operatorname{Var}(\widehat\theta_m)
++\operatorname{Bias}(\widehat\theta_m)^2.
+\]</span></p>
+<p>La identidad muestra que un estimador ligeramente sesgado puede tener menor error cuadrático medio si reduce suficientemente la varianza. La regularización explota esta posibilidad: introduce sesgo para estabilizar coeficientes y predicciones.</p>
+</section>
+<section id="consistencia" class="level3">
+<h3 class="anchored" data-anchor-id="consistencia">Consistencia</h3>
+<p>Una secuencia de estimadores es consistente para <span class="math inline">\(\theta\)</span> si</p>
+<p><span class="math display">\[
+\widehat\theta_m\xrightarrow{\mathbb P}\theta
+\]</span></p>
+<p>cuando <span class="math inline">\(m\to\infty\)</span>. La consistencia es una propiedad asintótica. No indica que una muestra finita sea suficiente ni corrige un estimando mal definido, selección sesgada o cambio de distribución.</p>
+</section>
+<section id="error-estándar" class="level3">
+<h3 class="anchored" data-anchor-id="error-estándar">Error estándar</h3>
+<p>La desviación estándar de la distribución muestral,</p>
+<p><span class="math display">\[
+\operatorname{sd}(\widehat\theta_m),
+\]</span></p>
+<p>describe cuánto varía el estimador entre muestras. Como normalmente depende de cantidades desconocidas, se aproxima mediante un <strong>error estándar estimado</strong>. Reportar una estimación sin su error estándar puede ocultar que otras muestras producirían valores muy distintos.</p>
+</section>
+</section>
+<section id="pérdida-y-riesgo-esperado" class="level2">
+<h2 class="anchored" data-anchor-id="pérdida-y-riesgo-esperado">Pérdida y riesgo esperado</h2>
+<p>Sea <span class="math inline">\(f:\mathcal X\to\mathcal A\)</span> una regla y <span class="math inline">\(\ell:\mathcal A\times\mathcal Y\to[0,\infty)\)</span> una función de pérdida. El riesgo de <span class="math inline">\(f\)</span> bajo una distribución de interés <span class="math inline">\(P\)</span> es</p>
+<p><span class="math display">\[
+R_P(f)
+=\mathbb E_{(X,Y)\sim P}[\ell(f(X),Y)].
+\]</span></p>
+<p>La pérdida asigna un costo a un caso; el riesgo promedia ese costo sobre la distribución. Cambiar la pérdida cambia el objetivo matemático.</p>
+<p>Ejemplos:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Problema</th>
+<th>Pérdida por observación</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>regresión cuadrática</td>
+<td><span class="math inline">\((y-f(x))^2\)</span></td>
+</tr>
+<tr class="even">
+<td>regresión absoluta</td>
+<td><span class="math inline">\(|y-f(x)|\)</span></td>
+</tr>
+<tr class="odd">
+<td>clasificación 0-1</td>
+<td><span class="math inline">\(\mathbf 1\{f(x)\neq y\}\)</span></td>
+</tr>
+<tr class="even">
+<td>clasificación probabilística</td>
+<td><span class="math inline">\(-y\log q(x)-(1-y)\log(1-q(x))\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>El riesgo se refiere a una distribución específica. Si el uso previsto sigue <span class="math inline">\(P_{\mathrm{uso}}\)</span>, el objetivo relevante es</p>
+<p><span class="math display">\[
+R_{\mathrm{uso}}(f)
+=\mathbb E_{P_{\mathrm{uso}}}[\ell(f(X),Y)].
+\]</span></p>
+<p>Una evaluación histórica solo informa sobre este riesgo si su distribución es comparable con la de uso.</p>
+<section id="riesgo-empírico" class="level3">
+<h3 class="anchored" data-anchor-id="riesgo-empírico">Riesgo empírico</h3>
+<p>Dada una muestra observada <span class="math inline">\(d_m=((x_1,y_1),\ldots,(x_m,y_m))\)</span>, el riesgo empírico es</p>
+<p><span class="math display">\[
+\widehat R_m(f)
+=\frac1m\sum_{i=1}^m\ell(f(x_i),y_i).
+\]</span></p>
+<p>Mediante la distribución empírica conjunta,</p>
+<p><span class="math display">\[
+\widehat P_m
+=\frac1m\sum_{i=1}^m\delta_{(x_i,y_i)},
+\]</span></p>
+<p>podemos escribir</p>
+<p><span class="math display">\[
+\widehat R_m(f)
+=\int\ell(f(x),y)\,d\widehat P_m(x,y).
+\]</span></p>
+<p>Esta igualdad es el puente exacto entre una esperanza poblacional y una suma implementable.</p>
+<p>Para una función <span class="math inline">\(f\)</span> fija e independiente de una muestra iid, la ley de los grandes números permite que <span class="math inline">\(\widehat R_m(f)\)</span> aproxime <span class="math inline">\(R_P(f)\)</span> si la pérdida es integrable. La situación es distinta cuando <span class="math inline">\(f\)</span> fue escogida para minimizar el riesgo sobre la misma muestra: entonces <span class="math inline">\(f\)</span> depende de esos datos y el riesgo de entrenamiento puede ser optimista.</p>
+</section>
+<section id="minimización-empírica-del-riesgo" class="level3">
+<h3 class="anchored" data-anchor-id="minimización-empírica-del-riesgo">Minimización empírica del riesgo</h3>
+<p>En una familia <span class="math inline">\(\mathcal F\)</span>, un estimador por minimización empírica satisface</p>
+<p><span class="math display">\[
+\widehat f
+\in\operatorname*{arg\,min}_{f\in\mathcal F}\widehat R_{\mathrm{train}}(f).
+\]</span></p>
+<p>La solución depende de la muestra. Una familia más flexible puede disminuir la pérdida de entrenamiento y, al mismo tiempo, aumentar la variación del modelo entre muestras. Regularización, validación y control de complejidad buscan equilibrar estos efectos.</p>
+</section>
+<section id="baselines" class="level3">
+<h3 class="anchored" data-anchor-id="baselines">Baselines</h3>
+<p>Un <strong>baseline</strong> es una regla simple y reproducible utilizada como referencia. En regresión, una opción común predice la media de la salida en entrenamiento:</p>
+<p><span class="math display">\[
+f_{\mathrm{base}}(x)=\overline y_{\mathrm{train}}.
+\]</span></p>
+<p>En clasificación, puede predecir la clase más frecuente de entrenamiento o las proporciones de clase. El baseline debe ajustarse con la misma información permitida al modelo. Compararlo en las observaciones reservadas permite preguntar si las entradas aportan algo más que una referencia marginal.</p>
+</section>
+<section id="riesgo-del-modelo-ajustado-y-riesgo-del-algoritmo" class="level3">
+<h3 class="anchored" data-anchor-id="riesgo-del-modelo-ajustado-y-riesgo-del-algoritmo">Riesgo del modelo ajustado y riesgo del algoritmo</h3>
+<p>Después de observar una muestra de entrenamiento <span class="math inline">\(d_m\)</span>, el modelo <span class="math inline">\(\widehat f=A(d_m)\)</span> tiene riesgo</p>
+<p><span class="math display">\[
+R_P(A(d_m))
+=\mathbb E_{Z\sim P}[\ell(A(d_m)(X),Y)].
+\]</span></p>
+<p>Este es el desempeño esperado del modelo concreto que quedó ajustado.</p>
+<p>También puede interesar el comportamiento del procedimiento <span class="math inline">\(A\)</span> bajo nuevas muestras de entrenamiento, con el caso nuevo <span class="math inline">\(Z\)</span> independiente de <span class="math inline">\(D_m\)</span>:</p>
+<p><span class="math display">\[
+\mathcal R_m(A)
+=\mathbb E_{D_m\sim P^m}
+\left[R_P(A(D_m))\right].
+\]</span></p>
+<p>El segundo objeto incorpora la variación del ajuste entre muestras. Un conjunto de prueba independiente evalúa principalmente el modelo ajustado condicional a la muestra de entrenamiento observada. Repetir todo el proceso sobre nuevas muestras es necesario para estudiar directamente la variación del algoritmo completo.</p>
+</section>
+</section>
+<section id="entrenamiento-validación-y-prueba" class="level2">
+<h2 class="anchored" data-anchor-id="entrenamiento-validación-y-prueba">Entrenamiento, validación y prueba</h2>
+<p>Una sola muestra suele desempeñar varios papeles. Para evitar que la misma información ajuste, seleccione y certifique el procedimiento, se distinguen:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Conjunto</th>
+<th>Papel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>entrenamiento</td>
+<td>ajustar parámetros y transformaciones aprendidas</td>
+</tr>
+<tr class="even">
+<td>validación</td>
+<td>elegir familia, variables, hiperparámetros y umbral</td>
+</tr>
+<tr class="odd">
+<td>prueba</td>
+<td>estimar al final el desempeño del procedimiento ya fijado</td>
+</tr>
+</tbody>
+</table>
+<p>La separación no es un ritual. Permite que la evaluación final sea independiente de las decisiones tomadas durante el desarrollo.</p>
+<p>Si un procedimiento consulta repetidamente la validación, también puede adaptarse a ella. La métrica de validación debe interpretarse como parte de la selección, no como una estimación final neutral. La validación cruzada y los procedimientos anidados refinan esta idea y se estudiarán en capítulos posteriores.</p>
+<section id="qué-debe-ajustarse-dentro-de-entrenamiento" class="level3">
+<h3 class="anchored" data-anchor-id="qué-debe-ajustarse-dentro-de-entrenamiento">Qué debe ajustarse dentro de entrenamiento</h3>
+<p>Toda transformación que aprende de los datos forma parte del algoritmo:</p>
+<ul>
+<li>medias y desviaciones para escalar;</li>
+<li>reglas de imputación;</li>
+<li>categorías observadas;</li>
+<li>selección de variables;</li>
+<li>componentes principales;</li>
+<li>calibración y elección de umbrales.</li>
+</ul>
+<p>Estas operaciones se ajustan con entrenamiento y se aplican sin volver a aprender en validación o prueba. Una <code>Pipeline</code> ayuda a expresar esta dependencia en código.</p>
+</section>
+<section id="el-conjunto-de-prueba-se-utiliza-una-vez" class="level3">
+<h3 class="anchored" data-anchor-id="el-conjunto-de-prueba-se-utiliza-una-vez">El conjunto de prueba se utiliza una vez</h3>
+<p>Si se modifica el modelo después de consultar prueba, esa muestra participó en la selección. El reporte resultante tiende a favorecer las decisiones que funcionaron accidentalmente bien en esas observaciones. Para recuperar una evaluación final se necesita una nueva muestra independiente o un diseño que modele explícitamente la selección realizada.</p>
+</section>
+</section>
+<section id="incertidumbre-de-una-métrica" class="level2">
+<h2 class="anchored" data-anchor-id="incertidumbre-de-una-métrica">Incertidumbre de una métrica</h2>
+<p>Supongamos que un modelo ya está fijado y se evalúa en observaciones iid que no intervinieron en el ajuste. Definimos las pérdidas</p>
+<p><span class="math display">\[
+L_i=\ell(f(X_i),Y_i),
+\qquad i=1,\ldots,n.
+\]</span></p>
+<p>La estimación de riesgo es</p>
+<p><span class="math display">\[
+\widehat R_n=\overline L_n
+=\frac1n\sum_{i=1}^nL_i.
+\]</span></p>
+<p>Si <span class="math inline">\(\operatorname{Var}(L_i)=\sigma_L^2&lt;\infty\)</span>, entonces</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat R_n)=\frac{\sigma_L^2}{n}.
+\]</span></p>
+<p>Con la varianza muestral</p>
+<p><span class="math display">\[
+s_L^2
+=\frac1{n-1}\sum_{i=1}^n(L_i-\overline L_n)^2,
+\]</span></p>
+<p>estimamos el error estándar mediante</p>
+<p><span class="math display">\[
+\widehat{\operatorname{se}}(\widehat R_n)
+=\frac{s_L}{\sqrt n}.
+\]</span></p>
+<p>Esta fórmula trata el modelo como fijo y la muestra de evaluación como la fuente de variación. No incluye automáticamente la variación causada por volver a ajustar el modelo con otra muestra.</p>
+<section id="aproximación-normal-e-intervalos" class="level3">
+<h3 class="anchored" data-anchor-id="aproximación-normal-e-intervalos">Aproximación normal e intervalos</h3>
+<p>Bajo condiciones del teorema central del límite,</p>
+<p><span class="math display">\[
+\frac{\sqrt n(\widehat R_n-R_P(f))}{\sigma_L}
+\xrightarrow{\mathcal D}\mathcal N(0,1).
+\]</span></p>
+<p>Esto motiva el intervalo aproximado</p>
+<p><span class="math display">\[
+\widehat R_n
+\pm z_{1-\alpha/2}
+\widehat{\operatorname{se}}(\widehat R_n).
+\]</span></p>
+<p>Para un nivel aproximado de 95%, <span class="math inline">\(z_{0.975}\approx1.96\)</span>.</p>
+<p>La interpretación frecuentista se refiere al procedimiento: si repitiéramos el muestreo y construyéramos el intervalo de la misma manera, aproximadamente el 95% de esos intervalos contendría el riesgo fijo bajo las condiciones del método. No significa que, después de calcular los extremos, el parámetro fijo tenga 95% de probabilidad de estar dentro.</p>
+<p>La aproximación puede ser deficiente con muestras pequeñas, pérdidas de cola pesada o proporciones cercanas a 0 o 1. Para accuracy, los <span class="math inline">\(L_i\)</span> son indicadores de error; intervalos binomiales como Wilson suelen comportarse mejor que el intervalo normal elemental cerca de los bordes.</p>
+</section>
+<section id="una-cota-para-pérdidas-acotadas" class="level3">
+<h3 class="anchored" data-anchor-id="una-cota-para-pérdidas-acotadas">Una cota para pérdidas acotadas</h3>
+<p>Si <span class="math inline">\(0\leq L_i\leq1\)</span>, las observaciones son iid y el modelo es fijo e independiente de la muestra de evaluación, la desigualdad de Hoeffding da</p>
+<p><span class="math display">\[
+\mathbb P\left(
+|\widehat R_n-R_P(f)|\geq\varepsilon
+\right)
+\leq2e^{-2n\varepsilon^2}.
+\]</span></p>
+<p>La cota no necesita conocer la varianza, pero puede ser conservadora. Sus condiciones son esenciales: no se aplica directamente al riesgo de entrenamiento del modelo escogido con esos mismos datos.</p>
+</section>
+<section id="comparar-dos-modelos-en-los-mismos-casos" class="level3">
+<h3 class="anchored" data-anchor-id="comparar-dos-modelos-en-los-mismos-casos">Comparar dos modelos en los mismos casos</h3>
+<p>Si dos modelos <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> se evalúan sobre las mismas observaciones, conviene analizar las diferencias emparejadas</p>
+<p><span class="math display">\[
+D_i=L_i^{(A)}-L_i^{(B)}.
+\]</span></p>
+<p>La diferencia media</p>
+<p><span class="math display">\[
+\overline D_n=\frac1n\sum_{i=1}^nD_i
+\]</span></p>
+<p>estima la diferencia de riesgos y su error estándar se calcula a partir de la variación de los <span class="math inline">\(D_i\)</span>. Tratar las dos listas de pérdidas como muestras independientes desperdicia la información de que cada par corresponde al mismo caso.</p>
+</section>
+</section>
+<section id="bootstrap" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrap">Bootstrap</h2>
+<p>El bootstrap aproxima una distribución muestral mediante remuestreo de los datos observados. En su versión iid elemental:</p>
+<ol type="1">
+<li>se parte de <span class="math inline">\(d_n=(z_1,\ldots,z_n)\)</span>;</li>
+<li>se generan <span class="math inline">\(B\)</span> muestras de tamaño <span class="math inline">\(n\)</span> con reemplazo desde <span class="math inline">\(d_n\)</span>;</li>
+<li>se calcula el estadístico <span class="math inline">\(T\)</span> en cada muestra;</li>
+<li>se utiliza la distribución de <span class="math inline">\(T^{*(1)},\ldots,T^{*(B)}\)</span> para estimar error estándar, sesgo o cuantiles.</li>
+</ol>
+<p>El remuestreo con reemplazo equivale a extraer observaciones de la distribución empírica <span class="math inline">\(\widehat P_n\)</span>. Su validez depende de que <span class="math inline">\(\widehat P_n\)</span> aproxime el aspecto de <span class="math inline">\(P\)</span> relevante para el estadístico y de condiciones de regularidad que no se cumplen para todos los procedimientos.</p>
+<section id="qué-incertidumbre-se-quiere-medir" class="level3">
+<h3 class="anchored" data-anchor-id="qué-incertidumbre-se-quiere-medir">¿Qué incertidumbre se quiere medir?</h3>
+<p>La respuesta determina qué debe repetirse.</p>
+<p><strong>Modelo fijo y test variable.</strong> Si se quiere medir la variación de una métrica del modelo ya ajustado, se mantienen sus parámetros fijos y se remuestrean las unidades independientes de test.</p>
+<p><strong>Procedimiento completo.</strong> Si se quiere medir la variación causada por obtener otra muestra de entrenamiento, deben repetirse dentro de cada réplica el ajuste, las transformaciones aprendidas y la selección. Remuestrear solo las predicciones de un modelo ya fijado omite esa fuente de variación.</p>
+<p><strong>Comparación emparejada.</strong> Si se comparan modelos sobre los mismos casos, cada réplica debe remuestrear pares de pérdidas o registros completos, no listas separadas.</p>
+</section>
+<section id="dependencia-y-unidad-de-remuestreo" class="level3">
+<h3 class="anchored" data-anchor-id="dependencia-y-unidad-de-remuestreo">Dependencia y unidad de remuestreo</h3>
+<p>El bootstrap iid supone que las observaciones son aproximadamente intercambiables e independientes. Si hay varias filas por paciente, se remuestrean pacientes y se conservan sus filas. Si hay dependencia temporal, puede utilizarse un bootstrap por bloques que preserve fragmentos consecutivos. En datos espaciales o por centros, la unidad de remuestreo debe reflejar la fuente de independencia.</p>
+<p>Remuestrear filas individuales cuando la información independiente reside en 20 hospitales no crea una muestra efectiva de miles de hospitales. Produce intervalos demasiado estrechos al ignorar la variación entre centros.</p>
+</section>
+</section>
+<section id="cambio-de-distribución" class="level2">
+<h2 class="anchored" data-anchor-id="cambio-de-distribución">Cambio de distribución</h2>
+<p>Denotemos por <span class="math inline">\(P_S\)</span> la distribución fuente que produjo los datos históricos y por <span class="math inline">\(P_T\)</span> la distribución objetivo o de uso. Una evaluación tomada de <span class="math inline">\(P_S\)</span> estima directamente riesgo bajo <span class="math inline">\(P_S\)</span>. Su relevancia para <span class="math inline">\(P_T\)</span> depende de qué aspectos se mantienen.</p>
+<section id="cambio-de-covariables" class="level3">
+<h3 class="anchored" data-anchor-id="cambio-de-covariables">Cambio de covariables</h3>
+<p>Hay <strong>covariate shift</strong> en el sentido usual cuando</p>
+<p><span class="math display">\[
+P_S(X)\neq P_T(X),
+\qquad
+P_S(Y\mid X)=P_T(Y\mid X).
+\]</span></p>
+<p>Cambia la frecuencia de las entradas, pero se supone estable la relación condicional de la salida dado <span class="math inline">\(X\)</span>. Bajo condiciones adicionales puede corregirse el riesgo fuente mediante ponderaciones de densidad. La igualdad condicional no se deduce de observar que los histogramas de <span class="math inline">\(X\)</span> cambiaron.</p>
+</section>
+<section id="cambio-de-prevalencia" class="level3">
+<h3 class="anchored" data-anchor-id="cambio-de-prevalencia">Cambio de prevalencia</h3>
+<p>Hay <strong>label shift</strong> o cambio de prevalencia bajo el supuesto</p>
+<p><span class="math display">\[
+P_S(Y)\neq P_T(Y),
+\qquad
+P_S(X\mid Y)=P_T(X\mid Y).
+\]</span></p>
+<p>Cambian las proporciones de clase mientras permanece estable la distribución de entradas dentro de cada clase. Este supuesto es diferente del cambio de covariables.</p>
+</section>
+<section id="cambio-conceptual" class="level3">
+<h3 class="anchored" data-anchor-id="cambio-conceptual">Cambio conceptual</h3>
+<p>Hay <strong>concept shift</strong> cuando</p>
+<p><span class="math display">\[
+P_S(Y\mid X)\neq P_T(Y\mid X).
+\]</span></p>
+<p>Una política nueva, un cambio de comportamiento o una intervención en el sistema pueden alterar la relación que el modelo intenta aprender. Reponderar únicamente las entradas no resuelve este cambio.</p>
+</section>
+<section id="cambio-de-medición" class="level3">
+<h3 class="anchored" data-anchor-id="cambio-de-medición">Cambio de medición</h3>
+<p>También puede cambiar la representación: otro sensor, una nueva definición de resultado, una codificación diferente o una modificación del protocolo. En ese caso, las variables llamadas <span class="math inline">\(X\)</span> o <span class="math inline">\(Y\)</span> ya no necesariamente representan el mismo objeto. Antes de comparar distribuciones numéricas debe verificarse la invariancia semántica de las mediciones.</p>
+<p>Un conjunto de prueba aleatorio tomado de la misma tabla puede estimar variación interna bajo <span class="math inline">\(P_S\)</span> y aun así no representar un cambio temporal, geográfico o institucional. Diseñar la evaluación exige describir la población de uso, no solo reservar un porcentaje de filas.</p>
+</section>
+</section>
+<section id="ejemplo-completo-clasificación-de-vinos" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-completo-clasificación-de-vinos">Ejemplo completo: clasificación de vinos</h2>
+<p>El conjunto <code>load_wine</code> contiene 178 vinos, trece mediciones químicas y tres clases de cultivar. Cada fila representa un vino analizado. Utilizaremos una partición estratificada para comparar una regla de clase mayoritaria con una regresión logística escalada.</p>
+<div id="fig-cap00c-wine-distribucion-clases" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con 59 observaciones de clase 0, 71 de clase 1 y 48 de clase 2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap00c-wine-distribucion-clases-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/wine-distribucion-clases.svg" class="img-fluid figure-img" style="width:80.0%" alt="Gráfico de barras con 59 observaciones de clase 0, 71 de clase 1 y 48 de clase 2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap00c-wine-distribucion-clases-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;1: Las clases de Wine contienen 59, 71 y 48 observaciones. La clase mayoritaria define una referencia antes de ajustar el modelo.
+</figcaption>
+</figure>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>wine <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> wine.data</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> wine.target</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    X,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    y,</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>y,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>baseline.fit(X_train, y_train)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>pred_baseline <span class="op">=</span> baseline.predict(X_test)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>modelo <span class="op">=</span> make_pipeline(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>modelo.fit(X_train, y_train)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>pred_modelo <span class="op">=</span> modelo.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La tubería ajusta el escalamiento únicamente con <code>X_train</code>. En las 45 observaciones reservadas, el baseline acierta 18 y el modelo acierta 44:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Método</th>
+<th style="text-align: right;">Aciertos</th>
+<th style="text-align: right;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>clase mayoritaria</td>
+<td style="text-align: right;">18 de 45</td>
+<td style="text-align: right;">0.400</td>
+</tr>
+<tr class="even">
+<td>regresión logística</td>
+<td style="text-align: right;">44 de 45</td>
+<td style="text-align: right;">0.978</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-cap00c-wine-matriz-confusion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Matriz de confusión de tres por tres. La diagonal contiene 15, 17 y 12 aciertos; hay un único error en la fila de clase 1 y columna de clase 2.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap00c-wine-matriz-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../figuras/wine-matriz-confusion.svg" class="img-fluid figure-img" style="width:70.0%" alt="Matriz de confusión de tres por tres. La diagonal contiene 15, 17 y 12 aciertos; hay un único error en la fila de clase 1 y columna de clase 2.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap00c-wine-matriz-confusion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;2: La matriz de confusión contiene 44 aciertos en la diagonal y un error: una observación de clase 1 fue predicha como clase 2.
+</figcaption>
+</figure>
+</div>
+<section id="qué-se-estimó" class="level3">
+<h3 class="anchored" data-anchor-id="qué-se-estimó">Qué se estimó</h3>
+<p>La accuracy de test es la media de 45 indicadores de acierto. Estima la probabilidad de acierto del modelo ajustado bajo una distribución comparable con la que produjo test, condicionada a la muestra de entrenamiento y al procedimiento ya elegido. No estima automáticamente el desempeño en otro laboratorio, región o periodo.</p>
+<p>Con 44 aciertos de 45, el intervalo normal elemental es poco apropiado porque la proporción está cerca de uno. Un intervalo de Wilson de 95% para la probabilidad de acierto es aproximadamente</p>
+<p><span class="math display">\[
+[0.884,\,0.996].
+\]</span></p>
+<p>El intervalo es mucho más amplio de lo que sugiere reportar únicamente 0.978. Aun así, solo incorpora la variación binomial idealizada de las observaciones de test; no incluye volver a seleccionar la partición, ajustar el escalamiento, entrenar el modelo o escoger sus hiperparámetros.</p>
+<p>La conclusión compatible con el experimento es:</p>
+<blockquote class="blockquote">
+<p>En la partición fijada por la semilla 2105, la tubería acertó 44 de 45 vinos reservados, frente a 18 de 45 del baseline de clase mayoritaria. El único error confundió una observación de clase 1 con clase 2. La muestra de prueba es pequeña y no evalúa cambios de laboratorio, región o periodo.</p>
+</blockquote>
+<p>Esta redacción identifica unidad, denominador, referencia, error observado y alcance de la distribución evaluada.</p>
+</section>
+</section>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>La distribución condicional describe cómo se comporta una salida al conocer las entradas. La media condicional minimiza el riesgo cuadrático y la probabilidad condicional minimiza la log-loss binaria. Los modelos intentan aproximar esas cantidades dentro de familias y con muestras finitas; sus salidas no deben identificarse automáticamente con los objetos poblacionales.</p>
+<p>Un estimando pertenece a la población o al modelo; un estimador es una función de la muestra; una estimación es el valor obtenido. Sesgo, varianza, error cuadrático medio y consistencia describen propiedades del procedimiento bajo repetición del muestreo. El error estándar cuantifica la variación de un estimador, no el tamaño del error observado en un caso individual.</p>
+<p>El riesgo esperado promedia una pérdida bajo una distribución. El riesgo empírico es la suma calculable sobre una muestra. Entrenamiento ajusta, validación selecciona y prueba estima al final. Una métrica de prueba sigue siendo aleatoria y debe acompañarse de su unidad de muestreo, tamaño, incertidumbre y población de referencia. Si la distribución de uso difiere de la fuente, una partición interna puede responder una pregunta distinta de la que motivó el modelo.</p>
+</section>
+<section id="términos-clave" class="level2">
+<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
+<div class="key-terms">
+<ul>
+<li><strong>Probabilidad condicional:</strong> probabilidad restringida y renormalizada por información conocida.</li>
+<li><strong>Distribución condicional:</strong> ley de una variable dado el valor de otra.</li>
+<li><strong>Esperanza condicional:</strong> promedio de una variable dentro de la información condicionante.</li>
+<li><strong>Función de regresión:</strong> <span class="math inline">\(x\mapsto\mathbb E[Y\mid X=x]\)</span>.</li>
+<li><strong>Estimando:</strong> cantidad poblacional que se desea conocer.</li>
+<li><strong>Estimador:</strong> función de una muestra diseñada para aproximar un estimando.</li>
+<li><strong>Estimación:</strong> valor observado de un estimador.</li>
+<li><strong>Sesgo:</strong> diferencia entre la esperanza de un estimador y el estimando.</li>
+<li><strong>Error estándar:</strong> desviación estándar estimada de una distribución muestral.</li>
+<li><strong>Consistencia:</strong> convergencia en probabilidad del estimador al estimando.</li>
+<li><strong>Pérdida:</strong> costo asignado a una predicción y su resultado.</li>
+<li><strong>Riesgo esperado:</strong> esperanza de la pérdida bajo una distribución.</li>
+<li><strong>Riesgo empírico:</strong> promedio de pérdidas en una muestra observada.</li>
+<li><strong>Generalización:</strong> mantenimiento de bajo riesgo en la distribución de uso.</li>
+<li><strong>Bootstrap:</strong> aproximación por remuestreo de una distribución muestral.</li>
+<li><strong>Cambio de distribución:</strong> diferencia relevante entre distribución fuente y objetivo.</li>
+</ul>
+</div>
+</section>
+<section id="ejercicios" class="level2">
+<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
+<section id="comprensión-conceptual" class="level3">
+<h3 class="anchored" data-anchor-id="comprensión-conceptual">Comprensión conceptual</h3>
+<ol type="1">
+<li><p>Distinga <span class="math inline">\(\mathbb P(A\mid B)\)</span> de <span class="math inline">\(\mathbb P(B\mid A)\)</span> mediante un ejemplo. Explique por qué una no puede sustituirse por la otra.</p></li>
+<li><p>¿Por qué no se define <span class="math inline">\(\mathbb P(Y\in C\mid X=x)\)</span> mediante una división por <span class="math inline">\(\mathbb P(X=x)\)</span> cuando <span class="math inline">\(X\)</span> es continua?</p></li>
+<li><p>Explique la ley de la esperanza total con grupos de una población. ¿Qué dos piezas se necesitan para recuperar la media marginal?</p></li>
+<li><p>Distinga <span class="math inline">\(\mathbb E[Y\mid X]\)</span>, <span class="math inline">\(\mathbb E[Y\mid X=x]\)</span> y una predicción <span class="math inline">\(\widehat f(x)\)</span>.</p></li>
+<li><p>Explique por qué la identidad <span class="math inline">\(\mathbb E[Y-\mathbb E[Y\mid X]\mid X]=0\)</span> no implica que el ruido sea independiente de <span class="math inline">\(X\)</span>.</p></li>
+<li><p>Distinga estimando, estimador, estimación y distribución muestral mediante la proporción de una clase.</p></li>
+<li><p>¿Puede preferirse un estimador sesgado a uno insesgado? Responda usando la descomposición del error cuadrático medio.</p></li>
+<li><p>Explique por qué el riesgo de entrenamiento del modelo elegido no se comporta como el promedio de pérdidas de una función fijada antes de observar los datos.</p></li>
+<li><p>Distinga el riesgo del modelo ajustado <span class="math inline">\(R_P(A(d_m))\)</span> del riesgo promedio del algoritmo <span class="math inline">\(\mathcal R_m(A)\)</span>.</p></li>
+<li><p>Explique por qué un intervalo calculado sobre test no incorpora necesariamente la variación del entrenamiento.</p></li>
+</ol>
+</section>
+<section id="problemas-cuantitativos" class="level3">
+<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
+<ol start="11" type="1">
+<li><p>En una población, <span class="math inline">\(\mathbb P(B)=0.3\)</span>, <span class="math inline">\(\mathbb P(A\mid B)=0.7\)</span> y <span class="math inline">\(\mathbb P(A\mid B^c)=0.2\)</span>. Calcule <span class="math inline">\(\mathbb P(A)\)</span> y <span class="math inline">\(\mathbb P(B\mid A)\)</span>.</p></li>
+<li><p>Una variable <span class="math inline">\(X\)</span> toma valores 0 y 1 con probabilidades 0.4 y 0.6. Se sabe que <span class="math inline">\(\mathbb E[Y\mid X=0]=2\)</span> y <span class="math inline">\(\mathbb E[Y\mid X=1]=5\)</span>. Calcule <span class="math inline">\(\mathbb E[Y]\)</span>.</p></li>
+<li><p>Además de los datos del ejercicio 12, suponga que <span class="math inline">\(\operatorname{Var}(Y\mid X=0)=1\)</span> y <span class="math inline">\(\operatorname{Var}(Y\mid X=1)=4\)</span>. Use la ley de varianza total para calcular <span class="math inline">\(\operatorname{Var}(Y)\)</span>.</p></li>
+<li><p>Para <span class="math inline">\(\eta(x)=0.8\)</span>, calcule la log-loss condicional al predecir <span class="math inline">\(q=0.8\)</span> y <span class="math inline">\(q=0.6\)</span>. Verifique cuál es menor.</p></li>
+<li><p>Dos estimadores de <span class="math inline">\(\theta\)</span> tienen, respectivamente, sesgo 0 y varianza 9, y sesgo 1 y varianza 4. Calcule sus errores cuadráticos medios y compare.</p></li>
+<li><p>Para pérdidas de test <span class="math inline">\((1,0,0,1,0,0,0,0,0,0)\)</span>, calcule el riesgo empírico, la varianza muestral de las pérdidas y el error estándar estimado.</p></li>
+<li><p>Una regresión produce errores absolutos <span class="math inline">\((1,2,1,4,2,3,1,2)\)</span>. Calcule MAE y su error estándar bajo independencia.</p></li>
+<li><p>Use Hoeffding para encontrar un tamaño <span class="math inline">\(n\)</span> que garantice una cota no mayor que 0.05 para <span class="math inline">\(\mathbb P(|\widehat R_n-R_P(f)|\geq0.1)\)</span>, bajo las condiciones de la desigualdad.</p></li>
+<li><p>Dos clasificadores tienen pérdidas 0-1 sobre los mismos seis casos: <span class="math inline">\(L^{(A)}=(0,0,1,0,1,0)\)</span> y <span class="math inline">\(L^{(B)}=(0,1,1,0,0,0)\)</span>. Calcule las diferencias emparejadas y su media. ¿Qué información se perdería al comparar solo las dos accuracies?</p></li>
+<li><p>Un clasificador produce 44 aciertos en 45 casos. Calcule el intervalo normal elemental para la proporción y explique por qué puede ser inadecuado. Compare con el intervalo de Wilson reportado en el capítulo.</p></li>
+</ol>
+</section>
+<section id="práctica-computacional" class="level3">
+<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
+<ol start="21" type="1">
+<li><p>Simule una variable binaria <span class="math inline">\(Y\)</span> cuya probabilidad dependa de <span class="math inline">\(X\)</span>. Agrupe <span class="math inline">\(X\)</span> en intervalos y compare proporciones empíricas con la función condicional usada en la simulación.</p></li>
+<li><p>Simule <span class="math inline">\(Y=2+3X+\varepsilon\)</span> con <span class="math inline">\(\mathbb E[\varepsilon\mid X]=0\)</span> pero varianza condicional creciente. Verifique que el promedio de residuales por intervalos de <span class="math inline">\(X\)</span> se aproxima a cero y que su dispersión no es constante.</p></li>
+<li><p>Simule distribuciones muestrales de la media y la mediana para una distribución con valores extremos. Compare sesgo, varianza y error cuadrático medio.</p></li>
+<li><p>Implemente un bootstrap iid para la mediana. Compare el error estándar bootstrap con la variación observada en muchas muestras simuladas de una distribución conocida.</p></li>
+<li><p>Ajuste un modelo una sola vez y haga bootstrap de su métrica de test. Después repita todo el proceso de ajuste dentro de cada réplica. Explique por qué las dos distribuciones responden preguntas distintas.</p></li>
+<li><p>Con <code>load_wine</code>, reproduzca la partición del capítulo y calcule matriz de confusión, accuracy del baseline y accuracy del modelo. Cambie la semilla varias veces para estudiar variación, pero no seleccione la semilla con mejor test.</p></li>
+<li><p>Compare dos modelos sobre los mismos casos usando un bootstrap emparejado de la diferencia de pérdidas. Reporte el intervalo y la unidad remuestreada.</p></li>
+</ol>
+</section>
+<section id="interpretación-y-formulación" class="level3">
+<h3 class="anchored" data-anchor-id="interpretación-y-formulación">Interpretación y formulación</h3>
+<ol start="28" type="1">
+<li><p>Un equipo ajusta veinte modelos, elige el que obtiene mejor resultado en test y reporta un intervalo calculado sobre ese mismo test. Identifique las dos fuentes de optimismo que el intervalo no representa.</p></li>
+<li><p>Un modelo se entrena con datos de una ciudad y se usa en otra. Describa por separado qué significarían cambio de covariables, cambio de prevalencia, cambio conceptual y cambio de medición.</p></li>
+<li><p>Para un proyecto propio, escriba: estimando, estimador propuesto, unidad independiente, pérdida, distribución de uso, posible cambio de distribución y procedimiento para cuantificar incertidumbre.</p></li>
+</ol>
+</section>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>11.</strong> Por probabilidad total,</p>
+<p><span class="math display">\[
+\mathbb P(A)=0.7(0.3)+0.2(0.7)=0.35.
+\]</span></p>
+<p>Luego,</p>
+<p><span class="math display">\[
+\mathbb P(B\mid A)=\frac{0.7(0.3)}{0.35}=0.6.
+\]</span></p>
+<p><strong>12.</strong></p>
+<p><span class="math display">\[
+\mathbb E[Y]=0.4(2)+0.6(5)=3.8.
+\]</span></p>
+<p><strong>13.</strong> La primera parte es <span class="math inline">\(\mathbb E[\operatorname{Var}(Y\mid X)]=0.4(1)+0.6(4)=2.8\)</span>. La varianza de las medias condicionales es <span class="math inline">\(0.4(2-3.8)^2+0.6(5-3.8)^2=2.16\)</span>. Por tanto, <span class="math inline">\(\operatorname{Var}(Y)=4.96\)</span>.</p>
+<p><strong>14.</strong> Para <span class="math inline">\(q=0.8\)</span>,</p>
+<p><span class="math display">\[
+L_x(0.8)=-0.8\log(0.8)-0.2\log(0.2)\approx0.500.
+\]</span></p>
+<p>Para <span class="math inline">\(q=0.6\)</span>,</p>
+<p><span class="math display">\[
+L_x(0.6)=-0.8\log(0.6)-0.2\log(0.4)\approx0.592.
+\]</span></p>
+<p>La predicción <span class="math inline">\(q=\eta(x)=0.8\)</span> tiene menor riesgo condicional.</p>
+<p><strong>15.</strong> Los errores cuadráticos medios son <span class="math inline">\(9+0^2=9\)</span> y <span class="math inline">\(4+1^2=5\)</span>. El segundo estimador es sesgado, pero tiene menor MSE.</p>
+<p><strong>16.</strong> El riesgo empírico es <span class="math inline">\(0.2\)</span>. La suma de desviaciones cuadradas es 1.6, así que <span class="math inline">\(s_L^2=1.6/9\approx0.178\)</span> y el error estándar es <span class="math inline">\(\sqrt{0.178/10}\approx0.133\)</span>.</p>
+<p><strong>18.</strong> Se requiere</p>
+<p><span class="math display">\[
+2e^{-2n(0.1)^2}\leq0.05,
+\]</span></p>
+<p>por lo que</p>
+<p><span class="math display">\[
+n\geq\frac{\log(40)}{0.02}\approx184.44.
+\]</span></p>
+<p>El menor entero que satisface la cota es 185.</p>
+<p><strong>19.</strong> Las diferencias <span class="math inline">\(L^{(A)}-L^{(B)}\)</span> son <span class="math inline">\((0,-1,0,0,1,0)\)</span> y su media es cero. Las accuracies son iguales, pero las pérdidas emparejadas muestran que los modelos fallan en casos diferentes.</p>
+<p><strong>28.</strong> Test participó en la selección entre veinte modelos, de modo que el mejor resultado contiene optimismo por búsqueda. Además, el intervalo usual condiciona en el modelo ya escogido y no repite el proceso de seleccionar entre veinte alternativas; por tanto, no incorpora esa variación adaptativa.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+  <p>
+    <strong>Cita sugerida:</strong>
+    Galindo, C. (2026).
+    <em>Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105</em>.
+    Universidad de los Andes.
+  </p>
+  <p>
+    <strong>Estado de uso:</strong>
+    material docente del curso MATE-2105 bajo <code>LICENSE</code> formal de uso
+    docente restringido. La redistribución, adaptación pública o uso comercial
+    requiere autorización explícita del autor.
+  </p>
+  <nav aria-label="Enlaces editoriales del libro">
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+  </nav>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("pre").forEach(function (block) {
+    if (!block.hasAttribute("tabindex")) {
+      block.setAttribute("tabindex", "0");
+    }
+  });
+
+  document.querySelectorAll("nav.quarto-secondary-nav").forEach(function (nav) {
+    nav.setAttribute("aria-label", "Navegacion secundaria de pagina");
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button,
+          { trigger: "manual",
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/cesarneyit-code\.github\.io\/mate2105\/libro\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config);
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined;
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              }
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            }
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../capitulos/00b-incertidumbre-datos.html" class="pagination-link" aria-label="Variables aleatorias, distribuciones y muestras">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></span>
+      </a>
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../partes/parte02_regresion.html" class="pagination-link" aria-label="Parte II: Regresión, optimización y clasificación">
+        <span class="nav-page-text">Parte II: Regresión, optimización y clasificación</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
