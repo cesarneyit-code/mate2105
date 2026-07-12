@@ -206,12 +206,12 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -683,10 +683,11 @@ ul.task-list li input[type="checkbox"] {
 <li>diseñar particiones <code>train/dev/test</code> y justificar validación, selección de métricas y criterios de comparación;</li>
 <li>reconocer problemas aplicados frecuentes: escalamiento, leakage, overfitting, data mismatch, clases desbalanceadas, sesgo y límites de interpretación;</li>
 <li>construir un proyecto reproducible con datos reales, baseline, modelos, evidencia y recomendaciones técnicas;</li>
-<li>comunicar y defender decisiones técnicas con evidencia, límites y autoría clara.</li>
+<li>comunicar y defender decisiones técnicas con evidencia, límites y autoría clara;</li>
+<li>formular la dimensión probabilística y estadística de un problema, distinguiendo población, muestra, estimador, estimación, riesgo e incertidumbre.</li>
 </ol>
 <div class="editorial-standard">
-<p>El resultado esperado no es memorizar algoritmos. Es poder explicar qué se optimiza, cómo se calcula, cómo se valida y qué decisión se justifica con la evidencia disponible.</p>
+<p>El resultado esperado no es memorizar algoritmos. Es poder explicar qué objeto poblacional se busca, cómo se aproxima con una muestra, qué se optimiza, cómo se calcula, cómo se valida y cuál es el alcance de la conclusión obtenida.</p>
 </div>
 </section>
 <section id="alineación-por-parte-del-libro" class="level2">
@@ -707,32 +708,32 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>Fundamentos</td>
-<td>lenguaje común, incertidumbre mínima, flujo aplicado, lectura de datos y primer baseline</td>
-<td>diagnóstico inicial, pregunta modelable y lectura de ruido/variable objetivo</td>
+<td>proceso generador, muestra, distribución, condicionamiento, riesgo y lectura de datos</td>
+<td>diagnóstico probabilístico, pregunta modelable y distinción población-muestra-estimador</td>
 </tr>
 <tr class="even">
 <td>Regresión, optimización y clasificación</td>
-<td>derivación, implementación, regularización, validación y métricas</td>
+<td>media condicional, estimación, riesgo, derivación, regularización y modelo Bernoulli</td>
 <td>laboratorios y Parcial 1</td>
 </tr>
 <tr class="odd">
 <td>Redes neuronales</td>
-<td>forward propagation, backpropagation, diagnóstico y PyTorch</td>
+<td>distribuciones condicionales, entropía cruzada, gradientes estocásticos y backpropagation</td>
 <td>implementación desde cero y comparación con referencia</td>
 </tr>
 <tr class="even">
 <td>Estrategia de ML</td>
-<td>métricas, particiones, validación cruzada, curvas y error analysis</td>
+<td>métricas como estimadores, incertidumbre, validación y cambio de distribución</td>
 <td>selección de modelo con protocolo explícito</td>
 </tr>
 <tr class="odd">
 <td>No supervisado</td>
-<td>SVD/PCA, clustering y recomendación</td>
+<td>covarianza, PCA, distorsión esperada, estabilidad y exposición</td>
 <td>reducción de dimensión, segmentación o recomendación justificadas</td>
 </tr>
 <tr class="even">
 <td>Reproducibilidad y defensa</td>
-<td>tracking, comunicación, reporte y defensa oral</td>
+<td>replicación estadística, tracking, incertidumbre, reporte y defensa oral</td>
 <td>proyecto final reproducible y defensa individual</td>
 </tr>
 </tbody>
@@ -756,12 +757,12 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td>Parciales</td>
-<td>razonamiento matemático, derivación, diagnóstico y lectura de resultados</td>
+<td>formulación probabilística, razonamiento matemático, derivación, diagnóstico y lectura de resultados</td>
 <td>memorización de fórmulas aisladas</td>
 </tr>
 <tr class="even">
 <td>Laboratorios</td>
-<td>implementación, pruebas, comparación con referencia e interpretación corta</td>
+<td>estimación, implementación, pruebas, comparación con referencia e interpretación corta</td>
 <td>copiar una API sin entender el algoritmo</td>
 </tr>
 <tr class="odd">
@@ -787,10 +788,13 @@ ul.task-list li input[type="checkbox"] {
 <p>Una evidencia de aprendizaje es fuerte cuando contiene:</p>
 <ul>
 <li><strong>objeto matemático:</strong> variables, dimensiones, función objetivo o métrica;</li>
+<li><strong>objeto poblacional:</strong> distribución, parámetro, riesgo o cantidad que se busca aprender;</li>
+<li><strong>aproximación muestral:</strong> muestra, estimador, estimación y mecanismo de observación;</li>
 <li><strong>procedimiento:</strong> algoritmo, gradiente, factorización o regla de decisión;</li>
 <li><strong>verificación:</strong> prueba pequeña, comparación, baseline o resultado esperado;</li>
 <li><strong>validación:</strong> partición, métrica, curva, error o análisis de estabilidad;</li>
 <li><strong>interpretación:</strong> recomendación, límite y riesgo de extrapolación;</li>
+<li><strong>incertidumbre:</strong> fuente de variación, error estándar, intervalo o análisis de estabilidad apropiado;</li>
 <li><strong>trazabilidad:</strong> fuente de datos, semilla, entorno, ayuda externa y autoría.</li>
 </ul>
 <p>Los casos longitudinales del libro ayudan a practicar esa estructura en más de un capítulo. Un mismo dataset puede producir evidencia de ajuste, validación, diagnóstico, comunicación y defensa; por eso el aprendizaje esperado no es solo resolver una tarea local, sino sostener una decisión técnica a través de varias etapas.</p>

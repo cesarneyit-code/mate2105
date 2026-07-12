@@ -113,17 +113,17 @@ ul.task-list li input[type="checkbox"] {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Arranque y lenguaje común</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Datos y fundamentos probabilísticos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -204,7 +204,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="proposito-del-proyecto" class="level1">
 <h1>Proposito del proyecto</h1>
 <p>El proyecto final es el eje aplicado del curso. Su objetivo no es producir el modelo más complejo, sino construir un flujo de ciencia de datos defendible:</p>
-<pre class="text"><code>pregunta -&gt; datos -&gt; baseline -&gt; modelos -&gt; diagnóstico -&gt; decisión</code></pre>
+<pre class="text"><code>pregunta -&gt; población y muestra -&gt; estimando -&gt; baseline -&gt; modelos -&gt; incertidumbre -&gt; conclusión</code></pre>
 <p>Cada grupo trabajará con un dataset real y una pregunta aplicada. Al final, el grupo entregará un producto técnico reproducible y cada estudiante defenderá oralmente decisiones específicas del proyecto.</p>
 </section>
 <section id="qué-cuenta-como-buen-proyecto" class="level1">
@@ -213,11 +213,14 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>una pregunta concreta;</li>
 <li>datos disponibles y documentados;</li>
+<li>población objetivo y mecanismo de muestreo u observación explícitos;</li>
 <li>unidad de observación clara;</li>
+<li>estimando poblacional y estimador identificados;</li>
 <li>métrica defendible;</li>
 <li>baseline razonable;</li>
 <li>al menos dos modelos comparables;</li>
 <li>diagnóstico de errores;</li>
+<li>incertidumbre de las métricas o estabilidad entre muestras;</li>
 <li>limitaciones explicitas;</li>
 <li>código reproducible;</li>
 <li>conclusión orientada a decisión.</li>
@@ -239,10 +242,13 @@ ul.task-list li input[type="checkbox"] {
 <li>Qué decisión podría mejorar con datos?</li>
 <li>Quien usaria el resultado?</li>
 <li>Qué representa una fila del dataset?</li>
+<li>¿Cuál es la población sobre la que se quiere concluir y cómo llegó la muestra?</li>
+<li>¿Cuál es el estimando: media condicional, riesgo, probabilidad, covarianza o distorsión?</li>
 <li>Cuál es la variable objetivo, si existe?</li>
 <li>Qué variables de entrada estarian disponibles antes de tomar la decisión?</li>
 <li>Qué error sería más costoso?</li>
 <li>Qué baseline simple tendría sentido?</li>
+<li>¿Cómo cuantificarán variación muestral, dependencia o estabilidad?</li>
 <li>Qué limitaciones eticas, legales o de sesgo pueden aparecer?</li>
 </ol>
 </section>
@@ -310,6 +316,7 @@ ul.task-list li input[type="checkbox"] {
 <li>permitir una pregunta modelable;</li>
 <li>no requerir infraestructura compleja;</li>
 <li>tener diccionario de variables o documentacion suficiente.</li>
+<li>permitir describir qué unidades quedaron incluidas, excluidas o sobrerrepresentadas.</li>
 </ul>
 <p>Eviten inicialmente:</p>
 <ul>
@@ -339,42 +346,42 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">1</td>
 <td>Exploración inicial</td>
-<td>Dos áreas de interés o datasets posibles</td>
+<td>Dos áreas con población, muestra posible y limitación</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
 <td>Prepropuesta</td>
-<td>Pregunta, dataset, unidad de observación y decisión</td>
+<td>Pregunta, población, dataset, unidad, muestreo y estimando</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4</td>
 <td>Propuesta</td>
-<td>Métrica, baseline, riesgos y plan técnico</td>
+<td>Estimador, métrica, baseline, supuestos, incertidumbre y plan técnico</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6</td>
 <td>Baseline</td>
-<td>Primer modelo simple y evaluación inicial</td>
+<td>Primer modelo, estimación inicial y protocolo de evaluación</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">9</td>
 <td>Checkpoint técnico</td>
-<td>Modelo mejorado, diagnóstico y plan de mejora</td>
+<td>Modelo mejorado, variación entre repeticiones, diagnóstico y plan</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">12</td>
 <td>Extensión</td>
-<td>PCA, clustering, interpretabilidad o análisis adicional si aplica</td>
+<td>PCA, clustering o recomendación con análisis de estabilidad si aplica</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">14</td>
 <td>Reproducibilidad</td>
-<td>Pipeline, tracking y resultados comparables</td>
+<td>Pipeline, tracking y protocolo de replicación estadística</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">15-16</td>
 <td>Entrega final</td>
-<td>Reporte, repositorio, presentación y defensa individual</td>
+<td>Reporte con estimando, estimación, incertidumbre y alcance; repositorio y defensa</td>
 </tr>
 </tbody>
 </table>
@@ -388,6 +395,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Presentación breve.</li>
 <li>Evidencia de experimentos.</li>
 <li>Defensa oral individual.</li>
+<li>Ficha probabilística: población, muestra, estimando, estimador, estimación, incertidumbre y alcance.</li>
 </ol>
 </section>
 <section id="defensa-oral-individual" class="level1">
@@ -400,6 +408,9 @@ ul.task-list li input[type="checkbox"] {
 <li>Qué modelo funcionó mejor y por qué creen que ocurrió?</li>
 <li>Dónde falla el modelo?</li>
 <li>Qué limitaciones comunicarías antes de usarlo?</li>
+<li>¿Qué cantidad poblacional estimaron y por qué su procedimiento la aproxima?</li>
+<li>¿Qué variación proviene de muestra y cuál de algoritmo o partición?</li>
+<li>¿Qué cambiaría si se recolectara una nueva muestra?</li>
 <li>Qué cambiarias con más tiempo o mejores datos?</li>
 </ul>
 </section>
@@ -411,9 +422,11 @@ ul.task-list li input[type="checkbox"] {
 <li>Tema o dataset.</li>
 <li>Fuente posible.</li>
 <li>Unidad de observación.</li>
-<li>Pregunta aplicada.</li>
-<li>Decisión que podría informar.</li>
-<li>Riesgo o limitacion anticipada.</li>
+<li>Población de interés.</li>
+<li>Mecanismo posible de muestreo u observación.</li>
+<li>Pregunta aplicada y estimando poblacional.</li>
+<li>Uso que podría tener la respuesta.</li>
+<li>Fuente de incertidumbre o limitación anticipada.</li>
 </ol>
 <p>La entrega de estas ideas se hace dentro del laboratorio diagnóstico de Semana 1.</p>
 </section>

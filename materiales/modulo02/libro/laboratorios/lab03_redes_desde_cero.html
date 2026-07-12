@@ -233,7 +233,7 @@ window.Quarto = {
 
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
-<p>Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.</p>
+<p>Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento. La salida softmax se interpreta como una distribución categórica condicional estimada; la entropía cruzada empírica aproxima un riesgo esperado y los gradientes de minibatch son estimadores aleatorios.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
 <p>¿La red aprende por backpropagation de forma verificable y puedes diagnosticar si su entrenamiento es confiable?</p>
@@ -257,7 +257,8 @@ window.Quarto = {
 <li>Implementa <code>update_parameters</code> y <code>predict</code>.</li>
 <li>Entrena en un subconjunto de <code>load_digits</code>.</li>
 <li>Compara contra <code>sklearn.neural_network.MLPClassifier</code> o una referencia simple.</li>
-<li>Escribe interpretación final: convergencia, limitación y siguiente experimento.</li>
+<li>Completa <code>probability_answers</code>: distribución condicional, riesgo esperado, gradiente de minibatch y papel de la semilla.</li>
+<li>Escribe interpretación final: convergencia, incertidumbre, limitación y siguiente experimento.</li>
 </ol>
 </section>
 <section id="lo-que-autocalifica-el-notebook" class="level1">
@@ -316,6 +317,11 @@ window.Quarto = {
 <td>parámetros actualizados y clases predichas</td>
 <td style="text-align: right;">Automática</td>
 </tr>
+<tr class="odd">
+<td>Contrato probabilístico</td>
+<td>distribución categórica, riesgo, gradiente aleatorio y semilla</td>
+<td style="text-align: right;">Automática</td>
+</tr>
 </tbody>
 </table>
 <section id="convención-de-regularización" class="level2">
@@ -334,7 +340,7 @@ J_{\lambda}
 <h1>Parte manual</h1>
 <p>Incluye una respuesta corta:</p>
 <blockquote class="blockquote">
-<p>¿Qué resultados muestran que la red aprendió y cuál es una limitación del experimento?</p>
+<p>¿Qué resultados muestran que la red aprendió, qué riesgo poblacional aproxima la entropía cruzada y qué fuentes de variación quedan?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -359,7 +365,7 @@ J_{\lambda}
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>Conecta curva de pérdida, métrica de validación, comparación y una limitación concreta</td>
+<td>Conecta curva y validación, identifica riesgo esperado y separa variación por muestra, inicialización o minibatch</td>
 </tr>
 </tbody>
 </table>

@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.">
+<meta name="description" content="Comparar riesgo esperado y empírico por simulación y leer accuracy como estimador con incertidumbre.">
 
 <title>Semana 1 · Clase 2 – MATE-2105 · Panel docente</title>
 <style>
@@ -170,9 +170,10 @@ window.Quarto = {
   <li><a href="#transiciones-que-conviene-decir" id="toc-transiciones-que-conviene-decir" class="nav-link" data-scroll-target="#transiciones-que-conviene-decir">Transiciones que conviene decir</a></li>
   <li><a href="#trabajo-de-tablero" id="toc-trabajo-de-tablero" class="nav-link" data-scroll-target="#trabajo-de-tablero">Trabajo de tablero</a>
   <ul class="collapse">
-  <li><a href="#tablero-1-minuto-26" id="toc-tablero-1-minuto-26" class="nav-link" data-scroll-target="#tablero-1-minuto-26">Tablero 1, minuto 26</a></li>
-  <li><a href="#tablero-2-minuto-84" id="toc-tablero-2-minuto-84" class="nav-link" data-scroll-target="#tablero-2-minuto-84">Tablero 2, minuto 84</a></li>
-  <li><a href="#tablero-3-minuto-94" id="toc-tablero-3-minuto-94" class="nav-link" data-scroll-target="#tablero-3-minuto-94">Tablero 3, minuto 94</a></li>
+  <li><a href="#tablero-1-minuto-12" id="toc-tablero-1-minuto-12" class="nav-link" data-scroll-target="#tablero-1-minuto-12">Tablero 1, minuto 12</a></li>
+  <li><a href="#tablero-2-minuto-51" id="toc-tablero-2-minuto-51" class="nav-link" data-scroll-target="#tablero-2-minuto-51">Tablero 2, minuto 51</a></li>
+  <li><a href="#tablero-3-minuto-90" id="toc-tablero-3-minuto-90" class="nav-link" data-scroll-target="#tablero-3-minuto-90">Tablero 3, minuto 90</a></li>
+  <li><a href="#tablero-4-minuto-99" id="toc-tablero-4-minuto-99" class="nav-link" data-scroll-target="#tablero-4-minuto-99">Tablero 4, minuto 99</a></li>
   </ul></li>
   <li><a href="#respuestas-esperadas" id="toc-respuestas-esperadas" class="nav-link" data-scroll-target="#respuestas-esperadas">Respuestas esperadas</a></li>
   <li><a href="#errores-frecuentes-y-respuesta-docente" id="toc-errores-frecuentes-y-respuesta-docente" class="nav-link" data-scroll-target="#errores-frecuentes-y-respuesta-docente">Errores frecuentes y respuesta docente</a></li>
@@ -188,12 +189,12 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Semana 1 · Clase 2</h1>
-<p class="subtitle lead">Primer experimento de clasificación</p>
+<p class="subtitle lead">Riesgo, variación muestral y primer experimento</p>
 </div>
 
 <div>
   <div class="description">
-    Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.
+    Comparar riesgo esperado y empírico por simulación y leer accuracy como estimador con incertidumbre.
   </div>
 </div>
 
@@ -212,10 +213,10 @@ window.Quarto = {
 
 <!-- Generado por scripts/generar_panel_docente_publico.py. -->
 <div class="session-summary">
-<p><strong>Módulo 0 · Arranque</strong><br> <strong>Fecha:</strong> 6 de agosto de 2026 · <strong>Duración:</strong> 110 minutos<br> <strong>Resultado esperado:</strong> Comparar un baseline y un modelo sobre una partición fija y localizar sus errores.<br> <strong>Hito de la semana:</strong> Laboratorio diagnóstico e ideas iniciales de proyecto</p>
+<p><strong>Módulo 0 · Datos y fundamentos probabilísticos</strong><br> <strong>Fecha:</strong> 6 de agosto de 2026 · <strong>Duración:</strong> 110 minutos<br> <strong>Resultado esperado:</strong> Comparar riesgo esperado y empírico por simulación y leer accuracy como estimador con incertidumbre.<br> <strong>Foco probabilístico:</strong> población, variable aleatoria, muestra, estimador, riesgo e incertidumbre<br> <strong>Hito de la semana:</strong> Laboratorio diagnóstico probabilístico e ideas iniciales de proyecto</p>
 </div>
 <div class="session-actions">
-<p><a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo00/slides/semana01_clase02_presentacion.html" class="session-action primary" target="_blank">Abrir presentación</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_live_coding.ipynb" class="session-action" target="_blank">Abrir notebook semanal</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00-lenguaje-comun.html" class="session-action" target="_blank">Lenguaje común</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00b-incertidumbre-datos.html" class="session-action" target="_blank">Incertidumbre y datos</a> <a href="https://cesarneyit-code.github.io/mate2105/ruta.html#semana-1" class="session-action" target="_blank">Ruta de la semana</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_lab.ipynb" class="session-action" target="_blank">Laboratorio diagnóstico</a></p>
+<p><a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo00/slides/semana01_clase02_presentacion.html" class="session-action primary" target="_blank">Abrir presentación</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_live_coding.ipynb" class="session-action" target="_blank">Abrir notebook semanal</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00-lenguaje-comun.html" class="session-action" target="_blank">Antes de modelar</a> <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00b-incertidumbre-datos.html" class="session-action" target="_blank">Fundamentos probabilísticos</a> <a href="https://cesarneyit-code.github.io/mate2105/ruta.html#semana-1" class="session-action" target="_blank">Ruta de la semana</a> <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_lab.ipynb" class="session-action" target="_blank">Laboratorio diagnóstico</a></p>
 </div>
 <section id="cómo-usar-esta-página" class="level2">
 <h2 class="anchored" data-anchor-id="cómo-usar-esta-página">Cómo usar esta página</h2>
@@ -231,7 +232,7 @@ window.Quarto = {
 <li>Presentación: <a href="https://cesarneyit-code.github.io/mate2105/materiales/modulo00/slides/semana01_clase02_presentacion.html">presentación</a></li>
 <li>Notebook: <a href="https://cesarneyit-code.github.io/mate2105/descargas/modulo00/semana01_live_coding.ipynb">semana01_live_coding.ipynb</a></li>
 <li>Duración: 110 minutos</li>
-<li>Propósito: ejecutar y leer un primer experimento de clasificación con baseline, partición y matriz de confusión.</li>
+<li>Propósito: observar una distribución muestral por simulación y leer baseline, accuracy y matriz de confusión como estimadores de cantidades poblacionales.</li>
 </ul>
 </section>
 <section id="preparación-previa" class="level2">
@@ -242,6 +243,9 @@ train = 133
 test = 45
 accuracy baseline = 0.400
 accuracy modelo = 0.978
+riesgo esperado Bernoulli = 0.300
+media simulada del riesgo ≈ 0.300
+error estándar teórico con m=20 ≈ 0.102
 matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
 <p>Abrir 20 minutos antes:</p>
 <ul>
@@ -256,7 +260,7 @@ matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
 <section id="frase-de-apertura" class="level2">
 <h2 class="anchored" data-anchor-id="frase-de-apertura">Frase de apertura</h2>
 <blockquote class="blockquote">
-<p>Hoy quiero que el primer número del modelo aparezca tarde. Antes vamos a predecir su baseline, el tamaño de test y qué información necesitaremos para localizar un error.</p>
+<p>Hoy conocemos el riesgo verdadero de una regla simple. Vamos a tomar muchas muestras para ver por qué una estimación correcta no tiene que devolver exactamente ese valor.</p>
 </blockquote>
 </section>
 <section id="guion-de-110-minutos" class="level2">
@@ -276,64 +280,59 @@ matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">0-6</td>
-<td>1-3</td>
-<td>Recuperar la clase anterior con tres preguntas: fila, objetivo y límite. Presentar <code>load_wine</code> sin abrir aún el notebook.</td>
+<td style="text-align: right;">0-12</td>
+<td>Riesgo conocido</td>
+<td>Formular <span class="math inline">\(Y\sim\mathrm{Bernoulli}(0.7)\)</span>, la regla constante y <span class="math inline">\(R_P(f_1)=0.3\)</span>. Pedir que identifiquen parámetro, pérdida y estimador.</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">6-16</td>
-<td>4-6</td>
-<td>Leer forma y distribución de clases. Pedir el cálculo <span class="math inline">\(71/178\)</span> y discutir por qué todavía no es la métrica de test.</td>
+<td style="text-align: right;">12-25</td>
+<td>Una muestra y muestras repetidas</td>
+<td>Calcular un riesgo empírico en tablero. Mostrar la repetición y derivar <span class="math inline">\(\operatorname{SE}=\sqrt{p(1-p)/m}\)</span>.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">16-26</td>
-<td>7-9</td>
-<td>Explicar partición fija y estratificación. Hacer que el grupo anticipe tamaños y proporciones.</td>
+<td style="text-align: right;">25-34</td>
+<td>Primera pausa</td>
+<td>Responder objeto fijo, objeto aleatorio, efecto de multiplicar <span class="math inline">\(m\)</span> por cuatro y supuesto iid.</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">26-36</td>
-<td>10</td>
-<td>Pausa, 5 minutos; puesta en común, 5 minutos. Escribir en el tablero las respuestas 45, 18, 44/45 y “tipo de confusión”.</td>
+<td style="text-align: right;">34-37</td>
+<td>Notebook secciones 1-2</td>
+<td><strong>Abrir el notebook aquí.</strong> Ejecutar una muestra y la simulación de 5000 repeticiones.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">36-47</td>
-<td>11-15</td>
-<td>Mostrar baseline, tubería, escalamiento y regresión logística como herramienta. Leer el código completo sin ejecutarlo.</td>
+<td style="text-align: right;">37-51</td>
+<td><code>load_wine</code> y distribución empírica</td>
+<td>Identificar población conceptual, muestra disponible, proporciones empíricas y baseline.</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">47-50</td>
-<td>16</td>
-<td><strong>Abrir el notebook exactamente aquí.</strong> Mostrar índice y detenerse en la pregunta inicial.</td>
+<td style="text-align: right;">51-61</td>
+<td>Partición y segunda predicción</td>
+<td>Anticipar tamaños, aciertos del baseline y accuracy hipotética antes de ejecutar.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">50-72</td>
-<td>Notebook, secciones 1-5</td>
-<td>Ejecutar preparación, carga, distribución, partición, baseline y modelo. Antes de cada celda pedir una predicción de forma o valor. No ejecutar en bloque.</td>
+<td style="text-align: right;">61-76</td>
+<td>Notebook secciones 3-6</td>
+<td>Ejecutar carga, partición, baseline y modelo. Pedir una predicción antes de cada salida.</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">72-82</td>
-<td>17-19</td>
-<td>Volver a slides. Comparar 0.400 y 0.978 y limitar la afirmación. No usar “casi perfecto”.</td>
+<td style="text-align: right;">76-88</td>
+<td>Accuracy e incertidumbre</td>
+<td>Formular accuracy como promedio de indicadores, calcular error estándar <em>plug-in</em> y separar sus supuestos de otros cambios poblacionales.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">82-92</td>
-<td>Notebook sección 6 + slides 20-23</td>
-<td>Ejecutar matriz y reporte. Leer una celda concreta y conectar recall de clase 1 con precision de clase 2.</td>
+<td style="text-align: right;">88-97</td>
+<td>Variación entre particiones</td>
+<td>Ejecutar 50 particiones. Comparar reproducibilidad de una semilla con replicación estadística.</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">92-100</td>
-<td>24-26</td>
-<td>Construir la conclusión de cuatro líneas, discutir alcance externo y enumerar los elementos de reproducibilidad.</td>
+<td style="text-align: right;">97-104</td>
+<td>Matriz y conclusión</td>
+<td>Localizar el error, conectar precision/recall y escribir estimación, incertidumbre, alcance y limitación.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">100-106</td>
-<td>27-29</td>
-<td>Explicar laboratorio, ideas de proyecto y segunda pausa. Pedir una reformulación oral de la frase exagerada.</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">106-110</td>
-<td>30-31</td>
-<td>Recordar reinicio/ejecución completa y cerrar con las cuatro preguntas. Mostrar la fecha de entrega en Bloque Neón, no confiar en una fecha escrita solo en slides.</td>
+<td style="text-align: right;">104-110</td>
+<td>Laboratorio y cierre</td>
+<td>Mostrar la parte probabilística, pedir reformulación de la frase exagerada y confirmar entrega en Bloque Neón.</td>
 </tr>
 </tbody>
 </table>
@@ -341,7 +340,8 @@ matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
 <section id="transiciones-que-conviene-decir" class="level2">
 <h2 class="anchored" data-anchor-id="transiciones-que-conviene-decir">Transiciones que conviene decir</h2>
 <ul>
-<li>De distribución a baseline: “La barra más alta ya nos da un competidor sin usar química”.</li>
+<li>De simulación a datos: “En la simulación conocíamos <span class="math inline">\(P\)</span>; con Wine solo vemos una muestra y debemos declarar qué población imaginamos”.</li>
+<li>De distribución a baseline: “La barra más alta de la distribución empírica ya nos da un competidor sin usar química”.</li>
 <li>De partición a pausa: “Ahora el problema tiene 45 casos; calculen antes de que Python lo haga”.</li>
 <li>De tubería a notebook: “Ya sabemos qué debe ocurrir. Abramos el archivo para comprobarlo”.</li>
 <li>De accuracy a matriz: “Cuarenta y cuatro aciertos dejan un error; queremos saber cuál”.</li>
@@ -350,16 +350,25 @@ matriz = [[15, 0, 0], [0, 17, 1], [0, 0, 12]]</code></pre>
 </section>
 <section id="trabajo-de-tablero" class="level2">
 <h2 class="anchored" data-anchor-id="trabajo-de-tablero">Trabajo de tablero</h2>
-<section id="tablero-1-minuto-26" class="level3">
-<h3 class="anchored" data-anchor-id="tablero-1-minuto-26">Tablero 1, minuto 26</h3>
+<section id="tablero-1-minuto-12" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-1-minuto-12">Tablero 1, minuto 12</h3>
+<pre class="text"><code>Población: Y ~ Bernoulli(0.7)
+Regla: f_1 = 1
+Riesgo esperado: P(Y != 1) = 0.3
+Estimador: promedio de errores en una muestra de tamaño m
+SE: sqrt(0.3*0.7/m)</code></pre>
+<p>Preguntar por qué el estimador puede ser insesgado y no ser exacto.</p>
+</section>
+<section id="tablero-2-minuto-51" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-2-minuto-51">Tablero 2, minuto 51</h3>
 <pre class="text"><code>test: 45
 baseline: 18/45 = 0.400
 modelo hipotético: 44/45 = 0.978
 falta: ubicación del error</code></pre>
 <p>No mostrar 44 antes de que lo calculen; está en la consigna para verificar división, no para simular descubrimiento.</p>
 </section>
-<section id="tablero-2-minuto-84" class="level3">
-<h3 class="anchored" data-anchor-id="tablero-2-minuto-84">Tablero 2, minuto 84</h3>
+<section id="tablero-3-minuto-90" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-3-minuto-90">Tablero 3, minuto 90</h3>
 <p>Dibujar una matriz 3 × 3 y marcar filas como observado, columnas como predicho. Colocar solo el 1 fuera de la diagonal.</p>
 <p>Preguntar:</p>
 <ul>
@@ -367,22 +376,25 @@ falta: ubicación del error</code></pre>
 <li>¿qué clase perdió precision? Respuesta: clase 2.</li>
 </ul>
 </section>
-<section id="tablero-3-minuto-94" class="level3">
-<h3 class="anchored" data-anchor-id="tablero-3-minuto-94">Tablero 3, minuto 94</h3>
+<section id="tablero-4-minuto-99" class="level3">
+<h3 class="anchored" data-anchor-id="tablero-4-minuto-99">Tablero 4, minuto 99</h3>
 <p>Plantilla de conclusión:</p>
-<pre class="text"><code>comparación + error concreto + partición + cambio no evaluado</code></pre>
+<pre class="text"><code>estimando + estimación + incertidumbre + comparación + cambio no evaluado</code></pre>
 </section>
 </section>
 <section id="respuestas-esperadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-esperadas">Respuestas esperadas</h2>
 <ul>
 <li>La clase mayoritaria es 1, con 71 observaciones.</li>
+<li>El riesgo esperado de la regla constante es 0.3; el riesgo empírico cambia entre muestras.</li>
+<li>Multiplicar el tamaño de muestra por cuatro divide aproximadamente por dos el error estándar.</li>
 <li>En test hay 45 filas; el baseline acierta las 18 de clase 1.</li>
 <li><code>stratify=y</code> conserva aproximadamente proporciones, no garantiza idénticos porcentajes.</li>
 <li>El escalador aprende media y desviación solo con train porque vive dentro de la tubería.</li>
 <li>El modelo acierta 44 de 45; el único error es clase 1 predicha como 2.</li>
 <li>El recall de clase 1 es <span class="math inline">\(17/18\)</span>; la precision de clase 2 es <span class="math inline">\(12/13\)</span>.</li>
 <li>El resultado no evalúa otros laboratorios, regiones ni periodos.</li>
+<li><code>random_state</code> reproduce una partición, pero no convierte 0.978 en desempeño poblacional exacto.</li>
 </ul>
 </section>
 <section id="errores-frecuentes-y-respuesta-docente" class="level2">
@@ -410,6 +422,14 @@ falta: ubicación del error</code></pre>
 <tr class="odd">
 <td>Interpretar <code>random_state</code> como mejora estadística.</td>
 <td>Es reproducibilidad de una partición, no garantía de representatividad.</td>
+</tr>
+<tr class="even">
+<td>Exigir que el promedio simulado sea exactamente 0.3.</td>
+<td>Separar esperanza del estimador y realización finita de la simulación.</td>
+</tr>
+<tr class="odd">
+<td>Llamar “intervalo de confianza” a cualquier media más/menos una desviación.</td>
+<td>Identificar primero el procedimiento inferencial y sus supuestos; aquí solo calculamos un error estándar.</td>
 </tr>
 <tr class="even">
 <td>Leer columnas como observado en la matriz.</td>

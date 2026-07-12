@@ -90,6 +90,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_parcial2_sintesis.html#mapa-probabilístico-de-síntesis",
+    "href": "capitulo01_parcial2_sintesis.html#mapa-probabilístico-de-síntesis",
+    "title": "Síntesis conceptual: redes, estrategia y no supervisado",
+    "section": "Mapa probabilístico de síntesis",
+    "text": "Mapa probabilístico de síntesis\nTodo método del curso puede ubicarse en cuatro niveles:\n\n\n\n\n\n\n\n\nNivel\nPregunta\nEjemplo\n\n\n\n\npoblación\n¿qué cantidad define \\(P\\)?\n\\(\\mathbb E[Y\\mid X=x]\\), \\(P(Y=k\\mid X=x)\\), \\(\\Sigma\\)\n\n\nmuestra\n¿qué observaciones se realizaron?\n\\(D_m\\sim P^m\\) o muestra dependiente\n\n\nobjetivo empírico\n¿qué promedio o geometría se calcula?\nMSE, CE, distorsión, covarianza empírica\n\n\nalgoritmo\n¿cómo se obtiene una solución?\nlstsq, backprop, Adam, SVD, K-Means\n\n\n\nConfundir niveles produce errores típicos: tratar una probabilidad estimada como verdadera, una métrica como riesgo conocido, una componente empírica como dirección poblacional fija o una semilla reproducible como estabilidad estadística.\n\nPrincipio de riesgo empírico. Regresión, clasificación y redes minimizan promedios de pérdidas sobre una muestra. Esa operación es una aproximación al riesgo poblacional solo bajo supuestos sobre muestreo, dependencia y comparabilidad con el uso. La corrección del algoritmo no demuestra esos supuestos.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Síntesis conceptual: redes, estrategia y no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_parcial2_sintesis.html#mapa-de-contenidos",
     "href": "capitulo01_parcial2_sintesis.html#mapa-de-contenidos",
     "title": "Síntesis conceptual: redes, estrategia y no supervisado",
@@ -310,6 +320,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_reproducibilidad_tracking.html#reproducibilidad-computacional-y-replicación-estadística",
+    "href": "capitulo02_reproducibilidad_tracking.html#reproducibilidad-computacional-y-replicación-estadística",
+    "title": "Reproducibilidad y tracking",
+    "section": "Reproducibilidad computacional y replicación estadística",
+    "text": "Reproducibilidad computacional y replicación estadística\nConviene separar dos preguntas:\n\nReproducibilidad computacional: con los mismos bytes, código y entorno, ¿se reconstruye el mismo resultado?\nReplicación estadística: con otra muestra del proceso de interés, ¿la conclusión se mantiene dentro de una variación razonable?\n\nLa primera condiciona en el dataset observado. La segunda considera \\(D_m'\\sim P^m\\) y estudia la distribución de \\(T(D_m')\\), donde \\(T\\) puede ser un coeficiente, una métrica o una recomendación.\nUna semilla fija selecciona una realización de generadores pseudoaleatorios. Debe registrarse, pero no reduce \\(\\operatorname{Var}_{D_m}(T(D_m))\\) ni corrige cambio de distribución.\n\nUn manifest completo registra la semilla y también el protocolo estadístico: unidad de muestreo, partición, repeticiones, intervalos o dispersión y distribución de uso pretendida.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Reproducibilidad y tracking</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_reproducibilidad_tracking.html#el-paquete-mínimo-reproducible",
     "href": "capitulo02_reproducibilidad_tracking.html#el-paquete-mínimo-reproducible",
     "title": "Reproducibilidad y tracking",
@@ -524,7 +544,17 @@
     "href": "capitulo03_comunicacion_tecnica.html#objetivos-del-capítulo",
     "title": "Comunicación técnica",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir una tesis técnica breve;\nseleccionar figuras que respondan preguntas específicas;\ndistinguir resultado, interpretación y recomendación;\nevitar lenguaje desproporcionado;\npreparar una respuesta oral precisa.\n\n\nTesis técnica: frase que resume la recomendación, el resultado principal y la limitación más importante.\n\nEjemplo:\n\nEl modelo regularizado mejora el baseline en F1 y mantiene estabilidad en validación cruzada, pero requiere revisar falsos negativos en el subgrupo de mayor riesgo antes de una recomendación operativa.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir una tesis técnica breve;\nseleccionar figuras que respondan preguntas específicas;\ndistinguir resultado, interpretación y recomendación;\nevitar lenguaje desproporcionado;\npreparar una respuesta oral precisa.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_comunicacion_tecnica.html#comunicar-una-cantidad-aleatoria",
+    "href": "capitulo03_comunicacion_tecnica.html#comunicar-una-cantidad-aleatoria",
+    "title": "Comunicación técnica",
+    "section": "Comunicar una cantidad aleatoria",
+    "text": "Comunicar una cantidad aleatoria\nUna métrica, coeficiente o componente estimada depende de la muestra. Un reporte matemáticamente proporcionado identifica:\n\\[\n\\text{estimando}\n+\\text{estimador}\n+\\text{estimación}\n+\\text{incertidumbre}\n+\\text{alcance}.\n\\]\nEjemplo:\n\nEn el test temporal de 2025, el MAE fue 4.8 unidades. Un bootstrap por mes dio percentiles 2.5 y 97.5 de 4.1 y 5.7. El intervalo describe remuestreo de meses observados; no cubre un cambio de política posterior.\n\nNo toda cifra necesita un intervalo formal, pero toda cifra usada para recomendar debe declarar tamaño efectivo, unidad de muestreo y fuente principal de incertidumbre. media ± desviación entre folds no se llamará intervalo de confianza.\n\nTesis técnica: frase que resume la recomendación, el resultado principal y la limitación más importante.\n\nEjemplo:\n\nEl modelo regularizado mejora el baseline en F1 y mantiene estabilidad en validación cruzada, pero requiere revisar falsos negativos en el subgrupo de mayor riesgo antes de una recomendación operativa.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Comunicación técnica</span>"
     ]
@@ -715,6 +745,16 @@
     "title": "Entrega final y defensa",
     "section": "Objetivos del capítulo",
     "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\norganizar un repositorio de proyecto con resultados auditables;\npreparar una entrega que se pueda leer y ejecutar;\nexplicar tu contribución individual;\nresponder preguntas sobre métrica, validación, leakage y limitaciones;\ndistinguir presentación grupal de defensa individual.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_entrega_defensa.html#defensa-del-fundamento-probabilístico",
+    "href": "capitulo04_entrega_defensa.html#defensa-del-fundamento-probabilístico",
+    "title": "Entrega final y defensa",
+    "section": "Defensa del fundamento probabilístico",
+    "text": "Defensa del fundamento probabilístico\nLa defensa individual debe poder responder, con notación y datos del proyecto:\n\n¿cuál es la población o distribución de uso \\(P_{\\mathrm{uso}}\\)?;\n¿qué mecanismo produjo la muestra y qué dependencias existen?;\n¿qué objeto poblacional aproxima el modelo?;\n¿qué riesgo o métrica empírica se calculó y sobre qué partición?;\n¿qué variación tiene la cifra principal y cómo se estimó?;\n¿qué cambio de distribución invalidaría la recomendación?\n\nUna respuesta que solo describe una función de biblioteca no demuestra comprensión matemática del proyecto.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Entrega final y defensa</span>"
     ]
@@ -940,6 +980,16 @@
     ]
   },
   {
+    "objectID": "capitulo05_ejercicios_integradores.html#columna-probabilística-del-cierre",
+    "href": "capitulo05_ejercicios_integradores.html#columna-probabilística-del-cierre",
+    "title": "Ejercicios integradores: reproducibilidad y defensa",
+    "section": "Columna probabilística del cierre",
+    "text": "Columna probabilística del cierre\n\nP1. Cuatro niveles. Para una red de clasificación, identifique distribución poblacional, muestra, riesgo empírico y algoritmo. Repita para PCA y K-Means.\n\n\nP2. Dos reproducibilidades. Dé un ejemplo donde una corrida sea perfectamente reproducible, pero la conclusión cambie mucho con otra muestra.\n\n\nP3. Semilla. Explique qué variables aleatorias controla random_state=2105 en su pipeline y cuáles fuentes de incertidumbre permanecen.\n\n\nP4. Manifest estadístico. Diseñe campos JSON para registrar población de uso, unidad independiente, partición, repeticiones y resumen de incertidumbre.\n\n\nP5. Comunicación. Reescriba “el modelo tiene F1 de 0.87” como una afirmación que identifique partición, tamaño efectivo, procedimiento fijado, incertidumbre y límite de transporte.\n\n\nP6. Defensa. Prepare una respuesta de 90 segundos que conecte un resultado de su proyecto con \\(P_{\\mathrm{uso}}\\), \\(\\widehat R\\), fuente de variación y siguiente comprobación.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: reproducibilidad y defensa</span>"
+    ]
+  },
+  {
     "objectID": "capitulo05_ejercicios_integradores.html#ejercicio-1-softmax-estable",
     "href": "capitulo05_ejercicios_integradores.html#ejercicio-1-softmax-estable",
     "title": "Ejercicios integradores: reproducibilidad y defensa",
@@ -1074,7 +1124,7 @@
     "href": "laboratorios/parcial02_autograded.html",
     "title": "Parcial 2 autograded",
     "section": "",
-    "text": "Alcance\nEste parcial evalúa los módulos 2, 3, 4 y el cierre reproducible del curso.\nTemas incluidos:\n\nsoftmax y entropía cruzada;\nparticiones estratificadas y validación;\nselección de modelos con una regla explícita de media y variabilidad;\nPCA desde SVD;\nK-Means y silhouette;\nmanifest reproducible con hashes de artefactos.\n\n\n\nReglas\n\nNo cambies nombres de funciones.\nNo uses internet.\nNo hardcodees resultados.\nNo borres celdas del notebook.\nEjecuta todo antes de entregar.\nLa explicación breve se califica manualmente.\n\n\n\nFunciones esperadas\nstable_softmax(logits)\ncross_entropy_from_probabilities(proba, y)\nmake_stratified_splits(X, y, test_size=0.2, dev_size=0.25, random_state=42)\ncv_summary(scores)\nselect_model_by_cv(results)\npca_svd_summary(X, n_components)\nchoose_k_by_silhouette(X, k_values, random_state=42)\nfile_sha256(path)\nbuild_reproducibility_manifest(params, metrics, artifact_paths)\ncv_summary debe llamar conservative_score al valor mean - std. En este parcial se usa como regla heurística para ordenar candidatos: no es un intervalo de confianza. En el manifest, params debe incluir semilla y protocolo de partición; la función agrega versiones de Python, NumPy, pandas y scikit-learn.\n\n\nParte manual\nResponde en 120 a 180 palabras:\n\nTu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué resultado adicional pedirías antes de usarlo y cómo lo documentarías de forma reproducible?\n\nRúbrica:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no es técnica\n\n\n1\nMenciona un resultado o reproducibilidad de forma aislada\n\n\n2\nIntegra métrica, variabilidad, error analysis, manifest y decisión prudente\n\n\n\n\n\nErrores que cuestan puntos\n\nSoftmax no estable numéricamente.\nUsar test para seleccionar modelo.\nNo estratificar en clasificación.\nPCA sin centrar.\nElegir \\(k\\) solo por inertia.\nPresentar mean - std como un intervalo de confianza.\nCrear un manifest sin entorno, semilla, protocolo de partición, métricas o hashes.",
+    "text": "Alcance\nEste parcial evalúa los módulos 2, 3, 4 y el cierre reproducible del curso.\nTemas incluidos:\n\nsoftmax y entropía cruzada;\nparticiones estratificadas y validación;\nselección de modelos con una regla explícita de media y variabilidad;\nPCA desde SVD;\nK-Means y silhouette;\nmanifest reproducible con hashes de artefactos.\ndistribuciones condicionales, métricas como estimadores, estabilidad muestral y replicación estadística.\n\n\n\nReglas\n\nNo cambies nombres de funciones.\nNo uses internet.\nNo hardcodees resultados.\nNo borres celdas del notebook.\nEjecuta todo antes de entregar.\nLa explicación breve se califica manualmente.\n\n\n\nFunciones esperadas\nstable_softmax(logits)\ncross_entropy_from_probabilities(proba, y)\nmake_stratified_splits(X, y, test_size=0.2, dev_size=0.25, random_state=42)\ncv_summary(scores)\nselect_model_by_cv(results)\npca_svd_summary(X, n_components)\nchoose_k_by_silhouette(X, k_values, random_state=42)\nfile_sha256(path)\nbuild_reproducibility_manifest(params, metrics, artifact_paths)\nEl notebook también contiene probability_answers. Sus respuestas distinguen distribución condicional y salida softmax, covarianza poblacional y PCA muestral, métrica observada y desempeño poblacional, y reproducibilidad computacional y replicación sobre una nueva muestra.\ncv_summary debe llamar conservative_score al valor mean - std. En este parcial se usa como regla heurística para ordenar candidatos: no es un intervalo de confianza. En el manifest, params debe incluir semilla y protocolo de partición; la función agrega versiones de Python, NumPy, pandas y scikit-learn.\n\n\nParte manual\nResponde en 120 a 180 palabras:\n\nTu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Cuál es el estimando poblacional, qué incertidumbre falta cuantificar, qué resultado adicional pedirías y cómo documentarías una replicación?\n\nRúbrica:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o la respuesta no es técnica\n\n\n1\nMenciona un resultado o reproducibilidad de forma aislada\n\n\n2\nIntegra estimando, métrica, incertidumbre, error analysis, replicación, manifest y alcance\n\n\n\n\n\nErrores que cuestan puntos\n\nSoftmax no estable numéricamente.\nUsar test para seleccionar modelo.\nNo estratificar en clasificación.\nPCA sin centrar.\nElegir \\(k\\) solo por inertia.\nPresentar mean - std como un intervalo de confianza.\nCrear un manifest sin entorno, semilla, protocolo de partición, métricas o hashes.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Parcial 2 autograded</span>"
     ]
@@ -1094,7 +1144,7 @@
     "href": "recursos/guia_proyecto_final.html#entrega-final",
     "title": "Guía del proyecto final",
     "section": "",
-    "text": "reporte final;\nnotebook principal ejecutable;\nmanifest reproducible;\nmétricas y figuras finales;\ntabla de contribución individual con archivos verificables;\ndefensa oral.",
+    "text": "reporte final;\nnotebook principal ejecutable;\nmanifest reproducible;\nmétricas y figuras finales;\ntabla de contribución individual con archivos verificables;\nficha probabilística del análisis;\ndefensa oral.",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía del proyecto final</span>"
     ]
@@ -1104,7 +1154,7 @@
     "href": "recursos/guia_proyecto_final.html#checklist-de-entrega",
     "title": "Guía del proyecto final",
     "section": "Checklist de entrega",
-    "text": "Checklist de entrega\n\n\n\n\n\n\n\nElemento\nSoporte esperado\n\n\n\n\nPregunta clara\nuna frase evaluable\n\n\nDatos documentados\nfuente, variables, restricciones\n\n\nBaseline\nmétrica del modelo simple\n\n\nModelo final\npipeline y parámetros\n\n\nValidación\nparticiones, CV o justificación\n\n\nError analysis\nfalsos positivos/negativos, slices o casos\n\n\nNo supervisado, si aplica\nPCA, clusters o recomendación con límites\n\n\nReproducibilidad\nrequirements.txt, semilla, manifest\n\n\nLimitaciones\nal menos tres límites concretos\n\n\nRecomendación\nacción proporcional a los resultados y límites",
+    "text": "Checklist de entrega\n\n\n\n\n\n\n\nElemento\nSoporte esperado\n\n\n\n\nPregunta clara\nuna frase evaluable\n\n\nDatos documentados\nfuente, variables, restricciones\n\n\nPoblación y muestra\npoblación objetivo, unidad independiente, cobertura y mecanismo de observación\n\n\nEstimando y estimador\ncantidad poblacional, regla de estimación y supuestos que las conectan\n\n\nBaseline\nmétrica del modelo simple\n\n\nModelo final\npipeline y parámetros\n\n\nValidación\nparticiones, CV o justificación\n\n\nIncertidumbre\nerror estándar, intervalo, bootstrap o estabilidad apropiados al problema\n\n\nError analysis\nfalsos positivos/negativos, slices o casos\n\n\nNo supervisado, si aplica\nPCA, clusters o recomendación con límites\n\n\nReproducibilidad\nrequirements.txt, semilla, manifest\n\n\nLimitaciones\nal menos tres límites concretos\n\n\nRecomendación\nacción proporcional a los resultados y límites",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía del proyecto final</span>"
     ]
@@ -1124,7 +1174,7 @@
     "href": "recursos/guia_proyecto_final.html#rúbrica-sugerida",
     "title": "Guía del proyecto final",
     "section": "Rúbrica sugerida",
-    "text": "Rúbrica sugerida\n\n\n\nCriterio\nPeso\n\n\n\n\nProblema, datos y alcance\n15%\n\n\nMatemática y algoritmo\n20%\n\n\nValidación y error analysis\n25%\n\n\nReproducibilidad\n15%\n\n\nComunicación\n15%\n\n\nLimitaciones y ética\n10%",
+    "text": "Rúbrica sugerida\n\n\n\nCriterio\nPeso\n\n\n\n\nProblema, población, muestra y alcance\n15%\n\n\nProbabilidad, matemática y algoritmo\n20%\n\n\nValidación, incertidumbre y error analysis\n25%\n\n\nReproducibilidad\n15%\n\n\nComunicación\n15%\n\n\nLimitaciones y ética\n10%",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía del proyecto final</span>"
     ]
@@ -1145,6 +1195,16 @@
     "title": "Guía del proyecto final",
     "section": "Recomendación final",
     "text": "Recomendación final\nEl reporte debe terminar con una recomendación:\nRecomendamos / no recomendamos / recomendamos solo bajo condiciones...\nLa recomendación debe estar conectada a métricas, validación, errores y límites.",
+    "crumbs": [
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía del proyecto final</span>"
+    ]
+  },
+  {
+    "objectID": "recursos/guia_proyecto_final.html#ficha-probabilística-obligatoria",
+    "href": "recursos/guia_proyecto_final.html#ficha-probabilística-obligatoria",
+    "title": "Guía del proyecto final",
+    "section": "Ficha probabilística obligatoria",
+    "text": "Ficha probabilística obligatoria\nEl reporte debe contener una tabla breve:\n\n\n\n\n\n\n\nCampo\nRespuesta del proyecto\n\n\n\n\nPoblación objetivo\nunidades sobre las que se quiere concluir\n\n\nMuestra observada\nunidades disponibles y proceso de inclusión\n\n\nEstimando\ncantidad poblacional que responde la pregunta\n\n\nEstimador\nregla calculada con la muestra\n\n\nEstimación\nvalor o conjunto de valores obtenidos\n\n\nIncertidumbre\nfuente de variación y cuantificación usada\n\n\nAlcance\npoblación, tiempo y condiciones a las que se limita la conclusión\n\n\n\nUna semilla fija, varias épocas de entrenamiento o varios folds no sustituyen por sí solos un análisis de variación muestral.",
     "crumbs": [
       "<span class='chapter-number'>9</span>  <span class='chapter-title'>Guía del proyecto final</span>"
     ]

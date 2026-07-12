@@ -22,6 +22,11 @@ Este laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 
 - calcular similitud coseno;
 - producir recomendaciones simples con límites explícitos.
 
+También debes separar los objetos poblacionales de sus aproximaciones muestrales:
+PCA estima direcciones de la covarianza poblacional, K-Means aproxima una
+distorsión esperada y un recomendador offline observa interacciones filtradas
+por un mecanismo de exposición.
+
 La parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.
 
 ## Entrega
@@ -147,13 +152,21 @@ def recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):
     """
 ```
 
+### 10. Contrato probabilístico
+
+Completa `probability_answers` con las etiquetas indicadas en el notebook. El
+autograder verificará que distingues covarianza poblacional y muestral,
+inestabilidad por muestra e inicialización, y preferencia latente e interacción
+observada bajo un mecanismo de exposición.
+
 ## Pregunta manual
 
 Escribe una respuesta de 120 a 180 palabras:
 
 1. ¿Qué resultados usarías para decidir cuántos componentes principales o cuántos clusters reportar?
 2. ¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?
-3. ¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?
+3. ¿Cómo evaluarías estabilidad frente a una nueva muestra, no solo frente a otra semilla?
+4. ¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?
 
 ## Criterio de interpretación
 
@@ -164,3 +177,4 @@ Un resultado no supervisado no se defiende solo con una gráfica bonita. Debe in
 - interpretación prudente;
 - límite técnico reconocido;
 - validación siguiente concreta.
+- distinción entre estructura poblacional, estimación muestral y variación algorítmica.

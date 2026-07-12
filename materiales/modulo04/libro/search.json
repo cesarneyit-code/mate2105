@@ -100,6 +100,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_svd_pca.html#pca-poblacional-y-pca-empírico",
+    "href": "capitulo01_svd_pca.html#pca-poblacional-y-pca-empírico",
+    "title": "SVD y PCA",
+    "section": "PCA poblacional y PCA empírico",
+    "text": "PCA poblacional y PCA empírico\nSea \\(X\\in\\mathbb R^p\\) un vector aleatorio con media \\(\\mu\\) y matriz de covarianza\n\\[\n\\Sigma=\\mathbb E[(X-\\mu)(X-\\mu)^\\top].\n\\]\nLa primera dirección principal poblacional resuelve\n\\[\nv_1^*=\\arg\\max_{\\lVert v\\rVert_2=1}\n\\operatorname{Var}(v^\\top X)\n=\\arg\\max_{\\lVert v\\rVert_2=1}v^\\top\\Sigma v.\n\\]\nPor el cociente de Rayleigh, \\(v_1^*\\) es un autovector asociado al mayor autovalor de \\(\\Sigma\\). No conocemos \\(\\Sigma\\); con una muestra usamos\n\\[\n\\widehat\\Sigma_m=\\frac1mX_c^\\top X_c.\n\\]\nSi \\(X_c=U\\Sigma_sV^\\top\\) es la SVD, entonces\n\\[\n\\widehat\\Sigma_m\n=V\\frac{\\Sigma_s^2}{m}V^\\top.\n\\]\nAsí, los vectores singulares derechos son direcciones principales empíricas y \\(\\sigma_j^2/m\\) son autovalores de la covarianza empírica. Cambiar la muestra puede cambiar direcciones, especialmente cuando autovalores consecutivos son cercanos.\n\nMáxima varianza empírica. Para \\(X_c\\) centrada,\n\\[\n\\max_{\\lVert v\\rVert=1}\\frac1m\\lVert X_cv\\rVert_2^2\n=\\frac{\\sigma_1^2}{m},\n\\]\ny cualquier primer vector singular derecho alcanza el máximo.\n\nLa indeterminación de signo de un componente no es incertidumbre muestral: \\(v\\) y \\(-v\\) describen el mismo eje. La inestabilidad entre subespacios al cambiar la muestra sí es una cuestión estadística y debe estudiarse por remuestreo o particiones.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_svd_pca.html#svd",
     "href": "capitulo01_svd_pca.html#svd",
     "title": "SVD y PCA",
@@ -134,7 +144,7 @@
     "href": "capitulo01_svd_pca.html#varianza-explicada",
     "title": "SVD y PCA",
     "section": "Varianza explicada",
-    "text": "Varianza explicada\nLa varianza explicada por el componente \\(j\\) es proporcional a:\n\\[\n\\sigma_j^2.\n\\]\nLa razón de varianza explicada:\n\\[\n\\frac{\\sigma_j^2}{\\sum_{\\ell}\\sigma_\\ell^2}.\n\\]",
+    "text": "Varianza explicada\nLa varianza explicada por el componente \\(j\\) es proporcional a:\n\\[\n\\sigma_j^2.\n\\]\nLa razón de varianza explicada:\n\\[\n\\frac{\\sigma_j^2}{\\sum_{\\ell}\\sigma_\\ell^2}.\n\\]\nCon la convención de covarianza empírica \\(1/m\\), el autovalor es \\(\\widehat\\lambda_j=\\sigma_j^2/m\\); el factor \\(1/m\\) se cancela en la razón. Por eso la fórmula es exacta para la muestra observada, pero no afirma qué proporción de varianza explicaría otra muestra de la población.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>SVD y PCA</span>"
     ]
@@ -305,6 +315,16 @@
     "title": "K-Means y clustering",
     "section": "Objetivos del capítulo",
     "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nescribir la función objetivo de K-Means;\nexplicar los pasos de asignación y actualización;\ninterpretar inertia y silhouette sin absolutizarlos;\njustificar el escalamiento antes de usar distancias euclídeas;\nreconocer cuándo un cluster no debe traducirse directamente en una decisión.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_kmeans_clustering.html#distorsión-poblacional-y-objetivo-empírico",
+    "href": "capitulo02_kmeans_clustering.html#distorsión-poblacional-y-objetivo-empírico",
+    "title": "K-Means y clustering",
+    "section": "Distorsión poblacional y objetivo empírico",
+    "text": "Distorsión poblacional y objetivo empírico\nPara centros \\(C=(\\mu_1,\\ldots,\\mu_k)\\), la distorsión poblacional es\n\\[\nR_P(C)=\\mathbb E_{X\\sim P}\n\\left[\\min_{1\\leq j\\leq k}\\lVert X-\\mu_j\\rVert_2^2\\right].\n\\]\nK-Means minimiza su versión empírica\n\\[\n\\widehat R_m(C)\n=\\frac1m\\sum_{i=1}^m\n\\min_{1\\leq j\\leq k}\\lVert x_i-\\mu_j\\rVert_2^2.\n\\]\ninertia_ es \\(m\\widehat R_m(C)\\) en la escala ajustada. Un valor bajo demuestra buena compactación de la muestra para ese \\(k\\); no prueba que existan clases naturales en la población.\nHay dos fuentes de variación diferentes:\n\ninicialización algorítmica: distintos centros iniciales pueden llegar a mínimos locales diferentes para el mismo dataset;\nvariación muestral: otro conjunto de observaciones puede producir otra partición aunque el algoritmo encuentre su mejor mínimo empírico.\n\n\nUna evaluación de estabilidad debe repetir semillas y remuestrear unidades independientes. Repetir solo n_init estudia optimización; no estudia estabilidad poblacional.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>K-Means y clustering</span>"
     ]
@@ -530,6 +550,26 @@
     ]
   },
   {
+    "objectID": "capitulo03_recomendacion_latente.html#el-mecanismo-de-observación-no-es-neutral",
+    "href": "capitulo03_recomendacion_latente.html#el-mecanismo-de-observación-no-es-neutral",
+    "title": "Recomendación básica y estructura latente",
+    "section": "El mecanismo de observación no es neutral",
+    "text": "El mecanismo de observación no es neutral\nSea \\(R_{ui}\\) la preferencia potencial de un usuario \\(u\\) por un ítem \\(i\\) y \\(O_{ui}\\in\\{0,1\\}\\) el indicador de que esa interacción fue observada. El dataset contiene principalmente valores con \\(O_{ui}=1\\). En plataformas reales,\n\\[\n\\mathbb P(O_{ui}=1\\mid R_{ui},u,i)\n\\]\nno suele ser constante: exposición previa, posición, popularidad y políticas del sistema afectan qué llega a registrarse. Por tanto, la distribución observada\n\\[\nP(R_{ui}\\mid O_{ui}=1)\n\\]\npuede diferir de la distribución de preferencias sobre todos los pares usuario-ítem. Tratar faltantes como desagrado supone un mecanismo que rara vez está justificado.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_recomendacion_latente.html#riesgo-offline-y-utilidad-de-uso",
+    "href": "capitulo03_recomendacion_latente.html#riesgo-offline-y-utilidad-de-uso",
+    "title": "Recomendación básica y estructura latente",
+    "section": "Riesgo offline y utilidad de uso",
+    "text": "Riesgo offline y utilidad de uso\nUna métrica offline estima desempeño bajo el protocolo que generó sus pares de evaluación. La utilidad relevante sería una esperanza bajo exposición futura,\n\\[\n\\mathbb E_{(u,i)\\sim P_{\\mathrm{uso}}}\n[U(u,i,\\operatorname{recomendar}(u))],\n\\]\nque no se identifica automáticamente con precisión@k o recall@k histórico. Esta brecha explica por qué una comparación offline no demuestra efecto causal sobre satisfacción, diversidad o descubrimiento.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Recomendación básica y estructura latente</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_recomendacion_latente.html#matriz-usuario-ítem",
     "href": "capitulo03_recomendacion_latente.html#matriz-usuario-ítem",
     "title": "Recomendación básica y estructura latente",
@@ -750,6 +790,16 @@
     ]
   },
   {
+    "objectID": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "href": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "title": "Ejercicios integradores: aprendizaje no supervisado",
+    "section": "Columna probabilística del módulo",
+    "text": "Columna probabilística del módulo\n\nP1. Covarianza y SVD. Demuestre que si \\(X_c=U\\Sigma_sV^\\top\\), entonces \\(X_c^\\top X_c/m=V\\Sigma_s^2V^\\top/m\\). Identifique autovalores y autovectores de la covarianza empírica.\n\n\nP2. Dirección poblacional. Explique la diferencia entre maximizar \\(\\operatorname{Var}(v^\\top X)\\) y maximizar \\(\\lVert X_cv\\rVert^2/m\\) para una muestra observada.\n\n\nP3. Estabilidad PCA. Proponga un bootstrap para comparar subespacios de dos componentes. Explique por qué comparar signos de vectores no es suficiente.\n\n\nP4. Distorsión. Distinga \\(R_P(C)\\), \\(\\widehat R_m(C)\\) e inertia_. Indique cuál calcula KMeans y cuál interesa para nuevas observaciones.\n\n\nP5. Dos estabilidades. Diseñe un experimento que separe variación por inicialización de K-Means y variación por remuestreo del dataset.\n\n\nP6. Exposición. Construya un ejemplo donde un ítem popular tenga más interacciones observadas aunque no tenga mayor preferencia promedio. Identifique la variable \\(O_{ui}\\) y el sesgo inducido.\n\n\nP7. Evaluación offline. Explique qué distribución representa un test creado ocultando aleatoriamente interacciones históricas y qué escenarios de uso no representa.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: aprendizaje no supervisado</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-pca",
     "href": "capitulo04_ejercicios_integradores.html#bloque-a-pca",
     "title": "Ejercicios integradores: aprendizaje no supervisado",
@@ -894,7 +944,7 @@
     "href": "laboratorios/lab05_no_supervisado.html",
     "title": "Lab 5: Aprendizaje no supervisado",
     "section": "",
-    "text": "Propósito\nEste laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 4 en código verificable:\nLa parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.",
+    "text": "Propósito\nEste laboratorio evalúa si puedes convertir las ideas matemáticas del Módulo 4 en código verificable:\nTambién debes separar los objetos poblacionales de sus aproximaciones muestrales: PCA estima direcciones de la covarianza poblacional, K-Means aproxima una distorsión esperada y un recomendador offline observa interacciones filtradas por un mecanismo de exposición.\nLa parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
     ]
@@ -934,7 +984,7 @@
     "href": "laboratorios/lab05_no_supervisado.html#funciones-a-implementar",
     "title": "Lab 5: Aprendizaje no supervisado",
     "section": "Funciones a implementar",
-    "text": "Funciones a implementar\n\n1. Centrado\ndef center_data(X):\n    \"\"\"\n    Recibe una matriz X de forma (m, p).\n    Devuelve:\n      X_centered: matriz centrada por columnas.\n      mean: vector de medias de forma (p,).\n    \"\"\"\n\n\n2. PCA desde SVD\ndef pca_from_svd(X, n_components):\n    \"\"\"\n    Recibe una matriz X de forma (m, p) y un número k.\n    Devuelve un diccionario con:\n      components: matriz (k, p) con direcciones principales.\n      scores: matriz (m, k) con coordenadas proyectadas.\n      explained_variance_ratio: vector (k,) con proporción de varianza explicada.\n      mean: vector (p,) usado para centrar.\n    \"\"\"\n\n\n3. Reconstrucción\ndef reconstruct_from_pca(scores, components, mean):\n    \"\"\"\n    Reconstruye una aproximación de X desde scores, components y mean.\n    Devuelve una matriz de forma (m, p).\n    \"\"\"\n\n\n4. Error de reconstrucción\ndef reconstruction_error(X, X_hat):\n    \"\"\"\n    Devuelve el error cuadrático medio entre X y X_hat.\n    \"\"\"\n\n\n5. K-Means\ndef fit_kmeans(X, n_clusters, random_state=42):\n    \"\"\"\n    Ajusta K-Means y devuelve el modelo entrenado.\n    Usa n_init=10 para estabilidad entre versiones.\n    \"\"\"\n\n\n6. Resumen de K-Means\ndef kmeans_summary(model, X):\n    \"\"\"\n    Recibe un modelo K-Means entrenado y X.\n    Devuelve un diccionario con:\n      labels: etiquetas predichas.\n      inertia: inertia del modelo.\n      silhouette: silhouette score si hay al menos dos clusters válidos.\n    \"\"\"\nSi silhouette no se puede calcular, devuelve np.nan.\n\n\n7. Selección de k por silhouette\ndef choose_k_by_silhouette(X, k_values, random_state=42):\n    \"\"\"\n    Entrena K-Means para cada k en k_values.\n    Devuelve:\n      best_k: k con mayor silhouette.\n      scores: diccionario {k: silhouette}.\n    \"\"\"\n\n\n8. Similitud coseno\ndef cosine_similarity_matrix(M):\n    \"\"\"\n    Recibe una matriz donde cada fila representa un ítem.\n    Devuelve matriz cuadrada de similitud coseno item-item.\n    \"\"\"\n\n\n9. Recomendación por similitud\ndef recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):\n    \"\"\"\n    Devuelve una lista de índices de ítems más similares a item_index.\n    Excluye el ítem consultado y cualquier ítem en seen_items.\n    Ordena de mayor a menor similitud.\n    \"\"\"",
+    "text": "Funciones a implementar\n\n1. Centrado\ndef center_data(X):\n    \"\"\"\n    Recibe una matriz X de forma (m, p).\n    Devuelve:\n      X_centered: matriz centrada por columnas.\n      mean: vector de medias de forma (p,).\n    \"\"\"\n\n\n2. PCA desde SVD\ndef pca_from_svd(X, n_components):\n    \"\"\"\n    Recibe una matriz X de forma (m, p) y un número k.\n    Devuelve un diccionario con:\n      components: matriz (k, p) con direcciones principales.\n      scores: matriz (m, k) con coordenadas proyectadas.\n      explained_variance_ratio: vector (k,) con proporción de varianza explicada.\n      mean: vector (p,) usado para centrar.\n    \"\"\"\n\n\n3. Reconstrucción\ndef reconstruct_from_pca(scores, components, mean):\n    \"\"\"\n    Reconstruye una aproximación de X desde scores, components y mean.\n    Devuelve una matriz de forma (m, p).\n    \"\"\"\n\n\n4. Error de reconstrucción\ndef reconstruction_error(X, X_hat):\n    \"\"\"\n    Devuelve el error cuadrático medio entre X y X_hat.\n    \"\"\"\n\n\n5. K-Means\ndef fit_kmeans(X, n_clusters, random_state=42):\n    \"\"\"\n    Ajusta K-Means y devuelve el modelo entrenado.\n    Usa n_init=10 para estabilidad entre versiones.\n    \"\"\"\n\n\n6. Resumen de K-Means\ndef kmeans_summary(model, X):\n    \"\"\"\n    Recibe un modelo K-Means entrenado y X.\n    Devuelve un diccionario con:\n      labels: etiquetas predichas.\n      inertia: inertia del modelo.\n      silhouette: silhouette score si hay al menos dos clusters válidos.\n    \"\"\"\nSi silhouette no se puede calcular, devuelve np.nan.\n\n\n7. Selección de k por silhouette\ndef choose_k_by_silhouette(X, k_values, random_state=42):\n    \"\"\"\n    Entrena K-Means para cada k en k_values.\n    Devuelve:\n      best_k: k con mayor silhouette.\n      scores: diccionario {k: silhouette}.\n    \"\"\"\n\n\n8. Similitud coseno\ndef cosine_similarity_matrix(M):\n    \"\"\"\n    Recibe una matriz donde cada fila representa un ítem.\n    Devuelve matriz cuadrada de similitud coseno item-item.\n    \"\"\"\n\n\n9. Recomendación por similitud\ndef recommend_similar_items(item_index, similarity, seen_items=None, top_k=3):\n    \"\"\"\n    Devuelve una lista de índices de ítems más similares a item_index.\n    Excluye el ítem consultado y cualquier ítem en seen_items.\n    Ordena de mayor a menor similitud.\n    \"\"\"\n\n\n10. Contrato probabilístico\nCompleta probability_answers con las etiquetas indicadas en el notebook. El autograder verificará que distingues covarianza poblacional y muestral, inestabilidad por muestra e inicialización, y preferencia latente e interacción observada bajo un mecanismo de exposición.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
     ]
@@ -944,7 +994,7 @@
     "href": "laboratorios/lab05_no_supervisado.html#pregunta-manual",
     "title": "Lab 5: Aprendizaje no supervisado",
     "section": "Pregunta manual",
-    "text": "Pregunta manual\nEscribe una respuesta de 120 a 180 palabras:\n\n¿Qué resultados usarías para decidir cuántos componentes principales o cuántos clusters reportar?\n¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?\n¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?",
+    "text": "Pregunta manual\nEscribe una respuesta de 120 a 180 palabras:\n\n¿Qué resultados usarías para decidir cuántos componentes principales o cuántos clusters reportar?\n¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?\n¿Cómo evaluarías estabilidad frente a una nueva muestra, no solo frente a otra semilla?\n¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
     ]
@@ -954,7 +1004,7 @@
     "href": "laboratorios/lab05_no_supervisado.html#criterio-de-interpretación",
     "title": "Lab 5: Aprendizaje no supervisado",
     "section": "Criterio de interpretación",
-    "text": "Criterio de interpretación\nUn resultado no supervisado no se defiende solo con una gráfica bonita. Debe incluir:\n\npreprocesamiento explícito;\nmétrica o resultado cuantitativo;\ninterpretación prudente;\nlímite técnico reconocido;\nvalidación siguiente concreta.",
+    "text": "Criterio de interpretación\nUn resultado no supervisado no se defiende solo con una gráfica bonita. Debe incluir:\n\npreprocesamiento explícito;\nmétrica o resultado cuantitativo;\ninterpretación prudente;\nlímite técnico reconocido;\nvalidación siguiente concreta.\ndistinción entre estructura poblacional, estimación muestral y variación algorítmica.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 5: Aprendizaje no supervisado</span>"
     ]
@@ -974,7 +1024,7 @@
     "href": "recursos/guia_parcial2.html#alcance",
     "title": "Guía Parcial 2",
     "section": "",
-    "text": "redes neuronales densas;\nbackpropagation;\nregularización y optimizadores;\nestrategia ML, métricas, validación y error analysis;\nSVD, PCA, K-Means y recomendación básica.",
+    "text": "redes neuronales densas;\nbackpropagation;\nregularización y optimizadores;\nestrategia ML, métricas, validación y error analysis;\nSVD, PCA, K-Means y recomendación básica.\ndistribuciones condicionales, incertidumbre de métricas, covarianza muestral, estabilidad y exposición.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía Parcial 2</span>"
     ]
@@ -994,7 +1044,7 @@
     "href": "recursos/guia_parcial2.html#resultados-mínimos-esperados",
     "title": "Guía Parcial 2",
     "section": "Resultados mínimos esperados",
-    "text": "Resultados mínimos esperados\nEl estudiante debe poder:\n\nCalcular forward propagation en una red pequeña.\nIdentificar gradientes y dimensiones en backpropagation.\nElegir métricas según costos de error.\nEvitar leakage con pipelines y particiones correctas.\nInterpretar learning curves y slices de error.\nImplementar PCA con centrado y SVD.\nInterpretar inertia y silhouette en K-Means.\nExplicar límites de un recomendador por similitud.",
+    "text": "Resultados mínimos esperados\nEl estudiante debe poder:\n\nCalcular forward propagation en una red pequeña.\nIdentificar gradientes y dimensiones en backpropagation.\nElegir métricas según costos de error.\nEvitar leakage con pipelines y particiones correctas.\nInterpretar learning curves y slices de error.\nImplementar PCA con centrado y SVD.\nInterpretar inertia y silhouette en K-Means.\nExplicar límites de un recomendador por similitud.\nInterpretar softmax como distribución categórica condicional y minibatch como fuente de gradiente aleatorio.\nDistinguir métrica observada y desempeño poblacional, incluyendo dependencia entre folds.\nDistinguir covarianza poblacional/muestral y variación por muestra/inicialización.\nExplicar por qué reproducir una corrida no replica una conclusión con otra muestra.",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía Parcial 2</span>"
     ]
@@ -1004,7 +1054,7 @@
     "href": "recursos/guia_parcial2.html#preguntas-de-práctica",
     "title": "Guía Parcial 2",
     "section": "Preguntas de práctica",
-    "text": "Preguntas de práctica\nEstas preguntas muestran el tipo de razonamiento esperado. No constituyen el banco que se usará en el examen.\n\nRedes\n\nSi una capa recibe A_prev de forma (m, d) y usa W de forma (d, h), ¿qué forma tiene Z?\n¿Qué efecto tiene aumentar lambda en regularización L2?\nEn una curva de entrenamiento, ¿qué patrón sugiere overfitting?\n\n\n\nEstrategia ML\n\n¿Por qué el escalamiento debe estar dentro de un Pipeline?\nSi recall es crítico, ¿qué error estás priorizando reducir?\n¿Qué indica una desviación alta en cross-validation?\n\n\n\nNo supervisado\n\n¿Por qué PCA requiere centrar las columnas?\n¿Qué mide la varianza explicada acumulada?\n¿Por qué inertia siempre disminuye al aumentar k?\n¿Qué limitación tiene silhouette en clusters no convexos?\nEn recomendación item-item, ¿por qué se excluyen items ya vistos?",
+    "text": "Preguntas de práctica\nEstas preguntas muestran el tipo de razonamiento esperado. No constituyen el banco que se usará en el examen.\n\nRedes\n\nSi una capa recibe A_prev de forma (m, d) y usa W de forma (d, h), ¿qué forma tiene Z?\n¿Qué efecto tiene aumentar lambda en regularización L2?\nEn una curva de entrenamiento, ¿qué patrón sugiere overfitting?\n¿Qué distribución condicional intenta aprender softmax?\n¿Qué fuentes de variación separaría entre muestra, inicialización y minibatch?\n\n\n\nEstrategia ML\n\n¿Por qué el escalamiento debe estar dentro de un Pipeline?\nSi recall es crítico, ¿qué error estás priorizando reducir?\n¿Por qué los folds de cross-validation son dependientes?\n\n\n\nNo supervisado\n\n¿Qué relación hay entre covarianza muestral y PCA poblacional?\n¿Cómo evaluaría estabilidad de componentes frente a una nueva muestra?\n¿Por qué inertia siempre disminuye al aumentar k?\n¿Cómo separaría inestabilidad de K-Means por muestra e inicialización?\n¿Qué sesgo introduce el mecanismo de exposición en recomendación?",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Guía Parcial 2</span>"
     ]

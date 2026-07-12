@@ -13,7 +13,7 @@ lang: es
 
 # Propósito
 
-Este laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada y localizar errores.
+Este laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica como estimador de desempeño poblacional, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada, cuantificar incertidumbre y localizar riesgos condicionales por *slice*.
 
 La pregunta técnica central es:
 
@@ -40,7 +40,8 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 7. Calcula métricas sobre validación.
 8. Construye una learning curve.
 9. Analiza errores por slices.
-10. Escribe una recomendación técnica.
+10. Completa `probability_answers` sobre métricas de test, dependencia entre folds, unidad de bootstrap y riesgo condicional.
+11. Escribe una recomendación técnica con incertidumbre.
 
 # Lo que autocalifica el notebook
 
@@ -54,6 +55,7 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 | Learning curve | tamaños, train scores y validation scores consistentes | Automática |
 | Error slices | tabla por subgrupo con conteos y métricas | Automática |
 | Selección | mayor puntaje conservador `media - desviación` en validación | Automática |
+| Contrato probabilístico | métrica como estimador, folds dependientes, bootstrap y riesgo por slice | Automática |
 
 La regla `media - desviación` penaliza resultados variables y fija un criterio
 reproducible para este laboratorio. Es una **heurística de selección**, no un
@@ -63,7 +65,7 @@ intervalo de confianza ni una garantía de desempeño futuro.
 
 Incluye una respuesta corta:
 
-> Con los resultados del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?
+> Con los resultados del notebook, ¿qué modelo elegirías, qué cantidad poblacional intenta estimar la métrica, qué incertidumbre queda y cuál sería el siguiente experimento?
 
 Rúbrica manual:
 
@@ -71,7 +73,7 @@ Rúbrica manual:
 |---:|---|
 | 0 | No responde o no usa resultados del notebook |
 | 1 | Menciona métrica o modelo, pero no propone una comprobación concreta |
-| 2 | Conecta métrica, baseline, validación, error analysis y siguiente experimento |
+| 2 | Conecta estimando, métrica, baseline, incertidumbre, error analysis y siguiente experimento |
 
 # Errores frecuentes
 

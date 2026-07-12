@@ -8,19 +8,20 @@
 | Mínimos cuadrados con `lstsq` | 2.0 | Autograded |
 | Gradiente y descenso | 2.0 | Autograded |
 | Comparación con referencia | 2.0 | Autograded |
+| Objetos probabilísticos y error estándar | integrado | Autograded |
 | Interpretación breve | 1.0 | Manual |
 
 ## Revisión manual
 
 Pregunta:
 
-> ¿Qué resultados muestran que el descenso del gradiente convergió y cuál es una limitación del experimento?
+> ¿Qué resultados muestran que el descenso del gradiente convergió, qué cantidad poblacional intenta estimar el MSE de test y cuál es una fuente de incertidumbre?
 
 | Puntaje manual | Criterio |
 |---:|---|
 | 0.0 | No responde, responde algo no técnico o no usa resultados del notebook |
 | 0.5 | Menciona pérdida, convergencia o limitación, pero de forma aislada |
-| 1.0 | Conecta la pérdida con la comparación contra `lstsq` o `sklearn` y una limitación concreta |
+| 1.0 | Conecta pérdida y referencia, distingue riesgo esperado/empírico y comunica una fuente concreta de incertidumbre |
 
 ## Señales de alerta
 

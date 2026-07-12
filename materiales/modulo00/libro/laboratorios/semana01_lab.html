@@ -106,6 +106,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -148,17 +177,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Arranque y lenguaje común</span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Datos y fundamentos probabilísticos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -199,25 +228,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#objetivo" id="toc-objetivo" class="nav-link active" data-scroll-target="#objetivo">Objetivo</a></li>
   <li><a href="#entrega" id="toc-entrega" class="nav-link" data-scroll-target="#entrega">Entrega</a></li>
   <li><a href="#parte-0-preparación" id="toc-parte-0-preparación" class="nav-link" data-scroll-target="#parte-0-preparación">Parte 0: preparación</a></li>
-  <li><a href="#parte-1-cargar-e-inspeccionar-datos" id="toc-parte-1-cargar-e-inspeccionar-datos" class="nav-link" data-scroll-target="#parte-1-cargar-e-inspeccionar-datos">Parte 1: cargar e inspeccionar datos</a>
+  <li><a href="#parte-1-población-muestra-y-riesgo" id="toc-parte-1-población-muestra-y-riesgo" class="nav-link" data-scroll-target="#parte-1-población-muestra-y-riesgo">Parte 1: población, muestra y riesgo</a>
+  <ul class="collapse">
+  <li><a href="#pregunta-probabilística" id="toc-pregunta-probabilística" class="nav-link" data-scroll-target="#pregunta-probabilística">Pregunta probabilística</a></li>
+  </ul></li>
+  <li><a href="#parte-2-cargar-e-inspeccionar-datos" id="toc-parte-2-cargar-e-inspeccionar-datos" class="nav-link" data-scroll-target="#parte-2-cargar-e-inspeccionar-datos">Parte 2: cargar e inspeccionar datos</a>
   <ul class="collapse">
   <li><a href="#pregunta-de-interpretación-1" id="toc-pregunta-de-interpretación-1" class="nav-link" data-scroll-target="#pregunta-de-interpretación-1">Pregunta de interpretación 1</a></li>
   </ul></li>
-  <li><a href="#parte-2-partición-de-datos" id="toc-parte-2-partición-de-datos" class="nav-link" data-scroll-target="#parte-2-partición-de-datos">Parte 2: partición de datos</a>
+  <li><a href="#parte-3-partición-de-datos" id="toc-parte-3-partición-de-datos" class="nav-link" data-scroll-target="#parte-3-partición-de-datos">Parte 3: partición de datos</a>
   <ul class="collapse">
   <li><a href="#pregunta-de-interpretación-2" id="toc-pregunta-de-interpretación-2" class="nav-link" data-scroll-target="#pregunta-de-interpretación-2">Pregunta de interpretación 2</a></li>
   </ul></li>
-  <li><a href="#parte-3-baseline" id="toc-parte-3-baseline" class="nav-link" data-scroll-target="#parte-3-baseline">Parte 3: baseline</a>
+  <li><a href="#parte-4-baseline" id="toc-parte-4-baseline" class="nav-link" data-scroll-target="#parte-4-baseline">Parte 4: baseline</a>
   <ul class="collapse">
   <li><a href="#pregunta-de-interpretación-3" id="toc-pregunta-de-interpretación-3" class="nav-link" data-scroll-target="#pregunta-de-interpretación-3">Pregunta de interpretación 3</a></li>
   </ul></li>
-  <li><a href="#parte-4-modelo-de-referencia" id="toc-parte-4-modelo-de-referencia" class="nav-link" data-scroll-target="#parte-4-modelo-de-referencia">Parte 4: modelo de referencia</a></li>
-  <li><a href="#parte-5-errores" id="toc-parte-5-errores" class="nav-link" data-scroll-target="#parte-5-errores">Parte 5: errores</a>
+  <li><a href="#parte-5-modelo-de-referencia" id="toc-parte-5-modelo-de-referencia" class="nav-link" data-scroll-target="#parte-5-modelo-de-referencia">Parte 5: modelo de referencia</a></li>
+  <li><a href="#parte-6-errores" id="toc-parte-6-errores" class="nav-link" data-scroll-target="#parte-6-errores">Parte 6: errores</a>
   <ul class="collapse">
   <li><a href="#pregunta-de-interpretación-4" id="toc-pregunta-de-interpretación-4" class="nav-link" data-scroll-target="#pregunta-de-interpretación-4">Pregunta de interpretación 4</a></li>
   </ul></li>
-  <li><a href="#parte-6-conclusión-técnica" id="toc-parte-6-conclusión-técnica" class="nav-link" data-scroll-target="#parte-6-conclusión-técnica">Parte 6: conclusión técnica</a></li>
-  <li><a href="#parte-7-dos-ideas-iniciales-de-proyecto" id="toc-parte-7-dos-ideas-iniciales-de-proyecto" class="nav-link" data-scroll-target="#parte-7-dos-ideas-iniciales-de-proyecto">Parte 7: dos ideas iniciales de proyecto</a>
+  <li><a href="#parte-7-accuracy-como-estimación-y-conclusión-técnica" id="toc-parte-7-accuracy-como-estimación-y-conclusión-técnica" class="nav-link" data-scroll-target="#parte-7-accuracy-como-estimación-y-conclusión-técnica">Parte 7: accuracy como estimación y conclusión técnica</a></li>
+  <li><a href="#parte-8-dos-ideas-iniciales-de-proyecto" id="toc-parte-8-dos-ideas-iniciales-de-proyecto" class="nav-link" data-scroll-target="#parte-8-dos-ideas-iniciales-de-proyecto">Parte 8: dos ideas iniciales de proyecto</a>
   <ul class="collapse">
   <li><a href="#idea-1" id="toc-idea-1" class="nav-link" data-scroll-target="#idea-1">Idea 1</a></li>
   <li><a href="#idea-2" id="toc-idea-2" class="nav-link" data-scroll-target="#idea-2">Idea 2</a></li>
@@ -232,7 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">Laboratorio diagnóstico 1</span></h1>
-<p class="subtitle lead">Primer flujo aplicado con datos reales</p>
+<p class="subtitle lead">Población, muestra, riesgo y primer flujo aplicado</p>
 </div>
 
 
@@ -251,9 +284,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="objetivo" class="level1">
 <h1>Objetivo</h1>
-<p>Este laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno, ejecutar un flujo básico de ciencia de datos y escribir una interpretación técnica breve.</p>
+<p>Este laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno y conectar cuatro niveles que usaremos durante todo el curso: población, muestra aleatoria, estimador y valor calculado. Después ejecutarás un primer flujo de clasificación y escribirás una interpretación técnica breve.</p>
 <p>Trabajaremos con el dataset <code>load_wine</code> de <code>scikit-learn</code>. El objetivo será clasificar vinos en tres clases a partir de mediciones químicas.</p>
-<p>No necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia para practicar el flujo aplicado.</p>
+<p>No necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia; el objeto matemático central de esta actividad es la relación entre riesgo esperado y riesgo empírico.</p>
 </section>
 <section id="entrega" class="level1">
 <h1>Entrega</h1>
@@ -284,25 +317,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score, confusion_matrix, classification_report</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="parte-1-cargar-e-inspeccionar-datos" class="level1">
-<h1>Parte 1: cargar e inspeccionar datos</h1>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.data</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data.target</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>X.head()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="parte-1-población-muestra-y-riesgo" class="level1">
+<h1>Parte 1: población, muestra y riesgo</h1>
+<p>Considera una población en la que</p>
+<p><span class="math display">\[
+Y\sim\operatorname{Bernoulli}(0.7).
+\]</span></p>
+<p>Una regla <span class="math inline">\(f_1\)</span> predice siempre 1 y usa pérdida cero-uno. Su riesgo esperado es</p>
+<p><span class="math display">\[
+R_P(f_1)=\mathbb P(Y\neq 1)=0.3.
+\]</span></p>
+<p>Genera una muestra de tamaño 20 y calcula el riesgo empírico.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2105</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p_clase_1 <span class="op">=</span> <span class="fl">0.7</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>muestra <span class="op">=</span> rng.binomial(<span class="dv">1</span>, p_clase_1, size<span class="op">=</span>m)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>riesgo_esperado <span class="op">=</span> <span class="dv">1</span> <span class="op">-</span> p_clase_1</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>riesgo_empirico <span class="op">=</span> np.mean(muestra <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Muestra:"</span>, muestra)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Riesgo esperado: </span><span class="sc">{</span>riesgo_esperado<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Riesgo empírico: </span><span class="sc">{</span>riesgo_empirico<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Ahora repite el muestreo 2000 veces.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>riesgos_repetidos <span class="op">=</span> np.array([</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    np.mean(rng.binomial(<span class="dv">1</span>, p_clase_1, size<span class="op">=</span>m) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2_000</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>media_simulada <span class="op">=</span> riesgos_repetidos.mean()</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>sd_simulada <span class="op">=</span> riesgos_repetidos.std(ddof<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>se_teorico <span class="op">=</span> np.sqrt(riesgo_esperado <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> riesgo_esperado) <span class="op">/</span> m)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Media de riesgos empíricos: </span><span class="sc">{</span>media_simulada<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"SD simulada: </span><span class="sc">{</span>sd_simulada<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Error estándar teórico: </span><span class="sc">{</span>se_teorico<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Auto-chequeo esperado:</p>
+<ul>
+<li><code>riesgo_esperado</code> debe ser 0.3;</li>
+<li>la media simulada debe quedar cerca de 0.3;</li>
+<li>la desviación simulada debe quedar cerca del error estándar teórico;</li>
+<li>repetir con la misma semilla debe producir los mismos números.</li>
+</ul>
+<section id="pregunta-probabilística" class="level2">
+<h2 class="anchored" data-anchor-id="pregunta-probabilística">Pregunta probabilística</h2>
+<p>Responde con cuatro frases separadas:</p>
+<ol type="1">
+<li>¿Cuál es el objeto poblacional que queremos conocer?</li>
+<li>¿Cuál es la muestra aleatoria y cuál es su realización observada?</li>
+<li>¿Cuál es el estimador y cuál es la estimación obtenida en la primera muestra?</li>
+<li>¿Por qué <code>riesgo_empirico</code> no tiene que ser exactamente 0.3?</li>
+</ol>
+<p><strong>Respuesta:</strong></p>
+<pre class="text"><code>Escribe aquí.</code></pre>
+</section>
+</section>
+<section id="parte-2-cargar-e-inspeccionar-datos" class="level1">
+<h1>Parte 2: cargar e inspeccionar datos</h1>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.data</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data.target</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>X.head()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Responde:</p>
 <ol type="1">
 <li>Qué representa una fila?</li>
 <li>Cuántas variables de entrada tiene el dataset?</li>
 <li>Cuántas clases hay?</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de X:"</span>, X.shape)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de y:"</span>, y.shape)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases:"</span>, data.target_names)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Conteo por clase:"</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y.value_counts().sort_index())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de X:"</span>, X.shape)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Forma de y:"</span>, y.shape)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases:"</span>, data.target_names)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Conteo por clase:"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y.value_counts().sort_index())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Auto-chequeo esperado:</p>
 <ul>
 <li><code>X</code> debe tener 178 filas y 13 columnas.</li>
@@ -320,23 +408,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>Escribe aquí.</code></pre>
 </section>
 </section>
-<section id="parte-2-partición-de-datos" class="level1">
-<h1>Parte 2: partición de datos</h1>
+<section id="parte-3-partición-de-datos" class="level1">
+<h1>Parte 3: partición de datos</h1>
 <p>Vamos a separar entrenamiento y prueba.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    X,</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    y,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>y</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Entrenamiento:"</span>, X_train.shape)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Prueba:"</span>, X_test.shape)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases en entrenamiento:"</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_train.value_counts(normalize<span class="op">=</span><span class="va">True</span>).sort_index())</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases en prueba:"</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_test.value_counts(normalize<span class="op">=</span><span class="va">True</span>).sort_index())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    X,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    y,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    stratify<span class="op">=</span>y</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Entrenamiento:"</span>, X_train.shape)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Prueba:"</span>, X_test.shape)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases en entrenamiento:"</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_train.value_counts(normalize<span class="op">=</span><span class="va">True</span>).sort_index())</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clases en prueba:"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(y_test.value_counts(normalize<span class="op">=</span><span class="va">True</span>).sort_index())</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Auto-chequeo esperado:</p>
 <ul>
 <li>El conjunto de entrenamiento debe tener 133 observaciones.</li>
@@ -350,16 +438,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>Escribe aquí.</code></pre>
 </section>
 </section>
-<section id="parte-3-baseline" class="level1">
-<h1>Parte 3: baseline</h1>
+<section id="parte-4-baseline" class="level1">
+<h1>Parte 4: baseline</h1>
 <p>Antes de entrenar un modelo, necesitamos una referencia simple.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>baseline.fit(X_train, y_train)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>baseline_acc <span class="op">=</span> accuracy_score(y_test, baseline_pred)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>baseline_acc</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>baseline.fit(X_train, y_train)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>baseline_pred <span class="op">=</span> baseline.predict(X_test)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>baseline_acc <span class="op">=</span> accuracy_score(y_test, baseline_pred)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>baseline_acc</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Auto-chequeo esperado:</p>
 <ul>
 <li>El baseline predice siempre la clase más frecuente en entrenamiento.</li>
@@ -372,35 +460,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>Escribe aquí.</code></pre>
 </section>
 </section>
-<section id="parte-4-modelo-de-referencia" class="level1">
-<h1>Parte 4: modelo de referencia</h1>
+<section id="parte-5-modelo-de-referencia" class="level1">
+<h1>Parte 5: modelo de referencia</h1>
 <p>Entrenaremos una regresión logística con escalamiento de variables.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>model_pred <span class="op">=</span> model.predict(X_test)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>model_acc <span class="op">=</span> accuracy_score(y_test, model_pred)</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>model_acc</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>model_pred <span class="op">=</span> model.predict(X_test)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>model_acc <span class="op">=</span> accuracy_score(y_test, model_pred)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>model_acc</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compara:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Baseline accuracy: </span><span class="sc">{</span>baseline_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Model accuracy:    </span><span class="sc">{</span>model_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Improvement:       </span><span class="sc">{</span>model_acc <span class="op">-</span> baseline_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Baseline accuracy: </span><span class="sc">{</span>baseline_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Model accuracy:    </span><span class="sc">{</span>model_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Improvement:       </span><span class="sc">{</span>model_acc <span class="op">-</span> baseline_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Auto-chequeo:</p>
 <ul>
 <li>El modelo debería superar claramente al baseline.</li>
 <li>Si no lo supera, revisa si ejecutaste las celdas en orden y si el pipeline incluye <code>StandardScaler</code>.</li>
 </ul>
 </section>
-<section id="parte-5-errores" class="level1">
-<h1>Parte 5: errores</h1>
+<section id="parte-6-errores" class="level1">
+<h1>Parte 6: errores</h1>
 <p>La accuracy resume desempeño en un número, pero no muestra que errores comete el modelo.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, model_pred)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cm</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, model_pred, target_names<span class="op">=</span>data.target_names))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>cm <span class="op">=</span> confusion_matrix(y_test, model_pred)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cm</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, model_pred, target_names<span class="op">=</span>data.target_names))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <section id="pregunta-de-interpretación-4" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-de-interpretación-4">Pregunta de interpretación 4</h2>
 <p>Observa la matriz de confusion y el reporte. Escribe:</p>
@@ -412,25 +500,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre class="text"><code>Escribe aquí.</code></pre>
 </section>
 </section>
-<section id="parte-6-conclusión-técnica" class="level1">
-<h1>Parte 6: conclusión técnica</h1>
-<p>Completa el siguiente parrafo. Debe mencionar baseline, métrica, datos y limitacion.</p>
+<section id="parte-7-accuracy-como-estimación-y-conclusión-técnica" class="level1">
+<h1>Parte 7: accuracy como estimación y conclusión técnica</h1>
+<p>La accuracy observada es un promedio de indicadores de acierto. Calcula su error estándar <em>plug-in</em>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model_acc_se <span class="op">=</span> np.sqrt(model_acc <span class="op">*</span> (<span class="dv">1</span> <span class="op">-</span> model_acc) <span class="op">/</span> <span class="bu">len</span>(y_test))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Accuracy observada: </span><span class="sc">{</span>model_acc<span class="sc">:.3f}</span><span class="ss">"</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Error estándar plug-in: </span><span class="sc">{</span>model_acc_se<span class="sc">:.3f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta cuenta supone observaciones de test independientes y una misma probabilidad de acierto. No incorpora cambio de población, búsqueda de modelos ni dependencia entre observaciones.</p>
+<p>Completa el siguiente párrafo. Debe mencionar baseline, métrica, incertidumbre, datos y limitación.</p>
 <blockquote class="blockquote">
-<p>En este experimento inicial, el modelo de referencia es / no es defendible porque ____. La comparación se hizo usando ____ sobre una partición ____. Sin embargo, la conclusión está limitada por ____.</p>
+<p>En este experimento inicial, el modelo de referencia supera / no supera el baseline porque ____. La accuracy observada es ____ y su error estándar <em>plug-in</em> es ____. Esta cantidad intenta estimar ____. Sin embargo, la conclusión está limitada por ____.</p>
 </blockquote>
 <p><strong>Respuesta final:</strong></p>
 <pre class="text"><code>Escribe aquí.</code></pre>
 </section>
-<section id="parte-7-dos-ideas-iniciales-de-proyecto" class="level1">
-<h1>Parte 7: dos ideas iniciales de proyecto</h1>
+<section id="parte-8-dos-ideas-iniciales-de-proyecto" class="level1">
+<h1>Parte 8: dos ideas iniciales de proyecto</h1>
 <p>Propone dos áreas o datasets que podrían interesarte para el proyecto final.</p>
 <p>Para cada idea responde:</p>
 <ol type="1">
-<li>Cuál sería la unidad de observación?</li>
-<li>Cuál sería la pregunta aplicada?</li>
+<li>¿Cuál sería la población de interés?</li>
+<li>¿Cuál sería la unidad de observación y cómo se obtendría la muestra?</li>
+<li>¿Cuál sería la pregunta aplicada?</li>
 <li>¿Habría variable objetivo? Si sí, ¿cuál?</li>
-<li>Qué decisión podría informar el modelo?</li>
-<li>Qué riesgo o limitacion anticipas?</li>
+<li>¿Qué cantidad poblacional o riesgo intentaría estimar?</li>
+<li>¿Qué limitación o fuente de incertidumbre anticipas?</li>
 </ol>
 <section id="idea-1" class="level2">
 <h2 class="anchored" data-anchor-id="idea-1">Idea 1</h2>
@@ -447,11 +541,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Marca mentalmente cada punto:</p>
 <ul>
 <li>Pude importar los paquetes o documente el error.</li>
+<li>Distinguí población, muestra, estimador y estimación.</li>
+<li>Comparé riesgo esperado y riesgo empírico mediante simulación.</li>
 <li>Identifique filas, columnas y clases.</li>
 <li>Explique por qué se usa <code>stratify=y</code>.</li>
 <li>Calcule baseline y modelo.</li>
 <li>Compare modelo contra baseline.</li>
-<li>Escribi una conclusión con métrica, datos, baseline y limitacion.</li>
+<li>Escribí una conclusión con métrica, incertidumbre, datos, baseline y limitación.</li>
 <li>Propuse dos ideas iniciales de proyecto.</li>
 <li>Declare uso sustancial de IA, si aplica.</li>
 </ul>

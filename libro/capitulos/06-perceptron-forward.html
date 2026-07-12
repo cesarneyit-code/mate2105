@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#distribución-predictiva-y-riesgo" id="toc-distribución-predictiva-y-riesgo" class="nav-link" data-scroll-target="#distribución-predictiva-y-riesgo">Distribución predictiva y riesgo</a></li>
   <li><a href="#perceptron-como-unidad-básica" id="toc-perceptron-como-unidad-básica" class="nav-link" data-scroll-target="#perceptron-como-unidad-básica">Perceptron como unidad básica</a></li>
   <li><a href="#neurona-logística" id="toc-neurona-logística" class="nav-link" data-scroll-target="#neurona-logística">Neurona logística</a></li>
   <li><a href="#de-una-neurona-a-una-capa" id="toc-de-una-neurona-a-una-capa" class="nav-link" data-scroll-target="#de-una-neurona-a-una-capa">De una neurona a una capa</a></li>
@@ -773,6 +774,28 @@ window.Quarto = {
 <li>implementar softmax de forma estable;</li>
 <li>interpretar entropía cruzada como pérdida para clasificación multiclase.</li>
 </ol>
+</section>
+<section id="distribución-predictiva-y-riesgo" class="level2">
+<h2 class="anchored" data-anchor-id="distribución-predictiva-y-riesgo">Distribución predictiva y riesgo</h2>
+<p>Para <span class="math inline">\(K\)</span> clases, representamos</p>
+<p><span class="math display">\[
+Y\mid X=x\sim\operatorname{Categorical}(\pi_1(x),\ldots,\pi_K(x)),
+\qquad \sum_{k=1}^K\pi_k(x)=1.
+\]</span></p>
+<p>Una red produce logits <span class="math inline">\(z(x;\theta)\)</span> y probabilidades <span class="math inline">\(q_\theta(x)=\operatorname{softmax}(z(x;\theta))\)</span>. La entropía cruzada empírica aproxima el riesgo poblacional</p>
+<p><span class="math display">\[
+R_{\mathrm{CE}}(\theta)
+=\mathbb E[-\log q_{\theta,Y}(X)].
+\]</span></p>
+<div class="proposicion">
+<p><strong>La distribución verdadera minimiza entropía cruzada.</strong> Condicionado en <span class="math inline">\(X=x\)</span>, para cualquier vector de probabilidades <span class="math inline">\(q\)</span>,</p>
+<p><span class="math display">\[
+-\sum_{k=1}^K\pi_k(x)\log q_k
+=H(\pi(x))+\operatorname{KL}(\pi(x)\|q)\geq H(\pi(x)).
+\]</span></p>
+<p>El mínimo se alcanza en <span class="math inline">\(q=\pi(x)\)</span>. La red aproxima esa distribución dentro de su familia paramétrica; softmax por sí solo no garantiza calibración.</p>
+</div>
+<p>Si al inicio todas las clases reciben probabilidad <span class="math inline">\(1/K\)</span>, la pérdida esperada por observación es <span class="math inline">\(\log K\)</span>. Este valor es una comprobación probabilística del forward, no una meta de entrenamiento.</p>
 </section>
 <section id="perceptron-como-unidad-básica" class="level2">
 <h2 class="anchored" data-anchor-id="perceptron-como-unidad-básica">Perceptron como unidad básica</h2>

@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#gradiente-estocástico-y-filtración" id="toc-gradiente-estocástico-y-filtración" class="nav-link" data-scroll-target="#gradiente-estocástico-y-filtración">Gradiente estocástico y filtración</a></li>
   <li><a href="#mini-batch-gradient-descent" id="toc-mini-batch-gradient-descent" class="nav-link" data-scroll-target="#mini-batch-gradient-descent">Mini-batch gradient descent</a></li>
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
   <li><a href="#ejemplo-resuelto-dos-pasos-con-momentum" id="toc-ejemplo-resuelto-dos-pasos-con-momentum" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-pasos-con-momentum">Ejemplo resuelto: dos pasos con momentum</a></li>
@@ -785,6 +786,22 @@ Figura&nbsp;1: Optimizadores: SGD usa el gradiente actual, momentum suaviza dire
 <li>comparar una implementación desde cero con PyTorch sin cambiar la pregunta experimental;</li>
 <li>reconocer que un optimizador no reemplaza validación.</li>
 </ol>
+</section>
+<section id="gradiente-estocástico-y-filtración" class="level2">
+<h2 class="anchored" data-anchor-id="gradiente-estocástico-y-filtración">Gradiente estocástico y filtración</h2>
+<p>Condicionado en el dataset, el historial de entrenamiento puede verse como un proceso aleatorio generado por mini-batches e inicialización. Si <span class="math inline">\(\mathcal F_t\)</span> contiene toda la información disponible antes de escoger el lote <span class="math inline">\(B_t\)</span>, un gradiente de mini-batch uniforme satisface</p>
+<p><span class="math display">\[
+\mathbb E[g_t\mid\mathcal F_t]
+=\nabla\widehat R_m(\theta_t).
+\]</span></p>
+<p>La diferencia</p>
+<p><span class="math display">\[
+\xi_t=g_t-\nabla\widehat R_m(\theta_t)
+\]</span></p>
+<p>es ruido de gradiente con media condicional cero bajo ese esquema de muestreo. Momentum y Adam transforman la secuencia de gradientes; no convierten automáticamente <span class="math inline">\(g_t\)</span> en un mejor estimador del riesgo poblacional.</p>
+<div class="criterio">
+<p>Comparar optimizadores exige conservar distribución de mini-batches, presupuesto de actualizaciones, inicialización y partición. Cambiar esas fuentes simultáneamente confunde efectos algorítmicos y muestrales.</p>
+</div>
 </section>
 <section id="mini-batch-gradient-descent" class="level2">
 <h2 class="anchored" data-anchor-id="mini-batch-gradient-descent">Mini-batch gradient descent</h2>

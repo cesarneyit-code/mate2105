@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -708,6 +708,7 @@ window.Quarto = {
   <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
   <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
   </ul></li>
+  <li><a href="#columna-probabilística-del-módulo" id="toc-columna-probabilística-del-módulo" class="nav-link" data-scroll-target="#columna-probabilística-del-módulo">Columna probabilística del módulo</a></li>
   <li><a href="#semana-2-regresión-lineal" id="toc-semana-2-regresión-lineal" class="nav-link" data-scroll-target="#semana-2-regresión-lineal">Semana 2: regresión lineal</a>
   <ul class="collapse">
   <li><a href="#a.-dimensiones-y-representación" id="toc-a.-dimensiones-y-representación" class="nav-link" data-scroll-target="#a.-dimensiones-y-representación">A. Dimensiones y representación</a></li>
@@ -835,6 +836,33 @@ window.Quarto = {
 </tbody>
 </table>
 </section>
+</section>
+<section id="columna-probabilística-del-módulo" class="level1">
+<h1>Columna probabilística del módulo</h1>
+<div class="exercise">
+<p><strong>P1. Objeto poblacional y estimador.</strong> Para regresión con pérdida cuadrática, identifique: distribución <span class="math inline">\(P\)</span>, regla poblacional óptima, familia lineal, estimador <span class="math inline">\(\widehat\theta(D_m)\)</span> y estimación obtenida para una muestra concreta.</p>
+</div>
+<div class="exercise">
+<p><strong>P2. Media condicional.</strong> Demuestre que <span class="math inline">\(\mathbb E[(Y-a)^2\mid X=x]\)</span> se minimiza en <span class="math inline">\(a=\mathbb E[Y\mid X=x]\)</span>. Separe el término irreducible del término que depende de <span class="math inline">\(a\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>P3. Ruido y residual.</strong> En el modelo <span class="math inline">\(Y=X^\top\beta+\varepsilon\)</span>, explique por qué <span class="math inline">\(\varepsilon\)</span> es aleatorio y no observado, mientras <span class="math inline">\(r_i=y_i-x_i^\top\widehat\beta\)</span> se calcula después del ajuste. Dé dos razones por las que <span class="math inline">\(r_i\)</span> puede ser grande.</p>
+</div>
+<div class="exercise">
+<p><strong>P4. Insesgamiento.</strong> Bajo <span class="math inline">\(\mathbb E[\varepsilon\mid X]=0\)</span> y rango completo, derive <span class="math inline">\(\mathbb E[\widehat\beta\mid X]\)</span>. Indique por qué esta propiedad no implica que una estimación particular sea cercana a <span class="math inline">\(\beta\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>P5. Variación de mini-batch.</strong> Compare dos estimadores del gradiente con mini-batches de tamaños 8 y 128. Ambos son insesgados para el gradiente empírico. ¿Cuál espera que tenga mayor varianza y qué efecto produce sobre la trayectoria?</p>
+</div>
+<div class="exercise">
+<p><strong>P6. Selección.</strong> Explique por qué <span class="math inline">\(\widehat R_{\mathrm{val}}(f)\)</span> puede ser insesgado para una función fija y, sin embargo, el menor valor entre cien modelos evaluados en la misma validación puede ser optimista.</p>
+</div>
+<div class="exercise">
+<p><strong>P7. Bernoulli y log-loss.</strong> Para <span class="math inline">\(Y\mid X=x\sim\operatorname{Bernoulli}(\eta)\)</span>, derive el riesgo condicional de reportar <span class="math inline">\(q\)</span> y compruebe que su único minimizador es <span class="math inline">\(q=\eta\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>P8. Simulación.</strong> Genere cien muestras de una misma regresión lineal, ajuste OLS en cada una y grafique la distribución de un coeficiente y del MAE de test. Distinga variación del estimador, ruido irreducible y error numérico.</p>
+</div>
 </section>
 <section id="semana-2-regresión-lineal" class="level1">
 <h1>Semana 2: regresión lineal</h1>

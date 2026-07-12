@@ -6,21 +6,21 @@
 |---|---:|---|
 | Particiones y escalamiento | 1.5 | Autograded |
 | Ridge/Lasso y validación | 3.0 | Autograded |
-| Regresión logística | 2.0 | Autograded |
-| Métricas, umbral y protocolo | 2.0 | Autograded |
+| Modelo Bernoulli y regresión logística | 2.0 | Autograded |
+| Métricas, error estándar, umbral y protocolo | 2.0 | Autograded |
 | Recomendación técnica | 1.5 | Manual |
 
 ## Revisión manual
 
 Pregunta:
 
-> ¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?
+> ¿Qué modelo o umbral recomendarías, qué cantidad poblacional intenta estimar la métrica y qué incertidumbre comunicarías antes de usarlo?
 
 | Puntaje manual | Criterio |
 |---:|---|
 | 0.0 | No hay una recomendación técnica clara |
 | 0.75 | Hay una recomendación, pero los resultados citados son incompletos o no menciona limitaciones |
-| 1.5 | La recomendación usa una métrica adecuada, una comparación y una limitación concreta |
+| 1.5 | La recomendación usa métrica y comparación, distingue probabilidad estimada de verdadera y comunica incertidumbre y alcance |
 
 ## Señales de alerta
 

@@ -232,6 +232,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#fuentes-distintas-de-aleatoriedad" id="toc-fuentes-distintas-de-aleatoriedad" class="nav-link" data-scroll-target="#fuentes-distintas-de-aleatoriedad">Fuentes distintas de aleatoriedad</a></li>
   <li><a href="#activaciones" id="toc-activaciones" class="nav-link" data-scroll-target="#activaciones">Activaciones</a></li>
   <li><a href="#inicialización" id="toc-inicialización" class="nav-link" data-scroll-target="#inicialización">Inicialización</a></li>
   <li><a href="#regularización-l2-en-redes" id="toc-regularización-l2-en-redes" class="nav-link" data-scroll-target="#regularización-l2-en-redes">Regularización L2 en redes</a></li>
@@ -300,6 +301,55 @@ window.Quarto = {
 <li>leer curvas de entrenamiento y validación;</li>
 <li>convertir una curva en una hipótesis y un siguiente experimento.</li>
 </ol>
+</section>
+<section id="fuentes-distintas-de-aleatoriedad" class="level2">
+<h2 class="anchored" data-anchor-id="fuentes-distintas-de-aleatoriedad">Fuentes distintas de aleatoriedad</h2>
+<p>En una red aparecen al menos cuatro fuentes que conviene separar:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Fuente</th>
+<th>Variable aleatoria</th>
+<th>Qué cambia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>muestreo</td>
+<td><span class="math inline">\(D_m\sim P^m\)</span></td>
+<td>observaciones disponibles</td>
+</tr>
+<tr class="even">
+<td>inicialización</td>
+<td><span class="math inline">\(W^{[\ell]}_0\)</span></td>
+<td>punto inicial del algoritmo</td>
+</tr>
+<tr class="odd">
+<td>mini-batches</td>
+<td><span class="math inline">\(B_t\)</span></td>
+<td>gradiente usado en cada paso</td>
+</tr>
+<tr class="even">
+<td>dropout</td>
+<td>máscaras <span class="math inline">\(M_t\)</span></td>
+<td>subred activa durante entrenamiento</td>
+</tr>
+</tbody>
+</table>
+<p>Una semilla fija condiciona estas realizaciones en una ejecución; no elimina la incertidumbre del procedimiento ni demuestra estabilidad frente a otras muestras.</p>
+<p>Para justificar reglas de inicialización usamos aproximaciones probabilísticas. Si <span class="math inline">\(w_j\)</span> y <span class="math inline">\(x_j\)</span> son independientes, centrados y con segundos momentos finitos,</p>
+<p><span class="math display">\[
+\operatorname{Var}\!\left(\sum_{j=1}^{d}w_jx_j\right)
+=d\,\operatorname{Var}(w_j)\operatorname{Var}(x_j).
+\]</span></p>
+<p>Si las entradas están correlacionadas o no están centradas, aparecen términos de covarianza y la aproximación debe revisarse.</p>
+<p>En dropout invertido, una máscara <span class="math inline">\(M_j\sim\operatorname{Bernoulli}(1-p)\)</span> produce</p>
+<p><span class="math display">\[
+\widetilde A_j=\frac{M_j}{1-p}A_j,
+\qquad
+\mathbb E[\widetilde A_j\mid A_j]=A_j.
+\]</span></p>
+<p>La igualdad conserva la activación en esperanza durante entrenamiento, pero aumenta su varianza.</p>
 </section>
 <section id="activaciones" class="level2">
 <h2 class="anchored" data-anchor-id="activaciones">Activaciones</h2>

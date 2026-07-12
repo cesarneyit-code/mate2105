@@ -100,6 +100,16 @@
     ]
   },
   {
+    "objectID": "capitulo01_perceptron_forward.html#distribución-predictiva-y-riesgo",
+    "href": "capitulo01_perceptron_forward.html#distribución-predictiva-y-riesgo",
+    "title": "Perceptron, neurona logística y forward propagation",
+    "section": "Distribución predictiva y riesgo",
+    "text": "Distribución predictiva y riesgo\nPara \\(K\\) clases, representamos\n\\[\nY\\mid X=x\\sim\\operatorname{Categorical}(\\pi_1(x),\\ldots,\\pi_K(x)),\n\\qquad \\sum_{k=1}^K\\pi_k(x)=1.\n\\]\nUna red produce logits \\(z(x;\\theta)\\) y probabilidades \\(q_\\theta(x)=\\operatorname{softmax}(z(x;\\theta))\\). La entropía cruzada empírica aproxima el riesgo poblacional\n\\[\nR_{\\mathrm{CE}}(\\theta)\n=\\mathbb E[-\\log q_{\\theta,Y}(X)].\n\\]\n\nLa distribución verdadera minimiza entropía cruzada. Condicionado en \\(X=x\\), para cualquier vector de probabilidades \\(q\\),\n\\[\n-\\sum_{k=1}^K\\pi_k(x)\\log q_k\n=H(\\pi(x))+\\operatorname{KL}(\\pi(x)\\|q)\\geq H(\\pi(x)).\n\\]\nEl mínimo se alcanza en \\(q=\\pi(x)\\). La red aproxima esa distribución dentro de su familia paramétrica; softmax por sí solo no garantiza calibración.\n\nSi al inicio todas las clases reciben probabilidad \\(1/K\\), la pérdida esperada por observación es \\(\\log K\\). Este valor es una comprobación probabilística del forward, no una meta de entrenamiento.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Perceptron, neurona logística y forward propagation</span>"
+    ]
+  },
+  {
     "objectID": "capitulo01_perceptron_forward.html#perceptron-como-unidad-básica",
     "href": "capitulo01_perceptron_forward.html#perceptron-como-unidad-básica",
     "title": "Perceptron, neurona logística y forward propagation",
@@ -310,6 +320,16 @@
     ]
   },
   {
+    "objectID": "capitulo02_backpropagation.html#del-riesgo-esperado-al-gradiente-calculable",
+    "href": "capitulo02_backpropagation.html#del-riesgo-esperado-al-gradiente-calculable",
+    "title": "Backpropagation",
+    "section": "Del riesgo esperado al gradiente calculable",
+    "text": "Del riesgo esperado al gradiente calculable\nEl objetivo poblacional de una red es\n\\[\nR_P(\\theta)=\\mathbb E_{Z\\sim P}[\\ell(\\theta;Z)],\n\\]\npero backpropagation se aplica a la pérdida empírica\n\\[\n\\widehat R_m(\\theta)=\\frac1m\\sum_{i=1}^m\\ell(\\theta;Z_i).\n\\]\nBajo condiciones que permiten intercambiar derivada y esperanza,\n\\[\n\\nabla R_P(\\theta)=\\mathbb E[\\nabla_\\theta\\ell(\\theta;Z)].\n\\]\nEsta identidad explica por qué gradientes de observaciones o mini-batches pueden usarse como estimadores del gradiente poblacional. En el curso, la igualdad que podemos verificar exactamente es la correspondiente al riesgo empírico.\n\nUna prueba de gradientes comprueba derivadas para una muestra y parámetros fijos. No comprueba representatividad de los datos, calibración ni bajo riesgo de uso.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Backpropagation</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_backpropagation.html#el-grafo-de-cómputo",
     "href": "capitulo02_backpropagation.html#el-grafo-de-cómputo",
     "title": "Backpropagation",
@@ -495,6 +515,16 @@
     "title": "Activaciones, inicialización, regularización y diagnóstico",
     "section": "Objetivos del capítulo",
     "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nidentificar fallas de saturación, overfitting y learning rate;\nexplicar por qué la inicialización afecta el entrenamiento;\nincorporar regularización L2 en la pérdida y en los gradientes;\nleer curvas de entrenamiento y validación;\nconvertir una curva en una hipótesis y un siguiente experimento.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_diagnostico_regularizacion.html#fuentes-distintas-de-aleatoriedad",
+    "href": "capitulo03_diagnostico_regularizacion.html#fuentes-distintas-de-aleatoriedad",
+    "title": "Activaciones, inicialización, regularización y diagnóstico",
+    "section": "Fuentes distintas de aleatoriedad",
+    "text": "Fuentes distintas de aleatoriedad\nEn una red aparecen al menos cuatro fuentes que conviene separar:\n\n\n\nFuente\nVariable aleatoria\nQué cambia\n\n\n\n\nmuestreo\n\\(D_m\\sim P^m\\)\nobservaciones disponibles\n\n\ninicialización\n\\(W^{[\\ell]}_0\\)\npunto inicial del algoritmo\n\n\nmini-batches\n\\(B_t\\)\ngradiente usado en cada paso\n\n\ndropout\nmáscaras \\(M_t\\)\nsubred activa durante entrenamiento\n\n\n\nUna semilla fija condiciona estas realizaciones en una ejecución; no elimina la incertidumbre del procedimiento ni demuestra estabilidad frente a otras muestras.\nPara justificar reglas de inicialización usamos aproximaciones probabilísticas. Si \\(w_j\\) y \\(x_j\\) son independientes, centrados y con segundos momentos finitos,\n\\[\n\\operatorname{Var}\\!\\left(\\sum_{j=1}^{d}w_jx_j\\right)\n=d\\,\\operatorname{Var}(w_j)\\operatorname{Var}(x_j).\n\\]\nSi las entradas están correlacionadas o no están centradas, aparecen términos de covarianza y la aproximación debe revisarse.\nEn dropout invertido, una máscara \\(M_j\\sim\\operatorname{Bernoulli}(1-p)\\) produce\n\\[\n\\widetilde A_j=\\frac{M_j}{1-p}A_j,\n\\qquad\n\\mathbb E[\\widetilde A_j\\mid A_j]=A_j.\n\\]\nLa igualdad conserva la activación en esperanza durante entrenamiento, pero aumenta su varianza.",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Activaciones, inicialización, regularización y diagnóstico</span>"
     ]
@@ -705,6 +735,16 @@
     "title": "Optimizadores y PyTorch",
     "section": "Objetivos del capítulo",
     "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\ndistinguir batch, mini-batch y época;\nexplicar la intuición de momentum, RMSProp y Adam;\nubicar forward, loss, backward y actualización en un loop de PyTorch;\ncomparar una implementación desde cero con PyTorch sin cambiar la pregunta experimental;\nreconocer que un optimizador no reemplaza validación.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo04_optimizadores_pytorch.html#gradiente-estocástico-y-filtración",
+    "href": "capitulo04_optimizadores_pytorch.html#gradiente-estocástico-y-filtración",
+    "title": "Optimizadores y PyTorch",
+    "section": "Gradiente estocástico y filtración",
+    "text": "Gradiente estocástico y filtración\nCondicionado en el dataset, el historial de entrenamiento puede verse como un proceso aleatorio generado por mini-batches e inicialización. Si \\(\\mathcal F_t\\) contiene toda la información disponible antes de escoger el lote \\(B_t\\), un gradiente de mini-batch uniforme satisface\n\\[\n\\mathbb E[g_t\\mid\\mathcal F_t]\n=\\nabla\\widehat R_m(\\theta_t).\n\\]\nLa diferencia\n\\[\n\\xi_t=g_t-\\nabla\\widehat R_m(\\theta_t)\n\\]\nes ruido de gradiente con media condicional cero bajo ese esquema de muestreo. Momentum y Adam transforman la secuencia de gradientes; no convierten automáticamente \\(g_t\\) en un mejor estimador del riesgo poblacional.\n\nComparar optimizadores exige conservar distribución de mini-batches, presupuesto de actualizaciones, inicialización y partición. Cambiar esas fuentes simultáneamente confunde efectos algorítmicos y muestrales.",
     "crumbs": [
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Optimizadores y PyTorch</span>"
     ]
@@ -940,6 +980,16 @@
     ]
   },
   {
+    "objectID": "capitulo05_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "href": "capitulo05_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "title": "Ejercicios integradores: redes neuronales",
+    "section": "Columna probabilística del módulo",
+    "text": "Columna probabilística del módulo\n\nP1. Categórica y softmax. Para tres clases con distribución condicional \\(\\pi=(0.2,0.5,0.3)\\), calcule la entropía cruzada de reportar \\(q=(0.1,0.7,0.2)\\) y compare con reportar \\(q=\\pi\\).\n\n\nP2. Baseline probabilístico. Demuestre que asignar \\(1/K\\) a cada clase produce pérdida \\(\\log K\\) para cualquier etiqueta observada. Explique qué diagnóstico permite hacer al inicializar una red.\n\n\nP3. Gradiente estocástico. Explique respecto de qué aleatoriedad un gradiente de mini-batch es insesgado y por qué eso no implica que sea igual al gradiente poblacional.\n\n\nP4. Propagación de varianza. Derive \\(\\operatorname{Var}(\\sum_j w_jx_j)\\) bajo independencia y media cero. Indique qué términos faltan cuando las entradas están correlacionadas.\n\n\nP5. Dropout. Verifique la esperanza de dropout invertido y calcule su varianza condicional dado \\(A_j=a\\).\n\n\nP6. Repetición. Entrene la misma red con cinco inicializaciones y reporte media, desviación y valores individuales de la métrica. Explique por qué esto todavía no cuantifica variación por una nueva muestra de la población.",
+    "crumbs": [
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Ejercicios integradores: redes neuronales</span>"
+    ]
+  },
+  {
     "objectID": "capitulo05_ejercicios_integradores.html#bloque-a-dimensiones-y-forward",
     "href": "capitulo05_ejercicios_integradores.html#bloque-a-dimensiones-y-forward",
     "title": "Ejercicios integradores: redes neuronales",
@@ -1074,7 +1124,7 @@
     "href": "laboratorios/lab03_redes_desde_cero.html",
     "title": "Lab 3: Red neuronal desde cero",
     "section": "",
-    "text": "Propósito\nEste laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.\nLa pregunta técnica central es:",
+    "text": "Propósito\nEste laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento. La salida softmax se interpreta como una distribución categórica condicional estimada; la entropía cruzada empírica aproxima un riesgo esperado y los gradientes de minibatch son estimadores aleatorios.\nLa pregunta técnica central es:",
     "crumbs": [
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Lab 3: Red neuronal desde cero</span>"
     ]

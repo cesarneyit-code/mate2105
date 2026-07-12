@@ -235,12 +235,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -670,6 +670,8 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#el-mecanismo-de-observación-no-es-neutral" id="toc-el-mecanismo-de-observación-no-es-neutral" class="nav-link" data-scroll-target="#el-mecanismo-de-observación-no-es-neutral">El mecanismo de observación no es neutral</a></li>
+  <li><a href="#riesgo-offline-y-utilidad-de-uso" id="toc-riesgo-offline-y-utilidad-de-uso" class="nav-link" data-scroll-target="#riesgo-offline-y-utilidad-de-uso">Riesgo offline y utilidad de uso</a></li>
   <li><a href="#matriz-usuario-ítem" id="toc-matriz-usuario-ítem" class="nav-link" data-scroll-target="#matriz-usuario-ítem">Matriz usuario-ítem</a></li>
   <li><a href="#similitud-coseno" id="toc-similitud-coseno" class="nav-link" data-scroll-target="#similitud-coseno">Similitud coseno</a></li>
   <li><a href="#ejemplo-resuelto-similitud-coseno" id="toc-ejemplo-resuelto-similitud-coseno" class="nav-link" data-scroll-target="#ejemplo-resuelto-similitud-coseno">Ejemplo resuelto: similitud coseno</a></li>
@@ -737,6 +739,27 @@ window.Quarto = {
 <li>explicar la idea de factores latentes por SVD;</li>
 <li>reconocer problemas de popularidad, cold start y sesgo.</li>
 </ol>
+</section>
+<section id="el-mecanismo-de-observación-no-es-neutral" class="level2">
+<h2 class="anchored" data-anchor-id="el-mecanismo-de-observación-no-es-neutral">El mecanismo de observación no es neutral</h2>
+<p>Sea <span class="math inline">\(R_{ui}\)</span> la preferencia potencial de un usuario <span class="math inline">\(u\)</span> por un ítem <span class="math inline">\(i\)</span> y <span class="math inline">\(O_{ui}\in\{0,1\}\)</span> el indicador de que esa interacción fue observada. El dataset contiene principalmente valores con <span class="math inline">\(O_{ui}=1\)</span>. En plataformas reales,</p>
+<p><span class="math display">\[
+\mathbb P(O_{ui}=1\mid R_{ui},u,i)
+\]</span></p>
+<p>no suele ser constante: exposición previa, posición, popularidad y políticas del sistema afectan qué llega a registrarse. Por tanto, la distribución observada</p>
+<p><span class="math display">\[
+P(R_{ui}\mid O_{ui}=1)
+\]</span></p>
+<p>puede diferir de la distribución de preferencias sobre todos los pares usuario-ítem. Tratar faltantes como desagrado supone un mecanismo que rara vez está justificado.</p>
+</section>
+<section id="riesgo-offline-y-utilidad-de-uso" class="level2">
+<h2 class="anchored" data-anchor-id="riesgo-offline-y-utilidad-de-uso">Riesgo offline y utilidad de uso</h2>
+<p>Una métrica offline estima desempeño bajo el protocolo que generó sus pares de evaluación. La utilidad relevante sería una esperanza bajo exposición futura,</p>
+<p><span class="math display">\[
+\mathbb E_{(u,i)\sim P_{\mathrm{uso}}}
+[U(u,i,\operatorname{recomendar}(u))],
+\]</span></p>
+<p>que no se identifica automáticamente con precisión@k o recall@k histórico. Esta brecha explica por qué una comparación offline no demuestra efecto causal sobre satisfacción, diversidad o descubrimiento.</p>
 </section>
 <section id="matriz-usuario-ítem" class="level2">
 <h2 class="anchored" data-anchor-id="matriz-usuario-ítem">Matriz usuario-ítem</h2>

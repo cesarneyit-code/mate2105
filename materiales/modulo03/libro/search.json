@@ -94,7 +94,27 @@
     "href": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
     "title": "Métricas y particiones",
     "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.\n\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
+    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#una-métrica-es-un-estadístico",
+    "href": "capitulo01_metricas_particiones.html#una-métrica-es-un-estadístico",
+    "title": "Métricas y particiones",
+    "section": "Una métrica es un estadístico",
+    "text": "Una métrica es un estadístico\nSea \\(f\\) un procedimiento ya fijado y \\(L=\\ell(f(X),Y)\\). El riesgo de uso es\n\\[\nR_{P_{\\mathrm{uso}}}(f)=\\mathbb E[L],\n\\]\nmientras que una evaluación de \\(n\\) casos produce\n\\[\n\\widehat R_n(f)=\\frac1n\\sum_{i=1}^n L_i.\n\\]\nEl segundo objeto cambia si cambia la muestra. Bajo casos iid y varianza finita,\n\\[\n\\operatorname{se}(\\widehat R_n)\n=\\sqrt{\\frac{\\operatorname{Var}(L)}{n}}.\n\\]\nPara accuracy, \\(L_i=\\mathbf 1\\{f(X_i)\\neq Y_i\\}\\) es Bernoulli con probabilidad de error \\(p_e\\). Por tanto,\n\\[\n\\operatorname{Var}(\\widehat{\\mathrm{accuracy}})\n=\\frac{a(1-a)}{n},\n\\]\ndonde \\(a=1-p_e\\). En una muestra reemplazamos \\(a\\) por la accuracy observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo01_metricas_particiones.html#matriz-de-confusión-poblacional-y-empírica",
+    "href": "capitulo01_metricas_particiones.html#matriz-de-confusión-poblacional-y-empírica",
+    "title": "Métricas y particiones",
+    "section": "Matriz de confusión poblacional y empírica",
+    "text": "Matriz de confusión poblacional y empírica\nCada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo\n\\[\n\\mathbb P(\\widehat Y=1,Y=0)\n\\quad\\text{mediante}\\quad\n\\frac{\\#\\{i:\\widehat y_i=1,y_i=0\\}}{n}.\n\\]\nPrecision y recall son probabilidades condicionales estimadas:\n\\[\n\\operatorname{precision}=\\mathbb P(Y=1\\mid\\widehat Y=1),\n\\qquad\n\\operatorname{recall}=\\mathbb P(\\widehat Y=1\\mid Y=1).\n\\]\nEl denominador efectivo de cada métrica puede ser mucho menor que \\(n\\), por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -320,6 +340,26 @@
     ]
   },
   {
+    "objectID": "capitulo02_validacion_curvas.html#qué-aleatoriedad-intenta-representar-la-validación",
+    "href": "capitulo02_validacion_curvas.html#qué-aleatoriedad-intenta-representar-la-validación",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Qué aleatoriedad intenta representar la validación",
+    "text": "Qué aleatoriedad intenta representar la validación\nIdealmente evaluamos un procedimiento \\(A\\) que transforma una muestra de entrenamiento en un modelo \\(A(D_m)\\). Su desempeño esperado para tamaño \\(m\\) es\n\\[\n\\mathcal R_m(A)\n=\\mathbb E_{D_m\\sim P^m}\n\\mathbb E_{Z\\sim P}\\left[\\ell(A(D_m);Z)\\right].\n\\]\nCross-validation reutiliza una muestra finita para aproximar esta esperanza sobre posibles conjuntos de entrenamiento y observaciones de validación. Los folds no son réplicas independientes: comparten datos y sus modelos están correlacionados. Por eso la desviación entre folds es descriptiva y no debe convertirse automáticamente en un intervalo de confianza.\n\nIndependencia de test. Si el procedimiento completo \\(A\\) queda fijado sin usar test y \\(D_{\\mathrm{test}}\\) es independiente con distribución \\(P\\), entonces el promedio de pérdidas de test es condicionalmente insesgado para el riesgo de \\(A(D_m)\\):\n\\[\n\\mathbb E[\\widehat R_{\\mathrm{test}}(A(D_m))\\mid D_m]\n=R_P(A(D_m)).\n\\]\nLa igualdad deja de describir el protocolo si test modifica hiperparámetros, features, umbral o selección del reporte.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo02_validacion_curvas.html#bootstrap-y-unidad-de-remuestreo",
+    "href": "capitulo02_validacion_curvas.html#bootstrap-y-unidad-de-remuestreo",
+    "title": "Validación cruzada y curvas de aprendizaje",
+    "section": "Bootstrap y unidad de remuestreo",
+    "text": "Bootstrap y unidad de remuestreo\nEl bootstrap empírico genera réplicas \\(D_n^{*(b)}\\) muestreando con reemplazo desde \\(D_n\\) y recalcula un estadístico \\(T^{*(b)}\\). La distribución de las réplicas aproxima la variación muestral de \\(T\\) bajo la distribución empírica.\nSi hay varias filas por paciente, colegio o periodo, la unidad independiente no es la fila. En ese caso se requiere bootstrap por grupos, bloques temporales u otro esquema que preserve la dependencia relevante.",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
+    ]
+  },
+  {
     "objectID": "capitulo02_validacion_curvas.html#cross-validation",
     "href": "capitulo02_validacion_curvas.html#cross-validation",
     "title": "Validación cruzada y curvas de aprendizaje",
@@ -540,6 +580,26 @@
     ]
   },
   {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#riesgo-condicional-por-slice",
+    "href": "capitulo03_error_analysis_data_mismatch.html#riesgo-condicional-por-slice",
+    "title": "Error analysis y data mismatch",
+    "section": "Riesgo condicional por slice",
+    "text": "Riesgo condicional por slice\nPara un slice \\(S\\subseteq\\mathcal X\\times\\mathcal Y\\) con \\(\\mathbb P_P(S)&gt;0\\), definimos\n\\[\nR_P(f\\mid S)\n=\\mathbb E_P[\\ell(f(X),Y)\\mid (X,Y)\\in S].\n\\]\nEl promedio global satisface una descomposición por una partición \\(S_1,\\ldots,S_J\\):\n\\[\nR_P(f)=\\sum_{j=1}^J\\mathbb P_P(S_j)R_P(f\\mid S_j).\n\\]\nUn slice pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#cambio-de-distribución-como-cambio-de-medida",
+    "href": "capitulo03_error_analysis_data_mismatch.html#cambio-de-distribución-como-cambio-de-medida",
+    "title": "Error analysis y data mismatch",
+    "section": "Cambio de distribución como cambio de medida",
+    "text": "Cambio de distribución como cambio de medida\nTrain y uso corresponden a distribuciones \\(P_{\\mathrm{train}}\\) y \\(P_{\\mathrm{uso}}\\) sobre el mismo espacio de observaciones. Si \\(P_{\\mathrm{uso}}\\) es absolutamente continua respecto de \\(P_{\\mathrm{train}}\\), el riesgo de uso puede escribirse formalmente como\n\\[\nR_{\\mathrm{uso}}(f)\n=\\mathbb E_{P_{\\mathrm{train}}}\n\\left[w(X,Y)\\ell(f(X),Y)\\right],\n\\qquad\nw=\\frac{dP_{\\mathrm{uso}}}{dP_{\\mathrm{train}}}.\n\\]\nEsta identidad no resuelve el problema: las razones pueden ser desconocidas o muy inestables, y puede haber regiones de uso sin soporte en entrenamiento. Sirve para precisar por qué comparar histogramas no basta para garantizar transportabilidad.",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+    ]
+  },
+  {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
     "href": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
     "title": "Error analysis y data mismatch",
@@ -750,6 +810,16 @@
     ]
   },
   {
+    "objectID": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "href": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
+    "title": "Ejercicios integradores: estrategia de machine learning",
+    "section": "Columna probabilística del módulo",
+    "text": "Columna probabilística del módulo\n\nP1. Accuracy aleatoria. Un modelo fijo acierta 180 de 200 casos iid. Calcule accuracy y un error estándar aproximado. Explique qué supuesto permite usar la fórmula Bernoulli.\n\n\nP2. Denominadores. Dos grupos tienen recall 0.80; uno contiene 10 positivos y otro 500. Compare la información que aportan ambas cifras sin usar solo el valor puntual.\n\n\nP3. Procedimiento y modelo. Distinga el riesgo de un modelo ya fijado del riesgo esperado de un procedimiento que selecciona hiperparámetros a partir de una muestra.\n\n\nP4. Dependencia de folds. Explique por qué los puntajes de 5-fold CV no son independientes y por qué media ± desviación no constituye automáticamente un intervalo de confianza.\n\n\nP5. Bootstrap por grupos. Diseñe un remuestreo para datos con diez mediciones por paciente. Compare con remuestrear filas individualmente.\n\n\nP6. Riesgo por slices. Construya dos slices con pesos poblacionales y riesgos condicionales dados; verifique la descomposición del riesgo global y muestre cómo un slice crítico puede quedar oculto.\n\n\nP7. Soporte. Dé un ejemplo de observaciones posibles en producción con probabilidad positiva bajo \\(P_{\\mathrm{uso}}\\) y probabilidad cero bajo \\(P_{\\mathrm{train}}\\). Explique por qué ponderar entrenamiento no basta.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+    ]
+  },
+  {
     "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
     "href": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
     "title": "Ejercicios integradores: estrategia de machine learning",
@@ -894,7 +964,7 @@
     "href": "laboratorios/lab04_diagnostico_modelos.html",
     "title": "Lab 4: Diagnóstico de modelos",
     "section": "",
-    "text": "Propósito\nEste laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada y localizar errores.\nLa pregunta técnica central es:\n\n¿Qué resultados justifican elegir un modelo y cuál es el siguiente experimento razonable?\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab04_diagnostico_modelos.ipynb\nNo cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.\n\n\nFlujo recomendado\n\nCarga load_breast_cancer.\nConstruye particiones estratificadas.\nDefine una métrica principal.\nEntrena un baseline.\nConstruye un Pipeline.\nEjecuta cross-validation.\nCalcula métricas sobre validación.\nConstruye una learning curve.\nAnaliza errores por slices.\nEscribe una recomendación técnica.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nResultado esperado\nCalificación\n\n\n\n\nParticiones\ntrain/dev/test estratificados y reproducibles\nAutomática\n\n\nBaseline\nDummyClassifier o regla equivalente\nAutomática\n\n\nPipeline\npreprocesamiento dentro de pipeline\nAutomática\n\n\nMétricas\nprecision, recall, F1 y matriz de confusión\nAutomática\n\n\nCross-validation\nmedia y desviación de scores\nAutomática\n\n\nLearning curve\ntamaños, train scores y validation scores consistentes\nAutomática\n\n\nError slices\ntabla por subgrupo con conteos y métricas\nAutomática\n\n\nSelección\nmayor puntaje conservador media - desviación en validación\nAutomática\n\n\n\nLa regla media - desviación penaliza resultados variables y fija un criterio reproducible para este laboratorio. Es una heurística de selección, no un intervalo de confianza ni una garantía de desempeño futuro.\n\n\nParte manual\nIncluye una respuesta corta:\n\nCon los resultados del notebook, ¿qué modelo elegirías, cuál es el diagnóstico principal y cuál sería el siguiente experimento?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o no usa resultados del notebook\n\n\n1\nMenciona métrica o modelo, pero no propone una comprobación concreta\n\n\n2\nConecta métrica, baseline, validación, error analysis y siguiente experimento\n\n\n\n\n\nErrores frecuentes\n\nUsar test para seleccionar hiperparámetros.\nEscalar antes de partir datos.\nReportar accuracy en un problema donde recall/F1 era más relevante.\nComparar modelos con particiones distintas.\nReportar cross-validation sin desviación.\nNo mirar falsos negativos/falsos positivos.\nPresentar media - desviación como un límite de confianza.\nHacer una recomendación sin acción concreta.",
+    "text": "Propósito\nEste laboratorio evalúa si puedes desarrollar modelos de forma metódica: definir una métrica como estimador de desempeño poblacional, construir particiones sin leakage, comparar contra un baseline, usar validación cruzada, cuantificar incertidumbre y localizar riesgos condicionales por slice.\nLa pregunta técnica central es:\n\n¿Qué resultados justifican elegir un modelo y cuál es el siguiente experimento razonable?\n\n\n\nQué debes entregar\nEntrega el notebook:\napellido_nombre_lab04_diagnostico_modelos.ipynb\nNo cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.\n\n\nFlujo recomendado\n\nCarga load_breast_cancer.\nConstruye particiones estratificadas.\nDefine una métrica principal.\nEntrena un baseline.\nConstruye un Pipeline.\nEjecuta cross-validation.\nCalcula métricas sobre validación.\nConstruye una learning curve.\nAnaliza errores por slices.\nCompleta probability_answers sobre métricas de test, dependencia entre folds, unidad de bootstrap y riesgo condicional.\nEscribe una recomendación técnica con incertidumbre.\n\n\n\nLo que autocalifica el notebook\n\n\n\n\n\n\n\n\nComponente\nResultado esperado\nCalificación\n\n\n\n\nParticiones\ntrain/dev/test estratificados y reproducibles\nAutomática\n\n\nBaseline\nDummyClassifier o regla equivalente\nAutomática\n\n\nPipeline\npreprocesamiento dentro de pipeline\nAutomática\n\n\nMétricas\nprecision, recall, F1 y matriz de confusión\nAutomática\n\n\nCross-validation\nmedia y desviación de scores\nAutomática\n\n\nLearning curve\ntamaños, train scores y validation scores consistentes\nAutomática\n\n\nError slices\ntabla por subgrupo con conteos y métricas\nAutomática\n\n\nSelección\nmayor puntaje conservador media - desviación en validación\nAutomática\n\n\nContrato probabilístico\nmétrica como estimador, folds dependientes, bootstrap y riesgo por slice\nAutomática\n\n\n\nLa regla media - desviación penaliza resultados variables y fija un criterio reproducible para este laboratorio. Es una heurística de selección, no un intervalo de confianza ni una garantía de desempeño futuro.\n\n\nParte manual\nIncluye una respuesta corta:\n\nCon los resultados del notebook, ¿qué modelo elegirías, qué cantidad poblacional intenta estimar la métrica, qué incertidumbre queda y cuál sería el siguiente experimento?\n\nRúbrica manual:\n\n\n\n\n\n\n\nPuntaje\nCriterio\n\n\n\n\n0\nNo responde o no usa resultados del notebook\n\n\n1\nMenciona métrica o modelo, pero no propone una comprobación concreta\n\n\n2\nConecta estimando, métrica, baseline, incertidumbre, error analysis y siguiente experimento\n\n\n\n\n\nErrores frecuentes\n\nUsar test para seleccionar hiperparámetros.\nEscalar antes de partir datos.\nReportar accuracy en un problema donde recall/F1 era más relevante.\nComparar modelos con particiones distintas.\nReportar cross-validation sin desviación.\nNo mirar falsos negativos/falsos positivos.\nPresentar media - desviación como un límite de confianza.\nHacer una recomendación sin acción concreta.",
     "crumbs": [
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Lab 4: Diagnóstico de modelos</span>"
     ]

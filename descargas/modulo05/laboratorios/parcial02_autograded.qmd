@@ -1,6 +1,6 @@
 ---
 title: "Parcial 2 autograded"
-subtitle: "Redes, estrategia ML, no supervisado y reproducibilidad"
+subtitle: "Probabilidad aplicada, redes, estrategia ML, no supervisado y reproducibilidad"
 format:
   html:
     toc: true
@@ -23,6 +23,7 @@ Temas incluidos:
 4. PCA desde SVD;
 5. K-Means y silhouette;
 6. manifest reproducible con hashes de artefactos.
+7. distribuciones condicionales, métricas como estimadores, estabilidad muestral y replicación estadística.
 
 # Reglas
 
@@ -47,6 +48,11 @@ file_sha256(path)
 build_reproducibility_manifest(params, metrics, artifact_paths)
 ```
 
+El notebook también contiene `probability_answers`. Sus respuestas distinguen
+distribución condicional y salida softmax, covarianza poblacional y PCA muestral,
+métrica observada y desempeño poblacional, y reproducibilidad computacional y
+replicación sobre una nueva muestra.
+
 `cv_summary` debe llamar `conservative_score` al valor `mean - std`. En este
 parcial se usa como regla heurística para ordenar candidatos: no es un intervalo
 de confianza. En el manifest, `params` debe incluir semilla y protocolo de
@@ -56,7 +62,7 @@ partición; la función agrega versiones de Python, NumPy, pandas y scikit-learn
 
 Responde en 120 a 180 palabras:
 
-> Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Qué resultado adicional pedirías antes de usarlo y cómo lo documentarías de forma reproducible?
+> Tu modelo final mejora el baseline, pero tiene un slice con desempeño bajo. ¿Cuál es el estimando poblacional, qué incertidumbre falta cuantificar, qué resultado adicional pedirías y cómo documentarías una replicación?
 
 Rúbrica:
 
@@ -64,7 +70,7 @@ Rúbrica:
 |---:|---|
 | 0 | No responde o la respuesta no es técnica |
 | 1 | Menciona un resultado o reproducibilidad de forma aislada |
-| 2 | Integra métrica, variabilidad, error analysis, manifest y decisión prudente |
+| 2 | Integra estimando, métrica, incertidumbre, error analysis, replicación, manifest y alcance |
 
 # Errores que cuestan puntos
 

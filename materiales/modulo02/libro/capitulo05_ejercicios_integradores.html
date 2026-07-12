@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -169,6 +198,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link active" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
   <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
   <li><a href="#cómo-usar-esta-sección" id="toc-cómo-usar-esta-sección" class="nav-link" data-scroll-target="#cómo-usar-esta-sección">Cómo usar esta sección</a></li>
+  <li><a href="#columna-probabilística-del-módulo" id="toc-columna-probabilística-del-módulo" class="nav-link" data-scroll-target="#columna-probabilística-del-módulo">Columna probabilística del módulo</a></li>
   <li><a href="#bloque-a-dimensiones-y-forward" id="toc-bloque-a-dimensiones-y-forward" class="nav-link" data-scroll-target="#bloque-a-dimensiones-y-forward">Bloque A: dimensiones y forward</a></li>
   <li><a href="#bloque-b-backpropagation" id="toc-bloque-b-backpropagation" class="nav-link" data-scroll-target="#bloque-b-backpropagation">Bloque B: backpropagation</a></li>
   <li><a href="#bloque-c-diagnóstico" id="toc-bloque-c-diagnóstico" class="nav-link" data-scroll-target="#bloque-c-diagnóstico">Bloque C: diagnóstico</a></li>
@@ -249,6 +279,27 @@ ul.task-list li input[type="checkbox"] {
 <li>si tu diagnóstico distingue resultado, causa probable y comprobación;</li>
 <li>si puedes explicar cada línea crítica de un loop de entrenamiento.</li>
 </ol>
+</section>
+<section id="columna-probabilística-del-módulo" class="level2">
+<h2 class="anchored" data-anchor-id="columna-probabilística-del-módulo">Columna probabilística del módulo</h2>
+<div class="exercise">
+<p><strong>P1. Categórica y softmax.</strong> Para tres clases con distribución condicional <span class="math inline">\(\pi=(0.2,0.5,0.3)\)</span>, calcule la entropía cruzada de reportar <span class="math inline">\(q=(0.1,0.7,0.2)\)</span> y compare con reportar <span class="math inline">\(q=\pi\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>P2. Baseline probabilístico.</strong> Demuestre que asignar <span class="math inline">\(1/K\)</span> a cada clase produce pérdida <span class="math inline">\(\log K\)</span> para cualquier etiqueta observada. Explique qué diagnóstico permite hacer al inicializar una red.</p>
+</div>
+<div class="exercise">
+<p><strong>P3. Gradiente estocástico.</strong> Explique respecto de qué aleatoriedad un gradiente de mini-batch es insesgado y por qué eso no implica que sea igual al gradiente poblacional.</p>
+</div>
+<div class="exercise">
+<p><strong>P4. Propagación de varianza.</strong> Derive <span class="math inline">\(\operatorname{Var}(\sum_j w_jx_j)\)</span> bajo independencia y media cero. Indique qué términos faltan cuando las entradas están correlacionadas.</p>
+</div>
+<div class="exercise">
+<p><strong>P5. Dropout.</strong> Verifique la esperanza de dropout invertido y calcule su varianza condicional dado <span class="math inline">\(A_j=a\)</span>.</p>
+</div>
+<div class="exercise">
+<p><strong>P6. Repetición.</strong> Entrene la misma red con cinco inicializaciones y reporte media, desviación y valores individuales de la métrica. Explique por qué esto todavía no cuantifica variación por una nueva muestra de la población.</p>
+</div>
 </section>
 <section id="bloque-a-dimensiones-y-forward" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-a-dimensiones-y-forward">Bloque A: dimensiones y forward</h2>

@@ -232,6 +232,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#pca-poblacional-y-pca-empírico" id="toc-pca-poblacional-y-pca-empírico" class="nav-link" data-scroll-target="#pca-poblacional-y-pca-empírico">PCA poblacional y PCA empírico</a></li>
   <li><a href="#svd" id="toc-svd" class="nav-link" data-scroll-target="#svd">SVD</a></li>
   <li><a href="#pca-como-svd-del-dato-centrado" id="toc-pca-como-svd-del-dato-centrado" class="nav-link" data-scroll-target="#pca-como-svd-del-dato-centrado">PCA como SVD del dato centrado</a></li>
   <li><a href="#proyección" id="toc-proyección" class="nav-link" data-scroll-target="#proyección">Proyección</a></li>
@@ -312,6 +313,38 @@ Figura&nbsp;2.1: PCA como proyección: datos centrados se factorizan con SVD; lo
 <li>distinguir reducción de dimensión de interpretación causal.</li>
 </ol>
 </section>
+<section id="pca-poblacional-y-pca-empírico" class="level2">
+<h2 class="anchored" data-anchor-id="pca-poblacional-y-pca-empírico">PCA poblacional y PCA empírico</h2>
+<p>Sea <span class="math inline">\(X\in\mathbb R^p\)</span> un vector aleatorio con media <span class="math inline">\(\mu\)</span> y matriz de covarianza</p>
+<p><span class="math display">\[
+\Sigma=\mathbb E[(X-\mu)(X-\mu)^\top].
+\]</span></p>
+<p>La primera dirección principal poblacional resuelve</p>
+<p><span class="math display">\[
+v_1^*=\arg\max_{\lVert v\rVert_2=1}
+\operatorname{Var}(v^\top X)
+=\arg\max_{\lVert v\rVert_2=1}v^\top\Sigma v.
+\]</span></p>
+<p>Por el cociente de Rayleigh, <span class="math inline">\(v_1^*\)</span> es un autovector asociado al mayor autovalor de <span class="math inline">\(\Sigma\)</span>. No conocemos <span class="math inline">\(\Sigma\)</span>; con una muestra usamos</p>
+<p><span class="math display">\[
+\widehat\Sigma_m=\frac1mX_c^\top X_c.
+\]</span></p>
+<p>Si <span class="math inline">\(X_c=U\Sigma_sV^\top\)</span> es la SVD, entonces</p>
+<p><span class="math display">\[
+\widehat\Sigma_m
+=V\frac{\Sigma_s^2}{m}V^\top.
+\]</span></p>
+<p>Así, los vectores singulares derechos son direcciones principales <strong>empíricas</strong> y <span class="math inline">\(\sigma_j^2/m\)</span> son autovalores de la covarianza empírica. Cambiar la muestra puede cambiar direcciones, especialmente cuando autovalores consecutivos son cercanos.</p>
+<div class="proposicion">
+<p><strong>Máxima varianza empírica.</strong> Para <span class="math inline">\(X_c\)</span> centrada,</p>
+<p><span class="math display">\[
+\max_{\lVert v\rVert=1}\frac1m\lVert X_cv\rVert_2^2
+=\frac{\sigma_1^2}{m},
+\]</span></p>
+<p>y cualquier primer vector singular derecho alcanza el máximo.</p>
+</div>
+<p>La indeterminación de signo de un componente no es incertidumbre muestral: <span class="math inline">\(v\)</span> y <span class="math inline">\(-v\)</span> describen el mismo eje. La inestabilidad entre subespacios al cambiar la muestra sí es una cuestión estadística y debe estudiarse por remuestreo o particiones.</p>
+</section>
 <section id="svd" class="level2">
 <h2 class="anchored" data-anchor-id="svd">SVD</h2>
 <p>Para una matriz <span class="math inline">\(X \in \mathbb{R}^{m \times p}\)</span>, su SVD reducida puede escribirse:</p>
@@ -356,6 +389,7 @@ Z = X_c V_k.
 <p><span class="math display">\[
 \frac{\sigma_j^2}{\sum_{\ell}\sigma_\ell^2}.
 \]</span></p>
+<p>Con la convención de covarianza empírica <span class="math inline">\(1/m\)</span>, el autovalor es <span class="math inline">\(\widehat\lambda_j=\sigma_j^2/m\)</span>; el factor <span class="math inline">\(1/m\)</span> se cancela en la razón. Por eso la fórmula es exacta para la muestra observada, pero no afirma qué proporción de varianza explicaría otra muestra de la población.</p>
 </section>
 <section id="ejemplo-resuelto-error-desde-valores-singulares" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-error-desde-valores-singulares">Ejemplo resuelto: error desde valores singulares</h2>

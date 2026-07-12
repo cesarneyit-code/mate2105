@@ -247,6 +247,7 @@ window.Quarto = {
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
 <p>Este laboratorio verifica que puedes pasar de la formulación matemática de regresión lineal a una implementación vectorizada en NumPy. También compara dos rutas hacia el mismo ajuste: mínimos cuadrados con <code>np.linalg.lstsq</code> y descenso del gradiente. Las ecuaciones normales se derivan en el libro, pero no se forma <span class="math inline">\(X^\top X\)</span> para resolver numéricamente el problema.</p>
+<p>Además debes distinguir el riesgo cuadrático poblacional <span class="math inline">\(R_P(\theta)=\mathbb E[(Y-X^\top\theta)^2]\)</span> de su versión empírica, reconocer que <span class="math inline">\(\widehat\theta\)</span> es un estimador aleatorio y cuantificar el error estándar de una media de pérdidas.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
 <p>¿La implementación desde cero produce las mismas predicciones y pérdidas que una implementación de referencia, y puedes explicar cómo sabes que el algoritmo convergió?</p>
@@ -265,6 +266,8 @@ window.Quarto = {
 <li>Completa primero las funciones pequeñas: <code>add_intercept</code>, <code>predict_linear</code>, <code>mse_loss</code>.</li>
 <li>Implementa <code>normal_equation</code> con <code>np.linalg.lstsq</code>. El nombre se conserva para no romper el contrato del autograder.</li>
 <li>Implementa <code>mse_gradient</code> y verifica dimensiones.</li>
+<li>Implementa <code>standard_error_mean</code> con desviación muestral.</li>
+<li>Completa <code>probability_answers</code> separando población, estimador y estimación.</li>
 <li>Implementa <code>gradient_descent</code> guardando historia de pérdida.</li>
 <li>Compara tus resultados con <code>sklearn.linear_model.LinearRegression</code>.</li>
 <li>Escribe la interpretación final en lenguaje técnico breve.</li>
@@ -298,6 +301,16 @@ window.Quarto = {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="odd">
+<td>Error estándar</td>
+<td><code>sd(values, ddof=1) / sqrt(m)</code> con validación de entrada</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="even">
+<td>Objetos probabilísticos</td>
+<td>riesgo esperado, estimador aleatorio y papel de test</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
 <td>Mínimos cuadrados</td>
 <td>coincide con <code>lstsq</code>, incluso si la matriz pierde rango</td>
 <td style="text-align: right;">Automática</td>
@@ -324,7 +337,7 @@ window.Quarto = {
 <h1>Parte manual</h1>
 <p>Incluye una respuesta corta:</p>
 <blockquote class="blockquote">
-<p>¿Qué evidencia muestra que el descenso del gradiente convergió y cuál es una limitación del experimento?</p>
+<p>¿Qué evidencia muestra que el descenso del gradiente convergió, qué cantidad poblacional intenta estimar el MSE de test y cuál es una fuente de incertidumbre?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -349,7 +362,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>Conecta curva de pérdida, comparación contra ecuación normal o <code>sklearn</code>, y una limitación concreta</td>
+<td>Conecta curva de pérdida y referencia, distingue riesgo esperado/empírico y nombra una fuente concreta de incertidumbre</td>
 </tr>
 </tbody>
 </table>
@@ -364,6 +377,7 @@ window.Quarto = {
 <li>La historia de pérdida permite diagnosticar convergencia.</li>
 <li>El modelo se compara contra un baseline y contra una implementación de referencia.</li>
 <li>La interpretación final menciona una limitación.</li>
+<li>La interpretación separa <span class="math inline">\(\theta_P\)</span>, <span class="math inline">\(\widehat\theta\)</span> y el vector calculado en esta muestra.</li>
 </ul>
 </div>
 </section>

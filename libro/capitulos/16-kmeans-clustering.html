@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#distorsión-poblacional-y-objetivo-empírico" id="toc-distorsión-poblacional-y-objetivo-empírico" class="nav-link" data-scroll-target="#distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</a></li>
   <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo">Función objetivo</a></li>
   <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo">Algoritmo</a></li>
   <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
@@ -785,6 +786,29 @@ Figura&nbsp;1: K-Means alterna dos pasos: asignar cada punto al centroide más c
 <li>justificar el escalamiento antes de usar distancias euclídeas;</li>
 <li>reconocer cuándo un cluster no debe traducirse directamente en una decisión.</li>
 </ol>
+</section>
+<section id="distorsión-poblacional-y-objetivo-empírico" class="level2">
+<h2 class="anchored" data-anchor-id="distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</h2>
+<p>Para centros <span class="math inline">\(C=(\mu_1,\ldots,\mu_k)\)</span>, la distorsión poblacional es</p>
+<p><span class="math display">\[
+R_P(C)=\mathbb E_{X\sim P}
+\left[\min_{1\leq j\leq k}\lVert X-\mu_j\rVert_2^2\right].
+\]</span></p>
+<p>K-Means minimiza su versión empírica</p>
+<p><span class="math display">\[
+\widehat R_m(C)
+=\frac1m\sum_{i=1}^m
+\min_{1\leq j\leq k}\lVert x_i-\mu_j\rVert_2^2.
+\]</span></p>
+<p><code>inertia_</code> es <span class="math inline">\(m\widehat R_m(C)\)</span> en la escala ajustada. Un valor bajo demuestra buena compactación de la muestra para ese <span class="math inline">\(k\)</span>; no prueba que existan clases naturales en la población.</p>
+<p>Hay dos fuentes de variación diferentes:</p>
+<ul>
+<li><strong>inicialización algorítmica:</strong> distintos centros iniciales pueden llegar a mínimos locales diferentes para el mismo dataset;</li>
+<li><strong>variación muestral:</strong> otro conjunto de observaciones puede producir otra partición aunque el algoritmo encuentre su mejor mínimo empírico.</li>
+</ul>
+<div class="criterio">
+<p>Una evaluación de estabilidad debe repetir semillas y remuestrear unidades independientes. Repetir solo <code>n_init</code> estudia optimización; no estudia estabilidad poblacional.</p>
+</div>
 </section>
 <section id="función-objetivo" class="level2">
 <h2 class="anchored" data-anchor-id="función-objetivo">Función objetivo</h2>

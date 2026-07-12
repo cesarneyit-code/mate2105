@@ -21,6 +21,11 @@ Módulo 1:
 2. validación para escoger hiperparámetros;
 3. umbrales para convertir probabilidades en decisiones.
 
+La clasificación se formula como $Y\mid X=x\sim\operatorname{Bernoulli}(p(x))$.
+La probabilidad producida por el modelo es una estimación de $p(x)$, y las
+métricas de validación o prueba son estimadores aleatorios del desempeño bajo una
+población objetivo.
+
 # Qué debes entregar
 
 Entrega el notebook:
@@ -41,9 +46,10 @@ y también verifica las respuestas estructuradas sobre el protocolo de evaluaci�
 5. Compara Ridge y Lasso con `select_regularization_alpha`, usando validación.
 6. Implementa funciones logísticas: `sigmoid`, `log_loss_binary`.
 7. Calcula métricas con una matriz de confusión.
-8. Elige el umbral en validación; usa prueba una sola vez al final.
-9. Completa `protocol_answers` y justifica tu recomendación.
-10. Reinicia kernel y ejecuta todo antes de entregar.
+8. Implementa `bernoulli_standard_error` para una media de indicadores.
+9. Elige el umbral en validación; usa prueba una sola vez al final.
+10. Completa `protocol_answers`, incluido modelo Bernoulli y carácter aleatorio de validación.
+11. Reinicia kernel y ejecuta todo antes de entregar.
 
 # Lo que autocalifica el notebook
 
@@ -54,6 +60,7 @@ y también verifica las respuestas estructuradas sobre el protocolo de evaluaci�
 | Lasso/Ridge | selección por error de validación con datos alternos | Automática |
 | Sigmoide y log-loss | implementación vectorizada y estable | Automática |
 | Métricas | accuracy, precision, recall y F1 correctos | Automática |
+| Incertidumbre | error estándar *plug-in* de una proporción y semántica poblacional | Automática |
 | Umbral | selección consistente con objetivo de recall | Automática |
 | Protocolo | escalamiento, hiperparámetros, umbral y prueba con papeles correctos | Automática |
 
@@ -61,7 +68,8 @@ y también verifica las respuestas estructuradas sobre el protocolo de evaluaci�
 
 Incluye una respuesta corta:
 
-> ¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?
+> ¿Qué modelo o umbral recomendarías, qué cantidad poblacional intenta estimar
+> la métrica reportada y qué incertidumbre comunicarías antes de usarlo?
 
 Rúbrica manual:
 
@@ -69,7 +77,7 @@ Rúbrica manual:
 |---:|---|
 | 0 | No hay decisión técnica clara |
 | 1 | Hay decisión, pero sin métrica, baseline o limitación |
-| 2 | La decisión usa métrica adecuada, comparación/baseline y una limitación concreta |
+| 2 | La decisión usa métrica y baseline, distingue probabilidad estimada de verdadera y comunica incertidumbre y alcance |
 
 # Criterios de calidad
 

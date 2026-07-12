@@ -196,7 +196,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Semana 2 · Clase 1</h1>
-  <p class="subtitle">Regresión lineal: matriz de diseño, pérdida y ecuaciones normales</p>
+  <p class="subtitle">Regresión lineal: media condicional, riesgo y ecuaciones normales</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -274,6 +274,36 @@ X^\top X\widehat\theta=X^\top y.
 </tr>
 </tbody>
 </table>
+</section>
+<section id="el-objetivo-poblacional" class="slide level2">
+<h2>El objetivo poblacional</h2>
+<p>Bajo pérdida cuadrática, la mejor predicción posible entre todas las funciones medibles es</p>
+<div class="math-focus">
+<p><span class="math display">\[
+f_P^*(x)=\mathbb E_P[Y\mid X=x].
+\]</span></p>
+</div>
+<p>La regresión lineal restringe la búsqueda a <span class="math inline">\(f_\theta(x)=x^\top\theta\)</span> y define</p>
+<p><span class="math display">\[
+\theta_P\in\arg\min_\theta
+R_P(\theta),\qquad
+R_P(\theta)=\mathbb E_P[(Y-X^\top\theta)^2].
+\]</span></p>
+</section>
+<section id="lo-que-realmente-podemos-minimizar" class="slide level2">
+<h2>Lo que realmente podemos minimizar</h2>
+<p>Con una muestra <span class="math inline">\(D_m=((x_1,y_1),\ldots,(x_m,y_m))\)</span> calculamos</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat R_m(\theta)=\frac1m\sum_{i=1}^m(y_i-x_i^\top\theta)^2,
+\qquad
+\widehat\theta=\arg\min_\theta\widehat R_m(\theta).
+\]</span></p>
+</div>
+<div class="question">
+<p>¿Cuál objeto cambia si recolectamos otra muestra: <span class="math inline">\(\theta_P\)</span> o <span class="math inline">\(\widehat\theta\)</span>?</p>
+</div>
+<p>Las ecuaciones normales caracterizan el minimizador empírico, no eliminan la distancia entre <span class="math inline">\(\widehat R_m\)</span> y <span class="math inline">\(R_P\)</span>.</p>
 </section>
 <section id="el-caso-con-una-variable" class="slide level2">
 <h2>El caso con una variable</h2>

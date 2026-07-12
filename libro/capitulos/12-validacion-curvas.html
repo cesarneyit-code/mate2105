@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,8 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#qué-aleatoriedad-intenta-representar-la-validación" id="toc-qué-aleatoriedad-intenta-representar-la-validación" class="nav-link" data-scroll-target="#qué-aleatoriedad-intenta-representar-la-validación">Qué aleatoriedad intenta representar la validación</a></li>
+  <li><a href="#bootstrap-y-unidad-de-remuestreo" id="toc-bootstrap-y-unidad-de-remuestreo" class="nav-link" data-scroll-target="#bootstrap-y-unidad-de-remuestreo">Bootstrap y unidad de remuestreo</a></li>
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a></li>
   <li><a href="#qué-reportar" id="toc-qué-reportar" class="nav-link" data-scroll-target="#qué-reportar">Qué reportar</a></li>
   <li><a href="#ejemplo-resuelto-elegir-entre-dos-modelos" id="toc-ejemplo-resuelto-elegir-entre-dos-modelos" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</a></li>
@@ -773,6 +775,29 @@ window.Quarto = {
 <li>leer learning curves y validation curves;</li>
 <li>distinguir problemas de sesgo, varianza y ruido.</li>
 </ol>
+</section>
+<section id="qué-aleatoriedad-intenta-representar-la-validación" class="level2">
+<h2 class="anchored" data-anchor-id="qué-aleatoriedad-intenta-representar-la-validación">Qué aleatoriedad intenta representar la validación</h2>
+<p>Idealmente evaluamos un <strong>procedimiento</strong> <span class="math inline">\(A\)</span> que transforma una muestra de entrenamiento en un modelo <span class="math inline">\(A(D_m)\)</span>. Su desempeño esperado para tamaño <span class="math inline">\(m\)</span> es</p>
+<p><span class="math display">\[
+\mathcal R_m(A)
+=\mathbb E_{D_m\sim P^m}
+\mathbb E_{Z\sim P}\left[\ell(A(D_m);Z)\right].
+\]</span></p>
+<p>Cross-validation reutiliza una muestra finita para aproximar esta esperanza sobre posibles conjuntos de entrenamiento y observaciones de validación. Los folds no son réplicas independientes: comparten datos y sus modelos están correlacionados. Por eso la desviación entre folds es descriptiva y no debe convertirse automáticamente en un intervalo de confianza.</p>
+<div class="proposicion">
+<p><strong>Independencia de test.</strong> Si el procedimiento completo <span class="math inline">\(A\)</span> queda fijado sin usar test y <span class="math inline">\(D_{\mathrm{test}}\)</span> es independiente con distribución <span class="math inline">\(P\)</span>, entonces el promedio de pérdidas de test es condicionalmente insesgado para el riesgo de <span class="math inline">\(A(D_m)\)</span>:</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_{\mathrm{test}}(A(D_m))\mid D_m]
+=R_P(A(D_m)).
+\]</span></p>
+<p>La igualdad deja de describir el protocolo si test modifica hiperparámetros, features, umbral o selección del reporte.</p>
+</div>
+</section>
+<section id="bootstrap-y-unidad-de-remuestreo" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrap-y-unidad-de-remuestreo">Bootstrap y unidad de remuestreo</h2>
+<p>El bootstrap empírico genera réplicas <span class="math inline">\(D_n^{*(b)}\)</span> muestreando con reemplazo desde <span class="math inline">\(D_n\)</span> y recalcula un estadístico <span class="math inline">\(T^{*(b)}\)</span>. La distribución de las réplicas aproxima la variación muestral de <span class="math inline">\(T\)</span> bajo la distribución empírica.</p>
+<p>Si hay varias filas por paciente, colegio o periodo, la unidad independiente no es la fila. En ese caso se requiere bootstrap por grupos, bloques temporales u otro esquema que preserve la dependencia relevante.</p>
 </section>
 <section id="cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation">Cross-validation</h2>

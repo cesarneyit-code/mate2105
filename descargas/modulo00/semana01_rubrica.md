@@ -6,14 +6,14 @@ Escala sugerida: 10 puntos formativos. Si el curso decide no asignar nota numér
 
 | Criterio | Puntos | Excelente | Adecuado | Requiere revisión |
 |---|---:|---|---|---|
-| Ejecucion del entorno | 1.5 | Ejecuta todo el notebook sin errores y selecciona un kernel adecuado | Ejecuta la mayor parte o documenta con precision un error técnico | No ejecuta y no documenta el bloqueo |
-| Inspeccion de datos | 1.5 | Identifica filas, variables, clases, dimensiones y balance con valores correctos | Identifica la mayoría de elementos con errores menores | Confunde `X`, `y`, clases, filas o columnas |
-| Particion train/test | 1.0 | Explica el propósito de separar datos y por qué `stratify=y` preserva proporciones | Explica parcialmente la partición | No justifica la partición o cree que es solo una formalidad |
-| Baseline | 1.5 | Calcula e interpreta el baseline como comparación mínima necesaria | Calcula baseline pero lo interpreta de forma superficial | No calcula baseline o no entiende su función |
-| Modelo y métrica | 1.5 | Compara modelo y baseline usando accuracy, sin exagerar el resultado | Reporta numeros correctos con interpretación limitada | Presenta métricas aisladas sin comparación |
-| Diagnóstico de errores | 1.0 | Usa matriz de confusion o reporte para hablar de errores por clase y limitaciones | Menciona errores, pero sin conectar con limitaciones | No analiza errores |
-| Conclusion técnica | 1.0 | Menciona métrica, baseline, partición/datos y limitacion principal | Menciona algunos elementos, pero falta precision | Concluye de forma exagerada, vaga o no técnica |
-| Ideas de proyecto | 1.0 | Propone dos ideas con unidad de observación, pregunta, decisión y riesgo | Propone ideas incompletas pero rescatables | Las ideas no son modelables, no tienen datos claros o son solo herramientas |
+| Ejecución del entorno | 1.0 | Ejecuta todo el notebook sin errores y selecciona un kernel adecuado | Ejecuta la mayor parte o documenta con precisión un error técnico | No ejecuta y no documenta el bloqueo |
+| Población, muestra y estimación | 2.0 | Distingue población, muestra aleatoria, realización, estimador y estimación con notación y ejemplo correctos | Distingue la mayoría, pero mezcla un nivel o usa notación imprecisa | Trata el archivo como población o confunde estimador con valor calculado |
+| Riesgo e incertidumbre | 1.5 | Compara riesgo esperado y empírico, verifica la distribución muestral y explica la variación | Ejecuta la simulación y reconoce variación, pero no conecta con el objeto poblacional | Exige igualdad exacta o interpreta la variación como error de código |
+| Inspección y partición de datos | 1.0 | Identifica filas, variables, clases y justifica separación y estratificación | Identifica la mayoría con errores menores | Confunde `X`, `y`, clases o propósito de test |
+| Baseline, modelo y métrica | 1.5 | Compara modelo y baseline usando accuracy y error estándar sin exagerar | Reporta números correctos con interpretación parcial | Presenta métricas aisladas o como propiedades exactas |
+| Diagnóstico de errores | 1.0 | Usa matriz de confusión o reporte para hablar de errores por clase y limitaciones | Menciona errores sin conectarlos con limitaciones | No analiza errores |
+| Conclusión técnica | 1.0 | Reporta estimación, incertidumbre, baseline, alcance poblacional y limitación | Menciona algunos elementos, pero falta precisión | Concluye de forma exagerada, vaga o no técnica |
+| Ideas de proyecto | 1.0 | Propone dos ideas con población, muestreo, unidad, pregunta, estimando y limitación | Propone ideas incompletas pero recuperables | Las ideas no definen datos, población o pregunta modelable |
 
 ## Manejo de bloqueos técnicos
 
@@ -48,6 +48,8 @@ Comentarios utiles:
 El estudiante está listo para avanzar a la Semana 2 si puede:
 
 - ejecutar un notebook básico;
+- distinguir población, muestra, estimador y estimación;
+- explicar por qué el riesgo empírico varía entre muestras;
 - distinguir `X`, `y`, baseline y modelo;
 - explicar por qué se separan entrenamiento y prueba;
-- escribir una conclusión que no se limite a reportar un número.
+- escribir una conclusión que reporte estimación, incertidumbre y alcance.

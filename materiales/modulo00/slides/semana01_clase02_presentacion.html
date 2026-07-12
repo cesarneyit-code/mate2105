@@ -196,7 +196,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Semana 1 · Clase 2</h1>
-  <p class="subtitle">Primer experimento: baseline, partición y errores</p>
+  <p class="subtitle">Riesgo, variación muestral y primer experimento</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -210,9 +210,9 @@ César Galindo
 <section id="la-pregunta-de-hoy" class="slide level2">
 <h2>La pregunta de hoy</h2>
 <div class="lead">
-<p>¿Podemos clasificar vinos a partir de trece mediciones químicas mejor que una regla que siempre predice la clase más frecuente?</p>
+<p>¿Qué puede decir una muestra finita sobre el error que tendrá una regla en observaciones futuras?</p>
 </div>
-<p>No estudiaremos todavía la derivación de regresión logística. Hoy la usamos como herramienta para aprender a leer un experimento.</p>
+<p>Primero estudiaremos una población conocida por simulación. Después volveremos a <code>load_wine</code> y leeremos su evaluación como una estimación aleatoria.</p>
 </section>
 <section id="lo-que-ya-fijamos" class="slide level2">
 <h2>Lo que ya fijamos</h2>
@@ -223,9 +223,95 @@ César Galindo
 <li>objetivo;</li>
 <li>referencia simple;</li>
 <li>observaciones reservadas para evaluar;</li>
-<li>límites de la conclusión.</li>
+<li>objeto poblacional que la métrica intenta estimar;</li>
+<li>fuente de incertidumbre y límites de la conclusión.</li>
 </ol>
 <p>El algoritmo ocupa solo una parte de esta lista.</p>
+</section>
+<section id="una-población-que-sí-conocemos" class="slide level2">
+<h2>Una población que sí conocemos</h2>
+<p>Supongamos</p>
+<div class="math-focus">
+<p><span class="math display">\[
+Y\sim\operatorname{Bernoulli}(0.7).
+\]</span></p>
+</div>
+<p>La regla <span class="math inline">\(f_1\)</span> siempre predice 1 y usamos pérdida cero-uno:</p>
+<p><span class="math display">\[
+\ell(Y,f_1)=\mathbb 1\{Y\neq 1\}.
+\]</span></p>
+<p>Su riesgo esperado es exactamente <span class="math inline">\(R_P(f_1)=0.3\)</span>.</p>
+</section>
+<section id="una-muestra-no-devuelve-exactamente-0.3" class="slide level2">
+<h2>Una muestra no devuelve exactamente 0.3</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">2105</span>)</span>
+<span id="cb1-2"><a href=""></a>y <span class="op">=</span> rng.binomial(<span class="dv">1</span>, <span class="fl">0.7</span>, size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb1-3"><a href=""></a>riesgo_empirico <span class="op">=</span> np.mean(y <span class="op">!=</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="question">
+<p>¿Es un error de código si <code>riesgo_empirico</code> vale 0.20, 0.35 o 0.40?</p>
+</div>
+<p>No.&nbsp;<span class="math inline">\(\widehat R_m(f_1)\)</span> es un promedio de variables Bernoulli y cambia entre muestras.</p>
+</section>
+<section id="repetir-revela-la-distribución-muestral" class="slide level2">
+<h2>Repetir revela la distribución muestral</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>riesgos <span class="op">=</span> [</span>
+<span id="cb2-2"><a href=""></a>    np.mean(rng.binomial(<span class="dv">1</span>, <span class="fl">0.7</span>, size<span class="op">=</span><span class="dv">20</span>) <span class="op">!=</span> <span class="dv">1</span>)</span>
+<span id="cb2-3"><a href=""></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">5000</span>)</span>
+<span id="cb2-4"><a href=""></a>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="math-focus">
+<p><span class="math display">\[
+\mathbb E[\widehat R_m(f_1)]=0.3,
+\qquad
+\operatorname{SE}(\widehat R_m)=
+\sqrt{\frac{0.3(0.7)}{20}}\approx0.102.
+\]</span></p>
+</div>
+<p>Insesgado no significa exacto en cada muestra.</p>
+</section>
+<section id="el-tamaño-de-muestra-cambia-la-precisión" class="slide level2">
+<h2>El tamaño de muestra cambia la precisión</h2>
+<div class="dense-table semantic-table">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: right;"><span class="math inline">\(m\)</span></th>
+<th style="text-align: right;">riesgo esperado</th>
+<th style="text-align: right;">error estándar teórico</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">0.300</td>
+<td style="text-align: right;">0.102</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">0.300</td>
+<td style="text-align: right;">0.046</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">0.300</td>
+<td style="text-align: right;">0.020</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>La población y la regla no cambiaron. Cambió la precisión con que la muestra estima el riesgo.</p>
+</section>
+<section id="primera-pausa" class="slide level2">
+<h2>Primera pausa</h2>
+<div class="pause">
+<p>Sin ejecutar código:</p>
+<ol type="1">
+<li>¿qué objeto es fijo: <span class="math inline">\(R_P(f_1)\)</span> o <span class="math inline">\(\widehat R_m(f_1)\)</span>?;</li>
+<li>¿cuál cambia si repetimos la muestra?;</li>
+<li>si multiplicamos <span class="math inline">\(m\)</span> por 4, ¿por qué factor cambia el error estándar?;</li>
+<li>¿qué supuesto permite usar <span class="math inline">\(p(1-p)/m\)</span>?</li>
+</ol>
+<p>Tiempo: 5 minutos.</p>
+</div>
 </section>
 <section id="load_wine" class="slide level2">
 <h2><code>load_wine</code></h2>
@@ -259,14 +345,14 @@ César Galindo
 </section>
 <section id="inspeccionar-antes-de-partir" class="slide level2">
 <h2>Inspeccionar antes de partir</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
-<span id="cb1-2"><a href=""></a></span>
-<span id="cb1-3"><a href=""></a>wine <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb1-4"><a href=""></a>X <span class="op">=</span> wine.data</span>
-<span id="cb1-5"><a href=""></a>y <span class="op">=</span> wine.target</span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a>X.shape          <span class="co"># (178, 13)</span></span>
-<span id="cb1-8"><a href=""></a>y.value_counts() <span class="co"># 59, 71, 48</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_wine</span>
+<span id="cb3-2"><a href=""></a></span>
+<span id="cb3-3"><a href=""></a>wine <span class="op">=</span> load_wine(as_frame<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-4"><a href=""></a>X <span class="op">=</span> wine.data</span>
+<span id="cb3-5"><a href=""></a>y <span class="op">=</span> wine.target</span>
+<span id="cb3-6"><a href=""></a></span>
+<span id="cb3-7"><a href=""></a>X.shape          <span class="co"># (178, 13)</span></span>
+<span id="cb3-8"><a href=""></a>y.value_counts() <span class="co"># 59, 71, 48</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>La forma confirma cuántas filas y variables entrarán al procedimiento; no explica por sí sola qué significan.</p>
 </section>
 <section id="las-clases-no-tienen-el-mismo-tamaño" class="slide level2">
@@ -290,13 +376,13 @@ César Galindo
 </section>
 <section id="separar-una-vez-reproducir-después" class="slide level2">
 <h2>Separar una vez, reproducir después</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
-<span id="cb2-2"><a href=""></a>    X,</span>
-<span id="cb2-3"><a href=""></a>    y,</span>
-<span id="cb2-4"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb2-5"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
-<span id="cb2-6"><a href=""></a>    stratify<span class="op">=</span>y,</span>
-<span id="cb2-7"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb4-2"><a href=""></a>    X,</span>
+<span id="cb4-3"><a href=""></a>    y,</span>
+<span id="cb4-4"><a href=""></a>    test_size<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb4-5"><a href=""></a>    random_state<span class="op">=</span><span class="dv">2105</span>,</span>
+<span id="cb4-6"><a href=""></a>    stratify<span class="op">=</span>y,</span>
+<span id="cb4-7"><a href=""></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>random_state=2105</code> hace reproducible la partición. No convierte una sola partición en una estimación universal.</p>
 </section>
 <section id="qué-hace-stratifyy" class="slide level2">
@@ -343,26 +429,26 @@ César Galindo
 </div>
 <p>La estratificación conserva aproximadamente las proporciones de clase. No usa las variables químicas.</p>
 </section>
-<section id="primera-pausa" class="slide level2">
-<h2>Primera pausa</h2>
+<section id="segunda-predicción" class="slide level2">
+<h2>Segunda predicción</h2>
 <div class="pause">
-<p>Sin ejecutar nada, respondan:</p>
+<p>Ahora, sin ejecutar nada, respondan:</p>
 <ol type="1">
 <li>¿cuántas predicciones producirá el modelo en test?;</li>
 <li>¿cuántos aciertos tendrá el baseline de clase mayoritaria?;</li>
 <li>si el modelo acierta 44, ¿cuál será su accuracy?;</li>
 <li>¿qué información aún faltará para entender el error?</li>
 </ol>
-<p>Tiempo: 5 minutos.</p>
+<p>Tiempo: 4 minutos.</p>
 </div>
 </section>
 <section id="el-baseline-aprende-una-sola-cosa" class="slide level2">
 <h2>El baseline aprende una sola cosa</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href=""></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
-<span id="cb3-2"><a href=""></a></span>
-<span id="cb3-3"><a href=""></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
-<span id="cb3-4"><a href=""></a>baseline.fit(X_train, y_train)</span>
-<span id="cb3-5"><a href=""></a>pred_baseline <span class="op">=</span> baseline.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">from</span> sklearn.dummy <span class="im">import</span> DummyClassifier</span>
+<span id="cb5-2"><a href=""></a></span>
+<span id="cb5-3"><a href=""></a>baseline <span class="op">=</span> DummyClassifier(strategy<span class="op">=</span><span class="st">"most_frequent"</span>)</span>
+<span id="cb5-4"><a href=""></a>baseline.fit(X_train, y_train)</span>
+<span id="cb5-5"><a href=""></a>pred_baseline <span class="op">=</span> baseline.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Aprende cuál clase es más frecuente en <code>y_train</code>. No consulta una sola columna de <code>X</code>.</p>
 </section>
 <section id="la-tubería-del-modelo" class="slide level2">
@@ -409,12 +495,6 @@ César Galindo
 </div>
 <p>Test no determina medias, desviaciones ni coeficientes.</p>
 </section>
-<section id="por-qué-escalamos" class="slide level2">
-<h2>Por qué escalamos</h2>
-<p>Las trece mediciones están en escalas distintas. En una optimización con penalización, esa diferencia afecta tanto la geometría del problema como la interpretación de las magnitudes de los coeficientes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href=""></a>StandardScaler()</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>aprende, para cada columna de train, una media y una desviación. Luego aplica esas mismas cantidades a test.</p>
-</section>
 <section id="regresión-logística-por-ahora" class="slide level2">
 <h2>Regresión logística, por ahora</h2>
 <div class="math-focus">
@@ -424,19 +504,6 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 \]</span></p>
 </div>
 <p>En la Semana 6 derivaremos el caso binario: sigmoide, log-loss, gradiente y umbral. Hoy basta distinguir probabilidades estimadas y clase final.</p>
-</section>
-<section id="la-implementación-completa" class="slide level2">
-<h2>La implementación completa</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href=""></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb5-2"><a href=""></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb5-3"><a href=""></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
-<span id="cb5-4"><a href=""></a></span>
-<span id="cb5-5"><a href=""></a>modelo <span class="op">=</span> make_pipeline(</span>
-<span id="cb5-6"><a href=""></a>    StandardScaler(),</span>
-<span id="cb5-7"><a href=""></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">2000</span>),</span>
-<span id="cb5-8"><a href=""></a>)</span>
-<span id="cb5-9"><a href=""></a>modelo.fit(X_train, y_train)</span>
-<span id="cb5-10"><a href=""></a>pred_modelo <span class="op">=</span> modelo.predict(X_test)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="ahora-sí-abra-el-notebook" class="slide level2">
 <h2>Ahora sí: abra el notebook</h2>
@@ -480,6 +547,48 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 </div>
 </div>
 <p>La diferencia frente al baseline es 0.578 en esta partición.</p>
+</section>
+<section id="accuracy-es-un-estimador" class="slide level2">
+<h2>Accuracy es un estimador</h2>
+<p>Condicional al modelo ya ajustado, cada acierto en test es una variable indicadora:</p>
+<div class="math-focus">
+<p><span class="math display">\[
+A_i=\mathbb 1\{\widehat f(X_i)=Y_i\},
+\qquad
+\widehat{\operatorname{Acc}}=\frac1{m_{\rm test}}\sum_i A_i.
+\]</span></p>
+</div>
+<p>El objetivo poblacional es</p>
+<p><span class="math display">\[
+\operatorname{Acc}_P(\widehat f)=
+\mathbb P_P\{\widehat f(X)=Y\}.
+\]</span></p>
+<p>La cifra 0.978 estima esa probabilidad bajo supuestos sobre la procedencia del test.</p>
+</section>
+<section id="cuarenta-y-cinco-observaciones-dejan-incertidumbre" class="slide level2">
+<h2>Cuarenta y cinco observaciones dejan incertidumbre</h2>
+<p>Con 44 aciertos de 45, el error estándar <em>plug-in</em> de accuracy es</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat{\operatorname{SE}}
+=\sqrt{\frac{\widehat p(1-\widehat p)}{45}}
+\approx 0.022.
+\]</span></p>
+</div>
+<p>Esta cuenta solo representa variación binomial condicional al procedimiento y a una población estable. No incluye cambio de laboratorio, selección de modelo ni dependencia entre observaciones.</p>
+</section>
+<section id="una-partición-también-es-aleatoria" class="slide level2">
+<h2>Una partición también es aleatoria</h2>
+<p>Si repetimos <code>train_test_split</code> con semillas distintas, cambian:</p>
+<ul>
+<li>observaciones de entrenamiento y de test;</li>
+<li>escalas y coeficientes estimados;</li>
+<li>matriz de confusión;</li>
+<li>accuracy observada.</li>
+</ul>
+<div class="lead">
+<p>La semilla fija permite reproducir una ejecución; no elimina la incertidumbre estadística.</p>
+</div>
 </section>
 <section id="superar-el-baseline-no-termina-el-análisis" class="slide level2">
 <h2>Superar el baseline no termina el análisis</h2>
@@ -640,8 +749,8 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 </ol>
 <p>No es necesario haber elegido un algoritmo.</p>
 </section>
-<section id="segunda-pausa" class="slide level2">
-<h2>Segunda pausa</h2>
+<section id="pausa-de-cierre" class="slide level2">
+<h2>Pausa de cierre</h2>
 <div class="pause">
 <p>Compare estas dos frases:</p>
 <blockquote>
@@ -653,25 +762,13 @@ x\longmapsto \widehat p_0(x),\widehat p_1(x),\widehat p_2(x)
 <p>En dos minutos, anote qué información agrega la segunda y qué pregunta sigue abierta.</p>
 </div>
 </section>
-<section id="antes-de-entregar" class="slide level2">
-<h2>Antes de entregar</h2>
-<ul>
-<li>Reinicie el kernel.</li>
-<li>Ejecute todas las celdas en orden.</li>
-<li>Compruebe que no hay errores ocultos.</li>
-<li>Deje visibles las salidas usadas en su interpretación.</li>
-<li>Verifique el nombre del archivo.</li>
-<li>Lea una vez sus conclusiones sin mirar el código.</li>
-</ul>
-<p>Si una frase no puede rastrearse a una salida o a una limitación conocida, reescríbala.</p>
-</section>
 <section id="cierre" class="slide level2">
 <h2>Cierre</h2>
 <div class="lead">
 <p>Un primer experimento bien leído responde cuatro preguntas:</p>
 </div>
 <div class="board">
-<p>¿Qué se predijo?<br> ¿Contra qué referencia?<br> ¿Dónde falló?<br> ¿Hasta dónde llega la conclusión?</p>
+<p>¿Qué se predijo?<br> ¿Contra qué referencia?<br> ¿Dónde falló?<br> ¿Qué incertidumbre queda y hasta dónde llega la conclusión?</p>
 </div>
 <p>La próxima semana construiremos un modelo lineal desde su matriz de diseño.</p>
 

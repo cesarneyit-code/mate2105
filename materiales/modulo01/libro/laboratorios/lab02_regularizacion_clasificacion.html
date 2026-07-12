@@ -252,6 +252,7 @@ window.Quarto = {
 <li>validación para escoger hiperparámetros;</li>
 <li>umbrales para convertir probabilidades en decisiones.</li>
 </ol>
+<p>La clasificación se formula como <span class="math inline">\(Y\mid X=x\sim\operatorname{Bernoulli}(p(x))\)</span>. La probabilidad producida por el modelo es una estimación de <span class="math inline">\(p(x)\)</span>, y las métricas de validación o prueba son estimadores aleatorios del desempeño bajo una población objetivo.</p>
 </section>
 <section id="qué-debes-entregar" class="level1">
 <h1>Qué debes entregar</h1>
@@ -269,8 +270,9 @@ window.Quarto = {
 <li>Compara Ridge y Lasso con <code>select_regularization_alpha</code>, usando validación.</li>
 <li>Implementa funciones logísticas: <code>sigmoid</code>, <code>log_loss_binary</code>.</li>
 <li>Calcula métricas con una matriz de confusión.</li>
+<li>Implementa <code>bernoulli_standard_error</code> para una media de indicadores.</li>
 <li>Elige el umbral en validación; usa prueba una sola vez al final.</li>
-<li>Completa <code>protocol_answers</code> y justifica tu recomendación.</li>
+<li>Completa <code>protocol_answers</code>, incluido modelo Bernoulli y carácter aleatorio de validación.</li>
 <li>Reinicia kernel y ejecuta todo antes de entregar.</li>
 </ol>
 </section>
@@ -316,11 +318,16 @@ window.Quarto = {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
+<td>Incertidumbre</td>
+<td>error estándar <em>plug-in</em> de una proporción y semántica poblacional</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
 <td>Umbral</td>
 <td>selección consistente con objetivo de recall</td>
 <td style="text-align: right;">Automática</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Protocolo</td>
 <td>escalamiento, hiperparámetros, umbral y prueba con papeles correctos</td>
 <td style="text-align: right;">Automática</td>
@@ -332,7 +339,7 @@ window.Quarto = {
 <h1>Parte manual</h1>
 <p>Incluye una respuesta corta:</p>
 <blockquote class="blockquote">
-<p>¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?</p>
+<p>¿Qué modelo o umbral recomendarías, qué cantidad poblacional intenta estimar la métrica reportada y qué incertidumbre comunicarías antes de usarlo?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -357,7 +364,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>La decisión usa métrica adecuada, comparación/baseline y una limitación concreta</td>
+<td>La decisión usa métrica y baseline, distingue probabilidad estimada de verdadera y comunica incertidumbre y alcance</td>
 </tr>
 </tbody>
 </table>

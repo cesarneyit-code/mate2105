@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -164,6 +193,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link active" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
   <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
   <li><a href="#criterio-de-respuesta" id="toc-criterio-de-respuesta" class="nav-link" data-scroll-target="#criterio-de-respuesta">Criterio de respuesta</a></li>
+  <li><a href="#columna-probabilística-del-módulo" id="toc-columna-probabilística-del-módulo" class="nav-link" data-scroll-target="#columna-probabilística-del-módulo">Columna probabilística del módulo</a></li>
   <li><a href="#bloque-a-métricas" id="toc-bloque-a-métricas" class="nav-link" data-scroll-target="#bloque-a-métricas">Bloque A: métricas</a></li>
   <li><a href="#bloque-b-particiones-y-leakage" id="toc-bloque-b-particiones-y-leakage" class="nav-link" data-scroll-target="#bloque-b-particiones-y-leakage">Bloque B: particiones y leakage</a></li>
   <li><a href="#bloque-c-validación-y-curvas" id="toc-bloque-c-validación-y-curvas" class="nav-link" data-scroll-target="#bloque-c-validación-y-curvas">Bloque C: validación y curvas</a></li>
@@ -240,6 +270,30 @@ ul.task-list li input[type="checkbox"] {
 <p>En problemas aplicados, una respuesta completa suele tener esta forma:</p>
 <pre class="text"><code>métrica elegida -&gt; baseline -&gt; partición -&gt; riesgo de leakage -&gt; decisión o siguiente experimento</code></pre>
 <p>Si falta una de esas piezas, la comparación queda débil.</p>
+</section>
+<section id="columna-probabilística-del-módulo" class="level2">
+<h2 class="anchored" data-anchor-id="columna-probabilística-del-módulo">Columna probabilística del módulo</h2>
+<div class="exercise">
+<p><strong>P1. Accuracy aleatoria.</strong> Un modelo fijo acierta 180 de 200 casos iid. Calcule accuracy y un error estándar aproximado. Explique qué supuesto permite usar la fórmula Bernoulli.</p>
+</div>
+<div class="exercise">
+<p><strong>P2. Denominadores.</strong> Dos grupos tienen recall 0.80; uno contiene 10 positivos y otro 500. Compare la información que aportan ambas cifras sin usar solo el valor puntual.</p>
+</div>
+<div class="exercise">
+<p><strong>P3. Procedimiento y modelo.</strong> Distinga el riesgo de un modelo ya fijado del riesgo esperado de un procedimiento que selecciona hiperparámetros a partir de una muestra.</p>
+</div>
+<div class="exercise">
+<p><strong>P4. Dependencia de folds.</strong> Explique por qué los puntajes de 5-fold CV no son independientes y por qué <code>media ± desviación</code> no constituye automáticamente un intervalo de confianza.</p>
+</div>
+<div class="exercise">
+<p><strong>P5. Bootstrap por grupos.</strong> Diseñe un remuestreo para datos con diez mediciones por paciente. Compare con remuestrear filas individualmente.</p>
+</div>
+<div class="exercise">
+<p><strong>P6. Riesgo por slices.</strong> Construya dos slices con pesos poblacionales y riesgos condicionales dados; verifique la descomposición del riesgo global y muestre cómo un slice crítico puede quedar oculto.</p>
+</div>
+<div class="exercise">
+<p><strong>P7. Soporte.</strong> Dé un ejemplo de observaciones posibles en producción con probabilidad positiva bajo <span class="math inline">\(P_{\mathrm{uso}}\)</span> y probabilidad cero bajo <span class="math inline">\(P_{\mathrm{train}}\)</span>. Explique por qué ponderar entrenamiento no basta.</p>
+</div>
 </section>
 <section id="bloque-a-métricas" class="level2">
 <h2 class="anchored" data-anchor-id="bloque-a-métricas">Bloque A: métricas</h2>

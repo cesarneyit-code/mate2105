@@ -235,12 +235,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -670,6 +670,8 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#riesgo-condicional-por-slice" id="toc-riesgo-condicional-por-slice" class="nav-link" data-scroll-target="#riesgo-condicional-por-slice">Riesgo condicional por slice</a></li>
+  <li><a href="#cambio-de-distribución-como-cambio-de-medida" id="toc-cambio-de-distribución-como-cambio-de-medida" class="nav-link" data-scroll-target="#cambio-de-distribución-como-cambio-de-medida">Cambio de distribución como cambio de medida</a></li>
   <li><a href="#error-analysis" id="toc-error-analysis" class="nav-link" data-scroll-target="#error-analysis">Error analysis</a></li>
   <li><a href="#slices" id="toc-slices" class="nav-link" data-scroll-target="#slices">Slices</a></li>
   <li><a href="#data-mismatch" id="toc-data-mismatch" class="nav-link" data-scroll-target="#data-mismatch">Data mismatch</a></li>
@@ -737,6 +739,31 @@ window.Quarto = {
 <li>escribir una recomendación con resultado, diagnóstico y acción;</li>
 <li>reconocer cuándo una métrica agregada oculta daño o riesgo.</li>
 </ol>
+</section>
+<section id="riesgo-condicional-por-slice" class="level2">
+<h2 class="anchored" data-anchor-id="riesgo-condicional-por-slice">Riesgo condicional por slice</h2>
+<p>Para un slice <span class="math inline">\(S\subseteq\mathcal X\times\mathcal Y\)</span> con <span class="math inline">\(\mathbb P_P(S)&gt;0\)</span>, definimos</p>
+<p><span class="math display">\[
+R_P(f\mid S)
+=\mathbb E_P[\ell(f(X),Y)\mid (X,Y)\in S].
+\]</span></p>
+<p>El promedio global satisface una descomposición por una partición <span class="math inline">\(S_1,\ldots,S_J\)</span>:</p>
+<p><span class="math display">\[
+R_P(f)=\sum_{j=1}^J\mathbb P_P(S_j)R_P(f\mid S_j).
+\]</span></p>
+<p>Un slice pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.</p>
+</section>
+<section id="cambio-de-distribución-como-cambio-de-medida" class="level2">
+<h2 class="anchored" data-anchor-id="cambio-de-distribución-como-cambio-de-medida">Cambio de distribución como cambio de medida</h2>
+<p>Train y uso corresponden a distribuciones <span class="math inline">\(P_{\mathrm{train}}\)</span> y <span class="math inline">\(P_{\mathrm{uso}}\)</span> sobre el mismo espacio de observaciones. Si <span class="math inline">\(P_{\mathrm{uso}}\)</span> es absolutamente continua respecto de <span class="math inline">\(P_{\mathrm{train}}\)</span>, el riesgo de uso puede escribirse formalmente como</p>
+<p><span class="math display">\[
+R_{\mathrm{uso}}(f)
+=\mathbb E_{P_{\mathrm{train}}}
+\left[w(X,Y)\ell(f(X),Y)\right],
+\qquad
+w=\frac{dP_{\mathrm{uso}}}{dP_{\mathrm{train}}}.
+\]</span></p>
+<p>Esta identidad no resuelve el problema: las razones pueden ser desconocidas o muy inestables, y puede haber regiones de uso sin soporte en entrenamiento. Sirve para precisar por qué comparar histogramas no basta para garantizar transportabilidad.</p>
 </section>
 <section id="error-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>

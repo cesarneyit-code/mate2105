@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,8 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#una-métrica-es-un-estadístico" id="toc-una-métrica-es-un-estadístico" class="nav-link" data-scroll-target="#una-métrica-es-un-estadístico">Una métrica es un estadístico</a></li>
+  <li><a href="#matriz-de-confusión-poblacional-y-empírica" id="toc-matriz-de-confusión-poblacional-y-empírica" class="nav-link" data-scroll-target="#matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</a></li>
   <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal">Métrica principal</a></li>
   <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
   <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
@@ -773,6 +775,44 @@ window.Quarto = {
 <li>separar train, dev y test sin leakage;</li>
 <li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
 </ol>
+</section>
+<section id="una-métrica-es-un-estadístico" class="level2">
+<h2 class="anchored" data-anchor-id="una-métrica-es-un-estadístico">Una métrica es un estadístico</h2>
+<p>Sea <span class="math inline">\(f\)</span> un procedimiento ya fijado y <span class="math inline">\(L=\ell(f(X),Y)\)</span>. El riesgo de uso es</p>
+<p><span class="math display">\[
+R_{P_{\mathrm{uso}}}(f)=\mathbb E[L],
+\]</span></p>
+<p>mientras que una evaluación de <span class="math inline">\(n\)</span> casos produce</p>
+<p><span class="math display">\[
+\widehat R_n(f)=\frac1n\sum_{i=1}^n L_i.
+\]</span></p>
+<p>El segundo objeto cambia si cambia la muestra. Bajo casos iid y varianza finita,</p>
+<p><span class="math display">\[
+\operatorname{se}(\widehat R_n)
+=\sqrt{\frac{\operatorname{Var}(L)}{n}}.
+\]</span></p>
+<p>Para accuracy, <span class="math inline">\(L_i=\mathbf 1\{f(X_i)\neq Y_i\}\)</span> es Bernoulli con probabilidad de error <span class="math inline">\(p_e\)</span>. Por tanto,</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat{\mathrm{accuracy}})
+=\frac{a(1-a)}{n},
+\]</span></p>
+<p>donde <span class="math inline">\(a=1-p_e\)</span>. En una muestra reemplazamos <span class="math inline">\(a\)</span> por la accuracy observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.</p>
+</section>
+<section id="matriz-de-confusión-poblacional-y-empírica" class="level2">
+<h2 class="anchored" data-anchor-id="matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</h2>
+<p>Cada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo</p>
+<p><span class="math display">\[
+\mathbb P(\widehat Y=1,Y=0)
+\quad\text{mediante}\quad
+\frac{\#\{i:\widehat y_i=1,y_i=0\}}{n}.
+\]</span></p>
+<p>Precision y recall son probabilidades condicionales estimadas:</p>
+<p><span class="math display">\[
+\operatorname{precision}=\mathbb P(Y=1\mid\widehat Y=1),
+\qquad
+\operatorname{recall}=\mathbb P(\widehat Y=1\mid Y=1).
+\]</span></p>
+<p>El denominador efectivo de cada métrica puede ser mucho menor que <span class="math inline">\(n\)</span>, por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.</p>
 <div id="fig-cap11-particiones-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap11-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

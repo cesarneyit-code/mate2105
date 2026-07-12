@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,8 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#objeto-poblacional-y-problema-empírico" id="toc-objeto-poblacional-y-problema-empírico" class="nav-link" data-scroll-target="#objeto-poblacional-y-problema-empírico">Objeto poblacional y problema empírico</a></li>
+  <li><a href="#modelo-lineal-probabilístico" id="toc-modelo-lineal-probabilístico" class="nav-link" data-scroll-target="#modelo-lineal-probabilístico">Modelo lineal probabilístico</a></li>
   <li><a href="#el-problema-de-regresión" id="toc-el-problema-de-regresión" class="nav-link" data-scroll-target="#el-problema-de-regresión">El problema de regresión</a></li>
   <li><a href="#de-una-recta-a-una-matriz" id="toc-de-una-recta-a-una-matriz" class="nav-link" data-scroll-target="#de-una-recta-a-una-matriz">De una recta a una matriz</a></li>
   <li><a href="#dimensiones-la-primera-defensa-contra-errores" id="toc-dimensiones-la-primera-defensa-contra-errores" class="nav-link" data-scroll-target="#dimensiones-la-primera-defensa-contra-errores">Dimensiones: la primera defensa contra errores</a></li>
@@ -775,7 +777,48 @@ window.Quarto = {
 <li>interpretar coeficientes con cuidado.</li>
 </ol>
 <p>La regresión lineal parece elemental, pero contiene la gramática de casi todos los modelos que veremos después: datos como matrices, parámetros como vectores, predicciones como operaciones vectorizadas, pérdidas como funciones a minimizar y desempeño como comparación fuera de entrenamiento.</p>
-<p>En este capítulo usaremos la distinción del Interludio 0.5: los valores observados <span class="math inline">\(y_i\)</span> son realizaciones de una variable objetivo <span class="math inline">\(Y\)</span>. Por eso una regresión no intenta memorizar cada fila, sino aprender una regla que reduzca el error promedio y pueda generalizar a observaciones nuevas.</p>
+<p>Usaremos los fundamentos probabilísticos de la Parte I: los valores observados <span class="math inline">\(y_i\)</span> son realizaciones de una variable objetivo <span class="math inline">\(Y\)</span>, y los coeficientes ajustados son una función de la muestra. Por eso una regresión no intenta memorizar cada fila, sino aproximar una cantidad poblacional mediante un problema empírico calculable.</p>
+</section>
+<section id="objeto-poblacional-y-problema-empírico" class="level2">
+<h2 class="anchored" data-anchor-id="objeto-poblacional-y-problema-empírico">Objeto poblacional y problema empírico</h2>
+<p>Sea <span class="math inline">\(Z=(X,Y)\sim P\)</span> con <span class="math inline">\(X\in\mathbb R^d\)</span> y <span class="math inline">\(Y\in\mathbb R\)</span>. Bajo pérdida cuadrática, la regla poblacional óptima es</p>
+<p><span class="math display">\[
+f^*(x)=\mathbb E[Y\mid X=x].
+\]</span></p>
+<p>La regresión lineal restringe la búsqueda a funciones afines</p>
+<p><span class="math display">\[
+f_\theta(x)=\theta_0+x^\top\theta_{1:d}
+\]</span></p>
+<p>y define el riesgo poblacional</p>
+<p><span class="math display">\[
+R_P(\theta)=\frac12\mathbb E_P[(f_\theta(X)-Y)^2].
+\]</span></p>
+<p>Con una muestra <span class="math inline">\(D_m=((X_1,Y_1),\ldots,(X_m,Y_m))\)</span>, solo podemos minimizar</p>
+<p><span class="math display">\[
+\widehat R_m(\theta)
+=\frac1{2m}\sum_{i=1}^m(f_\theta(X_i)-Y_i)^2
+=\frac1{2m}\lVert X\theta-y\rVert_2^2.
+\]</span></p>
+<p>El resultado <span class="math inline">\(\widehat\theta(D_m)\)</span> es un <strong>estimador aleatorio</strong> antes de observar la muestra. La solución numérica para un dataset concreto es una realización de ese estimador.</p>
+</section>
+<section id="modelo-lineal-probabilístico" class="level2">
+<h2 class="anchored" data-anchor-id="modelo-lineal-probabilístico">Modelo lineal probabilístico</h2>
+<p>Una interpretación adicional parte del modelo</p>
+<p><span class="math display">\[
+Y=X^\top\beta+\varepsilon,
+\qquad
+\mathbb E[\varepsilon\mid X]=0.
+\]</span></p>
+<p>La condición de media cero implica <span class="math inline">\(\mathbb E[Y\mid X]=X^\top\beta\)</span>. No implica normalidad ni varianza constante. Si además se supone <span class="math inline">\(\operatorname{Var}(\varepsilon\mid X)=\sigma^2\)</span>, se obtiene un modelo homocedástico. Esos son supuestos sobre el proceso generador, no propiedades que aparezcan por ejecutar <code>LinearRegression</code>.</p>
+<div class="proposicion">
+<p><strong>Insesgamiento condicional de OLS.</strong> Si la matriz de diseño observada <span class="math inline">\(X\)</span> tiene rango columna completo y <span class="math inline">\(y=X\beta+\varepsilon\)</span> con <span class="math inline">\(\mathbb E[\varepsilon\mid X]=0\)</span>, entonces</p>
+<p><span class="math display">\[
+\widehat\beta=(X^\top X)^{-1}X^\top y
+\quad\Longrightarrow\quad
+\mathbb E[\widehat\beta\mid X]=\beta.
+\]</span></p>
+</div>
+<p><strong>Demostración.</strong> Sustituir <span class="math inline">\(y=X\beta+\varepsilon\)</span> produce <span class="math inline">\(\widehat\beta=\beta+(X^\top X)^{-1}X^\top\varepsilon\)</span>. Al condicionar en <span class="math inline">\(X\)</span>, el segundo término tiene esperanza cero. En cómputo seguiremos usando <code>lstsq</code>; la fórmula inversa aparece aquí para estudiar el estimador. <span class="math inline">\(\square\)</span></p>
 <div id="fig-cap01-geometria-minimos-cuadrados" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama con un plano de columnas de X, un vector y, su proyección y_hat y un residual perpendicular r igual a y menos y_hat. Se destaca X transpuesta por r igual a cero.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap01-geometria-minimos-cuadrados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

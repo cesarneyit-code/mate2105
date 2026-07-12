@@ -19,6 +19,11 @@ rutas hacia el mismo ajuste: mínimos cuadrados con `np.linalg.lstsq` y descenso
 del gradiente. Las ecuaciones normales se derivan en el libro, pero no se forma
 $X^\top X$ para resolver numéricamente el problema.
 
+Además debes distinguir el riesgo cuadrático poblacional
+$R_P(\theta)=\mathbb E[(Y-X^\top\theta)^2]$ de su versión empírica, reconocer que
+$\widehat\theta$ es un estimador aleatorio y cuantificar el error estándar de una
+media de pérdidas.
+
 La pregunta técnica central es:
 
 > ¿La implementación desde cero produce las mismas predicciones y pérdidas que una
@@ -44,10 +49,12 @@ notebook. El autograder busca funciones por nombre.
 3. Implementa `normal_equation` con `np.linalg.lstsq`. El nombre se conserva para
    no romper el contrato del autograder.
 4. Implementa `mse_gradient` y verifica dimensiones.
-5. Implementa `gradient_descent` guardando historia de pérdida.
-6. Compara tus resultados con `sklearn.linear_model.LinearRegression`.
-7. Escribe la interpretación final en lenguaje técnico breve.
-8. Reinicia el kernel y ejecuta todo de arriba hacia abajo antes de entregar.
+5. Implementa `standard_error_mean` con desviación muestral.
+6. Completa `probability_answers` separando población, estimador y estimación.
+7. Implementa `gradient_descent` guardando historia de pérdida.
+8. Compara tus resultados con `sklearn.linear_model.LinearRegression`.
+9. Escribe la interpretación final en lenguaje técnico breve.
+10. Reinicia el kernel y ejecuta todo de arriba hacia abajo antes de entregar.
 
 # Lo que autocalifica el notebook
 
@@ -55,6 +62,8 @@ notebook. El autograder busca funciones por nombre.
 |---|---|---:|
 | Intercepto | `X` aumenta una columna de unos sin alterar filas | Automática |
 | Pérdida | valor de `1/(2n) * sum(residual^2)` correcto | Automática |
+| Error estándar | `sd(values, ddof=1) / sqrt(m)` con validación de entrada | Automática |
+| Objetos probabilísticos | riesgo esperado, estimador aleatorio y papel de test | Automática |
 | Mínimos cuadrados | coincide con `lstsq`, incluso si la matriz pierde rango | Automática |
 | Gradiente | coincide con fórmula matricial y tolerancias | Automática |
 | Descenso del gradiente | pérdida decrece y parámetros son consistentes | Automática |
@@ -64,8 +73,8 @@ notebook. El autograder busca funciones por nombre.
 
 Incluye una respuesta corta:
 
-> ¿Qué evidencia muestra que el descenso del gradiente convergió y cuál es una
-> limitación del experimento?
+> ¿Qué evidencia muestra que el descenso del gradiente convergió, qué cantidad
+> poblacional intenta estimar el MSE de test y cuál es una fuente de incertidumbre?
 
 Rúbrica manual:
 
@@ -73,7 +82,7 @@ Rúbrica manual:
 |---:|---|
 | 0 | No responde o la respuesta no usa evidencia del notebook |
 | 1 | Menciona pérdida o limitación, pero sin conectar con comparación/baseline |
-| 2 | Conecta curva de pérdida, comparación contra ecuación normal o `sklearn`, y una limitación concreta |
+| 2 | Conecta curva de pérdida y referencia, distingue riesgo esperado/empírico y nombra una fuente concreta de incertidumbre |
 
 # Criterios de calidad
 
@@ -84,6 +93,7 @@ Rúbrica manual:
 - La historia de pérdida permite diagnosticar convergencia.
 - El modelo se compara contra un baseline y contra una implementación de referencia.
 - La interpretación final menciona una limitación.
+- La interpretación separa $\theta_P$, $\widehat\theta$ y el vector calculado en esta muestra.
 :::
 
 # Errores frecuentes

@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="../styles.css">
 </head>
@@ -195,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title"><span class="chapter-title">Guía de preparación Parcial 1</span></h1>
-<p class="subtitle lead">Regresión, gradiente, regularización y clasificación</p>
+<p class="subtitle lead">Probabilidad aplicada, regresión, gradiente, regularización y clasificación</p>
 </div>
 
 
@@ -216,14 +245,13 @@ ul.task-list li input[type="checkbox"] {
 <h1>Alcance</h1>
 <p>El Parcial 1 evalúa el Módulo 1 completo:</p>
 <ol type="1">
-<li>Regresión lineal múltiple.</li>
-<li>Ecuación normal.</li>
-<li>Descenso del gradiente.</li>
-<li>Escalamiento y condicionamiento.</li>
-<li>Regresión polinomial y overfitting.</li>
-<li>Ridge, Lasso y validación.</li>
-<li>Regresión logística.</li>
-<li>Métricas y umbrales.</li>
+<li>Población, muestra, estimador, estimación, riesgo e incertidumbre.</li>
+<li>Media condicional y modelo de ruido en regresión.</li>
+<li>Regresión lineal múltiple y ecuación normal.</li>
+<li>Descenso del gradiente, escalamiento y condicionamiento.</li>
+<li>Regresión polinomial, overfitting, Ridge, Lasso y validación.</li>
+<li>Modelo Bernoulli, regresión logística y log-loss.</li>
+<li>Métricas como estimadores, error estándar y umbrales.</li>
 </ol>
 </section>
 <section id="formato" class="level1">
@@ -259,6 +287,9 @@ ul.task-list li input[type="checkbox"] {
 <h1>Lo que debes poder hacer</h1>
 <ul>
 <li>Escribir <code>y_hat = X @ theta</code>.</li>
+<li>Distinguir <span class="math inline">\(\theta_P\)</span>, <span class="math inline">\(\widehat\theta(D_m)\)</span> y su valor calculado.</li>
+<li>Explicar riesgo esperado frente a riesgo empírico.</li>
+<li>Identificar la media condicional como objetivo bajo pérdida cuadrática.</li>
 <li>Calcular MSE.</li>
 <li>Derivar e implementar el gradiente de MSE.</li>
 <li>Ejecutar descenso del gradiente.</li>
@@ -268,6 +299,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Implementar sigmoide y log-loss.</li>
 <li>Interpretar matriz de confusión.</li>
 <li>Justificar una métrica según una decisión.</li>
+<li>Calcular e interpretar el error estándar de una media o proporción.</li>
 </ul>
 </section>
 <section id="errores-que-cuestan-puntos" class="level1">
@@ -288,7 +320,8 @@ ul.task-list li input[type="checkbox"] {
 <li>Rehaz los notebooks de clase sin mirar solución.</li>
 <li>Ejecuta los laboratorios desde cero.</li>
 <li>Explica cada métrica con una frase técnica.</li>
-<li>Practica derivaciones cortas: MSE, Ridge y log-loss.</li>
+<li>Practica derivaciones cortas: media condicional, MSE, Ridge y log-loss.</li>
+<li>Clasifica afirmaciones como poblacionales, muestrales o algorítmicas.</li>
 </ol>
 
 

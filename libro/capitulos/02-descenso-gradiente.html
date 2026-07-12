@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#qué-función-estamos-optimizando" id="toc-qué-función-estamos-optimizando" class="nav-link" data-scroll-target="#qué-función-estamos-optimizando">Qué función estamos optimizando</a></li>
   <li><a href="#optimización-como-búsqueda" id="toc-optimización-como-búsqueda" class="nav-link" data-scroll-target="#optimización-como-búsqueda">Optimización como búsqueda</a></li>
   <li><a href="#idea-geométrica-del-gradiente" id="toc-idea-geométrica-del-gradiente" class="nav-link" data-scroll-target="#idea-geométrica-del-gradiente">Idea geométrica del gradiente</a></li>
   <li><a href="#algoritmo-básico" id="toc-algoritmo-básico" class="nav-link" data-scroll-target="#algoritmo-básico">Algoritmo básico</a></li>
@@ -771,6 +772,27 @@ window.Quarto = {
 <li>comparar una solución iterativa con la ecuación normal.</li>
 </ol>
 <p>En el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.</p>
+</section>
+<section id="qué-función-estamos-optimizando" class="level2">
+<h2 class="anchored" data-anchor-id="qué-función-estamos-optimizando">Qué función estamos optimizando</h2>
+<p>Para una pérdida por observación <span class="math inline">\(\ell(\theta;Z)\)</span> distinguimos</p>
+<p><span class="math display">\[
+R_P(\theta)=\mathbb E_{Z\sim P}[\ell(\theta;Z)]
+\quad\text{y}\quad
+\widehat R_m(\theta)=\frac1m\sum_{i=1}^m\ell(\theta;Z_i).
+\]</span></p>
+<p>El computador deriva y minimiza <span class="math inline">\(\widehat R_m\)</span>. El objetivo científico es que el parámetro obtenido tenga riesgo pequeño bajo una distribución de uso. Una curva de pérdida de entrenamiento solo describe el primer problema.</p>
+<p>Si <span class="math inline">\(B\)</span> es un mini-batch elegido uniformemente de la muestra, definimos</p>
+<p><span class="math display">\[
+g_B(\theta)=\frac1{|B|}\sum_{i\in B}\nabla_\theta\ell(\theta;Z_i).
+\]</span></p>
+<div class="proposicion">
+<p><strong>Gradiente de mini-batch como estimador.</strong> Si las posiciones del mini-batch se seleccionan uniformemente, entonces, condicionado en la muestra,</p>
+<p><span class="math display">\[
+\mathbb E_B[g_B(\theta)\mid D_m]=\nabla\widehat R_m(\theta).
+\]</span></p>
+<p>Reducir <span class="math inline">\(|B|\)</span> no cambia esa esperanza, pero aumenta la variación del gradiente. Por eso SGD introduce ruido algorítmico aun cuando el dataset permanezca fijo.</p>
+</div>
 </section>
 <section id="optimización-como-búsqueda" class="level2">
 <h2 class="anchored" data-anchor-id="optimización-como-búsqueda">Optimización como búsqueda</h2>

@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -780,6 +780,27 @@ window.Quarto = {
 \eta(x)=\mathbb P(Y=1\mid X=x).
 \]</span></p>
 <p>No observamos <span class="math inline">\(\eta(x)\)</span> directamente. La regresión logística construye una aproximación parametrizada <span class="math inline">\(\widehat p_\theta(x)\)</span>. Distinguir ambas evita presentar la salida del modelo como una probabilidad verdadera conocida.</p>
+<p>Formalmente, podemos escribir</p>
+<p><span class="math display">\[
+Y\mid X=x\sim\operatorname{Bernoulli}(\eta(x)),
+\qquad
+\eta(x)=\mathbb P(Y=1\mid X=x).
+\]</span></p>
+<p>La familia logística supone <span class="math inline">\(\eta_\theta(x)=\sigma(x^\top\theta)\)</span>. Al ajustar, minimizamos log-loss empírica; la cantidad poblacional correspondiente es</p>
+<p><span class="math display">\[
+R_{\log}(\theta)
+=\mathbb E\left[-Y\log\eta_\theta(X)
+-(1-Y)\log(1-\eta_\theta(X))\right].
+\]</span></p>
+<div class="proposicion">
+<p><strong>Exceso de log-loss y divergencia.</strong> Condicionado en <span class="math inline">\(X=x\)</span>, si la probabilidad verdadera es <span class="math inline">\(\eta(x)\)</span> y el modelo reporta <span class="math inline">\(q(x)\)</span>, entonces</p>
+<p><span class="math display">\[
+L_x(q)-L_x(\eta)
+=\operatorname{KL}\big(\operatorname{Bern}(\eta)
+\,\|\,\operatorname{Bern}(q)\big)\geq 0.
+\]</span></p>
+<p>La log-loss no solo penaliza clases equivocadas: evalúa una distribución predictiva completa y es estrictamente propia.</p>
+</div>
 <div id="fig-cap04-logistica-umbral-metricas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama con una curva sigmoide, una línea vertical de umbral, reglas p mayor o igual a tau y p menor que tau, y una matriz de confusión con TN, FP, FN y TP.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap04-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">

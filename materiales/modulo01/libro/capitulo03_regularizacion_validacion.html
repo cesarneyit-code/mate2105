@@ -247,6 +247,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#el-modelo-ajustado-también-es-aleatorio" id="toc-el-modelo-ajustado-también-es-aleatorio" class="nav-link" data-scroll-target="#el-modelo-ajustado-también-es-aleatorio">El modelo ajustado también es aleatorio</a></li>
   <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">Feature engineering</a></li>
   <li><a href="#regresión-polinomial" id="toc-regresión-polinomial" class="nav-link" data-scroll-target="#regresión-polinomial">Regresión polinomial</a></li>
   <li><a href="#underfitting-y-overfitting" id="toc-underfitting-y-overfitting" class="nav-link" data-scroll-target="#underfitting-y-overfitting">Underfitting y overfitting</a></li>
@@ -317,7 +318,31 @@ window.Quarto = {
 <li>justificar un modelo final sin mirar la prueba repetidamente.</li>
 </ol>
 <p>El Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?</p>
-<p>La respuesta usa el lenguaje del Interludio 0.5. Entrenamiento minimiza una pérdida empírica sobre datos observados, pero la meta aplicada es bajo error en casos futuros. Validación y prueba son aproximaciones prácticas a ese desempeño fuera de la muestra.</p>
+<p>La respuesta usa los fundamentos probabilísticos de la Parte I. Entrenamiento minimiza una pérdida empírica sobre datos observados, pero la meta aplicada es bajo riesgo en casos futuros. Validación y prueba producen estimadores de ese riesgo; no lo convierten en una constante conocida.</p>
+</section>
+<section id="el-modelo-ajustado-también-es-aleatorio" class="level2">
+<h2 class="anchored" data-anchor-id="el-modelo-ajustado-también-es-aleatorio">El modelo ajustado también es aleatorio</h2>
+<p>Sea <span class="math inline">\(D_m\sim P^m\)</span> la muestra de entrenamiento y <span class="math inline">\(\widehat f_{D_m}\)</span> el procedimiento ajustado. Si repitiéramos el muestreo, obtendríamos otra función. Para pérdida cuadrática y un punto <span class="math inline">\(x\)</span>, la descomposición clásica es</p>
+<p><span class="math display">\[
+\mathbb E_{D_m,Y\mid x}
+\left[(Y-\widehat f_{D_m}(x))^2\right]
+=\operatorname{Var}(Y\mid X=x)
++\operatorname{Bias}(x)^2
++\operatorname{Var}_{D_m}(\widehat f_{D_m}(x)),
+\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[
+\operatorname{Bias}(x)
+=\mathbb E_{D_m}[\widehat f_{D_m}(x)]-\mathbb E[Y\mid X=x].
+\]</span></p>
+<p>Aquí “varianza del modelo” significa sensibilidad a la muestra de entrenamiento, no la varianza descriptiva de una columna. Ridge puede aumentar sesgo y reducir variación del estimador; el balance se estudia con datos de validación.</p>
+<div class="proposicion">
+<p><strong>Validación estima el riesgo del procedimiento fijado.</strong> Si el conjunto de validación es independiente del ajuste y contiene observaciones iid de <span class="math inline">\(P\)</span>, entonces para una función ya fijada <span class="math inline">\(f\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_{\mathrm{val}}(f)\mid f]=R_P(f).
+\]</span></p>
+<p>Después de escoger entre muchos modelos usando esa misma validación, el máximo o mínimo observado incorpora sesgo de selección. Por eso test se reserva para el procedimiento completo ya fijado.</p>
+</div>
 </section>
 <section id="feature-engineering" class="level2">
 <h2 class="anchored" data-anchor-id="feature-engineering">Feature engineering</h2>

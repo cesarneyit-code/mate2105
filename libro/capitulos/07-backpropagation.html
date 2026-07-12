@@ -270,12 +270,12 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Antes de modelar</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Fundamentos probabilísticos para aprender de datos</span></a>
   </div>
 </li>
       </ul>
@@ -705,6 +705,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#del-riesgo-esperado-al-gradiente-calculable" id="toc-del-riesgo-esperado-al-gradiente-calculable" class="nav-link" data-scroll-target="#del-riesgo-esperado-al-gradiente-calculable">Del riesgo esperado al gradiente calculable</a></li>
   <li><a href="#el-grafo-de-cómputo" id="toc-el-grafo-de-cómputo" class="nav-link" data-scroll-target="#el-grafo-de-cómputo">El grafo de cómputo</a></li>
   <li><a href="#gradiente-de-softmax-con-entropía-cruzada" id="toc-gradiente-de-softmax-con-entropía-cruzada" class="nav-link" data-scroll-target="#gradiente-de-softmax-con-entropía-cruzada">Gradiente de softmax con entropía cruzada</a></li>
   <li><a href="#gradientes-de-la-segunda-capa" id="toc-gradientes-de-la-segunda-capa" class="nav-link" data-scroll-target="#gradientes-de-la-segunda-capa">Gradientes de la segunda capa</a></li>
@@ -771,6 +772,25 @@ window.Quarto = {
 <li>usar una cache de forward para calcular backward;</li>
 <li>diseñar una prueba básica de gradientes.</li>
 </ol>
+</section>
+<section id="del-riesgo-esperado-al-gradiente-calculable" class="level2">
+<h2 class="anchored" data-anchor-id="del-riesgo-esperado-al-gradiente-calculable">Del riesgo esperado al gradiente calculable</h2>
+<p>El objetivo poblacional de una red es</p>
+<p><span class="math display">\[
+R_P(\theta)=\mathbb E_{Z\sim P}[\ell(\theta;Z)],
+\]</span></p>
+<p>pero backpropagation se aplica a la pérdida empírica</p>
+<p><span class="math display">\[
+\widehat R_m(\theta)=\frac1m\sum_{i=1}^m\ell(\theta;Z_i).
+\]</span></p>
+<p>Bajo condiciones que permiten intercambiar derivada y esperanza,</p>
+<p><span class="math display">\[
+\nabla R_P(\theta)=\mathbb E[\nabla_\theta\ell(\theta;Z)].
+\]</span></p>
+<p>Esta identidad explica por qué gradientes de observaciones o mini-batches pueden usarse como estimadores del gradiente poblacional. En el curso, la igualdad que podemos verificar exactamente es la correspondiente al riesgo empírico.</p>
+<div class="criterio">
+<p>Una prueba de gradientes comprueba derivadas para una muestra y parámetros fijos. No comprueba representatividad de los datos, calibración ni bajo riesgo de uso.</p>
+</div>
 </section>
 <section id="el-grafo-de-cómputo" class="level2">
 <h2 class="anchored" data-anchor-id="el-grafo-de-cómputo">El grafo de cómputo</h2>

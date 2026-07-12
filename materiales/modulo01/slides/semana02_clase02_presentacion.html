@@ -196,7 +196,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Semana 2 · Clase 2</h1>
-  <p class="subtitle">Implementación estable y un caso con datos agregados</p>
+  <p class="subtitle">Estimación estable, variación muestral y datos agregados</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -219,6 +219,21 @@ X^\top X\widehat\theta=X^\top y.
 <div class="question">
 <p>¿Cómo calculamos <span class="math inline">\(\widehat\theta\)</span> sin perder información numérica innecesariamente?</p>
 </div>
+</section>
+<section id="widehattheta-es-un-estimador" class="slide level2">
+<h2><span class="math inline">\(\widehat\theta\)</span> es un estimador</h2>
+<p>Antes de observar la muestra,</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat\theta(D_m)=\operatorname{lstsq}(X,Y)
+\]</span></p>
+</div>
+<p>es una función aleatoria de <span class="math inline">\(D_m\)</span>. Después de abrir el archivo obtenemos un vector numérico concreto.</p>
+<p>Si <span class="math inline">\(Y=X\theta_P+\varepsilon\)</span> y <span class="math inline">\(\mathbb E[\varepsilon\mid X]=0\)</span>, entonces, bajo rango completo,</p>
+<p><span class="math display">\[
+\mathbb E[\widehat\theta\mid X]=\theta_P.
+\]</span></p>
+<p>Insesgamiento condicional no significa estabilidad en una muestra particular.</p>
 </section>
 <section id="cuatro-expresiones-que-parecen-equivalentes" class="slide level2">
 <h2>Cuatro expresiones que parecen equivalentes</h2>
@@ -524,6 +539,19 @@ X^\top r\approx(-4.4\times10^{-16},-4.4\times10^{-16})^\top.
 <h2>Una sola partición es frágil</h2>
 
 <img src="../figuras/vivienda-bogota-variacion-particiones.png" class="wide-figure r-stretch" alt="Variación del MAE para baseline y modelo en ocho semillas"><p>El modelo supera el baseline en las semillas mostradas, pero su MAE varía aproximadamente entre 0.4 y 1.5. Esa variación debe formar parte de la lectura.</p>
+</section>
+<section id="el-error-de-test-también-es-aleatorio" class="slide level2">
+<h2>El error de test también es aleatorio</h2>
+<p>Para pérdidas individuales <span class="math inline">\(L_i=(y_i-\widehat f(x_i))^2\)</span>,</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat R_{test}=\frac1{m_{test}}\sum_iL_i,
+\qquad
+\widehat{\operatorname{SE}}(\widehat R_{test})
+=\frac{s_L}{\sqrt{m_{test}}}.
+\]</span></p>
+</div>
+<p>La fórmula supone observaciones independientes y un procedimiento fijado. Con 32 subzonas y documentación incompleta, debe leerse como diagnóstico, no como garantía poblacional.</p>
 </section>
 <section id="segunda-pausa" class="slide level2">
 <h2>Segunda pausa</h2>
