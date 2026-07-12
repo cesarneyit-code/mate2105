@@ -11,6 +11,11 @@
 
 Tiempo esperado por estudiante: 2-3 minutos.
 
+Con el panel de revisión, la IA propone nivel y comentario usando únicamente la
+respuesta seudonimizada, resultados visibles y pruebas fallidas. El profesor
+aprueba o corrige la propuesta. La meta es 30-45 segundos para una entrega sin
+banderas y 2-3 minutos cuando existe contradicción o falta evidencia.
+
 | Puntaje | Criterio |
 |---:|---|
 | 0 | No hay interpretación, no usa resultados o los contradice |

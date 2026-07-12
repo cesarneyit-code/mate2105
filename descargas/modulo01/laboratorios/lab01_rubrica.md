@@ -31,4 +31,7 @@ Pregunta:
 - Historia de pérdida vacía o no numérica.
 - Interpretación sin relación con los resultados propios.
 
-La revisión manual no debe superar dos minutos por estudiante.
+La IA puede proponer el nivel y un comentario a partir de la respuesta, las
+salidas visibles y el resumen del autograder. El profesor confirma o corrige la
+propuesta; la IA no modifica el puntaje del código. Tiempo objetivo: 30-45
+segundos en casos normales y hasta dos minutos en casos marcados.

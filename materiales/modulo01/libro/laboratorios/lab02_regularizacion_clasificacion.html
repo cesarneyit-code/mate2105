@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -256,9 +291,10 @@ window.Quarto = {
 </section>
 <section id="qué-debes-entregar" class="level1">
 <h1>Qué debes entregar</h1>
-<p>Entrega el notebook:</p>
-<pre class="text"><code>apellido_nombre_lab02_regularizacion_clasificacion.ipynb</code></pre>
-<p>No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos y también verifica las respuestas estructuradas sobre el protocolo de evaluación.</p>
+<p>Entrega en Gradescope un único notebook con el nombre:</p>
+<pre class="text"><code>lab02_regularizacion_clasificacion.ipynb</code></pre>
+<p>No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos y también verifica las respuestas estructuradas sobre el protocolo de evaluación. GitHub es un espacio opcional de trabajo; la entrega oficial es el archivo cargado en Gradescope.</p>
+<p>Escribe la recomendación únicamente en la celda Markdown marcada <code>Tu respuesta</code>. No edites el enunciado ni incluyas datos personales en esa celda.</p>
 </section>
 <section id="flujo-recomendado" class="level1">
 <h1>Flujo recomendado</h1>
@@ -337,7 +373,7 @@ window.Quarto = {
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
-<p>Incluye una respuesta corta:</p>
+<p>Incluye una respuesta de 100 a 160 palabras en la celda independiente:</p>
 <blockquote class="blockquote">
 <p>¿Qué modelo o umbral recomendarías, qué cantidad poblacional intenta estimar la métrica reportada y qué incertidumbre comunicarías antes de usarlo?</p>
 </blockquote>
@@ -349,7 +385,7 @@ window.Quarto = {
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">Puntaje</th>
+<th style="text-align: right;">Nivel</th>
 <th>Criterio</th>
 </tr>
 </thead>
@@ -400,6 +436,8 @@ window.Quarto = {
 ¿Reporté una métrica alineada con la decisión?
 ¿Mi umbral tiene justificación?
 ¿La parte manual comunica una limitación real?</code></pre>
+<p>Antes de cargar el archivo, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> validar_entrega.py lab02_regularizacion_clasificacion.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>

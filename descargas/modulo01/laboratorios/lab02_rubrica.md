@@ -30,4 +30,7 @@ Pregunta:
 - Recomendación sin contexto de uso.
 - Métricas reportadas sin declarar la clase positiva.
 
-La revisión manual se concentra en la recomendación, sus resultados y sus límites.
+La revisión asistida por IA se concentra en la recomendación, sus resultados y
+sus límites. El profesor aprueba cada nivel; la IA no vuelve a calificar las
+pruebas de código. Tiempo objetivo: 30-45 segundos en casos normales y hasta dos
+minutos en casos marcados.
