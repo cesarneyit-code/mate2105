@@ -27,6 +27,10 @@ Puntaje total: 100 puntos.
 
 Tiempo objetivo por estudiante: 2 minutos.
 
+El panel puede generar un borrador de nivel y comentario con la respuesta
+seudonimizada y los resultados verificados. El profesor debe aprobarlo; ninguna
+salida de IA se publica automáticamente ni cambia los 85 puntos técnicos.
+
 El profesor solo debe leer la pregunta manual y marcar casos donde:
 
 - la explicación contradice los resultados numéricos;

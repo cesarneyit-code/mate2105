@@ -11,6 +11,11 @@
 
 Tiempo esperado por estudiante: 2-3 minutos.
 
+La IA funciona como segundo lector: propone un nivel y señala contradicciones,
+pero el profesor conserva la decisión final. No recibe nombres ni el notebook
+completo y no sustituye el autograder. La meta es 30-45 segundos en casos
+normales y 2-3 minutos en casos marcados.
+
 | Puntaje | Criterio |
 |---:|---|
 | 0 | No hay diagnóstico o no usa resultados del notebook |

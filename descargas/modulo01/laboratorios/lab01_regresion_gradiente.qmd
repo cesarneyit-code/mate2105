@@ -32,14 +32,19 @@ La pregunta técnica central es:
 
 # Qué debes entregar
 
-Entrega el notebook:
+Entrega en Gradescope un único notebook con el nombre:
 
 ```text
-apellido_nombre_lab01_regresion_gradiente.ipynb
+lab01_regresion_gradiente.ipynb
 ```
 
 No cambies nombres de funciones, firmas, imports ni estructura general del
-notebook. El autograder busca funciones por nombre.
+notebook. El autograder busca funciones por nombre. GitHub puede usarse para
+guardar versiones, pero un `push` no reemplaza la entrega en Gradescope.
+
+La interpretación se escribe únicamente en la celda Markdown marcada `Tu
+respuesta`. No agregues la respuesta al enunciado ni incluyas nombre, correo o
+código estudiantil dentro de esa celda.
 
 # Flujo recomendado
 
@@ -71,14 +76,14 @@ notebook. El autograder busca funciones por nombre.
 
 # Parte manual
 
-Incluye una respuesta corta:
+Incluye una respuesta de 80 a 140 palabras en la celda independiente:
 
 > ¿Qué evidencia muestra que el descenso del gradiente convergió, qué cantidad
 > poblacional intenta estimar el MSE de test y cuál es una fuente de incertidumbre?
 
 Rúbrica manual:
 
-| Puntaje | Criterio |
+| Nivel | Criterio |
 |---:|---|
 | 0 | No responde o la respuesta no usa evidencia del notebook |
 | 1 | Menciona pérdida o limitación, pero sin conectar con comparación/baseline |
@@ -116,4 +121,10 @@ Ejecuta este control mental:
 ¿La pérdida del gradiente baja?
 ¿La solución por gradiente se acerca a la obtenida con `lstsq`?
 ¿La respuesta manual cita resultados concretos y no solo una opinión?
+```
+
+Ejecuta además el validador público antes de cargar el archivo:
+
+```bash
+python validar_entrega.py lab01_regresion_gradiente.ipynb
 ```
