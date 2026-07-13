@@ -8,7 +8,7 @@
 
 <meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
-<title>Parte IV: Estrategia de machine learning – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Parte IV: Evaluación y estrategia de modelado – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -88,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
-<meta property="og:title" content="Parte IV: Estrategia de machine learning – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:title" content="Parte IV: Evaluación y estrategia de modelado – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
 <meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
@@ -141,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Estrategia de machine learning</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte04_estrategia.html">Parte IV: Evaluación y estrategia de modelado</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -188,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte I: Fundamentos</span></a>
+ <span class="menu-text">Parte I: Datos y preguntas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -197,16 +197,6 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Observaciones, variables y preguntas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></a>
   </div>
 </li>
       </ul>
@@ -286,7 +276,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Parte IV: Estrategia de machine learning</span></a>
+ <span class="menu-text">Parte IV: Evaluación y estrategia de modelado</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -348,7 +338,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
+ <span class="menu-text">Parte VI: Reproducibilidad y comunicación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -383,13 +373,34 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Herramientas de estudio</span></a>
+            <a href="../partes/parte07_herramientas_probabilisticas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Herramientas probabilísticas y estadísticas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Condicionamiento, estimación, riesgo e incertidumbre</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Herramientas de estudio</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
@@ -434,13 +445,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Apéndices de consulta</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
@@ -500,13 +511,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true">
  <span class="menu-text">Información editorial y publicación</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-10" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-10" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
@@ -604,23 +615,15 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Tabla de contenidos</h2>
-   
-  <ul>
-  <li><a href="#resultados-de-aprendizaje-de-la-parte" id="toc-resultados-de-aprendizaje-de-la-parte" class="nav-link active" data-scroll-target="#resultados-de-aprendizaje-de-la-parte">Resultados de aprendizaje de la parte</a></li>
-  <li><a href="#mapa-de-la-parte" id="toc-mapa-de-la-parte" class="nav-link" data-scroll-target="#mapa-de-la-parte">Mapa de la parte</a></li>
-  <li><a href="#criterio-de-salida" id="toc-criterio-de-salida" class="nav-link" data-scroll-target="#criterio-de-salida">Criterio de salida</a></li>
-  </ul>
-</nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Parte IV: Estrategia de machine learning</h1>
+<h1 class="title">Parte IV: Evaluación y estrategia de modelado</h1>
 </div>
 
 
@@ -637,7 +640,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Esta parte cambia el foco: ya no basta con entrenar un modelo. Hay que elegir métricas, diseñar particiones, evitar leakage, describir la variabilidad entre folds y analizar errores antes de recomendar un uso.</p>
+<p>Una mejora en la pérdida de entrenamiento no responde por sí sola si un modelo será útil. Para comparar procedimientos es necesario definir qué población y qué errores importan, reservar datos para una evaluación honesta y reconocer que toda métrica calculada con una muestra tiene variación.</p>
+<p>Esta parte comienza tratando una métrica como un estadístico. La matriz de confusión deja de ser solo una tabla de conteos y pasa a estimar probabilidades conjuntas y condicionales. La elección de umbral conecta esas probabilidades con los costos del problema. A continuación, la validación cruzada y las curvas de aprendizaje ayudan a separar falta de señal, exceso de complejidad y variación muestral.</p>
+<p>El análisis termina localizando los errores en grupos de observaciones y comparando la distribución de los datos disponibles con la distribución de uso. Esta perspectiva permite distinguir una fluctuación pequeña de una falla sistemática y evita que una sola métrica oculte dónde deja de funcionar el modelo.</p>
 <div id="fig-parte04-metricas-decision" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa con ejes de costo de falso positivo y falso negativo. Cuadrantes sugieren accuracy, precision, recall y F beta. A la derecha aparece un reporte mínimo con métrica primaria, umbral, matriz de confusión y costo de errores.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-parte04-metricas-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -648,64 +653,9 @@ Figura&nbsp;1: Selección de métricas: el costo relativo de falsos positivos y 
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> En esta parte, una métrica se entiende como una decisión de diseño. Elegir accuracy, precision, recall o F-score solo tiene sentido si se declara qué error cuesta más y cómo se usará el modelo.</p>
-<section id="resultados-de-aprendizaje-de-la-parte" class="level2">
-<h2 class="anchored" data-anchor-id="resultados-de-aprendizaje-de-la-parte">Resultados de aprendizaje de la parte</h2>
-<p>Al terminar esta parte deberías poder:</p>
-<ol type="1">
-<li>elegir una métrica principal según costo de error;</li>
-<li>diseñar particiones train/dev/test sin contaminar la evaluación;</li>
-<li>usar pipelines para evitar leakage de preprocesamiento;</li>
-<li>interpretar cross-validation con media y variabilidad;</li>
-<li>leer learning curves y validation curves;</li>
-<li>convertir análisis de errores en recomendación técnica.</li>
-</ol>
-</section>
-<section id="mapa-de-la-parte" class="level2">
-<h2 class="anchored" data-anchor-id="mapa-de-la-parte">Mapa de la parte</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Capítulo</th>
-<th>Pregunta guía</th>
-<th>Producto de estudio</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Métricas y particiones</td>
-<td>¿Qué estamos optimizando y con qué datos lo medimos?</td>
-<td>Ficha de evaluación sin leakage.</td>
-</tr>
-<tr class="even">
-<td>Validación y curvas</td>
-<td>¿El modelo necesita más datos, menor complejidad o mejor señal?</td>
-<td>Curva y diagnóstico sesgo/varianza.</td>
-</tr>
-<tr class="odd">
-<td>Error analysis</td>
-<td>¿Dónde falla el modelo y qué acción sigue?</td>
-<td>Tabla por slice y recomendación.</td>
-</tr>
-<tr class="even">
-<td>Ejercicios integradores</td>
-<td>¿Puedes explicar una estrategia de evaluación completa?</td>
-<td>Resultado, lectura, comprobación y límite.</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="criterio-de-salida" class="level2">
-<h2 class="anchored" data-anchor-id="criterio-de-salida">Criterio de salida</h2>
-<p>La parte queda dominada cuando puedes rechazar una mejora aparente si usa la métrica equivocada, toca test indebidamente, oculta un slice crítico o no declara el límite de la recomendación.</p>
+<p>La figura organiza las métricas según el costo relativo de los errores. No ofrece una selección automática: obliga a declarar qué significa la clase positiva, qué decisión seguirá a la predicción y qué denominadores sostienen cada cifra.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">

@@ -8,7 +8,7 @@
 
 <meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
-<title>Parte II: Regresión, optimización y clasificación – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Herramientas probabilísticas y estadísticas – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,8 +31,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../capitulos/01-regresion-lineal.html" rel="next">
-<link href="../capitulos/00-lenguaje-comun.html" rel="prev">
+<link href="../capitulos/00b-incertidumbre-datos.html" rel="next">
+<link href="../capitulos/23-ejercicios-cierre.html" rel="prev">
 <link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -88,7 +88,7 @@ ul.task-list li input[type="checkbox"] {
 <meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
-<meta property="og:title" content="Parte II: Regresión, optimización y clasificación – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:title" content="Herramientas probabilísticas y estadísticas – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
 <meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
@@ -141,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte02_regresion.html">Parte II: Regresión, optimización y clasificación</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte07_herramientas_probabilisticas.html">Herramientas probabilísticas y estadísticas</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -203,7 +203,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link active">
+            <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte II: Regresión, optimización y clasificación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -373,7 +373,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="../partes/parte07_herramientas_probabilisticas.html" class="sidebar-item-text sidebar-link">
+            <a href="../partes/parte07_herramientas_probabilisticas.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Herramientas probabilísticas y estadísticas</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -623,7 +623,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Parte II: Regresión, optimización y clasificación</h1>
+<h1 class="title">Herramientas probabilísticas y estadísticas</h1>
 </div>
 
 
@@ -640,20 +640,9 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Predecir una cantidad numérica obliga a distinguir dos problemas. Con los datos observados podemos minimizar una suma de errores; fuera de ellos queremos que la regla conserve un desempeño adecuado en nuevas observaciones. La regresión lineal permite estudiar ambos problemas con una combinación especialmente clara de probabilidad, álgebra lineal y cálculo.</p>
-<p>El primer capítulo presenta la media condicional como objetivo poblacional bajo pérdida cuadrática y los mínimos cuadrados como su aproximación dentro de una familia lineal. El segundo convierte el gradiente de esa pérdida en un algoritmo iterativo y estudia cómo el escalamiento y el condicionamiento afectan su convergencia. Cuando la familia de modelos se vuelve más flexible, la variación entre muestras conduce de manera natural a regularización y validación.</p>
-<p>El último modelo de esta parte cambia una respuesta numérica por una etiqueta. La regresión logística introduce entonces una probabilidad condicional, un modelo Bernoulli y la log-loss. El modelo produce una probabilidad estimada; la decisión final requiere además una métrica, un umbral y una descripción de los errores que resultan relevantes en el problema.</p>
-<div id="fig-parte02-geometria-minimos-cuadrados" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama con un plano de columnas de X, un vector y, su proyección y_hat y un residual perpendicular r igual a y menos y_hat. Se destaca X transpuesta por r igual a cero.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-parte02-geometria-minimos-cuadrados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/geometria-minimos-cuadrados.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama con un plano de columnas de X, un vector y, su proyección y_hat y un residual perpendicular r igual a y menos y_hat. Se destaca X transpuesta por r igual a cero.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-parte02-geometria-minimos-cuadrados-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;1: Geometría de mínimos cuadrados: las predicciones forman una proyección de y sobre el espacio columna de X; el residual queda perpendicular a ese espacio.
-</figcaption>
-</figure>
-</div>
-<p>La figura muestra la geometría del ajuste lineal. La predicción se encuentra en el espacio generado por las columnas de la matriz de diseño y el residual queda perpendicular a ese espacio. Esta interpretación geométrica reaparecerá al estudiar proyecciones, regularización y reducción de dimensión.</p>
+<p>Los capítulos anteriores introducen ideas probabilísticas en el momento en que aparecen en un problema: la esperanza condicional al estudiar regresión, el riesgo al definir una pérdida, el modelo Bernoulli en clasificación, la variabilidad muestral al validar y la covarianza poblacional al estudiar PCA. Esta parte reúne esas ideas en una exposición sistemática que puede utilizarse como referencia.</p>
+<p>El primer capítulo formaliza espacios de probabilidad, variables aleatorias, distribuciones, momentos y muestras. El segundo desarrolla condicionamiento, estimación, riesgo esperado, incertidumbre de métricas, remuestreo y cambio de distribución. Ambos incluyen ejemplos y ejercicios que permiten estudiar los temas con mayor profundidad que la requerida en su primera aparición.</p>
+<p>La lectura puede hacerse de dos formas. Quien necesite revisar una definición puede consultar directamente la sección correspondiente; quien quiera consolidar la teoría probabilística puede leer los dos capítulos en orden. En ninguno de los dos casos esta parte sustituye la formulación concreta de los modelos: su función es explicar con más detalle los objetos que el resto del libro utiliza.</p>
 
 
 
@@ -1095,13 +1084,13 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../capitulos/00-lenguaje-comun.html" class="pagination-link" aria-label="Observaciones, variables y preguntas">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Observaciones, variables y preguntas</span></span>
+      <a href="../capitulos/23-ejercicios-cierre.html" class="pagination-link" aria-label="Ejercicios integradores: reproducibilidad y defensa">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Ejercicios integradores: reproducibilidad y defensa</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../capitulos/01-regresion-lineal.html" class="pagination-link" aria-label="Capítulo 1: Regresión lineal múltiple">
-        <span class="nav-page-text"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../capitulos/00b-incertidumbre-datos.html" class="pagination-link" aria-label="Variables aleatorias, distribuciones y muestras">
+        <span class="nav-page-text"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
