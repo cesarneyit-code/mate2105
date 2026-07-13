@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana09_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-6efdc9048376145433d3d66870b3d2b5.css">
+  <link rel="stylesheet" href="semana09_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,16 +215,19 @@ César Galindo
 <div class="session-outcome">
 <p><span class="label">Al salir de esta sesión</span> <strong>Comparar L2 y early stopping con train/dev y formular el siguiente experimento.</strong></p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-diagnostico-regularizacion-redes.html">Capítulo 8 · Diagnóstico y regularización de redes</a>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2 recap-slide">
-<h2>Punto de partida</h2>
+<section id="una-curva-registra-el-procedimiento-de-entrenamiento" class="slide level2 recap-slide">
+<h2>Una curva registra el procedimiento de entrenamiento</h2>
 <p>La inicialización determina el punto de partida. Durante entrenamiento, train y dev muestran si el modelo ajusta y si el ajuste se sostiene.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: compararemos L2 y early stopping bajo una convención explícita y un presupuesto comparable.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2 case-slide">
-<h2>El caso que usaremos</h2>
+<section id="train-mejora-mientras-dev-deja-de-hacerlo" class="slide level2 case-slide">
+<h2>Train mejora mientras dev deja de hacerlo</h2>
 <p>Entrenamos la misma MLP en un subconjunto de dígitos con y sin L2; guardamos CE y accuracy de train/dev por época.</p>
 <div class="data-note">
 <p>La partición, arquitectura, inicialización y tasa permanecen fijas; solo cambia <span class="math inline">\(\lambda\)</span>.</p>
@@ -237,8 +240,8 @@ César Galindo
 <p>El mínimo de dev marca un candidato de early stopping. Seleccionarlo exige conservar el estado de esa época, no el último.</p>
 </div>
 </section>
-<section id="objetos-y-notación" class="slide level2 notation-slide">
-<h2>Objetos y notación</h2>
+<section id="pérdida-época-estado-y-conjunto-de-datos" class="slide level2 notation-slide">
+<h2>Pérdida, época, estado y conjunto de datos</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -266,8 +269,8 @@ César Galindo
 </tbody>
 </table>
 </section>
-<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
-<h2>Del objeto poblacional al cálculo</h2>
+<section id="la-época-elegida-depende-de-la-muestra-de-dev" class="slide level2 probability-slide">
+<h2>La época elegida depende de la muestra de dev</h2>
 <div class="probability-grid">
 <div class="population">
 <span class="label">Objeto poblacional</span><strong>riesgo del procedimiento de entrenamiento</strong>
@@ -292,8 +295,8 @@ César Galindo
 <p>¿Qué gradiente añade L2 a los pesos y cómo se combina con una regla de parada basada en dev?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2 formula-slide">
-<h2>Expresión central</h2>
+<section id="l2-añade-un-gradiente-a-los-pesos" class="slide level2 formula-slide">
+<h2>L2 añade un gradiente a los pesos</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
@@ -304,38 +307,61 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 <p>El término se añade una vez y no incluye sesgos. Esta es la convención usada por Lab 3.</p>
 </div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Primer paso de la derivación</h2>
+<section id="la-penalización-entra-una-sola-vez" class="slide level2 derivation-slide">
+<h2>La penalización entra una sola vez</h2>
 <p>Como <span class="math inline">\(\partial\|W\|_F^2/\partial W=2W\)</span>, el factor <span class="math inline">\(1/2\)</span> deja <span class="math inline">\(\lambda W\)</span>.</p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Segundo paso de la derivación</h2>
+<section id="early-stopping-selecciona-un-estado" class="slide level2 derivation-slide">
+<h2>Early stopping selecciona un estado</h2>
 <p>Early stopping selecciona <span class="math display">\[t^*=\arg\min_t J_{dev}(\theta_t).\]</span> El estado <span class="math inline">\(\theta_{t^*}\)</span> debe guardarse durante la corrida.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2 shape-slide">
-<h2>Qué debe coincidir</h2>
+<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
+<h2>Dimensiones antes de calcular</h2>
 <p><span class="math inline">\(\lambda W_l\)</span> tiene la misma forma que <span class="math inline">\(dW_l\)</span>. No existe un término L2 para <code>db</code> bajo esta convención.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
-<h2>Lectura del resultado</h2>
+<section id="regularizar-y-detener-responden-a-señales-distintas" class="slide level2 interpretation-slide">
+<h2>Regularizar y detener responden a señales distintas</h2>
 <p>L2 cambia la trayectoria y la solución; early stopping elige un punto de una trayectoria. Pueden combinarse, pero no son el mismo mecanismo.</p>
 </section>
-<section id="primera-pausa" class="slide level2 pause-slide">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>Si <span class="math inline">\(W=\begin{bmatrix}2&amp;-1\\0&amp;3\end{bmatrix}\)</span> y <span class="math inline">\(\lambda=0.1\)</span>, calcule la penalización y el término añadido al gradiente.</p>
-<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
+<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+Se elige la época con menor pérdida de test y se reporta esa misma pérdida. ¿Qué ocurrió?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong>Early stopping correcto</strong>
+</div>
+<div>
+<span>B</span><strong>Test entró en la selección</strong>
+</div>
+<div>
+<span>C</span><strong>Solo cambió el optimizador</strong>
+</div>
+<div>
+<span>D</span><strong>Se redujo la varianza</strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la primera pausa</h2>
-<p><span class="math inline">\(\|W\|_F^2=14\)</span>, penalización <span class="math inline">\(0.1\cdot14/2=0.7\)</span> y adición <span class="math inline">\(0.1W\)</span>.</p>
+<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta B</span>
+<p>
+La época es un hiperparámetro del procedimiento. Debe seleccionarse con dev o validación; test queda reservado para la evaluación final.
+</p>
+</div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
-<h2>Del cálculo al algoritmo</h2>
+<section id="conservar-la-mejor-época-sin-mirar-test" class="slide level2 algorithm-slide">
+<h2>Conservar la mejor época sin mirar test</h2>
 <div class="algorithm-flow">
 <div>
 <span>1</span><strong>fijar presupuesto máximo</strong>
@@ -367,8 +393,8 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 <p>Guardar copias evita que actualizaciones posteriores modifiquen el supuesto mejor estado.</p>
 </div>
 </section>
-<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
-<h2>Ejemplo controlado</h2>
+<section id="dos-curvas-y-una-decisión-de-parada" class="slide level2 worked-example-slide">
+<h2>Dos curvas y una decisión de parada</h2>
 <p>Sin L2, train continúa bajando después de que dev sube. Con <span class="math inline">\(\lambda\)</span> moderado, la brecha se reduce en esta partición; con <span class="math inline">\(\lambda\)</span> alto, ambos errores permanecen altos.</p>
 </section>
 <section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
@@ -393,8 +419,8 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 </div>
 <p>Grafique las cuatro curvas en ejes comparables y marque la mejor época de cada configuración.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
-<h2>Dos opciones que no responden lo mismo</h2>
+<section id="l2-early-stopping-y-baseline" class="slide level2 comparison-slide">
+<h2>L2, early stopping y baseline</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -429,8 +455,8 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2 failure-slide">
-<h2>Primer modo de falla</h2>
+<section id="test-no-selecciona-la-época" class="slide level2 failure-slide">
+<h2>Test no selecciona la época</h2>
 <div class="failure-statement">
 <p>Elegir la mejor época mirando test reutiliza test como validación.</p>
 </div>
@@ -438,8 +464,8 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 <p><span class="label">Señal observable</span> <strong>la época se decide con <code>test_loss</code></strong></p>
 </div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
-<h2>Segundo modo de falla</h2>
+<section id="accuracy-sola-oculta-el-deterioro-de-la-pérdida" class="slide level2 failure-slide">
+<h2>Accuracy sola oculta el deterioro de la pérdida</h2>
 <div class="failure-statement">
 <p>Reportar solo accuracy puede esconder una pérdida que ya se deteriora y probabilidades extremas.</p>
 </div>
@@ -447,15 +473,15 @@ J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
 <p><span class="label">Señal observable</span> <strong>no se conserva CE ni estado de la mejor época</strong></p>
 </div>
 </section>
-<section id="segunda-pausa" class="slide level2 pause-slide">
-<h2>Segunda pausa</h2>
+<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
+<h2>Diagnóstico en parejas</h2>
 <div class="pause">
 <p>Train y dev loss bajan, pero dev accuracy queda plana. Proponga dos lecturas y una salida adicional.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la segunda pausa</h2>
+<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
+<h2>Puesta en común del diagnóstico</h2>
 <p>Puede mejorar confianza sin cambiar clases, o concentrarse en casos ya correctos. Revisaría calibración, matriz de confusión o margen por clase antes de concluir.</p>
 </section>
 <section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">

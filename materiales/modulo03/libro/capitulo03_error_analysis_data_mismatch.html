@@ -290,6 +290,14 @@ R_{\mathrm{uso}}(f)
 w=\frac{dP_{\mathrm{uso}}}{dP_{\mathrm{train}}}.
 \]</span></p>
 <p>Esta identidad no resuelve el problema: las razones pueden ser desconocidas o muy inestables, y puede haber regiones de uso sin soporte en entrenamiento. Sirve para precisar por qué comparar histogramas no basta para garantizar transportabilidad.</p>
+<p>La expresión general reúne situaciones distintas, pero distinguirlas orienta el diagnóstico:</p>
+<ul>
+<li>En un <strong>cambio de covariables</strong>, cambia <span class="math inline">\(P(X)\)</span> mientras <span class="math inline">\(P(Y\mid X)\)</span> permanece aproximadamente estable. Reponderar observaciones puede ser útil solo si las regiones relevantes de uso tienen soporte en entrenamiento.</li>
+<li>En un <strong>cambio de prevalencia</strong>, cambia <span class="math inline">\(P(Y)\)</span> y se supone aproximadamente estable <span class="math inline">\(P(X\mid Y)\)</span>. Las probabilidades posteriores, la precision y el umbral operativo pueden cambiar aunque las distribuciones dentro de cada clase sean semejantes.</li>
+<li>En un <strong>cambio de concepto</strong>, cambia <span class="math inline">\(P(Y\mid X)\)</span>. Un patrón que antes estaba asociado con la respuesta deja de tener el mismo significado; reponderar <span class="math inline">\(X\)</span> no corrige por sí solo este problema.</li>
+<li>En un <strong>cambio de medición o de soporte</strong>, se modifica el instrumento, la definición de una variable, la población observable o aparecen regiones que no existían en los datos de entrenamiento. Sin observaciones comparables, el riesgo de uso no puede recuperarse solo a partir del conjunto original.</li>
+</ul>
+<p>Por eso no existe una prueba única de <em>data mismatch</em>. Comparar marginales de variables puede revelar cambio de covariables, pero no demuestra estabilidad de <span class="math inline">\(P(Y\mid X)\)</span>. Comparar prevalencias detecta otra clase de cambio, y auditar el proceso de medición resulta indispensable cuando las columnas conservan el mismo nombre pero ya no representan el mismo objeto.</p>
 </section>
 <section id="error-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-f4b23d84e21de3a7a3695a351600d897.css">
+  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-d210d9fdf93e59f1d7ca3b5ce0d1f973.css">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,16 +215,19 @@ César Galindo
 <div class="session-outcome">
 <p><span class="label">Al salir de esta sesión</span> <strong>Construir un paquete mínimo que otra persona pueda ejecutar y auditar.</strong></p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/20-reproducibilidad-tracking.html">Capítulo 20 · Reproducibilidad y tracking</a>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2 recap-slide">
-<h2>Punto de partida</h2>
+<section id="una-cifra-sin-procedencia-no-es-reproducible" class="slide level2 recap-slide">
+<h2>Una cifra sin procedencia no es reproducible</h2>
 <p>El parcial verificó algoritmos. El proyecto final debe además conservar el rastro que produjo cada resultado.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: construiremos un manifiesto mínimo y comprobaremos hashes, rutas y ejecución limpia.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2 case-slide">
-<h2>El caso que usaremos</h2>
+<section id="el-mismo-proyecto-en-otro-computador" class="slide level2 case-slide">
+<h2>El mismo proyecto en otro computador</h2>
 <p>Empaquetaremos un pipeline de clasificación con fuente de datos, commit, semilla, parámetros, métricas por partición y artefactos.</p>
 <div class="data-note">
 <p>El manifiesto registra la corrida observada; no demuestra que el modelo sea correcto ni que se replique en otra muestra.</p>
@@ -237,8 +240,8 @@ César Galindo
 <p>Reproducibilidad conecta entradas y salidas. Un hash identifica bytes; no certifica su calidad científica.</p>
 </div>
 </section>
-<section id="objetos-y-notación" class="slide level2 notation-slide">
-<h2>Objetos y notación</h2>
+<section id="archivo-versión-hash-y-entorno" class="slide level2 notation-slide">
+<h2>Archivo, versión, hash y entorno</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -270,8 +273,8 @@ César Galindo
 </tbody>
 </table>
 </section>
-<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
-<h2>Del objeto poblacional al cálculo</h2>
+<section id="reproducibilidad-computacional-no-elimina-incertidumbre" class="slide level2 probability-slide">
+<h2>Reproducibilidad computacional no elimina incertidumbre</h2>
 <div class="probability-grid">
 <div class="population">
 <span class="label">Objeto poblacional</span><strong>desempeño del procedimiento completo</strong>
@@ -296,8 +299,8 @@ César Galindo
 <p>¿Qué propiedad verifica un hash criptográfico y qué queda fuera de esa verificación?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2 formula-slide">
-<h2>Expresión central</h2>
+<section id="sha-256-identifica-bytes" class="slide level2 formula-slide">
+<h2>SHA-256 identifica bytes</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 h=\operatorname{SHA256}(\text{bytes del archivo}).
@@ -307,38 +310,61 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <p>Hashes iguales implican identidad de bytes con probabilidad práctica muy alta. No implican datos válidos, código correcto ni inferencia adecuada.</p>
 </div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Primer paso de la derivación</h2>
+<section id="el-manifiesto-fija-nombres-y-hashes" class="slide level2 derivation-slide">
+<h2>El manifiesto fija nombres y hashes</h2>
 <p>El manifiesto fija una función de reconstrucción: entradas + código + entorno + parámetros deben producir artefactos y métricas equivalentes dentro de tolerancia.</p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Segundo paso de la derivación</h2>
+<section id="la-ejecución-limpia-prueba-las-dependencias-declaradas" class="slide level2 derivation-slide">
+<h2>La ejecución limpia prueba las dependencias declaradas</h2>
 <p>Si cambia un byte del dataset o modelo, cambia el hash. Para resultados numéricos puede requerirse tolerancia por plataforma, pero el cambio debe registrarse.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2 shape-slide">
-<h2>Qué debe coincidir</h2>
+<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
+<h2>Dimensiones antes de calcular</h2>
 <p>Métricas se almacenan por partición y nombre; un escalar <code>score</code> sin contexto no permite saber qué se midió ni dónde.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
-<h2>Lectura del resultado</h2>
+<section id="identidad-de-bytes-no-implica-validez-científica" class="slide level2 interpretation-slide">
+<h2>Identidad de bytes no implica validez científica</h2>
 <p>Un commit identifica código versionado; un entorno identifica dependencias; una semilla reconstruye elecciones pseudoaleatorias cuando la biblioteca es determinista.</p>
 </section>
-<section id="primera-pausa" class="slide level2 pause-slide">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>Dos manifests tienen la misma métrica y distinto hash del dataset. ¿Son la misma corrida? ¿Qué puede haber ocurrido?</p>
-<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
+<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+Dos archivos tienen el mismo SHA-256. ¿Qué afirmación está justificada?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong>Son científicamente correctos</strong>
+</div>
+<div>
+<span>B</span><strong>Tienen los mismos bytes</strong>
+</div>
+<div>
+<span>C</span><strong>Usaron la misma semilla</strong>
+</div>
+<div>
+<span>D</span><strong>Provienen de la misma población</strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la primera pausa</h2>
-<p>No.&nbsp;Las entradas difieren en bytes: versión, orden, limpieza o encoding. Debe reconstruirse qué archivo se usó antes de comparar métricas.</p>
+<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta B</span>
+<p>
+La igualdad del hash respalda identidad de bytes con probabilidad práctica muy alta. No valida la fuente, el contenido ni la inferencia.
+</p>
+</div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
-<h2>Del cálculo al algoritmo</h2>
+<section id="construir-y-verificar-un-manifiesto" class="slide level2 algorithm-slide">
+<h2>Construir y verificar un manifiesto</h2>
 <div class="algorithm-flow">
 <div>
 <span>1</span><strong>guardar fuente y snapshot de datos</strong>
@@ -377,8 +403,8 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <p>El hash se calcula después de cerrar el archivo y sobre la versión que realmente se entregará.</p>
 </div>
 </section>
-<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
-<h2>Ejemplo controlado</h2>
+<section id="un-archivo-cambia-y-el-hash-lo-revela" class="slide level2 worked-example-slide">
+<h2>Un archivo cambia y el hash lo revela</h2>
 <p>El notebook guarda modelo, tabla de métricas y manifest. Luego una carpeta temporal ejecuta el script usando solo archivos incluidos.</p>
 </section>
 <section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
@@ -403,8 +429,8 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 </div>
 <p>Genere el manifest, cierre el kernel y abra una copia del repositorio desde otra ruta antes de declarar la corrida reproducible.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
-<h2>Dos opciones que no responden lo mismo</h2>
+<section id="memoria-humana-nombre-de-archivo-y-hash" class="slide level2 comparison-slide">
+<h2>Memoria humana, nombre de archivo y hash</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -444,8 +470,8 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2 failure-slide">
-<h2>Primer modo de falla</h2>
+<section id="las-rutas-absolutas-atan-el-proyecto-a-un-computador" class="slide level2 failure-slide">
+<h2>Las rutas absolutas atan el proyecto a un computador</h2>
 <div class="failure-statement">
 <p>Rutas locales absolutas hacen que la corrida dependa del computador del autor.</p>
 </div>
@@ -453,8 +479,8 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <p><span class="label">Señal observable</span> <strong>aparece <code>/Users/...</code> en código o manifest</strong></p>
 </div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
-<h2>Segundo modo de falla</h2>
+<section id="dependencias-sin-versión-no-fijan-el-entorno" class="slide level2 failure-slide">
+<h2>Dependencias sin versión no fijan el entorno</h2>
 <div class="failure-statement">
 <p>Guardar solo <code>requirements.txt</code> sin versiones puede reconstruir un entorno distinto meses después.</p>
 </div>
@@ -462,15 +488,15 @@ h=\operatorname{SHA256}(\text{bytes del archivo}).
 <p><span class="label">Señal observable</span> <strong>dependencias no tienen versión ni archivo de lock</strong></p>
 </div>
 </section>
-<section id="segunda-pausa" class="slide level2 pause-slide">
-<h2>Segunda pausa</h2>
+<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
+<h2>Diagnóstico en parejas</h2>
 <div class="pause">
 <p>El hash del modelo coincide, pero la tabla de métricas no. Diseñe una secuencia de auditoría.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la segunda pausa</h2>
+<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
+<h2>Puesta en común del diagnóstico</h2>
 <p>Verificar hash de datos, commit, parámetros y partición; cargar el modelo y recomputar métricas; comparar definición y orden de etiquetas. El hash solo identifica el modelo.</p>
 </section>
 <section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">

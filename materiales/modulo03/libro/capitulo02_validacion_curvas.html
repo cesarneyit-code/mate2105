@@ -324,7 +324,20 @@ window.Quarto = {
 <section id="bootstrap-y-unidad-de-remuestreo" class="level2">
 <h2 class="anchored" data-anchor-id="bootstrap-y-unidad-de-remuestreo">Bootstrap y unidad de remuestreo</h2>
 <p>El bootstrap empírico genera réplicas <span class="math inline">\(D_n^{*(b)}\)</span> muestreando con reemplazo desde <span class="math inline">\(D_n\)</span> y recalcula un estadístico <span class="math inline">\(T^{*(b)}\)</span>. La distribución de las réplicas aproxima la variación muestral de <span class="math inline">\(T\)</span> bajo la distribución empírica.</p>
-<p>Si hay varias filas por paciente, colegio o periodo, la unidad independiente no es la fila. En ese caso se requiere bootstrap por grupos, bloques temporales u otro esquema que preserve la dependencia relevante.</p>
+<p>Antes de remuestrear hay que precisar qué objeto se quiere estudiar. Hay dos preguntas diferentes:</p>
+<ol type="1">
+<li><strong>Modelo ajustado fijo.</strong> Se conserva el modelo y se remuestrean las unidades del conjunto de evaluación. En cada réplica se vuelve a calcular la métrica. La distribución resultante describe cuánto cambiaría esa métrica al observar otra muestra de evaluación semejante.</li>
+<li><strong>Procedimiento de entrenamiento.</strong> Se remuestrea el conjunto de entrenamiento y se repite todo el procedimiento: transformaciones, selección de variables, ajuste de hiperparámetros y estimación final. Cada modelo resultante debe evaluarse con un mecanismo que no reutilice los datos empleados para escogerlo. Esta distribución incorpora la variación del ajuste, pero exige mucho más cómputo y un diseño cuidadoso de la evaluación.</li>
+</ol>
+<p>Para el primer caso, un esquema básico es:</p>
+<ol type="1">
+<li>fijar el modelo y las <span class="math inline">\(n\)</span> unidades de evaluación;</li>
+<li>tomar <span class="math inline">\(n\)</span> unidades con reemplazo;</li>
+<li>calcular <span class="math inline">\(T^{*(b)}\)</span> sobre la réplica;</li>
+<li>repetir para <span class="math inline">\(b=1,\ldots,B\)</span> y usar la dispersión o los cuantiles de <span class="math inline">\(\{T^{*(b)}\}_{b=1}^B\)</span>.</li>
+</ol>
+<p>Un intervalo percentil de nivel aproximado <span class="math inline">\(1-\alpha\)</span> usa los cuantiles <span class="math inline">\(\alpha/2\)</span> y <span class="math inline">\(1-\alpha/2\)</span> de las réplicas. Su validez no es automática: depende de que la distribución empírica y el esquema de remuestreo representen la fuente de variación que interesa.</p>
+<p>La unidad remuestreada debe corresponder a la unidad aproximadamente independiente. Si hay varias filas por paciente o colegio, se remuestrean grupos completos. En series temporales se requieren bloques u otro esquema que conserve la dependencia. Remuestrear filas individuales en estos casos produce réplicas artificialmente homogéneas y subestima la incertidumbre.</p>
 </section>
 <section id="cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation">Cross-validation</h2>

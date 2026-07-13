@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana15_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-f4b23d84e21de3a7a3695a351600d897.css">
+  <link rel="stylesheet" href="semana15_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-d210d9fdf93e59f1d7ca3b5ce0d1f973.css">
   <link href="semana15_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana15_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana15_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,16 +215,19 @@ César Galindo
 <div class="session-outcome">
 <p><span class="label">Al salir de esta sesión</span> <strong>Auditar repositorio, manifest, contribución individual y pendientes con revisión cruzada.</strong></p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/20-reproducibilidad-tracking.html">Capítulo 20 · Reproducibilidad y tracking</a>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2 recap-slide">
-<h2>Punto de partida</h2>
+<section id="la-clínica-prueba-lo-que-un-tercero-puede-reproducir" class="slide level2 recap-slide">
+<h2>La clínica prueba lo que un tercero puede reproducir</h2>
 <p>La tesis técnica ya tiene soporte previsto. Ahora auditamos si repositorio y manifest permiten reconstruirlo.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: la sesión se organiza como revisión cruzada con hallazgos verificables y responsables asignados.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2 case-slide">
-<h2>El caso que usaremos</h2>
+<section id="un-repositorio-que-funciona-solo-con-ayuda-oral" class="slide level2 case-slide">
+<h2>Un repositorio que funciona solo con ayuda oral</h2>
 <p>Cada grupo entrega temporalmente a otro su README, entorno, script/notebook principal, manifest y artefactos.</p>
 <div class="data-note">
 <p>No se comparten credenciales ni datos restringidos. Cualquier dependencia privada se documenta y se reemplaza por una muestra permitida.</p>
@@ -237,8 +240,8 @@ César Galindo
 <p>La revisión cruza cada campo del manifest con un archivo real y con una instrucción de reconstrucción.</p>
 </div>
 </section>
-<section id="objetos-y-notación" class="slide level2 notation-slide">
-<h2>Objetos y notación</h2>
+<section id="hallazgo-evidencia-responsable-y-fecha" class="slide level2 notation-slide">
+<h2>Hallazgo, evidencia, responsable y fecha</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -270,8 +273,8 @@ César Galindo
 </tbody>
 </table>
 </section>
-<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
-<h2>Del objeto poblacional al cálculo</h2>
+<section id="un-resultado-reproducido-conserva-su-incertidumbre" class="slide level2 probability-slide">
+<h2>Un resultado reproducido conserva su incertidumbre</h2>
 <div class="probability-grid">
 <div class="population">
 <span class="label">Objeto poblacional</span><strong>estimando declarado en el reporte</strong>
@@ -296,8 +299,8 @@ César Galindo
 <p>¿Cómo resumimos avance sin ocultar la severidad de un faltante crítico?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2 formula-slide">
-<h2>Expresión central</h2>
+<section id="progreso-y-bloqueos-se-reportan-por-separado" class="slide level2 formula-slide">
+<h2>Progreso y bloqueos se reportan por separado</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 \text{completitud}=\frac{\#\text{controles aprobados}}{\#\text{controles}},
@@ -308,38 +311,61 @@ César Galindo
 <p>Un porcentaje alto no compensa datos ausentes, ejecución rota o una métrica sin fuente. Los bloqueos tienen prioridad separada.</p>
 </div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Primer paso de la derivación</h2>
+<section id="los-criterios-críticos-no-se-compensan-con-cosmética" class="slide level2 derivation-slide">
+<h2>Los criterios críticos no se compensan con cosmética</h2>
 <p>La revisión sigue dependencias: README → entorno → datos → ejecución → artefactos → reporte.</p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Segundo paso de la derivación</h2>
+<section id="cada-estado-exige-una-evidencia-observable" class="slide level2 derivation-slide">
+<h2>Cada estado exige una evidencia observable</h2>
 <p>Si un paso falla, se registra comando, error, sistema y propietario. No se reemplaza por una impresión general de que ‘casi funciona’.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2 shape-slide">
-<h2>Qué debe coincidir</h2>
+<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
+<h2>Dimensiones antes de calcular</h2>
 <p>La matriz de revisión tiene una fila por control y columnas de estado, evidencia, severidad, responsable y fecha.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
-<h2>Lectura del resultado</h2>
+<section id="el-revisor-representa-a-un-lector-futuro" class="slide level2 interpretation-slide">
+<h2>El revisor representa a un lector futuro</h2>
 <p>Una revisión cruzada no asigna nota. Produce un backlog corto y ordenado antes de la entrega final.</p>
 </section>
-<section id="primera-pausa" class="slide level2 pause-slide">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>Su revisor obtiene <code>FileNotFoundError</code> por una ruta local. Escriba el hallazgo con comando, archivo y corrección esperada.</p>
-<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
+<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+El revisor solo logra ejecutar el proyecto después de recibir instrucciones orales. ¿Qué se debe registrar?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong>Aprobado</strong>
+</div>
+<div>
+<span>B</span><strong>Falta documentación reproducible</strong>
+</div>
+<div>
+<span>C</span><strong>Cambiar el modelo</strong>
+</div>
+<div>
+<span>D</span><strong>Eliminar el README</strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la primera pausa</h2>
-<p>Registrar comando exacto, ruta fallida y sistema; reemplazar por ruta relativa/configuración, añadir archivo permitido y repetir desde una copia limpia.</p>
+<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta B</span>
+<p>
+La ayuda oral evidencia que los pasos o prerrequisitos no están documentados. El hallazgo debe incluir el comando fallido, la evidencia y un responsable.
+</p>
+</div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
-<h2>Del cálculo al algoritmo</h2>
+<section id="revisión-cruzada-con-responsables" class="slide level2 algorithm-slide">
+<h2>Revisión cruzada con responsables</h2>
 <div class="algorithm-flow">
 <div>
 <span>1</span><strong>intercambiar repositorios</strong>
@@ -376,8 +402,8 @@ César Galindo
 <p>La plantilla fuerza vocabulario común y evita comentarios imposibles de priorizar.</p>
 </div>
 </section>
-<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
-<h2>Ejemplo controlado</h2>
+<section id="un-hallazgo-que-puede-cerrarse" class="slide level2 worked-example-slide">
+<h2>Un hallazgo que puede cerrarse</h2>
 <p>Un proyecto ejecuta, pero la cifra del reporte difiere del CSV. La clínica marca discrepancia alta y exige regenerar el reporte desde artefactos.</p>
 </section>
 <section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
@@ -402,8 +428,8 @@ César Galindo
 </div>
 <p>Complete el checklist en vivo y exporte una tabla de pendientes al repositorio privado del grupo.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
-<h2>Dos opciones que no responden lo mismo</h2>
+<section id="comentario-general-y-hallazgo-verificable" class="slide level2 comparison-slide">
+<h2>Comentario general y hallazgo verificable</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -438,8 +464,8 @@ César Galindo
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2 failure-slide">
-<h2>Primer modo de falla</h2>
+<section id="la-ayuda-oral-es-documentación-ausente" class="slide level2 failure-slide">
+<h2>La ayuda oral es documentación ausente</h2>
 <div class="failure-statement">
 <p>Ayudar oralmente al revisor oculta instrucciones faltantes en README.</p>
 </div>
@@ -447,8 +473,8 @@ César Galindo
 <p><span class="label">Señal observable</span> <strong>el autor dicta pasos no escritos</strong></p>
 </div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
-<h2>Segundo modo de falla</h2>
+<section id="aprobar-por-cercanía-elimina-la-función-de-la-clínica" class="slide level2 failure-slide">
+<h2>Aprobar por cercanía elimina la función de la clínica</h2>
 <div class="failure-statement">
 <p>Marcar todo como aprobado por cercanía de entrega elimina la función de la clínica.</p>
 </div>
@@ -456,15 +482,15 @@ César Galindo
 <p><span class="label">Señal observable</span> <strong>no hay evidencia o comando junto al estado</strong></p>
 </div>
 </section>
-<section id="segunda-pausa" class="slide level2 pause-slide">
-<h2>Segunda pausa</h2>
+<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
+<h2>Diagnóstico en parejas</h2>
 <div class="pause">
 <p>Quedan tres pendientes: tipografía, hash de datos distinto y semilla ausente. Ordénelos y asigne una prueba de cierre.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la segunda pausa</h2>
+<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
+<h2>Puesta en común del diagnóstico</h2>
 <p>Primero hash de datos, luego semilla, después tipografía. Cierre con hash recalculado/fuente confirmada, corrida repetida con semilla y revisión visual final.</p>
 </section>
 <section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-6efdc9048376145433d3d66870b3d2b5.css">
+  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,16 +215,19 @@ César Galindo
 <div class="session-outcome">
 <p><span class="label">Al salir de esta sesión</span> <strong>Rastrear formas de X, W, b y Z y demostrar que capas lineales sin activación colapsan.</strong></p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-perceptron-forward.html">Capítulo 6 · Perceptrón y forward propagation</a>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2 recap-slide">
-<h2>Punto de partida</h2>
+<section id="del-logit-a-una-representación" class="slide level2 recap-slide">
+<h2>Del logit a una representación</h2>
 <p>La regresión logística calcula un logit, aplica una sigmoide y ajusta parámetros con una pérdida diferenciable. Una capa densa repite la transformación afín en varias columnas.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: rastrearemos cada eje y demostraremos qué ocurre si apilamos transformaciones afines sin activación.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2 case-slide">
-<h2>El caso que usaremos</h2>
+<section id="sesenta-y-cuatro-píxeles-diez-clases" class="slide level2 case-slide">
+<h2>Sesenta y cuatro píxeles, diez clases</h2>
 <p>En <code>load_digits</code>, cada imagen de 8×8 se aplana en 64 entradas. La salida debe asignar un score a cada una de diez clases.</p>
 <div class="data-note">
 <p>Dataset local de scikit-learn; filas estratificadas en train y validación con semilla fija.</p>
@@ -237,8 +240,8 @@ César Galindo
 <p>Cada flecha representa una operación y cada bloque conserva una forma. Forward se entiende antes de derivar backward.</p>
 </div>
 </section>
-<section id="objetos-y-notación" class="slide level2 notation-slide">
-<h2>Objetos y notación</h2>
+<section id="cada-eje-tiene-un-significado" class="slide level2 notation-slide">
+<h2>Cada eje tiene un significado</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -270,8 +273,8 @@ César Galindo
 </tbody>
 </table>
 </section>
-<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
-<h2>Del objeto poblacional al cálculo</h2>
+<section id="una-distribución-categórica-detrás-de-los-logits" class="slide level2 probability-slide">
+<h2>Una distribución categórica detrás de los logits</h2>
 <div class="probability-grid">
 <div class="population">
 <span class="label">Objeto poblacional</span><strong>distribución categórica condicional</strong>
@@ -296,8 +299,8 @@ César Galindo
 <p>¿Qué productos producen una representación oculta por fila y un logit por clase?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2 formula-slide">
-<h2>Expresión central</h2>
+<section id="dos-mapas-afines-y-una-no-linealidad" class="slide level2 formula-slide">
+<h2>Dos mapas afines y una no linealidad</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 Z^{[1]}=XW^{[1]}+b^{[1]},
@@ -309,38 +312,61 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 <p>NumPy transmite el vector de sesgo por filas. La operación es válida porque el eje 0 siempre representa el batch.</p>
 </div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Primer paso de la derivación</h2>
+<section id="qué-ocurre-cuando-falta-la-activación" class="slide level2 derivation-slide">
+<h2>Qué ocurre cuando falta la activación</h2>
 <p>Si omitimos la activación, <span class="math display">\[Z^{[2]}=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}.\]</span></p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Segundo paso de la derivación</h2>
+<section id="la-composición-colapsa" class="slide level2 derivation-slide">
+<h2>La composición colapsa</h2>
 <p>Agrupando términos, <span class="math display">\[Z^{[2]}=X\widetilde W+\widetilde b,\]</span> otra transformación afín. Varias capas afines no crean una frontera más rica que una sola.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2 shape-slide">
-<h2>Qué debe coincidir</h2>
+<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
+<h2>Dimensiones antes de calcular</h2>
 <p><span class="math inline">\(XW^{[1]}\)</span> tiene forma <span class="math inline">\(m\times h\)</span> y <span class="math inline">\(A^{[1]}W^{[2]}\)</span> tiene forma <span class="math inline">\(m\times k\)</span>. El sesgo nunca agrega un eje de batch nuevo.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
-<h2>Lectura del resultado</h2>
+<section id="las-unidades-ocultas-son-características-aprendidas" class="slide level2 interpretation-slide">
+<h2>Las unidades ocultas son características aprendidas</h2>
 <p>La capa oculta construye <span class="math inline">\(h\)</span> características aprendidas. Sin no linealidad, esa representación puede reescribirse como un único mapa afín.</p>
 </section>
-<section id="primera-pausa" class="slide level2 pause-slide">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>Para <span class="math inline">\(m=32\)</span>, <span class="math inline">\(d=64\)</span>, <span class="math inline">\(h=20\)</span> y <span class="math inline">\(k=10\)</span>, escriba las formas de <span class="math inline">\(W^{[1]}\)</span>, <span class="math inline">\(b^{[1]}\)</span>, <span class="math inline">\(A^{[1]}\)</span>, <span class="math inline">\(W^{[2]}\)</span> y <span class="math inline">\(Z^{[2]}\)</span>.</p>
-<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
+<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+Si <span class="math inline">\(X\in\mathbb R^{m\times d}\)</span>, <span class="math inline">\(W^{[1]}\in\mathbb R^{d\times h}\)</span> y <span class="math inline">\(W^{[2]}\in\mathbb R^{h\times k}\)</span>, ¿qué forma tienen los logits?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong><span class="math inline">\(d\times k\)</span></strong>
+</div>
+<div>
+<span>B</span><strong><span class="math inline">\(m\times h\)</span></strong>
+</div>
+<div>
+<span>C</span><strong><span class="math inline">\(m\times k\)</span></strong>
+</div>
+<div>
+<span>D</span><strong><span class="math inline">\(h\times d\)</span></strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la primera pausa</h2>
-<p><span class="math inline">\(W^{[1]}:64\times20\)</span>, <span class="math inline">\(b^{[1]}:20\)</span>, <span class="math inline">\(A^{[1]}:32\times20\)</span>, <span class="math inline">\(W^{[2]}:20\times10\)</span> y <span class="math inline">\(Z^{[2]}:32\times10\)</span>.</p>
+<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta C</span>
+<p>
+La primera capa conserva una fila por observación y produce <span class="math inline">\(h\)</span> activaciones; la segunda transforma esas activaciones en <span class="math inline">\(k\)</span> logits. Por tanto, <span class="math inline">\(Z^{[2]}\in\mathbb R^{m\times k}\)</span>.
+</p>
+</div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
-<h2>Del cálculo al algoritmo</h2>
+<section id="forward-con-contratos-de-forma" class="slide level2 algorithm-slide">
+<h2>Forward con contratos de forma</h2>
 <div class="algorithm-flow">
 <div>
 <span>1</span><strong>aplanar cada imagen</strong>
@@ -372,8 +398,8 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 <p>Las aserciones documentan el contrato y detectan broadcasting que produce números con significado equivocado.</p>
 </div>
 </section>
-<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
-<h2>Ejemplo controlado</h2>
+<section id="una-red-pequeña-que-cabe-en-el-tablero" class="slide level2 worked-example-slide">
+<h2>Una red pequeña que cabe en el tablero</h2>
 <p>Con dos entradas, tres unidades ocultas y dos clases, escribimos matrices pequeñas y calculamos cada producto a mano antes de usar dígitos.</p>
 </section>
 <section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
@@ -398,8 +424,8 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 </div>
 <p>Ejecute solo la sección de formas y compare cada <code>shape</code> con su predicción escrita.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
-<h2>Dos opciones que no responden lo mismo</h2>
+<section id="afínafín-frente-a-afínreluafín" class="slide level2 comparison-slide">
+<h2>Afín–afín frente a afín–ReLU–afín</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -434,8 +460,8 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2 failure-slide">
-<h2>Primer modo de falla</h2>
+<section id="transponer-no-corrige-una-convención" class="slide level2 failure-slide">
+<h2>Transponer no corrige una convención</h2>
 <div class="failure-statement">
 <p>Transponer <span class="math inline">\(W\)</span> para silenciar un error puede cambiar la convención de todo el notebook.</p>
 </div>
@@ -443,8 +469,8 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 <p><span class="label">Señal observable</span> <strong>las formas cambian entre funciones sin explicación</strong></p>
 </div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
-<h2>Segundo modo de falla</h2>
+<section id="el-sesgo-no-depende-del-batch" class="slide level2 failure-slide">
+<h2>El sesgo no depende del batch</h2>
 <div class="failure-statement">
 <p>Un vector de sesgo con forma accidental <code>(m, 1)</code> puede transmitirse por columnas y no por unidades.</p>
 </div>
@@ -452,15 +478,15 @@ Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 <p><span class="label">Señal observable</span> <strong>el sesgo depende del número de observaciones</strong></p>
 </div>
 </section>
-<section id="segunda-pausa" class="slide level2 pause-slide">
-<h2>Segunda pausa</h2>
+<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
+<h2>Diagnóstico en parejas</h2>
 <div class="pause">
 <p>El código ejecuta y devuelve logits, pero <code>b1.shape == (m, 1)</code>. Diseñe una prueba que muestre por qué el resultado no representa una capa densa estándar.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la segunda pausa</h2>
+<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
+<h2>Puesta en común del diagnóstico</h2>
 <p>Cambiar el tamaño del batch alteraría el número de parámetros de sesgo. La prueba exige <code>b1.shape == (h,)</code> y compara dos batch sizes con los mismos parámetros.</p>
 </section>
 <section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">

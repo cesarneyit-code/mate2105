@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana09_presentacion_files/libs/revealjs/dist/theme/quarto-6efdc9048376145433d3d66870b3d2b5.css">
+  <link rel="stylesheet" href="semana09_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
   <link href="semana09_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana09_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana09_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -215,16 +215,19 @@ César Galindo
 <div class="session-outcome">
 <p><span class="label">Al salir de esta sesión</span> <strong>Medir saturación, unidades inactivas y escala de activaciones bajo distintas inicializaciones.</strong></p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-diagnostico-regularizacion-redes.html">Capítulo 8 · Diagnóstico y regularización de redes</a>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2 recap-slide">
-<h2>Punto de partida</h2>
+<section id="el-gradiente-ya-funciona-falta-preservar-su-escala" class="slide level2 recap-slide">
+<h2>El gradiente ya funciona; falta preservar su escala</h2>
 <p>Un backward correcto puede entrenar mal si forward empieza con activaciones extremas o casi idénticas.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: mediremos distribuciones de activaciones y gradientes antes de interpretar una curva de pérdida.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2 case-slide">
-<h2>El caso que usaremos</h2>
+<section id="activaciones-que-desaparecen-o-explotan" class="slide level2 case-slide">
+<h2>Activaciones que desaparecen o explotan</h2>
 <p>Sobre dígitos, comparamos pesos todos cero, escala grande, Xavier y He con la misma arquitectura y batch.</p>
 <div class="data-note">
 <p>La comparación conserva semilla de datos; cada inicialización registra media, desviación y fracción de ReLU inactiva.</p>
@@ -237,8 +240,8 @@ César Galindo
 <p>Las curvas son una salida posterior. Primero verificamos si la señal puede propagarse desde la inicialización.</p>
 </div>
 </section>
-<section id="objetos-y-notación" class="slide level2 notation-slide">
-<h2>Objetos y notación</h2>
+<section id="varianzas-por-capa-y-actividad-de-las-unidades" class="slide level2 notation-slide">
+<h2>Varianzas por capa y actividad de las unidades</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -266,8 +269,8 @@ César Galindo
 </tbody>
 </table>
 </section>
-<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
-<h2>Del objeto poblacional al cálculo</h2>
+<section id="la-inicialización-añade-variación-al-procedimiento" class="slide level2 probability-slide">
+<h2>La inicialización añade variación al procedimiento</h2>
 <div class="probability-grid">
 <div class="population">
 <span class="label">Objeto poblacional</span><strong>riesgo del procedimiento de entrenamiento</strong>
@@ -292,8 +295,8 @@ César Galindo
 <p>¿Qué varianza de pesos ayuda a conservar la escala de activaciones bajo ReLU?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2 formula-slide">
-<h2>Expresión central</h2>
+<section id="he-como-punto-de-partida-para-relu" class="slide level2 formula-slide">
+<h2>He como punto de partida para ReLU</h2>
 <div class="math-focus">
 <p><span class="math display">\[
 W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
@@ -304,38 +307,61 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 <p>La regla de He es un punto de partida bajo supuestos idealizados de independencia; no fija la arquitectura ni la tasa.</p>
 </div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Primer paso de la derivación</h2>
+<section id="la-varianza-atraviesa-una-suma-ponderada" class="slide level2 derivation-slide">
+<h2>La varianza atraviesa una suma ponderada</h2>
 <p>Si entradas y pesos son centrados e independientes, la varianza del preactivado suma aproximadamente <span class="math inline">\(d_{in}\operatorname{Var}(W)\operatorname{Var}(A)\)</span>.</p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
-<h2>Segundo paso de la derivación</h2>
+<section id="relu-conserva-solo-parte-de-la-señal" class="slide level2 derivation-slide">
+<h2>ReLU conserva solo parte de la señal</h2>
 <p>ReLU anula aproximadamente la mitad de una distribución simétrica; elegir <span class="math inline">\(\operatorname{Var}(W)\approx2/d_{in}\)</span> compensa esa reducción en una aproximación inicial.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2 shape-slide">
-<h2>Qué debe coincidir</h2>
+<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
+<h2>Dimensiones antes de calcular</h2>
 <p>La escala depende de <code>fan_in</code>, no del número total de parámetros. Cada capa usa su propia dimensión de entrada.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
-<h2>Lectura del resultado</h2>
+<section id="la-escala-inicial-condiciona-el-primer-aprendizaje" class="slide level2 interpretation-slide">
+<h2>La escala inicial condiciona el primer aprendizaje</h2>
 <p>La inicialización rompe simetría entre unidades y regula escala. No añade información del objetivo ni sustituye regularización.</p>
 </section>
-<section id="primera-pausa" class="slide level2 pause-slide">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>¿Por qué inicializar todos los pesos ocultos en cero impide que distintas unidades aprendan funciones diferentes?</p>
-<p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
+<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+Todas las unidades ocultas empiezan con los mismos pesos y sesgos. ¿Qué problema aparece?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong>Overflow de softmax</strong>
+</div>
+<div>
+<span>B</span><strong>Todas reciben el mismo gradiente</strong>
+</div>
+<div>
+<span>C</span><strong>Test se filtra</strong>
+</div>
+<div>
+<span>D</span><strong>La red queda convexa</strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la primera pausa</h2>
-<p>Todas reciben la misma entrada, producen la misma activación y obtienen gradientes iguales. La simetría se conserva bajo las actualizaciones.</p>
+<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta B</span>
+<p>
+Las unidades simétricas producen la misma activación y reciben la misma actualización. La inicialización aleatoria rompe esa simetría para que aprendan funciones distintas.
+</p>
+</div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
-<h2>Del cálculo al algoritmo</h2>
+<section id="medir-antes-de-entrenar" class="slide level2 algorithm-slide">
+<h2>Medir antes de entrenar</h2>
 <div class="algorithm-flow">
 <div>
 <span>1</span><strong>fijar un batch</strong>
@@ -368,8 +394,8 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 <p>Las estadísticas se guardan por capa; un promedio global puede ocultar una capa saturada.</p>
 </div>
 </section>
-<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
-<h2>Ejemplo controlado</h2>
+<section id="tres-inicializaciones-sobre-el-mismo-batch" class="slide level2 worked-example-slide">
+<h2>Tres inicializaciones sobre el mismo batch</h2>
 <p>Con la misma red, pesos grandes producen logits extremos y CE alta; ceros dejan unidades simétricas; He mantiene una dispersión inicial utilizable.</p>
 </section>
 <section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
@@ -394,8 +420,8 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 </div>
 <p>Ejecute el cuadro de estadísticas antes de cualquier loop de entrenamiento y explique una anomalía por inicialización.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
-<h2>Dos opciones que no responden lo mismo</h2>
+<section id="ceros-escala-pequeña-y-he" class="slide level2 comparison-slide">
+<h2>Ceros, escala pequeña y He</h2>
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -430,8 +456,8 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2 failure-slide">
-<h2>Primer modo de falla</h2>
+<section id="un-cero-aislado-no-prueba-una-unidad-muerta" class="slide level2 failure-slide">
+<h2>Un cero aislado no prueba una unidad muerta</h2>
 <div class="failure-statement">
 <p>Declarar una unidad ‘muerta’ porque fue cero en un solo batch confunde estado local con comportamiento persistente.</p>
 </div>
@@ -439,8 +465,8 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 <p><span class="label">Señal observable</span> <strong>no se mide actividad en otros batches</strong></p>
 </div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
-<h2>Segundo modo de falla</h2>
+<section id="cambiar-dos-factores-impide-atribuir" class="slide level2 failure-slide">
+<h2>Cambiar dos factores impide atribuir</h2>
 <div class="failure-statement">
 <p>Cambiar inicialización y tasa a la vez impide atribuir la diferencia.</p>
 </div>
@@ -448,15 +474,15 @@ W_{ij}^{[l]}\sim\mathcal N\left(0,\frac{2}{d_{l-1}}\right)
 <p><span class="label">Señal observable</span> <strong>la tabla compara configuraciones con más de un factor modificado</strong></p>
 </div>
 </section>
-<section id="segunda-pausa" class="slide level2 pause-slide">
-<h2>Segunda pausa</h2>
+<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
+<h2>Diagnóstico en parejas</h2>
 <div class="pause">
 <p>Una capa tiene desviación 0.002 y la siguiente 0.00001. ¿Qué experimento mínimo haría antes de ampliar la red?</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
-<h2>Discusión de la segunda pausa</h2>
+<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
+<h2>Puesta en común del diagnóstico</h2>
 <p>Comparar reglas de inicialización con la misma arquitectura y batch, medir activaciones/gradientes por capa y observar si la escala se recupera.</p>
 </section>
 <section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">

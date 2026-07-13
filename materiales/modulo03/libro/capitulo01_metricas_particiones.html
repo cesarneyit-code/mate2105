@@ -229,6 +229,7 @@ window.Quarto = {
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
   <li><a href="#una-métrica-es-un-estadístico" id="toc-una-métrica-es-un-estadístico" class="nav-link" data-scroll-target="#una-métrica-es-un-estadístico">Una métrica es un estadístico</a></li>
   <li><a href="#matriz-de-confusión-poblacional-y-empírica" id="toc-matriz-de-confusión-poblacional-y-empírica" class="nav-link" data-scroll-target="#matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</a></li>
+  <li><a href="#el-condicionamiento-inverso-y-la-prevalencia" id="toc-el-condicionamiento-inverso-y-la-prevalencia" class="nav-link" data-scroll-target="#el-condicionamiento-inverso-y-la-prevalencia">El condicionamiento inverso y la prevalencia</a></li>
   <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal">Métrica principal</a></li>
   <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
   <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
@@ -299,7 +300,8 @@ window.Quarto = {
 <li>separar train, dev y test sin leakage;</li>
 <li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
 <li>interpretar métricas como estimadores de probabilidades poblacionales;</li>
-<li>deducir un umbral de decisión a partir de costos de error y reconocer cuándo esa deducción no basta.</li>
+<li>deducir un umbral de decisión a partir de costos de error y reconocer cuándo esa deducción no basta;</li>
+<li>explicar mediante la fórmula de Bayes por qué la prevalencia modifica la precision de un clasificador.</li>
 </ol>
 </section>
 <section id="una-métrica-es-un-estadístico" class="level2">
@@ -323,6 +325,24 @@ R_{P_{\mathrm{uso}}}(f)=\mathbb E[L],
 =\frac{a(1-a)}{n},
 \]</span></p>
 <p>donde <span class="math inline">\(a=1-p_e\)</span>. En una muestra reemplazamos <span class="math inline">\(a\)</span> por la accuracy observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.</p>
+<p>Cuando la aproximación normal es razonable, un intervalo de referencia para una métrica promedio tiene la forma</p>
+<p><span class="math display">\[
+\widehat R_n\pm z_{1-\alpha/2}\,
+\widehat{\operatorname{se}}(\widehat R_n).
+\]</span></p>
+<p>Este intervalo cuantifica la variación asociada con la muestra de evaluación para un modelo ya fijado. No incluye la incertidumbre producida por escoger el modelo, las variables o el umbral con esos mismos datos. Para proporciones cercanas a cero o uno, muestras pequeñas o datos dependientes, la aproximación puede ser deficiente y debe reemplazarse por un procedimiento compatible con el diseño de muestreo.</p>
+<p>Si dos modelos <span class="math inline">\(f_A\)</span> y <span class="math inline">\(f_B\)</span> se evalúan sobre los mismos casos, la comparación natural es pareada. Definimos</p>
+<p><span class="math display">\[
+D_i=\ell(f_A(X_i),Y_i)-\ell(f_B(X_i),Y_i),
+\qquad
+\widehat\Delta=\frac1n\sum_{i=1}^n D_i,
+\]</span></p>
+<p>y estimamos</p>
+<p><span class="math display">\[
+\widehat{\operatorname{se}}(\widehat\Delta)
+=\frac{s_D}{\sqrt n}.
+\]</span></p>
+<p>La diferencia conserva la dificultad particular de cada observación: un caso difícil afecta a ambos modelos antes de calcular <span class="math inline">\(D_i\)</span>. Comparar dos intervalos construidos por separado desperdicia este emparejamiento y puede dar una lectura engañosa. La interpretación sigue condicionada a que el conjunto de evaluación no haya intervenido en la elección de ninguno de los dos modelos.</p>
 </section>
 <section id="matriz-de-confusión-poblacional-y-empírica" class="level2">
 <h2 class="anchored" data-anchor-id="matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</h2>
@@ -355,6 +375,38 @@ R_{P_{\mathrm{uso}}}(f)=\mathbb E[L],
 \sqrt{\frac{\widehat r(1-\widehat r)}{TP+FN}}.
 \]</span></p>
 <p>La fórmula análoga para precision usa <span class="math inline">\(TP+FP\)</span>. Estas aproximaciones requieren casos independientes y un procedimiento fijado; no incluyen la incertidumbre por haber escogido modelo y umbral con los mismos datos.</p>
+</section>
+<section id="el-condicionamiento-inverso-y-la-prevalencia" class="level2">
+<h2 class="anchored" data-anchor-id="el-condicionamiento-inverso-y-la-prevalencia">El condicionamiento inverso y la prevalencia</h2>
+<p>Recall y precision condicionan en direcciones diferentes. Recall pregunta por la predicción entre los casos realmente positivos; precision pregunta por el estado real entre los casos que el modelo declaró positivos. La fórmula de Bayes conecta ambas direcciones:</p>
+<p><span class="math display">\[
+\mathbb P(Y=1\mid \widehat Y=1)
+=\frac{
+\mathbb P(\widehat Y=1\mid Y=1)\mathbb P(Y=1)
+}{
+\mathbb P(\widehat Y=1)
+}.
+\]</span></p>
+<p>Si llamamos <span class="math inline">\(r\)</span> al recall, <span class="math inline">\(s\)</span> a la especificidad y <span class="math inline">\(\pi=\mathbb P(Y=1)\)</span> a la prevalencia, entonces</p>
+<p><span class="math display">\[
+\mathbb P(\widehat Y=1)
+=r\pi+(1-s)(1-\pi),
+\]</span></p>
+<p>y por tanto</p>
+<p><span class="math display">\[
+\operatorname{precision}
+=\frac{r\pi}{r\pi+(1-s)(1-\pi)}.
+\]</span></p>
+<p>Esta identidad muestra por qué precision puede cambiar entre poblaciones aunque recall y especificidad permanezcan aproximadamente constantes: depende de la prevalencia. En aplicaciones diagnósticas o de detección, reportar solo una de estas cantidades oculta parte del problema.</p>
+<div class="ejemplo">
+<p><strong>Ejemplo: una clase poco frecuente.</strong> Supongamos <span class="math inline">\(r=0.90\)</span>, <span class="math inline">\(s=0.95\)</span> y una prevalencia <span class="math inline">\(\pi=0.01\)</span>. Entonces</p>
+<p><span class="math display">\[
+\operatorname{precision}
+=\frac{0.90(0.01)}{0.90(0.01)+0.05(0.99)}
+\approx 0.154.
+\]</span></p>
+<p>Aunque el clasificador detecta el 90% de los positivos y descarta correctamente el 95% de los negativos, menos de una de cada seis alertas corresponde a un caso positivo. La baja prevalencia no invalida el modelo, pero cambia el uso que puede darse a sus alertas.</p>
+</div>
 <div id="fig-cap11-particiones-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap11-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -697,7 +749,7 @@ Advertencia
 </section>
 <section id="revisión-del-capítulo" class="level2">
 <h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Este capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. Accuracy puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro.</p>
+<p>Este capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. Accuracy puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro. Precision y recall condicionan en direcciones diferentes; la fórmula de Bayes muestra que la precision también depende de la prevalencia de la clase positiva en la población evaluada.</p>
 <p>Las particiones train, dev y test cumplen funciones distintas. Train ajusta parámetros, dev guía decisiones de modelo y test estima desempeño final. La estratificación, las particiones temporales o por grupo deben elegirse según el problema, no por costumbre.</p>
 <p>El leakage suele entrar por preprocesamiento aprendido con demasiados datos. Un <code>Pipeline</code> no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde. No evita por sí solo variables posteriores al evento, duplicados entre personas o una partición temporal mal construida; esos riesgos pertenecen al diseño del dataset.</p>
 </section>
@@ -707,6 +759,8 @@ Advertencia
 <ul>
 <li><strong>Métrica principal:</strong> cantidad que guía la selección del modelo.</li>
 <li><strong>Baseline:</strong> regla simple que fija un punto mínimo de comparación.</li>
+<li><strong>Prevalencia:</strong> probabilidad poblacional de la clase positiva.</li>
+<li><strong>Fórmula de Bayes:</strong> identidad que invierte el condicionamiento combinando verosimilitud y prevalencia.</li>
 <li><strong>Train/dev/test:</strong> separación para entrenar, seleccionar y estimar desempeño final.</li>
 <li><strong>Estratificación:</strong> partición que preserva proporciones de clase.</li>
 <li><strong>Leakage:</strong> entrada de información no disponible en producción al entrenamiento o evaluación.</li>
@@ -751,11 +805,12 @@ Advertencia
 <li>Compare el error estándar aproximado de recall 0.80 con 10 y con 500 positivos.</li>
 <li>Construya un caso donde precision no esté definida y distinga la definición matemática de la convención de una biblioteca.</li>
 <li>Explique por qué seleccionar el umbral con test invalida la interpretación de su métrica final, aunque el modelo no se vuelva a entrenar.</li>
+<li>Derive la expresión de precision en términos de recall, especificidad y prevalencia. Evalúela para prevalencias 0.01, 0.10 y 0.50 manteniendo fijos recall y especificidad, e interprete el cambio.</li>
 </ol>
 </section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="13" type="1">
+<ol start="14" type="1">
 <li>Para su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.</li>
 </ol>
 
