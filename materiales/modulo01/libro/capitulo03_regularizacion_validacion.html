@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Capítulo 3: Validación y regularización – MATE-2105: Módulo 1</title>
+<title>Validación y regularización – MATE-2105: Módulo 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo03_regularizacion_validacion.html"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo03_regularizacion_validacion.html"><span class="chapter-title">Validación y regularización</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,27 +182,27 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,34 +245,26 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#feature-engineering" id="toc-feature-engineering" class="nav-link" data-scroll-target="#feature-engineering">Feature engineering</a></li>
-  <li><a href="#regresión-polinomial" id="toc-regresión-polinomial" class="nav-link" data-scroll-target="#regresión-polinomial">Regresión polinomial</a></li>
-  <li><a href="#underfitting-y-overfitting" id="toc-underfitting-y-overfitting" class="nav-link" data-scroll-target="#underfitting-y-overfitting">Underfitting y overfitting</a></li>
-  <li><a href="#separación-de-datos" id="toc-separación-de-datos" class="nav-link" data-scroll-target="#separación-de-datos">Separación de datos</a></li>
-  <li><a href="#leakage" id="toc-leakage" class="nav-link" data-scroll-target="#leakage">Leakage</a></li>
-  <li><a href="#regularización" id="toc-regularización" class="nav-link" data-scroll-target="#regularización">Regularización</a></li>
-  <li><a href="#ridge" id="toc-ridge" class="nav-link" data-scroll-target="#ridge">Ridge</a></li>
-  <li><a href="#efecto-de-lambda" id="toc-efecto-de-lambda" class="nav-link" data-scroll-target="#efecto-de-lambda">Efecto de <code>lambda</code></a></li>
-  <li><a href="#lasso" id="toc-lasso" class="nav-link" data-scroll-target="#lasso">Lasso</a></li>
-  <li><a href="#ridge-vs-lasso" id="toc-ridge-vs-lasso" class="nav-link" data-scroll-target="#ridge-vs-lasso">Ridge vs Lasso</a></li>
-  <li><a href="#estandarización-antes-de-regularizar" id="toc-estandarización-antes-de-regularizar" class="nav-link" data-scroll-target="#estandarización-antes-de-regularizar">Estandarización antes de regularizar</a></li>
-  <li><a href="#selección-de-modelo" id="toc-selección-de-modelo" class="nav-link" data-scroll-target="#selección-de-modelo">Selección de modelo</a></li>
-  <li><a href="#ejemplo-resuelto-grado-polinomial-y-ridge" id="toc-ejemplo-resuelto-grado-polinomial-y-ridge" class="nav-link" data-scroll-target="#ejemplo-resuelto-grado-polinomial-y-ridge">Ejemplo resuelto: grado polinomial y Ridge</a></li>
-  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes">Errores comunes</a></li>
-  <li><a href="#checklist-de-estudio" id="toc-checklist-de-estudio" class="nav-link" data-scroll-target="#checklist-de-estudio">Checklist de estudio</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <li><a href="#capacidad-y-comportamiento-fuera-de-muestra" id="toc-capacidad-y-comportamiento-fuera-de-muestra" class="nav-link active" data-scroll-target="#capacidad-y-comportamiento-fuera-de-muestra">Capacidad y comportamiento fuera de muestra</a></li>
+  <li><a href="#tres-funciones-para-tres-conjuntos-de-datos" id="toc-tres-funciones-para-tres-conjuntos-de-datos" class="nav-link" data-scroll-target="#tres-funciones-para-tres-conjuntos-de-datos">Tres funciones para tres conjuntos de datos</a></li>
+  <li><a href="#transformaciones-y-filtración-de-información" id="toc-transformaciones-y-filtración-de-información" class="nav-link" data-scroll-target="#transformaciones-y-filtración-de-información">Transformaciones y filtración de información</a></li>
+  <li><a href="#ridge-encoger-direcciones-inestables" id="toc-ridge-encoger-direcciones-inestables" class="nav-link" data-scroll-target="#ridge-encoger-direcciones-inestables">Ridge: encoger direcciones inestables</a>
   <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  <li><a href="#qué-ocurre-en-las-direcciones-singulares" id="toc-qué-ocurre-en-las-direcciones-singulares" class="nav-link" data-scroll-target="#qué-ocurre-en-las-direcciones-singulares">Qué ocurre en las direcciones singulares</a></li>
   </ul></li>
+  <li><a href="#lasso-una-penalización-con-esquina" id="toc-lasso-una-penalización-con-esquina" class="nav-link" data-scroll-target="#lasso-una-penalización-con-esquina">Lasso: una penalización con esquina</a></li>
+  <li><a href="#seleccionar-sin-consultar-prueba" id="toc-seleccionar-sin-consultar-prueba" class="nav-link" data-scroll-target="#seleccionar-sin-consultar-prueba">Seleccionar sin consultar prueba</a></li>
+  <li><a href="#regreso-a-las-subzonas-de-bogotá" id="toc-regreso-a-las-subzonas-de-bogotá" class="nav-link" data-scroll-target="#regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <ul class="collapse">
+  <li><a href="#complejidad-que-mejora-el-objetivo-equivocado" id="toc-complejidad-que-mejora-el-objetivo-equivocado" class="nav-link" data-scroll-target="#complejidad-que-mejora-el-objetivo-equivocado">1. Complejidad que mejora el objetivo equivocado</a></li>
+  <li><a href="#una-tubería-con-y-sin-filtración" id="toc-una-tubería-con-y-sin-filtración" class="nav-link" data-scroll-target="#una-tubería-con-y-sin-filtración">2. Una tubería con y sin filtración</a></li>
+  <li><a href="#ridge-en-una-dirección-casi-redundante" id="toc-ridge-en-una-dirección-casi-redundante" class="nav-link" data-scroll-target="#ridge-en-una-dirección-casi-redundante">3. Ridge en una dirección casi redundante</a></li>
+  <li><a href="#lasso-y-columnas-correlacionadas" id="toc-lasso-y-columnas-correlacionadas" class="nav-link" data-scroll-target="#lasso-y-columnas-correlacionadas">4. Lasso y columnas correlacionadas</a></li>
+  <li><a href="#validación-con-32-subzonas" id="toc-validación-con-32-subzonas" class="nav-link" data-scroll-target="#validación-con-32-subzonas">5. Validación con 32 subzonas</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -281,8 +273,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Capítulo 3: Validación y regularización</span></h1>
-<p class="subtitle lead">Features, complejidad, Ridge, Lasso y selección de modelo</p>
+<h1 class="title"><span class="chapter-title">Validación y regularización</span></h1>
+<p class="subtitle lead">Cómo escoger complejidad sin confundir ajuste con generalización</p>
 </div>
 
 
@@ -299,560 +291,446 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>¿Cómo elegimos la complejidad de un modelo sin engañarnos con el entrenamiento ni contaminar la evaluación final?</p>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>construir features polinomiales e interacciones;</li>
-<li>explicar underfitting y overfitting;</li>
-<li>separar entrenamiento, validación y prueba;</li>
-<li>evitar leakage en preprocesamiento;</li>
-<li>formular Ridge y Lasso;</li>
-<li>interpretar el efecto de <code>lambda</code>;</li>
-<li>seleccionar modelos con una métrica de validación;</li>
-<li>justificar un modelo final sin mirar la prueba repetidamente.</li>
-</ol>
-<p>El Capítulo 1 mostró cómo ajustar un modelo lineal. El Capítulo 2 mostró cómo optimizarlo. Este capítulo responde una pregunta más importante: ¿cómo sabemos si ese modelo sirve fuera de los datos con los que fue ajustado?</p>
-<p>La respuesta usa el lenguaje del Interludio 0.5. Entrenamiento minimiza una pérdida empírica sobre datos observados, pero la meta aplicada es bajo error en casos futuros. Validación y prueba son aproximaciones prácticas a ese desempeño fuera de la muestra.</p>
-</section>
-<section id="feature-engineering" class="level2">
-<h2 class="anchored" data-anchor-id="feature-engineering">Feature engineering</h2>
-<p>Un modelo lineal es lineal en sus parámetros, no necesariamente en las variables originales. Podemos transformar entradas para darle más flexibilidad.</p>
-<p>Si tenemos una variable <code>x</code>, podemos crear:</p>
+<p>La variable <code>x1</code> del conjunto sintético produjo una recta con MSE cercano a 2. Podemos construir una familia mucho más flexible sin añadir nuevas mediciones:</p>
 <p><span class="math display">\[
-1,\quad x,\quad x^2,\quad x^3.
+\boldsymbol\phi_d(x)
+=\begin{bmatrix}x&amp;x^2&amp;\cdots&amp;x^d\end{bmatrix}^{\!\top}.
 \]</span></p>
-<p>El modelo:</p>
-<p><span class="math display">\[
-\hat y = \theta_0+\theta_1x+\theta_2x^2+\theta_3x^3
-\]</span></p>
-<p>sigue siendo lineal en <code>theta</code>, aunque sea polinomial en <code>x</code>.</p>
-<div class="definicion">
-<p><strong>Definición 3.1: feature engineering.</strong><br>
-Feature engineering es el proceso de construir variables de entrada a partir de datos originales usando conocimiento del problema, transformaciones matemáticas o codificaciones computacionales.</p>
-</div>
-<p>Ejemplos:</p>
+<p>Dividamos las 160 filas, con semillas fijadas, en 80 para entrenamiento, 40 para validación y 40 para prueba. Ajustar polinomios por mínimos cuadrados produce:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Transformación</th>
-<th>Uso</th>
+<th style="text-align: right;">grado</th>
+<th style="text-align: right;">MSE entrenamiento</th>
+<th style="text-align: right;">MSE validación</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>x^2</code>, <code>x^3</code></td>
-<td>curvatura</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.993</td>
+<td style="text-align: right;">2.223</td>
 </tr>
 <tr class="even">
-<td><code>x1 * x2</code></td>
-<td>interacción</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.965</td>
+<td style="text-align: right;">2.172</td>
 </tr>
 <tr class="odd">
-<td><code>log(x)</code></td>
-<td>escala multiplicativa</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">1.749</td>
+<td style="text-align: right;">2.379</td>
 </tr>
 <tr class="even">
-<td><code>1{x &gt; c}</code></td>
-<td>umbral</td>
-</tr>
-<tr class="odd">
-<td>one-hot encoding</td>
-<td>variables categóricas</td>
-</tr>
-<tr class="even">
-<td>estandarización</td>
-<td>optimización y regularización</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1.542</td>
+<td style="text-align: right;">3.254</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="regresión-polinomial" class="level2">
-<h2 class="anchored" data-anchor-id="regresión-polinomial">Regresión polinomial</h2>
-<p>Con una variable:</p>
+<p>El grado 15 resuelve mejor el problema que se le pidió durante el ajuste: tiene el menor error de entrenamiento. También produce el peor resultado en las 40 observaciones que no utilizó. La optimización no falló. El criterio de selección era incompleto.</p>
+<section id="capacidad-y-comportamiento-fuera-de-muestra" class="level2">
+<h2 class="anchored" data-anchor-id="capacidad-y-comportamiento-fuera-de-muestra">Capacidad y comportamiento fuera de muestra</h2>
+<p>Una regresión polinomial sigue siendo lineal en sus parámetros:</p>
+<p><span class="math display">\[
+f_{\boldsymbol\theta}(x)
+=\theta_0+\theta_1x+\cdots+\theta_dx^d.
+\]</span></p>
+<p>Al aumentar <span class="math inline">\(d\)</span>, la familia contiene a las anteriores y el mínimo de la pérdida de entrenamiento no puede aumentar, salvo diferencias numéricas. Esa propiedad no se extiende al riesgo poblacional. Los parámetros de orden alto pueden adaptarse a fluctuaciones particulares de la muestra.</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> polynomial_features_1d(x, degree):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.asarray(x, dtype<span class="op">=</span><span class="bu">float</span>).reshape(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    cols <span class="op">=</span> [np.ones((x.shape[<span class="dv">0</span>], <span class="dv">1</span>))]</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, degree <span class="op">+</span> <span class="dv">1</span>):</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        cols.append(x <span class="op">**</span> k)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.hstack(cols)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Para grados pequeños, la regresión polinomial puede capturar curvatura. Para grados altos, puede memorizar ruido.</p>
-<div class="criterio">
-<p><strong>Criterio aplicado.</strong> Una feature nueva debe tener una razón: mejorar ajuste, capturar conocimiento del dominio, resolver no linealidad o facilitar una decisión. Agregar features sin validación no es progreso.</p>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    columns <span class="op">=</span> [np.ones((x.shape[<span class="dv">0</span>], <span class="dv">1</span>))]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    columns.extend(x <span class="op">**</span> power <span class="cf">for</span> power <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, degree <span class="op">+</span> <span class="dv">1</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.hstack(columns)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La transformación <span class="math inline">\(x\mapsto(x,x^2,\ldots,x^d)\)</span> es determinista por fila. No consulta otras observaciones. El grado, en cambio, define una familia y debe elegirse sin utilizar la evaluación final.</p>
+<p>Si <span class="math inline">\(D_n\)</span> representa la muestra de ajuste y <span class="math inline">\(\widehat f_{D_n}\)</span> la función obtenida, repetir el muestreo produce otra función. Para pérdida cuadrática y una entrada fija <span class="math inline">\(\boldsymbol x\)</span>, bajo condiciones usuales,</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb E_{D_n,Y\mid\boldsymbol x}
+[(Y-\widehat f_{D_n}(\boldsymbol x))^2]
+={}&amp;\operatorname{Var}(Y\mid\boldsymbol X=\boldsymbol x)\\
+&amp;+\operatorname{Bias}(\boldsymbol x)^2\\
+&amp;+\operatorname{Var}_{D_n}
+(\widehat f_{D_n}(\boldsymbol x)),
+\end{aligned}
+\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[
+\operatorname{Bias}(\boldsymbol x)
+=\mathbb E_{D_n}[\widehat f_{D_n}(\boldsymbol x)]
+-\mathbb E[Y\mid\boldsymbol X=\boldsymbol x].
+\]</span></p>
+<p>Una familia demasiado rígida puede tener sesgo alto. Una familia muy flexible puede responder con intensidad a las particularidades de <span class="math inline">\(D_n\)</span>. La regularización modifica este balance; la validación proporciona datos para compararlo.</p>
+<div id="fig-cap03-curvas-aprendizaje" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles de curvas de aprendizaje. Sobreajuste muestra una brecha persistente, subajuste muestra errores altos y el caso estable muestra convergencia de entrenamiento y validación.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap03-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/curvas-aprendizaje.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles de curvas de aprendizaje. Sobreajuste muestra una brecha persistente, subajuste muestra errores altos y el caso estable muestra convergencia de entrenamiento y validación.">
 </div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.1: Curvas de aprendizaje: el sobreajuste mantiene una brecha entre entrenamiento y validación, el subajuste mantiene ambos errores altos y un caso estable reduce la brecha al aumentar los datos.
+</figcaption>
+</figure>
+</div>
+<p>Una curva de aprendizaje es un diagnóstico, no una prueba automática de una causa. Una brecha puede sugerir sensibilidad a la muestra; errores altos en ambos conjuntos pueden sugerir una familia inadecuada, una representación pobre o una optimización incompleta.</p>
 </section>
-<section id="underfitting-y-overfitting" class="level2">
-<h2 class="anchored" data-anchor-id="underfitting-y-overfitting">Underfitting y overfitting</h2>
-<div class="definicion">
-<p><strong>Definición 3.2: underfitting.</strong><br>
-Ocurre cuando el modelo es demasiado simple para capturar la estructura relevante de los datos. Suele verse como error alto tanto en entrenamiento como en validación.</p>
+<section id="tres-funciones-para-tres-conjuntos-de-datos" class="level2">
+<h2 class="anchored" data-anchor-id="tres-funciones-para-tres-conjuntos-de-datos">Tres funciones para tres conjuntos de datos</h2>
+<p>Entrenamiento, validación y prueba no son tres nombres para muestras intercambiables.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>conjunto</th>
+<th>decisiones que permite</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>entrenamiento</td>
+<td>ajustar parámetros y transformaciones aprendidas</td>
+</tr>
+<tr class="even">
+<td>validación</td>
+<td>escoger grado, penalización y otras configuraciones</td>
+</tr>
+<tr class="odd">
+<td>prueba</td>
+<td>evaluar una vez el procedimiento ya fijado</td>
+</tr>
+</tbody>
+</table>
+<div class="proposicion">
+<p><strong>Validación de una regla fijada.</strong> Sea <span class="math inline">\(f\)</span> una función que no utilizó el conjunto de validación. Si <span class="math inline">\(Z_1^{\mathrm{val}},\ldots,Z_v^{\mathrm{val}}\)</span> son iid de la población <span class="math inline">\(P\)</span>, entonces</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_{\mathrm{val}}(f)\mid f]
+=R_P(f),
+\]</span></p>
+<p>si la pérdida es integrable.</p>
 </div>
-<div class="definicion">
-<p><strong>Definición 3.3: overfitting.</strong><br>
-Ocurre cuando el modelo se ajusta demasiado a patrones accidentales del conjunto de entrenamiento. Suele verse como error bajo en entrenamiento y error alto en validación o prueba.</p>
+<div class="demostracion">
+<p>Condicionado en <span class="math inline">\(f\)</span>, cada pérdida <span class="math inline">\(\ell(f;Z_i^{\mathrm{val}})\)</span> tiene esperanza <span class="math inline">\(R_P(f)\)</span>. La linealidad de la esperanza aplicada al promedio da la igualdad.</p>
 </div>
+<p>Después de comparar muchos modelos y escoger el menor valor observado en esa misma validación, la función elegida ya depende de los datos de validación. El mínimo incorpora optimismo por selección. El conjunto de prueba se reserva para el procedimiento completo: transformaciones, familia, hiperparámetros, umbral y regla de entrenamiento.</p>
+<p>Cuando hay pocas observaciones, la validación cruzada reutiliza de manera estructurada distintas partes de los datos para comparar configuraciones. No elimina la incertidumbre ni autoriza usar prueba durante el diseño. El capítulo de estrategia estudiará sus estimaciones con más detalle.</p>
+</section>
+<section id="transformaciones-y-filtración-de-información" class="level2">
+<h2 class="anchored" data-anchor-id="transformaciones-y-filtración-de-información">Transformaciones y filtración de información</h2>
+<p>Una transformación puede ser fija o aprender cantidades de los datos.</p>
+<ul>
+<li><span class="math inline">\(x\mapsto x^2\)</span> se aplica a una fila sin estimar nada de las demás.</li>
+<li>La estandarización necesita medias y desviaciones.</li>
+<li>La imputación necesita reglas o valores de reemplazo.</li>
+<li>Una codificación puede aprender qué categorías existen.</li>
+<li>La selección de variables utiliza una medida calculada con respuestas.</li>
+</ul>
+<p>Las cantidades aprendidas se ajustan solo con entrenamiento y se aplican sin reestimarlas a validación y prueba. De lo contrario, información reservada cambia la representación usada para entrenar.</p>
+<div class="diagnostico">
+<p><strong>Dos filtraciones diferentes.</strong> Calcular la media de estandarización con toda la tabla filtra información entre observaciones. Incluir una variable registrada después del resultado filtra información temporal. Una tubería de software ayuda con la primera; la segunda exige comprender cómo se produce cada columna.</p>
+</div>
+<p>Una implementación con <code>scikit-learn</code> mantiene juntos transformación y ajuste:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures, StandardScaler</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    PolynomialFeatures(degree<span class="op">=</span><span class="dv">3</span>, include_bias<span class="op">=</span><span class="va">False</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    Ridge(alpha<span class="op">=</span><span class="fl">1.0</span>, fit_intercept<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>validation_prediction <span class="op">=</span> model.predict(X_validation)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El método <code>fit</code> del pipeline aprende polinomio, escalas y regresión únicamente a partir de entrenamiento. <code>predict</code> reutiliza esos objetos.</p>
+</section>
+<section id="ridge-encoger-direcciones-inestables" class="level2">
+<h2 class="anchored" data-anchor-id="ridge-encoger-direcciones-inestables">Ridge: encoger direcciones inestables</h2>
+<p>Ridge añade una penalización cuadrática a la pérdida. Con el intercepto en la primera columna de <span class="math inline">\(\mathbf X\)</span>, definimos</p>
+<p><span class="math display">\[
+\mathbf D=\operatorname{diag}(0,1,\ldots,1)
+\]</span></p>
+<p>y</p>
+<p><span class="math display">\[
+J_{\mathrm{Ridge}}(\boldsymbol\theta)
+=\frac1{2n}
+\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert_2^2
++\frac\lambda2\boldsymbol\theta^\top
+\mathbf D\boldsymbol\theta.
+\]</span></p>
+<p>El cero inicial evita penalizar el intercepto. El gradiente es</p>
+<p><span class="math display">\[
+\nabla J_{\mathrm{Ridge}}(\boldsymbol\theta)
+=\frac1n\mathbf X^\top
+(\mathbf X\boldsymbol\theta-\mathbf y)
++\lambda\mathbf D\boldsymbol\theta.
+\]</span></p>
+<p>Igualarlo a cero produce</p>
+<p><span class="math display">\[
+(\mathbf X^\top\mathbf X+n\lambda\mathbf D)
+\widehat{\boldsymbol\theta}_{\lambda}
+=\mathbf X^\top\mathbf y.
+\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ridge_closed_form(X, y, lam):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    n, p <span class="op">=</span> X.shape</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    penalty <span class="op">=</span> np.eye(p)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    penalty[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="fl">0.0</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    system <span class="op">=</span> X.T <span class="op">@</span> X <span class="op">+</span> n <span class="op">*</span> lam <span class="op">*</span> penalty</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.solve(system, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Esta función implementa la convención del libro. <code>sklearn.linear_model.Ridge</code> minimiza</p>
+<p><span class="math display">\[
+\lVert\mathbf y-\mathbf X\mathbf w\rVert_2^2
++\alpha\lVert\mathbf w\rVert_2^2.
+\]</span></p>
+<p>Por tanto, para el mismo diseño y sin penalizar el intercepto, <span class="math inline">\(\alpha=n\lambda\)</span>. Usar el mismo número para <code>alpha</code> y <span class="math inline">\(\lambda\)</span> sin considerar la normalización no reproduce el mismo problema.</p>
+<section id="qué-ocurre-en-las-direcciones-singulares" class="level3">
+<h3 class="anchored" data-anchor-id="qué-ocurre-en-las-direcciones-singulares">Qué ocurre en las direcciones singulares</h3>
+<p>Para estudiar los coeficientes no intercepto, supongamos que las características están centradas y escribamos <span class="math inline">\(\mathbf X=\mathbf U\boldsymbol\Sigma\mathbf V^\top\)</span>. Ridge actúa como</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol\theta}_{\lambda}
+=\mathbf V
+(\boldsymbol\Sigma^\top\boldsymbol\Sigma+n\lambda\mathbf I)^{-1}
+\boldsymbol\Sigma^\top\mathbf U^\top\mathbf y.
+\]</span></p>
+<p>En la dirección derecha <span class="math inline">\(\boldsymbol v_j\)</span>, el factor</p>
+<p><span class="math display">\[
+\frac{\sigma_j}{\sigma_j^2+n\lambda}
+\]</span></p>
+<p>reemplaza el factor <span class="math inline">\(1/\sigma_j\)</span> de mínimos cuadrados. Las direcciones con <span class="math inline">\(\sigma_j\)</span> pequeño, que son las más sensibles, se encogen con mayor intensidad. La estabilidad se obtiene a cambio de sesgo.</p>
+<div id="fig-cap03-regularizacion-ridge-lasso" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles comparan barras de coeficientes. Mínimos cuadrados tiene barras grandes, Ridge muestra barras más pequeñas y Lasso muestra algunas barras en cero.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap03-regularizacion-ridge-lasso-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/regularizacion-ridge-lasso.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles comparan barras de coeficientes. Mínimos cuadrados tiene barras grandes, Ridge muestra barras más pequeñas y Lasso muestra algunas barras en cero.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-regularizacion-ridge-lasso-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.2: Regularización: mínimos cuadrados puede producir coeficientes grandes, Ridge reduce magnitudes y Lasso puede llevar coeficientes exactamente a cero.
+</figcaption>
+</figure>
+</div>
+<p>Un <span class="math inline">\(\lambda\)</span> positivo no garantiza menor riesgo. Si es demasiado grande, las predicciones se acercan a una regla casi constante y pueden perder estructura real. Su valor se selecciona con validación.</p>
+</section>
+</section>
+<section id="lasso-una-penalización-con-esquina" class="level2">
+<h2 class="anchored" data-anchor-id="lasso-una-penalización-con-esquina">Lasso: una penalización con esquina</h2>
+<p>Lasso utiliza</p>
+<p><span class="math display">\[
+J_{\mathrm{Lasso}}(\boldsymbol\theta)
+=\frac1{2n}
+\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert_2^2
++\lambda\sum_{j=1}^{p-1}|\theta_j|.
+\]</span></p>
+<p>De nuevo, el intercepto no se penaliza. La función <span class="math inline">\(|t|\)</span> no es diferenciable en cero; su subdiferencial es</p>
+<p><span class="math display">\[
+\partial|t|=
+\begin{cases}
+\{1\}, &amp; t&gt;0,\\
+[-1,1], &amp; t=0,\\
+\{-1\}, &amp; t&lt;0.
+\end{cases}
+\]</span></p>
+<p>Sea <span class="math inline">\(\mathbf x_j\)</span> la columna <span class="math inline">\(j\)</span> del diseño. Una solución satisface</p>
+<p><span class="math display">\[
+0\in
+\frac1n\mathbf x_j^\top
+(\mathbf X\widehat{\boldsymbol\theta}-\mathbf y)
++\lambda\,\partial|\widehat\theta_j|.
+\]</span></p>
+<p>La coordenada puede quedar exactamente en cero cuando</p>
+<p><span class="math display">\[
+\left|
+\frac1n\mathbf x_j^\top
+(\mathbf y-\mathbf X\widehat{\boldsymbol\theta})
+\right|\leq\lambda.
+\]</span></p>
+<p>La esquina de la penalización permite que un intervalo de gradientes residuales sea compatible con cero. El operador de umbral suave</p>
+<p><span class="math display">\[
+S(a,\lambda)
+=\operatorname{sign}(a)\max\{|a|-\lambda,0\}
+\]</span></p>
+<p>aparece al resolver una coordenada a la vez. Si <span class="math inline">\(\mathbf r_{-j}=\mathbf y-\sum_{k\ne j}\mathbf x_k\theta_k\)</span>, la actualización es</p>
+<p><span class="math display">\[
+\theta_j\leftarrow
+\frac{S(\mathbf x_j^\top\mathbf r_{-j}/n,\lambda)}
+{\lVert\mathbf x_j\rVert_2^2/n}.
+\]</span></p>
+<p>Con variables muy correlacionadas, Lasso puede escoger una y dejar otra en cero de manera sensible a la muestra. Un cero describe la solución penalizada para ese diseño y ese <span class="math inline">\(\lambda\)</span>; no demuestra irrelevancia causal ni ausencia de asociación poblacional.</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 21%">
-<col style="width: 28%">
-<col style="width: 28%">
-<col style="width: 21%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>Situación</th>
-<th style="text-align: right;">Error entrenamiento</th>
-<th style="text-align: right;">Error validación</th>
-<th>Diagnóstico</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Underfitting</td>
-<td style="text-align: right;">alto</td>
-<td style="text-align: right;">alto</td>
-<td>falta complejidad o mejores features</td>
-</tr>
-<tr class="even">
-<td>Buen ajuste</td>
-<td style="text-align: right;">bajo/moderado</td>
-<td style="text-align: right;">bajo/moderado</td>
-<td>generaliza razonablemente</td>
-</tr>
-<tr class="odd">
-<td>Overfitting</td>
-<td style="text-align: right;">muy bajo</td>
-<td style="text-align: right;">alto</td>
-<td>demasiada complejidad o poca regularización</td>
-</tr>
-</tbody>
-</table>
-<div id="fig-cap03-curvas-aprendizaje" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cap03-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/curvas-aprendizaje.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles de curvas. Overfitting muestra entrenamiento alto y validación baja. Underfitting muestra ambos bajos. Estable muestra curvas que se acercan al aumentar datos.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-curvas-aprendizaje-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.1: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.
-</figcaption>
-</figure>
-</div>
-<p><strong>Lectura de la figura.</strong> Una curva de aprendizaje no es un resultado decorativo: debe sugerir una acción técnica. La brecha entre entrenamiento y validación apunta a regularización, más datos, menor complejidad o revisión de leakage.</p>
-</section>
-<section id="separación-de-datos" class="level2">
-<h2 class="anchored" data-anchor-id="separación-de-datos">Separación de datos</h2>
-<p>Usaremos tres conjuntos cuando sea posible:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Conjunto</th>
-<th>Uso</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Entrenamiento</td>
-<td>ajustar parámetros y preprocesamiento</td>
-</tr>
-<tr class="even">
-<td>Validación</td>
-<td>elegir grado, <code>lambda</code>, umbral o variante</td>
-</tr>
-<tr class="odd">
-<td>Prueba</td>
-<td>estimar desempeño final una sola vez</td>
-</tr>
-</tbody>
-</table>
-<p>Si el dataset es pequeño, puede usarse validación cruzada. Pero el principio no cambia: no se debe usar la prueba como herramienta de diseño.</p>
-<div class="criterio">
-<p><strong>Regla de prueba.</strong> El conjunto de prueba no es un tablero para experimentar. Si lo consultas muchas veces para tomar decisiones, deja de ser una estimación honesta del desempeño final.</p>
-</div>
-</section>
-<section id="leakage" class="level2">
-<h2 class="anchored" data-anchor-id="leakage">Leakage</h2>
-<p>Leakage ocurre cuando información que no estaría disponible en producción entra al entrenamiento o a la validación.</p>
-<p>Ejemplos comunes:</p>
-<ul>
-<li>escalar con media y desviación de todo el dataset;</li>
-<li>imputar valores usando prueba;</li>
-<li>seleccionar features mirando el desempeño de prueba;</li>
-<li>crear una variable que usa información posterior al momento de predicción;</li>
-<li>duplicar observaciones de un mismo individuo en entrenamiento y prueba.</li>
-</ul>
-<div class="criterio">
-<p><strong>Pregunta anti-leakage.</strong> En el momento real de hacer la predicción, ¿esa información ya existiría? Si la respuesta es no, no debe entrar al modelo.</p>
-</div>
-<p>Conviene distinguir dos tipos de transformación:</p>
-<ul>
-<li>una transformación determinista por fila, como <span class="math inline">\(x\mapsto x^2\)</span>, no aprende estadísticas de otras observaciones y no produce leakage por aplicarse a toda la tabla;</li>
-<li>una transformación aprendida, como estandarización, imputación, selección de variables o codificación de categorías observadas, debe ajustarse exclusivamente con entrenamiento.</li>
-</ul>
-<p>Aunque un polinomio determinista no aprenda información, mantener todas las transformaciones dentro de una tubería reduce errores y asegura que la selección de grado ocurra con validación, no con test.</p>
-</section>
-<section id="regularización" class="level2">
-<h2 class="anchored" data-anchor-id="regularización">Regularización</h2>
-<p>La regularización modifica el objetivo para penalizar modelos demasiado complejos. En lugar de minimizar solo error de entrenamiento, minimizamos:</p>
-<p><span class="math display">\[
-\text{pérdida de datos} + \text{penalización}.
-\]</span></p>
-<p>La intuición es que, entre modelos con desempeño parecido, preferimos uno más estable y menos extremo.</p>
-<div id="fig-cap03-regularizacion-ridge-lasso" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Tres paneles comparan barras de coeficientes. OLS tiene barras grandes, Ridge muestra barras más pequeñas y Lasso muestra algunas barras en cero. El cierre indica pérdida más penalización.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cap03-regularizacion-ridge-lasso-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/regularizacion-ridge-lasso.svg" class="img-fluid figure-img" style="width:100.0%" alt="Tres paneles comparan barras de coeficientes. OLS tiene barras grandes, Ridge muestra barras más pequeñas y Lasso muestra algunas barras en cero. El cierre indica pérdida más penalización.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-regularizacion-ridge-lasso-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.2: Regularización: OLS puede producir coeficientes grandes, Ridge reduce magnitudes y Lasso puede llevar coeficientes exactamente a cero.
-</figcaption>
-</figure>
-</div>
-<p><strong>Lectura de la figura.</strong> Ridge y Lasso expresan dos preferencias distintas: Ridge encoge coeficientes hacia valores más estables; Lasso puede producir soluciones esparsas. Ninguna de las dos preferencias reemplaza la validación.</p>
-</section>
-<section id="ridge" class="level2">
-<h2 class="anchored" data-anchor-id="ridge">Ridge</h2>
-<p>Ridge agrega una penalización L2:</p>
-<p><span class="math display">\[
-J_{\text{ridge}}(\theta)
-=
-\frac{1}{2m}\|X\theta-y\|_2^2
-+
-\frac{\lambda}{2}\|\theta_{1:p}\|_2^2.
-\]</span></p>
-<p>Usualmente no penalizamos el intercepto <code>theta_0</code>.</p>
-<p>El gradiente para los coeficientes no intercepto es:</p>
-<p><span class="math display">\[
-\nabla J_{\text{ridge}}(\theta)
-=
-\frac{1}{m}X^\top(X\theta-y)+\lambda \tilde\theta,
-\]</span></p>
-<p>donde:</p>
-<p><span class="math display">\[
-\tilde\theta =
-\begin{bmatrix}
-0\\
-\theta_1\\
-\vdots\\
-\theta_{p-1}
-\end{bmatrix}.
-\]</span></p>
-<p>Si penalizamos todos los parámetros, la solución cerrada es:</p>
-<p><span class="math display">\[
-\theta^\star_{\text{ridge}}
-=
-(X^\top X+m\lambda I)^{-1}X^\top y.
-\]</span></p>
-<p>Si no penalizamos el intercepto, usamos una matriz diagonal <code>D</code> con <code>D_00=0</code> y <code>D_jj=1</code> para <code>j&gt;0</code>:</p>
-<p><span class="math display">\[
-\theta^\star_{\text{ridge}}
-=
-(X^\top X+m\lambda D)^{-1}X^\top y.
-\]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ridge_closed_form(X, y, lam):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> X.shape[<span class="dv">1</span>]</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    D <span class="op">=</span> np.eye(p)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    D[<span class="dv">0</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.linalg.solve(X.T <span class="op">@</span> X <span class="op">+</span> X.shape[<span class="dv">0</span>] <span class="op">*</span> lam <span class="op">*</span> D, X.T <span class="op">@</span> y)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Esta convención usa pérdida promedio. <code>sklearn.linear_model.Ridge</code> minimiza una forma equivalente escrita como</p>
-<p><span class="math display">\[
-\|y-Xw\|_2^2+\alpha\|w\|_2^2.
-\]</span></p>
-<p>Por tanto, con las convenciones anteriores, <span class="math inline">\(\alpha=m\lambda\)</span>. Comparar el mismo número para <code>alpha</code> y <code>lambda</code> sin revisar la normalización puede producir modelos distintos. <code>Ridge(fit_intercept=True)</code> maneja el intercepto internamente y no lo penaliza.</p>
-</section>
-<section id="efecto-de-lambda" class="level2">
-<h2 class="anchored" data-anchor-id="efecto-de-lambda">Efecto de <code>lambda</code></h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: right;"><code>lambda</code></th>
-<th>Efecto</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: right;"><code>0</code></td>
-<td>regresión lineal sin regularización</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">pequeño</td>
-<td>reduce coeficientes extremos suavemente</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">mediano</td>
-<td>mejora estabilidad si hay colinealidad</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">grande</td>
-<td>puede causar underfitting</td>
-</tr>
-</tbody>
-</table>
-<div class="criterio">
-<p><strong>Lectura aplicada.</strong> Ridge no elimina variables; reduce coeficientes. Es útil cuando muchas variables aportan algo y queremos estabilidad.</p>
-</div>
-</section>
-<section id="lasso" class="level2">
-<h2 class="anchored" data-anchor-id="lasso">Lasso</h2>
-<p>Lasso agrega una penalización L1:</p>
-<p><span class="math display">\[
-J_{\text{lasso}}(\theta)
-=
-\frac{1}{2m}\|X\theta-y\|_2^2
-+
-\lambda\|\theta_{1:p}\|_1.
-\]</span></p>
-<p>La norma L1 es:</p>
-<p><span class="math display">\[
-\|\theta\|_1 = \sum_j |\theta_j|.
-\]</span></p>
-<p>Lasso puede llevar algunos coeficientes exactamente a cero. Por eso se usa como herramienta de selección de variables, aunque esa selección debe interpretarse con cuidado.</p>
-<div class="criterio">
-<p><strong>Lectura aplicada.</strong> Lasso es atractivo cuando se espera que pocas variables sean dominantes. Pero con variables muy correlacionadas puede elegir una y descartar otra de forma inestable.</p>
-</div>
-</section>
-<section id="ridge-vs-lasso" class="level2">
-<h2 class="anchored" data-anchor-id="ridge-vs-lasso">Ridge vs Lasso</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Aspecto</th>
+<th>aspecto</th>
 <th>Ridge</th>
 <th>Lasso</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Penalización</td>
-<td>L2</td>
-<td>L1</td>
+<td>penalización</td>
+<td>suma de cuadrados</td>
+<td>suma de valores absolutos</td>
 </tr>
 <tr class="even">
-<td>Coeficientes</td>
-<td>se encogen</td>
-<td>algunos quedan en cero</td>
+<td>efecto habitual</td>
+<td>encogimiento continuo</td>
+<td>algunos ceros exactos</td>
 </tr>
 <tr class="odd">
-<td>Colinealidad</td>
-<td>reparte peso</td>
-<td>puede escoger una variable</td>
+<td>columnas correlacionadas</td>
+<td>tiende a repartir peso</td>
+<td>puede escoger una</td>
 </tr>
 <tr class="even">
-<td>Solución cerrada simple</td>
-<td>sí</td>
-<td>no en general</td>
+<td>cálculo</td>
+<td>sistema lineal</td>
+<td>algoritmo iterativo, por ejemplo coordenadas</td>
 </tr>
 <tr class="odd">
-<td>Uso típico</td>
-<td>estabilidad</td>
-<td>selección de variables</td>
+<td>propósito frecuente</td>
+<td>estabilidad predictiva</td>
+<td>esparsidad y predicción</td>
 </tr>
 </tbody>
 </table>
+<p>Como ambas penalizaciones actúan sobre coeficientes, las características deben tener escalas comparables. El intercepto se mantiene separado de la estandarización y de la penalización.</p>
 </section>
-<section id="estandarización-antes-de-regularizar" class="level2">
-<h2 class="anchored" data-anchor-id="estandarización-antes-de-regularizar">Estandarización antes de regularizar</h2>
-<p>Ridge y Lasso penalizan coeficientes. Si las variables están en escalas distintas, la penalización no es comparable. Por eso se estandarizan variables antes de regularizar.</p>
-<p>Pipeline correcto:</p>
-<ol type="1">
-<li>separar entrenamiento, validación y prueba;</li>
-<li>ajustar <code>StandardScaler</code> con entrenamiento;</li>
-<li>transformar entrenamiento, validación y prueba con ese scaler;</li>
-<li>ajustar modelos regularizados;</li>
-<li>elegir <code>lambda</code> con validación;</li>
-<li>reportar prueba una vez.</li>
-</ol>
-<p>Con <code>scikit-learn</code>, la forma más clara es dejar las variables sin columna manual de unos:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> Ridge</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> make_pipeline</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_pipeline(</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    StandardScaler(),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    Ridge(alpha<span class="op">=</span>alpha, fit_intercept<span class="op">=</span><span class="va">True</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>model.fit(X_train_raw, y_train)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>En una implementación manual, primero se ajusta el escalador sobre las variables originales de entrenamiento y <strong>después</strong> se agrega la columna de unos. Esa columna no se estandariza ni se penaliza.</p>
-</section>
-<section id="selección-de-modelo" class="level2">
-<h2 class="anchored" data-anchor-id="selección-de-modelo">Selección de modelo</h2>
-<p>Una rutina básica:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>lambdas <span class="op">=</span> [<span class="fl">0.0</span>, <span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">1.0</span>, <span class="fl">10.0</span>]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>records <span class="op">=</span> []</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>X_train_design <span class="op">=</span> add_intercept(X_train_scaled)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>X_val_design <span class="op">=</span> add_intercept(X_val_scaled)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> lam <span class="kw">in</span> lambdas:</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> ridge_closed_form(X_train_design, y_train, lam)</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    pred_train <span class="op">=</span> X_train_design <span class="op">@</span> theta</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    pred_val <span class="op">=</span> X_val_design <span class="op">@</span> theta</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    records.append({</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"lambda"</span>: lam,</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mse_train"</span>: np.mean((y_train <span class="op">-</span> pred_train) <span class="op">**</span> <span class="dv">2</span>),</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"mse_val"</span>: np.mean((y_val <span class="op">-</span> pred_val) <span class="op">**</span> <span class="dv">2</span>),</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"coef_norm"</span>: np.linalg.norm(theta[<span class="dv">1</span>:])</span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    })</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La selección no se hace por el menor error de entrenamiento, sino por validación.</p>
-</section>
-<section id="ejemplo-resuelto-grado-polinomial-y-ridge" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-grado-polinomial-y-ridge">Ejemplo resuelto: grado polinomial y Ridge</h2>
-<p>Supón que comparas grados <code>1</code>, <code>3</code>, <code>8</code> con <code>lambda</code> en <code>[0, 0.01, 0.1, 1]</code>.</p>
-<p>Un resultado típico puede ser:</p>
+<section id="seleccionar-sin-consultar-prueba" class="level2">
+<h2 class="anchored" data-anchor-id="seleccionar-sin-consultar-prueba">Seleccionar sin consultar prueba</h2>
+<p>Volvamos al polinomio de grado 15. Después de ajustar <code>PolynomialFeatures</code> y <code>StandardScaler</code> con entrenamiento, obtenemos:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th style="text-align: right;">grado</th>
-<th style="text-align: right;">lambda</th>
-<th style="text-align: right;">MSE train</th>
-<th style="text-align: right;">MSE val</th>
-<th>diagnóstico</th>
+<th style="text-align: right;"><code>alpha</code> de <code>Ridge</code></th>
+<th style="text-align: right;">MSE entrenamiento</th>
+<th style="text-align: right;">MSE validación</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">1</td>
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">alto</td>
-<td style="text-align: right;">alto</td>
-<td>underfitting</td>
+<td style="text-align: right;">1.542</td>
+<td style="text-align: right;">3.254</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">muy bajo</td>
-<td style="text-align: right;">alto</td>
-<td>overfitting</td>
+<td style="text-align: right;">0.0001</td>
+<td style="text-align: right;">1.655</td>
+<td style="text-align: right;">2.552</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">0.1</td>
-<td style="text-align: right;">bajo</td>
-<td style="text-align: right;">moderado</td>
-<td>mejor control</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.756</td>
+<td style="text-align: right;">2.317</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">0.01</td>
-<td style="text-align: right;">moderado</td>
-<td style="text-align: right;">bajo</td>
-<td>candidato final</td>
+<td style="text-align: right;">0.1</td>
+<td style="text-align: right;">1.790</td>
+<td style="text-align: right;">2.274</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1.848</td>
+<td style="text-align: right;">2.199</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">1.953</td>
+<td style="text-align: right;">2.326</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">2.647</td>
+<td style="text-align: right;">3.396</td>
 </tr>
 </tbody>
 </table>
-<p>La conclusión debe explicar el compromiso, no solo señalar el mínimo.</p>
+<p>Ridge reduce la brecha del polinomio de grado 15. Sin embargo, el polinomio de grado 3 obtiene MSE de validación 2.172 y resulta ligeramente mejor entre las configuraciones comparadas. Se fija entonces el procedimiento de grado 3 y se consulta prueba por primera vez: su MSE es 2.103. El baseline, cuya media se calculó solo con entrenamiento, obtiene 5.533.</p>
+<p>Esta evaluación no prueba que el grado 3 sea óptimo para toda muestra futura. Sí documenta una comparación reproducible en la que la prueba no participó en la selección.</p>
 </section>
-<section id="errores-comunes" class="level2">
-<h2 class="anchored" data-anchor-id="errores-comunes">Errores comunes</h2>
+<section id="regreso-a-las-subzonas-de-bogotá" class="level2">
+<h2 class="anchored" data-anchor-id="regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</h2>
+<p>En el caso de Bogotá solo hay 32 filas. Una partición de 24 subzonas para ajuste y 8 para evaluación produce una métrica muy sensible a cuáles subzonas quedaron en cada grupo.</p>
+<div id="fig-cap03-vivienda-bogota-variacion-particiones" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de líneas del MAE para ocho semillas. El baseline y el modelo lineal cambian de manera visible entre particiones.">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cap03-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/vivienda-bogota-variacion-particiones.svg" class="img-fluid figure-img" style="width:90.0%" alt="Gráfico de líneas del MAE para ocho semillas. El baseline y el modelo lineal cambian de manera visible entre particiones.">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;4.3: El MAE cambia entre particiones de las 32 subzonas. La semilla registra una fuente de variación; no debe escogerse por producir el menor error.
+</figcaption>
+</figure>
+</div>
+<p>Escoger la semilla con menor MAE sería otra forma de usar la evaluación para diseñar el resultado. Una comparación responsable fija el mecanismo de partición antes de ver las métricas y muestra su variación. Con tan pocas unidades, la validación cruzada puede aprovechar mejor las filas, pero las unidades siguen siendo agregadas y no están documentadas como una muestra aleatoria de una población más amplia.</p>
+<p>Ridge puede estabilizar los coeficientes correlacionados de área, alcobas, baños y parqueaderos. Esa estabilidad resuelve una dificultad del ajuste; no recupera la variación dentro de cada subzona ni la unidad ausente de <code>precio_reportado</code>.</p>
+</section>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>Una familia más flexible siempre puede mejorar o conservar el mejor ajuste de entrenamiento. El ejemplo polinomial muestra por qué ese orden no determina el comportamiento fuera de muestra. Entrenamiento ajusta parámetros y transformaciones; validación compara configuraciones; prueba evalúa el procedimiento fijado.</p>
+<p>Ridge añade una penalización cuadrática que encoge especialmente las direcciones mal determinadas. Lasso utiliza valores absolutos y puede producir ceros por su condición de subgradiente. En ambos casos, el intercepto no se penaliza y las características se estandarizan con estadísticas aprendidas solo en entrenamiento.</p>
+<p>Regularizar, validar y evitar filtración son partes del mismo procedimiento. Una buena métrica de prueba no borra, sin embargo, las restricciones de unidad, muestreo y medición establecidas antes del ajuste.</p>
+</section>
+<section id="problemas-integrados" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="complejidad-que-mejora-el-objetivo-equivocado" class="level3">
+<h3 class="anchored" data-anchor-id="complejidad-que-mejora-el-objetivo-equivocado">1. Complejidad que mejora el objetivo equivocado</h3>
+<p>Use <code>x1</code> y <code>target</code> de <code>regresion_lineal_sintetica.csv</code> con las particiones descritas al inicio.</p>
 <ol type="1">
-<li>Elegir el grado polinomial después de mirar prueba.</li>
-<li>Elegir grado por error de entrenamiento.</li>
-<li>Usar prueba para escoger <code>lambda</code>.</li>
-<li>Regularizar sin escalar.</li>
-<li>Penalizar el intercepto sin intención.</li>
-<li>Concluir que Lasso descubrió causalidad.</li>
-<li>Comparar modelos con particiones distintas.</li>
-<li>No reportar baseline.</li>
+<li>Reproduzca la tabla para grados 1, 3, 8 y 15.</li>
+<li>Grafique cada polinomio dentro y fuera del rango central de entrenamiento.</li>
+<li>Compare normas de coeficientes y números de condición.</li>
+<li>Explique por qué el error de entrenamiento debe ser no creciente si los espacios polinomiales están anidados y la solución es exacta.</li>
+<li>Seleccione un grado con validación y consulte prueba una sola vez.</li>
 </ol>
 </section>
-<section id="checklist-de-estudio" class="level2">
-<h2 class="anchored" data-anchor-id="checklist-de-estudio">Checklist de estudio</h2>
-<div class="checklist">
-<ul>
-<li>¿Puedes explicar overfitting con errores train/val?</li>
-<li>¿Puedes construir features polinomiales?</li>
-<li>¿Sabes qué es leakage?</li>
-<li>¿Puedes escribir el objetivo de Ridge?</li>
-<li>¿Puedes explicar por qué Lasso puede hacer selección de variables?</li>
-<li>¿Sabes por qué se escala antes de regularizar?</li>
-<li>¿Puedes elegir un modelo usando validación y no prueba?</li>
-</ul>
-</div>
-</section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> compara el efecto de Ridge y Lasso sobre dos variables altamente correlacionadas y explica por qué sus coeficientes pueden comportarse distinto.</li>
-<li><strong>Extensión computacional:</strong> construye una curva de validación para <span class="math inline">\(\lambda\)</span> y reporta no solo el mejor valor, sino la región de desempeño estable.</li>
-<li><strong>Conexión con proyecto:</strong> define qué transformación, partición o hiperparámetro queda prohibido ajustar con el conjunto de test.</li>
-</ul>
-</div>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Este capítulo introduce el problema central de generalización. Un modelo puede reducir mucho el error de entrenamiento y, aun así, fallar en datos nuevos. La validación separa el ajuste de parámetros de la selección de modelo.</p>
-<p>Feature engineering y modelos polinomiales aumentan capacidad, pero también aumentan el riesgo de overfitting. Ridge controla coeficientes grandes mediante penalización L2; Lasso usa penalización L1 y puede llevar algunos coeficientes a cero. En ambos casos, el escalamiento es parte del modelo, no un detalle secundario.</p>
-<p>La regla operativa es simple: entrenamiento ajusta parámetros, validación elige configuraciones y test estima desempeño final una sola vez. Cualquier transformación que aprenda estadísticas o categorías fuera de train puede introducir leakage; una transformación determinista por fila no tiene ese problema por sí sola.</p>
-</section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Feature engineering:</strong> construcción de variables a partir de datos originales y conocimiento del problema.</li>
-<li><strong>Underfitting:</strong> error alto por modelo demasiado simple o mal especificado.</li>
-<li><strong>Overfitting:</strong> ajuste excesivo al entrenamiento con pobre generalización.</li>
-<li><strong>Train/validation/test:</strong> separación de datos para ajustar, seleccionar y estimar desempeño final.</li>
-<li><strong>Leakage:</strong> uso accidental de información que no estaría disponible en predicción real.</li>
-<li><strong>Ridge:</strong> regularización L2 que penaliza la magnitud cuadrática de coeficientes.</li>
-<li><strong>Lasso:</strong> regularización L1 que puede llevar coeficientes exactamente a cero.</li>
-<li><strong>Hiperparámetro:</strong> decisión de configuración elegida por validación, no aprendida directamente como parámetro del modelo.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="una-tubería-con-y-sin-filtración" class="level3">
+<h3 class="anchored" data-anchor-id="una-tubería-con-y-sin-filtración">2. Una tubería con y sin filtración</h3>
+<p>Construya una variable con faltantes y una categoría poco frecuente.</p>
 <ol type="1">
-<li>Explica por qué un polinomio de grado alto puede sobreajustar.</li>
-<li>¿Por qué no se debe escoger <code>lambda</code> con el conjunto de prueba?</li>
-<li>¿Qué diferencia conceptual hay entre Ridge y Lasso?</li>
-<li>¿Por qué la estandarización es especialmente importante antes de Lasso?</li>
-<li>Da dos ejemplos de leakage en un proyecto real.</li>
+<li>Divida los datos antes de imputar, codificar o estandarizar.</li>
+<li>Implemente un pipeline que aprenda todas esas transformaciones con entrenamiento.</li>
+<li>Implemente deliberadamente una versión que las aprenda con toda la tabla.</li>
+<li>Compare los objetos aprendidos, no solo la métrica final.</li>
+<li>Identifique cuál información reservada ingresó en cada transformación y por qué una diferencia pequeña en la métrica no vuelve correcto el procedimiento.</li>
 </ol>
 </section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="6" type="1">
-<li>Escribe el objetivo Ridge para un modelo con intercepto y dos variables.</li>
-<li>Deriva el gradiente Ridge cuando no se penaliza el intercepto.</li>
-<li>Para <span class="math display">\[
-\theta=(3, 4, -1),
-\]</span> calcula la penalización L2 y L1 sin incluir el intercepto.</li>
-<li>Explica qué ocurre con la solución Ridge cuando <code>lambda -&gt; infinity</code>.</li>
+<section id="ridge-en-una-dirección-casi-redundante" class="level3">
+<h3 class="anchored" data-anchor-id="ridge-en-una-dirección-casi-redundante">3. Ridge en una dirección casi redundante</h3>
+<p>Use el conjunto sintético y añada <code>x4 = x1 + 0.001*ruido</code>, con semilla fija.</p>
+<ol type="1">
+<li>Estandarice las características usando solo entrenamiento.</li>
+<li>Compare valores singulares y coeficientes de OLS con los de Ridge para una rejilla de <span class="math inline">\(\lambda\)</span>.</li>
+<li>Verifique la fórmula <span class="math inline">\(\sigma_j/(\sigma_j^2+n\lambda)\)</span> en las direcciones singulares.</li>
+<li>Compare pérdida de entrenamiento, validación y norma de coeficientes.</li>
+<li>Explique qué estabilidad se ganó y qué sesgo se introdujo.</li>
 </ol>
 </section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="10" type="1">
-<li>Implementa <code>polynomial_features_1d(x, degree)</code>.</li>
-<li>Implementa <code>ridge_closed_form(X, y, lam)</code> sin penalizar intercepto.</li>
-<li>Divide un dataset en train/validation/test con semilla fija.</li>
-<li>Ajusta scaler en train y aplícalo a validation/test.</li>
-<li>Compara al menos cinco valores de <code>lambda</code>.</li>
-<li>Grafica <code>mse_train</code> y <code>mse_val</code> contra <code>lambda</code>.</li>
+<section id="lasso-y-columnas-correlacionadas" class="level3">
+<h3 class="anchored" data-anchor-id="lasso-y-columnas-correlacionadas">4. Lasso y columnas correlacionadas</h3>
+<p>Genere dos predictores altamente correlacionados y una respuesta que dependa de ambos.</p>
+<ol type="1">
+<li>Ajuste Lasso para una secuencia de penalizaciones.</li>
+<li>Verifique la condición de subgradiente en una coordenada igual a cero.</li>
+<li>Repita el experimento con diez semillas y registre cuál variable queda activa.</li>
+<li>Compare predicciones y selección de columnas entre repeticiones.</li>
+<li>Redacte una conclusión que distinga esparsidad computada, estabilidad y relevancia sustantiva.</li>
 </ol>
 </section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="16" type="1">
-<li>Un modelo con <code>lambda=0</code> tiene MSE train <code>1.2</code> y MSE val <code>30.0</code>; con <code>lambda=0.1</code> tiene MSE train <code>4.5</code> y MSE val <code>8.0</code>. ¿Cuál prefieres y por qué?</li>
-<li>Lasso deja una variable en cero. ¿Qué puedes afirmar y qué no puedes afirmar?</li>
-<li>Si Ridge mejora validación pero empeora entrenamiento, ¿eso es necesariamente malo?</li>
+<section id="validación-con-32-subzonas" class="level3">
+<h3 class="anchored" data-anchor-id="validación-con-32-subzonas">5. Validación con 32 subzonas</h3>
+<p>Use el caso de Bogotá.</p>
+<ol type="1">
+<li>Defina una tubería con estandarización y Ridge.</li>
+<li>Compare una rejilla de penalizaciones mediante particiones fijadas o validación cruzada.</li>
+<li>Incluya el baseline en cada división y conserve resultados por subzona.</li>
+<li>Muestre la distribución de métricas y la estabilidad de coeficientes.</li>
+<li>Escriba qué conclusión permiten esas 32 filas y qué población adicional no puede afirmarse sin un diseño de muestreo.</li>
 </ol>
 </section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="19" type="1">
-<li>Diseña una comparación reproducible entre regresión polinomial sin regularización y Ridge. Usa una partición train/validation/test, reporta una tabla de resultados y escribe una conclusión que mencione explícitamente cómo evitaste leakage.</li>
-</ol>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>Problema 1.</strong> Los MSE de validación para grados 1, 3, 8 y 15 son aproximadamente 2.223, 2.172, 2.379 y 3.254. El mínimo de entrenamiento del grado 15 no justifica escogerlo: la configuración se elige con observaciones que no intervinieron en sus coeficientes.</p>
+<p><strong>Problema 3.</strong> Si una dirección tiene <span class="math inline">\(\sigma_j\)</span> pequeño, OLS multiplica la componente correspondiente de <span class="math inline">\(\mathbf U^\top\mathbf y\)</span> por <span class="math inline">\(1/\sigma_j\)</span>. Ridge la multiplica por <span class="math inline">\(\sigma_j/(\sigma_j^2+n\lambda)\)</span>, que permanece acotado y tiende a cero cuando <span class="math inline">\(\lambda\)</span> crece.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1258,13 +1136,13 @@ J_{\text{lasso}}(\theta)
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./capitulo02_descenso_gradiente.html" class="pagination-link" aria-label="Capítulo 2: Descenso del gradiente">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></span>
+      <a href="./capitulo02_descenso_gradiente.html" class="pagination-link" aria-label="Descenso del gradiente">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Descenso del gradiente</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./capitulo04_regresion_logistica.html" class="pagination-link" aria-label="Capítulo 4: Regresión logística">
-        <span class="nav-page-text"><span class="chapter-title">Capítulo 4: Regresión logística</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./capitulo04_regresion_logistica.html" class="pagination-link" aria-label="Regresión logística">
+        <span class="nav-page-text"><span class="chapter-title">Regresión logística</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

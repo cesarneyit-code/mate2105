@@ -1,6 +1,6 @@
 ---
 title: "Laboratorio diagnóstico 1"
-subtitle: "Primer flujo aplicado con datos reales"
+subtitle: "Población, muestra, riesgo y primer flujo aplicado"
 format:
   html:
     toc: true
@@ -13,11 +13,11 @@ lang: es
 
 # Objetivo
 
-Este laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno, ejecutar un flujo básico de ciencia de datos y escribir una interpretación técnica breve.
+Este laboratorio es diagnóstico. Su propósito es verificar que puedes abrir el entorno y conectar cuatro niveles que usaremos durante todo el curso: población, muestra aleatoria, estimador y valor calculado. Después ejecutarás un primer flujo de clasificación y escribirás una interpretación técnica breve.
 
 Trabajaremos con el dataset `load_wine` de `scikit-learn`. El objetivo será clasificar vinos en tres clases a partir de mediciones químicas.
 
-No necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia para practicar el flujo aplicado.
+No necesitas entender aún la matemática de la regresión logística. La usaremos como modelo de referencia; el objeto matemático central de esta actividad es la relación entre riesgo esperado y riesgo empírico.
 
 # Entrega
 
@@ -55,7 +55,76 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 ```
 
-# Parte 1: cargar e inspeccionar datos
+# Parte 1: población, muestra y riesgo
+
+Considera una población en la que
+
+$$
+Y\sim\operatorname{Bernoulli}(0.7).
+$$
+
+Una regla $f_1$ predice siempre 1 y usa pérdida cero-uno. Su riesgo esperado es
+
+$$
+R_P(f_1)=\mathbb P(Y\neq 1)=0.3.
+$$
+
+Genera una muestra de tamaño 20 y calcula el riesgo empírico.
+
+```python
+rng = np.random.default_rng(2105)
+p_clase_1 = 0.7
+m = 20
+
+muestra = rng.binomial(1, p_clase_1, size=m)
+riesgo_esperado = 1 - p_clase_1
+riesgo_empirico = np.mean(muestra != 1)
+
+print("Muestra:", muestra)
+print(f"Riesgo esperado: {riesgo_esperado:.3f}")
+print(f"Riesgo empírico: {riesgo_empirico:.3f}")
+```
+
+Ahora repite el muestreo 2000 veces.
+
+```python
+riesgos_repetidos = np.array([
+    np.mean(rng.binomial(1, p_clase_1, size=m) != 1)
+    for _ in range(2_000)
+])
+
+media_simulada = riesgos_repetidos.mean()
+sd_simulada = riesgos_repetidos.std(ddof=1)
+se_teorico = np.sqrt(riesgo_esperado * (1 - riesgo_esperado) / m)
+
+print(f"Media de riesgos empíricos: {media_simulada:.3f}")
+print(f"SD simulada: {sd_simulada:.3f}")
+print(f"Error estándar teórico: {se_teorico:.3f}")
+```
+
+Auto-chequeo esperado:
+
+- `riesgo_esperado` debe ser 0.3;
+- la media simulada debe quedar cerca de 0.3;
+- la desviación simulada debe quedar cerca del error estándar teórico;
+- repetir con la misma semilla debe producir los mismos números.
+
+## Pregunta probabilística
+
+Responde con cuatro frases separadas:
+
+1. ¿Cuál es el objeto poblacional que queremos conocer?
+2. ¿Cuál es la muestra aleatoria y cuál es su realización observada?
+3. ¿Cuál es el estimador y cuál es la estimación obtenida en la primera muestra?
+4. ¿Por qué `riesgo_empirico` no tiene que ser exactamente 0.3?
+
+**Respuesta:**
+
+```text
+Escribe aquí.
+```
+
+# Parte 2: cargar e inspeccionar datos
 
 ```python
 data = load_wine(as_frame=True)
@@ -99,7 +168,7 @@ Escribe dos frases:
 Escribe aquí.
 ```
 
-# Parte 2: partición de datos
+# Parte 3: partición de datos
 
 Vamos a separar entrenamiento y prueba.
 
@@ -136,7 +205,7 @@ Por qué usamos `stratify=y`? Responde en una o dos frases.
 Escribe aquí.
 ```
 
-# Parte 3: baseline
+# Parte 4: baseline
 
 Antes de entrenar un modelo, necesitamos una referencia simple.
 
@@ -165,7 +234,7 @@ Qué significa este baseline? Qué tendría que lograr un modelo para ser mejor 
 Escribe aquí.
 ```
 
-# Parte 4: modelo de referencia
+# Parte 5: modelo de referencia
 
 Entrenaremos una regresión logística con escalamiento de variables.
 
@@ -195,7 +264,7 @@ Auto-chequeo:
 - El modelo debería superar claramente al baseline.
 - Si no lo supera, revisa si ejecutaste las celdas en orden y si el pipeline incluye `StandardScaler`.
 
-# Parte 5: errores
+# Parte 6: errores
 
 La accuracy resume desempeño en un número, pero no muestra que errores comete el modelo.
 
@@ -221,11 +290,21 @@ Observa la matriz de confusion y el reporte. Escribe:
 Escribe aquí.
 ```
 
-# Parte 6: conclusión técnica
+# Parte 7: accuracy como estimación y conclusión técnica
 
-Completa el siguiente parrafo. Debe mencionar baseline, métrica, datos y limitacion.
+La accuracy observada es un promedio de indicadores de acierto. Calcula su error estándar *plug-in*:
 
-> En este experimento inicial, el modelo de referencia es / no es defendible porque ____. La comparación se hizo usando ____ sobre una partición ____. Sin embargo, la conclusión está limitada por ____.
+```python
+model_acc_se = np.sqrt(model_acc * (1 - model_acc) / len(y_test))
+print(f"Accuracy observada: {model_acc:.3f}")
+print(f"Error estándar plug-in: {model_acc_se:.3f}")
+```
+
+Esta cuenta supone observaciones de test independientes y una misma probabilidad de acierto. No incorpora cambio de población, búsqueda de modelos ni dependencia entre observaciones.
+
+Completa el siguiente párrafo. Debe mencionar baseline, métrica, incertidumbre, datos y limitación.
+
+> En este experimento inicial, el modelo de referencia supera / no supera el baseline porque ____. La accuracy observada es ____ y su error estándar *plug-in* es ____. Esta cantidad intenta estimar ____. Sin embargo, la conclusión está limitada por ____.
 
 **Respuesta final:**
 
@@ -233,17 +312,18 @@ Completa el siguiente parrafo. Debe mencionar baseline, métrica, datos y limita
 Escribe aquí.
 ```
 
-# Parte 7: dos ideas iniciales de proyecto
+# Parte 8: dos ideas iniciales de proyecto
 
 Propone dos áreas o datasets que podrían interesarte para el proyecto final.
 
 Para cada idea responde:
 
-1. Cuál sería la unidad de observación?
-2. Cuál sería la pregunta aplicada?
-3. ¿Habría variable objetivo? Si sí, ¿cuál?
-4. Qué decisión podría informar el modelo?
-5. Qué riesgo o limitacion anticipas?
+1. ¿Cuál sería la población de interés?
+2. ¿Cuál sería la unidad de observación y cómo se obtendría la muestra?
+3. ¿Cuál sería la pregunta aplicada?
+4. ¿Habría variable objetivo? Si sí, ¿cuál?
+5. ¿Qué cantidad poblacional o riesgo intentaría estimar?
+6. ¿Qué limitación o fuente de incertidumbre anticipas?
 
 ## Idea 1
 
@@ -264,10 +344,12 @@ Este laboratorio es diagnóstico. La prioridad es que muestres el flujo de traba
 Marca mentalmente cada punto:
 
 - Pude importar los paquetes o documente el error.
+- Distinguí población, muestra, estimador y estimación.
+- Comparé riesgo esperado y riesgo empírico mediante simulación.
 - Identifique filas, columnas y clases.
 - Explique por qué se usa `stratify=y`.
 - Calcule baseline y modelo.
 - Compare modelo contra baseline.
-- Escribi una conclusión con métrica, datos, baseline y limitacion.
+- Escribí una conclusión con métrica, incertidumbre, datos, baseline y limitación.
 - Propuse dos ideas iniciales de proyecto.
 - Declare uso sustancial de IA, si aplica.

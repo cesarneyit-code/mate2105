@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Capítulo 2: Descenso del gradiente – MATE-2105: Módulo 1</title>
+<title>Descenso del gradiente – MATE-2105: Módulo 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_descenso_gradiente.html"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_descenso_gradiente.html"><span class="chapter-title">Descenso del gradiente</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,27 +182,27 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,31 +245,22 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#optimización-como-búsqueda" id="toc-optimización-como-búsqueda" class="nav-link" data-scroll-target="#optimización-como-búsqueda">Optimización como búsqueda</a></li>
-  <li><a href="#idea-geométrica-del-gradiente" id="toc-idea-geométrica-del-gradiente" class="nav-link" data-scroll-target="#idea-geométrica-del-gradiente">Idea geométrica del gradiente</a></li>
-  <li><a href="#algoritmo-básico" id="toc-algoritmo-básico" class="nav-link" data-scroll-target="#algoritmo-básico">Algoritmo básico</a></li>
-  <li><a href="#cómo-leer-una-curva-de-pérdida" id="toc-cómo-leer-una-curva-de-pérdida" class="nav-link" data-scroll-target="#cómo-leer-una-curva-de-pérdida">Cómo leer una curva de pérdida</a></li>
-  <li><a href="#ejemplo-resuelto-una-variable-escalada" id="toc-ejemplo-resuelto-una-variable-escalada" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-variable-escalada">Ejemplo resuelto: una variable escalada</a></li>
-  <li><a href="#escalamiento-y-geometría" id="toc-escalamiento-y-geometría" class="nav-link" data-scroll-target="#escalamiento-y-geometría">Escalamiento y geometría</a></li>
-  <li><a href="#condicionamiento" id="toc-condicionamiento" class="nav-link" data-scroll-target="#condicionamiento">Condicionamiento</a></li>
-  <li><a href="#comparación-con-ecuación-normal" id="toc-comparación-con-ecuación-normal" class="nav-link" data-scroll-target="#comparación-con-ecuación-normal">Comparación con ecuación normal</a></li>
-  <li><a href="#batch-stochastic-y-mini-batch" id="toc-batch-stochastic-y-mini-batch" class="nav-link" data-scroll-target="#batch-stochastic-y-mini-batch">Batch, stochastic y mini-batch</a></li>
-  <li><a href="#tasa-de-aprendizaje-una-rutina-práctica" id="toc-tasa-de-aprendizaje-una-rutina-práctica" class="nav-link" data-scroll-target="#tasa-de-aprendizaje-una-rutina-práctica">Tasa de aprendizaje: una rutina práctica</a></li>
-  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes">Errores comunes</a></li>
-  <li><a href="#checklist-de-estudio" id="toc-checklist-de-estudio" class="nav-link" data-scroll-target="#checklist-de-estudio">Checklist de estudio</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <li><a href="#de-la-derivada-a-un-algoritmo" id="toc-de-la-derivada-a-un-algoritmo" class="nav-link active" data-scroll-target="#de-la-derivada-a-un-algoritmo">De la derivada a un algoritmo</a></li>
+  <li><a href="#la-tasa-decide-la-trayectoria" id="toc-la-tasa-decide-la-trayectoria" class="nav-link" data-scroll-target="#la-tasa-decide-la-trayectoria">La tasa decide la trayectoria</a></li>
+  <li><a href="#la-hessiana-explica-la-estabilidad" id="toc-la-hessiana-explica-la-estabilidad" class="nav-link" data-scroll-target="#la-hessiana-explica-la-estabilidad">La Hessiana explica la estabilidad</a></li>
+  <li><a href="#escala-y-condicionamiento" id="toc-escala-y-condicionamiento" class="nav-link" data-scroll-target="#escala-y-condicionamiento">Escala y condicionamiento</a></li>
+  <li><a href="#verificar-gradiente-y-solución" id="toc-verificar-gradiente-y-solución" class="nav-link" data-scroll-target="#verificar-gradiente-y-solución">Verificar gradiente y solución</a></li>
+  <li><a href="#costo-y-gradientes-por-subconjuntos" id="toc-costo-y-gradientes-por-subconjuntos" class="nav-link" data-scroll-target="#costo-y-gradientes-por-subconjuntos">Costo y gradientes por subconjuntos</a></li>
+  <li><a href="#regreso-a-los-dos-casos" id="toc-regreso-a-los-dos-casos" class="nav-link" data-scroll-target="#regreso-a-los-dos-casos">Regreso a los dos casos</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
   <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  <li><a href="#seis-pasos-que-pueden-calcularse-a-mano" id="toc-seis-pasos-que-pueden-calcularse-a-mano" class="nav-link" data-scroll-target="#seis-pasos-que-pueden-calcularse-a-mano">1. Seis pasos que pueden calcularse a mano</a></li>
+  <li><a href="#el-mismo-dato-en-otra-unidad" id="toc-el-mismo-dato-en-otra-unidad" class="nav-link" data-scroll-target="#el-mismo-dato-en-otra-unidad">2. El mismo dato en otra unidad</a></li>
+  <li><a href="#auditoría-de-una-implementación" id="toc-auditoría-de-una-implementación" class="nav-link" data-scroll-target="#auditoría-de-una-implementación">3. Auditoría de una implementación</a></li>
+  <li><a href="#optimización-en-las-subzonas" id="toc-optimización-en-las-subzonas" class="nav-link" data-scroll-target="#optimización-en-las-subzonas">4. Optimización en las subzonas</a></li>
   </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -278,8 +269,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></h1>
-<p class="subtitle lead">Optimización, escalamiento y condicionamiento</p>
+<h1 class="title"><span class="chapter-title">Descenso del gradiente</span></h1>
+<p class="subtitle lead">Iteraciones, estabilidad y geometría de la optimización</p>
 </div>
 
 
@@ -296,398 +287,391 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>¿Cómo ajustamos parámetros cuando no queremos o no podemos depender de una fórmula cerrada, y cómo diagnosticamos si el algoritmo realmente está aprendiendo?</p>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>explicar qué significa minimizar una función de pérdida;</li>
-<li>implementar descenso del gradiente para MSE;</li>
-<li>interpretar una curva de pérdida;</li>
-<li>escoger una tasa de aprendizaje razonable por diagnóstico;</li>
-<li>explicar por qué el escalamiento afecta la optimización;</li>
-<li>reconocer problemas de condicionamiento;</li>
-<li>comparar una solución iterativa con la ecuación normal.</li>
-</ol>
-<p>En el Capítulo 1 resolvimos mínimos cuadrados con una fórmula cerrada. En este capítulo estudiamos un método iterativo. Esta transición es importante porque muchos modelos útiles no tienen una solución cerrada conveniente.</p>
-</section>
-<section id="optimización-como-búsqueda" class="level2">
-<h2 class="anchored" data-anchor-id="optimización-como-búsqueda">Optimización como búsqueda</h2>
-<p>Tenemos una función de pérdida:</p>
+<p>En el capítulo anterior, <code>np.linalg.lstsq</code> calculó directamente el minimizador de</p>
 <p><span class="math display">\[
-J(\theta).
+\widehat R_n(\boldsymbol\theta)
+=\frac1{2n}
+\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert_2^2.
 \]</span></p>
-<p>Queremos encontrar parámetros con pérdida pequeña:</p>
+<p>Supongamos ahora que solo podemos evaluar su gradiente. Para tres observaciones con <span class="math inline">\(x=(-1,0,1)\)</span>, <span class="math inline">\(y=(1,3,5)\)</span> e intercepto, comenzamos en <span class="math inline">\(\boldsymbol\theta^{(0)}=(0,0)\)</span>. El gradiente inicial es</p>
 <p><span class="math display">\[
-\theta^\star = \arg\min_\theta J(\theta).
+\nabla\widehat R_n(\boldsymbol\theta^{(0)})
+=\frac13\mathbf X^\top
+(\mathbf X\boldsymbol\theta^{(0)}-\mathbf y)
+=\begin{bmatrix}-3\\-4/3\end{bmatrix}.
 \]</span></p>
-<p>En regresión lineal con MSE, <code>J</code> es convexa. Eso significa que no hay mínimos locales malos: cualquier mínimo local es global. Pero que el problema sea convexo no significa que cualquier algoritmo llegue rápido.</p>
-<div class="definicion">
-<p><strong>Definición 2.1: optimización.</strong><br>
-Optimizar un modelo es buscar parámetros que minimicen una función objetivo. En aprendizaje supervisado, esa función suele medir discrepancia entre predicciones y observaciones, posiblemente más una penalización.</p>
-</div>
+<p>Moverse una distancia <span class="math inline">\(\alpha=0.2\)</span> en la dirección opuesta produce</p>
+<p><span class="math display">\[
+\boldsymbol\theta^{(1)}
+=\boldsymbol\theta^{(0)}
+-0.2\nabla\widehat R_n(\boldsymbol\theta^{(0)})
+=\begin{bmatrix}0.6\\0.267\end{bmatrix}.
+\]</span></p>
+<p>La pérdida baja de 5.833 a 3.881. No hemos resuelto un sistema ni formado una inversa: usamos información local para construir una secuencia de parámetros.</p>
+<section id="de-la-derivada-a-un-algoritmo" class="level2">
+<h2 class="anchored" data-anchor-id="de-la-derivada-a-un-algoritmo">De la derivada a un algoritmo</h2>
+<p>Para una función diferenciable <span class="math inline">\(J:\mathbb R^p\to\mathbb R\)</span>, el gradiente <span class="math inline">\(\nabla J(\boldsymbol\theta)\)</span> señala la dirección de mayor crecimiento local. La aproximación de Taylor</p>
+<p><span class="math display">\[
+J(\boldsymbol\theta+\boldsymbol h)
+\approx J(\boldsymbol\theta)
++\nabla J(\boldsymbol\theta)^\top\boldsymbol h
+\]</span></p>
+<p>muestra que, entre desplazamientos de norma fija y suficientemente pequeña, la elección <span class="math inline">\(\boldsymbol h\)</span> opuesta al gradiente produce la mayor disminución de primer orden. El descenso del gradiente repite</p>
+<p><span class="math display">\[
+\boldsymbol\theta^{(t+1)}
+=\boldsymbol\theta^{(t)}
+-\alpha\nabla J(\boldsymbol\theta^{(t)}),
+\]</span></p>
+<p>donde <span class="math inline">\(\alpha&gt;0\)</span> es la tasa de aprendizaje.</p>
+<p>Para mínimos cuadrados,</p>
+<p><span class="math display">\[
+\nabla\widehat R_n(\boldsymbol\theta)
+=\frac1n\mathbf X^\top
+(\mathbf X\boldsymbol\theta-\mathbf y).
+\]</span></p>
+<p>La siguiente implementación guarda la pérdida inicial y la obtenida después de cada actualización. Las firmas coinciden con las utilizadas en los notebooks del módulo.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> half_mse_loss(X, y, theta):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(error <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-8</span>):</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    n, p <span class="op">=</span> X.shape</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.zeros(p, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> [half_mse_loss(X, y, theta)]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        gradient <span class="op">=</span> X.T <span class="op">@</span> (X <span class="op">@</span> theta <span class="op">-</span> y) <span class="op">/</span> n</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(np.isfinite(gradient)):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"gradiente no finito"</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.norm(gradient) <span class="op">&lt;=</span> tol:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> gradient</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> half_mse_loss(X, y, theta)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.isfinite(loss):</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"pérdida no finita"</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        history.append(loss)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta, np.asarray(history)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>En el ejemplo inicial, las primeras iteraciones con <span class="math inline">\(\alpha=0.2\)</span> son:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">iteración</th>
+<th style="text-align: right;">intercepto</th>
+<th style="text-align: right;">pendiente</th>
+<th style="text-align: right;">pérdida</th>
+<th style="text-align: right;">norma del gradiente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: right;">5.833</td>
+<td style="text-align: right;">3.283</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.600</td>
+<td style="text-align: right;">0.267</td>
+<td style="text-align: right;">3.881</td>
+<td style="text-align: right;">2.664</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">1.080</td>
+<td style="text-align: right;">0.498</td>
+<td style="text-align: right;">2.595</td>
+<td style="text-align: right;">2.165</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">1.464</td>
+<td style="text-align: right;">0.698</td>
+<td style="text-align: right;">1.745</td>
+<td style="text-align: right;">1.764</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">1.771</td>
+<td style="text-align: right;">0.872</td>
+<td style="text-align: right;">1.179</td>
+<td style="text-align: right;">1.441</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">2.017</td>
+<td style="text-align: right;">1.022</td>
+<td style="text-align: right;">0.802</td>
+<td style="text-align: right;">1.180</td>
+</tr>
+</tbody>
+</table>
+<p>El minimizador es <span class="math inline">\((3,2)\)</span>. Cada columna progresa a una velocidad distinta; la secuencia todavía no ha convergido después de cinco pasos, pero la pérdida y la norma del gradiente disminuyen de manera coherente.</p>
 </section>
-<section id="idea-geométrica-del-gradiente" class="level2">
-<h2 class="anchored" data-anchor-id="idea-geométrica-del-gradiente">Idea geométrica del gradiente</h2>
-<p>El gradiente <code>grad J(theta)</code> apunta en la dirección de mayor crecimiento local de la función. Para bajar la pérdida, nos movemos en la dirección contraria:</p>
-<p><span class="math display">\[
-\theta_{\text{nuevo}}
-=
-\theta_{\text{actual}}-\alpha\nabla J(\theta_{\text{actual}}).
-\]</span></p>
-<p>Aquí <code>alpha</code> es la tasa de aprendizaje.</p>
+<section id="la-tasa-decide-la-trayectoria" class="level2">
+<h2 class="anchored" data-anchor-id="la-tasa-decide-la-trayectoria">La tasa decide la trayectoria</h2>
+<p>La dirección del gradiente no fija la longitud del paso. En una superficie convexa, un paso pequeño puede avanzar lentamente y uno grande puede atravesar el valle y aumentar la pérdida.</p>
 <div id="fig-cap02-descenso-gradiente-trayectoria" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa de contornos de una pérdida convexa con puntos sucesivos que avanzan hacia el mínimo, junto con tres escenarios de tasa de aprendizaje pequeña, razonable y grande.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap02-descenso-gradiente-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/descenso-gradiente-trayectoria.svg" class="img-fluid figure-img" style="width:100.0%" alt="Mapa de contornos de una pérdida convexa con puntos sucesivos que avanzan hacia el mínimo, junto con tres escenarios de tasa de aprendizaje pequeña, razonable y grande.">
+<img src="figuras/descenso-gradiente-trayectoria.svg" class="img-fluid figure-img" style="width:100.0%" alt="Mapa de contornos de una pérdida convexa con puntos sucesivos que avanzan hacia el mínimo, junto con tres escenarios de tasa de aprendizaje pequeña, razonable y grande.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap02-descenso-gradiente-trayectoria-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;3.1: Descenso del gradiente: la trayectoria avanza sobre contornos de pérdida y la tasa de aprendizaje controla si el avance es lento, estable u oscilatorio.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> Los puntos rojos no son evaluaciones independientes: son iteraciones del mismo algoritmo. El gradiente define la dirección local de descenso y la tasa de aprendizaje define cuánto se avanza. Un paso pequeño puede ser correcto pero lento; un paso grande puede saltar sobre el valle de la pérdida y producir oscilación.</p>
-<div class="definicion">
-<p><strong>Definición 2.2: tasa de aprendizaje.</strong><br>
-La tasa de aprendizaje <code>alpha</code> controla el tamaño del paso en cada iteración del descenso del gradiente. Si es demasiado pequeña, el algoritmo avanza lentamente. Si es demasiado grande, puede oscilar o divergir.</p>
-</div>
+<p>Con el mismo ejemplo, <span class="math inline">\(\alpha=1.8\)</span> hace oscilar el intercepto alrededor de 3, aunque la pérdida decrece. Con <span class="math inline">\(\alpha=2.2\)</span> la pérdida comienza en 5.833 y luego toma los valores 6.770, 9.394, 13.451 y 19.352: el algoritmo diverge. Ni la convexidad de la pérdida ni la corrección del gradiente hacen estable cualquier tasa.</p>
+<p>Una curva de pérdida debe leerse junto con la norma del gradiente y el estado de los parámetros:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>comportamiento</th>
+<th>explicación compatible</th>
+<th>comprobación siguiente</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>disminución suave</td>
+<td>paso estable</td>
+<td>comparar con una solución de referencia</td>
+</tr>
+<tr class="even">
+<td>disminución muy lenta</td>
+<td>paso pequeño o geometría alargada</td>
+<td>revisar escala y espectro</td>
+</tr>
+<tr class="odd">
+<td>oscilación decreciente</td>
+<td>paso cercano al límite de estabilidad</td>
+<td>reducir <span class="math inline">\(\alpha\)</span></td>
+</tr>
+<tr class="even">
+<td>crecimiento sostenido</td>
+<td>paso fuera del intervalo estable</td>
+<td>detener y reducir <span class="math inline">\(\alpha\)</span></td>
+</tr>
+<tr class="odd">
+<td><code>nan</code> o <code>inf</code></td>
+<td>desbordamiento tras divergencia</td>
+<td>revisar primero la historia finita</td>
+</tr>
+<tr class="even">
+<td>pérdida estable pero alta</td>
+<td>familia limitada o parada prematura</td>
+<td>separar optimización de modelado</td>
+</tr>
+</tbody>
+</table>
+<p>Que la pérdida de entrenamiento converja solo responde si el algoritmo resolvió el problema empírico. No demuestra que la familia sea adecuada ni que el modelo funcione en observaciones nuevas.</p>
 </section>
-<section id="algoritmo-básico" class="level2">
-<h2 class="anchored" data-anchor-id="algoritmo-básico">Algoritmo básico</h2>
-<p>Para MSE:</p>
+<section id="la-hessiana-explica-la-estabilidad" class="level2">
+<h2 class="anchored" data-anchor-id="la-hessiana-explica-la-estabilidad">La Hessiana explica la estabilidad</h2>
+<p>En mínimos cuadrados la Hessiana es constante:</p>
 <p><span class="math display">\[
-J(\theta)=\frac{1}{2m}\|X\theta-y\|_2^2,
+\mathbf H
+=\nabla^2\widehat R_n(\boldsymbol\theta)
+=\frac1n\mathbf X^\top\mathbf X.
 \]</span></p>
-<p>el gradiente es:</p>
+<p>Supongamos primero que <span class="math inline">\(\mathbf X\)</span> tiene rango columna completo. Si <span class="math inline">\(\boldsymbol\theta^*\)</span> es el minimizador y <span class="math inline">\(\boldsymbol e_t=\boldsymbol\theta^{(t)}-\boldsymbol\theta^*\)</span>, entonces</p>
 <p><span class="math display">\[
-\nabla J(\theta)=\frac{1}{m}X^\top(X\theta-y).
+\begin{aligned}
+\boldsymbol e_{t+1}
+&amp;=\boldsymbol e_t-\alpha\mathbf H\boldsymbol e_t\\
+&amp;=(\mathbf I-\alpha\mathbf H)\boldsymbol e_t.
+\end{aligned}
 \]</span></p>
-<p>El algoritmo es:</p>
-<pre class="text"><code>inicializar theta
-para t = 1, ..., max_iter:
-    grad = (X.T @ (X @ theta - y)) / m
-    theta = theta - alpha * grad
-    guardar pérdida</code></pre>
-<p>Implementación:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> half_mse_loss(X, y, theta):</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    error <span class="op">=</span> X <span class="op">@</span> theta <span class="op">-</span> y</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">0.5</span> <span class="op">*</span> np.mean(error <span class="op">**</span> <span class="dv">2</span>)</span>
+<p>Sea <span class="math inline">\(\mathbf H=\mathbf Q\boldsymbol\Lambda\mathbf Q^\top\)</span> y denote sus valores propios por <span class="math inline">\(0&lt;\lambda_1\leq\cdots\leq\lambda_p\)</span>. La componente del error en la dirección propia <span class="math inline">\(j\)</span> se multiplica por <span class="math inline">\(1-\alpha\lambda_j\)</span> en cada iteración. Todas las componentes se contraen exactamente cuando</p>
+<p><span class="math display">\[
+|1-\alpha\lambda_j|&lt;1
+\quad\text{para todo }j,
+\]</span></p>
+<p>o, de manera equivalente,</p>
+<p><span class="math display">\[
+0&lt;\alpha&lt;\frac{2}{\lambda_{\max}(\mathbf H)}.
+\]</span></p>
+<div class="proposicion">
+<p><strong>Convergencia en la pérdida cuadrática.</strong> Si <span class="math inline">\(\mathbf X\)</span> tiene rango columna completo y <span class="math inline">\(0&lt;\alpha&lt;2/\lambda_{\max}(\mathbf H)\)</span>, el descenso del gradiente con paso constante converge linealmente al único minimizador. Si <span class="math inline">\(\mathbf H\)</span> es singular, las componentes iniciales en su espacio nulo no cambian y el vector de parámetros límite puede no ser único.</p>
+</div>
+<p>La tasa que equilibra las dos direcciones extremas de una cuadrática definida positiva es</p>
+<p><span class="math display">\[
+\alpha_{\mathrm{opt}}
+=\frac{2}{\lambda_{\min}(\mathbf H)+\lambda_{\max}(\mathbf H)},
+\]</span></p>
+<p>con factor de contracción máximo</p>
+<p><span class="math display">\[
+\rho
+=\frac{\kappa_2(\mathbf H)-1}{\kappa_2(\mathbf H)+1}.
+\]</span></p>
+<p>La fórmula explica el fenómeno, pero no es una receta general. Calcular el espectro completo puede costar tanto como resolver el problema y, fuera de una cuadrática, la Hessiana cambia con los parámetros.</p>
+</section>
+<section id="escala-y-condicionamiento" class="level2">
+<h2 class="anchored" data-anchor-id="escala-y-condicionamiento">Escala y condicionamiento</h2>
+<p>Una misma variable expresada en unidades distintas contiene la misma información, pero produce una geometría numérica diferente. Multipliquemos <code>x2</code> del conjunto sintético por 1000. El diseño resultante tiene aproximadamente</p>
+<p><span class="math display">\[
+\kappa_2(\mathbf X)=1311,
+\qquad
+\lambda_{\max}(\mathbf H)=1.189\times10^6.
+\]</span></p>
+<p>La condición teórica de estabilidad exige entonces</p>
+<p><span class="math display">\[
+\alpha&lt;1.68\times10^{-6}.
+\]</span></p>
+<p>Después de centrar cada característica y dividirla por su desviación estándar, sin transformar la columna de intercepto, se obtiene</p>
+<p><span class="math display">\[
+\kappa_2(\mathbf X_{\mathrm{esc}})=2.16,
+\qquad
+\lambda_{\max}(\mathbf H_{\mathrm{esc}})=1.657,
+\]</span></p>
+<p>y el límite aumenta a aproximadamente 1.207. No apareció información nueva; se modificaron las coordenadas en las que el algoritmo recorre la pérdida.</p>
+<p>La estandarización de una característica <span class="math inline">\(j\)</span> utiliza</p>
+<p><span class="math display">\[
+z_{ij}=\frac{x_{ij}-\mu_j}{s_j}.
+\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> X_features.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>scale <span class="op">=</span> X_features.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>scale[scale <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>, max_iter<span class="op">=</span><span class="dv">1000</span>, tol<span class="op">=</span><span class="fl">1e-8</span>):</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    m, p <span class="op">=</span> X.shape</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.zeros(p)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    history <span class="op">=</span> [half_mse_loss(X, y, theta)]</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        grad <span class="op">=</span> (X.T <span class="op">@</span> (X <span class="op">@</span> theta <span class="op">-</span> y)) <span class="op">/</span> m</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.<span class="bu">all</span>(np.isfinite(grad)):</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"gradiente no finito"</span>)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.norm(grad) <span class="op">&lt;=</span> tol:</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>            <span class="cf">break</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> grad</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> half_mse_loss(X, y, theta)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="kw">not</span> np.isfinite(loss):</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="cf">raise</span> <span class="pp">FloatingPointError</span>(<span class="st">"pérdida no finita"</span>)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        history.append(loss)</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> theta, np.array(history)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>history[t]</code> corresponde al parámetro después de <span class="math inline">\(t\)</span> actualizaciones, y el criterio de parada usa la norma del gradiente. Así la última pérdida guardada coincide con el <code>theta</code> devuelto. Una tolerancia por cambio de parámetros también es posible, pero depende explícitamente de <code>alpha</code>.</p>
-</section>
-<section id="cómo-leer-una-curva-de-pérdida" class="level2">
-<h2 class="anchored" data-anchor-id="cómo-leer-una-curva-de-pérdida">Cómo leer una curva de pérdida</h2>
-<p>La curva de pérdida es una herramienta de diagnóstico. No basta con mirar el resultado final.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Patrón observado</th>
-<th>Interpretación probable</th>
-<th>Acción</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Baja de forma suave</td>
-<td><code>alpha</code> razonable</td>
-<td>Continuar</td>
-</tr>
-<tr class="even">
-<td>Baja muy lentamente</td>
-<td><code>alpha</code> pequeño o mala escala</td>
-<td>Aumentar <code>alpha</code> o escalar</td>
-</tr>
-<tr class="odd">
-<td>Oscila</td>
-<td><code>alpha</code> grande</td>
-<td>Reducir <code>alpha</code></td>
-</tr>
-<tr class="even">
-<td>Explota a infinito</td>
-<td><code>alpha</code> demasiado grande</td>
-<td>Reducir mucho <code>alpha</code></td>
-</tr>
-<tr class="odd">
-<td>Baja y se estanca alto</td>
-<td>modelo limitado o pocas iteraciones</td>
-<td>revisar features/modelo</td>
-</tr>
-<tr class="even">
-<td>Entrena bien, prueba mal</td>
-<td>overfitting o leakage</td>
-<td>revisar validación</td>
-</tr>
-</tbody>
-</table>
-<div class="criterio">
-<p><strong>Criterio práctico.</strong> Una curva de pérdida sin eje, escala ni lectura no permite diagnosticar el algoritmo. Debes decir si converge, oscila o se estabiliza y qué comprobación harías después.</p>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Z <span class="op">=</span> (X_features <span class="op">-</span> mu) <span class="op">/</span> scale</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>X_scaled <span class="op">=</span> add_intercept(Z)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Cuando se evalúe fuera de la muestra de ajuste, <span class="math inline">\(\mu_j\)</span> y <span class="math inline">\(s_j\)</span> deberán calcularse solo con entrenamiento y reutilizarse sin volverlos a estimar. El capítulo siguiente formalizará esta restricción al introducir particiones y filtración de información.</p>
+<div class="diagnostico">
+<p><strong>Escalar no corrige colinealidad.</strong> La estandarización puede equilibrar unidades, pero dos columnas casi redundantes continúan casi redundantes. Si un valor singular permanece cercano a cero después de escalar, el problema requiere revisar el diseño o introducir regularización.</p>
 </div>
 </section>
-<section id="ejemplo-resuelto-una-variable-escalada" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-una-variable-escalada">Ejemplo resuelto: una variable escalada</h2>
-<p>Supón dos variables:</p>
-<ul>
-<li><code>x1</code>: edad en años, rango aproximado 18 a 80;</li>
-<li><code>x2</code>: ingreso anual en pesos, rango aproximado 10,000,000 a 500,000,000.</li>
-</ul>
-<p>En la matriz <code>X</code>, la segunda columna puede dominar el gradiente por escala, aunque no sea más importante conceptualmente. El algoritmo tendrá que usar una tasa de aprendizaje muy pequeña para no explotar en esa dirección.</p>
-<p>La solución no es cambiar la pregunta, sino cambiar la representación:</p>
+<section id="verificar-gradiente-y-solución" class="level2">
+<h2 class="anchored" data-anchor-id="verificar-gradiente-y-solución">Verificar gradiente y solución</h2>
+<p>Una implementación del gradiente debe comprobarse antes de interpretar su curva. La diferencia central en la coordenada <span class="math inline">\(j\)</span> es</p>
 <p><span class="math display">\[
-z_j = \frac{x_j-\mu_j}{s_j}.
+g_j^{\mathrm{num}}
+=\frac{J(\boldsymbol\theta+h\boldsymbol e_j)
+-J(\boldsymbol\theta-h\boldsymbol e_j)}{2h}.
 \]</span></p>
-<p>Donde <code>mu_j</code> y <code>s_j</code> se calculan con entrenamiento.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mu <span class="op">=</span> X_train.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>sigma <span class="op">=</span> X_train.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>sigma[sigma <span class="op">==</span> <span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>X_train_scaled <span class="op">=</span> (X_train <span class="op">-</span> mu) <span class="op">/</span> sigma</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>X_test_scaled <span class="op">=</span> (X_test <span class="op">-</span> mu) <span class="op">/</span> sigma</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="criterio">
-<p><strong>Regla anti-leakage.</strong> El promedio y la desviación estándar se calculan con entrenamiento. Luego se aplican a validación y prueba. No se ajustan con todo el dataset.</p>
-</div>
+<p>Para un <span class="math inline">\(h\)</span> moderadamente pequeño, el vector numérico debe aproximar el gradiente analítico:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> finite_difference_gradient(loss, theta, h<span class="op">=</span><span class="fl">1e-6</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    gradient <span class="op">=</span> np.empty_like(theta, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(theta.size):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        direction <span class="op">=</span> np.zeros_like(theta, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        direction[j] <span class="op">=</span> h</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        gradient[j] <span class="op">=</span> (</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            loss(theta <span class="op">+</span> direction) <span class="op">-</span> loss(theta <span class="op">-</span> direction)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        ) <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> h)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> gradient</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>theta0 <span class="op">=</span> np.zeros(X.shape[<span class="dv">1</span>])</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>analytic <span class="op">=</span> X.T <span class="op">@</span> (X <span class="op">@</span> theta0 <span class="op">-</span> y) <span class="op">/</span> X.shape[<span class="dv">0</span>]</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>numeric <span class="op">=</span> finite_difference_gradient(</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> theta: half_mse_loss(X, y, theta), theta0</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> np.allclose(analytic, numeric, rtol<span class="op">=</span><span class="fl">1e-5</span>, atol<span class="op">=</span><span class="fl">1e-7</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Después se compara el límite del algoritmo con <code>lstsq</code> usando exactamente la misma matriz:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>theta_ref <span class="op">=</span> np.linalg.lstsq(X_scaled, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>theta_gd, history <span class="op">=</span> gradient_descent(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    X_scaled, y, alpha<span class="op">=</span><span class="fl">0.5</span>, max_iter<span class="op">=</span><span class="dv">10_000</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>parameter_gap <span class="op">=</span> np.linalg.norm(theta_gd <span class="op">-</span> theta_ref)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>gradient_norm <span class="op">=</span> np.linalg.norm(</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    X_scaled.T <span class="op">@</span> (X_scaled <span class="op">@</span> theta_gd <span class="op">-</span> y) <span class="op">/</span> X_scaled.shape[<span class="dv">0</span>]</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Una diferencia grande puede deberse a una tasa inestable, pocas iteraciones, un criterio de parada mal definido o un gradiente incorrecto. Comparar solo las pérdidas puede ocultar diferencias entre parámetros cuando el diseño tiene rango deficiente.</p>
 </section>
-<section id="escalamiento-y-geometría" class="level2">
-<h2 class="anchored" data-anchor-id="escalamiento-y-geometría">Escalamiento y geometría</h2>
-<p>Si las variables tienen escalas muy distintas, las curvas de nivel de la pérdida pueden ser alargadas. El descenso del gradiente avanza en zigzag porque la dirección de máximo descenso local no apunta directamente al mínimo.</p>
-<p>Escalar variables suele transformar el problema para que las curvas de nivel sean menos alargadas. Esto no cambia la información esencial, pero sí cambia la geometría del algoritmo.</p>
-<div class="definicion">
-<p><strong>Definición 2.3: estandarización.</strong><br>
-Estandarizar una variable es restarle su media de entrenamiento y dividirla por su desviación estándar de entrenamiento. La variable resultante tiene media cercana a cero y escala comparable con otras variables.</p>
-</div>
-</section>
-<section id="condicionamiento" class="level2">
-<h2 class="anchored" data-anchor-id="condicionamiento">Condicionamiento</h2>
-<p>El condicionamiento mide qué tan sensible es un problema numérico a cambios pequeños. Para mínimos cuadrados, la geometría viene de la matriz de diseño <span class="math inline">\(X\)</span> y de la Hessiana</p>
+<section id="costo-y-gradientes-por-subconjuntos" class="level2">
+<h2 class="anchored" data-anchor-id="costo-y-gradientes-por-subconjuntos">Costo y gradientes por subconjuntos</h2>
+<p>Calcular <span class="math inline">\(\mathbf X\boldsymbol\theta\)</span> y después multiplicar el error por <span class="math inline">\(\mathbf X^\top\)</span> cuesta <span class="math inline">\(O(np)\)</span> por iteración batch. Tras <span class="math inline">\(T\)</span> iteraciones, el costo es <span class="math inline">\(O(Tnp)\)</span>, además de almacenar el diseño. Una factorización directa paga aproximadamente <span class="math inline">\(O(np^2)\)</span> una vez. El método conveniente depende de <span class="math inline">\(n\)</span>, <span class="math inline">\(p\)</span>, la estructura dispersa y el número de iteraciones necesario.</p>
+<p>Para un subconjunto <span class="math inline">\(B\)</span> de observaciones definimos</p>
 <p><span class="math display">\[
-H=\frac1mX^\top X.
+\boldsymbol g_B(\boldsymbol\theta)
+=\frac1{|B|}\sum_{i\in B}
+\nabla_{\boldsymbol\theta}\ell_i(\boldsymbol\theta).
 \]</span></p>
-<p>El número de condición de una matriz invertible <code>A</code> se define como:</p>
+<p>Si las posiciones se seleccionan uniformemente, condicionado en el conjunto de datos,</p>
 <p><span class="math display">\[
-\kappa(A)=\|A\|\|A^{-1}\|.
+\mathbb E_B[\boldsymbol g_B(\boldsymbol\theta)]
+=\nabla\widehat R_n(\boldsymbol\theta).
 \]</span></p>
-<p>Con norma espectral:</p>
-<p><span class="math display">\[
-\kappa(A)=\frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}.
-\]</span></p>
-<p>Si <span class="math inline">\(X\)</span> tiene rango columna completo, en norma 2,</p>
-<p><span class="math display">\[
-\kappa_2(H)=\kappa_2(X^\top X)=\kappa_2(X)^2.
-\]</span></p>
-<p>Por eso conviene diagnosticar primero <span class="math inline">\(X\)</span>. Un valor grande indica direcciones con escalas o dependencias muy distintas y puede producir avance en zigzag e inestabilidad de coeficientes.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cond_X <span class="op">=</span> np.linalg.cond(X)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>cond_H <span class="op">=</span> np.linalg.cond((X.T <span class="op">@</span> X) <span class="op">/</span> X.shape[<span class="dv">0</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="criterio">
-<p><strong>Lectura práctica.</strong> Un número de condición grande no invalida automáticamente un modelo, pero alerta sobre inestabilidad, colinealidad o necesidad de regularización.</p>
-</div>
+<p>Por tanto, el gradiente de mini-batch es un estimador condicionalmente insesgado del gradiente empírico completo. Su aleatoriedad proviene de escoger el subconjunto <span class="math inline">\(B\)</span>, una vez fijados los datos; no debe confundirse con la variación que produciría observar otra muestra de la población. Un mini-batch reduce el costo de cada paso e introduce variación entre pasos. Esta observación prepara el uso de optimizadores estocásticos en redes neuronales; en este módulo, el algoritmo de referencia seguirá utilizando todo el conjunto.</p>
 </section>
-<section id="comparación-con-ecuación-normal" class="level2">
-<h2 class="anchored" data-anchor-id="comparación-con-ecuación-normal">Comparación con ecuación normal</h2>
-<p>Para regresión lineal con MSE, la ecuación normal y descenso del gradiente buscan el mismo mínimo. Por eso podemos usarlas como verificación mutua:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>theta_ref <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>theta_gd, history <span class="op">=</span> gradient_descent(X, y, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>np.linalg.norm(theta_ref <span class="op">-</span> theta_gd)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Si la diferencia es grande, puede ocurrir:</p>
-<ul>
-<li>faltaron iteraciones;</li>
-<li>la tasa de aprendizaje es inadecuada;</li>
-<li>las variables no están escaladas;</li>
-<li>hay un error en el gradiente;</li>
-<li>la matriz está mal condicionada.</li>
-</ul>
+<section id="regreso-a-los-dos-casos" class="level2">
+<h2 class="anchored" data-anchor-id="regreso-a-los-dos-casos">Regreso a los dos casos</h2>
+<p>En la población sintética, el diseño con intercepto y tres características tiene número de condición 2.17. El descenso con datos sin reescalar ya es manejable y debe converger al mismo ajuste que <code>lstsq</code>. Multiplicar <code>x2</code> por 1000 no cambia las predicciones que puede representar el modelo, pero obliga a reducir drásticamente la tasa si no se estandariza.</p>
+<p>En las subzonas de Bogotá, el diseño sin escalar tiene número de condición cercano a 1237. Parte del valor se debe a que <code>area_promedio</code> vive en una escala muy distinta de los demás promedios. Estandarizar facilita la optimización y la comparación numérica de columnas, pero no corrige la agregación por subzona, la unidad desconocida de <code>precio_reportado</code> ni la dependencia entre variables. Un algoritmo puede converger con precisión a un modelo cuya interpretación siga siendo limitada.</p>
 </section>
-<section id="batch-stochastic-y-mini-batch" class="level2">
-<h2 class="anchored" data-anchor-id="batch-stochastic-y-mini-batch">Batch, stochastic y mini-batch</h2>
-<p>En este módulo usamos descenso del gradiente batch: cada paso calcula el gradiente con todos los datos.</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-<col style="width: 25%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Variante</th>
-<th>Usa en cada paso</th>
-<th>Ventaja</th>
-<th>Costo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Batch</td>
-<td>todo el dataset</td>
-<td>gradiente estable</td>
-<td>caro en datasets grandes</td>
-</tr>
-<tr class="even">
-<td>Stochastic</td>
-<td>una observación</td>
-<td>pasos baratos</td>
-<td>ruidoso</td>
-</tr>
-<tr class="odd">
-<td>Mini-batch</td>
-<td>un subconjunto</td>
-<td>balance práctico</td>
-<td>requiere más diseño</td>
-</tr>
-</tbody>
-</table>
-<p>En redes neuronales usaremos mini-batches. La idea central sigue siendo la misma: mover parámetros en dirección contraria al gradiente.</p>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>El descenso del gradiente convierte una derivada en una sucesión de parámetros. La pérdida, la norma del gradiente y la comparación con una solución de referencia permiten distinguir convergencia, oscilación, divergencia y errores de implementación.</p>
+<p>En una pérdida cuadrática, los valores propios de <span class="math inline">\(\mathbf X^\top\mathbf X/n\)</span> determinan el intervalo estable de tasas y la velocidad relativa de las direcciones. El escalamiento puede transformar una geometría muy alargada en otra más equilibrada sin cambiar la información del problema. No elimina colinealidad ni sustituye la evaluación estadística.</p>
+<p>El próximo capítulo mostrará un conflicto diferente: una familia más flexible puede reducir la pérdida de entrenamiento y empeorar el comportamiento fuera de muestra. Allí la optimización será una parte del procedimiento, no el criterio para escoger por sí sola el modelo final.</p>
 </section>
-<section id="tasa-de-aprendizaje-una-rutina-práctica" class="level2">
-<h2 class="anchored" data-anchor-id="tasa-de-aprendizaje-una-rutina-práctica">Tasa de aprendizaje: una rutina práctica</h2>
-<p>Una estrategia razonable para este módulo:</p>
+<section id="problemas-integrados" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="seis-pasos-que-pueden-calcularse-a-mano" class="level3">
+<h3 class="anchored" data-anchor-id="seis-pasos-que-pueden-calcularse-a-mano">1. Seis pasos que pueden calcularse a mano</h3>
+<p>Use <span class="math inline">\(x=(-1,0,1)\)</span>, <span class="math inline">\(y=(1,3,5)\)</span> y <span class="math inline">\(\boldsymbol\theta^{(0)}=(0,0)\)</span>.</p>
 <ol type="1">
-<li>Escala las variables.</li>
-<li>Prueba <code>alpha</code> en una lista: <code>0.001</code>, <code>0.01</code>, <code>0.05</code>, <code>0.1</code>, <code>0.5</code>.</li>
-<li>Grafica la pérdida.</li>
-<li>Descarta valores que divergen u oscilan.</li>
-<li>Elige el mayor valor que baje de forma estable.</li>
-<li>Elige la tasa con comportamiento estable y desempeño de validación.</li>
-<li>Una vez fijado todo el procedimiento, reporta prueba una sola vez.</li>
+<li>Derive el gradiente y la Hessiana.</li>
+<li>Calcule seis iteraciones con <span class="math inline">\(\alpha=0.2\)</span>.</li>
+<li>Repita con <span class="math inline">\(\alpha=1.8\)</span> y <span class="math inline">\(\alpha=2.2\)</span>; compare las pérdidas.</li>
+<li>Obtenga los valores propios de la Hessiana y determine el intervalo teórico de convergencia.</li>
+<li>Explique cada trayectoria mediante los factores <span class="math inline">\(1-\alpha\lambda_j\)</span>.</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alphas <span class="op">=</span> [<span class="fl">0.001</span>, <span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> alpha <span class="kw">in</span> alphas:</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    theta, history <span class="op">=</span> gradient_descent(X_train_scaled, y_train, alpha<span class="op">=</span>alpha)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    results[alpha] <span class="op">=</span> history</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
-<section id="errores-comunes" class="level2">
-<h2 class="anchored" data-anchor-id="errores-comunes">Errores comunes</h2>
+<section id="el-mismo-dato-en-otra-unidad" class="level3">
+<h3 class="anchored" data-anchor-id="el-mismo-dato-en-otra-unidad">2. El mismo dato en otra unidad</h3>
+<p>Use <code>regresion_lineal_sintetica.csv</code> y multiplique <code>x2</code> por 1000.</p>
 <ol type="1">
-<li>No guardar la historia de pérdida.</li>
-<li>Reportar solo el último <code>theta</code> sin diagnóstico de convergencia.</li>
-<li>Usar <code>alpha</code> grande y no detectar divergencia.</li>
-<li>Escalar entrenamiento y prueba por separado.</li>
-<li>Incluir la columna de intercepto en el escalamiento.</li>
-<li>Comparar gradiente contra <code>lstsq</code> sin usar la misma matriz <code>X</code>.</li>
-<li>Creer que más iteraciones arreglan un mal modelo.</li>
+<li>Calcule número de condición, espectro de la Hessiana y tasa máxima teórica antes de escalar.</li>
+<li>Ejecute gradiente con tasas <span class="math inline">\(10^{-7}\)</span>, <span class="math inline">\(10^{-5}\)</span> y <span class="math inline">\(0.1\)</span>.</li>
+<li>Estandarice las características, mantenga intacto el intercepto y repita.</li>
+<li>Convierta los coeficientes del modelo escalado a las unidades originales y compruebe que las predicciones coinciden.</li>
+<li>Distinga qué cambió en la optimización, en el modelo representable y en la interpretación de los coeficientes.</li>
 </ol>
 </section>
-<section id="checklist-de-estudio" class="level2">
-<h2 class="anchored" data-anchor-id="checklist-de-estudio">Checklist de estudio</h2>
-<div class="checklist">
-<ul>
-<li>¿Puedes escribir la actualización de descenso del gradiente?</li>
-<li>¿Puedes explicar el papel de <code>alpha</code>?</li>
-<li>¿Puedes implementar el gradiente de MSE sin ciclos?</li>
-<li>¿Puedes interpretar una curva que oscila?</li>
-<li>¿Sabes por qué se escala con parámetros de entrenamiento?</li>
-<li>¿Puedes comparar <code>theta_gd</code> con una solución de <code>lstsq</code>?</li>
-</ul>
-</div>
-</section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> analiza cómo cambia la cota de estabilidad del paso cuando el valor propio dominante de <span class="math inline">\(X^\top X\)</span> aumenta.</li>
-<li><strong>Extensión computacional:</strong> grafica curvas de pérdida para tres tasas de aprendizaje y marca divergencia, convergencia lenta y convergencia estable.</li>
-<li><strong>Conexión con proyecto:</strong> registra en tu bitácora qué variables necesitan escalamiento antes de entrenar y cómo lo verificaste.</li>
-</ul>
-</div>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>El descenso del gradiente convierte cálculo diferencial en un algoritmo iterativo. En lugar de resolver directamente una ecuación cerrada, actualiza los parámetros en la dirección opuesta al gradiente de la pérdida.</p>
-<p>La tasa de aprendizaje controla el tamaño de cada paso. Una tasa demasiado pequeña produce avance lento; una tasa demasiado grande puede provocar oscilación o divergencia. El escalamiento de variables mejora el condicionamiento y hace que las direcciones de descenso sean más comparables.</p>
-<p>Una implementación confiable debe registrar la pérdida, verificar que las formas de matrices coincidan y comparar el resultado contra una referencia. La curva de pérdida permite detectar convergencia, oscilación o un problema de escala, tasa o código.</p>
-</section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Optimización:</strong> búsqueda de parámetros que minimizan una función objetivo.</li>
-<li><strong>Gradiente:</strong> dirección de mayor aumento local de una función diferenciable.</li>
-<li><strong>Tasa de aprendizaje:</strong> escala del paso en cada actualización iterativa.</li>
-<li><strong>Convergencia:</strong> estabilización del algoritmo hacia pérdida o gradiente suficientemente pequeños.</li>
-<li><strong>Estandarización:</strong> transformación que centra y escala variables usando estadísticas de entrenamiento.</li>
-<li><strong>Condicionamiento:</strong> sensibilidad numérica de un sistema o problema ante pequeñas perturbaciones.</li>
-<li><strong>Mini-batch:</strong> subconjunto de observaciones usado para aproximar un paso de optimización.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="auditoría-de-una-implementación" class="level3">
+<h3 class="anchored" data-anchor-id="auditoría-de-una-implementación">3. Auditoría de una implementación</h3>
+<p>Introduzca deliberadamente uno de estos errores: omitir <span class="math inline">\(1/n\)</span>, cambiar el signo del gradiente o devolver una pérdida anterior al último parámetro.</p>
 <ol type="1">
-<li>Explica por qué el gradiente apunta en la dirección de mayor aumento.</li>
-<li>¿Por qué usamos <code>theta - alpha * grad</code> y no <code>theta + alpha * grad</code>?</li>
-<li>¿Qué evidencia usarías para afirmar que el algoritmo convergió?</li>
-<li>¿Por qué escalar variables puede acelerar el descenso del gradiente?</li>
-<li>Explica qué problema produce escalar prueba con su propia media.</li>
+<li>Diseñe una prueba por diferencias finitas que detecte el error.</li>
+<li>Compare el resultado con <code>lstsq</code>.</li>
+<li>Registre pérdida, norma del gradiente y distancia entre parámetros.</li>
+<li>Corrija la función sin cambiar su firma pública.</li>
+<li>Escriba qué prueba habría fallado aun si la pérdida final pareciera pequeña.</li>
 </ol>
 </section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="6" type="1">
-<li><p>Para <span class="math display">\[
-X=\begin{bmatrix}1&amp;0\\1&amp;1\\1&amp;2\end{bmatrix},\quad
-y=\begin{bmatrix}1\\3\\5\end{bmatrix},\quad
-\theta=\begin{bmatrix}0\\0\end{bmatrix},
-\]</span> calcula el gradiente de <code>J(theta)</code>.</p></li>
-<li><p>Ejecuta manualmente dos pasos de descenso del gradiente con <code>alpha=0.1</code> para el ejercicio anterior.</p></li>
-<li><p>Si una curva de pérdida pasa de <code>100</code> a <code>80</code>, luego a <code>130</code>, luego a <code>70</code>, ¿qué sospechas sobre <code>alpha</code>?</p></li>
+<section id="optimización-en-las-subzonas" class="level3">
+<h3 class="anchored" data-anchor-id="optimización-en-las-subzonas">4. Optimización en las subzonas</h3>
+<p>Use las cinco columnas numéricas del caso de Bogotá.</p>
+<ol type="1">
+<li>Compare el espectro y el número de condición antes y después de estandarizar.</li>
+<li>Encuentre una tasa estable para cada representación sin seleccionar una semilla por su resultado.</li>
+<li>Compare las predicciones de gradiente y <code>lstsq</code>.</li>
+<li>Grafique la historia de pérdida con ejes y escala claramente identificados.</li>
+<li>Redacte un diagnóstico que separe convergencia numérica, ajuste en las 32 filas y alcance sustantivo del dataset.</li>
 </ol>
 </section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="9" type="1">
-<li>Implementa <code>gradient_descent(X, y, alpha, max_iter)</code>.</li>
-<li>Agrega un criterio de parada por norma del gradiente.</li>
-<li>Compara tres tasas de aprendizaje en un dataset generado con semilla fija.</li>
-<li>Estandariza variables sin tocar la columna de intercepto.</li>
-<li>Calcula <code>np.linalg.cond(X)</code> y <code>np.linalg.cond(X.T @ X)</code> antes y después de escalar; verifica la relación entre ambos valores.</li>
-</ol>
 </section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="14" type="1">
-<li>Tu modelo con gradiente obtiene MSE mayor que la ecuación normal. Escribe tres hipótesis técnicas.</li>
-<li>Tu curva converge en entrenamiento, pero el error de prueba es malo. ¿El problema es necesariamente el optimizador?</li>
-<li>¿Qué decisión tomarías si <code>alpha=0.1</code> converge en 200 iteraciones y <code>alpha=0.01</code> converge en 5000?</li>
-</ol>
-</section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="17" type="1">
-<li>Construye un experimento pequeño con dos variables en escalas muy distintas. Ejecuta descenso del gradiente antes y después de estandarizar, grafica la pérdida y redacta un diagnóstico que explique qué cambió y qué no demuestra el experimento.</li>
-</ol>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>Problema 1.</strong> La Hessiana es</p>
+<p><span class="math display">\[
+\mathbf H=
+\begin{bmatrix}1&amp;0\\0&amp;2/3\end{bmatrix},
+\]</span></p>
+<p>por lo que el intervalo estable es <span class="math inline">\(0&lt;\alpha&lt;2\)</span>. Con <span class="math inline">\(\alpha=2.2\)</span>, la componente asociada a <span class="math inline">\(\lambda=1\)</span> se multiplica por <span class="math inline">\(-1.2\)</span> y crece en magnitud; la divergencia no se debe a un mínimo local.</p>
+<p><strong>Problema 2.</strong> Antes de escalar, <span class="math inline">\(\kappa_2(\mathbf X)\approx1311\)</span> y <span class="math inline">\(\alpha_{\max}\approx1.68\times10^{-6}\)</span>. Después de escalar, <span class="math inline">\(\kappa_2(\mathbf X)\approx2.16\)</span> y <span class="math inline">\(\alpha_{\max}\approx1.207\)</span>. Las dos parametrizaciones pueden producir las mismas predicciones lineales; sus recorridos numéricos no son iguales.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1093,13 +1077,13 @@ y=\begin{bmatrix}1\\3\\5\end{bmatrix},\quad
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./capitulo01_regresion_lineal.html" class="pagination-link" aria-label="Capítulo 1: Regresión lineal múltiple">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></span>
+      <a href="./capitulo01_regresion_lineal.html" class="pagination-link" aria-label="Regresión lineal y mínimos cuadrados">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./capitulo03_regularizacion_validacion.html" class="pagination-link" aria-label="Capítulo 3: Validación y regularización">
-        <span class="nav-page-text"><span class="chapter-title">Capítulo 3: Validación y regularización</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./capitulo03_regularizacion_validacion.html" class="pagination-link" aria-label="Validación y regularización">
+        <span class="nav-page-text"><span class="chapter-title">Validación y regularización</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

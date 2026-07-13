@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -147,27 +182,27 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="../capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="../capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="../capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  <a href="../capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="../capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -247,6 +282,7 @@ window.Quarto = {
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
 <p>Este laboratorio verifica que puedes pasar de la formulación matemática de regresión lineal a una implementación vectorizada en NumPy. También compara dos rutas hacia el mismo ajuste: mínimos cuadrados con <code>np.linalg.lstsq</code> y descenso del gradiente. Las ecuaciones normales se derivan en el libro, pero no se forma <span class="math inline">\(X^\top X\)</span> para resolver numéricamente el problema.</p>
+<p>Además debes distinguir el riesgo cuadrático poblacional <span class="math inline">\(R_P(\theta)=\mathbb E[(Y-X^\top\theta)^2]\)</span> de su versión empírica, reconocer que <span class="math inline">\(\widehat\theta\)</span> es un estimador aleatorio y cuantificar el error estándar de una media de pérdidas.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
 <p>¿La implementación desde cero produce las mismas predicciones y pérdidas que una implementación de referencia, y puedes explicar cómo sabes que el algoritmo convergió?</p>
@@ -254,9 +290,10 @@ window.Quarto = {
 </section>
 <section id="qué-debes-entregar" class="level1">
 <h1>Qué debes entregar</h1>
-<p>Entrega el notebook:</p>
-<pre class="text"><code>apellido_nombre_lab01_regresion_gradiente.ipynb</code></pre>
-<p>No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.</p>
+<p>Entrega en Gradescope un único notebook con el nombre:</p>
+<pre class="text"><code>lab01_regresion_gradiente.ipynb</code></pre>
+<p>No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre. GitHub puede usarse para guardar versiones, pero un <code>push</code> no reemplaza la entrega en Gradescope.</p>
+<p>La interpretación se escribe únicamente en la celda Markdown marcada <code>Tu respuesta</code>. No agregues la respuesta al enunciado ni incluyas nombre, correo o código estudiantil dentro de esa celda.</p>
 </section>
 <section id="flujo-recomendado" class="level1">
 <h1>Flujo recomendado</h1>
@@ -265,6 +302,8 @@ window.Quarto = {
 <li>Completa primero las funciones pequeñas: <code>add_intercept</code>, <code>predict_linear</code>, <code>mse_loss</code>.</li>
 <li>Implementa <code>normal_equation</code> con <code>np.linalg.lstsq</code>. El nombre se conserva para no romper el contrato del autograder.</li>
 <li>Implementa <code>mse_gradient</code> y verifica dimensiones.</li>
+<li>Implementa <code>standard_error_mean</code> con desviación muestral.</li>
+<li>Completa <code>probability_answers</code> separando población, estimador y estimación.</li>
 <li>Implementa <code>gradient_descent</code> guardando historia de pérdida.</li>
 <li>Compara tus resultados con <code>sklearn.linear_model.LinearRegression</code>.</li>
 <li>Escribe la interpretación final en lenguaje técnico breve.</li>
@@ -298,6 +337,16 @@ window.Quarto = {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="odd">
+<td>Error estándar</td>
+<td><code>sd(values, ddof=1) / sqrt(m)</code> con validación de entrada</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="even">
+<td>Objetos probabilísticos</td>
+<td>riesgo esperado, estimador aleatorio y papel de test</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
 <td>Mínimos cuadrados</td>
 <td>coincide con <code>lstsq</code>, incluso si la matriz pierde rango</td>
 <td style="text-align: right;">Automática</td>
@@ -322,9 +371,9 @@ window.Quarto = {
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
-<p>Incluye una respuesta corta:</p>
+<p>Incluye una respuesta de 80 a 140 palabras en la celda independiente:</p>
 <blockquote class="blockquote">
-<p>¿Qué evidencia muestra que el descenso del gradiente convergió y cuál es una limitación del experimento?</p>
+<p>¿Qué evidencia muestra que el descenso del gradiente convergió, qué cantidad poblacional intenta estimar el MSE de test y cuál es una fuente de incertidumbre?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -334,7 +383,7 @@ window.Quarto = {
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">Puntaje</th>
+<th style="text-align: right;">Nivel</th>
 <th>Criterio</th>
 </tr>
 </thead>
@@ -349,7 +398,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>Conecta curva de pérdida, comparación contra ecuación normal o <code>sklearn</code>, y una limitación concreta</td>
+<td>Conecta curva de pérdida y referencia, distingue riesgo esperado/empírico y nombra una fuente concreta de incertidumbre</td>
 </tr>
 </tbody>
 </table>
@@ -364,6 +413,7 @@ window.Quarto = {
 <li>La historia de pérdida permite diagnosticar convergencia.</li>
 <li>El modelo se compara contra un baseline y contra una implementación de referencia.</li>
 <li>La interpretación final menciona una limitación.</li>
+<li>La interpretación separa <span class="math inline">\(\theta_P\)</span>, <span class="math inline">\(\widehat\theta\)</span> y el vector calculado en esta muestra.</li>
 </ul>
 </div>
 </section>
@@ -387,6 +437,8 @@ window.Quarto = {
 ¿La pérdida del gradiente baja?
 ¿La solución por gradiente se acerca a la obtenida con `lstsq`?
 ¿La respuesta manual cita resultados concretos y no solo una opinión?</code></pre>
+<p>Ejecuta además el validador público antes de cargar el archivo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> validar_entrega.py lab01_regresion_gradiente.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>

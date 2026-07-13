@@ -5,20 +5,20 @@
 | Componente | Puntos | Calificacion |
 |---|---:|---|
 | Código autograded | 70 | Automática |
-| Matemática estructurada | 20 | Automática |
+| Matemática probabilística y algorítmica estructurada | 20 | Automática |
 | Explicación corta | 10 | Manual |
 
 ## Revisión manual
 
 Pregunta:
 
-> Si un modelo mejora el baseline por poco, ¿qué resultado adicional pedirías antes de recomendarlo?
+> Si un modelo mejora el baseline por poco, ¿qué cantidad poblacional intenta estimar esa mejora, qué incertidumbre tiene y qué evidencia adicional pedirías?
 
 | Nivel | Puntos | Criterio |
 |---:|---:|---|
 | 0 | 0 | No responde o la respuesta no es técnica. |
 | 1 | 5 | Menciona un resultado aislado, como otra métrica, más datos o validación. |
-| 2 | 10 | Integra métrica, variabilidad de validación, análisis de errores y alcance de uso. |
+| 2 | 10 | Identifica cantidad poblacional, variabilidad de validación, análisis de errores y alcance de uso. |
 
 ## Señales de alerta
 

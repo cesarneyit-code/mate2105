@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -147,27 +182,27 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="../capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="../capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="../capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  <a href="../capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="../capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -252,12 +287,14 @@ window.Quarto = {
 <li>validación para escoger hiperparámetros;</li>
 <li>umbrales para convertir probabilidades en decisiones.</li>
 </ol>
+<p>La clasificación se formula como <span class="math inline">\(Y\mid X=x\sim\operatorname{Bernoulli}(p(x))\)</span>. La probabilidad producida por el modelo es una estimación de <span class="math inline">\(p(x)\)</span>, y las métricas de validación o prueba son estimadores aleatorios del desempeño bajo una población objetivo.</p>
 </section>
 <section id="qué-debes-entregar" class="level1">
 <h1>Qué debes entregar</h1>
-<p>Entrega el notebook:</p>
-<pre class="text"><code>apellido_nombre_lab02_regularizacion_clasificacion.ipynb</code></pre>
-<p>No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos y también verifica las respuestas estructuradas sobre el protocolo de evaluación.</p>
+<p>Entrega en Gradescope un único notebook con el nombre:</p>
+<pre class="text"><code>lab02_regularizacion_clasificacion.ipynb</code></pre>
+<p>No cambies nombres ni firmas. El autograder revisa las funciones con datos alternos y también verifica las respuestas estructuradas sobre el protocolo de evaluación. GitHub es un espacio opcional de trabajo; la entrega oficial es el archivo cargado en Gradescope.</p>
+<p>Escribe la recomendación únicamente en la celda Markdown marcada <code>Tu respuesta</code>. No edites el enunciado ni incluyas datos personales en esa celda.</p>
 </section>
 <section id="flujo-recomendado" class="level1">
 <h1>Flujo recomendado</h1>
@@ -269,8 +306,9 @@ window.Quarto = {
 <li>Compara Ridge y Lasso con <code>select_regularization_alpha</code>, usando validación.</li>
 <li>Implementa funciones logísticas: <code>sigmoid</code>, <code>log_loss_binary</code>.</li>
 <li>Calcula métricas con una matriz de confusión.</li>
+<li>Implementa <code>bernoulli_standard_error</code> para una media de indicadores.</li>
 <li>Elige el umbral en validación; usa prueba una sola vez al final.</li>
-<li>Completa <code>protocol_answers</code> y justifica tu recomendación.</li>
+<li>Completa <code>protocol_answers</code>, incluido modelo Bernoulli y carácter aleatorio de validación.</li>
 <li>Reinicia kernel y ejecuta todo antes de entregar.</li>
 </ol>
 </section>
@@ -316,11 +354,16 @@ window.Quarto = {
 <td style="text-align: right;">Automática</td>
 </tr>
 <tr class="even">
+<td>Incertidumbre</td>
+<td>error estándar <em>plug-in</em> de una proporción y semántica poblacional</td>
+<td style="text-align: right;">Automática</td>
+</tr>
+<tr class="odd">
 <td>Umbral</td>
 <td>selección consistente con objetivo de recall</td>
 <td style="text-align: right;">Automática</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Protocolo</td>
 <td>escalamiento, hiperparámetros, umbral y prueba con papeles correctos</td>
 <td style="text-align: right;">Automática</td>
@@ -330,9 +373,9 @@ window.Quarto = {
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
-<p>Incluye una respuesta corta:</p>
+<p>Incluye una respuesta de 100 a 160 palabras en la celda independiente:</p>
 <blockquote class="blockquote">
-<p>¿Qué modelo o umbral recomendarías y qué limitación comunicarías antes de usarlo?</p>
+<p>¿Qué modelo o umbral recomendarías, qué cantidad poblacional intenta estimar la métrica reportada y qué incertidumbre comunicarías antes de usarlo?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -342,7 +385,7 @@ window.Quarto = {
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">Puntaje</th>
+<th style="text-align: right;">Nivel</th>
 <th>Criterio</th>
 </tr>
 </thead>
@@ -357,7 +400,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>La decisión usa métrica adecuada, comparación/baseline y una limitación concreta</td>
+<td>La decisión usa métrica y baseline, distingue probabilidad estimada de verdadera y comunica incertidumbre y alcance</td>
 </tr>
 </tbody>
 </table>
@@ -393,6 +436,8 @@ window.Quarto = {
 ¿Reporté una métrica alineada con la decisión?
 ¿Mi umbral tiene justificación?
 ¿La parte manual comunica una limitación real?</code></pre>
+<p>Antes de cargar el archivo, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> validar_entrega.py lab02_regularizacion_clasificacion.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>

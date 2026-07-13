@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-3f131185a6c83ced5fc2f6bd2fbe45f7.css">
+  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-c4671635691b2e73f5cc2258d795177c.css">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -207,37 +207,37 @@ César Galindo
 </div>
 
 </section>
-<section class="slide level2">
-
-<!-- Fuente editable. El generador puede reconstruirla desde scripts/contenido_sesiones_03_16.py. -->
-</section>
-<section id="pca-comienza-por-centrar" class="slide level2">
+<section id="pca-comienza-por-centrar" class="slide level2 session-opening">
 <h2>PCA comienza por centrar</h2>
-<div class="lead">
+<div class="session-question">
 <p>¿Cómo obtiene SVD direcciones de variación y una reconstrucción de rango bajo?</p>
 </div>
-<p>Al final de la sesión: <strong>Derivar proyección y reconstrucción desde la matriz centrada y sus valores singulares.</strong></p>
+<div class="session-outcome">
+<p><span class="label">Al salir de esta sesión</span> <strong>Derivar proyección y reconstrucción desde la matriz centrada y sus valores singulares.</strong></p>
+</div>
 </section>
-<section id="punto-de-partida" class="slide level2">
+<section id="punto-de-partida" class="slide level2 recap-slide">
 <h2>Punto de partida</h2>
 <p>Hasta ahora una etiqueta definía pérdida y métrica. En PCA no hay objetivo observado: elegimos qué estructura geométrica conservar.</p>
 <div class="board">
 <p>Hoy cambia la pregunta: derivaremos proyección y reconstrucción desde una matriz centrada.</p>
 </div>
 </section>
-<section id="el-caso-que-usaremos" class="slide level2">
+<section id="el-caso-que-usaremos" class="slide level2 case-slide">
 <h2>El caso que usaremos</h2>
 <p>Usaremos imágenes de dígitos como vectores de 64 pixeles. PCA comprimirá variación, pero no recibirá las clases durante el ajuste.</p>
 <div class="data-note">
 <p>Las etiquetas se reservan para colorear una visualización posterior; no definen los componentes.</p>
 </div>
 </section>
-<section id="una-imagen-para-orientar-la-discusión" class="slide level2">
-<h2>Una imagen para orientar la discusión</h2>
+<section id="matriz-centrada-svd-proyección-y-reconstrucción-pca" class="slide level2 visual-slide">
+<h2>Matriz centrada, SVD, proyección y reconstrucción PCA</h2>
 
-<img src="../figuras/pca-svd-proyeccion.svg" class="wide-figure r-stretch" alt="Matriz centrada, SVD, proyección y reconstrucción PCA"><p>Los vectores derechos de SVD definen ejes en el espacio de variables. La proyección guarda coordenadas y la reconstrucción vuelve al espacio original.</p>
+<img src="../figuras/pca-svd-proyeccion.svg" class="wide-figure r-stretch" alt="Matriz centrada, SVD, proyección y reconstrucción PCA"><div class="figure-reading">
+<p>Los vectores derechos de SVD definen ejes en el espacio de variables. La proyección guarda coordenadas y la reconstrucción vuelve al espacio original.</p>
+</div>
 </section>
-<section id="objetos-y-notación" class="slide level2">
+<section id="objetos-y-notación" class="slide level2 notation-slide">
 <h2>Objetos y notación</h2>
 <table class="caption-top">
 <thead>
@@ -269,15 +269,34 @@ César Galindo
 </tr>
 </tbody>
 </table>
-<p>Antes de calcular, cada símbolo debe tener una lectura y una forma.</p>
 </section>
-<section id="la-pregunta-matemática" class="slide level2">
+<section id="del-objeto-poblacional-al-cálculo" class="slide level2 probability-slide">
+<h2>Del objeto poblacional al cálculo</h2>
+<div class="probability-grid">
+<div class="population">
+<span class="label">Objeto poblacional</span><strong>covarianza y subespacio principal poblacionales</strong>
+</div>
+<div class="empirical">
+<span class="label">Cantidad calculable</span><strong>covarianza muestral, SVD y varianza explicada</strong>
+</div>
+<div class="assumption">
+<span class="label">Supuesto de enlace</span><strong>segundos momentos finitos y muestra comparable</strong>
+</div>
+<div class="uncertainty">
+<span class="label">Variación restante</span><strong>muestra, signo y estabilidad del subespacio</strong>
+</div>
+</div>
+<div class="probability-prompt">
+<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+</div>
+</section>
+<section id="la-pregunta-matemática" class="slide level2 question-slide">
 <h2>La pregunta matemática</h2>
 <div class="question">
 <p>¿Qué rango-<span class="math inline">\(k\)</span> minimiza el error de reconstrucción de la matriz centrada en norma de Frobenius?</p>
 </div>
 </section>
-<section id="expresión-central" class="slide level2">
+<section id="expresión-central" class="slide level2 formula-slide">
 <h2>Expresión central</h2>
 <div class="math-focus">
 <p><span class="math display">\[
@@ -286,54 +305,61 @@ X_c=U\Sigma V^\top,
 X_{c,k}=U_k\Sigma_kV_k^\top.
 \]</span></p>
 </div>
+<div class="formula-reading">
 <p>Por Eckart–Young, truncar SVD produce la mejor aproximación de rango a lo sumo <span class="math inline">\(k\)</span> en norma de Frobenius.</p>
+</div>
 </section>
-<section id="primer-paso-de-la-derivación" class="slide level2">
+<section id="primer-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Primer paso de la derivación</h2>
 <p>Las coordenadas PCA son <span class="math display">\[Z_k=X_cV_k=U_k\Sigma_k.\]</span></p>
 </section>
-<section id="segundo-paso-de-la-derivación" class="slide level2">
+<section id="segundo-paso-de-la-derivación" class="slide level2 derivation-slide">
 <h2>Segundo paso de la derivación</h2>
 <p>La reconstrucción en unidades originales es <span class="math display">\[\widehat X_k=Z_kV_k^\top+\mathbf1_m\mu^\top.\]</span> Olvidar sumar la media reconstruye alrededor del origen equivocado.</p>
 </section>
-<section id="qué-debe-coincidir" class="slide level2">
+<section id="qué-debe-coincidir" class="slide level2 shape-slide">
 <h2>Qué debe coincidir</h2>
 <p><span class="math inline">\(Z_k\)</span> tiene forma <span class="math inline">\(m\times k\)</span> y <span class="math inline">\(Z_kV_k^T\)</span> vuelve a <span class="math inline">\(m\times p\)</span>. <code>Vt[:k].T</code> contiene componentes como columnas.</p>
 <div class="board">
 <p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="lectura-del-resultado" class="slide level2">
+<section id="lectura-del-resultado" class="slide level2 interpretation-slide">
 <h2>Lectura del resultado</h2>
 <p>Un componente puede cambiar de signo sin cambiar el subespacio ni la reconstrucción. El signo no es identificable.</p>
-<p>No basta obtener la expresión: hay que decir qué cambia cuando cambia cada término.</p>
 </section>
-<section id="primera-pausa" class="slide level2">
+<section id="primera-pausa" class="slide level2 pause-slide">
 <h2>Primera pausa</h2>
 <div class="pause">
 <p>Si <span class="math inline">\(X\)</span> tiene forma <span class="math inline">\(200\times64\)</span> y conservamos <span class="math inline">\(k=5\)</span>, escriba formas de <span class="math inline">\(V_k\)</span>, <span class="math inline">\(Z_k\)</span> y <span class="math inline">\(\widehat X_k\)</span>.</p>
 <p>Tiempo: 6 minutos. Escriba el argumento, no solo la respuesta final.</p>
 </div>
 </section>
-<section id="discusión-de-la-primera-pausa" class="slide level2">
+<section id="discusión-de-la-primera-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la primera pausa</h2>
 <p><span class="math inline">\(V_k:64\times5\)</span>, <span class="math inline">\(Z_k:200\times5\)</span> y <span class="math inline">\(\widehat X_k:200\times64\)</span>.</p>
-<div class="source-line">
-<p>La respuesta se construye en el tablero antes de continuar.</p>
+</section>
+<section id="del-cálculo-al-algoritmo" class="slide level2 algorithm-slide">
+<h2>Del cálculo al algoritmo</h2>
+<div class="algorithm-flow">
+<div>
+<span>1</span><strong>calcular media en train</strong>
+</div>
+<div>
+<span>2</span><strong>centrar train</strong>
+</div>
+<div>
+<span>3</span><strong>aplicar SVD reducida</strong>
+</div>
+<div>
+<span>4</span><strong>seleccionar primeros <span class="math inline">\(k\)</span> vectores</strong>
+</div>
+<div>
+<span>5</span><strong>proyectar y reconstruir</strong>
+</div>
 </div>
 </section>
-<section id="del-cálculo-al-algoritmo" class="slide level2">
-<h2>Del cálculo al algoritmo</h2>
-<ol type="1">
-<li>calcular media en train</li>
-<li>centrar train</li>
-<li>aplicar SVD reducida</li>
-<li>seleccionar primeros <span class="math inline">\(k\)</span> vectores</li>
-<li>proyectar y reconstruir</li>
-</ol>
-<p>El orden importa: cada paso debe usar únicamente información disponible en ese momento.</p>
-</section>
-<section id="implementación-mínima" class="slide level2">
+<section id="implementación-mínima" class="slide level2 code-slide">
 <h2>Implementación mínima</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>mu <span class="op">=</span> X_train.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-2"><a href=""></a>Xc <span class="op">=</span> X_train <span class="op">-</span> mu</span>
@@ -341,15 +367,16 @@ X_{c,k}=U_k\Sigma_kV_k^\top.
 <span id="cb1-4"><a href=""></a>Vk <span class="op">=</span> Vt[:k].T</span>
 <span id="cb1-5"><a href=""></a>Z <span class="op">=</span> Xc <span class="op">@</span> Vk</span>
 <span id="cb1-6"><a href=""></a>X_hat <span class="op">=</span> Z <span class="op">@</span> Vk.T <span class="op">+</span> mu</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-note">
 <p>Para transformar nuevos datos se resta la media de train y se usa el mismo <span class="math inline">\(V_k\)</span>.</p>
+</div>
 </section>
-<section id="ejemplo-controlado" class="slide level2">
+<section id="ejemplo-controlado" class="slide level2 worked-example-slide">
 <h2>Ejemplo controlado</h2>
 <p>Con una matriz 4×2 calculable a mano, verificamos que <span class="math inline">\(X_c^T\mathbf1=0\)</span> y que el error disminuye al pasar de rango 1 a rango 2.</p>
-<p>El ejemplo es pequeño para poder revisar cada número sin esconder errores detrás de una biblioteca.</p>
 </section>
-<section id="resultado-que-esperamos-reproducir" class="slide level2">
-<h2>Resultado que esperamos reproducir</h2>
+<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
+<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
 <div>
 <span class="value">centrada</span><span class="label">matriz de entrada</span>
@@ -363,14 +390,14 @@ X_{c,k}=U_k\Sigma_kV_k^\top.
 </div>
 <p>PCA preserva variación cuadrática global, no necesariamente la estructura que importa para una tarea posterior.</p>
 </section>
-<section id="abra-el-notebook" class="slide level2">
+<section id="abra-el-notebook" class="slide level2 notebook-slide">
 <h2>Abra el notebook</h2>
-<div class="lead">
+<div class="notebook-file">
 <p><code>semana12_live_coding.ipynb</code></p>
 </div>
 <p>Compruebe centrado, formas y monotonía del error antes de visualizar dígitos.</p>
 </section>
-<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2">
+<section id="dos-opciones-que-no-responden-lo-mismo" class="slide level2 comparison-slide">
 <h2>Dos opciones que no responden lo mismo</h2>
 <table class="caption-top">
 <colgroup>
@@ -403,55 +430,59 @@ X_{c,k}=U_k\Sigma_kV_k^\top.
 </tr>
 </tbody>
 </table>
-<p>La comparación es válida solo si conserva datos, partición y métrica cuando corresponda.</p>
 </section>
-<section id="comprobación-numérica" class="slide level2">
+<section id="comprobación-numérica" class="slide level2 verification-slide">
 <h2>Comprobación numérica</h2>
 <p>Exija <code>np.allclose(Xc.mean(axis=0), 0)</code> y compare reconstrucción manual con <code>PCA.inverse_transform</code> bajo el mismo centrado.</p>
 <div class="board">
 <p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
 </div>
 </section>
-<section id="primer-modo-de-falla" class="slide level2">
+<section id="primer-modo-de-falla" class="slide level2 failure-slide">
 <h2>Primer modo de falla</h2>
+<div class="failure-statement">
 <p>Aplicar SVD a datos sin centrar hace que el primer componente capture el nivel medio.</p>
-<p><strong>Señal observable:</strong> no existe vector <code>mu</code></p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong>no existe vector <code>mu</code></strong></p>
+</div>
 </section>
-<section id="segundo-modo-de-falla" class="slide level2">
+<section id="segundo-modo-de-falla" class="slide level2 failure-slide">
 <h2>Segundo modo de falla</h2>
+<div class="failure-statement">
 <p>Interpretar el signo de un componente como dirección intrínseca ignora su indeterminación.</p>
-<p><strong>Señal observable:</strong> la narrativa cambia si <code>V[k]</code> se multiplica por -1</p>
+</div>
+<div class="failure-signal">
+<p><span class="label">Señal observable</span> <strong>la narrativa cambia si <code>V[k]</code> se multiplica por -1</strong></p>
+</div>
 </section>
-<section id="segunda-pausa" class="slide level2">
+<section id="segunda-pausa" class="slide level2 pause-slide">
 <h2>Segunda pausa</h2>
 <div class="pause">
 <p>Dos ejecuciones producen componentes con signo opuesto y coordenadas reflejadas. ¿Cambió el PCA? Diseñe una prueba.</p>
 <p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
 </div>
 </section>
-<section id="discusión-de-la-segunda-pausa" class="slide level2">
+<section id="discusión-de-la-segunda-pausa" class="slide level2 answer-slide">
 <h2>Discusión de la segunda pausa</h2>
 <p>No necesariamente. Compare subespacios o reconstrucciones; <span class="math inline">\(V_kV_k^T\)</span> y <span class="math inline">\(\widehat X\)</span> deben coincidir aunque cambie el signo.</p>
-<p>La recomendación debe nombrar el archivo, cálculo o partición que permitiría comprobarla.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2">
+<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
 <h2>Qué sí permite afirmar</h2>
 <p>SVD sobre una matriz centrada produce una proyección y la mejor reconstrucción de rango bajo para la norma elegida.</p>
-<p>La afirmación queda ligada a la muestra, la partición y la configuración observadas.</p>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2">
+<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
 <h2>Qué no permite afirmar</h2>
 <p>Máxima varianza no equivale a máxima utilidad, separación de clases ni causalidad.</p>
-<div class="data-note">
-<p>Declarar el límite no debilita el análisis; define su alcance.</p>
-</div>
 </section>
-<section id="conexión-con-la-evaluación" class="slide level2">
+<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
 <h2>Conexión con la evaluación</h2>
 <p>Lab 5 verifica centrado, SVD, proyección, reconstrucción y lectura prudente de varianza explicada.</p>
-<p><strong>Hito de la semana:</strong> Entrega de Lab 4 y publicación de Lab 5.</p>
+<div class="assessment-milestone">
+<p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 4 y publicación de Lab 5.</strong></p>
+</div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2">
+<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
 <h2>Trabajo de tablero: síntesis</h2>
 <ul>
 <li>centrar con media de train</li>
@@ -459,18 +490,16 @@ X_{c,k}=U_k\Sigma_kV_k^\top.
 <li><span class="math inline">\(Z=X_cV_k\)</span></li>
 <li><span class="math inline">\(\widehat X=ZV_k^T+\mu\)</span></li>
 </ul>
-<p>Estas cuatro líneas deben poder reconstruirse sin mirar las diapositivas.</p>
 </section>
-<section id="ticket-de-salida" class="slide level2">
+<section id="ticket-de-salida" class="slide level2 exit-slide">
 <h2>Ticket de salida</h2>
 <ol type="1">
 <li>¿Por qué centrar?</li>
 <li>¿Qué forma tiene <span class="math inline">\(Z_k\)</span>?</li>
 <li>¿Qué significa la indeterminación de signo?</li>
 </ol>
-<p>Entregue una respuesta de cuatro a seis líneas.</p>
 </section>
-<section id="cierre" class="slide level2">
+<section id="cierre" class="slide level2 closing-slide">
 <h2>Cierre</h2>
 <div class="lead">
 <p>PCA no descubre nombres ocultos: construye un subespacio que comprime variación bajo una geometría declarada.</p>

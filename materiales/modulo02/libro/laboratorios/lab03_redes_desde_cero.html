@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -182,7 +217,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../recursos/guia_proyecto_modulo02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: checkpoint técnico del Módulo 2</span></a>
+  <a href="../recursos/guia_proyecto_modulo02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 2</span></a>
   </div>
 </li>
     </ul>
@@ -233,7 +268,7 @@ window.Quarto = {
 
 <section id="propósito" class="level1">
 <h1>Propósito</h1>
-<p>Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.</p>
+<p>Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento. La salida softmax se interpreta como una distribución categórica condicional estimada; la entropía cruzada empírica aproxima un riesgo esperado y los gradientes de minibatch son estimadores aleatorios.</p>
 <p>La pregunta técnica central es:</p>
 <blockquote class="blockquote">
 <p>¿La red aprende por backpropagation de forma verificable y puedes diagnosticar si su entrenamiento es confiable?</p>
@@ -241,9 +276,9 @@ window.Quarto = {
 </section>
 <section id="qué-debes-entregar" class="level1">
 <h1>Qué debes entregar</h1>
-<p>Entrega el notebook:</p>
-<pre class="text"><code>apellido_nombre_lab03_redes_desde_cero.ipynb</code></pre>
-<p>No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.</p>
+<p>Entrega en Gradescope un único notebook con el nombre:</p>
+<pre class="text"><code>lab03_redes_desde_cero.ipynb</code></pre>
+<p>No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre. GitHub es opcional y sirve para guardar versiones; la entrega oficial es el archivo cargado en Gradescope. La interpretación va exclusivamente en la celda Markdown marcada <code>Tu respuesta</code>, sin nombre, correo ni código estudiantil.</p>
 </section>
 <section id="flujo-recomendado" class="level1">
 <h1>Flujo recomendado</h1>
@@ -257,7 +292,8 @@ window.Quarto = {
 <li>Implementa <code>update_parameters</code> y <code>predict</code>.</li>
 <li>Entrena en un subconjunto de <code>load_digits</code>.</li>
 <li>Compara contra <code>sklearn.neural_network.MLPClassifier</code> o una referencia simple.</li>
-<li>Escribe interpretación final: convergencia, limitación y siguiente experimento.</li>
+<li>Completa <code>probability_answers</code>: distribución condicional, riesgo esperado, gradiente de minibatch y papel de la semilla.</li>
+<li>Escribe interpretación final: convergencia, incertidumbre, limitación y siguiente experimento.</li>
 </ol>
 </section>
 <section id="lo-que-autocalifica-el-notebook" class="level1">
@@ -316,6 +352,11 @@ window.Quarto = {
 <td>parámetros actualizados y clases predichas</td>
 <td style="text-align: right;">Automática</td>
 </tr>
+<tr class="odd">
+<td>Contrato probabilístico</td>
+<td>distribución categórica, riesgo, gradiente aleatorio y semilla</td>
+<td style="text-align: right;">Automática</td>
+</tr>
 </tbody>
 </table>
 <section id="convención-de-regularización" class="level2">
@@ -332,9 +373,9 @@ J_{\lambda}
 </section>
 <section id="parte-manual" class="level1">
 <h1>Parte manual</h1>
-<p>Incluye una respuesta corta:</p>
+<p>Incluye una respuesta de 100 a 160 palabras:</p>
 <blockquote class="blockquote">
-<p>¿Qué resultados muestran que la red aprendió y cuál es una limitación del experimento?</p>
+<p>¿Qué resultados muestran que la red aprendió, qué riesgo poblacional aproxima la entropía cruzada y qué fuentes de variación quedan?</p>
 </blockquote>
 <p>Rúbrica manual:</p>
 <table class="caption-top table">
@@ -344,7 +385,7 @@ J_{\lambda}
 </colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;">Puntaje</th>
+<th style="text-align: right;">Nivel</th>
 <th>Criterio</th>
 </tr>
 </thead>
@@ -359,7 +400,7 @@ J_{\lambda}
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>Conecta curva de pérdida, métrica de validación, comparación y una limitación concreta</td>
+<td>Conecta curva y validación, identifica riesgo esperado y separa variación por muestra, inicialización o minibatch</td>
 </tr>
 </tbody>
 </table>
@@ -383,6 +424,8 @@ J_{\lambda}
 ¿Softmax suma 1 por fila?
 ¿La pérdida baja durante entrenamiento?
 ¿La respuesta manual usa resultados y no solo opinión?</code></pre>
+<p>Antes de cargar el archivo, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> validar_entrega.py lab03_redes_desde_cero.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 
 
 </section>
@@ -795,8 +838,8 @@ J_{\lambda}
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../recursos/guia_proyecto_modulo02.html" class="pagination-link" aria-label="Guía de proyecto: checkpoint técnico del Módulo 2">
-        <span class="nav-page-text"><span class="chapter-title">Guía de proyecto: checkpoint técnico del Módulo 2</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../recursos/guia_proyecto_modulo02.html" class="pagination-link" aria-label="Proyecto durante el Módulo 2">
+        <span class="nav-page-text"><span class="chapter-title">Proyecto durante el Módulo 2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

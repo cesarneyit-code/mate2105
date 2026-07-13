@@ -188,7 +188,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../recursos/guia_proyecto_modulo04.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: extensión no supervisada</span></a>
+  <a href="../recursos/guia_proyecto_modulo04.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 4</span></a>
   </div>
 </li>
     </ul>
@@ -215,6 +215,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#selección-de-k-por-silhouette" id="toc-selección-de-k-por-silhouette" class="nav-link" data-scroll-target="#selección-de-k-por-silhouette">7. Selección de k por silhouette</a></li>
   <li><a href="#similitud-coseno" id="toc-similitud-coseno" class="nav-link" data-scroll-target="#similitud-coseno">8. Similitud coseno</a></li>
   <li><a href="#recomendación-por-similitud" id="toc-recomendación-por-similitud" class="nav-link" data-scroll-target="#recomendación-por-similitud">9. Recomendación por similitud</a></li>
+  <li><a href="#contrato-probabilístico" id="toc-contrato-probabilístico" class="nav-link" data-scroll-target="#contrato-probabilístico">10. Contrato probabilístico</a></li>
   </ul></li>
   <li><a href="#pregunta-manual" id="toc-pregunta-manual" class="nav-link" data-scroll-target="#pregunta-manual">Pregunta manual</a></li>
   <li><a href="#criterio-de-interpretación" id="toc-criterio-de-interpretación" class="nav-link" data-scroll-target="#criterio-de-interpretación">Criterio de interpretación</a></li>
@@ -255,11 +256,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>calcular similitud coseno;</li>
 <li>producir recomendaciones simples con límites explícitos.</li>
 </ul>
+<p>También debes separar los objetos poblacionales de sus aproximaciones muestrales: PCA estima direcciones de la covarianza poblacional, K-Means aproxima una distorsión esperada y un recomendador offline observa interacciones filtradas por un mecanismo de exposición.</p>
 <p>La parte automática revisa funciones, formas, valores numéricos y comportamiento en datos no vistos. La parte manual revisa una interpretación corta.</p>
 </section>
 <section id="entrega" class="level2">
 <h2 class="anchored" data-anchor-id="entrega">Entrega</h2>
-<p>Entrega un único notebook <code>.ipynb</code> con las funciones solicitadas. No cambies los nombres de las funciones ni sus argumentos.</p>
+<p>Entrega en Gradescope un único archivo llamado <code>lab05_no_supervisado.ipynb</code> con las funciones solicitadas. No cambies los nombres de las funciones ni sus argumentos. GitHub puede usarse para guardar versiones, pero no reemplaza la entrega oficial.</p>
 <p>El autograder ejecutará todo el notebook de arriba hacia abajo y luego llamará las funciones.</p>
 </section>
 <section id="dependencias-permitidas" class="level2">
@@ -357,15 +359,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">    Ordena de mayor a menor similitud.</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
+<section id="contrato-probabilístico" class="level3">
+<h3 class="anchored" data-anchor-id="contrato-probabilístico">10. Contrato probabilístico</h3>
+<p>Completa <code>probability_answers</code> con las etiquetas indicadas en el notebook. El autograder verificará que distingues covarianza poblacional y muestral, inestabilidad por muestra e inicialización, y preferencia latente e interacción observada bajo un mecanismo de exposición.</p>
+</section>
 </section>
 <section id="pregunta-manual" class="level2">
 <h2 class="anchored" data-anchor-id="pregunta-manual">Pregunta manual</h2>
-<p>Escribe una respuesta de 120 a 180 palabras:</p>
+<p>Escribe una respuesta de 120 a 180 palabras únicamente en la celda Markdown marcada <code>Tu respuesta</code>. No incluyas nombre, correo ni código estudiantil.</p>
 <ol type="1">
 <li>¿Qué resultados usarías para decidir cuántos componentes principales o cuántos clusters reportar?</li>
 <li>¿Qué limitación tendría tu recomendador item-item si la matriz usuario-item es muy dispersa?</li>
+<li>¿Cómo evaluarías estabilidad frente a una nueva muestra, no solo frente a otra semilla?</li>
 <li>¿Qué validación adicional harías antes de usar segmentos o recomendaciones en una decisión real?</li>
 </ol>
+<p>Antes de cargar el notebook, ejecuta:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> validar_entrega.py lab05_no_supervisado.ipynb</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="criterio-de-interpretación" class="level2">
 <h2 class="anchored" data-anchor-id="criterio-de-interpretación">Criterio de interpretación</h2>
@@ -376,6 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>interpretación prudente;</li>
 <li>límite técnico reconocido;</li>
 <li>validación siguiente concreta.</li>
+<li>distinción entre estructura poblacional, estimación muestral y variación algorítmica.</li>
 </ul>
 
 

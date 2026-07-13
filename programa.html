@@ -133,6 +133,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="nav-link" href="./configuracion.html"> 
 <span class="menu-text">Configuración</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./laboratorios.html"> 
+<span class="menu-text">Laboratorios</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -225,17 +229,18 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="introducción-y-descripción-general-del-curso" class="level1">
 <h1>Introducción y descripción general del curso</h1>
-<p>MATE-2105 desarrolla fundamentos matemáticos y computacionales de algoritmos centrales en ciencia de datos aplicada. El curso avanza desde regresión lineal, optimización y clasificación hasta redes neuronales, estrategia de proyectos de machine learning, aprendizaje no supervisado, reproducibilidad y defensa técnica.</p>
+<p>MATE-2105 desarrolla fundamentos probabilísticos, estadísticos, algebraicos, analíticos y computacionales de algoritmos centrales en ciencia de datos aplicada. El curso avanza desde variables aleatorias, muestras y riesgo esperado hasta regresión, optimización, clasificación, redes neuronales, estrategia de proyectos de <em>machine learning</em>, aprendizaje no supervisado, reproducibilidad y defensa técnica.</p>
 <p>El curso no es un bootcamp de librerías ni un curso teórico desconectado de problemas reales. La meta es que el estudiante pueda abrir un algoritmo, entender su estructura matemática, implementarlo de forma básica, diagnosticar su comportamiento y usarlo con datos reales de manera responsable.</p>
 <p>La propuesta metodológica combina derivación matemática, implementación desde cero, comparación con herramientas profesionales, análisis de datos, evaluación automatizada y comunicación técnica. Cada bloque sigue el ciclo:</p>
-<pre class="text"><code>pregunta aplicada -&gt; modelo matemático -&gt; algoritmo -&gt; implementación -&gt; validación -&gt; decisión</code></pre>
+<pre class="text"><code>pregunta aplicada -&gt; población y muestra -&gt; modelo matemático -&gt; algoritmo -&gt; implementación -&gt; validación -&gt; conclusión</code></pre>
 <p>En la práctica, algunas actividades usarán ejemplos pequeños y controlados para revisar implementaciones; otras usarán datasets reales o públicos para discutir métricas, errores, limitaciones y decisiones.</p>
 </section>
 <section id="objetivos-de-la-asignatura" class="level1">
 <h1>Objetivos de la asignatura</h1>
 <p>Al finalizar el curso, los estudiantes estarán en capacidad de:</p>
 <ol type="1">
-<li>Derivar algoritmos fundamentales de ciencia de datos: ecuación normal, descenso del gradiente, regresión logística, regularización L1/L2, backpropagation, PCA, SVD, K-Means y modelos básicos de recomendación.</li>
+<li>Formular un problema de aprendizaje distinguiendo población, muestra aleatoria, variable aleatoria, parámetro, estimador, estimación, riesgo esperado y riesgo empírico, y describir la incertidumbre de una conclusión.</li>
+<li>Derivar y analizar algoritmos fundamentales de ciencia de datos: ecuación normal, descenso del gradiente, regresión logística, regularización L1/L2, backpropagation, PCA, SVD, K-Means y modelos básicos de recomendación. El análisis incluye condiciones, tipo de solución, costo computacional y estabilidad numérica en el nivel apropiado para el curso.</li>
 <li>Implementar versiones básicas de estos algoritmos desde cero usando programación vectorizada.</li>
 <li>Comparar implementaciones propias con implementaciones profesionales en <code>scikit-learn</code> o <code>PyTorch</code>.</li>
 <li>Diagnosticar modelos usando métricas apropiadas, curvas de aprendizaje, análisis de errores y criterios de validación.</li>
@@ -261,26 +266,30 @@ ul.task-list li input[type="checkbox"] {
 </thead>
 <tbody>
 <tr class="odd">
+<td>Razonamiento probabilístico y estadístico</td>
+<td>identificación de población y mecanismo de muestreo, riesgos esperado y empírico, interpretación condicional y cuantificación de incertidumbre</td>
+</tr>
+<tr class="even">
 <td>Razonamiento matemático</td>
 <td>derivaciones, fórmulas, gradientes, interpretación de funciones objetivo</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Programación científica</td>
 <td>notebooks ejecutables, NumPy, pandas, scikit-learn y PyTorch</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Diagnóstico de modelos</td>
 <td>selección de métricas, validación, análisis de residuos y errores</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Criterio con datos</td>
 <td>identificación de limitaciones, leakage, sesgos y riesgos de decisión</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Reproducibilidad</td>
 <td>código organizado, dependencias, notebooks ejecutables y tracking básico</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Comunicación técnica</td>
 <td>reportes, conclusiones, presentaciones y defensa oral individual</td>
 </tr>
@@ -308,18 +317,22 @@ ul.task-list li input[type="checkbox"] {
 <td>partir de una pregunta aplicada o un error común</td>
 </tr>
 <tr class="even">
+<td>Formulación probabilística</td>
+<td>declarar población, observación aleatoria, muestra, objetivo poblacional y aproximación empírica</td>
+</tr>
+<tr class="odd">
 <td>Desarrollo matemático</td>
 <td>formular modelo, pérdida, gradiente, derivación o criterio</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Implementación guiada</td>
 <td>trabajar un notebook con código ejecutable</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Validación</td>
 <td>comparar contra baseline, métrica, curva o librería profesional</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Cierre</td>
 <td>conectar resultado matemático con decisión técnica</td>
 </tr>
@@ -333,7 +346,7 @@ ul.task-list li input[type="checkbox"] {
 <ul>
 <li>cálculo diferencial y cálculo vectorial básico;</li>
 <li>álgebra lineal: vectores, matrices, productos, rango, normas y descomposiciones básicas;</li>
-<li>estadística descriptiva introductoria y nociones básicas de incertidumbre;</li>
+<li>estadística descriptiva introductoria; la notación probabilística requerida se introduce progresivamente en los problemas del curso;</li>
 <li>programación básica en Python o disposición para ponerse al día durante la primera semana.</li>
 </ul>
 <p>Los prerrequisitos oficiales de la sección deben confirmarse en la oferta institucional de cursos: <a href="https://ofertadecursos.uniandes.edu.co/" class="uri">https://ofertadecursos.uniandes.edu.co/</a>.</p>
@@ -357,32 +370,32 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>0</td>
 <td style="text-align: right;">1</td>
-<td>arranque, entorno, notebooks, lenguaje común, incertidumbre mínima y proyecto</td>
+<td>observaciones, variables, preguntas, población, muestra, entorno y primer experimento</td>
 </tr>
 <tr class="even">
 <td>1</td>
 <td style="text-align: right;">2-6</td>
-<td>regresión lineal, descenso del gradiente, regularización, validación, logística y Parcial 1</td>
+<td>riesgo poblacional y empírico, regresión lineal, descenso del gradiente, regularización, validación, modelo Bernoulli, logística y Parcial 1</td>
 </tr>
 <tr class="odd">
 <td>2</td>
 <td style="text-align: right;">7-10</td>
-<td>perceptrón, forward propagation, backpropagation, regularización, optimizadores y PyTorch</td>
+<td>distribuciones condicionales, entropía cruzada, perceptrón, backpropagation, muestreo por minibatches, regularización, optimizadores y PyTorch</td>
 </tr>
 <tr class="even">
 <td>3</td>
 <td style="text-align: right;">11</td>
-<td>métricas, particiones, validación, curvas, error analysis y data mismatch</td>
+<td>métricas como estimadores, particiones, validación, incertidumbre, curvas, análisis de errores y cambio de distribución</td>
 </tr>
 <tr class="odd">
 <td>4</td>
 <td style="text-align: right;">12-13</td>
-<td>SVD, PCA, K-Means, clustering y recomendación básica</td>
+<td>covarianza poblacional y muestral, SVD, PCA, K-Means, estabilidad, clustering y recomendación básica</td>
 </tr>
 <tr class="even">
 <td>5</td>
 <td style="text-align: right;">14-16</td>
-<td>Parcial 2, reproducibilidad, comunicación técnica, proyecto final y defensa</td>
+<td>Parcial 2, reproducibilidad computacional y replicación estadística, comunicación técnica, proyecto final y defensa</td>
 </tr>
 </tbody>
 </table>
@@ -411,6 +424,10 @@ ul.task-list li input[type="checkbox"] {
 <td><a href="./ruta.html">Ruta semanal</a></td>
 <td>lectura, recursos de clase, entregas y hitos por semana</td>
 </tr>
+<tr class="even">
+<td><a href="./proyecto.html">Proyecto final</a></td>
+<td>contrato operativo, fechas, formatos, rúbricas, plantillas y ejemplos</td>
+</tr>
 </tbody>
 </table>
 <table class="caption-top table">
@@ -432,7 +449,7 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">1</td>
 <td>2026-08-04 y 2026-08-06</td>
-<td>Módulo 0: arranque, flujo aplicado, incertidumbre mínima y entorno</td>
+<td>Módulo 0: datos, preguntas, muestras y primer experimento</td>
 <td>Lab diagnóstico e ideas iniciales</td>
 </tr>
 <tr class="even">
@@ -517,19 +534,19 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">14</td>
 <td>2026-11-10 y 2026-11-12</td>
 <td>Parcial 2, reproducibilidad y tracking</td>
-<td>Parcial 2; manifest preliminar</td>
+<td>Parcial 2; P07 reproducibilidad, 12 de noviembre 23:59</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">15</td>
 <td>2026-11-17 y 2026-11-19</td>
 <td>Comunicación técnica y taller de proyecto final</td>
-<td>entrega preliminar y manifest</td>
+<td>P08 borrador formativo, 19 de noviembre 23:59</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">16</td>
 <td>2026-11-24 y 2026-11-26</td>
 <td>Defensa oral individual y cierre</td>
-<td>proyecto final y defensa</td>
+<td>P09 final, 22 de noviembre 23:59; P10 defensa</td>
 </tr>
 </tbody>
 </table>
@@ -617,17 +634,17 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td>Parcial 1</td>
 <td style="text-align: right;">20%</td>
-<td>regresión, optimización, regularización, clasificación y métricas</td>
+<td>fundamentos probabilísticos, regresión, optimización, regularización, clasificación y métricas</td>
 </tr>
 <tr class="even">
 <td>Parcial 2</td>
 <td style="text-align: right;">20%</td>
-<td>redes, estrategia ML, no supervisado, reproducibilidad y síntesis</td>
+<td>distribuciones condicionales, redes, estrategia ML, no supervisado, incertidumbre, reproducibilidad y síntesis</td>
 </tr>
 <tr class="odd">
 <td>Laboratorios</td>
 <td style="text-align: right;">20%</td>
-<td>cinco notebooks autocalificables con interpretación breve</td>
+<td>cinco notebooks autocalificables con implementación, estimación e interpretación breve</td>
 </tr>
 <tr class="even">
 <td>Proyecto: hitos y checkpoints</td>
@@ -652,12 +669,25 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 <p>Ninguna evaluación individual obligatoria supera el 35% de la nota definitiva. El proyecto representa el 40% del curso, pero está dividido en evidencias separadas: hitos/checkpoints, reporte/repositorio y defensa individual.</p>
+<section id="contrato-del-proyecto" class="level2">
+<h2 class="anchored" data-anchor-id="contrato-del-proyecto">Contrato del proyecto</h2>
+<ul>
+<li>Equipos de 2 o 3 estudiantes; un proyecto individual requiere autorización previa.</li>
+<li>Dataset real y pregunta propia por equipo.</li>
+<li>Entrega grupal en Bloque Neón y defensa individual.</li>
+<li>Los hitos se califican sobre 100 puntos: P01 5, P02 10, P03 20, P04 20, P05 20, P06 10 y P07 15.</li>
+<li>El reporte/repositorio se califica sobre 100 puntos y se escala al 15% del curso.</li>
+<li>La defensa usa cinco criterios 0/1/2 y equivale al 10% del curso.</li>
+</ul>
+<p>La <a href="./proyecto.html">página del proyecto</a> publica las fechas y horas exactas, tarea de Bloque Neón, nombres y estructuras de archivo, límites de páginas, kit, ejemplo y rúbricas. Esa página es la referencia operativa; cualquier modificación se anuncia en Bloque Neón y se refleja en el portal.</p>
+</section>
 <section id="parámetros-de-calificación" class="level2">
 <h2 class="anchored" data-anchor-id="parámetros-de-calificación">Parámetros de calificación</h2>
 <ul>
 <li>Los notebooks deben ejecutar de arriba hacia abajo.</li>
 <li>Las salidas numéricas y gráficas relevantes deben quedar visibles.</li>
 <li>Las respuestas de interpretación deben referirse a resultados obtenidos, no a afirmaciones genéricas.</li>
+<li>Toda conclusión cuantitativa debe identificar, cuando corresponda, el objeto poblacional, el estimador usado, la estimación obtenida y una fuente relevante de incertidumbre.</li>
 <li>El uso de librerías profesionales es válido cuando la actividad lo permita; cuando se solicite implementación desde cero, debe respetarse esa instrucción.</li>
 <li>El test set no debe usarse para escoger hiperparámetros o tomar decisiones de modelamiento.</li>
 <li>El código, métricas y comparaciones pueden ser revisados mediante autograders, pruebas ocultas y revisión manual de casos dudosos.</li>

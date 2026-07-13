@@ -4,18 +4,23 @@
 
 | Componente | Peso |
 |---|---:|
-| Autograder: funciones matemáticas y algorítmicas | 85% |
+| Autograder: funciones matemáticas, algorítmicas y contrato probabilístico | 85% |
 | Interpretación manual | 15% |
 
 ## Revisión manual
 
 Tiempo esperado por estudiante: 2-3 minutos.
 
+Con el panel de revisión, la IA propone nivel y comentario usando únicamente la
+respuesta seudonimizada, resultados visibles y pruebas fallidas. El profesor
+aprueba o corrige la propuesta. La meta es 30-45 segundos para una entrega sin
+banderas y 2-3 minutos cuando existe contradicción o falta evidencia.
+
 | Puntaje | Criterio |
 |---:|---|
 | 0 | No hay interpretación, no usa resultados o los contradice |
 | 1 | Menciona una métrica o curva, pero no diagnostica entrenamiento ni limitación |
-| 2 | Usa pérdida, validación/comparación y limitación concreta para justificar aprendizaje |
+| 2 | Usa pérdida y validación, identifica el riesgo poblacional y separa fuentes de variación muestral o algorítmica |
 
 El nivel manual se escala al 15% del laboratorio:
 
@@ -30,6 +35,7 @@ El nivel manual se escala al 15% del laboratorio:
 - Uso del conjunto de test para seleccionar hiperparámetros.
 - Notebook que depende de ejecutar celdas fuera de orden.
 - Comparación con PyTorch/sklearn sin misma partición.
+- Confundir semilla fija con ausencia de incertidumbre estadística.
 
 ## Comentarios rápidos sugeridos
 

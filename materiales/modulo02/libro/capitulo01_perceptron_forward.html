@@ -217,7 +217,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./recursos/guia_proyecto_modulo02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: checkpoint técnico del Módulo 2</span></a>
+  <a href="./recursos/guia_proyecto_modulo02.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 2</span></a>
   </div>
 </li>
     </ul>
@@ -232,6 +232,7 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#distribución-predictiva-y-riesgo" id="toc-distribución-predictiva-y-riesgo" class="nav-link" data-scroll-target="#distribución-predictiva-y-riesgo">Distribución predictiva y riesgo</a></li>
   <li><a href="#perceptron-como-unidad-básica" id="toc-perceptron-como-unidad-básica" class="nav-link" data-scroll-target="#perceptron-como-unidad-básica">Perceptron como unidad básica</a></li>
   <li><a href="#neurona-logística" id="toc-neurona-logística" class="nav-link" data-scroll-target="#neurona-logística">Neurona logística</a></li>
   <li><a href="#de-una-neurona-a-una-capa" id="toc-de-una-neurona-a-una-capa" class="nav-link" data-scroll-target="#de-una-neurona-a-una-capa">De una neurona a una capa</a></li>
@@ -240,6 +241,7 @@ window.Quarto = {
   <li><a href="#softmax" id="toc-softmax" class="nav-link" data-scroll-target="#softmax">Softmax</a></li>
   <li><a href="#entropía-cruzada-multiclase" id="toc-entropía-cruzada-multiclase" class="nav-link" data-scroll-target="#entropía-cruzada-multiclase">Entropía cruzada multiclase</a></li>
   <li><a href="#por-qué-hace-falta-una-no-linealidad" id="toc-por-qué-hace-falta-una-no-linealidad" class="nav-link" data-scroll-target="#por-qué-hace-falta-una-no-linealidad">Por qué hace falta una no linealidad</a></li>
+  <li><a href="#costo-de-una-pasada-forward" id="toc-costo-de-una-pasada-forward" class="nav-link" data-scroll-target="#costo-de-una-pasada-forward">Costo de una pasada forward</a></li>
   <li><a href="#ejemplo-resuelto-softmax-y-pérdida" id="toc-ejemplo-resuelto-softmax-y-pérdida" class="nav-link" data-scroll-target="#ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</a></li>
   <li><a href="#ejemplo-resuelto-dimensiones" id="toc-ejemplo-resuelto-dimensiones" class="nav-link" data-scroll-target="#ejemplo-resuelto-dimensiones">Ejemplo resuelto: dimensiones</a></li>
   <li><a href="#caso-longitudinal-dígitos-escritos-a-mano" id="toc-caso-longitudinal-dígitos-escritos-a-mano" class="nav-link" data-scroll-target="#caso-longitudinal-dígitos-escritos-a-mano">Caso longitudinal: dígitos escritos a mano</a></li>
@@ -255,6 +257,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -299,7 +302,31 @@ window.Quarto = {
 <li>explicar por qué una activación no lineal cambia la capacidad del modelo;</li>
 <li>implementar softmax de forma estable;</li>
 <li>interpretar entropía cruzada como pérdida para clasificación multiclase.</li>
+<li>contar parámetros y estimar el costo de una pasada forward;</li>
+<li>distinguir capacidad expresiva, estabilidad numérica y calidad estadística.</li>
 </ol>
+</section>
+<section id="distribución-predictiva-y-riesgo" class="level2">
+<h2 class="anchored" data-anchor-id="distribución-predictiva-y-riesgo">Distribución predictiva y riesgo</h2>
+<p>Para <span class="math inline">\(K\)</span> clases, representamos</p>
+<p><span class="math display">\[
+Y\mid X=x\sim\operatorname{Categorical}(\pi_1(x),\ldots,\pi_K(x)),
+\qquad \sum_{k=1}^K\pi_k(x)=1.
+\]</span></p>
+<p>Una red produce logits <span class="math inline">\(z(x;\theta)\)</span> y probabilidades <span class="math inline">\(q_\theta(x)=\operatorname{softmax}(z(x;\theta))\)</span>. La entropía cruzada empírica aproxima el riesgo poblacional</p>
+<p><span class="math display">\[
+R_{\mathrm{CE}}(\theta)
+=\mathbb E[-\log q_{\theta,Y}(X)].
+\]</span></p>
+<div class="proposicion">
+<p><strong>La distribución verdadera minimiza entropía cruzada.</strong> Condicionado en <span class="math inline">\(X=x\)</span>, para cualquier vector de probabilidades <span class="math inline">\(q\)</span>,</p>
+<p><span class="math display">\[
+-\sum_{k=1}^K\pi_k(x)\log q_k
+=H(\pi(x))+\operatorname{KL}(\pi(x)\|q)\geq H(\pi(x)).
+\]</span></p>
+<p>El mínimo se alcanza en <span class="math inline">\(q=\pi(x)\)</span>. La red aproxima esa distribución dentro de su familia paramétrica; softmax por sí solo no garantiza calibración.</p>
+</div>
+<p>Si al inicio todas las clases reciben probabilidad <span class="math inline">\(1/K\)</span>, la pérdida esperada por observación es <span class="math inline">\(\log K\)</span>. Este valor es una comprobación probabilística del forward, no una meta de entrenamiento.</p>
 </section>
 <section id="perceptron-como-unidad-básica" class="level2">
 <h2 class="anchored" data-anchor-id="perceptron-como-unidad-básica">Perceptron como unidad básica</h2>
@@ -374,6 +401,19 @@ Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]},
 <p><span class="math display">\[
 \hat P = \operatorname{softmax}(Z^{[2]}).
 \]</span></p>
+<p>Esta escritura define una función parametrizada</p>
+<p><span class="math display">\[
+f_\theta:\mathbb R^d\longrightarrow\Delta^{k-1},
+\]</span></p>
+<p>donde <span class="math inline">\(\Delta^{k-1}\)</span> es el simplex de probabilidades sobre <span class="math inline">\(k\)</span> clases y</p>
+<p><span class="math display">\[
+\theta=(W^{[1]},b^{[1]},W^{[2]},b^{[2]}).
+\]</span></p>
+<p>Con <span class="math inline">\(h\)</span> unidades ocultas, el número de parámetros escalares es</p>
+<p><span class="math display">\[
+dh+h+hk+k.
+\]</span></p>
+<p>El ancho <span class="math inline">\(h\)</span> modifica simultáneamente la capacidad del modelo, el costo de cómputo y el número de cantidades estimadas a partir de la muestra. Aumentarlo no es una mejora gratuita.</p>
 </section>
 <section id="relu" class="level2">
 <h2 class="anchored" data-anchor-id="relu">ReLU</h2>
@@ -403,6 +443,14 @@ Z^{[2]} = A^{[1]}W^{[2]} + b^{[2]},
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>exp_scores <span class="op">=</span> np.exp(shifted)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>probs <span class="op">=</span> exp_scores <span class="op">/</span> np.<span class="bu">sum</span>(exp_scores, axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Restar el máximo no cambia las probabilidades, pero evita overflow.</p>
+<p>La invariancia se verifica directamente. Para cualquier constante <span class="math inline">\(c\)</span>,</p>
+<p><span class="math display">\[
+\operatorname{softmax}(z+c\mathbf 1)_j
+=\frac{e^{z_j+c}}{\sum_\ell e^{z_\ell+c}}
+=\frac{e^c e^{z_j}}{e^c\sum_\ell e^{z_\ell}}
+=\operatorname{softmax}(z)_j.
+\]</span></p>
+<p>Elegir <span class="math inline">\(c=-\max_j z_j\)</span> hace que el mayor exponente sea <span class="math inline">\(e^0=1\)</span> y que los demás no excedan 1. Esta transformación resuelve overflow; no evita por sí sola que probabilidades muy pequeñas se redondeen a cero. Para calcular la pérdida es preferible usar una operación <code>logsumexp</code> estable sobre logits.</p>
 </section>
 <section id="entropía-cruzada-multiclase" class="level2">
 <h2 class="anchored" data-anchor-id="entropía-cruzada-multiclase">Entropía cruzada multiclase</h2>
@@ -430,6 +478,16 @@ Z=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}
 Z=XW^\star+b^\star.
 \]</span></p>
 <p>Dos capas afines sin activación equivalen a una sola transformación afín. La activación no lineal es lo que evita ese colapso.</p>
+<p>La conclusión es estructural, no una afirmación de que cualquier red con ReLU aprenderá una buena frontera. ReLU hace que la función sea afín por regiones; la cantidad y disposición de esas regiones dependen de pesos, profundidad y ancho. La optimización todavía debe encontrar parámetros útiles y la evaluación debe determinar si la representación generaliza.</p>
+</section>
+<section id="costo-de-una-pasada-forward" class="level2">
+<h2 class="anchored" data-anchor-id="costo-de-una-pasada-forward">Costo de una pasada forward</h2>
+<p>Para un lote de <span class="math inline">\(m\)</span> observaciones, la multiplicación <span class="math inline">\(XW^{[1]}\)</span> cuesta <span class="math inline">\(O(mdh)\)</span> y <span class="math inline">\(A^{[1]}W^{[2]}\)</span> cuesta <span class="math inline">\(O(mhk)\)</span>. ReLU y softmax añaden <span class="math inline">\(O(mh+mk)\)</span>. El costo dominante es, por tanto,</p>
+<p><span class="math display">\[
+O\big(mh(d+k)\big).
+\]</span></p>
+<p>Durante entrenamiento se guardan activaciones y preactivaciones para calcular gradientes. En esta red pequeña, la cache ocupa <span class="math inline">\(O(mh+mk)\)</span> números, además de los parámetros. En inferencia no hace falta conservar todo el grafo y la memoria puede reducirse.</p>
+<p>Esta cuenta permite detectar un error conceptual frecuente: la notación de una capa puede caber en una línea, pero su costo crece con el tamaño del lote, la entrada, el ancho y la salida. Una comparación de arquitecturas debe reportar al menos parámetros, presupuesto de actualizaciones y tamaño de lote.</p>
 </section>
 <section id="ejemplo-resuelto-softmax-y-pérdida" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-softmax-y-pérdida">Ejemplo resuelto: softmax y pérdida</h2>
@@ -636,9 +694,18 @@ W^{[2]}\in\mathbb{R}^{5\times 3},\quad b^{[2]}\in\mathbb{R}^{3}.
 <li>Una red obtiene probabilidades casi uniformes para todas las clases. Proponga dos hipótesis técnicas.</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-algorítmica" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
+<ol start="8" type="1">
+<li>Demuestre que <code>softmax(z + c)</code> coincide con <code>softmax(z)</code> para cualquier constante <span class="math inline">\(c\)</span> y explique por qué se elige <span class="math inline">\(c=-\max_jz_j\)</span>.</li>
+<li>Para <span class="math inline">\(d=64\)</span>, <span class="math inline">\(h=32\)</span> y <span class="math inline">\(k=10\)</span>, calcule el número de parámetros de la red, incluidos sesgos.</li>
+<li>Estime el costo dominante de un forward con lote <span class="math inline">\(m=128\)</span> y compare qué ocurre al duplicar <span class="math inline">\(h\)</span>.</li>
+<li>Explique por qué mayor número de regiones lineales no garantiza menor riesgo de validación.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="8" type="1">
+<ol start="12" type="1">
 <li>Use un dataset multiclase generado con semilla fija o una muestra pequeña de imágenes. Defina dimensiones, implemente forward propagation y entregue una tabla con formas de cada objeto intermedio.</li>
 </ol>
 

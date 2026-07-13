@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Estándar de slides profesionales – MATE-2105 · Panel docente</title>
+<title>Estándar de slides profesionales – MATE-2105 · Docente</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -70,6 +70,35 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <meta name="robots" content="noindex,nofollow">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -84,7 +113,7 @@ ul.task-list li input[type="checkbox"] {
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">MATE-2105 · Panel docente</span>
+    <span class="navbar-title">MATE-2105 · Docente</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Buscar"></div>
@@ -98,12 +127,28 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Panel docente</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./primera-clase.html"> 
+<span class="menu-text">Primera clase</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./sesiones/index.html"> 
+<span class="menu-text">Sesiones</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./guia_presentaciones.html"> 
 <span class="menu-text">Guía de presentaciones</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./distribucion_carga.html"> 
 <span class="menu-text">Distribución de carga</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./proyecto.html"> 
+<span class="menu-text">Proyecto</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./calificacion_laboratorios.html"> 
+<span class="menu-text">Calificar labs</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./estandar_slides_profesionales.html" aria-current="page"> 
@@ -128,6 +173,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#propósito" id="toc-propósito" class="nav-link active" data-scroll-target="#propósito">Propósito</a></li>
   <li><a href="#hallazgos-de-la-referencia" id="toc-hallazgos-de-la-referencia" class="nav-link" data-scroll-target="#hallazgos-de-la-referencia">Hallazgos de la referencia</a></li>
   <li><a href="#estándar-para-mate-2105" id="toc-estándar-para-mate-2105" class="nav-link" data-scroll-target="#estándar-para-mate-2105">Estándar para MATE-2105</a></li>
+  <li><a href="#rúbrica-editorial-por-sesión" id="toc-rúbrica-editorial-por-sesión" class="nav-link" data-scroll-target="#rúbrica-editorial-por-sesión">Rúbrica editorial por sesión</a></li>
   <li><a href="#reglas-visuales" id="toc-reglas-visuales" class="nav-link" data-scroll-target="#reglas-visuales">Reglas visuales</a></li>
   <li><a href="#estado-de-reescritura" id="toc-estado-de-reescritura" class="nav-link" data-scroll-target="#estado-de-reescritura">Estado de reescritura</a></li>
   <li><a href="#plan-de-ejecución" id="toc-plan-de-ejecución" class="nav-link" data-scroll-target="#plan-de-ejecución">Plan de ejecución</a></li>
@@ -159,7 +205,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="propósito" class="level2">
 <h2 class="anchored" data-anchor-id="propósito">Propósito</h2>
-<p>Esta página define el estándar visual y pedagógico para reescribir las diapositivas del curso. La referencia de calidad usada son los PDFs locales en <code>ejemplos-lectures-mit/</code>, tomados como modelo de arquitectura de clase, no como fuente para copiar contenido o imágenes.</p>
+<p>Esta página define el estándar visual y pedagógico para reescribir las diapositivas del curso. Las referencias de calidad son los PDFs locales en <code>ejemplos-lectures-mit/</code> y la <a href="https://slides.com/shensquared/introml-sp26-lec01">clase introductoria de <em>Introduction to Machine Learning</em></a>, tomados como modelos de arquitectura de clase, no como fuentes para copiar contenido o imágenes.</p>
 </section>
 <section id="hallazgos-de-la-referencia" class="level2">
 <h2 class="anchored" data-anchor-id="hallazgos-de-la-referencia">Hallazgos de la referencia</h2>
@@ -174,6 +220,14 @@ ul.task-list li input[type="checkbox"] {
 <li><strong>Fórmulas ancladas.</strong> Las ecuaciones aparecen grandes, con poco texto y acompañadas por interpretación.</li>
 <li><strong>Cierre operativo.</strong> Cada clase termina con qué se espera que el estudiante pueda decir, ejecutar o entregar.</li>
 </ol>
+<p>La segunda referencia añade cuatro criterios que conviene conservar:</p>
+<ol type="1">
+<li><strong>Construcción progresiva.</strong> Una tabla, un diagrama o una derivación aparece por etapas; cada avance corresponde a una intervención oral concreta.</li>
+<li><strong>Identidad visual persistente.</strong> Una observación conserva el mismo color al pasar de fila a vector, predicción y residual.</li>
+<li><strong>Relaciones espaciales.</strong> Las flechas y la posición explican el tránsito entre objetos; no funcionan como decoración.</li>
+<li><strong>Una operación cognitiva por pantalla.</strong> Identificar, transformar, calcular, comparar e interpretar se separan cuando compiten por la atención.</li>
+</ol>
+<p>La comparación también deja una advertencia: una presentación puede ser limpia y aun así sentirse genérica. Los títulos repetidos, las frases de cierre intercambiables y una secuencia idéntica sin continuidad visual debilitan la voz docente. En MATE-2105, el caso, la notación, la fórmula, la salida y el límite deben referirse al mismo objeto durante toda la sesión.</p>
 </section>
 <section id="estándar-para-mate-2105" class="level2">
 <h2 class="anchored" data-anchor-id="estándar-para-mate-2105">Estándar para MATE-2105</h2>
@@ -204,9 +258,9 @@ ul.task-list li input[type="checkbox"] {
 <td>diagrama o fórmula central anterior</td>
 </tr>
 <tr class="odd">
-<td>Contrato de la semana</td>
-<td>aclarar resultados</td>
-<td>3 acciones: representar, optimizar, validar, decidir, etc.</td>
+<td>Enlace con el libro</td>
+<td>ubicar la lectura que sostiene la sesión</td>
+<td>capítulo visible y URL pública estable</td>
 </tr>
 <tr class="even">
 <td>Modelo visual</td>
@@ -234,14 +288,80 @@ ul.task-list li input[type="checkbox"] {
 <td>curva, métrica, matriz o error común</td>
 </tr>
 <tr class="odd">
-<td>Actividad</td>
-<td>obligar a razonar</td>
-<td>ejercicio breve de 5-10 minutos</td>
+<td>Peer instruction</td>
+<td>confrontar un distractor conceptual</td>
+<td>voto individual, discusión en parejas, segundo voto y explicación</td>
 </tr>
 <tr class="even">
+<td>Diagnóstico</td>
+<td>transferir la idea a un caso nuevo</td>
+<td>comprobación breve de 5-10 minutos</td>
+</tr>
+<tr class="odd">
 <td>Cierre</td>
 <td>sintetizar</td>
 <td>frase técnica defendible</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="rúbrica-editorial-por-sesión" class="level2">
+<h2 class="anchored" data-anchor-id="rúbrica-editorial-por-sesión">Rúbrica editorial por sesión</h2>
+<div class="table-wrap">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Criterio</th>
+<th>Mínimo aceptable</th>
+<th>Rechazo inmediato</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Secuencia</td>
+<td>pregunta → caso → objeto → derivación → algoritmo → prueba → alcance</td>
+<td>bloques intercambiables sin hilo común</td>
+</tr>
+<tr class="even">
+<td>Densidad</td>
+<td>28-38 micro-slides para 110 minutos con notebook</td>
+<td>una sola diapositiva usada como página de apuntes</td>
+</tr>
+<tr class="odd">
+<td>Visual</td>
+<td>al menos una figura dominante y una tabla, fórmula o salida real</td>
+<td>imagen ornamental o slide vacío</td>
+</tr>
+<tr class="even">
+<td>Matemática</td>
+<td>formas, supuesto y lectura de la expresión central</td>
+<td>fórmula aislada sin objetos ni condición de uso</td>
+</tr>
+<tr class="odd">
+<td>Probabilidad</td>
+<td>objeto poblacional, aproximación empírica y variación restante</td>
+<td>métrica tratada como número fijo sin muestra</td>
+</tr>
+<tr class="even">
+<td>Interacción</td>
+<td>un ciclo de peer instruction y un diagnóstico con respuesta observable</td>
+<td>pregunta retórica sin voto, tiempo ni criterio</td>
+</tr>
+<tr class="odd">
+<td>Implementación</td>
+<td>punto exacto para abrir notebook y comprobación de parada</td>
+<td>live coding sin resultado anticipado</td>
+</tr>
+<tr class="even">
+<td>Voz</td>
+<td>títulos y cierres específicos de la sesión</td>
+<td>frases genéricas repetidas entre semanas</td>
 </tr>
 </tbody>
 </table>
@@ -255,8 +375,17 @@ ul.task-list li input[type="checkbox"] {
 <li>Preferir diagramas grandes sobre listas largas.</li>
 <li>Usar tarjetas solo cuando separan conceptos comparables; no convertir toda la clase en tarjetas.</li>
 <li>Mantener fórmulas en bloques grandes y legibles.</li>
+<li>Conservar la notación del libro: <span class="math inline">\(n\)</span>, <span class="math inline">\(p\)</span>, <span class="math inline">\(\boldsymbol X\)</span>, <span class="math inline">\(\boldsymbol x_i\)</span>, <span class="math inline">\(\mathbf X\)</span>, <span class="math inline">\(\mathbf y\)</span> y <span class="math inline">\(\boldsymbol\theta\)</span> según el tipo de objeto.</li>
+<li>Usar <span class="math inline">\(\widehat R_n=\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert^2/(2n)\)</span> para la pérdida cuadrática derivada y reservar MSE para la métrica sin factor <span class="math inline">\(1/2\)</span>.</li>
+<li>No penalizar el intercepto en Ridge o Lasso y declarar la traducción entre <span class="math inline">\(\lambda\)</span> y <code>alpha</code> cuando corresponda.</li>
+<li>Elegir complejidad, regularización y umbral con validación; test se reserva para el procedimiento fijado.</li>
 <li>Incluir al menos una figura, diagrama o flujo fuerte por clase.</li>
-<li>No usar imágenes de la referencia MIT dentro del curso; solo replicar el estándar pedagógico.</li>
+<li>Conservar colores semánticos entre tablas, matrices, fórmulas y resultados cuando representan el mismo objeto.</li>
+<li>Usar fragmentos solo cuando cada aparición corresponda a un paso de la explicación; la composición final también debe caber completa.</li>
+<li>Nombrar la figura por lo que representa; evitar títulos como “una imagen para discutir”.</li>
+<li>Reservar espacio vacío para jerarquía, no como sustituto de una composición terminada.</li>
+<li>Rechazar cualquier slide vacío, incluso si no aparece entre las capturas manuales seleccionadas.</li>
+<li>No usar imágenes de las referencias dentro del curso; solo adoptar su estándar pedagógico.</li>
 <li>Validar con captura visual antes de publicar.</li>
 </ul>
 </section>
@@ -283,51 +412,26 @@ ul.task-list li input[type="checkbox"] {
 <td><code>slides_theme/professional.scss</code></td>
 </tr>
 <tr class="even">
-<td>Módulo 1, Semana 2</td>
-<td>reescrito</td>
-<td>regresión lineal y ecuación normal</td>
+<td>Módulos 0-1, semanas 1-6</td>
+<td>revisado y auditado</td>
+<td>notación del libro, capítulos enlazados y peer instruction en las 12 sesiones</td>
 </tr>
 <tr class="odd">
-<td>Módulo 1, Semana 3</td>
-<td>reescrito</td>
-<td>descenso del gradiente</td>
-</tr>
-<tr class="even">
-<td>Módulo 1, Semana 4</td>
-<td>reescrito</td>
-<td>feature engineering y overfitting</td>
-</tr>
-<tr class="odd">
-<td>Módulo 1, Semana 5</td>
-<td>reescrito</td>
-<td>regularización</td>
-</tr>
-<tr class="even">
-<td>Módulo 1, Semana 6</td>
-<td>reescrito</td>
-<td>logística, métricas y Parcial 1</td>
-</tr>
-<tr class="odd">
-<td>Módulo 0</td>
-<td>reescrito</td>
-<td>arranque del curso, ciclo aplicado y laboratorio diagnóstico</td>
-</tr>
-<tr class="even">
 <td>Módulo 2</td>
 <td>reescrito</td>
 <td>redes neuronales, backpropagation, diagnóstico y PyTorch</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Módulo 3</td>
 <td>reescrito</td>
 <td>métricas, particiones, leakage, validación y error analysis</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Módulo 4</td>
 <td>reescrito</td>
 <td>geometría SVD/PCA, clustering y recomendación básica</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>Módulo 5</td>
 <td>reescrito</td>
 <td>Parcial 2, reproducibilidad, taller de proyecto y defensa</td>
@@ -339,11 +443,12 @@ ul.task-list li input[type="checkbox"] {
 <section id="plan-de-ejecución" class="level2">
 <h2 class="anchored" data-anchor-id="plan-de-ejecución">Plan de ejecución</h2>
 <ol type="1">
-<li>Mantener Módulo 1 como referencia visual y narrativa.</li>
-<li>Revisar que cada módulo tenga tema local, figuras propias y rutas portables.</li>
+<li>Revisar que cada sesión conserve su enlace, notación y pregunta de peer instruction.</li>
 <li>Renderizar todos los decks antes de publicación.</li>
-<li>Tomar capturas visuales de portada, figura, fórmula y actividad por módulo.</li>
-<li>Sincronizar portal y publicar.</li>
+<li>Ejecutar <code>auditar_alineacion_slides_libro.py</code> para las semanas 1-6.</li>
+<li>Tomar nueve capturas por deck con <code>auditar_presentaciones_visuales.py</code>.</li>
+<li>Revisar también las respuestas y el estado final de toda secuencia con fragmentos.</li>
+<li>Sincronizar portal, paquetes offline y panel docente antes de publicar.</li>
 </ol>
 </section>
 <section id="criterio-de-aceptación" class="level2">
@@ -354,8 +459,13 @@ ul.task-list li input[type="checkbox"] {
 <li>tiene secuencia de explicación visible;</li>
 <li>las fórmulas son legibles desde el fondo del salón;</li>
 <li>las figuras no se ven como adorno sino como instrumento de razonamiento;</li>
-<li>cada actividad tiene una decisión clara;</li>
-<li>el cierre deja una frase técnica que el estudiante puede repetir y defender.</li>
+<li>una fila u objeto mantiene su identidad visual al cambiar de representación;</li>
+<li>la secuencia de fragmentos puede narrarse paso a paso y su estado final no se recorta;</li>
+<li>el primer voto se registra antes de que las parejas discutan y la explicación corrige los distractores;</li>
+<li>cada actividad tiene una pregunta y una respuesta comprobable;</li>
+<li>el cierre deja una frase técnica que el estudiante puede justificar;</li>
+<li>la auditoría recorre todas las secciones y no encuentra slides vacíos;</li>
+<li>el libreto indica lectura focalizada, preflight, minuto de notebook y recorte seguro.</li>
 </ul>
 
 
@@ -772,7 +882,7 @@ ul.task-list li input[type="checkbox"] {
       &nbsp;
     </div>
     <div class="nav-footer-right">
-<p>URL docente no enlazada desde el portal estudiantil</p>
+<p>Guía compartible para preparar y dictar cada sesión</p>
 </div>
   </div>
 </footer>

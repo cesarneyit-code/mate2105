@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Condicionamiento, estimación y riesgo – MATE-2105: Módulo 0</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./texto_estudiantes.html" rel="next">
+<link href="./capitulo00b_incertidumbre_datos.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-bf8030b5a8b8f2de5bceddfb8bf38a1d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo00c_estimacion_riesgo_incertidumbre.html"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">MATE-2105: Módulo 0</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Módulo 0: Datos y preguntas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo00_libro_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Observaciones, variables y preguntas</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo00b_incertidumbre_datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./capitulo00c_estimacion_riesgo_incertidumbre.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./texto_estudiantes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de orientación de la Semana 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/configuracion_entorno.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Configuración del entorno de trabajo</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./laboratorios/semana01_lab.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Laboratorio diagnóstico 1</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/guia_proyecto.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía inicial del proyecto final</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./recursos/politica_ia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Política preliminar de uso de IA</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Tabla de contenidos</h2>
+   
+  <ul>
+  <li><a href="#lo-que-cambia-al-conocer-las-entradas" id="toc-lo-que-cambia-al-conocer-las-entradas" class="nav-link active" data-scroll-target="#lo-que-cambia-al-conocer-las-entradas">Lo que cambia al conocer las entradas</a>
+  <ul class="collapse">
+  <li><a href="#distribuciones-y-esperanzas-condicionales" id="toc-distribuciones-y-esperanzas-condicionales" class="nav-link" data-scroll-target="#distribuciones-y-esperanzas-condicionales">Distribuciones y esperanzas condicionales</a></li>
+  <li><a href="#por-qué-aparece-la-media-condicional-en-regresión" id="toc-por-qué-aparece-la-media-condicional-en-regresión" class="nav-link" data-scroll-target="#por-qué-aparece-la-media-condicional-en-regresión">Por qué aparece la media condicional en regresión</a></li>
+  <li><a href="#el-análogo-binario" id="toc-el-análogo-binario" class="nav-link" data-scroll-target="#el-análogo-binario">El análogo binario</a></li>
+  </ul></li>
+  <li><a href="#de-la-cantidad-poblacional-al-valor-calculado" id="toc-de-la-cantidad-poblacional-al-valor-calculado" class="nav-link" data-scroll-target="#de-la-cantidad-poblacional-al-valor-calculado">De la cantidad poblacional al valor calculado</a>
+  <ul class="collapse">
+  <li><a href="#sesgo-varianza-y-error-cuadrático-medio" id="toc-sesgo-varianza-y-error-cuadrático-medio" class="nav-link" data-scroll-target="#sesgo-varianza-y-error-cuadrático-medio">Sesgo, varianza y error cuadrático medio</a></li>
+  </ul></li>
+  <li><a href="#pérdida-riesgo-y-aprendizaje-a-partir-de-una-muestra" id="toc-pérdida-riesgo-y-aprendizaje-a-partir-de-una-muestra" class="nav-link" data-scroll-target="#pérdida-riesgo-y-aprendizaje-a-partir-de-una-muestra">Pérdida, riesgo y aprendizaje a partir de una muestra</a>
+  <ul class="collapse">
+  <li><a href="#minimización-empírica-y-baseline" id="toc-minimización-empírica-y-baseline" class="nav-link" data-scroll-target="#minimización-empírica-y-baseline">Minimización empírica y baseline</a></li>
+  <li><a href="#cuatro-muestras-cuatro-ajustes" id="toc-cuatro-muestras-cuatro-ajustes" class="nav-link" data-scroll-target="#cuatro-muestras-cuatro-ajustes">Cuatro muestras, cuatro ajustes</a></li>
+  </ul></li>
+  <li><a href="#regreso-a-las-subzonas-de-bogotá" id="toc-regreso-a-las-subzonas-de-bogotá" class="nav-link" data-scroll-target="#regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <ul class="collapse">
+  <li><a href="#de-un-baseline-a-una-función-condicional" id="toc-de-un-baseline-a-una-función-condicional" class="nav-link" data-scroll-target="#de-un-baseline-a-una-función-condicional">1. De un baseline a una función condicional</a></li>
+  <li><a href="#una-media-marginal-puede-ocultar-grupos" id="toc-una-media-marginal-puede-ocultar-grupos" class="nav-link" data-scroll-target="#una-media-marginal-puede-ocultar-grupos">2. Una media marginal puede ocultar grupos</a></li>
+  <li><a href="#probabilidad-log-loss-y-umbral" id="toc-probabilidad-log-loss-y-umbral" class="nav-link" data-scroll-target="#probabilidad-log-loss-y-umbral">3. Probabilidad, log-loss y umbral</a></li>
+  <li><a href="#qué-se-estaría-estimando-en-bogotá" id="toc-qué-se-estaría-estimando-en-bogotá" class="nav-link" data-scroll-target="#qué-se-estaría-estimando-en-bogotá">4. Qué se estaría estimando en Bogotá</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></h1>
+<p class="subtitle lead">Qué aprende un modelo de una muestra y qué cantidad intenta aproximar</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>El conjunto sintético de regresión contiene 160 observaciones. Como conocemos el mecanismo que lo produjo, podemos tratar esas filas como una población finita y comparar dos reglas de predicción. La primera ignora las entradas y asigna a toda observación el promedio de <code>target</code>, que es 4.121. Su error cuadrático medio en la población es 5.277. La segunda utiliza la función con la que se generaron los datos,</p>
+<p><span class="math display">\[
+m(\boldsymbol x)
+=4+2.5x_1-1.2x_2+0.7x_3.
+\]</span></p>
+<p>Su error cuadrático medio es 0.289. La diferencia no proviene de que el segundo número haya sido calculado con más filas: ambas reglas se evaluaron sobre las mismas 160 observaciones. Proviene de usar información sobre <span class="math inline">\(\boldsymbol X=(X_1,X_2,X_3)\)</span> para describir cómo cambia <span class="math inline">\(Y\)</span>.</p>
+<p>En datos reales no conocemos de antemano la función <span class="math inline">\(m\)</span>. Tenemos una muestra y un procedimiento que produce una aproximación. Para entender qué significa ese ajuste debemos separar tres niveles: la distribución poblacional, el estimador que actúa sobre una muestra y el valor concreto obtenido con los datos observados. El condicionamiento y el riesgo permiten expresar esa separación.</p>
+<section id="lo-que-cambia-al-conocer-las-entradas" class="level2">
+<h2 class="anchored" data-anchor-id="lo-que-cambia-al-conocer-las-entradas">Lo que cambia al conocer las entradas</h2>
+<p>Si <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span> son eventos con <span class="math inline">\(\mathbb P(B)&gt;0\)</span>, la probabilidad condicional de <span class="math inline">\(A\)</span> dado <span class="math inline">\(B\)</span> es</p>
+<p><span class="math display">\[
+\mathbb P(A\mid B)
+=\frac{\mathbb P(A\cap B)}{\mathbb P(B)}.
+\]</span></p>
+<p>El denominador restringe el espacio de comparación a los resultados compatibles con <span class="math inline">\(B\)</span>. Por ejemplo, una proporción calculada entre observaciones con <span class="math inline">\(X_1&gt;0\)</span> aproxima una cantidad diferente de la proporción calculada en toda la población.</p>
+<p>De esta definición se obtiene la regla del producto,</p>
+<p><span class="math display">\[
+\mathbb P(A\cap B)
+=\mathbb P(A\mid B)\mathbb P(B),
+\]</span></p>
+<p>y, si <span class="math inline">\(B_1,\ldots,B_K\)</span> forman una partición del espacio, la ley de probabilidad total,</p>
+<p><span class="math display">\[
+\mathbb P(A)
+=\sum_{k=1}^K \mathbb P(A\mid B_k)\mathbb P(B_k).
+\]</span></p>
+<p>Estas identidades distinguen la frecuencia de un resultado dentro de cada grupo de la frecuencia con la que los grupos aparecen en la población.</p>
+<div class="ejemplo">
+<p><strong>Una prueba en una población de baja prevalencia.</strong> Supongamos que una condición está presente en el 1% de una población. Una prueba resulta positiva en el 95% de quienes tienen la condición y en el 5% de quienes no la tienen. La fórmula de Bayes da</p>
+<p><span class="math display">\[
+\mathbb P(C\mid +)
+=\frac{0.95(0.01)}{0.95(0.01)+0.05(0.99)}
+\approx 0.161.
+\]</span></p>
+<p>La sensibilidad de 0.95 no es la probabilidad de tener la condición después de un resultado positivo. La prevalencia también interviene.</p>
+</div>
+<section id="distribuciones-y-esperanzas-condicionales" class="level3">
+<h3 class="anchored" data-anchor-id="distribuciones-y-esperanzas-condicionales">Distribuciones y esperanzas condicionales</h3>
+<p>Para variables discretas <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span>, la distribución condicional puede escribirse como</p>
+<p><span class="math display">\[
+p_{Y\mid X}(y\mid x)
+=\frac{p_{X,Y}(x,y)}{p_X(x)},
+\qquad p_X(x)&gt;0.
+\]</span></p>
+<p>Si las variables poseen densidades, la razón correspondiente es</p>
+<p><span class="math display">\[
+f_{Y\mid X}(y\mid x)
+=\frac{f_{X,Y}(x,y)}{f_X(x)},
+\qquad f_X(x)&gt;0.
+\]</span></p>
+<p>Cuando <span class="math inline">\(X\)</span> es continua, normalmente <span class="math inline">\(\mathbb P(X=x)=0\)</span>. La densidad condicional no se obtiene dividiendo por esa probabilidad puntual. En lo que sigue suponemos que existe una versión de la distribución condicional para los valores de interés.</p>
+<div class="definicion">
+<p><strong>Esperanza condicional.</strong> Si <span class="math inline">\(Y\)</span> es integrable, la esperanza condicional de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(\boldsymbol X\)</span> se representa por</p>
+<p><span class="math display">\[
+\mathbb E[Y\mid \boldsymbol X].
+\]</span></p>
+<p>En condiciones usuales es una función de <span class="math inline">\(\boldsymbol X\)</span>. Escribimos</p>
+<p><span class="math display">\[
+m(\boldsymbol x)
+=\mathbb E[Y\mid \boldsymbol X=\boldsymbol x]
+\]</span></p>
+<p>para la función de regresión poblacional.</p>
+</div>
+<p>La palabra <em>regresión</em> no implica aquí que <span class="math inline">\(m\)</span> sea lineal. La linealidad será una restricción de la familia de funciones con la que intentaremos aproximarla.</p>
+<p>Dos identidades sitúan la media condicional dentro de la distribución conjunta. La ley de la esperanza total establece</p>
+<p><span class="math display">\[
+\mathbb E\!\left[\mathbb E[Y\mid \boldsymbol X]\right]
+=\mathbb E[Y],
+\]</span></p>
+<p>y, si existe el segundo momento, la ley de la varianza total afirma</p>
+<p><span class="math display">\[
+\operatorname{Var}(Y)
+=\mathbb E[\operatorname{Var}(Y\mid \boldsymbol X)]
++\operatorname{Var}(\mathbb E[Y\mid \boldsymbol X]).
+\]</span></p>
+<p>El primer término mide la variación promedio que permanece al fijar las entradas. El segundo mide cuánto cambian las medias condicionales entre entradas. La identidad es probabilística; no convierte una asociación en una explicación causal.</p>
+</section>
+<section id="por-qué-aparece-la-media-condicional-en-regresión" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-aparece-la-media-condicional-en-regresión">Por qué aparece la media condicional en regresión</h3>
+<p>La comparación inicial entre el promedio y <span class="math inline">\(m(\boldsymbol x)\)</span> puede formularse como un problema de optimización poblacional.</p>
+<div class="proposicion">
+<p><strong>La media condicional minimiza la pérdida cuadrática.</strong> Si <span class="math inline">\(Y\)</span> y <span class="math inline">\(g(\boldsymbol X)\)</span> tienen segundo momento finito, entonces</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathbb E[(Y-g(\boldsymbol X))^2\mid \boldsymbol X]
+={}&amp;\operatorname{Var}(Y\mid \boldsymbol X)\\
+&amp;+\big(\mathbb E[Y\mid \boldsymbol X]-g(\boldsymbol X)\big)^2.
+\end{aligned}
+\]</span></p>
+<p>Por tanto, <span class="math inline">\(g^*(\boldsymbol x)=m(\boldsymbol x)\)</span> minimiza el error cuadrático esperado entre todas las funciones admisibles.</p>
+</div>
+<div class="demostracion">
+<p>Se suma y resta <span class="math inline">\(m(\boldsymbol X)\)</span>:</p>
+<p><span class="math display">\[
+Y-g(\boldsymbol X)
+=Y-m(\boldsymbol X)+m(\boldsymbol X)-g(\boldsymbol X).
+\]</span></p>
+<p>Al elevar al cuadrado y condicionar en <span class="math inline">\(\boldsymbol X\)</span>, el término cruzado tiene esperanza cero porque</p>
+<p><span class="math display">\[
+\mathbb E[Y-m(\boldsymbol X)\mid \boldsymbol X]=0.
+\]</span></p>
+<p>Quedan la varianza condicional y un cuadrado no negativo. Este último se anula cuando <span class="math inline">\(g(\boldsymbol X)=m(\boldsymbol X)\)</span>.</p>
+</div>
+<p>En la población sintética,</p>
+<p><span class="math display">\[
+Y=m(\boldsymbol X)+\varepsilon,
+\qquad
+\mathbb E[\varepsilon\mid\boldsymbol X]=0.
+\]</span></p>
+<p>El MSE 0.289 de la regla conocida no es un fallo del algoritmo: refleja la variación de <span class="math inline">\(\varepsilon\)</span> que permanece incluso al conocer las entradas. El MSE 5.277 del promedio mezcla esa variación con las diferencias sistemáticas entre medias condicionales.</p>
+</section>
+<section id="el-análogo-binario" class="level3">
+<h3 class="anchored" data-anchor-id="el-análogo-binario">El análogo binario</h3>
+<p>Si <span class="math inline">\(Y\in\{0,1\}\)</span>, la media condicional coincide con una probabilidad:</p>
+<p><span class="math display">\[
+\eta(\boldsymbol x)
+=\mathbb E[Y\mid\boldsymbol X=\boldsymbol x]
+=\mathbb P(Y=1\mid\boldsymbol X=\boldsymbol x).
+\]</span></p>
+<p>Una predicción probabilística <span class="math inline">\(q\in(0,1)\)</span> puede evaluarse mediante la pérdida logarítmica</p>
+<p><span class="math display">\[
+\ell(q,y)=-y\log q-(1-y)\log(1-q).
+\]</span></p>
+<p>Condicionado en <span class="math inline">\(\boldsymbol X=\boldsymbol x\)</span>, su esperanza es</p>
+<p><span class="math display">\[
+L_{\boldsymbol x}(q)
+=-\eta(\boldsymbol x)\log q
+-(1-\eta(\boldsymbol x))\log(1-q).
+\]</span></p>
+<p>Su derivada se anula únicamente en <span class="math inline">\(q=\eta(\boldsymbol x)\)</span> y la segunda derivada es positiva. Así, la probabilidad condicional es también el objetivo poblacional natural de la log-loss. Una regla de clasificación requiere además un umbral y una descripción de los costos de los dos tipos de error; esa decisión se estudiará en el capítulo de regresión logística.</p>
+</section>
+</section>
+<section id="de-la-cantidad-poblacional-al-valor-calculado" class="level2">
+<h2 class="anchored" data-anchor-id="de-la-cantidad-poblacional-al-valor-calculado">De la cantidad poblacional al valor calculado</h2>
+<p>El promedio de <code>target</code>, un coeficiente de regresión y el riesgo de una regla no son objetos del mismo tipo. Para distinguirlos conviene reservar tres palabras.</p>
+<div class="definicion">
+<p><strong>Estimando, estimador y estimación.</strong> Un <em>estimando</em> es una cantidad definida por la población, por ejemplo <span class="math inline">\(\mu=\mathbb E[Y]\)</span> o un parámetro <span class="math inline">\(\boldsymbol\theta^*\)</span> que minimiza un riesgo. Un <em>estimador</em> es una función de la muestra, como</p>
+<p><span class="math display">\[
+\widehat\mu_n=\frac1n\sum_{i=1}^nY_i.
+\]</span></p>
+<p>Una <em>estimación</em> es el valor que toma el estimador después de observar los datos, por ejemplo <span class="math inline">\(\widehat\mu_n=4.600\)</span> en una muestra particular.</p>
+</div>
+<p>Antes de observar <span class="math inline">\(D_n=(Z_1,\ldots,Z_n)\)</span>, el estimador <span class="math inline">\(\widehat\mu_n(D_n)\)</span> es aleatorio. Repetir el muestreo produce una distribución muestral. Esa distribución describe la variación del procedimiento, no la distribución de los valores individuales de <span class="math inline">\(Y\)</span>.</p>
+<p>En regresión lineal, el estimando puede definirse sin suponer que la media condicional sea exactamente lineal:</p>
+<p><span class="math display">\[
+\boldsymbol\theta^*
+\in\arg\min_{\boldsymbol\theta\in\mathbb R^p}
+\mathbb E\!\left[
+\frac12\big(Y-\boldsymbol\phi(\boldsymbol X)^\top
+\boldsymbol\theta\big)^2
+\right],
+\]</span></p>
+<p>donde <span class="math inline">\(\boldsymbol\phi(\boldsymbol X)\)</span> incluye el intercepto y las características utilizadas. El estimador de mínimos cuadrados reemplaza la esperanza por un promedio de muestra. El capítulo siguiente derivará su forma.</p>
+<section id="sesgo-varianza-y-error-cuadrático-medio" class="level3">
+<h3 class="anchored" data-anchor-id="sesgo-varianza-y-error-cuadrático-medio">Sesgo, varianza y error cuadrático medio</h3>
+<p>Sea <span class="math inline">\(T\)</span> un estimando escalar y <span class="math inline">\(\widehat T_n\)</span> un estimador. Su sesgo es</p>
+<p><span class="math display">\[
+\operatorname{Bias}(\widehat T_n;T)
+=\mathbb E[\widehat T_n]-T.
+\]</span></p>
+<p>El error cuadrático medio del estimador se descompone como</p>
+<p><span class="math display">\[
+\mathbb E[(\widehat T_n-T)^2]
+=\operatorname{Var}(\widehat T_n)
++\operatorname{Bias}(\widehat T_n;T)^2.
+\]</span></p>
+<p>Esta igualdad se obtiene escribiendo <span class="math inline">\(\widehat T_n-T=(\widehat T_n-\mathbb E[\widehat T_n])
++(\mathbb E[\widehat T_n]-T)\)</span> y observando que el término cruzado tiene esperanza cero.</p>
+<p>Un estimador insesgado puede variar demasiado para ser útil, y un estimador con un sesgo pequeño puede tener menor error cuadrático medio. Esta tensión reaparece con Ridge y Lasso: se introduce sesgo para reducir la sensibilidad del ajuste a la muestra.</p>
+<div class="diagnostico">
+<p><strong>Estabilidad no equivale a pertinencia.</strong> Un estimador puede producir valores muy semejantes en muestras repetidas y, aun así, estimar una cantidad distinta de la pregunta sustantiva. Promediar <code>precio_reportado</code> en las 32 subzonas es un cálculo estable si se repite sobre las mismas filas; no estima por ello el precio medio de una vivienda en Bogotá. La unidad y el mecanismo de selección definen el estimando antes de que una fórmula pueda estimarlo.</p>
+</div>
+</section>
+</section>
+<section id="pérdida-riesgo-y-aprendizaje-a-partir-de-una-muestra" class="level2">
+<h2 class="anchored" data-anchor-id="pérdida-riesgo-y-aprendizaje-a-partir-de-una-muestra">Pérdida, riesgo y aprendizaje a partir de una muestra</h2>
+<p>Una pérdida compara una acción o predicción con el resultado observado. Para una regla <span class="math inline">\(f\)</span> y una observación <span class="math inline">\(Z=(\boldsymbol X,Y)\)</span> escribimos</p>
+<p><span class="math display">\[
+\ell(f;Z)=\ell(f(\boldsymbol X),Y).
+\]</span></p>
+<div class="definicion">
+<p><strong>Riesgo esperado.</strong> El riesgo de <span class="math inline">\(f\)</span> bajo la distribución poblacional <span class="math inline">\(P\)</span> es</p>
+<p><span class="math display">\[
+R_P(f)=\mathbb E_P[\ell(f;Z)].
+\]</span></p>
+<p>Es una propiedad conjunta de la regla, la pérdida y la población.</p>
+</div>
+<p>El subíndice <span class="math inline">\(P\)</span> importa. Una misma regla puede tener riesgos distintos en dos poblaciones, aun cuando su código no cambie. Cuando la distribución sea clara escribiremos simplemente <span class="math inline">\(R(f)\)</span>.</p>
+<p>Como <span class="math inline">\(P\)</span> suele ser desconocida, calculamos el riesgo empírico</p>
+<p><span class="math display">\[
+\widehat R_n(f)
+=\frac1n\sum_{i=1}^n\ell(f;z_i).
+\]</span></p>
+<p>Para derivar mínimos cuadrados utilizaremos <span class="math inline">\(\ell(f_{\boldsymbol\theta};z_i)
+=\tfrac12(f_{\boldsymbol\theta}(\boldsymbol x_i)-y_i)^2\)</span>. Por tanto,</p>
+<p><span class="math display">\[
+\widehat R_n(\boldsymbol\theta)
+=\frac{1}{2n}
+\left\lVert\mathbf X\boldsymbol\theta-\mathbf y\right\rVert_2^2.
+\]</span></p>
+<p>El MSE que se reporta como métrica es</p>
+<p><span class="math display">\[
+\operatorname{MSE}_n(\boldsymbol\theta)
+=\frac1n\left\lVert\mathbf X\boldsymbol\theta-\mathbf y\right\rVert_2^2
+=2\widehat R_n(\boldsymbol\theta).
+\]</span></p>
+<p>El factor <span class="math inline">\(1/2\)</span> no cambia el minimizador; simplifica el gradiente. Mantener la distinción evita comparar accidentalmente pérdidas con escalas diferentes.</p>
+<div class="proposicion">
+<p><strong>El riesgo empírico de una regla fija estima su riesgo esperado.</strong> Si <span class="math inline">\(Z_1,\ldots,Z_n\)</span> son iid y <span class="math inline">\(f\)</span> se elige sin utilizar esa muestra, entonces</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_n(f)]=R(f),
+\]</span></p>
+<p>si la pérdida es integrable.</p>
+</div>
+<div class="demostracion">
+<p>Por linealidad de la esperanza y porque cada <span class="math inline">\(Z_i\)</span> tiene distribución <span class="math inline">\(P\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_n(f)]
+=\frac1n\sum_{i=1}^n\mathbb E[\ell(f;Z_i)]
+=R(f).
+\]</span></p>
+</div>
+<p>La condición de que <span class="math inline">\(f\)</span> sea fija es decisiva. Si el mismo conjunto de datos se usa para escoger <span class="math inline">\(f\)</span>, la regla ajustada depende de cada <span class="math inline">\(Z_i\)</span>. La demostración anterior ya no se aplica directamente y el error de entrenamiento puede ser optimista. Las particiones de entrenamiento, validación y prueba se introducirán cuando la selección de complejidad haga visible este conflicto.</p>
+<section id="minimización-empírica-y-baseline" class="level3">
+<h3 class="anchored" data-anchor-id="minimización-empírica-y-baseline">Minimización empírica y baseline</h3>
+<p>Una familia de modelos <span class="math inline">\(\mathcal F=\{f_{\boldsymbol\theta}:
+\boldsymbol\theta\in\Theta\}\)</span> convierte el aprendizaje en el problema</p>
+<p><span class="math display">\[
+\widehat{\boldsymbol\theta}
+\in\arg\min_{\boldsymbol\theta\in\Theta}
+\widehat R_n(\boldsymbol\theta).
+\]</span></p>
+<p>El algoritmo busca un minimizador o una aproximación; los datos determinan cuál miembro de la familia resulta elegido. Cambiar la muestra puede cambiar <span class="math inline">\(\widehat{\boldsymbol\theta}\)</span> aunque el algoritmo sea idéntico.</p>
+<p>Un baseline es una regla sencilla que fija una comparación mínima. Bajo pérdida cuadrática, la mejor predicción constante en una muestra es <span class="math inline">\(\overline y\)</span>. Demostrarlo requiere minimizar</p>
+<p><span class="math display">\[
+\frac1n\sum_{i=1}^n(c-y_i)^2
+\]</span></p>
+<p>respecto de <span class="math inline">\(c\)</span>, cuya derivada se anula en <span class="math inline">\(c=\overline y\)</span>. Un modelo que no mejora esta regla no ha utilizado de manera efectiva las entradas.</p>
+</section>
+<section id="cuatro-muestras-cuatro-ajustes" class="level3">
+<h3 class="anchored" data-anchor-id="cuatro-muestras-cuatro-ajustes">Cuatro muestras, cuatro ajustes</h3>
+<p>Tomemos cuatro muestras de 40 filas de la población sintética y ajustemos por mínimos cuadrados un intercepto y tres coeficientes. Los resultados son:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">semilla</th>
+<th style="text-align: right;">intercepto</th>
+<th style="text-align: right;">coeficiente 1</th>
+<th style="text-align: right;">coeficiente 2</th>
+<th style="text-align: right;">coeficiente 3</th>
+<th style="text-align: right;">MSE muestra</th>
+<th style="text-align: right;">MSE población</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">4.069</td>
+<td style="text-align: right;">2.487</td>
+<td style="text-align: right;">-1.220</td>
+<td style="text-align: right;">0.790</td>
+<td style="text-align: right;">0.324</td>
+<td style="text-align: right;">0.297</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">29</td>
+<td style="text-align: right;">4.203</td>
+<td style="text-align: right;">2.468</td>
+<td style="text-align: right;">-1.025</td>
+<td style="text-align: right;">0.717</td>
+<td style="text-align: right;">0.334</td>
+<td style="text-align: right;">0.344</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">47</td>
+<td style="text-align: right;">4.094</td>
+<td style="text-align: right;">2.569</td>
+<td style="text-align: right;">-1.313</td>
+<td style="text-align: right;">0.640</td>
+<td style="text-align: right;">0.292</td>
+<td style="text-align: right;">0.308</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">83</td>
+<td style="text-align: right;">3.941</td>
+<td style="text-align: right;">2.411</td>
+<td style="text-align: right;">-1.135</td>
+<td style="text-align: right;">0.633</td>
+<td style="text-align: right;">0.237</td>
+<td style="text-align: right;">0.311</td>
+</tr>
+</tbody>
+</table>
+<p>La cuarta muestra obtiene el menor MSE de entrenamiento, pero no el menor MSE en la población. Los coeficientes varían porque cada ajuste es una realización del estimador. En este ejemplo podemos calcular el MSE poblacional porque conservamos las 160 filas; en una aplicación ordinaria esa cantidad permanece desconocida.</p>
+<p>El cálculo se reproduce con:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.read_csv(<span class="st">"datos/regresion_lineal_sintetica.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>X_poblacion <span class="op">=</span> np.column_stack(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    [np.ones(<span class="bu">len</span>(tabla)), tabla[[<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span>]].to_numpy()]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>y_poblacion <span class="op">=</span> tabla[<span class="st">"target"</span>].to_numpy()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> semilla <span class="kw">in</span> [<span class="dv">11</span>, <span class="dv">29</span>, <span class="dv">47</span>, <span class="dv">83</span>]:</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    muestra <span class="op">=</span> tabla.sample(n<span class="op">=</span><span class="dv">40</span>, replace<span class="op">=</span><span class="va">False</span>, random_state<span class="op">=</span>semilla)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> np.column_stack(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        [np.ones(<span class="bu">len</span>(muestra)), muestra[[<span class="st">"x1"</span>, <span class="st">"x2"</span>, <span class="st">"x3"</span>]].to_numpy()]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> muestra[<span class="st">"target"</span>].to_numpy()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    theta <span class="op">=</span> np.linalg.lstsq(X, y, rcond<span class="op">=</span><span class="va">None</span>)[<span class="dv">0</span>]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    mse_muestra <span class="op">=</span> np.mean((X <span class="op">@</span> theta <span class="op">-</span> y) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    mse_poblacion <span class="op">=</span> np.mean((X_poblacion <span class="op">@</span> theta <span class="op">-</span> y_poblacion) <span class="op">**</span> <span class="dv">2</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(semilla, theta, mse_muestra, mse_poblacion)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>El ejemplo separa dos preguntas. La optimización determina qué parámetro reduce la pérdida en la muestra. La evaluación pregunta cómo se comporta la regla fuera de las observaciones utilizadas para ajustarla. El primer problema conduce a mínimos cuadrados y descenso del gradiente; el segundo, a validación y análisis de incertidumbre.</p>
+</section>
+</section>
+<section id="regreso-a-las-subzonas-de-bogotá" class="level2">
+<h2 class="anchored" data-anchor-id="regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</h2>
+<p>Podríamos usar <code>area_promedio</code>, <code>estrato_promedio</code> y otras columnas para predecir <code>precio_reportado</code>, calcular residuales y comparar el resultado con el baseline de la media. El procedimiento sería matemáticamente válido para las 32 filas. Su interpretación seguiría limitada por dos hechos anteriores al ajuste:</p>
+<ol type="1">
+<li>una fila representa una subzona y no una vivienda;</li>
+<li>la unidad de <code>precio_reportado</code> no está documentada en el recurso congelado.</li>
+</ol>
+<p>Reducir el MSE describiría una asociación entre indicadores de las subzonas incluidas. No estimaría automáticamente el precio de una vivienda ni justificaría una conclusión para todas las subzonas futuras. El riesgo siempre se refiere a una distribución y a una pérdida; si la población de uso no está definida, un número de evaluación queda incompleto.</p>
+</section>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>El condicionamiento describe cómo cambia la distribución de la respuesta cuando se conocen las entradas. Bajo pérdida cuadrática, la media condicional es la predicción poblacional óptima; para una respuesta binaria, esa misma media es la probabilidad condicional de la clase positiva.</p>
+<p>Un estimando pertenece a la población, un estimador actúa sobre una muestra y una estimación es el valor observado. La variación entre muestras se transmite a los coeficientes y a las predicciones. El riesgo esperado expresa el objetivo poblacional y el riesgo empírico proporciona una cantidad calculable. Ambos solo coinciden de manera controlada bajo supuestos sobre el muestreo y sobre cómo se eligió la regla.</p>
+<p>El capítulo siguiente comenzará con los residuales de una regresión de una sola variable. Allí el riesgo empírico cuadrático se convertirá en una función explícita de <span class="math inline">\(\boldsymbol\theta\)</span> y podremos derivar el algoritmo de mínimos cuadrados.</p>
+</section>
+<section id="problemas-integrados" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="de-un-baseline-a-una-función-condicional" class="level3">
+<h3 class="anchored" data-anchor-id="de-un-baseline-a-una-función-condicional">1. De un baseline a una función condicional</h3>
+<p>Use <code>regresion_lineal_sintetica.csv</code> como población finita.</p>
+<ol type="1">
+<li>Calcule el promedio de <code>target</code> y el MSE del predictor constante.</li>
+<li>Calcule las predicciones de <span class="math inline">\(m(\boldsymbol x)=4+2.5x_1-1.2x_2+0.7x_3\)</span> y su MSE.</li>
+<li>Use la descomposición de varianza total para explicar conceptualmente la diferencia entre ambos errores.</li>
+<li>Extraiga 200 muestras de tamaño 40, ajuste por <code>np.linalg.lstsq</code> y conserve los cuatro coeficientes de cada ajuste.</li>
+<li>Grafique sus distribuciones muestrales y compare sus promedios con <span class="math inline">\((4,2.5,-1.2,0.7)\)</span>.</li>
+<li>Para cada ajuste, compare el MSE de la muestra con el MSE en las 160 filas. Explique por qué el menor error de entrenamiento no identifica necesariamente el mejor ajuste poblacional.</li>
+</ol>
+</section>
+<section id="una-media-marginal-puede-ocultar-grupos" class="level3">
+<h3 class="anchored" data-anchor-id="una-media-marginal-puede-ocultar-grupos">2. Una media marginal puede ocultar grupos</h3>
+<p>Una población contiene dos grupos. Se tiene <span class="math inline">\(\mathbb P(X=0)=0.7\)</span>, <span class="math inline">\(\mathbb P(X=1)=0.3\)</span>, <span class="math inline">\(\mathbb E[Y\mid X=0]=2\)</span> y <span class="math inline">\(\mathbb E[Y\mid X=1]=8\)</span>.</p>
+<ol type="1">
+<li>Calcule <span class="math inline">\(\mathbb E[Y]\)</span>.</li>
+<li>Compare el riesgo cuadrático del predictor constante <span class="math inline">\(g_0(x)=\mathbb E[Y]\)</span> con el de <span class="math inline">\(g_1(x)=\mathbb E[Y\mid X=x]\)</span>.</li>
+<li>Exprese la diferencia mediante <span class="math inline">\(\operatorname{Var}(\mathbb E[Y\mid X])\)</span>.</li>
+<li>Suponga ahora que los grupos aparecen en proporciones 0.4 y 0.6 en la población de uso. Identifique qué cantidades cambian aunque las medias condicionales permanezcan iguales.</li>
+<li>Explique qué información adicional necesitaría para calcular los dos riesgos numéricamente.</li>
+</ol>
+</section>
+<section id="probabilidad-log-loss-y-umbral" class="level3">
+<h3 class="anchored" data-anchor-id="probabilidad-log-loss-y-umbral">3. Probabilidad, log-loss y umbral</h3>
+<p>Para una entrada fija se sabe que <span class="math inline">\(\eta(\boldsymbol x)=\mathbb P(Y=1\mid\boldsymbol X=\boldsymbol x)=0.8\)</span>.</p>
+<ol type="1">
+<li>Calcule la log-loss condicional esperada para <span class="math inline">\(q=0.8\)</span>, <span class="math inline">\(q=0.6\)</span> y <span class="math inline">\(q=0.95\)</span>.</li>
+<li>Verifique mediante derivación que el mínimo ocurre en <span class="math inline">\(q=0.8\)</span>.</li>
+<li>Compare las clases producidas por umbrales 0.5 y 0.9.</li>
+<li>Construya un ejemplo de costos en el que sea razonable usar cada umbral.</li>
+<li>Explique por qué estimar una probabilidad y escoger una acción son problemas relacionados, pero distintos.</li>
+</ol>
+</section>
+<section id="qué-se-estaría-estimando-en-bogotá" class="level3">
+<h3 class="anchored" data-anchor-id="qué-se-estaría-estimando-en-bogotá">4. Qué se estaría estimando en Bogotá</h3>
+<p>Use <code>vivienda_nueva_bogota_subzonas.csv</code>.</p>
+<ol type="1">
+<li>Defina con precisión el estimando correspondiente al promedio de <code>precio_reportado</code> si las 32 filas se consideran una población finita.</li>
+<li>Proponga un estimando diferente referido a todas las viviendas nuevas de Bogotá y enumere la información que falta para conectarlo con el archivo.</li>
+<li>Ajuste una regresión de <code>precio_reportado</code> sobre <code>area_promedio</code> y compare su MSE con el baseline constante.</li>
+<li>Examine el gráfico de residuales e identifique una observación que merezca revisión documental.</li>
+<li>Redacte una conclusión admisible sobre las 32 subzonas y otra conclusión que los datos no permiten sostener.</li>
+</ol>
+</section>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>Problema 2.</strong> La esperanza marginal es</p>
+<p><span class="math display">\[
+\mathbb E[Y]=0.7(2)+0.3(8)=3.8.
+\]</span></p>
+<p>La diferencia entre el riesgo del predictor constante y el de la media condicional es</p>
+<p><span class="math display">\[
+\operatorname{Var}(\mathbb E[Y\mid X])
+=0.7(2-3.8)^2+0.3(8-3.8)^2
+=7.56.
+\]</span></p>
+<p>Para obtener cada riesgo por separado hace falta conocer además <span class="math inline">\(\mathbb E[\operatorname{Var}(Y\mid X)]\)</span>.</p>
+<p><strong>Problema 3.</strong> El riesgo condicional es</p>
+<p><span class="math display">\[
+L(q)=-0.8\log q-0.2\log(1-q).
+\]</span></p>
+<p>Sus valores aproximados son 0.500 para <span class="math inline">\(q=0.8\)</span>, 0.592 para <span class="math inline">\(q=0.6\)</span> y 0.641 para <span class="math inline">\(q=0.95\)</span>. El umbral 0.5 asigna la clase positiva y el umbral 0.9 la clase negativa; ninguna de esas acciones modifica la probabilidad estimada.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./capitulo00b_incertidumbre_datos.html" class="pagination-link" aria-label="Variables aleatorias, distribuciones y muestras">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./texto_estudiantes.html" class="pagination-link" aria-label="Guía de orientación de la Semana 1">
+        <span class="nav-page-text"><span class="chapter-title">Guía de orientación de la Semana 1</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

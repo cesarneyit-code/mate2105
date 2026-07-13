@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Capítulo 4: Regresión logística – MATE-2105: Módulo 1</title>
+<title>Regresión logística – MATE-2105: Módulo 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo04_regresion_logistica.html"><span class="chapter-title">Capítulo 4: Regresión logística</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo04_regresion_logistica.html"><span class="chapter-title">Regresión logística</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,27 +182,27 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="./capitulo01_regresion_lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="./capitulo02_descenso_gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="./capitulo03_regularizacion_validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
+  <a href="./capitulo04_regresion_logistica.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,35 +245,28 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#clasificación-binaria" id="toc-clasificación-binaria" class="nav-link" data-scroll-target="#clasificación-binaria">Clasificación binaria</a></li>
-  <li><a href="#la-función-sigmoide" id="toc-la-función-sigmoide" class="nav-link" data-scroll-target="#la-función-sigmoide">La función sigmoide</a></li>
-  <li><a href="#modelo-logístico" id="toc-modelo-logístico" class="nav-link" data-scroll-target="#modelo-logístico">Modelo logístico</a></li>
-  <li><a href="#log-odds" id="toc-log-odds" class="nav-link" data-scroll-target="#log-odds">Log-odds</a></li>
-  <li><a href="#por-qué-no-usamos-mse" id="toc-por-qué-no-usamos-mse" class="nav-link" data-scroll-target="#por-qué-no-usamos-mse">Por qué no usamos MSE</a></li>
-  <li><a href="#gradiente-de-la-pérdida-logística" id="toc-gradiente-de-la-pérdida-logística" class="nav-link" data-scroll-target="#gradiente-de-la-pérdida-logística">Gradiente de la pérdida logística</a></li>
-  <li><a href="#de-probabilidades-a-clases" id="toc-de-probabilidades-a-clases" class="nav-link" data-scroll-target="#de-probabilidades-a-clases">De probabilidades a clases</a></li>
-  <li><a href="#matriz-de-confusión" id="toc-matriz-de-confusión" class="nav-link" data-scroll-target="#matriz-de-confusión">Matriz de confusión</a></li>
-  <li><a href="#métricas" id="toc-métricas" class="nav-link" data-scroll-target="#métricas">Métricas</a></li>
-  <li><a href="#ejemplo-resuelto-umbral-y-matriz-de-confusión" id="toc-ejemplo-resuelto-umbral-y-matriz-de-confusión" class="nav-link" data-scroll-target="#ejemplo-resuelto-umbral-y-matriz-de-confusión">Ejemplo resuelto: umbral y matriz de confusión</a></li>
-  <li><a href="#elegir-métricas-según-la-decisión" id="toc-elegir-métricas-según-la-decisión" class="nav-link" data-scroll-target="#elegir-métricas-según-la-decisión">Elegir métricas según la decisión</a></li>
-  <li><a href="#umbrales" id="toc-umbrales" class="nav-link" data-scroll-target="#umbrales">Umbrales</a></li>
-  <li><a href="#baselines-de-clasificación" id="toc-baselines-de-clasificación" class="nav-link" data-scroll-target="#baselines-de-clasificación">Baselines de clasificación</a></li>
-  <li><a href="#calibración" id="toc-calibración" class="nav-link" data-scroll-target="#calibración">Calibración</a></li>
-  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes">Errores comunes</a></li>
-  <li><a href="#checklist-de-estudio" id="toc-checklist-de-estudio" class="nav-link" data-scroll-target="#checklist-de-estudio">Checklist de estudio</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <li><a href="#de-una-clase-a-una-probabilidad-condicional" id="toc-de-una-clase-a-una-probabilidad-condicional" class="nav-link active" data-scroll-target="#de-una-clase-a-una-probabilidad-condicional">De una clase a una probabilidad condicional</a>
   <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  <li><a href="#una-interpretación-mediante-odds" id="toc-una-interpretación-mediante-odds" class="nav-link" data-scroll-target="#una-interpretación-mediante-odds">Una interpretación mediante odds</a></li>
   </ul></li>
+  <li><a href="#la-pérdida-proviene-del-modelo-bernoulli" id="toc-la-pérdida-proviene-del-modelo-bernoulli" class="nav-link" data-scroll-target="#la-pérdida-proviene-del-modelo-bernoulli">La pérdida proviene del modelo Bernoulli</a>
+  <ul class="collapse">
+  <li><a href="#por-qué-la-log-loss-busca-la-probabilidad-condicional" id="toc-por-qué-la-log-loss-busca-la-probabilidad-condicional" class="nav-link" data-scroll-target="#por-qué-la-log-loss-busca-la-probabilidad-condicional">Por qué la log-loss busca la probabilidad condicional</a></li>
+  </ul></li>
+  <li><a href="#gradiente-hessiana-y-convexidad" id="toc-gradiente-hessiana-y-convexidad" class="nav-link" data-scroll-target="#gradiente-hessiana-y-convexidad">Gradiente, Hessiana y convexidad</a></li>
+  <li><a href="#la-probabilidad-todavía-no-es-una-decisión" id="toc-la-probabilidad-todavía-no-es-una-decisión" class="nav-link" data-scroll-target="#la-probabilidad-todavía-no-es-una-decisión">La probabilidad todavía no es una decisión</a></li>
+  <li><a href="#matriz-de-confusión-y-métricas" id="toc-matriz-de-confusión-y-métricas" class="nav-link" data-scroll-target="#matriz-de-confusión-y-métricas">Matriz de confusión y métricas</a></li>
+  <li><a href="#un-umbral-fijado-con-validación" id="toc-un-umbral-fijado-con-validación" class="nav-link" data-scroll-target="#un-umbral-fijado-con-validación">Un umbral fijado con validación</a></li>
+  <li><a href="#calibración-y-alcance-de-las-probabilidades" id="toc-calibración-y-alcance-de-las-probabilidades" class="nav-link" data-scroll-target="#calibración-y-alcance-de-las-probabilidades">Calibración y alcance de las probabilidades</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <ul class="collapse">
+  <li><a href="#del-mecanismo-bernoulli-al-gradiente" id="toc-del-mecanismo-bernoulli-al-gradiente" class="nav-link" data-scroll-target="#del-mecanismo-bernoulli-al-gradiente">1. Del mecanismo Bernoulli al gradiente</a></li>
+  <li><a href="#una-probabilidad-y-dos-decisiones" id="toc-una-probabilidad-y-dos-decisiones" class="nav-link" data-scroll-target="#una-probabilidad-y-dos-decisiones">2. Una probabilidad y dos decisiones</a></li>
+  <li><a href="#selección-de-umbral-reproducible" id="toc-selección-de-umbral-reproducible" class="nav-link" data-scroll-target="#selección-de-umbral-reproducible">3. Selección de umbral reproducible</a></li>
+  <li><a href="#separabilidad-y-regularización" id="toc-separabilidad-y-regularización" class="nav-link" data-scroll-target="#separabilidad-y-regularización">4. Separabilidad y regularización</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
@@ -282,8 +275,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Capítulo 4: Regresión logística</span></h1>
-<p class="subtitle lead">Clasificación binaria, log-loss, métricas y umbrales</p>
+<h1 class="title"><span class="chapter-title">Regresión logística</span></h1>
+<p class="subtitle lead">Probabilidades, pérdida y decisiones en clasificación binaria</p>
 </div>
 
 
@@ -300,550 +293,408 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>¿Cómo obtiene un modelo una probabilidad estimada de clase positiva y cómo se fija una regla de clasificación cuando los errores tienen costos distintos?</p>
+<p>El conjunto <code>clasificacion_binaria_sintetica.csv</code> contiene 240 observaciones. La respuesta <code>target</code> vale 1 o 0 y las entradas disponibles para el modelo son <code>x1</code> y <code>x2</code>. La columna <code>slice</code> identifica dos periodos de generación. En las 180 observaciones del periodo <code>base</code>, la proporción de unos es 0.428.</p>
+<p>Una regla que siempre predice la clase mayoritaria alcanza accuracy 0.572 sin utilizar ninguna entrada y nunca detecta un positivo. Ese número fija un baseline, pero no responde la pregunta más importante: ¿podemos estimar cómo cambia la probabilidad de <span class="math inline">\(Y=1\)</span> con <span class="math inline">\(\boldsymbol X=(X_1,X_2)\)</span>?</p>
+<p>El archivo también publica <code>score_latente</code> y <code>probabilidad</code> para que el mecanismo sintético pueda auditarse. Esas columnas revelan directamente cantidades usadas para generar la respuesta. Incluirlas como predictores convertiría el ejercicio en filtración de información. El modelo se ajustará solo con <code>x1</code> y <code>x2</code>.</p>
+<section id="de-una-clase-a-una-probabilidad-condicional" class="level2">
+<h2 class="anchored" data-anchor-id="de-una-clase-a-una-probabilidad-condicional">De una clase a una probabilidad condicional</h2>
+<p>Para una respuesta binaria,</p>
+<p><span class="math display">\[
+Y\mid\boldsymbol X=\boldsymbol x
+\sim\operatorname{Bernoulli}(\eta(\boldsymbol x)),
+\]</span></p>
+<p>donde</p>
+<p><span class="math display">\[
+\eta(\boldsymbol x)
+=\mathbb P(Y=1\mid\boldsymbol X=\boldsymbol x)
+=\mathbb E[Y\mid\boldsymbol X=\boldsymbol x].
+\]</span></p>
+<p><span class="math inline">\(\eta\)</span> es una propiedad de la distribución poblacional. La regresión logística no la conoce; construye una aproximación dentro de la familia</p>
+<p><span class="math display">\[
+p_{\boldsymbol\theta}(\boldsymbol x)
+=\sigma(\boldsymbol\phi(\boldsymbol x)^\top\boldsymbol\theta),
+\]</span></p>
+<p>con</p>
+<p><span class="math display">\[
+\sigma(z)=\frac1{1+e^{-z}}.
+\]</span></p>
+<p>La sigmoide es creciente, toma valores estrictamente entre 0 y 1 y satisface <span class="math inline">\(\sigma(0)=1/2\)</span>. Su implementación debe evitar desbordamientos para logits de gran magnitud:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> np.asarray(z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> np.empty_like(z)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    nonnegative <span class="op">=</span> z <span class="op">&gt;=</span> <span class="dv">0</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    output[nonnegative] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>z[nonnegative]))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    exp_z <span class="op">=</span> np.exp(z[<span class="op">~</span>nonnegative])</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    output[<span class="op">~</span>nonnegative] <span class="op">=</span> exp_z <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> exp_z)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> output</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Para un diseño <span class="math inline">\(\mathbf X\in\mathbb R^{n\times p}\)</span>,</p>
+<p><span class="math display">\[
+\boldsymbol z=\mathbf X\boldsymbol\theta,
+\qquad
+\widehat{\boldsymbol p}=\sigma(\boldsymbol z).
+\]</span></p>
+<p>La igualdad <span class="math inline">\(\eta(\boldsymbol x)=p_{\boldsymbol\theta}(\boldsymbol x)\)</span> es un supuesto de especificación, no una consecuencia de aplicar una sigmoide. Por eso diremos <em>probabilidad estimada</em> al hablar de la salida ajustada.</p>
+<section id="una-interpretación-mediante-odds" class="level3">
+<h3 class="anchored" data-anchor-id="una-interpretación-mediante-odds">Una interpretación mediante odds</h3>
+<p>La inversa de la sigmoide da</p>
+<p><span class="math display">\[
+\log\left(
+\frac{p_{\boldsymbol\theta}(\boldsymbol x)}
+{1-p_{\boldsymbol\theta}(\boldsymbol x)}
+\right)
+=\boldsymbol\phi(\boldsymbol x)^\top\boldsymbol\theta.
+\]</span></p>
+<p>Si las demás columnas se mantienen fijas, aumentar una unidad la característica <span class="math inline">\(j\)</span> suma <span class="math inline">\(\theta_j\)</span> a los log-odds y multiplica los odds por <span class="math inline">\(e^{\theta_j}\)</span>. El cambio en probabilidad no es constante: depende del punto de la sigmoide en el que se evalúa.</p>
 </section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>formular clasificación binaria con probabilidades;</li>
-<li>explicar la función sigmoide;</li>
-<li>interpretar log-odds;</li>
-<li>escribir la log-loss binaria;</li>
-<li>derivar el gradiente de la pérdida logística;</li>
-<li>calcular matriz de confusión, accuracy, precision, recall y F1;</li>
-<li>elegir un umbral con validación según costos de error;</li>
-<li>comparar un clasificador contra un baseline.</li>
-</ol>
-<p>La regresión logística se llama “regresión”, pero se usa para clasificación. La cantidad poblacional de interés es:</p>
-<p><span class="math display">\[
-\eta(x)=\mathbb P(Y=1\mid X=x).
-\]</span></p>
-<p>No observamos <span class="math inline">\(\eta(x)\)</span> directamente. La regresión logística construye una aproximación parametrizada <span class="math inline">\(\widehat p_\theta(x)\)</span>. Distinguir ambas evita presentar la salida del modelo como una probabilidad verdadera conocida.</p>
-<div id="fig-cap04-logistica-umbral-metricas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama con una curva sigmoide, una línea vertical de umbral, reglas p mayor o igual a tau y p menor que tau, y una matriz de confusión con TN, FP, FN y TP.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cap04-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/logistica-umbral-metricas.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama con una curva sigmoide, una línea vertical de umbral, reglas p mayor o igual a tau y p menor que tau, y una matriz de confusión con TN, FP, FN y TP.">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap04-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5.1: Regresión logística: la curva sigmoide produce probabilidades; un umbral convierte probabilidades en clases y modifica la matriz de confusión.
-</figcaption>
-</figure>
-</div>
-<p><strong>Lectura de la figura.</strong> El modelo y la decisión son dos pasos distintos. La sigmoide produce probabilidades; el umbral <span class="math inline">\(\tau\)</span> convierte esas probabilidades en clases y cambia los errores observados.</p>
 </section>
-<section id="clasificación-binaria" class="level2">
-<h2 class="anchored" data-anchor-id="clasificación-binaria">Clasificación binaria</h2>
-<p>En clasificación binaria, la variable objetivo toma dos valores:</p>
-<p><span class="math display">\[
-y_i\in\{0,1\}.
-\]</span></p>
-<p>Ejemplos:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Contexto</th>
-<th>Clase positiva <code>1</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>diagnóstico</td>
-<td>paciente con condición</td>
-</tr>
-<tr class="even">
-<td>fraude</td>
-<td>transacción fraudulenta</td>
-</tr>
-<tr class="odd">
-<td>retención</td>
-<td>cliente abandona</td>
-</tr>
-<tr class="even">
-<td>calidad</td>
-<td>producto defectuoso</td>
-</tr>
-<tr class="odd">
-<td>admisión</td>
-<td>solicitud aprobada</td>
-</tr>
-</tbody>
-</table>
-<p>La elección de cuál clase es positiva no es neutral. Las métricas y los costos se interpretan respecto a esa clase.</p>
-<div class="criterio">
-<p><strong>Criterio aplicado.</strong> Antes de calcular métricas, declara qué significa la clase positiva y por qué importa.</p>
-</div>
-</section>
-<section id="la-función-sigmoide" class="level2">
-<h2 class="anchored" data-anchor-id="la-función-sigmoide">La función sigmoide</h2>
-<p>La regresión lineal produce valores en toda la recta real. Para modelar probabilidades necesitamos valores entre 0 y 1. Usamos:</p>
-<p><span class="math display">\[
-\sigma(z)=\frac{1}{1+e^{-z}}.
-\]</span></p>
-<p>Propiedades:</p>
-<ul>
-<li>si <code>z</code> es grande positivo, <code>sigma(z)</code> se acerca a 1;</li>
-<li>si <code>z</code> es grande negativo, <code>sigma(z)</code> se acerca a 0;</li>
-<li>si <code>z=0</code>, <code>sigma(z)=0.5</code>.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sigmoid(z):</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> np.asarray(z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    out <span class="op">=</span> np.empty_like(z)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    pos <span class="op">=</span> z <span class="op">&gt;=</span> <span class="dv">0</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    out[pos] <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>z[pos]))</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    exp_z <span class="op">=</span> np.exp(z[<span class="op">~</span>pos])</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    out[<span class="op">~</span>pos] <span class="op">=</span> exp_z <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> exp_z)</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> out</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La implementación anterior evita overflow numérico cuando <code>z</code> es muy negativo o muy positivo.</p>
-</section>
-<section id="modelo-logístico" class="level2">
-<h2 class="anchored" data-anchor-id="modelo-logístico">Modelo logístico</h2>
-<p>Definimos:</p>
-<p><span class="math display">\[
-z_i = x_i^\top\theta.
-\]</span></p>
-<p>La probabilidad estimada por el modelo es:</p>
-<p><span class="math display">\[
-\widehat p_\theta(x_i)=\sigma(x_i^\top\theta).
-\]</span></p>
-<p>En forma vectorizada:</p>
-<p><span class="math display">\[
-\hat p = \sigma(X\theta).
-\]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> X <span class="op">@</span> theta</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p_hat <span class="op">=</span> sigmoid(z)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La igualdad</p>
-<p><span class="math display">\[
-\eta(x)=\sigma(x^\top\theta)
-\]</span></p>
-<p>es un supuesto de especificación, no una consecuencia de aplicar la sigmoide. La calidad de <span class="math inline">\(\widehat p_\theta\)</span> debe evaluarse fuera del ajuste.</p>
-</section>
-<section id="log-odds" class="level2">
-<h2 class="anchored" data-anchor-id="log-odds">Log-odds</h2>
-<p>La regresión logística es lineal en los log-odds de su probabilidad estimada:</p>
-<p><span class="math display">\[
-\log\left(\frac{\widehat p_\theta(x)}{1-\widehat p_\theta(x)}\right)
-=x^\top\theta.
-\]</span></p>
-<p>Esto significa que un aumento de una unidad en <code>x_j</code>, manteniendo lo demás constante, aumenta los log-odds en <code>theta_j</code>.</p>
-<p>Si exponenciamos:</p>
-<p><span class="math display">\[
-e^{\theta_j}
-\]</span></p>
-<p>es el factor multiplicativo sobre los odds asociado con una unidad adicional de <code>x_j</code>, manteniendo las demás variables constantes.</p>
-<div class="criterio">
-<p><strong>Cuidado interpretativo.</strong> Los coeficientes logísticos no son cambios directos en probabilidad. Son cambios en log-odds. La variación en probabilidad depende del punto donde se evalúe.</p>
-</div>
-</section>
-<section id="por-qué-no-usamos-mse" class="level2">
-<h2 class="anchored" data-anchor-id="por-qué-no-usamos-mse">Por qué no usamos MSE</h2>
-<p>Podríamos intentar ajustar probabilidades con MSE, pero la pérdida natural para clasificación probabilística es la log-loss. Viene de máxima verosimilitud para una variable Bernoulli.</p>
-<p>Si <code>y_i=1</code>, queremos que <code>p_i</code> sea grande. Si <code>y_i=0</code>, queremos que <code>1-p_i</code> sea grande. La verosimilitud de una observación es:</p>
+<section id="la-pérdida-proviene-del-modelo-bernoulli" class="level2">
+<h2 class="anchored" data-anchor-id="la-pérdida-proviene-del-modelo-bernoulli">La pérdida proviene del modelo Bernoulli</h2>
+<p>Si una observación tiene probabilidad estimada <span class="math inline">\(p_i\)</span>, su masa Bernoulli es</p>
 <p><span class="math display">\[
 p_i^{y_i}(1-p_i)^{1-y_i}.
 \]</span></p>
-<p>La log-verosimilitud promedio es:</p>
+<p>Bajo independencia condicional, la verosimilitud de la muestra es el producto de esas masas. Maximizar su logaritmo equivale a minimizar la log-loss promedio</p>
 <p><span class="math display">\[
-\frac{1}{m}\sum_{i=1}^m
+J(\boldsymbol\theta)
+=-\frac1n\sum_{i=1}^n
 \left[
-y_i\log(p_i)+(1-y_i)\log(1-p_i)
+y_i\log\widehat p_i
++(1-y_i)\log(1-\widehat p_i)
 \right].
 \]</span></p>
-<p>Como optimizamos minimizando, usamos la negativa:</p>
+<p>Con <span class="math inline">\(z_i=\boldsymbol\phi(\boldsymbol x_i)^\top\boldsymbol\theta\)</span>, la misma cantidad puede escribirse de forma numéricamente estable:</p>
 <p><span class="math display">\[
-J(\theta)=
--\frac{1}{m}\sum_{i=1}^m
-\left[
-y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
-\right].
-\]</span></p>
-<div class="definicion">
-<p><strong>Definición 4.1: log-loss binaria.</strong><br>
-La log-loss penaliza probabilidades confiadas en la dirección equivocada. Una predicción <code>p=0.99</code> cuando <code>y=0</code> recibe una penalización mucho mayor que una predicción <code>p=0.55</code> cuando <code>y=0</code>.</p>
-</div>
-<p>La misma pérdida puede escribirse directamente con el <em>logit</em> <span class="math inline">\(z_i=x_i^\top\theta\)</span>:</p>
-<p><span class="math display">\[
-J(\theta)
-=\frac1m\sum_{i=1}^{m}
+J(\boldsymbol\theta)
+=\frac1n\sum_{i=1}^n
 \left[\log(1+e^{z_i})-y_i z_i\right].
 \]</span></p>
-<p>Esta forma permite una implementación estable sin construir primero probabilidades:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_loss_from_logits(y, z):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.asarray(y, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> np.asarray(z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.logaddexp(<span class="fl">0.0</span>, z) <span class="op">-</span> y <span class="op">*</span> z)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Si ya se tienen probabilidades, se pueden recortar para evitar <span class="math inline">\(\log(0)\)</span>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_loss_binary(y, p, eps<span class="op">=</span><span class="fl">1e-15</span>):</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.clip(p, eps, <span class="dv">1</span> <span class="op">-</span> eps)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.mean(y <span class="op">*</span> np.log(p) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> y) <span class="op">*</span> np.log(<span class="dv">1</span> <span class="op">-</span> p))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_loss_from_logits(y, z):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.asarray(y, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    z <span class="op">=</span> np.asarray(z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(np.logaddexp(<span class="fl">0.0</span>, z) <span class="op">-</span> y <span class="op">*</span> z)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> log_loss_binary(y, p, eps<span class="op">=</span><span class="fl">1e-15</span>):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.asarray(y, dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> np.clip(np.asarray(p, dtype<span class="op">=</span><span class="bu">float</span>), eps, <span class="dv">1</span> <span class="op">-</span> eps)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span>np.mean(y <span class="op">*</span> np.log(p) <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> y) <span class="op">*</span> np.log(<span class="dv">1</span> <span class="op">-</span> p))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recortar probabilidades evita evaluar <span class="math inline">\(\log(0)\)</span> cuando solo se dispone de probabilidades. Trabajar con logits mediante <code>logaddexp</code> es preferible durante el ajuste.</p>
+<section id="por-qué-la-log-loss-busca-la-probabilidad-condicional" class="level3">
+<h3 class="anchored" data-anchor-id="por-qué-la-log-loss-busca-la-probabilidad-condicional">Por qué la log-loss busca la probabilidad condicional</h3>
+<p>Fijemos <span class="math inline">\(\boldsymbol x\)</span> y sea <span class="math inline">\(\eta=\mathbb P(Y=1\mid\boldsymbol X=\boldsymbol x)\)</span>. El riesgo condicional de reportar <span class="math inline">\(q\in(0,1)\)</span> es</p>
+<p><span class="math display">\[
+L_{\boldsymbol x}(q)
+=-\eta\log q-(1-\eta)\log(1-q).
+\]</span></p>
+<p>La diferencia respecto del mínimo es</p>
+<p><span class="math display">\[
+L_{\boldsymbol x}(q)-L_{\boldsymbol x}(\eta)
+=\operatorname{KL}
+(\operatorname{Bern}(\eta)\,\|\,\operatorname{Bern}(q))
+\geq0.
+\]</span></p>
+<p>La igualdad ocurre en <span class="math inline">\(q=\eta\)</span>. La log-loss no solo revisa de qué lado de un umbral queda una observación: compara una distribución Bernoulli completa. Una probabilidad muy segura y equivocada recibe una penalización grande.</p>
 </section>
-<section id="gradiente-de-la-pérdida-logística" class="level2">
-<h2 class="anchored" data-anchor-id="gradiente-de-la-pérdida-logística">Gradiente de la pérdida logística</h2>
-<p>Para regresión logística:</p>
+</section>
+<section id="gradiente-hessiana-y-convexidad" class="level2">
+<h2 class="anchored" data-anchor-id="gradiente-hessiana-y-convexidad">Gradiente, Hessiana y convexidad</h2>
+<p>Para una observación,</p>
 <p><span class="math display">\[
-\hat p = \sigma(X\theta).
+\frac{d\sigma(z)}{dz}=\sigma(z)(1-\sigma(z))
 \]</span></p>
-<p>La pérdida es:</p>
+<p>y la regla de la cadena reduce la derivada de la log-loss respecto del logit a</p>
 <p><span class="math display">\[
-J(\theta)=
--\frac{1}{m}
-\sum_{i=1}^m
-\left[
-y_i\log(\hat p_i)+(1-y_i)\log(1-\hat p_i)
-\right].
-\]</span></p>
-<p>Para derivar el gradiente, considere primero una observación. Como</p>
-<p><span class="math display">\[
-\frac{d\sigma(z)}{dz}=\sigma(z)(1-\sigma(z)),
-\]</span></p>
-<p>la regla de la cadena produce</p>
-<p><span class="math display">\[
-\frac{\partial}{\partial z_i}
-\left[-y_i\log\widehat p_i-(1-y_i)\log(1-\widehat p_i)\right]
+\frac{\partial\ell_i}{\partial z_i}
 =\widehat p_i-y_i.
 \]</span></p>
-<p>Además, <span class="math inline">\(\nabla_\theta z_i=x_i\)</span>. Al sumar las <span class="math inline">\(m\)</span> contribuciones:</p>
+<p>Como <span class="math inline">\(\nabla_{\boldsymbol\theta}z_i=\boldsymbol\phi(\boldsymbol x_i)\)</span>, al sumar las observaciones se obtiene</p>
 <p><span class="math display">\[
-\nabla J(\theta)=\frac{1}{m}X^\top(\widehat p-y).
+\nabla J(\boldsymbol\theta)
+=\frac1n\mathbf X^\top
+(\widehat{\boldsymbol p}-\mathbf y).
+\]</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> logistic_gradient(X, y, theta):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    probabilities <span class="op">=</span> sigmoid(X <span class="op">@</span> theta)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> X.T <span class="op">@</span> (probabilities <span class="op">-</span> y) <span class="op">/</span> X.shape[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Sea <span class="math inline">\(\mathbf W(\boldsymbol\theta)\)</span> la matriz diagonal con entradas</p>
+<p><span class="math display">\[
+W_{ii}=\widehat p_i(1-\widehat p_i).
+\]</span></p>
+<p>La Hessiana es</p>
+<p><span class="math display">\[
+\nabla^2J(\boldsymbol\theta)
+=\frac1n\mathbf X^\top\mathbf W(\boldsymbol\theta)\mathbf X.
+\]</span></p>
+<p>Para todo <span class="math inline">\(\boldsymbol v\in\mathbb R^p\)</span>,</p>
+<p><span class="math display">\[
+\boldsymbol v^\top\nabla^2J(\boldsymbol\theta)\boldsymbol v
+=\frac1n\sum_{i=1}^n
+\widehat p_i(1-\widehat p_i)
+(\boldsymbol\phi(\boldsymbol x_i)^\top\boldsymbol v)^2
+\geq0.
 \]</span></p>
 <div class="proposicion">
-<p><strong>Proposición 4.1: gradiente logístico.</strong><br>
-Para regresión logística binaria con log-loss, el gradiente respecto a <code>theta</code> es <span class="math display">\[
-\nabla J(\theta)=\frac{1}{m}X^\top(\sigma(X\theta)-y).
-\]</span></p>
+<p><strong>Convexidad de la log-loss logística.</strong> La log-loss empírica de la regresión logística es convexa. Si no hay direcciones no identificadas y los pesos son positivos, es estrictamente convexa en la región correspondiente.</p>
 </div>
-<p>Implementación:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> logistic_gradient(X, y, theta):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> sigmoid(X <span class="op">@</span> theta)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (X.T <span class="op">@</span> (p <span class="op">-</span> y)) <span class="op">/</span> X.shape[<span class="dv">0</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>La convexidad no garantiza que el mínimo se alcance en un parámetro finito. Si una recta separa perfectamente las clases, multiplicar sus coeficientes puede llevar las probabilidades hacia 0 y 1 mientras la pérdida se aproxima a cero y <span class="math inline">\(\lVert\boldsymbol\theta\rVert\)</span> crece sin límite.</p>
+<div class="diagnostico">
+<p><strong>Pérdida decreciente con coeficientes crecientes.</strong> En datos separables, esta trayectoria no indica que falten iteraciones. Indica que el problema sin penalización no tiene un minimizador finito. Una penalización L2, sin incluir el intercepto, controla esa dirección y produce una solución finita.</p>
+</div>
+<p>Un paso batch de gradiente cuesta <span class="math inline">\(O(np)\)</span>. Los métodos de Newton utilizan la Hessiana, cuyo ensamblaje denso cuesta <span class="math inline">\(O(np^2)\)</span> y cuya solución cuesta <span class="math inline">\(O(p^3)\)</span>. Las bibliotecas eligen entre métodos de Newton, quasi-Newton, gradiente y coordenadas según el tamaño y la penalización. El objetivo estadístico y el solver son decisiones diferentes.</p>
 </section>
-<section id="de-probabilidades-a-clases" class="level2">
-<h2 class="anchored" data-anchor-id="de-probabilidades-a-clases">De probabilidades a clases</h2>
-<p>El modelo produce probabilidades. Para tomar una decisión binaria usamos un umbral:</p>
+<section id="la-probabilidad-todavía-no-es-una-decisión" class="level2">
+<h2 class="anchored" data-anchor-id="la-probabilidad-todavía-no-es-una-decisión">La probabilidad todavía no es una decisión</h2>
+<p>Una regla binaria introduce un umbral <span class="math inline">\(\tau\)</span>:</p>
 <p><span class="math display">\[
-\hat y_i =
+\widehat y_i(\tau)=
 \begin{cases}
-1, &amp; \hat p_i \ge \tau,\\
-0, &amp; \hat p_i &lt; \tau.
+1, &amp; \widehat p_i\geq\tau,\\
+0, &amp; \widehat p_i&lt;\tau.
 \end{cases}
 \]</span></p>
-<p>El valor común es <code>tau=0.5</code>, pero no siempre es el mejor.</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_class(p, threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (p <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="matriz-de-confusión" class="level2">
-<h2 class="anchored" data-anchor-id="matriz-de-confusión">Matriz de confusión</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th></th>
-<th style="text-align: right;">Predicho 1</th>
-<th style="text-align: right;">Predicho 0</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Real 1</td>
-<td style="text-align: right;">TP</td>
-<td style="text-align: right;">FN</td>
-</tr>
-<tr class="even">
-<td>Real 0</td>
-<td style="text-align: right;">FP</td>
-<td style="text-align: right;">TN</td>
-</tr>
-</tbody>
-</table>
-<p>Donde:</p>
-<ul>
-<li>TP: verdaderos positivos;</li>
-<li>TN: verdaderos negativos;</li>
-<li>FP: falsos positivos;</li>
-<li>FN: falsos negativos.</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_counts(y_true, y_pred):</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span> np.asarray(y_true)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> np.asarray(y_pred)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    tp <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">1</span>))</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">0</span>))</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    fp <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">1</span>))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    fn <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">0</span>))</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tp, fp, tn, fn</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="métricas" class="level2">
-<h2 class="anchored" data-anchor-id="métricas">Métricas</h2>
-<p>Accuracy:</p>
-<p><span class="math display">\[
-\frac{TP+TN}{TP+TN+FP+FN}.
-\]</span></p>
-<p>Precision:</p>
-<p><span class="math display">\[
-\frac{TP}{TP+FP}.
-\]</span></p>
-<p>Recall:</p>
-<p><span class="math display">\[
-\frac{TP}{TP+FN}.
-\]</span></p>
-<p>F1:</p>
-<p><span class="math display">\[
-2\frac{\text{precision}\cdot\text{recall}}
-{\text{precision}+\text{recall}}.
-\]</span></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classification_metrics(y_true, y_pred):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    tp, fp, tn, fn <span class="op">=</span> confusion_counts(y_true, y_pred)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> (tp <span class="op">+</span> tn) <span class="op">/</span> (tp <span class="op">+</span> tn <span class="op">+</span> fp <span class="op">+</span> fn)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> tp <span class="op">/</span> (tp <span class="op">+</span> fp) <span class="cf">if</span> (tp <span class="op">+</span> fp) <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> tp <span class="op">/</span> (tp <span class="op">+</span> fn) <span class="cf">if</span> (tp <span class="op">+</span> fn) <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> (</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2</span> <span class="op">*</span> precision <span class="op">*</span> recall <span class="op">/</span> (precision <span class="op">+</span> recall)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (precision <span class="op">+</span> recall) <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"accuracy"</span>: accuracy,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precision"</span>: precision,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"recall"</span>: recall,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"f1"</span>: f1,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-</section>
-<section id="ejemplo-resuelto-umbral-y-matriz-de-confusión" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-umbral-y-matriz-de-confusión">Ejemplo resuelto: umbral y matriz de confusión</h2>
-<p>Supón seis observaciones con etiquetas reales:</p>
-<p><span class="math display">\[
-y=(1,0,1,0,1,0)
-\]</span></p>
-<p>y probabilidades predichas:</p>
-<p><span class="math display">\[
-\hat p=(0.92,0.61,0.55,0.40,0.20,0.10).
-\]</span></p>
-<p>Con umbral <span class="math inline">\(\tau=0.5\)</span>:</p>
-<p><span class="math display">\[
-\hat y=(1,1,1,0,0,0).
-\]</span></p>
-<p>Los conteos son:</p>
-<ul>
-<li><span class="math inline">\(TP=2\)</span>: observaciones 1 y 3;</li>
-<li><span class="math inline">\(FP=1\)</span>: observación 2;</li>
-<li><span class="math inline">\(TN=2\)</span>: observaciones 4 y 6;</li>
-<li><span class="math inline">\(FN=1\)</span>: observación 5.</li>
-</ul>
-<p>Por tanto:</p>
-<p><span class="math display">\[
-\text{accuracy}=\frac{2+2}{6}=0.667,
-\quad
-\text{precision}=\frac{2}{2+1}=0.667,
-\quad
-\text{recall}=\frac{2}{2+1}=0.667.
-\]</span></p>
-<p>Como precision y recall son iguales, <span class="math inline">\(F1=0.667\)</span>.</p>
-<p>Si subimos el umbral a <span class="math inline">\(\tau=0.7\)</span>, entonces:</p>
-<p><span class="math display">\[
-\hat y=(1,0,0,0,0,0).
-\]</span></p>
-<p>Ahora <span class="math inline">\(TP=1\)</span>, <span class="math inline">\(FP=0\)</span>, <span class="math inline">\(TN=3\)</span>, <span class="math inline">\(FN=2\)</span>. La precision sube a 1.0, pero recall baja a <span class="math inline">\(1/3\)</span>. El modelo no cambió; cambió la regla de decisión.</p>
-</section>
-<section id="elegir-métricas-según-la-decisión" class="level2">
-<h2 class="anchored" data-anchor-id="elegir-métricas-según-la-decisión">Elegir métricas según la decisión</h2>
-<p>No hay una métrica universal.</p>
-<div id="fig-cap04-metricas-decision" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Mapa con ejes de costo de falso positivo y falso negativo. Cuadrantes sugieren accuracy, precision, recall y F beta. A la derecha aparece un reporte mínimo con métrica primaria, umbral, matriz de confusión y costo de errores.">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_class(p, threshold<span class="op">=</span><span class="fl">0.5</span>):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (np.asarray(p) <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="fig-cap04-logistica-umbral-metricas" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama con una curva sigmoide, una línea de umbral, reglas de clase y una matriz de confusión con verdaderos y falsos positivos y negativos.">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-cap04-metricas-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/metricas-decision.svg" class="img-fluid figure-img" style="width:100.0%" alt="Mapa con ejes de costo de falso positivo y falso negativo. Cuadrantes sugieren accuracy, precision, recall y F beta. A la derecha aparece un reporte mínimo con métrica primaria, umbral, matriz de confusión y costo de errores.">
+<div aria-describedby="fig-cap04-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="figuras/logistica-umbral-metricas.svg" class="img-fluid figure-img" style="width:100.0%" alt="Diagrama con una curva sigmoide, una línea de umbral, reglas de clase y una matriz de confusión con verdaderos y falsos positivos y negativos.">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap04-metricas-decision-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;5.2: Selección de métricas: el costo relativo de falsos positivos y falsos negativos orienta si conviene mirar accuracy, precisión, recall o una métrica F beta.
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap04-logistica-umbral-metricas-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;5.1: La sigmoide produce probabilidades. El umbral convierte esas probabilidades en clases y modifica la matriz de confusión.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> La métrica traduce el costo de equivocarse. Si el falso negativo y el falso positivo no tienen el mismo impacto, accuracy rara vez basta como criterio principal.</p>
+<p>El valor 0.5 no es una ley del modelo. Si un falso negativo cuesta más que un falso positivo, puede ser razonable predecir la clase positiva con una probabilidad menor. Si las probabilidades fueran conocidas y calibradas, con costos <span class="math inline">\(C_{\mathrm{FP}}\)</span> y <span class="math inline">\(C_{\mathrm{FN}}\)</span> la regla de costo esperado elegiría la clase positiva cuando</p>
+<p><span class="math display">\[
+p\geq
+\frac{C_{\mathrm{FP}}}
+{C_{\mathrm{FP}}+C_{\mathrm{FN}}}.
+\]</span></p>
+<p>En la práctica, <span class="math inline">\(p\)</span> es estimada, los costos pueden ser incompletos y la calibración puede fallar. El umbral se fija con validación y su consecuencia se reporta mediante conteos, no solo mediante una métrica agregada.</p>
+</section>
+<section id="matriz-de-confusión-y-métricas" class="level2">
+<h2 class="anchored" data-anchor-id="matriz-de-confusión-y-métricas">Matriz de confusión y métricas</h2>
+<p>Adoptaremos la orientación habitual:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Situación</th>
-<th>Riesgo principal</th>
-<th>Métrica prioritaria</th>
+<th>clase observada</th>
+<th style="text-align: right;">predicho 0</th>
+<th style="text-align: right;">predicho 1</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>enfermedad grave</td>
-<td>falso negativo</td>
-<td>recall</td>
+<td>real 0</td>
+<td style="text-align: right;">TN</td>
+<td style="text-align: right;">FP</td>
 </tr>
 <tr class="even">
-<td>fraude con revisión humana costosa</td>
-<td>falso positivo</td>
-<td>precision</td>
-</tr>
-<tr class="odd">
-<td>clases balanceadas y costos similares</td>
-<td>error global</td>
-<td>accuracy</td>
-</tr>
-<tr class="even">
-<td>balance precision/recall</td>
-<td>ambos errores importan</td>
-<td>F1</td>
-</tr>
-<tr class="odd">
-<td>ranking de candidatos</td>
-<td>calidad del orden</td>
-<td>ROC-AUC o PR-AUC</td>
+<td>real 1</td>
+<td style="text-align: right;">FN</td>
+<td style="text-align: right;">TP</td>
 </tr>
 </tbody>
 </table>
-<div class="criterio">
-<p><strong>Criterio aplicado.</strong> La métrica se elige antes de mirar cuál modelo gana. Si eliges la métrica después, puedes estar optimizando la historia que te conviene.</p>
-</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> confusion_counts(y_true, y_pred):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    y_true <span class="op">=</span> np.asarray(y_true)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    y_pred <span class="op">=</span> np.asarray(y_pred)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    tp <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">1</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    fp <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">1</span>))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    tn <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">0</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">0</span>))</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    fn <span class="op">=</span> np.<span class="bu">sum</span>((y_true <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (y_pred <span class="op">==</span> <span class="dv">0</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tp, fp, tn, fn</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Los cuatro conteos producen</p>
+<p><span class="math display">\[
+\operatorname{accuracy}
+=\frac{TP+TN}{TP+TN+FP+FN},
+\]</span></p>
+<p><span class="math display">\[
+\operatorname{precision}
+=\frac{TP}{TP+FP},
+\qquad
+\operatorname{recall}
+=\frac{TP}{TP+FN},
+\]</span></p>
+<p><span class="math display">\[
+F_1
+=2\frac{\operatorname{precision}\operatorname{recall}}
+{\operatorname{precision}+\operatorname{recall}}.
+\]</span></p>
+<p>Cuando un denominador es cero, la métrica necesita una convención explícita; no debe producirse un número silenciosamente.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classification_metrics(y_true, y_pred):</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    tp, fp, tn, fn <span class="op">=</span> confusion_counts(y_true, y_pred)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> tp <span class="op">+</span> fp <span class="op">+</span> tn <span class="op">+</span> fn</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> (tp <span class="op">+</span> tn) <span class="op">/</span> total <span class="cf">if</span> total <span class="cf">else</span> np.nan</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    precision <span class="op">=</span> tp <span class="op">/</span> (tp <span class="op">+</span> fp) <span class="cf">if</span> (tp <span class="op">+</span> fp) <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    recall <span class="op">=</span> tp <span class="op">/</span> (tp <span class="op">+</span> fn) <span class="cf">if</span> (tp <span class="op">+</span> fn) <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    f1 <span class="op">=</span> (</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="dv">2</span> <span class="op">*</span> precision <span class="op">*</span> recall <span class="op">/</span> (precision <span class="op">+</span> recall)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> precision <span class="op">+</span> recall <span class="cf">else</span> <span class="fl">0.0</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"accuracy"</span>: accuracy,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">"precision"</span>: precision,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"recall"</span>: recall,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"f1"</span>: f1,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Accuracy pondera por igual las observaciones y puede ocultar que la clase positiva nunca se detecta. Precision condiciona en las predicciones positivas; recall condiciona en los positivos reales. <span class="math inline">\(F_1\)</span> combina ambas, pero tampoco incorpora por sí solo un costo, una capacidad de revisión ni la prevalencia de la población de uso.</p>
 </section>
-<section id="umbrales" class="level2">
-<h2 class="anchored" data-anchor-id="umbrales">Umbrales</h2>
-<p>Cambiar el umbral cambia la matriz de confusión.</p>
-<ul>
-<li>Umbral bajo: más positivos predichos, mayor recall, menor precision.</li>
-<li>Umbral alto: menos positivos predichos, mayor precision, menor recall.</li>
-</ul>
-<p>Ejemplo de función para elegir el umbral más alto que mantiene un recall mínimo:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> choose_threshold_for_recall(y_true, p, min_recall<span class="op">=</span><span class="fl">0.90</span>):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    candidates <span class="op">=</span> np.sort(np.unique(p))</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    best <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threshold <span class="kw">in</span> candidates:</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        y_pred <span class="op">=</span> (p <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        metrics <span class="op">=</span> classification_metrics(y_true, y_pred)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> metrics[<span class="st">"recall"</span>] <span class="op">&gt;=</span> min_recall:</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>            best <span class="op">=</span> threshold</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> best</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>La función debe recibir etiquetas y probabilidades de <strong>validación</strong>. La lógica depende del problema: en algunos contextos se maximiza F1; en otros se impone un recall mínimo o un máximo de falsos positivos. Después de fijar el umbral, test se consulta una sola vez. Elegir <span class="math inline">\(\tau\)</span> con test contamina la estimación final.</p>
+<section id="un-umbral-fijado-con-validación" class="level2">
+<h2 class="anchored" data-anchor-id="un-umbral-fijado-con-validación">Un umbral fijado con validación</h2>
+<p>Usamos únicamente las 180 observaciones del periodo <code>base</code>: 108 para entrenamiento, 36 para validación y 36 para prueba, con estratificación y semillas fijas. Una regresión logística ajustada con <code>x1</code> y <code>x2</code> obtiene log-loss de validación 0.533. Las clases de validación cambian así:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">umbral</th>
+<th style="text-align: right;">TN</th>
+<th style="text-align: right;">FP</th>
+<th style="text-align: right;">FN</th>
+<th style="text-align: right;">TP</th>
+<th style="text-align: right;">accuracy</th>
+<th style="text-align: right;">precision</th>
+<th style="text-align: right;">recall</th>
+<th style="text-align: right;">F1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.3</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">14</td>
+<td style="text-align: right;">0.556</td>
+<td style="text-align: right;">0.483</td>
+<td style="text-align: right;">0.933</td>
+<td style="text-align: right;">0.636</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.4</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">13</td>
+<td style="text-align: right;">0.667</td>
+<td style="text-align: right;">0.565</td>
+<td style="text-align: right;">0.867</td>
+<td style="text-align: right;">0.684</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.5</td>
+<td style="text-align: right;">18</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">0.833</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">0.800</td>
+<td style="text-align: right;">0.800</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.6</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.778</td>
+<td style="text-align: right;">0.889</td>
+<td style="text-align: right;">0.533</td>
+<td style="text-align: right;">0.667</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.7</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.639</td>
+<td style="text-align: right;">0.750</td>
+<td style="text-align: right;">0.200</td>
+<td style="text-align: right;">0.316</td>
+</tr>
+</tbody>
+</table>
+<p>Supongamos que el requisito fijado antes de mirar la tabla es alcanzar recall al menos 0.85 y, entre los umbrales que lo cumplen, usar el mayor para limitar falsos positivos. En esta rejilla se escoge <span class="math inline">\(\tau=0.4\)</span>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> choose_threshold_for_recall(y_true, p, min_recall<span class="op">=</span><span class="fl">0.85</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    candidates <span class="op">=</span> np.sort(np.unique(p))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    feasible <span class="op">=</span> []</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> threshold <span class="kw">in</span> candidates:</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        metrics <span class="op">=</span> classification_metrics(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>            y_true, predict_class(p, threshold)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> metrics[<span class="st">"recall"</span>] <span class="op">&gt;=</span> min_recall:</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            feasible.append(threshold)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(feasible) <span class="cf">if</span> feasible <span class="cf">else</span> <span class="va">None</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Una vez fijado el modelo y el umbral, prueba se consulta una sola vez. Allí se obtienen TN 9, FP 11, FN 0 y TP 16: accuracy 0.694, precision 0.593, recall 1.0 y <span class="math inline">\(F_1=0.744\)</span>. El umbral 0.5 habría dado mayor accuracy en prueba, pero escogerlo después de ver ese resultado violaría el procedimiento declarado.</p>
+<p>La regla mayoritaria alcanza accuracy 0.556 en esta prueba y recall cero. El baseline muestra por qué la métrica primaria debe definirse antes de comparar modelos.</p>
 </section>
-<section id="baselines-de-clasificación" class="level2">
-<h2 class="anchored" data-anchor-id="baselines-de-clasificación">Baselines de clasificación</h2>
-<p>Baselines comunes:</p>
+<section id="calibración-y-alcance-de-las-probabilidades" class="level2">
+<h2 class="anchored" data-anchor-id="calibración-y-alcance-de-las-probabilidades">Calibración y alcance de las probabilidades</h2>
+<p>Un modelo está calibrado si, entre unidades con probabilidad estimada cercana a <span class="math inline">\(q\)</span>, la frecuencia observada de positivos es cercana a <span class="math inline">\(q\)</span>. La calibración es distinta del umbral y también de la capacidad para ordenar casos. Una sigmoide no garantiza calibración fuera de muestra.</p>
+<p>En el dataset sintético podemos comparar las probabilidades estimadas con la columna <code>probabilidad</code>, porque conocemos el mecanismo generador. Esa comparación es un privilegio del experimento controlado. En una aplicación real, la calibración se estima con observaciones reservadas y conserva incertidumbre.</p>
+<p>Las 60 filas del periodo <code>reciente</code> no se usarán para reajustar el ejemplo ni para escoger el umbral. Su distribución fue modificada deliberadamente y se retomará en la parte de estrategia para estudiar qué ocurre cuando cambian la prevalencia o las entradas. Mezclarlas aquí ocultaría precisamente el cambio que queremos diagnosticar después.</p>
+</section>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>La regresión logística aproxima la probabilidad condicional de una respuesta Bernoulli mediante una sigmoide aplicada a un predictor lineal. La log-loss proviene de la verosimilitud Bernoulli y es una pérdida propia: su objetivo poblacional es la probabilidad condicional, no solo una etiqueta.</p>
+<p>El gradiente conserva la forma matricial <span class="math inline">\(\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span> y la Hessiana es semidefinida positiva. La convexidad evita mínimos locales espurios, pero la separabilidad puede llevar los coeficientes al infinito si no hay regularización.</p>
+<p>El modelo termina en una probabilidad estimada. El umbral añade una decisión y determina la matriz de confusión. Precision, recall, <span class="math inline">\(F_1\)</span> y accuracy resumen aspectos distintos; ninguna reemplaza la declaración de la clase positiva, los costos y el procedimiento de validación.</p>
+</section>
+<section id="problemas-integrados" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="del-mecanismo-bernoulli-al-gradiente" class="level3">
+<h3 class="anchored" data-anchor-id="del-mecanismo-bernoulli-al-gradiente">1. Del mecanismo Bernoulli al gradiente</h3>
+<p>Use las filas <code>base</code> de <code>clasificacion_binaria_sintetica.csv</code> y solo <code>x1</code>, <code>x2</code> como entradas.</p>
 <ol type="1">
-<li>predecir siempre la clase mayoritaria;</li>
-<li>predecir con frecuencia igual a la prevalencia;</li>
-<li>regla simple basada en una variable fuerte;</li>
-<li>modelo logístico sin features complejas.</li>
+<li>Calcule la prevalencia y el baseline mayoritario.</li>
+<li>Derive la log-loss desde la masa Bernoulli.</li>
+<li>Implemente sigmoide, pérdida desde logits y gradiente.</li>
+<li>Verifique el gradiente por diferencias finitas en cinco vectores de parámetros.</li>
+<li>Compare su ajuste con <code>LogisticRegression</code> usando la misma penalización o una penalización suficientemente pequeña y documentada.</li>
 </ol>
-<p>Si el dataset tiene 95% de clase 0, un clasificador que siempre predice 0 tiene 95% de accuracy. Por eso accuracy puede ser engañosa en clases desbalanceadas.</p>
 </section>
-<section id="calibración" class="level2">
-<h2 class="anchored" data-anchor-id="calibración">Calibración</h2>
-<p>Un modelo está calibrado si, entre observaciones con probabilidad predicha cercana a 0.8, aproximadamente 80% pertenecen a la clase positiva.</p>
-<p>La calibración es distinta de la clasificación. Un modelo puede ordenar bien pero producir probabilidades mal calibradas.</p>
-<p>En este módulo basta con recordar:</p>
-<ul>
-<li>la salida logística es una probabilidad estimada bajo una familia de modelo;</li>
-<li>esa probabilidad debe evaluarse empíricamente;</li>
-<li>el umbral transforma probabilidad en decisión.</li>
-</ul>
-</section>
-<section id="errores-comunes" class="level2">
-<h2 class="anchored" data-anchor-id="errores-comunes">Errores comunes</h2>
+<section id="una-probabilidad-y-dos-decisiones" class="level3">
+<h3 class="anchored" data-anchor-id="una-probabilidad-y-dos-decisiones">2. Una probabilidad y dos decisiones</h3>
+<p>Considere etiquetas <span class="math inline">\(\mathbf y=(1,0,1,0,1,0)\)</span> y probabilidades <span class="math inline">\(\widehat{\boldsymbol p}=(0.92,0.61,0.55,0.40,0.20,0.10)\)</span>.</p>
 <ol type="1">
-<li>Tratar probabilidades como clases sin declarar umbral.</li>
-<li>Usar accuracy en clases muy desbalanceadas sin mirar precision/recall.</li>
-<li>Elegir umbral con el conjunto de prueba.</li>
-<li>No definir la clase positiva.</li>
-<li>Confundir coeficientes logísticos con cambios lineales en probabilidad.</li>
-<li>Reportar F1 sin explicar el costo de FP y FN.</li>
-<li>Comparar modelos usando umbrales distintos sin justificar.</li>
+<li>Calcule log-loss sin aplicar umbral.</li>
+<li>Construya matrices de confusión para <span class="math inline">\(\tau=0.5\)</span> y <span class="math inline">\(\tau=0.7\)</span>.</li>
+<li>Calcule accuracy, precision, recall y <span class="math inline">\(F_1\)</span>.</li>
+<li>Proponga costos que hagan razonable cada umbral.</li>
+<li>Explique qué cambió en la decisión y qué permaneció igual en el modelo.</li>
 </ol>
 </section>
-<section id="checklist-de-estudio" class="level2">
-<h2 class="anchored" data-anchor-id="checklist-de-estudio">Checklist de estudio</h2>
-<div class="checklist">
-<ul>
-<li>¿Puedes explicar por qué usamos sigmoide?</li>
-<li>¿Puedes escribir la log-loss?</li>
-<li>¿Puedes derivar o reconocer el gradiente logístico?</li>
-<li>¿Puedes calcular TP, FP, TN, FN?</li>
-<li>¿Puedes distinguir precision y recall?</li>
-<li>¿Puedes justificar un umbral?</li>
-<li>¿Puedes identificar cuándo accuracy engaña?</li>
-</ul>
-</div>
-</section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> deriva el gradiente de la log-loss para una observación y luego generaliza a forma matricial.</li>
-<li><strong>Extensión computacional:</strong> dibuja precisión, recall y F1 como funciones del umbral; identifica si existe un rango estable de decisión.</li>
-<li><strong>Conexión con proyecto:</strong> escribe cuál error es más costoso en tu problema y justifica el umbral desde esa asimetría.</li>
-</ul>
-</div>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>La regresión logística produce probabilidades estimadas para clasificación binaria. La función sigmoide transforma puntajes lineales en valores entre 0 y 1, y la log-loss penaliza predicciones probabilísticas incompatibles con la etiqueta observada.</p>
-<p>El gradiente logístico tiene una forma compacta, <span class="math inline">\(X^\top(\widehat p-y)/m\)</span>, que conecta de nuevo matrices, pérdida y optimización. La clasificación final no aparece hasta elegir un umbral, y ese umbral cambia la matriz de confusión.</p>
-<p>Por eso la evaluación debe ir más allá de accuracy. Precision, recall, F1 y la selección de umbral dependen del costo relativo de falsos positivos y falsos negativos. Una recomendación técnica debe declarar ese costo o, al menos, el riesgo que está priorizando.</p>
-</section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Clase positiva:</strong> evento o condición que se codifica como <span class="math inline">\(1\)</span> y define la interpretación de métricas.</li>
-<li><strong>Sigmoide:</strong> función que transforma un score real en un valor entre 0 y 1.</li>
-<li><strong>Log-odds:</strong> logaritmo de la razón <span class="math inline">\(p/(1-p)\)</span>.</li>
-<li><strong>Log-loss:</strong> pérdida que penaliza probabilidades equivocadas, especialmente si son confiadas.</li>
-<li><strong>Matriz de confusión:</strong> conteo de verdaderos/falsos positivos y negativos.</li>
-<li><strong>Precision:</strong> proporción de predicciones positivas que fueron correctas.</li>
-<li><strong>Recall:</strong> proporción de positivos reales detectados.</li>
-<li><strong>Umbral:</strong> regla que convierte una probabilidad o score en clase.</li>
-<li><strong>Calibración:</strong> correspondencia entre probabilidades predichas y frecuencias observadas.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="selección-de-umbral-reproducible" class="level3">
+<h3 class="anchored" data-anchor-id="selección-de-umbral-reproducible">3. Selección de umbral reproducible</h3>
+<p>Reproduzca las particiones 108/36/36 del periodo <code>base</code>.</p>
 <ol type="1">
-<li>¿Por qué regresión logística no produce directamente una clase?</li>
-<li>Explica qué significa que el modelo produzca <span class="math inline">\(\widehat p(x)=0.8\)</span> y qué no puede afirmarse sin estudiar calibración.</li>
-<li>¿Por qué una predicción muy confiada y equivocada recibe alta log-loss?</li>
-<li>¿Qué diferencia hay entre precision y recall?</li>
-<li>Da un ejemplo donde prefieras recall sobre precision.</li>
+<li>Ajuste estandarización y regresión solo con entrenamiento.</li>
+<li>Construya la tabla de validación para una rejilla de umbrales.</li>
+<li>Declare antes de consultar prueba una restricción de recall o una función de costo.</li>
+<li>Fije el umbral, evalúe prueba una sola vez e incluya los cuatro conteos.</li>
+<li>Compare con la clase mayoritaria y explique por qué no cambiaría el umbral después de ver prueba.</li>
 </ol>
 </section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="6" type="1">
-<li>Calcula <code>sigma(0)</code>, <code>sigma(2)</code> y <code>sigma(-2)</code> aproximadamente.</li>
-<li>Si <code>TP=40</code>, <code>FP=10</code>, <code>TN=80</code>, <code>FN=20</code>, calcula accuracy, precision, recall y F1.</li>
-<li>Para <code>y=1</code> y <code>p=0.9</code>, calcula la contribución a log-loss. Repite con <code>p=0.1</code>.</li>
-<li>Si <code>theta_j=0.7</code>, ¿cuánto se multiplican los odds por una unidad adicional de <code>x_j</code>?</li>
+<section id="separabilidad-y-regularización" class="level3">
+<h3 class="anchored" data-anchor-id="separabilidad-y-regularización">4. Separabilidad y regularización</h3>
+<p>Construya dos grupos linealmente separables en <span class="math inline">\(\mathbb R^2\)</span>.</p>
+<ol type="1">
+<li>Ejecute gradiente sin penalización y registre pérdida y norma de parámetros.</li>
+<li>Muestre que las clases permanecen correctas mientras la norma crece.</li>
+<li>Añada una penalización L2 que no incluya el intercepto.</li>
+<li>Compare convergencia, probabilidades y frontera para varias intensidades.</li>
+<li>Explique por qué un minimizador finito es una propiedad distinta de tener accuracy de entrenamiento igual a uno.</li>
 </ol>
 </section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="10" type="1">
-<li>Implementa <code>sigmoid(z)</code> de forma estable.</li>
-<li>Implementa <code>log_loss_binary(y, p)</code>.</li>
-<li>Implementa <code>logistic_gradient(X, y, theta)</code>.</li>
-<li>Implementa <code>classification_metrics(y_true, y_pred)</code>.</li>
-<li>Evalúa métricas para umbrales <code>0.2</code>, <code>0.5</code> y <code>0.8</code>.</li>
-<li>Elige en validación un umbral que mantenga recall al menos <code>0.95</code>; después evalúalo una sola vez en test.</li>
-</ol>
 </section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="16" type="1">
-<li>Un modelo tiene accuracy <code>0.94</code>, pero recall de la clase positiva <code>0.20</code>. ¿Qué puede estar pasando?</li>
-<li>En fraude, subir el umbral aumenta precision y baja recall. ¿Cómo explicarías el tradeoff a una persona no técnica?</li>
-<li>Si dos modelos tienen F1 similar, pero uno tiene mejor calibración, ¿en qué situación preferirías el calibrado?</li>
-</ol>
-</section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="19" type="1">
-<li>Entrena o simula un clasificador binario con probabilidades. Evalúa tres umbrales, reporta matriz de confusión, precision, recall y F1, y recomienda un umbral para un contexto donde el falso negativo sea más costoso que el falso positivo.</li>
-</ol>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>Problema 2.</strong> Con <span class="math inline">\(\tau=0.5\)</span> se obtiene <span class="math inline">\((TP,FP,TN,FN)=(2,1,2,1)\)</span> y las cuatro métricas son aproximadamente 0.667. Con <span class="math inline">\(\tau=0.7\)</span> se obtiene <span class="math inline">\((1,0,3,2)\)</span>: precision es 1, recall es <span class="math inline">\(1/3\)</span>, accuracy es <span class="math inline">\(2/3\)</span> y <span class="math inline">\(F_1=0.5\)</span>. Las probabilidades y su log-loss no cambian al mover el umbral.</p>
+<p><strong>Problema 4.</strong> En datos separables, multiplicar por una constante positiva un vector que separa aumenta los márgenes y hace que la log-loss se acerque a cero. La penalización L2 crece cuadráticamente con esa constante y evita que la norma pueda aumentar sin costo.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1249,13 +1100,13 @@ Figura&nbsp;5.2: Selección de métricas: el costo relativo de falsos positivos 
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./capitulo03_regularizacion_validacion.html" class="pagination-link" aria-label="Capítulo 3: Validación y regularización">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 3: Validación y regularización</span></span>
+      <a href="./capitulo03_regularizacion_validacion.html" class="pagination-link" aria-label="Validación y regularización">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Validación y regularización</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./capitulo05_ejercicios_integradores.html" class="pagination-link" aria-label="Ejercicios integradores: regresión, optimización y clasificación">
-        <span class="nav-page-text"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./capitulo05_ejercicios_integradores.html" class="pagination-link" aria-label="Problemas integradores de regresión y clasificación">
+        <span class="nav-page-text"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

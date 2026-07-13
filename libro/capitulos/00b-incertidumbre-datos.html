@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
-<title>Interludio 0.5: De la muestra al riesgo esperado – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Variables aleatorias, distribuciones y muestras – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +66,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../partes/parte02_regresion.html" rel="next">
+<link href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" rel="next">
 <link href="../capitulos/00-lenguaje-comun.html" rel="prev">
 <link href="../favicon.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -74,22 +109,22 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
 <meta name="citation_author" content="Galindo, Cesar">
-<meta name="citation_publication_date" content="2026-07-07">
-<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_publication_date" content="2026-07-13">
+<meta name="citation_online_date" content="2026-07-13">
 <meta name="citation_language" content="es">
 <meta name="citation_publisher" content="Universidad de los Andes">
 <meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
 <meta name="DC.creator" content="César Galindo">
 <meta name="DC.language" content="es">
-<meta name="DC.date" content="2026-07-07">
+<meta name="DC.date" content="2026-07-13">
 <meta name="DC.type" content="Textbook">
 <meta name="DC.format" content="text/html, application/pdf, text/csv">
 <meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
-<meta property="og:title" content="Interludio 0.5: De la muestra al riesgo esperado – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:title" content="Variables aleatorias, distribuciones y muestras – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -105,7 +140,7 @@ ul.task-list li input[type="checkbox"] {
     "@type": "Organization",
     "name": "Universidad de los Andes"
   },
-  "datePublished": "2026-07-07",
+  "datePublished": "2026-07-13",
   "inLanguage": "es",
   "url": "https://cesarneyit-code.github.io/mate2105/libro/",
   "encodingFormat": [
@@ -170,7 +205,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Datos, variación y aprendizaje a partir de muestras</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -211,18 +246,13 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cómo usar este libro</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../mapa_curso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa del curso y del libro</span></a>
+  <a href="../como_usar.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Cómo leer este libro</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte I: Fundamentos</span></a>
+            <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte I: Datos, variación y aprendizaje a partir de muestras</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -230,24 +260,24 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte I: Fundamentos</span></a>
+  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Observaciones, variables y preguntas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte II: Regresión, optimización y clasificación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -256,50 +286,40 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../partes/parte02_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></a>
+  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="../capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte III: Redes neuronales</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../partes/parte03_redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte III: Redes neuronales</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
@@ -329,18 +349,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte IV: Estrategia de machine learning</span></a>
+            <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte IV: Evaluación y estrategia de modelado</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
@@ -365,18 +380,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte V: Aprendizaje no supervisado</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
@@ -401,18 +411,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
+            <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte VI: Reproducibilidad y comunicación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../partes/parte06_cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
@@ -443,7 +448,7 @@ window.Quarto = {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Herramientas de estudio</span></a>
+ <span class="menu-text">Apéndices de consulta</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -451,55 +456,9 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  <a href="../apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
- <span class="menu-text">Apéndices de consulta</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
@@ -513,16 +472,6 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -555,57 +504,6 @@ window.Quarto = {
   <a href="../apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">Información editorial y publicación</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
@@ -613,47 +511,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="../decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  <a href="../sobre_esta_edicion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sobre esta edición</span></a>
   </div>
 </li>
       </ul>
@@ -668,41 +526,41 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#antes-y-después-de-observar" id="toc-antes-y-después-de-observar" class="nav-link" data-scroll-target="#antes-y-después-de-observar">1. Antes y después de observar</a></li>
-  <li><a href="#una-muestra-no-es-solo-una-lista" id="toc-una-muestra-no-es-solo-una-lista" class="nav-link" data-scroll-target="#una-muestra-no-es-solo-una-lista">2. Una muestra no es solo una lista</a></li>
-  <li><a href="#distribución-y-distribución-empírica" id="toc-distribución-y-distribución-empírica" class="nav-link" data-scroll-target="#distribución-y-distribución-empírica">3. Distribución y distribución empírica</a></li>
-  <li><a href="#promedio-y-valor-esperado" id="toc-promedio-y-valor-esperado" class="nav-link" data-scroll-target="#promedio-y-valor-esperado">Promedio y valor esperado</a></li>
-  <li><a href="#varianza" id="toc-varianza" class="nav-link" data-scroll-target="#varianza">Varianza</a></li>
-  <li><a href="#distribuciones-condicionales" id="toc-distribuciones-condicionales" class="nav-link" data-scroll-target="#distribuciones-condicionales">4. Distribuciones condicionales</a></li>
-  <li><a href="#ruido-residual-y-medición" id="toc-ruido-residual-y-medición" class="nav-link" data-scroll-target="#ruido-residual-y-medición">5. Ruido, residual y medición</a></li>
-  <li><a href="#pérdida-empírica-y-riesgo-esperado" id="toc-pérdida-empírica-y-riesgo-esperado" class="nav-link" data-scroll-target="#pérdida-empírica-y-riesgo-esperado">6. Pérdida empírica y riesgo esperado</a></li>
-  <li><a href="#cambio-de-distribución" id="toc-cambio-de-distribución" class="nav-link" data-scroll-target="#cambio-de-distribución">7. Cambio de distribución</a></li>
-  <li><a href="#por-qué-separamos-datos" id="toc-por-qué-separamos-datos" class="nav-link" data-scroll-target="#por-qué-separamos-datos">8. Por qué separamos datos</a></li>
-  <li><a href="#un-mapa-para-los-capítulos-siguientes" id="toc-un-mapa-para-los-capítulos-siguientes" class="nav-link" data-scroll-target="#un-mapa-para-los-capítulos-siguientes">9. Un mapa para los capítulos siguientes</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
+  <li><a href="#antes-y-después-de-observar" id="toc-antes-y-después-de-observar" class="nav-link active" data-scroll-target="#antes-y-después-de-observar">Antes y después de observar</a>
   <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
+  <li><a href="#eventos-y-una-formulación-probabilística" id="toc-eventos-y-una-formulación-probabilística" class="nav-link" data-scroll-target="#eventos-y-una-formulación-probabilística">Eventos y una formulación probabilística</a></li>
   </ul></li>
+  <li><a href="#la-distribución" id="toc-la-distribución" class="nav-link" data-scroll-target="#la-distribución">La distribución</a>
+  <ul class="collapse">
+  <li><a href="#dos-distribuciones-que-reaparecerán" id="toc-dos-distribuciones-que-reaparecerán" class="nav-link" data-scroll-target="#dos-distribuciones-que-reaparecerán">Dos distribuciones que reaparecerán</a></li>
+  </ul></li>
+  <li><a href="#esperanza-y-variación" id="toc-esperanza-y-variación" class="nav-link" data-scroll-target="#esperanza-y-variación">Esperanza y variación</a></li>
+  <li><a href="#distribuciones-conjuntas-independencia-y-covarianza" id="toc-distribuciones-conjuntas-independencia-y-covarianza" class="nav-link" data-scroll-target="#distribuciones-conjuntas-independencia-y-covarianza">Distribuciones conjuntas, independencia y covarianza</a></li>
+  <li><a href="#de-la-población-a-una-muestra" id="toc-de-la-población-a-una-muestra" class="nav-link" data-scroll-target="#de-la-población-a-una-muestra">De la población a una muestra</a>
+  <ul class="collapse">
+  <li><a href="#el-caso-de-las-subzonas-de-bogotá" id="toc-el-caso-de-las-subzonas-de-bogotá" class="nav-link" data-scroll-target="#el-caso-de-las-subzonas-de-bogotá">El caso de las subzonas de Bogotá</a></li>
+  </ul></li>
+  <li><a href="#distribución-empírica-y-estadísticos" id="toc-distribución-empírica-y-estadísticos" class="nav-link" data-scroll-target="#distribución-empírica-y-estadísticos">Distribución empírica y estadísticos</a></li>
+  <li><a href="#por-qué-se-estabiliza-un-promedio" id="toc-por-qué-se-estabiliza-un-promedio" class="nav-link" data-scroll-target="#por-qué-se-estabiliza-un-promedio">Por qué se estabiliza un promedio</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <ul class="collapse">
+  <li><a href="#muestras-de-una-población-conocida" id="toc-muestras-de-una-población-conocida" class="nav-link" data-scroll-target="#muestras-de-una-población-conocida">1. Muestras de una población conocida</a></li>
+  <li><a href="#qué-distribución-describen-las-subzonas" id="toc-qué-distribución-describen-las-subzonas" class="nav-link" data-scroll-target="#qué-distribución-describen-las-subzonas">2. Qué distribución describen las subzonas</a></li>
+  <li><a href="#bernoulli-indicadores-y-promedios" id="toc-bernoulli-indicadores-y-promedios" class="nav-link" data-scroll-target="#bernoulli-indicadores-y-promedios">3. Bernoulli, indicadores y promedios</a></li>
+  <li><a href="#covarianza-no-significa-independencia" id="toc-covarianza-no-significa-independencia" class="nav-link" data-scroll-target="#covarianza-no-significa-independencia">4. Covarianza no significa independencia</a></li>
+  </ul></li>
+  <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Fundamentos</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../partes/parte01_fundamentos.html">Parte I: Datos, variación y aprendizaje a partir de muestras</a></li><li class="breadcrumb-item"><a href="../capitulos/00b-incertidumbre-datos.html"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></h1>
-<p class="subtitle lead">Variables aleatorias, distribución y cambio de población</p>
+<h1 class="title"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></h1>
+<p class="subtitle lead">Cómo describir la variación antes y después de observar los datos</p>
 </div>
 
 
@@ -719,433 +577,315 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>Una tabla contiene valores ya observados. Un modelo, en cambio, se construye para casos cuyo resultado todavía no conocemos. ¿Qué lenguaje de probabilidad necesitamos para pasar de una cosa a la otra sin atribuir a la muestra más de lo que puede decir?</p>
-<p>Este interludio no reemplaza un curso de probabilidad. Introduce los objetos que aparecerán en regresión, clasificación y validación y precisa qué significan en este libro.</p>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar deberías poder:</p>
-<ol type="1">
-<li>distinguir una variable aleatoria de una columna observada;</li>
-<li>interpretar una muestra como realizaciones de un proceso;</li>
-<li>distinguir distribución poblacional y distribución empírica;</li>
-<li>usar valor esperado, varianza y probabilidad condicional;</li>
-<li>separar ruido, residual y error de medición;</li>
-<li>distinguir riesgo esperado y pérdida empírica;</li>
-<li>explicar qué supuesto permite usar test como aproximación del uso futuro;</li>
-<li>reconocer cambio de distribución y dependencia entre observaciones.</li>
-</ol>
-</section>
-<section id="antes-y-después-de-observar" class="level2">
-<h2 class="anchored" data-anchor-id="antes-y-después-de-observar">1. Antes y después de observar</h2>
-<p>Suponga que elegimos al azar una unidad de una población bien definida y registramos su resultado. Antes de observarla hay varios resultados posibles. Después, aparece un valor concreto en la tabla.</p>
-<p>En una formulación matemática, un resultado elemental se representa por <span class="math inline">\(\omega\in\Omega\)</span>. Una variable aleatoria real es una función</p>
-<p><span class="math display">\[
-Y:\Omega\longrightarrow\mathbb R.
-\]</span></p>
-<p>El adjetivo “aleatoria” no significa que la función cambie al azar. La función es fija; lo incierto antes de observar es cuál <span class="math inline">\(\omega\)</span> ocurrirá y, por tanto, qué valor <span class="math inline">\(Y(\omega)\)</span> veremos.</p>
-<div class="definicion">
-<p><strong>Definición: variable aleatoria.</strong><br>
-Una variable aleatoria asigna un valor numérico a cada resultado posible de un proceso incierto. Una variable categórica aleatoria puede definirse de manera análoga con valores en un conjunto de clases.</p>
-</div>
-<p>Para varias entradas usamos un vector aleatorio</p>
-<p><span class="math display">\[
-X=(X_1,\ldots,X_d).
-\]</span></p>
-<p>El par <span class="math inline">\((X,Y)\)</span> representa una entrada y un objetivo antes de observar una unidad. Una fila registrada es una realización:</p>
-<p><span class="math display">\[
-(x_i,y_i)=(X(\omega_i),Y(\omega_i)).
-\]</span></p>
+<p>El archivo sintético de regresión del libro contiene 160 filas generadas con una semilla fija. En esa población, el promedio de <code>target</code> es 4.121. Si elegimos doce filas sin reemplazo, el promedio depende de cuáles hayan sido seleccionadas. Cuatro selecciones posibles producen:</p>
 <table class="caption-top table">
-<colgroup>
-<col style="width: 33%">
-<col style="width: 33%">
-<col style="width: 33%">
-</colgroup>
 <thead>
 <tr class="header">
-<th>Nivel</th>
-<th>Notación</th>
-<th>Ejemplo</th>
+<th style="text-align: right;">selección</th>
+<th style="text-align: right;">tamaño</th>
+<th style="text-align: right;">promedio de <code>target</code></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>variable antes de observar</td>
-<td><span class="math inline">\(Y\)</span></td>
-<td>resultado de una subzona seleccionada del proceso definido</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">2.916</td>
 </tr>
 <tr class="even">
-<td>realización</td>
-<td><span class="math inline">\(y_i\)</span></td>
-<td>valor registrado en una fila particular</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4.600</td>
 </tr>
 <tr class="odd">
-<td>columna</td>
-<td><span class="math inline">\((y_1,\ldots,y_m)\)</span></td>
-<td>resultados de las unidades incluidas en la muestra</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4.467</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">4.065</td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="una-muestra-no-es-solo-una-lista" class="level2">
-<h2 class="anchored" data-anchor-id="una-muestra-no-es-solo-una-lista">2. Una muestra no es solo una lista</h2>
-<p>Escribimos una muestra supervisada como</p>
-<p><span class="math display">\[
-\mathcal D_m=\{(x_i,y_i)\}_{i=1}^{m}.
-\]</span></p>
-<p>Muchos resultados elementales suponen que los pares son independientes y tienen la misma distribución:</p>
-<p><span class="math display">\[
-(X_i,Y_i)\overset{\mathrm{iid}}{\sim}P.
-\]</span></p>
-<p>Este supuesto <strong>no</strong> se obtiene del formato tabular. Puede fallar cuando:</p>
-<ul>
-<li>hay varias filas de la misma persona;</li>
-<li>observaciones cercanas en el tiempo se influyen;</li>
-<li>grupos provienen de hospitales, colegios o regiones diferentes;</li>
-<li>la tabla incluye todas las unidades disponibles y no una muestra aleatoria;</li>
-<li>el procedimiento de selección depende del resultado.</li>
-</ul>
-<div class="criterio">
-<p><strong>Pregunta de muestreo.</strong> ¿Qué mecanismo produjo las filas y qué dependencias quedan entre ellas? La respuesta determina cómo conviene partir y evaluar.</p>
-</div>
-<p>En el subconjunto de vivienda, cada fila es una subzona agregada. No hay 32 realizaciones independientes de viviendas individuales. Tratar los promedios de subzona como datos de personas o viviendas produciría una inferencia ecológica indebida.</p>
-</section>
-<section id="distribución-y-distribución-empírica" class="level2">
-<h2 class="anchored" data-anchor-id="distribución-y-distribución-empírica">3. Distribución y distribución empírica</h2>
-<p>La distribución <span class="math inline">\(P_Y\)</span> de <span class="math inline">\(Y\)</span> asigna probabilidades a sus posibles valores o conjuntos de valores. Describe el proceso idealizado antes de observar una muestra.</p>
-<p>La muestra permite construir una distribución empírica:</p>
-<p><span class="math display">\[
-\widehat P_m
-=\frac1m\sum_{i=1}^{m}\delta_{y_i},
-\]</span></p>
-<p>donde <span class="math inline">\(\delta_{y_i}\)</span> coloca masa <span class="math inline">\(1/m\)</span> en el valor observado <span class="math inline">\(y_i\)</span>.</p>
+<p>No hay contradicción entre esos cuatro números. Cada uno resume una muestra distinta de la misma población. Antes de seleccionar las filas no sabemos cuál de esos promedios, ni cuál de muchos otros, obtendremos. Después de observar la muestra aparece un valor concreto.</p>
+<p>Esta diferencia entre lo posible antes de observar y lo registrado después es el punto de entrada a la probabilidad. En los capítulos posteriores cambiarán los objetos calculados: en lugar de un promedio tendremos coeficientes, pérdidas o métricas. La fuente de variación será la misma: otra muestra puede producir otro resultado.</p>
+<section id="antes-y-después-de-observar" class="level2">
+<h2 class="anchored" data-anchor-id="antes-y-después-de-observar">Antes y después de observar</h2>
+<p>Consideremos una unidad escogida de una población y la cantidad <code>target</code> que registraríamos. Antes de escogerla representamos esa cantidad mediante una variable aleatoria <span class="math inline">\(Y\)</span>. Después de observar la unidad obtenemos una realización <span class="math inline">\(y\)</span>.</p>
 <div class="definicion">
-<p><strong>Definición: distribución empírica.</strong><br>
-La distribución empírica asigna el mismo peso a cada observación de una muestra. Se puede examinar mediante conteos, proporciones, histogramas, cuantiles y resúmenes numéricos.</p>
+<p><strong>Variable aleatoria y realización.</strong> Una variable aleatoria real es una función</p>
+<p><span class="math display">\[
+Y:\Omega\longrightarrow\mathbb R
+\]</span></p>
+<p>que asigna un valor numérico a cada resultado posible. Si ocurre el resultado <span class="math inline">\(\omega_i\)</span>, el valor observado es <span class="math inline">\(y_i=Y(\omega_i)\)</span>.</p>
 </div>
-<p>Un histograma muestra <span class="math inline">\(\widehat P_m\)</span>, no “la distribución verdadera”. Con otra muestra cambiarían las barras. Esa variación muestral es parte del problema, no un error del gráfico.</p>
-</section>
-<section id="promedio-y-valor-esperado" class="level2">
-<h2 class="anchored" data-anchor-id="promedio-y-valor-esperado">Promedio y valor esperado</h2>
-<p>El promedio muestral es</p>
+<p>La función <span class="math inline">\(Y\)</span> no cambia al repetir el procedimiento; cambia el resultado <span class="math inline">\(\omega_i\)</span> al que se aplica. Por convención, las mayúsculas representan variables aleatorias y las minúsculas sus realizaciones. Una columna <span class="math inline">\(\mathbf y=(y_1,\ldots,y_n)^\top\)</span> contiene valores observados; <span class="math inline">\(Y\)</span> representa la cantidad antes de observar una unidad nueva.</p>
+<p>Si cada unidad tiene varias características, usamos un vector aleatorio</p>
 <p><span class="math display">\[
-\overline y=\frac1m\sum_{i=1}^{m}y_i.
+\boldsymbol X=(X_1,\ldots,X_d)\in\mathbb R^d.
 \]</span></p>
-<p>Si <span class="math inline">\(Y\)</span> es integrable, su valor esperado es</p>
+<p>Una fila de un problema supervisado es una realización</p>
 <p><span class="math display">\[
-\mathbb E[Y]=\int y\,dP_Y(y).
+z_i=(\boldsymbol x_i,y_i)
 \]</span></p>
-<p>El primero se calcula sobre la muestra. El segundo pertenece al proceso modelado. Bajo supuestos de muestreo apropiados, <span class="math inline">\(\overline y\)</span> puede estimar <span class="math inline">\(\mathbb E[Y]\)</span>; no son el mismo objeto.</p>
+<p>del par aleatorio <span class="math inline">\(Z=(\boldsymbol X,Y)\)</span>. La negrita distingue el predictor aleatorio de la matriz de diseño <span class="math inline">\(\mathbf X\)</span> que construiremos con varias filas.</p>
+<section id="eventos-y-una-formulación-probabilística" class="level3">
+<h3 class="anchored" data-anchor-id="eventos-y-una-formulación-probabilística">Eventos y una formulación probabilística</h3>
+<p>Un modelo probabilístico se expresa mediante una terna</p>
+<p><span class="math display">\[
+(\Omega,\mathcal F,\mathbb P).
+\]</span></p>
+<p>El espacio <span class="math inline">\(\Omega\)</span> contiene los resultados posibles; <span class="math inline">\(\mathcal F\)</span> contiene los eventos a los que se asignará probabilidad; y <span class="math inline">\(\mathbb P\)</span> satisface no negatividad, <span class="math inline">\(\mathbb P(\Omega)=1\)</span> y aditividad numerable sobre eventos disjuntos. Estas condiciones permiten calcular probabilidades de afirmaciones como <span class="math inline">\(Y\leq 4\)</span> o <span class="math inline">\(X_1&gt;0\)</span>.</p>
+<p>No necesitaremos construir <span class="math inline">\(\mathcal F\)</span> en cada ejemplo. Su presencia aclara, sin embargo, que la probabilidad pertenece a resultados posibles antes de observarlos. El valor <code>4.242557</code> de una fila concreta ya no tiene una probabilidad por estimar: es una realización registrada.</p>
 </section>
-<section id="varianza" class="level2">
-<h2 class="anchored" data-anchor-id="varianza">Varianza</h2>
-<p>La varianza poblacional es</p>
+</section>
+<section id="la-distribución" class="level2">
+<h2 class="anchored" data-anchor-id="la-distribución">La distribución</h2>
+<p>La distribución de <span class="math inline">\(Y\)</span> describe con qué probabilidad aparece cada región de valores. Para un conjunto <span class="math inline">\(B\subseteq\mathbb R\)</span>, escribimos</p>
+<p><span class="math display">\[
+P_Y(B)=\mathbb P(Y\in B).
+\]</span></p>
+<p>La función de distribución acumulada</p>
+<p><span class="math display">\[
+F_Y(t)=\mathbb P(Y\leq t)
+\]</span></p>
+<p>existe para toda variable aleatoria real y determina su distribución. Si <span class="math inline">\(Y\)</span> es discreta, puede describirse mediante una función de masa</p>
+<p><span class="math display">\[
+p_Y(y)=\mathbb P(Y=y),
+\qquad \sum_y p_Y(y)=1.
+\]</span></p>
+<p>Si <span class="math inline">\(Y\)</span> es continua y posee densidad <span class="math inline">\(f_Y\)</span>, las probabilidades se obtienen integrando:</p>
+<p><span class="math display">\[
+\mathbb P(a&lt;Y\leq b)=\int_a^b f_Y(y)\,dy.
+\]</span></p>
+<p>Una densidad puede tomar valores mayores que uno; lo que debe estar entre cero y uno es el área integrada sobre un conjunto. Para una variable continua usual, <span class="math inline">\(\mathbb P(Y=y)=0\)</span> en cada punto aislado aunque los intervalos tengan probabilidad positiva.</p>
+<section id="dos-distribuciones-que-reaparecerán" class="level3">
+<h3 class="anchored" data-anchor-id="dos-distribuciones-que-reaparecerán">Dos distribuciones que reaparecerán</h3>
+<p>Una variable Bernoulli con parámetro <span class="math inline">\(p\)</span> toma valores 0 y 1:</p>
+<p><span class="math display">\[
+\mathbb P(Y=1)=p,
+\qquad
+\mathbb P(Y=0)=1-p.
+\]</span></p>
+<p>Se utilizará para representar una clase binaria y también para representar si una predicción fue correcta. Una variable normal</p>
+<p><span class="math display">\[
+Y\sim\mathcal N(\mu,\sigma^2)
+\]</span></p>
+<p>es continua, simétrica alrededor de <span class="math inline">\(\mu\)</span> y está determinada por su media y su varianza. Será útil como modelo y como aproximación de ciertas distribuciones muestrales, pero no debe adoptarse por costumbre: valores extremos, asimetría o restricciones del dominio pueden contradecirla.</p>
+</section>
+</section>
+<section id="esperanza-y-variación" class="level2">
+<h2 class="anchored" data-anchor-id="esperanza-y-variación">Esperanza y variación</h2>
+<p>La esperanza resume el promedio definido por una distribución. Para una variable discreta,</p>
+<p><span class="math display">\[
+\mathbb E[Y]=\sum_y y\,p_Y(y),
+\]</span></p>
+<p>y, para una variable continua con densidad,</p>
+<p><span class="math display">\[
+\mathbb E[Y]=\int_{-\infty}^{\infty}y f_Y(y)\,dy,
+\]</span></p>
+<p>si la integral existe. La esperanza no tiene que ser un valor que <span class="math inline">\(Y\)</span> pueda tomar. Una variable Bernoulli solo toma 0 y 1, pero su esperanza es <span class="math inline">\(p\)</span>.</p>
+<p>La esperanza es lineal. Si las cantidades involucradas son integrables,</p>
+<p><span class="math display">\[
+\mathbb E[aY+bW+c]
+=a\mathbb E[Y]+b\mathbb E[W]+c,
+\]</span></p>
+<p>sin necesidad de independencia. Esta propiedad permitirá convertir un promedio de pérdidas observadas en un estimador de una pérdida esperada.</p>
+<p>La varianza mide dispersión cuadrática alrededor de la media:</p>
 <p><span class="math display">\[
 \operatorname{Var}(Y)
-=\mathbb E\left[(Y-\mathbb E[Y])^2\right].
+=\mathbb E[(Y-\mathbb E[Y])^2]
+=\mathbb E[Y^2]-\mathbb E[Y]^2.
 \]</span></p>
-<p>Como resumen descriptivo de la muestra podemos usar</p>
-<p><span class="math display">\[
-\widehat v_m
-=\frac1m\sum_{i=1}^{m}(y_i-\overline y)^2.
-\]</span></p>
-<p>Algunos textos usan <span class="math inline">\(1/(m-1)\)</span> para obtener un estimador insesgado bajo supuestos específicos. En este libro indicaremos el denominador cuando importe. La desviación estándar es la raíz de la varianza y conserva las unidades de <span class="math inline">\(Y\)</span>.</p>
-<div class="ejemplo">
-<p><strong>Ejemplo resuelto: la media como baseline.</strong><br> Para <span class="math inline">\(y=(310,455,240,620)\)</span>, <span class="math inline">\(\overline y=406.25\)</span>. Predecir 406.25 para todo caso es una referencia calculable. No significa que una observación futura deba tomar ese valor ni que 406.25 sea una propiedad inmutable de la población.</p>
-</div>
+<p>Su raíz cuadrada es la desviación estándar. Dos distribuciones pueden tener la misma media y la misma varianza y ser muy diferentes; estos momentos son resúmenes, no descripciones completas.</p>
 </section>
-<section id="distribuciones-condicionales" class="level2">
-<h2 class="anchored" data-anchor-id="distribuciones-condicionales">4. Distribuciones condicionales</h2>
-<p>En aprendizaje supervisado no solemos preguntar solo por <span class="math inline">\(Y\)</span>. Preguntamos por su comportamiento cuando conocemos <span class="math inline">\(X=x\)</span>.</p>
-<p>En regresión, una función central es</p>
+<section id="distribuciones-conjuntas-independencia-y-covarianza" class="level2">
+<h2 class="anchored" data-anchor-id="distribuciones-conjuntas-independencia-y-covarianza">Distribuciones conjuntas, independencia y covarianza</h2>
+<p>El par <span class="math inline">\((X_1,X_2)\)</span> posee una distribución conjunta. De ella se obtienen las distribuciones marginales de cada componente. Decir que <span class="math inline">\(X_1\)</span> y <span class="math inline">\(X_2\)</span> son independientes significa que, para conjuntos apropiados <span class="math inline">\(A\)</span> y <span class="math inline">\(B\)</span>,</p>
 <p><span class="math display">\[
-\mu(x)=\mathbb E[Y\mid X=x].
+\mathbb P(X_1\in A,X_2\in B)
+=\mathbb P(X_1\in A)\mathbb P(X_2\in B).
 \]</span></p>
-<p>En clasificación binaria, con <span class="math inline">\(Y\in\{0,1\}\)</span>,</p>
+<p>La covarianza mide asociación lineal:</p>
 <p><span class="math display">\[
-\eta(x)=\mathbb P(Y=1\mid X=x).
+\operatorname{Cov}(X_1,X_2)
+=\mathbb E[(X_1-\mathbb E[X_1])(X_2-\mathbb E[X_2])].
 \]</span></p>
-<p>Estas cantidades pertenecen a una distribución conjunta <span class="math inline">\(P_{X,Y}\)</span>. Los datos no las entregan directamente; un modelo intenta aproximarlas bajo una familia y un procedimiento de ajuste.</p>
-<div class="callout callout-style-default callout-warning callout-titled" title="Probabilidad verdadera y estimada">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Advertencia</span>Probabilidad verdadera y estimada
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>En regresión logística escribiremos <span class="math display">\[
-\widehat p_\theta(x)=\sigma(x^\top\theta).
-\]</span> Esta es una probabilidad estimada por el modelo. No debemos escribir que es igual a <span class="math inline">\(\mathbb P(Y=1\mid X=x)\)</span> salvo que estemos declarando un supuesto de especificación del modelo.</p>
-</div>
-</div>
-<p>Una salida <span class="math inline">\(\widehat p(x)=0.82\)</span> significa que el modelo asigna 0.82 a la clase positiva para esa entrada. Para interpretarla como frecuencia confiable se requiere evaluar calibración en datos comparables. Para convertirla en clase hace falta un umbral elegido con validación y con atención al costo de los errores.</p>
+<p>Si las variables tienen desviaciones estándar positivas, su correlación es</p>
+<p><span class="math display">\[
+\operatorname{Corr}(X_1,X_2)
+=\frac{\operatorname{Cov}(X_1,X_2)}
+{\operatorname{sd}(X_1)\operatorname{sd}(X_2)}.
+\]</span></p>
+<p>La independencia implica covarianza cero cuando existen segundos momentos. La conversa es falsa: una relación no lineal puede tener covarianza cero. Tampoco la covarianza distingue causalidad de asociación.</p>
+<p>Para un vector aleatorio <span class="math inline">\(\boldsymbol X\in\mathbb R^d\)</span>, la matriz de covarianza</p>
+<p><span class="math display">\[
+\Sigma
+=\mathbb E[(\boldsymbol X-\boldsymbol\mu)
+(\boldsymbol X-\boldsymbol\mu)^\top],
+\qquad
+\boldsymbol\mu=\mathbb E[\boldsymbol X],
+\]</span></p>
+<p>reúne varianzas en la diagonal y covarianzas fuera de ella. Más adelante, PCA buscará direcciones determinadas por esta estructura.</p>
+<p>En la población sintética de regresión, <code>x2</code> fue construido a partir de <code>x1</code> más ruido. Por ello ambas variables están asociadas. El hecho de conocer el mecanismo generador permite explicar esa asociación. En un dataset observacional, una covarianza por sí sola no revelaría el mecanismo.</p>
 </section>
-<section id="ruido-residual-y-medición" class="level2">
-<h2 class="anchored" data-anchor-id="ruido-residual-y-medición">5. Ruido, residual y medición</h2>
-<p>Una forma de modelar regresión es</p>
+<section id="de-la-población-a-una-muestra" class="level2">
+<h2 class="anchored" data-anchor-id="de-la-población-a-una-muestra">De la población a una muestra</h2>
+<p>Representamos una muestra aleatoria de tamaño <span class="math inline">\(n\)</span> mediante</p>
 <p><span class="math display">\[
-Y=f(X)+\varepsilon,
+D_n=(Z_1,\ldots,Z_n).
 \]</span></p>
-<p>donde <span class="math inline">\(\varepsilon\)</span> representa variación no capturada por <span class="math inline">\(f(X)\)</span>. A veces se añade el supuesto</p>
+<p>Antes de observarla, <span class="math inline">\(D_n\)</span> es aleatoria. Después obtenemos la realización</p>
 <p><span class="math display">\[
-\mathbb E[\varepsilon\mid X]=0,
+d_n=(z_1,\ldots,z_n),
 \]</span></p>
-<p>de modo que <span class="math inline">\(f(X)=\mathbb E[Y\mid X]\)</span>. Este supuesto debe declararse; no se deduce de escribir la ecuación.</p>
-<p>Conviene separar tres ideas:</p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Objeto</th>
-<th>Naturaleza</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>ruido <span class="math inline">\(\varepsilon\)</span></td>
-<td>variable no observada dentro de un modelo probabilístico</td>
-</tr>
-<tr class="even">
-<td>residual <span class="math inline">\(r_i=y_i-\widehat y_i\)</span></td>
-<td>cantidad calculada después de ajustar y observar</td>
-</tr>
-<tr class="odd">
-<td>error de medición</td>
-<td>diferencia entre un valor registrado y la cantidad que se pretendía medir</td>
-</tr>
-</tbody>
-</table>
-<p>Un residual no nulo puede reflejar ruido, variables omitidas, forma funcional insuficiente, cambio de distribución o error de medición. Un residual pequeño no demuestra que el mecanismo causal esté bien descrito.</p>
+<p>que puede almacenarse como una tabla. Escribir</p>
+<p><span class="math display">\[
+Z_1,\ldots,Z_n\overset{\mathrm{iid}}{\sim}P
+\]</span></p>
+<p>afirma dos cosas: las observaciones son independientes y todas tienen la misma distribución <span class="math inline">\(P\)</span>. No es una propiedad del formato CSV; es un supuesto sobre el procedimiento que produjo las filas.</p>
+<p>Mediciones repetidas de una persona, observaciones sucesivas de una serie y estudiantes dentro de un mismo colegio pueden depender entre sí. Una recolección que excluye sistemáticamente parte de la población puede producir observaciones con una distribución distinta de la población objetivo. En cualquiera de esos casos, la notación iid requiere modificación o una justificación limitada.</p>
+<section id="el-caso-de-las-subzonas-de-bogotá" class="level3">
+<h3 class="anchored" data-anchor-id="el-caso-de-las-subzonas-de-bogotá">El caso de las subzonas de Bogotá</h3>
+<p>Las 32 subzonas del capítulo anterior no están documentadas como una muestra aleatoria de todas las subzonas, de todos los proyectos ni de las viviendas de Bogotá. Cada fila es además un resumen agregado. Podemos describir la distribución empírica de sus columnas, pero no convertirla automáticamente en una distribución poblacional de viviendas.</p>
+<p>Esta distinción permanecería aunque el archivo tuviera 3200 subzonas. Un tamaño grande reduce algunas formas de variación muestral bajo un diseño apropiado; no repara una unidad equivocada ni un mecanismo de selección desconocido.</p>
 </section>
-<section id="pérdida-empírica-y-riesgo-esperado" class="level2">
-<h2 class="anchored" data-anchor-id="pérdida-empírica-y-riesgo-esperado">6. Pérdida empírica y riesgo esperado</h2>
-<p>Sea <span class="math inline">\(f\)</span> una regla de predicción y <span class="math inline">\(\ell(f(X),Y)\)</span> una pérdida. El riesgo bajo una distribución de uso <span class="math inline">\(P_{\mathrm{uso}}\)</span> es</p>
+</section>
+<section id="distribución-empírica-y-estadísticos" class="level2">
+<h2 class="anchored" data-anchor-id="distribución-empírica-y-estadísticos">Distribución empírica y estadísticos</h2>
+<p>La distribución empírica asigna masa <span class="math inline">\(1/n\)</span> a cada observación:</p>
 <p><span class="math display">\[
-R_{\mathrm{uso}}(f)
-=\mathbb E_{(X,Y)\sim P_{\mathrm{uso}}}
-\left[\ell(f(X),Y)\right].
+\widehat P_n=\frac1n\sum_{i=1}^n\delta_{z_i}.
 \]</span></p>
-<p>Este es el promedio que quisiéramos controlar para casos futuros relevantes. No lo observamos directamente.</p>
-<p>En entrenamiento calculamos el riesgo empírico</p>
+<p>Para una variable numérica, su función de distribución empírica es</p>
 <p><span class="math display">\[
-\widehat R_{\mathrm{train}}(f)
-=\frac1{m_{\mathrm{train}}}
-\sum_{i\in\mathrm{train}}\ell(f(x_i),y_i).
+\widehat F_n(t)
+=\frac1n\sum_{i=1}^n\mathbf 1\{y_i\leq t\}.
 \]</span></p>
+<p>La media y la varianza empíricas son</p>
+<p><span class="math display">\[
+\overline y=\frac1n\sum_{i=1}^n y_i,
+\qquad
+s_y^2=\frac1{n-1}\sum_{i=1}^n(y_i-\overline y)^2.
+\]</span></p>
+<p>La primera aproxima una esperanza bajo condiciones de muestreo. La segunda usa <span class="math inline">\(n-1\)</span> para estimar la varianza poblacional sin sesgo bajo el modelo iid con segundo momento finito.</p>
 <div class="definicion">
-<p><strong>Definición: generalización.</strong><br> Generalizar significa mantener bajo riesgo en la distribución de uso, no solo baja pérdida en las filas que determinaron el modelo.</p>
-</div>
-<p>La diferencia entre riesgo de uso y pérdida de entrenamiento proviene, entre otras fuentes, de variación muestral, selección del modelo, capacidad, ruido y cambio de distribución.</p>
-</section>
-<section id="cambio-de-distribución" class="level2">
-<h2 class="anchored" data-anchor-id="cambio-de-distribución">7. Cambio de distribución</h2>
-<p>El supuesto que conecta una partición histórica con el futuro puede escribirse como</p>
+<p><strong>Estadístico.</strong> Un estadístico es una función de la muestra que no depende de cantidades poblacionales desconocidas:</p>
 <p><span class="math display">\[
-P_{\mathrm{test}}\approx P_{\mathrm{uso}}.
+T_n=T(D_n).
 \]</span></p>
-<p>No tiene que haber igualdad perfecta, pero sí comparabilidad suficiente para el propósito. Distinguimos algunos cambios:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Cambio</th>
-<th>Ejemplo</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>covariate shift</td>
-<td>cambia la distribución de entradas <span class="math inline">\(P_X\)</span></td>
-</tr>
-<tr class="even">
-<td>prior shift</td>
-<td>cambia la prevalencia <span class="math inline">\(P_Y\)</span></td>
-</tr>
-<tr class="odd">
-<td>concept shift</td>
-<td>cambia la relación <span class="math inline">\(P(Y\mid X)\)</span></td>
-</tr>
-<tr class="even">
-<td>cambio de medición</td>
-<td>cambia sensor, definición o codificación</td>
-</tr>
-</tbody>
-</table>
-<p>Un test aleatorio tomado de la misma tabla puede estimar variación interna y aun así no representar un cambio temporal, geográfico o institucional.</p>
-<div class="ejemplo">
-<p><strong>Ejemplo: modelo entrenado antes de una política nueva.</strong><br> Si una norma cambia quién recibe un servicio, la relación entre variables y resultado puede cambiar. Una partición aleatoria dentro del periodo anterior no reproduce ese escenario. Conviene una evaluación temporal o una colección posterior.</p>
 </div>
+<p>Como <span class="math inline">\(D_n\)</span> es aleatoria, <span class="math inline">\(T_n\)</span> también lo es. Su distribución bajo repetición del muestreo se llama distribución muestral. Después de observar <span class="math inline">\(d_n\)</span>, el estadístico toma el valor <span class="math inline">\(t_n=T(d_n)\)</span>. Los cuatro promedios que abrieron el capítulo son cuatro realizaciones del mismo estadístico.</p>
 </section>
-<section id="por-qué-separamos-datos" class="level2">
-<h2 class="anchored" data-anchor-id="por-qué-separamos-datos">8. Por qué separamos datos</h2>
-<p>Los papeles de las particiones se entienden mejor en términos de información:</p>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Conjunto</th>
-<th>Qué puede influir</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>train</td>
-<td>parámetros y transformaciones aprendidas</td>
-</tr>
-<tr class="even">
-<td>validación</td>
-<td>hiperparámetros, variables, modelo y umbral</td>
-</tr>
-<tr class="odd">
-<td>test</td>
-<td>únicamente el reporte final del procedimiento fijado</td>
-</tr>
-</tbody>
-</table>
-<p>El error observado en test,</p>
+<section id="por-qué-se-estabiliza-un-promedio" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-se-estabiliza-un-promedio">Por qué se estabiliza un promedio</h2>
+<p>Supongamos que <span class="math inline">\(Y_1,\ldots,Y_n\)</span> son iid, con media <span class="math inline">\(\mu\)</span> y varianza <span class="math inline">\(\sigma^2&lt;\infty\)</span>. Entonces</p>
 <p><span class="math display">\[
-\widehat R_{\mathrm{test}}(f),
+\mathbb E[\overline Y_n]=\mu
 \]</span></p>
-<p>es otra media muestral. Tiene incertidumbre y depende de cómo se construyó test. No es el riesgo verdadero de todo uso futuro.</p>
-<p>Si consultamos test repetidamente y adaptamos el modelo, el procedimiento completo se ajusta indirectamente a test. Por eso la selección se hace con validación o validación cruzada y test se reserva hasta el final.</p>
-</section>
-<section id="un-mapa-para-los-capítulos-siguientes" class="level2">
-<h2 class="anchored" data-anchor-id="un-mapa-para-los-capítulos-siguientes">9. Un mapa para los capítulos siguientes</h2>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Capítulo</th>
-<th>Objeto probabilístico que aparece</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>regresión lineal</td>
-<td>aproximación de <span class="math inline">\(\mathbb E[Y\mid X=x]\)</span> bajo una forma lineal</td>
-</tr>
-<tr class="even">
-<td>regularización</td>
-<td>control de selección y variación fuera de entrenamiento</td>
-</tr>
-<tr class="odd">
-<td>regresión logística</td>
-<td>estimación <span class="math inline">\(\widehat p_\theta(x)\)</span> de una probabilidad condicional</td>
-</tr>
-<tr class="even">
-<td>métricas y umbrales</td>
-<td>pérdidas distintas para falsos positivos y falsos negativos</td>
-</tr>
-<tr class="odd">
-<td>cambio de distribución</td>
-<td>diferencia entre <span class="math inline">\(P_{\mathrm{train}}\)</span> y <span class="math inline">\(P_{\mathrm{uso}}\)</span></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="punto-de-control" class="level2">
-<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
-<p>Clasifique cada afirmación como propiedad de la muestra, objeto poblacional o salida de un modelo:</p>
-<ol type="1">
-<li>“La media de esta columna es 406.25”.</li>
-<li>“<span class="math inline">\(\mathbb E[Y]\)</span> es finito”.</li>
-<li>“El modelo asigna <span class="math inline">\(\widehat p(x)=0.65\)</span>”.</li>
-<li>“<span class="math inline">\(\mathbb P(Y=1\mid X=x)=0.65\)</span>”.</li>
-<li>“El MAE en ocho filas de test es 0.615”.</li>
-</ol>
-<p>Respuestas:</p>
-<ol type="1">
-<li>muestra;</li>
-<li>objeto poblacional y supuesto sobre la distribución;</li>
-<li>salida del modelo;</li>
-<li>objeto poblacional, no observado directamente;</li>
-<li>propiedad de una muestra reservada y de un procedimiento fijado.</li>
-</ol>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Una tabla contiene realizaciones. Las variables aleatorias representan resultados antes de observarlos y su distribución describe la variabilidad del proceso. La distribución empírica resume la muestra; no sustituye automáticamente la distribución de la población.</p>
-<p>Regresión y clasificación estudian el comportamiento condicional de <span class="math inline">\(Y\)</span> dado <span class="math inline">\(X\)</span>. Un modelo aproxima ese comportamiento y produce predicciones o probabilidades estimadas. Ruido y residual son objetos distintos, y ninguno demuestra por sí solo que el modelo esté bien o mal especificado.</p>
-<p>El entrenamiento minimiza una pérdida empírica. El objetivo es controlar riesgo en la distribución de uso. Una partición de prueba solo aproxima ese objetivo cuando el muestreo, la independencia y la comparabilidad con el uso futuro son razonables.</p>
-</section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<ul>
-<li><strong>Extensión matemática:</strong> compare la varianza descriptiva con denominador (m) y el estimador con denominador (m-1). Identifique el supuesto bajo el cual el segundo es insesgado.</li>
-<li><strong>Extensión computacional:</strong> simule cien muestras de una misma distribución y observe cómo cambia el histograma empírico entre repeticiones.</li>
-<li><strong>Conexión con el proyecto:</strong> describa por escrito la población de interés, el mecanismo que produjo las filas y el uso futuro que debería representar test.</li>
-</ul>
-</section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Variable aleatoria:</strong> función de un resultado incierto a un espacio de valores.</li>
-<li><strong>Realización:</strong> valor concreto producido al observar el resultado.</li>
-<li><strong>Distribución:</strong> ley probabilística de una variable o vector aleatorio.</li>
-<li><strong>Distribución empírica:</strong> distribución que asigna masa <span class="math inline">\(1/m\)</span> a cada observación.</li>
-<li><strong>Valor esperado:</strong> promedio definido respecto a una distribución.</li>
-<li><strong>Probabilidad condicional:</strong> probabilidad después de condicionar en información conocida.</li>
-<li><strong>Residual:</strong> diferencia observada <span class="math inline">\(y_i-\widehat y_i\)</span>.</li>
-<li><strong>Riesgo esperado:</strong> pérdida promedio bajo una distribución de interés.</li>
-<li><strong>Cambio de distribución:</strong> diferencia relevante entre entrenamiento y uso.</li>
-</ul>
+<p>y, por independencia,</p>
+<p><span class="math display">\[
+\operatorname{Var}(\overline Y_n)
+=\operatorname{Var}\left(\frac1n\sum_{i=1}^nY_i\right)
+=\frac{\sigma^2}{n}.
+\]</span></p>
+<p>La desviación estándar del promedio decrece como <span class="math inline">\(1/\sqrt n\)</span>. Para reducirla a la mitad se necesita, bajo estos supuestos, multiplicar el tamaño por cuatro.</p>
+<div class="proposicion">
+<p><strong>Ley de los grandes números.</strong> Si <span class="math inline">\(Y_1,Y_2,\ldots\)</span> son iid y tienen esperanza finita, entonces</p>
+<p><span class="math display">\[
+\overline Y_n\xrightarrow{\mathbb P}\mathbb E[Y].
+\]</span></p>
 </div>
+<p>La ley justifica aproximar una esperanza mediante un promedio cuando el modelo de muestreo es apropiado. No corrige sesgo de selección, dependencia, errores de medición ni cambio de población.</p>
+<p>El siguiente experimento repite el cálculo que abrió el capítulo:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>tabla <span class="op">=</span> pd.read_csv(<span class="st">"datos/regresion_lineal_sintetica.csv"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> [<span class="dv">8</span>, <span class="dv">20</span>, <span class="dv">80</span>]:</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    medias <span class="op">=</span> [</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        tabla.sample(n<span class="op">=</span>n, replace<span class="op">=</span><span class="va">True</span>, random_state<span class="op">=</span><span class="dv">2105</span> <span class="op">+</span> b)[<span class="st">"target"</span>].mean()</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> b <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1000</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(n, np.mean(medias), np.std(medias, ddof<span class="op">=</span><span class="dv">1</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Al aumentar <span class="math inline">\(n\)</span>, las medias simuladas se concentran alrededor del promedio de la población sintética. La simulación ilustra la proposición; no demuestra que las 32 subzonas de Bogotá sean iid.</p>
 </section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>Una variable aleatoria representa una cantidad antes de observarla y una realización es el valor registrado. Su distribución describe las posibilidades; la esperanza, la varianza y la covarianza resumen aspectos de esa distribución.</p>
+<p>Una muestra aleatoria también es un objeto aleatorio. Por ello cambian sus promedios, covarianzas, coeficientes ajustados y métricas. La distribución empírica describe la tabla disponible; conectarla con una población exige un supuesto sobre muestreo o sobre el proceso que genera nuevas observaciones.</p>
+<p>La ley de los grandes números explica por qué un promedio puede estabilizarse. Su conclusión depende de las condiciones del muestreo y no convierte un archivo grande en una muestra representativa.</p>
+</section>
+<section id="problemas-integrados" class="level2">
+<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="muestras-de-una-población-conocida" class="level3">
+<h3 class="anchored" data-anchor-id="muestras-de-una-población-conocida">1. Muestras de una población conocida</h3>
+<p>Use <code>regresion_lineal_sintetica.csv</code> como una población finita.</p>
 <ol type="1">
-<li>Explique por qué una variable aleatoria no es lo mismo que una columna de números.</li>
-<li>Dé un ejemplo de dependencia entre filas que invalide una partición aleatoria ordinaria.</li>
-<li>Distinga ruido, residual y error de medición.</li>
-<li>Explique por qué <span class="math inline">\(\widehat p_\theta(x)\)</span> no debe identificarse automáticamente con <span class="math inline">\(\mathbb P(Y=1\mid X=x)\)</span>.</li>
+<li>Calcule la media, varianza y cuartiles de <code>target</code> en las 160 filas.</li>
+<li>Extraiga 500 muestras con reemplazo para cada tamaño <span class="math inline">\(n\in\{8,20,80\}\)</span> y calcule sus medias.</li>
+<li>Compare la media y la desviación estándar de las tres distribuciones muestrales con <span class="math inline">\(\sigma/\sqrt n\)</span>.</li>
+<li>Repita el experimento con la mediana. Explique qué parte del argumento de la varianza del promedio ya no puede reutilizarse directamente.</li>
+<li>Escriba una conclusión que distinga la población sintética, una muestra y el estadístico calculado.</li>
 </ol>
 </section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="5" type="1">
-<li>Para <span class="math inline">\((2,4,4,10)\)</span>, calcule promedio y varianza descriptiva con denominador <span class="math inline">\(m\)</span>.</li>
-<li>Una clase positiva aparece 30 veces en 200 observaciones. Calcule la proporción empírica y explique qué supuesto necesita para usarla como estimación futura.</li>
-<li>Un test de ocho filas tiene errores absolutos <span class="math inline">\((0.2,0.3,0.4,0.4,0.6,0.8,1.0,1.2)\)</span>. Calcule MAE y explique por qué una sola fila puede moverlo de forma apreciable.</li>
+<section id="qué-distribución-describen-las-subzonas" class="level3">
+<h3 class="anchored" data-anchor-id="qué-distribución-describen-las-subzonas">2. Qué distribución describen las subzonas</h3>
+<p>Use <code>vivienda_nueva_bogota_subzonas.csv</code>.</p>
+<ol type="1">
+<li>Construya la distribución empírica de <code>area_promedio</code> y reporte media, desviación estándar y mediana.</li>
+<li>Identifique la unidad de observación y explique por qué esos resúmenes no son la distribución de áreas de viviendas individuales.</li>
+<li>Escriba una población respecto a la cual el promedio tendría sentido y la información de muestreo que faltaría para justificarla.</li>
+<li>Describa una posible dependencia entre subzonas que haría dudosa la independencia.</li>
+<li>Redacte una conclusión descriptiva admisible y una generalización que el archivo no permite.</li>
 </ol>
 </section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="8" type="1">
-<li>Simule <span class="math inline">\(Y=3+2X+\varepsilon\)</span> con dos niveles de ruido y compare distribuciones de residuales.</li>
-<li>Genere dos periodos con distinta media de <span class="math inline">\(X\)</span> y compare histogramas, medias y el error de un modelo entrenado solo en el primero.</li>
+<section id="bernoulli-indicadores-y-promedios" class="level3">
+<h3 class="anchored" data-anchor-id="bernoulli-indicadores-y-promedios">3. Bernoulli, indicadores y promedios</h3>
+<p>Sea <span class="math inline">\(Y_i\sim\operatorname{Bernoulli}(0.3)\)</span>.</p>
+<ol type="1">
+<li>Demuestre que <span class="math inline">\(\mathbb E[Y_i]=0.3\)</span> y <span class="math inline">\(\operatorname{Var}(Y_i)=0.3(0.7)\)</span>.</li>
+<li>Interprete <span class="math inline">\(\overline Y_n\)</span> como una proporción.</li>
+<li>Calcule la desviación estándar teórica de esa proporción para <span class="math inline">\(n=25,100,400\)</span>.</li>
+<li>Verifique los tres valores mediante 5000 simulaciones.</li>
+<li>Explique por qué la concordancia con la teoría no prueba que una proporción observada en datos reales provenga de ensayos iid.</li>
 </ol>
 </section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="10" type="1">
-<li>Un modelo obtiene el mismo error medio en una partición aleatoria y en una partición temporal. Explique por qué ese resultado no demuestra que ambas evaluaciones respondan la misma pregunta.</li>
+<section id="covarianza-no-significa-independencia" class="level3">
+<h3 class="anchored" data-anchor-id="covarianza-no-significa-independencia">4. Covarianza no significa independencia</h3>
+<p>Sea <span class="math inline">\(X\)</span> uniforme en <span class="math inline">\(\{-1,0,1\}\)</span> y <span class="math inline">\(Y=X^2\)</span>.</p>
+<ol type="1">
+<li>Escriba la distribución conjunta de <span class="math inline">\((X,Y)\)</span>.</li>
+<li>Calcule <span class="math inline">\(\mathbb E[X]\)</span>, <span class="math inline">\(\mathbb E[Y]\)</span> y <span class="math inline">\(\operatorname{Cov}(X,Y)\)</span>.</li>
+<li>Muestre que la covarianza es cero.</li>
+<li>Pruebe que <span class="math inline">\(X\)</span> y <span class="math inline">\(Y\)</span> no son independientes.</li>
+<li>Explique qué advertencia ofrece este ejemplo al interpretar una matriz de correlaciones antes de ajustar un modelo.</li>
 </ol>
 </section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="11" type="1">
-<li>Para su conjunto de datos, escriba qué serían <span class="math inline">\((X,Y)\)</span>, qué mecanismo produce las filas, qué dependencias espera y por qué su test se parece o no al uso previsto.</li>
-</ol>
+</section>
+<section id="respuestas-seleccionadas" class="level2">
+<h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
+<p><strong>Problema 3.</strong> Como <span class="math inline">\(Y_i^2=Y_i\)</span>,</p>
+<p><span class="math display">\[
+\mathbb E[Y_i]=0.3,
+\qquad
+\operatorname{Var}(Y_i)=0.3-0.3^2=0.21.
+\]</span></p>
+<p>Por tanto,</p>
+<p><span class="math display">\[
+\operatorname{sd}(\overline Y_n)=\sqrt{0.21/n},
+\]</span></p>
+<p>que vale aproximadamente 0.0917, 0.0458 y 0.0229 para los tres tamaños.</p>
+<p><strong>Problema 4.</strong> Se tiene <span class="math inline">\(\mathbb E[X]=0\)</span>, <span class="math inline">\(\mathbb E[XY]=\mathbb E[X^3]=0\)</span>, luego la covarianza es cero. Sin embargo, <span class="math inline">\(Y\)</span> queda determinado por <span class="math inline">\(X\)</span>; por ejemplo, <span class="math inline">\(\mathbb P(Y=0\mid X=0)=1\neq\mathbb P(Y=0)=1/3\)</span>. No son independientes.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
-<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+<aside class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
   <p>
     <strong>Cita sugerida:</strong>
     Galindo, C. (2026).
@@ -1159,13 +899,13 @@ P_{\mathrm{test}}\approx P_{\mathrm{uso}}.
     requiere autorización explícita del autor.
   </p>
   <nav aria-label="Enlaces editoriales del libro">
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html">Sobre esta edición</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#accesibilidad">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#licencia-y-materiales-reservados">Licencia</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#errata-y-actualizacion">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias</a>
   </nav>
-</footer>
+</aside>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -1582,17 +1322,36 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../capitulos/00-lenguaje-comun.html" class="pagination-link" aria-label="Capítulo 0: Antes de modelar">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Capítulo 0: Antes de modelar</span></span>
+      <a href="../capitulos/00-lenguaje-comun.html" class="pagination-link" aria-label="Observaciones, variables y preguntas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Observaciones, variables y preguntas</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../partes/parte02_regresion.html" class="pagination-link" aria-label="Parte II: Regresión, optimización y clasificación">
-        <span class="nav-page-text"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../capitulos/00c-estimacion-riesgo-incertidumbre.html" class="pagination-link" aria-label="Condicionamiento, estimación y riesgo">
+        <span class="nav-page-text"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>César Galindo · MATE-2105</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="../sobre_esta_edicion.html" aria-current="page">
+<p>Sobre esta edición</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

@@ -13,7 +13,7 @@ lang: es
 
 # Propósito
 
-Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento.
+Este laboratorio verifica que puedes implementar una red neuronal densa pequeña usando NumPy y explicar su comportamiento de entrenamiento. La salida softmax se interpreta como una distribución categórica condicional estimada; la entropía cruzada empírica aproxima un riesgo esperado y los gradientes de minibatch son estimadores aleatorios.
 
 La pregunta técnica central es:
 
@@ -21,13 +21,17 @@ La pregunta técnica central es:
 
 # Qué debes entregar
 
-Entrega el notebook:
+Entrega en Gradescope un único notebook con el nombre:
 
 ```text
-apellido_nombre_lab03_redes_desde_cero.ipynb
+lab03_redes_desde_cero.ipynb
 ```
 
-No cambies nombres de funciones, firmas, imports ni estructura general del notebook. El autograder busca funciones por nombre.
+No cambies nombres de funciones, firmas, imports ni estructura general del
+notebook. El autograder busca funciones por nombre. GitHub es opcional y sirve
+para guardar versiones; la entrega oficial es el archivo cargado en Gradescope.
+La interpretación va exclusivamente en la celda Markdown marcada `Tu respuesta`,
+sin nombre, correo ni código estudiantil.
 
 # Flujo recomendado
 
@@ -40,7 +44,8 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 7. Implementa `update_parameters` y `predict`.
 8. Entrena en un subconjunto de `load_digits`.
 9. Compara contra `sklearn.neural_network.MLPClassifier` o una referencia simple.
-10. Escribe interpretación final: convergencia, limitación y siguiente experimento.
+10. Completa `probability_answers`: distribución condicional, riesgo esperado, gradiente de minibatch y papel de la semilla.
+11. Escribe interpretación final: convergencia, incertidumbre, limitación y siguiente experimento.
 
 # Lo que autocalifica el notebook
 
@@ -54,6 +59,7 @@ No cambies nombres de funciones, firmas, imports ni estructura general del noteb
 | Forward | cache completo y probabilidades válidas | Automática |
 | Backward | gradientes con formas correctas y valores consistentes | Automática |
 | Actualización/predicción | parámetros actualizados y clases predichas | Automática |
+| Contrato probabilístico | distribución categórica, riesgo, gradiente aleatorio y semilla | Automática |
 
 ## Convención de regularización
 
@@ -72,17 +78,17 @@ pesos. No penaliza `b1` ni `b2`.
 
 # Parte manual
 
-Incluye una respuesta corta:
+Incluye una respuesta de 100 a 160 palabras:
 
-> ¿Qué resultados muestran que la red aprendió y cuál es una limitación del experimento?
+> ¿Qué resultados muestran que la red aprendió, qué riesgo poblacional aproxima la entropía cruzada y qué fuentes de variación quedan?
 
 Rúbrica manual:
 
-| Puntaje | Criterio |
+| Nivel | Criterio |
 |---:|---|
 | 0 | No responde o la respuesta no usa resultados del notebook |
 | 1 | Menciona accuracy o pérdida, pero sin diagnóstico ni limitación |
-| 2 | Conecta curva de pérdida, métrica de validación, comparación y una limitación concreta |
+| 2 | Conecta curva y validación, identifica riesgo esperado y separa variación por muestra, inicialización o minibatch |
 
 # Errores frecuentes
 
@@ -102,4 +108,10 @@ Rúbrica manual:
 ¿Softmax suma 1 por fila?
 ¿La pérdida baja durante entrenamiento?
 ¿La respuesta manual usa resultados y no solo opinión?
+```
+
+Antes de cargar el archivo, ejecuta:
+
+```bash
+python validar_entrega.py lab03_redes_desde_cero.ipynb
 ```

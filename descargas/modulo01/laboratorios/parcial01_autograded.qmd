@@ -1,6 +1,6 @@
 ---
 title: "Parcial 1 autograded"
-subtitle: "Regresión, optimización, regularización y clasificación"
+subtitle: "Probabilidad aplicada, regresión, optimización, regularización y clasificación"
 format:
   html:
     toc: true
@@ -18,12 +18,12 @@ razonamiento matemático estructurado e interpretación breve.
 
 Temas incluidos:
 
-1. forma matricial de regresión lineal;
-2. pérdida MSE y gradiente;
-3. descenso del gradiente;
-4. regularización Ridge;
-5. regresión logística;
-6. métricas y umbrales de clasificación.
+1. población, muestra, estimador, estimación y riesgo;
+2. media condicional y modelo de ruido en regresión lineal;
+3. forma matricial, pérdida MSE y gradiente;
+4. descenso del gradiente y regularización Ridge;
+5. modelo Bernoulli condicional, regresión logística y log-loss;
+6. métricas como estimadores, error estándar y umbrales de clasificación.
 
 # Reglas
 
@@ -38,11 +38,12 @@ Temas incluidos:
 
 | Parte | Tema | Tipo de calificación |
 |---|---|---|
-| 1 | Regresión lineal: predicción, pérdida y gradiente | Autograded |
+| 1 | Regresión lineal: objetivo poblacional, predicción, pérdida y gradiente | Autograded |
 | 2 | Optimización: descenso del gradiente | Autograded |
 | 3 | Regularización: Ridge y selección de hiperparámetro | Autograded |
-| 4 | Clasificación: sigmoide, log-loss, métricas y umbral | Autograded |
-| 5 | Explicación técnica breve | Manual |
+| 4 | Clasificación: Bernoulli, sigmoide, log-loss, métricas, error estándar y umbral | Autograded |
+| 5 | Matemática probabilística estructurada | Autograded |
+| 6 | Explicación técnica breve | Manual |
 
 # Qué espera el autograder
 
@@ -60,8 +61,9 @@ No asumas que pasar un ejemplo visible garantiza pasar todas las pruebas.
 
 Responde:
 
-> Si un modelo mejora el baseline por poco, ¿qué evidencia adicional pedirías
-> antes de recomendarlo?
+> Si un modelo mejora el baseline por poco, ¿qué cantidad poblacional intenta
+> estimar esa mejora, qué incertidumbre tiene la comparación y qué evidencia
+> adicional pedirías antes de recomendarlo?
 
 Rúbrica:
 
@@ -69,7 +71,7 @@ Rúbrica:
 |---:|---|
 | 0 | No responde o la respuesta no es técnica |
 | 5 | Menciona una evidencia aislada, como otra métrica o más datos |
-| 10 | Menciona métrica, variabilidad/validación, análisis de errores y contexto de decisión |
+| 10 | Identifica cantidad poblacional, variabilidad/validación, análisis de errores y alcance de uso |
 
 # Preparación recomendada
 
@@ -79,7 +81,9 @@ Antes del parcial:
 2. Implementa desde cero `mse_gradient`, `ridge_closed_form`, `sigmoid` y métricas.
 3. Revisa una curva de pérdida y escribe un diagnóstico.
 4. Explica precision y recall con una matriz de confusión.
-5. Practica una recomendación técnica de máximo 120 palabras.
+5. Distingue probabilidad condicional verdadera y probabilidad estimada.
+6. Calcula el error estándar *plug-in* de una proporción.
+7. Practica una recomendación técnica de máximo 120 palabras.
 
 # Errores que cuestan puntos
 

@@ -6,9 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta name="description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 
-<title>Cómo usar este libro – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
+<title>Cómo leer este libro – Matemáticas y Algoritmos en Ciencia de Datos Aplicada</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -31,7 +31,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./mapa_curso.html" rel="next">
+<link href="./partes/parte01_fundamentos.html" rel="next">
 <link href="./index.html" rel="prev">
 <link href="./favicon.svg" rel="icon" type="image/svg+xml">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
@@ -74,22 +74,22 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 <meta name="citation_title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada: Libro del curso MATE-2105">
 <meta name="citation_author" content="Galindo, Cesar">
-<meta name="citation_publication_date" content="2026-07-07">
-<meta name="citation_online_date" content="2026-07-07">
+<meta name="citation_publication_date" content="2026-07-13">
+<meta name="citation_online_date" content="2026-07-13">
 <meta name="citation_language" content="es">
 <meta name="citation_publisher" content="Universidad de los Andes">
 <meta name="citation_public_url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.title" content="Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
 <meta name="DC.creator" content="César Galindo">
 <meta name="DC.language" content="es">
-<meta name="DC.date" content="2026-07-07">
+<meta name="DC.date" content="2026-07-13">
 <meta name="DC.type" content="Textbook">
 <meta name="DC.format" content="text/html, application/pdf, text/csv">
 <meta name="DC.identifier" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <meta name="DC.rights" content="Material docente del curso MATE-2105 bajo LICENSE formal de uso docente restringido; redistribución, adaptación pública o uso comercial requieren autorización explícita.">
 <meta property="og:type" content="book">
-<meta property="og:title" content="Cómo usar este libro – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
-<meta property="og:description" content="Texto del curso MATE-2105: fundamentos matemáticos, algoritmos, implementación y decisiones técnicas en ciencia de datos aplicada.">
+<meta property="og:title" content="Cómo leer este libro – Matemáticas y Algoritmos en Ciencia de Datos Aplicada">
+<meta property="og:description" content="Texto para MATE-2105 sobre probabilidad, modelos matemáticos, derivación y análisis de algoritmos, implementación y evaluación en ciencia de datos aplicada.">
 <meta property="og:url" content="https://cesarneyit-code.github.io/mate2105/libro/">
 <script type="application/ld+json">
 {
@@ -105,7 +105,7 @@ ul.task-list li input[type="checkbox"] {
     "@type": "Organization",
     "name": "Universidad de los Andes"
   },
-  "datePublished": "2026-07-07",
+  "datePublished": "2026-07-13",
   "inLanguage": "es",
   "url": "https://cesarneyit-code.github.io/mate2105/libro/",
   "encodingFormat": [
@@ -128,6 +128,35 @@ ul.task-list li input[type="checkbox"] {
 }
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -141,7 +170,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./como_usar.html"><span class="chapter-title">Cómo usar este libro</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./como_usar.html"><span class="chapter-title">Cómo leer este libro</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,18 +211,13 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./como_usar.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Cómo usar este libro</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./mapa_curso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa del curso y del libro</span></a>
+  <a href="./como_usar.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Cómo leer este libro</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte I: Fundamentos</span></a>
+            <a href="./partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte I: Datos, variación y aprendizaje a partir de muestras</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -201,24 +225,24 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./partes/parte01_fundamentos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte I: Fundamentos</span></a>
+  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Observaciones, variables y preguntas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00-lenguaje-comun.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 0: Antes de modelar</span></a>
+  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Variables aleatorias, distribuciones y muestras</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/00b-incertidumbre-datos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Interludio 0.5: De la muestra al riesgo esperado</span></a>
+  <a href="./capitulos/00c-estimacion-riesgo-incertidumbre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Condicionamiento, estimación y riesgo</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a href="./partes/parte02_regresion.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte II: Regresión, optimización y clasificación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -227,50 +251,40 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./partes/parte02_regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte II: Regresión, optimización y clasificación</span></a>
+  <a href="./capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión lineal y mínimos cuadrados</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/01-regresion-lineal.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 1: Regresión lineal múltiple</span></a>
+  <a href="./capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Descenso del gradiente</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/02-descenso-gradiente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 2: Descenso del gradiente</span></a>
+  <a href="./capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Validación y regularización</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/03-regularizacion-validacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 3: Validación y regularización</span></a>
+  <a href="./capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Regresión logística</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulos/04-regresion-logistica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Capítulo 4: Regresión logística</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: regresión, optimización y clasificación</span></a>
+  <a href="./capitulos/05-ejercicios-regresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de regresión y clasificación</span></a>
   </div>
 </li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+            <a href="./partes/parte03_redes.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte III: Redes neuronales</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./partes/parte03_redes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte III: Redes neuronales</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/06-perceptron-forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
@@ -300,18 +314,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte IV: Estrategia de machine learning</span></a>
+            <a href="./partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte IV: Evaluación y estrategia de modelado</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./partes/parte04_estrategia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte IV: Estrategia de machine learning</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/11-metricas-particiones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Métricas y particiones</span></a>
@@ -336,18 +345,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+            <a href="./partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Parte V: Aprendizaje no supervisado</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./partes/parte05_no_supervisado.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte V: Aprendizaje no supervisado</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/15-svd-pca.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">SVD y PCA</span></a>
@@ -372,18 +376,13 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
- <span class="menu-text">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
+            <a href="./partes/parte06_cierre.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Parte VI: Reproducibilidad y comunicación</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./partes/parte06_cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Parte VI: Reproducibilidad, comunicación y defensa</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./capitulos/19-sintesis-conceptual.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Síntesis conceptual: redes, estrategia y no supervisado</span></a>
@@ -414,7 +413,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
- <span class="menu-text">Herramientas de estudio</span></a>
+ <span class="menu-text">Apéndices de consulta</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -422,55 +421,9 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./guia_estudiante.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de estudio del estudiante</span></a>
+  <a href="./apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
   </div>
 </li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./formatos_descargas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Formatos y descargas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./datos_recursos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Datos y recursos reproducibles</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./casos_longitudinales.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Casos longitudinales del libro</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./atlas_figuras.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Atlas visual de modelos y decisiones</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./resultados_aprendizaje_alineacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Resultados de aprendizaje y alineación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./mapa_objetivos_aprendizaje.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de objetivos de aprendizaje</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./mapa_cierres_capitulo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Mapa de cierres de capítulo</span></a>
-  </div>
-</li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
- <span class="menu-text">Apéndices de consulta</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Alternar sección">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./apendices/glosario.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Glosario y notación</span></a>
@@ -484,16 +437,6 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./apendices/indice-algoritmos-codigo.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Índice de algoritmos, datasets y funciones</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./apendices/taxonomia-ejercicios.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Taxonomía de ejercicios y banco de preguntas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./apendices/prerrequisitos-matematicos.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Prerrequisitos matemáticos mínimos</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -526,57 +469,6 @@ ul.task-list li input[type="checkbox"] {
   <a href="./apendices/apendice05-cierre.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Apéndice Módulo 5: formulario y respuestas seleccionadas</span></a>
   </div>
 </li>
-      </ul>
-  </li>
-        <li class="sidebar-item sidebar-item-section">
-      <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
- <span class="menu-text">Información editorial y publicación</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Alternar sección">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
-      </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./informacion_editorial.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Información editorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./accesibilidad.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Accesibilidad</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./equipo_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Equipo, revisión y reconocimientos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./protocolo_revision_externa.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Protocolo de revisión externa</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./matriz_revision_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Matriz de preparación editorial</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./caracteristicas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Características pedagógicas</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./recursos_estudiante_instructor.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Recursos para estudiantes e instructores</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./guia_adopcion_docente.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía pública de adopción docente</span></a>
-  </div>
-</li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./referencias_atribuciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Referencias y atribuciones</span></a>
@@ -584,47 +476,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./integridad_academica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Integridad académica y uso de IA</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./solucionarios_respuestas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Respuestas, solucionarios y recursos restringidos</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./errata_revision.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Errata, revisión y control de calidad</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./registro_errata_publica.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Registro público de errata</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./edicion_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Edición, versión y publicación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./paquete_publicacion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Paquete de publicación</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./guia_impresion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de impresión y PDF</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./licencia_uso.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Licencia y uso del material</span></a>
-  </div>
-</li>
-          <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./decision_licencia.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Decisión de licencia abierta</span></a>
+  <a href="./sobre_esta_edicion.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Sobre esta edición</span></a>
   </div>
 </li>
       </ul>
@@ -639,10 +491,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#antes-de-clase" id="toc-antes-de-clase" class="nav-link active" data-scroll-target="#antes-de-clase">Antes de clase</a></li>
-  <li><a href="#después-de-clase" id="toc-después-de-clase" class="nav-link" data-scroll-target="#después-de-clase">Después de clase</a></li>
-  <li><a href="#antes-de-una-evaluación" id="toc-antes-de-una-evaluación" class="nav-link" data-scroll-target="#antes-de-una-evaluación">Antes de una evaluación</a></li>
-  <li><a href="#qué-queda-fuera-del-libro" id="toc-qué-queda-fuera-del-libro" class="nav-link" data-scroll-target="#qué-queda-fuera-del-libro">Qué queda fuera del libro</a></li>
+  <li><a href="#del-caso-a-la-formulación" id="toc-del-caso-a-la-formulación" class="nav-link active" data-scroll-target="#del-caso-a-la-formulación">Del caso a la formulación</a></li>
+  <li><a href="#definiciones-y-derivaciones" id="toc-definiciones-y-derivaciones" class="nav-link" data-scroll-target="#definiciones-y-derivaciones">Definiciones y derivaciones</a></li>
+  <li><a href="#algoritmos-y-código" id="toc-algoritmos-y-código" class="nav-link" data-scroll-target="#algoritmos-y-código">Algoritmos y código</a></li>
+  <li><a href="#diagnósticos-y-problemas" id="toc-diagnósticos-y-problemas" class="nav-link" data-scroll-target="#diagnósticos-y-problemas">Diagnósticos y problemas</a></li>
   </ul>
 </nav>
     </div>
@@ -651,7 +503,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Cómo usar este libro</span></h1>
+<h1 class="title"><span class="chapter-title">Cómo leer este libro</span></h1>
 </div>
 
 
@@ -668,46 +520,43 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Este libro está pensado para tres usos distintos.</p>
-<section id="antes-de-clase" class="level2">
-<h2 class="anchored" data-anchor-id="antes-de-clase">Antes de clase</h2>
-<p>Lee el capítulo asignado con una meta concreta:</p>
+<p>Los capítulos están organizados para una lectura acumulativa. La primera parte establece qué representan los datos y cómo una muestra se relaciona con una población. Después aparecen los modelos supervisados, la optimización, las redes neuronales, la evaluación, el aprendizaje no supervisado y la reproducibilidad. Cada parte utiliza objetos introducidos antes, pero vuelve a explicarlos cuando adquieren una función nueva.</p>
+<p>También es posible consultar un capítulo de manera independiente. En ese caso conviene reconstruir primero su pregunta principal y revisar las definiciones a las que remite. Los apéndices reúnen los prerrequisitos de álgebra lineal y cálculo, el glosario, los índices y respuestas seleccionadas. No reemplazan el desarrollo: permiten recuperar una identidad o una convención sin interrumpir innecesariamente la lectura.</p>
+<section id="del-caso-a-la-formulación" class="level2">
+<h2 class="anchored" data-anchor-id="del-caso-a-la-formulación">Del caso a la formulación</h2>
+<p>Buena parte de la matemática del libro aparece porque un primer análisis resulta insuficiente. Una tabla no identifica por sí sola la población que representa; un promedio no describe toda una distribución; una recta no siempre explica la estructura de los residuales; una pérdida pequeña en entrenamiento no garantiza un buen resultado en observaciones nuevas. Esas dificultades introducen las definiciones y los algoritmos que siguen.</p>
+<p>Por esta razón, un ejemplo no debe leerse como una aplicación posterior de una fórmula ya terminada. Con frecuencia es el lugar donde se descubre qué fórmula hace falta. Después del desarrollo matemático, el texto vuelve al caso para examinar qué cambió y qué limitaciones permanecen.</p>
+<p>Tres conjuntos de datos cumplen un papel recurrente. Una población sintética de regresión permite conocer el mecanismo generador y repetir muestras; un conjunto de 32 subzonas de Bogotá obliga a trabajar con documentación incompleta y datos agregados; una población sintética de clasificación permite comparar una probabilidad conocida con la estimada por un modelo. Los casos sintéticos sirven para comprobar propiedades matemáticas. El caso real sirve para recordar que una propiedad demostrada bajo un modelo no corrige una limitación de medición o de cobertura.</p>
+</section>
+<section id="definiciones-y-derivaciones" class="level2">
+<h2 class="anchored" data-anchor-id="definiciones-y-derivaciones">Definiciones y derivaciones</h2>
+<p>Las definiciones fijan objetos que se utilizarán después. Al leer una, conviene identificar qué ambigüedad resuelve y construir un ejemplo que la satisfaga y otro que no. Una proposición debe leerse junto con sus supuestos: retirar uno de ellos puede cambiar por completo la conclusión.</p>
+<p>Las derivaciones contienen los pasos que conectan una formulación con un algoritmo. El gradiente de mínimos cuadrados, la ecuación normal, <em>backpropagation</em> y la actualización de K-Means no son fórmulas aisladas. Cada una surge de un objetivo y de una representación particular. Reconstruir esos pasos con lápiz permite distinguir una identidad matemática de una elección de implementación.</p>
+<p>En el texto matemático, <span class="math inline">\(\boldsymbol X\)</span> representa un predictor aleatorio y <span class="math inline">\(\mathbf X\)</span> una matriz de diseño observada. Las realizaciones individuales se escriben <span class="math inline">\(\boldsymbol x_i\)</span>, y el vector de respuestas observadas se denota por <span class="math inline">\(\mathbf y\)</span>. En el código se conservan los nombres usuales <code>X</code> y <code>y</code>; el contexto y las dimensiones indican qué arreglos representan.</p>
+<p>Cuando una expresión no resulte clara, hay tres comprobaciones útiles:</p>
 <ol type="1">
-<li>identificar la pregunta aplicada;</li>
-<li>escribir las definiciones centrales;</li>
-<li>reproducir al menos un ejemplo resuelto;</li>
-<li>marcar dudas matemáticas o computacionales.</li>
+<li>escribir las dimensiones de cada objeto;</li>
+<li>identificar qué cantidades son aleatorias antes de observar la muestra;</li>
+<li>separar el objetivo poblacional de la función calculada con los datos.</li>
 </ol>
-<p>No es necesario dominar todo antes de clase. Sí es necesario llegar con el vocabulario mínimo.</p>
-<p>Si el capítulo usa un caso longitudinal, abre también la página <a href="./casos_longitudinales.html">Casos longitudinales del libro</a>. Allí puedes ver qué archivo de datos se está reutilizando, qué decisión está en juego y cómo se conecta con capítulos anteriores o posteriores.</p>
-<p>Si una derivación usa notación que no recuerdas, consulta primero <a href="./apendices/prerrequisitos-matematicos.html">Prerrequisitos matemáticos mínimos</a>. Ese apéndice no reemplaza un curso de álgebra lineal, cálculo o probabilidad; sirve como puente operativo para seguir el libro.</p>
+<p>Estas comprobaciones detectan muchos errores antes de ejecutar una sola línea de código.</p>
 </section>
-<section id="después-de-clase" class="level2">
-<h2 class="anchored" data-anchor-id="después-de-clase">Después de clase</h2>
-<p>Vuelve al capítulo y trabaja los puntos de control. Si puedes responderlos sin mirar la solución, estás listo para pasar al laboratorio o al notebook de práctica.</p>
+<section id="algoritmos-y-código" class="level2">
+<h2 class="anchored" data-anchor-id="algoritmos-y-código">Algoritmos y código</h2>
+<p>Para comprender un algoritmo hay que reconocer qué recibe, qué produce y qué objetivo modifica. También interesa saber de dónde proviene cada actualización, cuál es su costo y bajo qué condiciones puede fallar. Una implementación que produce un número no responde todavía ninguna de estas preguntas.</p>
+<p>Los fragmentos de Python utilizan principalmente NumPy, pandas, scikit-learn y PyTorch. Antes de ejecutarlos conviene anticipar la forma de las entradas, la salida y una comprobación sencilla. Después de ejecutarlos, el resultado debe compararse con esa expectativa. Las bibliotecas se usan para verificar y ampliar una implementación, no para sustituir la formulación matemática.</p>
+<p>Los notebooks contienen cálculos más extensos y visualizaciones interactivas. El libro conserva el argumento que permite interpretar esos resultados. Por ello, leer solamente el código o solamente las fórmulas deja incompleta la explicación.</p>
 </section>
-<section id="antes-de-una-evaluación" class="level2">
-<h2 class="anchored" data-anchor-id="antes-de-una-evaluación">Antes de una evaluación</h2>
-<p>Usa los ejercicios integradores y los apéndices. La preparación no debe ser memorizar fórmulas aisladas, sino practicar esta estructura:</p>
-<pre class="text"><code>resultado -&gt; lectura -&gt; siguiente comprobación -&gt; límite</code></pre>
-</section>
-<section id="qué-queda-fuera-del-libro" class="level2">
-<h2 class="anchored" data-anchor-id="qué-queda-fuera-del-libro">Qué queda fuera del libro</h2>
-<p>El libro no reemplaza:</p>
-<ul>
-<li>los notebooks de clase;</li>
-<li>los laboratorios autocalificados;</li>
-<li>las rúbricas de entrega;</li>
-<li>las guías docentes;</li>
-<li>los autograders privados.</li>
-</ul>
-<p>Esos materiales viven en el portal o en el repositorio docente privado, según corresponda.</p>
+<section id="diagnósticos-y-problemas" class="level2">
+<h2 class="anchored" data-anchor-id="diagnósticos-y-problemas">Diagnósticos y problemas</h2>
+<p>Los diagnósticos aparecen dentro del desarrollo. Un modelo puede tener un coeficiente de determinación alto y dejar curvatura en los residuales; un método iterativo puede reducir la pérdida demasiado lentamente o divergir; un clasificador puede alcanzar accuracy alta ignorando una clase poco frecuente. Estos casos no son excepciones que deban memorizarse al final: muestran qué información no contiene una métrica aislada.</p>
+<p>Los problemas de cierre combinan varias tareas sobre una misma situación. Pueden pedir formular una población, efectuar un cálculo, implementar un procedimiento, examinar una gráfica y escribir una conclusión. En los problemas abiertos, una respuesta se considera completa cuando declara sus supuestos y distingue lo que los resultados muestran de lo que todavía no permiten afirmar.</p>
 
 
 </section>
 
 </main> <!-- /main -->
-<footer class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
+<aside class="mate2105-book-attribution" aria-label="Cita y estado de uso del libro">
   <p>
     <strong>Cita sugerida:</strong>
     Galindo, C. (2026).
@@ -721,13 +570,13 @@ ul.task-list li input[type="checkbox"] {
     requiere autorización explícita del autor.
   </p>
   <nav aria-label="Enlaces editoriales del libro">
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/licencia_uso.html">Licencia y uso</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/accesibilidad.html">Accesibilidad</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/formatos_descargas.html">Formatos y descargas</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/registro_errata_publica.html">Errata</a>
-    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias y atribuciones</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html">Sobre esta edición</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#accesibilidad">Accesibilidad</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#licencia-y-materiales-reservados">Licencia</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/sobre_esta_edicion.html#errata-y-actualizacion">Errata</a>
+    <a href="https://cesarneyit-code.github.io/mate2105/libro/referencias_atribuciones.html">Referencias</a>
   </nav>
-</footer>
+</aside>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
@@ -1149,12 +998,31 @@ document.addEventListener("DOMContentLoaded", function () {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./mapa_curso.html" class="pagination-link" aria-label="Mapa del curso y del libro">
-        <span class="nav-page-text"><span class="chapter-title">Mapa del curso y del libro</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./partes/parte01_fundamentos.html" class="pagination-link" aria-label="Parte I: Datos, variación y aprendizaje a partir de muestras">
+        <span class="nav-page-text">Parte I: Datos, variación y aprendizaje a partir de muestras</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>César Galindo · MATE-2105</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link active" href="./sobre_esta_edicion.html" aria-current="page">
+<p>Sobre esta edición</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
 
 
 

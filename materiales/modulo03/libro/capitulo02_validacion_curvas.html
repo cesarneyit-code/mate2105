@@ -212,7 +212,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./recursos/guia_proyecto_modulo03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: estrategia de mejora del modelo</span></a>
+  <a href="./recursos/guia_proyecto_modulo03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 3</span></a>
   </div>
 </li>
     </ul>
@@ -227,11 +227,15 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#qué-aleatoriedad-intenta-representar-la-validación" id="toc-qué-aleatoriedad-intenta-representar-la-validación" class="nav-link" data-scroll-target="#qué-aleatoriedad-intenta-representar-la-validación">Qué aleatoriedad intenta representar la validación</a></li>
+  <li><a href="#bootstrap-y-unidad-de-remuestreo" id="toc-bootstrap-y-unidad-de-remuestreo" class="nav-link" data-scroll-target="#bootstrap-y-unidad-de-remuestreo">Bootstrap y unidad de remuestreo</a></li>
   <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">Cross-validation</a></li>
   <li><a href="#qué-reportar" id="toc-qué-reportar" class="nav-link" data-scroll-target="#qué-reportar">Qué reportar</a></li>
   <li><a href="#ejemplo-resuelto-elegir-entre-dos-modelos" id="toc-ejemplo-resuelto-elegir-entre-dos-modelos" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-entre-dos-modelos">Ejemplo resuelto: elegir entre dos modelos</a></li>
   <li><a href="#derivación-guiada-media-y-variabilidad-de-cv" id="toc-derivación-guiada-media-y-variabilidad-de-cv" class="nav-link" data-scroll-target="#derivación-guiada-media-y-variabilidad-de-cv">Derivación guiada: media y variabilidad de CV</a></li>
   <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search">Grid search</a></li>
+  <li><a href="#selección-y-validación-anidada" id="toc-selección-y-validación-anidada" class="nav-link" data-scroll-target="#selección-y-validación-anidada">Selección y validación anidada</a></li>
+  <li><a href="#costo-computacional-de-validar" id="toc-costo-computacional-de-validar" class="nav-link" data-scroll-target="#costo-computacional-de-validar">Costo computacional de validar</a></li>
   <li><a href="#learning-curve" id="toc-learning-curve" class="nav-link" data-scroll-target="#learning-curve">Learning curve</a></li>
   <li><a href="#ejemplo-resuelto-leer-una-learning-curve" id="toc-ejemplo-resuelto-leer-una-learning-curve" class="nav-link" data-scroll-target="#ejemplo-resuelto-leer-una-learning-curve">Ejemplo resuelto: leer una learning curve</a></li>
   <li><a href="#validation-curve" id="toc-validation-curve" class="nav-link" data-scroll-target="#validation-curve">Validation curve</a></li>
@@ -251,6 +255,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-estadística" id="toc-profundización-matemática-y-estadística" class="nav-link" data-scroll-target="#profundización-matemática-y-estadística">Profundización matemática y estadística</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -294,7 +299,32 @@ window.Quarto = {
 <li>usar grid search sin contaminar test;</li>
 <li>leer learning curves y validation curves;</li>
 <li>distinguir problemas de sesgo, varianza y ruido.</li>
+<li>distinguir validación para selección de validación para estimación;</li>
+<li>diseñar validación anidada y calcular su costo en número de ajustes.</li>
 </ol>
+</section>
+<section id="qué-aleatoriedad-intenta-representar-la-validación" class="level2">
+<h2 class="anchored" data-anchor-id="qué-aleatoriedad-intenta-representar-la-validación">Qué aleatoriedad intenta representar la validación</h2>
+<p>Idealmente evaluamos un <strong>procedimiento</strong> <span class="math inline">\(A\)</span> que transforma una muestra de entrenamiento en un modelo <span class="math inline">\(A(D_m)\)</span>. Su desempeño esperado para tamaño <span class="math inline">\(m\)</span> es</p>
+<p><span class="math display">\[
+\mathcal R_m(A)
+=\mathbb E_{D_m\sim P^m}
+\mathbb E_{Z\sim P}\left[\ell(A(D_m);Z)\right].
+\]</span></p>
+<p>Cross-validation reutiliza una muestra finita para aproximar esta esperanza sobre posibles conjuntos de entrenamiento y observaciones de validación. Los folds no son réplicas independientes: comparten datos y sus modelos están correlacionados. Por eso la desviación entre folds es descriptiva y no debe convertirse automáticamente en un intervalo de confianza.</p>
+<div class="proposicion">
+<p><strong>Independencia de test.</strong> Si el procedimiento completo <span class="math inline">\(A\)</span> queda fijado sin usar test y <span class="math inline">\(D_{\mathrm{test}}\)</span> es independiente con distribución <span class="math inline">\(P\)</span>, entonces el promedio de pérdidas de test es condicionalmente insesgado para el riesgo de <span class="math inline">\(A(D_m)\)</span>:</p>
+<p><span class="math display">\[
+\mathbb E[\widehat R_{\mathrm{test}}(A(D_m))\mid D_m]
+=R_P(A(D_m)).
+\]</span></p>
+<p>La igualdad deja de describir el protocolo si test modifica hiperparámetros, features, umbral o selección del reporte.</p>
+</div>
+</section>
+<section id="bootstrap-y-unidad-de-remuestreo" class="level2">
+<h2 class="anchored" data-anchor-id="bootstrap-y-unidad-de-remuestreo">Bootstrap y unidad de remuestreo</h2>
+<p>El bootstrap empírico genera réplicas <span class="math inline">\(D_n^{*(b)}\)</span> muestreando con reemplazo desde <span class="math inline">\(D_n\)</span> y recalcula un estadístico <span class="math inline">\(T^{*(b)}\)</span>. La distribución de las réplicas aproxima la variación muestral de <span class="math inline">\(T\)</span> bajo la distribución empírica.</p>
+<p>Si hay varias filas por paciente, colegio o periodo, la unidad independiente no es la fila. En ese caso se requiere bootstrap por grupos, bloques temporales u otro esquema que preserve la dependencia relevante.</p>
 </section>
 <section id="cross-validation" class="level2">
 <h2 class="anchored" data-anchor-id="cross-validation">Cross-validation</h2>
@@ -370,6 +400,38 @@ s_{\text{cons}}=\bar s-s_{\text{folds}}
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>El grid search debe ocurrir dentro de entrenamiento/desarrollo, no sobre test.</p>
+</section>
+<section id="selección-y-validación-anidada" class="level2">
+<h2 class="anchored" data-anchor-id="selección-y-validación-anidada">Selección y validación anidada</h2>
+<p>Supongamos que comparamos <span class="math inline">\(M\)</span> configuraciones y escogemos</p>
+<p><span class="math display">\[
+\widehat\lambda
+=\arg\min_{\lambda\in\Lambda}
+\widehat R_{\mathrm{CV}}(A_\lambda).
+\]</span></p>
+<p>El mismo ruido que hace fluctuar los puntajes también influye en qué configuración gana. El mínimo observado tiende a ser optimista porque se escogió después de mirar <span class="math inline">\(M\)</span> estimaciones. Aumentar la grilla puede aumentar este sesgo de selección aunque ninguna configuración nueva sea realmente mejor.</p>
+<p>La validación cruzada anidada separa ambos papeles:</p>
+<pre class="text"><code>para cada fold exterior:
+    reservar el fold exterior para evaluación
+    dentro de los datos restantes:
+        comparar hiperparámetros con folds interiores
+        escoger una configuración
+        reajustar con todo el train exterior
+    evaluar una vez en el fold exterior
+agregar los puntajes exteriores</code></pre>
+<p>Los folds exteriores estiman el desempeño del <strong>procedimiento de selección</strong>, no de una configuración elegida de antemano. Después de cerrar el análisis, se selecciona una configuración con todos los datos de desarrollo, se reajusta y se usa el test externo una sola vez si existe.</p>
+<div class="criterio">
+<p><strong>Cuándo usarla.</strong> En el curso, un train/dev/test bien definido suele ser suficiente para laboratorios y proyecto. La CV anidada resulta apropiada cuando el dataset es pequeño, se comparan muchas configuraciones y se necesita una estimación menos optimista del procedimiento de selección.</p>
+</div>
+</section>
+<section id="costo-computacional-de-validar" class="level2">
+<h2 class="anchored" data-anchor-id="costo-computacional-de-validar">Costo computacional de validar</h2>
+<p>Si una búsqueda evalúa <span class="math inline">\(M\)</span> configuraciones con <span class="math inline">\(k\)</span> folds, requiere <span class="math inline">\(Mk\)</span> ajustes, más el ajuste final. Con validación anidada de <span class="math inline">\(r\)</span> folds exteriores y <span class="math inline">\(k\)</span> interiores, la búsqueda requiere aproximadamente</p>
+<p><span class="math display">\[
+r(Mk+1)
+\]</span></p>
+<p>ajustes, antes del modelo final. El costo real depende de que cada fold usa menos datos y de si la biblioteca reutiliza cálculos, pero el orden explica por qué una grilla indiscriminada puede consumir el presupuesto sin aportar comprensión.</p>
+<p>La comparación debe fijar también el presupuesto. Si una configuración recibe más épocas, más semillas o una grilla más favorable, el resultado mezcla calidad del modelo con esfuerzo de búsqueda.</p>
 </section>
 <section id="learning-curve" class="level2">
 <h2 class="anchored" data-anchor-id="learning-curve">Learning curve</h2>
@@ -637,9 +699,18 @@ regularización alta -&gt; modelo simple</code></pre>
 <li>¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-estadística" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-estadística">Profundización matemática y estadística</h3>
+<ol start="9" type="1">
+<li>Explique por qué el mínimo entre muchas estimaciones ruidosas de CV tiende a ser optimista para la configuración seleccionada.</li>
+<li>Diseñe una validación anidada con 5 folds exteriores, 4 interiores y 12 configuraciones. Calcule el número aproximado de ajustes.</li>
+<li>Distinga el riesgo de una configuración fija del riesgo del procedimiento que escoge una configuración con los datos.</li>
+<li>Explique por qué dividir la desviación entre folds por <span class="math inline">\(\sqrt{k}\)</span> no produce automáticamente un error estándar válido.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="9" type="1">
+<ol start="13" type="1">
 <li>Construya una learning curve o validation curve para un modelo de su proyecto y escriba un diagnóstico de sesgo/varianza/ruido con una acción siguiente.</li>
 </ol>
 

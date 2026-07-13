@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-ca9d51f3be5a2bdac2db71e767a76854.css">
+  <link rel="stylesheet" href="semana01_presentacion_files/libs/revealjs/dist/theme/quarto-5c5b32bd18dcc52b41e66b5d0730bd2b.css">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana01_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -196,7 +196,7 @@
 
 <section id="title-slide" class="quarto-title-block center">
   <h1 class="title">Semana 1 · Clase 1</h1>
-  <p class="subtitle">Antes del modelo: qué representan los datos</p>
+  <p class="subtitle">Población, variables aleatorias y muestras</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -215,40 +215,38 @@ César Galindo
 <div class="question">
 <p>¿Qué error cometeríamos si tratáramos una subzona de Bogotá como si fuera una vivienda individual?</p>
 </div>
+<div class="session-reference">
+Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/00-lenguaje-comun.html">Capítulo 0 · Observaciones, variables y preguntas</a>
+</div>
 </section>
 <section id="una-fila-tiene-una-historia" class="slide level2">
 <h2>Una fila tiene una historia</h2>
-<table class="caption-top">
-<colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Pregunta</th>
-<th>Lo que necesitamos saber</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>¿Qué representa?</td>
-<td>persona, vivienda, subzona, día, transacción</td>
-</tr>
-<tr class="even">
-<td>¿Cómo entró a la tabla?</td>
-<td>muestreo, registro administrativo, sensor, encuesta</td>
-</tr>
-<tr class="odd">
-<td>¿Cuándo fue medida?</td>
-<td>periodo y frecuencia</td>
-</tr>
-<tr class="even">
-<td>¿Qué quedó por fuera?</td>
-<td>población no observada, faltantes, filtros</td>
-</tr>
-</tbody>
-</table>
+<div class="concept-flow">
+<div class="concept-node">
+<strong>Qué representa</strong><span>persona, vivienda, subzona, día o transacción</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Cómo fue registrada</strong><span>muestreo, registro administrativo, sensor o encuesta</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Cuándo fue medida</strong><span>periodo, frecuencia y momento de observación</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="concept-node fragment">
+<strong>Qué quedó fuera</strong><span>población no observada, faltantes y filtros</span>
+</div>
+</div>
+<div class="lead fragment">
 <p>Una fila es una <strong>unidad de observación</strong>, no solo una posición en un arreglo.</p>
+</div>
 </section>
 <section id="un-caso-cercano" class="slide level2">
 <h2>Un caso cercano</h2>
@@ -260,7 +258,7 @@ César Galindo
 </section>
 <section id="cinco-filas-del-archivo" class="slide level2">
 <h2>Cinco filas del archivo</h2>
-<div class="dense-table">
+<div class="dense-table semantic-table">
 <table class="caption-top">
 <colgroup>
 <col style="width: 11%">
@@ -302,6 +300,15 @@ César Galindo
 <td style="text-align: right;">2.152</td>
 </tr>
 <tr class="odd">
+<td>Centro</td>
+<td style="text-align: right;">9.504</td>
+<td style="text-align: right;">3.195</td>
+<td style="text-align: right;">63.383</td>
+<td style="text-align: right;">1.744</td>
+<td style="text-align: right;">1.799</td>
+<td style="text-align: right;">0.988</td>
+</tr>
+<tr class="even">
 <td>Bosque Medina</td>
 <td style="text-align: right;">10.751</td>
 <td style="text-align: right;">4.699</td>
@@ -310,7 +317,7 @@ César Galindo
 <td style="text-align: right;">3.037</td>
 <td style="text-align: right;">2.467</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>Multicentro</td>
 <td style="text-align: right;">10.365</td>
 <td style="text-align: right;">5.647</td>
@@ -318,15 +325,6 @@ César Galindo
 <td style="text-align: right;">2.086</td>
 <td style="text-align: right;">2.625</td>
 <td style="text-align: right;">1.786</td>
-</tr>
-<tr class="odd">
-<td>Centro</td>
-<td style="text-align: right;">9.504</td>
-<td style="text-align: right;">3.195</td>
-<td style="text-align: right;">63.383</td>
-<td style="text-align: right;">1.744</td>
-<td style="text-align: right;">1.799</td>
-<td style="text-align: right;">0.988</td>
 </tr>
 </tbody>
 </table>
@@ -353,18 +351,38 @@ César Galindo
 </div>
 <p>En el curso la llamamos <code>precio_reportado</code>: podemos operar con sus valores y, al mismo tiempo, limitar lo que interpretamos.</p>
 </section>
-<section id="primera-pausa" class="slide level2">
-<h2>Primera pausa</h2>
-<div class="pause">
-<p>En parejas, escriban una frase para cada punto:</p>
-<ol type="1">
-<li>unidad de observación;</li>
-<li>posible población de interés;</li>
-<li>una pregunta que sí admite esta tabla;</li>
-<li>una pregunta que no admite;</li>
-<li>información que pedirían a la entidad antes de usar <code>precio_reportado</code>.</li>
-</ol>
-<p>Tiempo: 6 minutos. Luego contrastamos dos respuestas en el tablero.</p>
+<section id="peer-instruction-vote-primero" class="slide level2">
+<h2>Peer instruction · vote primero</h2>
+<div class="peer-instruction">
+<div class="peer-question">
+¿Cuál afirmación está respaldada por este archivo de 32 subzonas?
+</div>
+<div class="peer-options">
+<div>
+<span>A</span><strong>Permite predecir el precio de cualquier vivienda de Bogotá.</strong>
+</div>
+<div>
+<span>B</span><strong>Demuestra que aumentar el estrato causa un aumento del precio.</strong>
+</div>
+<div>
+<span>C</span><strong>Permite estudiar asociaciones entre los resúmenes de las subzonas incluidas.</strong>
+</div>
+<div>
+<span>D</span><strong>Representa sin error todas las subzonas de Bogotá.</strong>
+</div>
+</div>
+<div class="peer-cycle">
+<p><span>1 · voto individual</span> <span>2 · discusión en parejas</span> <span>3 · segundo voto</span></p>
+</div>
+</div>
+</section>
+<section id="peer-instruction-después-de-discutir" class="slide level2">
+<h2>Peer instruction · después de discutir</h2>
+<div class="peer-answer">
+<span class="answer-key">Respuesta C</span>
+<p>
+La fila representa una subzona y la tabla solo contiene 32. Podemos describir asociaciones entre sus resúmenes, pero no trasladarlas a viviendas individuales, causalidad o cobertura completa de Bogotá.
+</p>
 </div>
 </section>
 <section id="observación-y-población" class="slide level2">
@@ -376,6 +394,149 @@ César Galindo
 <p>Todas las subzonas, proyectos o viviendas nuevas de Bogotá en un periodo determinado.</p>
 </div>
 <p>Pasar de una a otra exige supuestos sobre cobertura y representatividad.</p>
+</section>
+<section id="el-objeto-aleatorio-viene-antes-del-archivo" class="slide level2">
+<h2>El objeto aleatorio viene antes del archivo</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+(\boldsymbol X,Y):(\Omega,\mathcal F,\mathbb P)\longrightarrow
+\mathcal X\times\mathcal Y
+\]</span></p>
+</div>
+<ul>
+<li><span class="math inline">\(\Omega\)</span> reúne resultados posibles del proceso que genera una observación;</li>
+<li><span class="math inline">\(\mathcal F\)</span> especifica los eventos a los que asignamos probabilidad;</li>
+<li><span class="math inline">\(\mathbb P\)</span> describe su distribución;</li>
+<li><span class="math inline">\((\boldsymbol X,Y)\)</span> transforma un resultado en variables que podemos analizar.</li>
+</ul>
+<p>La tabla contiene realizaciones de estos objetos, no los objetos aleatorios mismos.</p>
+</section>
+<section id="variable-aleatoria-y-realización" class="slide level2">
+<h2>Variable aleatoria y realización</h2>
+<div class="split">
+<h3 id="antes-de-observar">Antes de observar</h3>
+<p><span class="math inline">\(Y\)</span> es una variable aleatoria. Su valor depende de cuál observación produzca el proceso.</p>
+<p><span class="math display">\[Y:\Omega\to\mathbb R\]</span></p>
+<div class="fragment">
+<h3 id="después-de-observar">Después de observar</h3>
+<p><span class="math inline">\(y_i=10.751\)</span> es un valor realizado para una subzona particular del archivo.</p>
+<p>No tiene distribución una vez fijado.</p>
+</div>
+</div>
+<div class="question fragment">
+<p>¿Cuál de las dos expresiones puede tener esperanza y varianza: <span class="math inline">\(Y\)</span> o <span class="math inline">\(y_i\)</span>?</p>
+</div>
+</section>
+<section id="una-muestra-es-también-un-objeto-aleatorio" class="slide level2">
+<h2>Una muestra es también un objeto aleatorio</h2>
+<div class="math-focus">
+<p><span class="math display">\[
+\mathsf D_n=((\boldsymbol X_1,Y_1),\ldots,(\boldsymbol X_n,Y_n))
+\overset{\mathrm{iid}}{\sim}P^n
+\]</span></p>
+</div>
+<p>La notación iid afirma dos cosas que deben discutirse, no suponerse por costumbre:</p>
+<ol type="1">
+<li>cada par tiene la misma distribución <span class="math inline">\(P\)</span>;</li>
+<li>conocer una observación no cambia la distribución de las demás.</li>
+</ol>
+<p>Registros temporales, grupos familiares o mediciones repetidas pueden violar independencia.</p>
+</section>
+<section id="cuatro-niveles-que-no-mezclaremos" class="slide level2">
+<h2>Cuatro niveles que no mezclaremos</h2>
+<div class="dense-table semantic-table">
+<table class="caption-top">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Nivel</th>
+<th>Objeto</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>población</td>
+<td><span class="math inline">\(P\)</span>, <span class="math inline">\(\mathbb E_P[Y]\)</span>, <span class="math inline">\(R_P(f)\)</span></td>
+<td>distribución conceptual de observaciones futuras</td>
+</tr>
+<tr class="even">
+<td>muestra aleatoria</td>
+<td><span class="math inline">\(\mathsf D_n\)</span></td>
+<td>el conjunto antes de ser observado</td>
+</tr>
+<tr class="odd">
+<td>estadístico o estimador</td>
+<td><span class="math inline">\(\bar Y_n\)</span>, <span class="math inline">\(\widehat R_n(f)\)</span></td>
+<td>regla que depende de la muestra</td>
+</tr>
+<tr class="even">
+<td>valor calculado</td>
+<td><span class="math inline">\(\bar y_n\)</span>, <span class="math inline">\(\widehat r_n(f)\)</span></td>
+<td>número producido por este archivo</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Confundir el tercer nivel con el cuarto borra la variación muestral.</p>
+</section>
+<section id="la-distribución-empírica" class="slide level2">
+<h2>La distribución empírica</h2>
+<p>Una muestra observada induce la medida</p>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat P_n=\frac1n\sum_{i=1}^n\delta_{(\boldsymbol x_i,y_i)}.
+\]</span></p>
+</div>
+<p>Para cualquier función <span class="math inline">\(g\)</span>,</p>
+<p><span class="math display">\[
+\int g\,d\widehat P_n=\frac1n\sum_{i=1}^n g(\boldsymbol x_i,y_i).
+\]</span></p>
+<p>Un promedio calculado con datos es una esperanza bajo <span class="math inline">\(\widehat P_n\)</span>, no automáticamente bajo <span class="math inline">\(P\)</span>.</p>
+</section>
+<section id="de-promedio-observado-a-esperanza" class="slide level2">
+<h2>De promedio observado a esperanza</h2>
+<div class="split">
+<h3 id="cantidad-poblacional">Cantidad poblacional</h3>
+<p><span class="math display">\[
+\mu=\mathbb E_P[Y]
+\]</span></p>
+<p>Es fija bajo el modelo, aunque sea desconocida.</p>
+<div class="fragment">
+<h3 id="estimador">Estimador</h3>
+<p><span class="math display">\[
+\bar Y_n=\frac1n\sum_{i=1}^nY_i
+\]</span></p>
+<p>Cambia si cambia la muestra.</p>
+</div>
+</div>
+<p>Si las observaciones son iid y <span class="math inline">\(\operatorname{Var}(Y)&lt;\infty\)</span>,</p>
+<p><span class="math display">\[
+\operatorname{Var}(\bar Y_n)=\frac{\operatorname{Var}(Y)}{n}.
+\]</span></p>
+</section>
+<section id="aprender-significa-aproximar-un-riesgo" class="slide level2">
+<h2>Aprender significa aproximar un riesgo</h2>
+<p>Para una regla <span class="math inline">\(f\)</span> y una pérdida <span class="math inline">\(\ell\)</span>:</p>
+<div class="split">
+<h3 id="riesgo-esperado">Riesgo esperado</h3>
+<p><span class="math display">\[
+R_P(f)=\mathbb E_P[\ell(Y,f(\boldsymbol X))]
+\]</span></p>
+<p>Describe desempeño bajo la población objetivo.</p>
+<div class="fragment">
+<h3 id="riesgo-empírico">Riesgo empírico</h3>
+<p><span class="math display">\[
+\widehat R_n(f)=\frac1n\sum_{i=1}^n\ell(y_i,f(\boldsymbol x_i))
+\]</span></p>
+<p>Es calculable y depende de la muestra.</p>
+</div>
+</div>
+<p>La distancia entre ambos no desaparece por escribir más decimales.</p>
 </section>
 <section id="una-pregunta-útil-tiene-estructura" class="slide level2">
 <h2>Una pregunta útil tiene estructura</h2>
@@ -423,19 +584,37 @@ César Galindo
 </table>
 <p>Primero fijamos la salida; después escogemos una familia de modelos.</p>
 </section>
-<section id="de-la-tabla-a-x-y-y" class="slide level2">
-<h2>De la tabla a <span class="math inline">\(X\)</span> y <span class="math inline">\(y\)</span></h2>
-<div class="math-focus">
+<section id="de-una-muestra-a-mathbf-x-y-mathbf-y" class="slide level2">
+<h2>De una muestra a <span class="math inline">\(\mathbf X\)</span> y <span class="math inline">\(\mathbf y\)</span></h2>
+<div class="object-map">
+<div class="object-card">
+<strong><span class="semantic-red">Rosales</span>: una observación</strong>
+<p>
+cinco variables de entrada y un resultado asociado
+</p>
+<p><code>estrato, área, alcobas, baños, parqueaderos | precio</code></p>
+</div>
+<div class="map-arrow fragment">
+→
+</div>
+<div class="object-card fragment">
+<strong>Una realización del par <span class="math inline">\((\boldsymbol X,Y)\)</span></strong>
+<p>
+<span class="semantic-red"><span class="math inline">\(\boldsymbol x_i^\top\)</span></span>: valor observado del vector aleatorio <span class="math inline">\(\boldsymbol X\)</span>
+</p>
+<p>
+<span class="semantic-red"><span class="math inline">\(y_i\)</span></span>: valor observado de la variable aleatoria <span class="math inline">\(Y\)</span>
+</p>
+</div>
+</div>
+<div class="math-focus fragment">
 <p><span class="math display">\[
-X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
+\mathbf X\in\mathbb R^{n\times p},\qquad \mathbf y\in\mathbb R^n
 \]</span></p>
 </div>
-<ul>
-<li><span class="math inline">\(m\)</span>: número de observaciones;</li>
-<li><span class="math inline">\(p\)</span>: número de variables de entrada;</li>
-<li>fila <span class="math inline">\(x_i^\top\)</span>: descripción de la observación <span class="math inline">\(i\)</span>;</li>
-<li><span class="math inline">\(y_i\)</span>: objetivo asociado con esa observación.</li>
-</ul>
+<div class="fragment">
+<p><span class="math inline">\(n\)</span> cuenta observaciones; <span class="math inline">\(p\)</span> cuenta variables de entrada.</p>
+</div>
 </section>
 <section id="una-matriz-pierde-los-nombres" class="slide level2">
 <h2>Una matriz pierde los nombres</h2>
@@ -449,8 +628,8 @@ X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 <span id="cb1-8"><a href=""></a>y <span class="op">=</span> tabla[<span class="st">"precio_reportado"</span>]</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Al pasar a <code>numpy</code>, los números siguen allí, pero el significado depende de conservar nombres, unidades y procedencia por separado.</p>
 </section>
-<section id="modelo-parámetro-e-hiperparámetro" class="slide level2">
-<h2>Modelo, parámetro e hiperparámetro</h2>
+<section id="parámetro-estimador-e-hiperparámetro" class="slide level2">
+<h2>Parámetro, estimador e hiperparámetro</h2>
 <table class="caption-top">
 <colgroup>
 <col style="width: 33%">
@@ -466,16 +645,21 @@ X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 </thead>
 <tbody>
 <tr class="odd">
-<td>familia de modelos</td>
-<td>funciones lineales</td>
-<td>elección de modelación</td>
+<td>parámetro poblacional</td>
+<td><span class="math inline">\(\boldsymbol\theta_P\)</span> o <span class="math inline">\(\mu\)</span></td>
+<td>propiedad fija de <span class="math inline">\(P\)</span> dentro del modelo</td>
 </tr>
 <tr class="even">
-<td>parámetro</td>
-<td>coeficientes <span class="math inline">\(\theta\)</span></td>
-<td>se ajusta con datos de entrenamiento</td>
+<td>estimador</td>
+<td><span class="math inline">\(\widehat{\boldsymbol\theta}(\mathsf D_n)\)</span></td>
+<td>regla aleatoria calculada con la muestra</td>
 </tr>
 <tr class="odd">
+<td>estimación</td>
+<td><span class="math inline">\(\widehat{\boldsymbol\theta}(d_n)\)</span></td>
+<td>valor concreto obtenido en esta ejecución</td>
+</tr>
+<tr class="even">
 <td>hiperparámetro</td>
 <td>intensidad de regularización</td>
 <td>se selecciona con validación</td>
@@ -487,16 +671,20 @@ X\in\mathbb R^{m\times p},\qquad y\in\mathbb R^m
 <section id="aprender-no-es-predecir" class="slide level2">
 <h2>Aprender no es predecir</h2>
 <div class="split">
+<div class="fragment">
 <h3 id="ajuste">Ajuste</h3>
 <p>Usa observaciones con resultado conocido para determinar parámetros.</p>
 <p><span class="math display">\[
-(X_{\mathrm{train}},y_{\mathrm{train}})\longmapsto \widehat\theta
+(\mathbf X_{\mathrm{train}},\mathbf y_{\mathrm{train}})\longmapsto \widehat{\boldsymbol\theta}
 \]</span></p>
+</div>
+<div class="fragment">
 <h3 id="uso">Uso</h3>
-<p>Mantiene <span class="math inline">\(\widehat\theta\)</span> fijo y calcula una salida para nuevas entradas.</p>
+<p>Mantiene <span class="math inline">\(\widehat{\boldsymbol\theta}\)</span> fijo y calcula una salida para nuevas entradas.</p>
 <p><span class="math display">\[
-x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
+\boldsymbol x_{\mathrm{nuevo}}\longmapsto f_{\widehat{\boldsymbol\theta}}(\boldsymbol x_{\mathrm{nuevo}})
 \]</span></p>
+</div>
 </div>
 </section>
 <section id="pérdida-métrica-y-baseline" class="slide level2">
@@ -544,11 +732,26 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <h2>Separar datos cambia la pregunta</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-\mathcal D=\mathcal D_{\mathrm{train}}\,\dot\cup\,\mathcal D_{\mathrm{test}}
+\mathsf D=\mathsf D_{\mathrm{train}}\,\dot\cup\,\mathsf D_{\mathrm{test}}
 \]</span></p>
 </div>
-<p>Con <code>train</code> preguntamos: <strong>¿qué parámetros se ajustan a estos datos?</strong></p>
-<p>Con <code>test</code> preguntamos: <strong>¿cómo se comporta el procedimiento en observaciones que no participaron en el ajuste?</strong></p>
+<div class="object-map">
+<div class="object-card fragment">
+<strong>train: construir</strong>
+<p>
+¿Qué parámetros se ajustan a estos datos?
+</p>
+</div>
+<div class="map-arrow fragment">
+≠
+</div>
+<div class="object-card sample-blue fragment">
+<strong>test: estimar al final</strong>
+<p>
+¿Cómo se comporta el procedimiento en observaciones que no participaron en el ajuste?
+</p>
+</div>
+</div>
 </section>
 <section id="una-regla-para-test" class="slide level2">
 <h2>Una regla para test</h2>
@@ -573,8 +776,8 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <h2>Los datos futuros pueden ser distintos</h2>
 <div class="math-focus">
 <p><span class="math display">\[
-(X,Y)_{\mathrm{train}}\sim P_{\mathrm{train}},\qquad
-(X,Y)_{\mathrm{uso}}\sim P_{\mathrm{uso}}
+(\boldsymbol X,Y)_{\mathrm{train}}\sim P_{\mathrm{train}},\qquad
+(\boldsymbol X,Y)_{\mathrm{uso}}\sim P_{\mathrm{uso}}
 \]</span></p>
 </div>
 <p>Una evaluación histórica es informativa cuando ambas distribuciones son suficientemente comparables para el uso previsto.</p>
@@ -588,9 +791,13 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 </div>
 <p>Predicción y causalidad responden preguntas distintas.</p>
 </section>
-<section id="la-ruta-del-semestre" class="slide level2">
-<h2>La ruta del semestre</h2>
+<section id="la-columna-probabilística-del-semestre" class="slide level2">
+<h2>La columna probabilística del semestre</h2>
 <table class="caption-top">
+<colgroup>
+<col style="width: 57%">
+<col style="width: 42%">
+</colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;">Módulo</th>
@@ -600,72 +807,63 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td>¿qué representan los datos y qué incertidumbre introducen?</td>
+<td>¿cómo conectamos población, muestra y riesgo?</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td>¿cómo se ajustan y evalúan modelos de regresión y clasificación?</td>
+<td>¿qué estiman regresión y clasificación, y con qué sesgo o varianza?</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2</td>
-<td>¿cómo se construyen y entrenan redes neuronales?</td>
+<td>¿qué distribución condicional aprende una red y qué ruido tiene el gradiente?</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3</td>
-<td>¿cómo se diagnostican errores y cambios de distribución?</td>
+<td>¿cómo estimamos desempeño futuro y su incertidumbre?</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4</td>
-<td>¿qué estructura se aprende sin etiquetas?</td>
+<td>¿qué estructura poblacional aproxima PCA o clustering?</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">5</td>
-<td>¿cómo se reproduce y comunica un análisis completo?</td>
+<td>¿cómo reportamos estimando, estimación, incertidumbre y alcance?</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="así-trabajaremos-en-clase" class="slide level2">
 <h2>Así trabajaremos en clase</h2>
-<p>Cada semana combina:</p>
-<ol type="1">
-<li>una pregunta y un ejemplo concreto;</li>
-<li>desarrollo matemático en el tablero;</li>
-<li>implementación pequeña desde cero;</li>
-<li>comparación con una biblioteca;</li>
-<li>ejercicios y un artefacto evaluable.</li>
-</ol>
-<p>Las diapositivas orientan la sesión; el libro contiene el desarrollo que debe sobrevivir después de la clase.</p>
-</section>
-<section id="dónde-está-cada-material" class="slide level2">
-<h2>Dónde está cada material</h2>
-<table class="caption-top">
-<thead>
-<tr class="header">
-<th>Recurso</th>
-<th>Uso principal</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>página web del curso</td>
-<td>fechas, ruta, materiales y entregas</td>
-</tr>
-<tr class="even">
-<td>libro</td>
-<td>definiciones, derivaciones, ejemplos y ejercicios</td>
-</tr>
-<tr class="odd">
-<td>notebook de clase</td>
-<td>cálculo reproducible de la sesión</td>
-</tr>
-<tr class="even">
-<td>Bloque Neón</td>
-<td>anuncios y entrega de actividades</td>
-</tr>
-</tbody>
-</table>
-<p>No use una copia local antigua para verificar una fecha de entrega.</p>
+<div class="pipeline-flow">
+<div class="pipeline-stage">
+<strong>1 · Pregunta</strong><span>caso y población objetivo</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>2 · Probabilidad</strong><span>muestra, riesgo y supuestos</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>3 · Algoritmo</strong><span>objetivo empírico y derivación</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>4 · Contraste</strong><span>biblioteca y comprobación</span>
+</div>
+<div class="flow-arrow fragment">
+→
+</div>
+<div class="pipeline-stage fragment">
+<strong>5 · Producto</strong><span>ejercicio o artefacto evaluable</span>
+</div>
+</div>
+<p>Las diapositivas orientan la sesión; el libro contiene definiciones, proposiciones, demostraciones, ejemplos y ejercicios.</p>
 </section>
 <section id="el-proyecto-empieza-con-una-pregunta" class="slide level2">
 <h2>El proyecto empieza con una pregunta</h2>
@@ -713,8 +911,9 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <p>El laboratorio diagnóstico pide:</p>
 <ul>
 <li>ejecutar un notebook de arriba abajo;</li>
-<li>reconocer filas, variables y objetivo;</li>
-<li>calcular una referencia simple;</li>
+<li>distinguir población, muestra, variable aleatoria y valor observado;</li>
+<li>calcular distribución empírica, media y una referencia simple;</li>
+<li>comparar riesgo esperado conocido en una simulación con riesgo empírico;</li>
 <li>interpretar una salida sin exagerar;</li>
 <li>reportar con precisión cualquier bloqueo técnico;</li>
 <li>proponer dos ideas iniciales de proyecto.</li>
@@ -728,19 +927,19 @@ x_{\mathrm{nuevo}}\longmapsto f_{\widehat\theta}(x_{\mathrm{nuevo}})
 <li>Revise la guía de configuración.</li>
 <li>Abra el notebook de clase.</li>
 <li>Traiga Python/Jupyter funcionando o el error completo.</li>
-<li>Prepare dos ideas de proyecto con unidad de observación y limitación.</li>
+<li>Prepare dos ideas de proyecto con población, unidad de observación, mecanismo de muestreo y limitación.</li>
 </ol>
-<p>El jueves haremos el primer experimento completo con <code>load_wine</code>.</p>
+<p>El jueves simularemos muestras repetidas y luego haremos el primer experimento con <code>load_wine</code>.</p>
 </section>
 <section id="cierre" class="slide level2">
 <h2>Cierre</h2>
 <div class="lead">
-<p>Antes de ajustar un modelo debemos poder terminar tres frases:</p>
+<p>Antes de ajustar un modelo debemos poder terminar cuatro frases:</p>
 </div>
 <div class="board">
-<p>Cada fila representa…<br> La salida que queremos estudiar es…<br> Con estos datos no podemos concluir…</p>
+<p>La población conceptual es…<br> La muestra observada contiene…<br> El estimador que calculamos es…<br> La incertidumbre que todavía queda es…</p>
 </div>
-<p>Si falta una de las tres, todavía no estamos listos para interpretar un puntaje.</p>
+<p>Si falta una de las cuatro, todavía no estamos listos para interpretar un puntaje.</p>
 
 </section>
     </div>

@@ -212,7 +212,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./recursos/guia_proyecto_modulo03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Guía de proyecto: estrategia de mejora del modelo</span></a>
+  <a href="./recursos/guia_proyecto_modulo03.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Proyecto durante el Módulo 3</span></a>
   </div>
 </li>
     </ul>
@@ -227,11 +227,14 @@ window.Quarto = {
   <ul>
   <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
   <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
+  <li><a href="#una-métrica-es-un-estadístico" id="toc-una-métrica-es-un-estadístico" class="nav-link" data-scroll-target="#una-métrica-es-un-estadístico">Una métrica es un estadístico</a></li>
+  <li><a href="#matriz-de-confusión-poblacional-y-empírica" id="toc-matriz-de-confusión-poblacional-y-empírica" class="nav-link" data-scroll-target="#matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</a></li>
   <li><a href="#métrica-principal" id="toc-métrica-principal" class="nav-link" data-scroll-target="#métrica-principal">Métrica principal</a></li>
   <li><a href="#accuracy-no-siempre-basta" id="toc-accuracy-no-siempre-basta" class="nav-link" data-scroll-target="#accuracy-no-siempre-basta">Accuracy no siempre basta</a></li>
   <li><a href="#ejemplo-resuelto-accuracy-engañosa" id="toc-ejemplo-resuelto-accuracy-engañosa" class="nav-link" data-scroll-target="#ejemplo-resuelto-accuracy-engañosa">Ejemplo resuelto: accuracy engañosa</a></li>
   <li><a href="#ejemplo-resuelto-costo-de-falsos-negativos" id="toc-ejemplo-resuelto-costo-de-falsos-negativos" class="nav-link" data-scroll-target="#ejemplo-resuelto-costo-de-falsos-negativos">Ejemplo resuelto: costo de falsos negativos</a></li>
   <li><a href="#derivación-guiada-f1-como-equilibrio-operativo" id="toc-derivación-guiada-f1-como-equilibrio-operativo" class="nav-link" data-scroll-target="#derivación-guiada-f1-como-equilibrio-operativo">Derivación guiada: F1 como equilibrio operativo</a></li>
+  <li><a href="#de-costos-a-una-regla-de-decisión" id="toc-de-costos-a-una-regla-de-decisión" class="nav-link" data-scroll-target="#de-costos-a-una-regla-de-decisión">De costos a una regla de decisión</a></li>
   <li><a href="#baseline" id="toc-baseline" class="nav-link" data-scroll-target="#baseline">Baseline</a></li>
   <li><a href="#particiones" id="toc-particiones" class="nav-link" data-scroll-target="#particiones">Particiones</a></li>
   <li><a href="#test-se-toca-una-vez" id="toc-test-se-toca-una-vez" class="nav-link" data-scroll-target="#test-se-toca-una-vez">Test se toca una vez</a></li>
@@ -251,6 +254,7 @@ window.Quarto = {
   <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
   <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
   <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
+  <li><a href="#profundización-matemática-y-estadística" id="toc-profundización-matemática-y-estadística" class="nav-link" data-scroll-target="#profundización-matemática-y-estadística">Profundización matemática y estadística</a></li>
   <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
   </ul></li>
   </ul>
@@ -294,7 +298,63 @@ window.Quarto = {
 <li>construir un baseline útil;</li>
 <li>separar train, dev y test sin leakage;</li>
 <li>usar pipelines como defensa contra preprocesamiento incorrecto.</li>
+<li>interpretar métricas como estimadores de probabilidades poblacionales;</li>
+<li>deducir un umbral de decisión a partir de costos de error y reconocer cuándo esa deducción no basta.</li>
 </ol>
+</section>
+<section id="una-métrica-es-un-estadístico" class="level2">
+<h2 class="anchored" data-anchor-id="una-métrica-es-un-estadístico">Una métrica es un estadístico</h2>
+<p>Sea <span class="math inline">\(f\)</span> un procedimiento ya fijado y <span class="math inline">\(L=\ell(f(X),Y)\)</span>. El riesgo de uso es</p>
+<p><span class="math display">\[
+R_{P_{\mathrm{uso}}}(f)=\mathbb E[L],
+\]</span></p>
+<p>mientras que una evaluación de <span class="math inline">\(n\)</span> casos produce</p>
+<p><span class="math display">\[
+\widehat R_n(f)=\frac1n\sum_{i=1}^n L_i.
+\]</span></p>
+<p>El segundo objeto cambia si cambia la muestra. Bajo casos iid y varianza finita,</p>
+<p><span class="math display">\[
+\operatorname{se}(\widehat R_n)
+=\sqrt{\frac{\operatorname{Var}(L)}{n}}.
+\]</span></p>
+<p>Para accuracy, <span class="math inline">\(L_i=\mathbf 1\{f(X_i)\neq Y_i\}\)</span> es Bernoulli con probabilidad de error <span class="math inline">\(p_e\)</span>. Por tanto,</p>
+<p><span class="math display">\[
+\operatorname{Var}(\widehat{\mathrm{accuracy}})
+=\frac{a(1-a)}{n},
+\]</span></p>
+<p>donde <span class="math inline">\(a=1-p_e\)</span>. En una muestra reemplazamos <span class="math inline">\(a\)</span> por la accuracy observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.</p>
+</section>
+<section id="matriz-de-confusión-poblacional-y-empírica" class="level2">
+<h2 class="anchored" data-anchor-id="matriz-de-confusión-poblacional-y-empírica">Matriz de confusión poblacional y empírica</h2>
+<p>Cada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo</p>
+<p><span class="math display">\[
+\mathbb P(\widehat Y=1,Y=0)
+\quad\text{mediante}\quad
+\frac{\#\{i:\widehat y_i=1,y_i=0\}}{n}.
+\]</span></p>
+<p>Precision y recall son probabilidades condicionales estimadas:</p>
+<p><span class="math display">\[
+\operatorname{precision}=\mathbb P(Y=1\mid\widehat Y=1),
+\qquad
+\operatorname{recall}=\mathbb P(\widehat Y=1\mid Y=1).
+\]</span></p>
+<p>El denominador efectivo de cada métrica puede ser mucho menor que <span class="math inline">\(n\)</span>, por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.</p>
+<p>Las definiciones poblacionales requieren denominadores positivos:</p>
+<p><span class="math display">\[
+\operatorname{precision}
+=\frac{\mathbb P(\widehat Y=1,Y=1)}{\mathbb P(\widehat Y=1)},
+\qquad
+\operatorname{recall}
+=\frac{\mathbb P(\widehat Y=1,Y=1)}{\mathbb P(Y=1)}.
+\]</span></p>
+<p>Si el clasificador no predice positivos, precision no está definida; asignarle cero es una convención de software, no una identidad matemática. Si el conjunto evaluado no contiene positivos, recall tampoco está definido para esa muestra. Un reporte debe mostrar conteos para que el lector pueda detectar estos casos.</p>
+<p>Para recall, el tamaño efectivo es <span class="math inline">\(TP+FN\)</span>, es decir, el número de positivos observados. Bajo una aproximación binomial condicional, su error estándar es</p>
+<p><span class="math display">\[
+\widehat{\operatorname{se}}(\widehat{\operatorname{recall}})
+\approx
+\sqrt{\frac{\widehat r(1-\widehat r)}{TP+FN}}.
+\]</span></p>
+<p>La fórmula análoga para precision usa <span class="math inline">\(TP+FP\)</span>. Estas aproximaciones requieren casos independientes y un procedimiento fijado; no incluyen la incertidumbre por haber escogido modelo y umbral con los mismos datos.</p>
 <div id="fig-cap11-particiones-evaluacion" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Diagrama de una barra de datos dividida en train, dev y test, con cajas que indican ajustar parámetros, seleccionar modelos y estimar desempeño final.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap11-particiones-evaluacion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -441,6 +501,25 @@ F1=
 {\operatorname{precision}+\operatorname{recall}}.
 \]</span></p>
 <p>La media armónica penaliza valores muy bajos. Por eso un modelo con precision alta pero recall casi cero no obtiene buen F1. Esto es útil cuando ambos tipos de desempeño importan, pero no reemplaza una función de costo si los errores tienen costos muy asimétricos.</p>
+</section>
+<section id="de-costos-a-una-regla-de-decisión" class="level2">
+<h2 class="anchored" data-anchor-id="de-costos-a-una-regla-de-decisión">De costos a una regla de decisión</h2>
+<p>Supongamos que el modelo entrega la probabilidad condicional bien calibrada <span class="math inline">\(\eta(x)=\mathbb P(Y=1\mid X=x)\)</span>. Si predecir 1 cuando <span class="math inline">\(Y=0\)</span> cuesta <span class="math inline">\(C_{FP}\)</span> y predecir 0 cuando <span class="math inline">\(Y=1\)</span> cuesta <span class="math inline">\(C_{FN}\)</span>, los costos condicionales son</p>
+<p><span class="math display">\[
+\mathcal C(1\mid x)=C_{FP}[1-\eta(x)],
+\qquad
+\mathcal C(0\mid x)=C_{FN}\eta(x).
+\]</span></p>
+<p>Elegimos la clase 1 cuando <span class="math inline">\(\mathcal C(1\mid x)\leq\mathcal C(0\mid x)\)</span>. Al reordenar,</p>
+<p><span class="math display">\[
+\eta(x)\geq
+\frac{C_{FP}}{C_{FP}+C_{FN}}.
+\]</span></p>
+<p>Con costos iguales se obtiene el umbral <span class="math inline">\(1/2\)</span>. Si los falsos negativos son más costosos, el umbral disminuye. La deducción muestra que el umbral pertenece a la decisión, no al ajuste de la distribución predictiva.</p>
+<p>En datos reales usamos <span class="math inline">\(\widehat p(x)\)</span>, no <span class="math inline">\(\eta(x)\)</span> conocida. El umbral teórico solo es aplicable si las probabilidades están suficientemente calibradas, los costos representan el uso y no hay restricciones adicionales de capacidad. Por eso se comprueba y, cuando hace falta, se selecciona con validación; después se fija antes de evaluar test.</p>
+<div class="proposicion">
+<p><strong>Regla de Bayes con dos costos.</strong> Bajo probabilidades condicionales conocidas y costos constantes <span class="math inline">\(C_{FP},C_{FN}&gt;0\)</span>, la regla que minimiza el costo esperado condicional predice 1 exactamente cuando <span class="math inline">\(\eta(x)\geq C_{FP}/(C_{FP}+C_{FN})\)</span>.</p>
+</div>
 </section>
 <section id="baseline" class="level2">
 <h2 class="anchored" data-anchor-id="baseline">Baseline</h2>
@@ -665,9 +744,18 @@ Advertencia
 <li>Escriba una regla concreta para decidir cuándo se permite tocar el conjunto de test.</li>
 </ol>
 </section>
+<section id="profundización-matemática-y-estadística" class="level3">
+<h3 class="anchored" data-anchor-id="profundización-matemática-y-estadística">Profundización matemática y estadística</h3>
+<ol start="9" type="1">
+<li>Derive el umbral de Bayes para costos <span class="math inline">\(C_{FP}\)</span> y <span class="math inline">\(C_{FN}\)</span> a partir de los dos costos condicionales.</li>
+<li>Compare el error estándar aproximado de recall 0.80 con 10 y con 500 positivos.</li>
+<li>Construya un caso donde precision no esté definida y distinga la definición matemática de la convención de una biblioteca.</li>
+<li>Explique por qué seleccionar el umbral con test invalida la interpretación de su métrica final, aunque el modelo no se vuelva a entrenar.</li>
+</ol>
+</section>
 <section id="proyecto-de-cierre" class="level3">
 <h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="9" type="1">
+<ol start="13" type="1">
 <li>Para su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.</li>
 </ol>
 
