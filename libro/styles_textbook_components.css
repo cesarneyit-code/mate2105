@@ -1,0 +1,293 @@
+/* Componentes matemáticos y de práctica para capítulos editados. */
+
+/* Tablas */
+
+body.textbook-chapter .table-scroll {
+  margin: 1.45rem 0 1.7rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-color: #aab5bd transparent;
+  scrollbar-width: thin;
+}
+
+body.textbook-chapter .table-scroll:focus-visible {
+  outline: 2px solid var(--textbook-green);
+  outline-offset: 3px;
+}
+
+body.textbook-chapter .table-scroll table {
+  margin-bottom: 0;
+  margin-top: 0;
+  min-width: 38rem;
+  width: 100%;
+}
+
+body.textbook-chapter .opening-table table {
+  min-width: 30.5rem;
+  table-layout: fixed;
+}
+
+body.textbook-chapter .opening-table :is(th, td):first-child {
+  width: 24%;
+}
+
+body.textbook-chapter main.content table {
+  border-collapse: collapse;
+  color: #26323b;
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+body.textbook-chapter main.content table caption {
+  caption-side: bottom;
+  color: var(--textbook-muted);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.45;
+  padding: 0.65rem 0 0;
+  text-align: left;
+}
+
+body.textbook-chapter main.content table thead th {
+  background: transparent;
+  border-bottom: 2px solid var(--textbook-navy);
+  border-top: 1px solid var(--textbook-navy);
+  color: var(--textbook-navy);
+  font-weight: 720;
+  padding: 0.58rem 0.65rem;
+  vertical-align: bottom;
+}
+
+body.textbook-chapter main.content table tbody td {
+  border-bottom: 1px solid var(--textbook-line);
+  padding: 0.55rem 0.65rem;
+  vertical-align: top;
+}
+
+body.textbook-chapter main.content table tbody tr:nth-child(even) td {
+  background: #f8f9f8;
+}
+
+/* Código */
+
+body.textbook-chapter main.content div.sourceCode {
+  background: #f5f7f8;
+  border: 1px solid #d8dfe4;
+  border-left: 4px solid var(--textbook-green);
+  border-radius: 4px;
+  margin: 1.55rem 0 1.8rem;
+  overflow: hidden;
+  position: relative;
+}
+
+body.textbook-chapter main.content div.sourceCode:has(code.sourceCode.python)::before {
+  color: #52616c;
+  content: "PYTHON";
+  display: block;
+  font-size: 0.66rem;
+  font-weight: 750;
+  line-height: 1;
+  padding: 0.65rem 0.9rem 0;
+}
+
+body.textbook-chapter main.content div.sourceCode pre.sourceCode {
+  background: transparent;
+  border: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin: 0;
+  max-height: none;
+  padding: 0.75rem 0.95rem 1rem;
+}
+
+body.textbook-chapter main.content .code-copy-button {
+  color: #52616c;
+}
+
+/* Resultados, demostraciones y límites */
+
+body.textbook-chapter :is(
+  .proposicion,
+  .diagnostico,
+  .conexion-probabilistica,
+  .lectura-grafica
+) {
+  background: var(--textbook-block-background, transparent);
+  border: 0;
+  border-left: var(--textbook-block-border-width, 4px) solid var(--textbook-block-color);
+  border-radius: 0;
+  margin: var(--textbook-block-margin, 2rem 0);
+  padding: var(--textbook-block-padding, 1rem 1.15rem 1rem 1.3rem);
+  position: relative;
+}
+
+body.textbook-chapter :is(
+  .proposicion,
+  .diagnostico,
+  .conexion-probabilistica,
+  .lectura-grafica,
+  .demostracion
+)::before {
+  color: var(--textbook-block-label-color, #63727c);
+  content: var(--textbook-block-label);
+  display: block;
+  font-family: var(--textbook-sans);
+  font-size: 0.68rem;
+  font-weight: 780;
+  line-height: 1.2;
+  margin-bottom: 0.55rem;
+  text-transform: uppercase;
+}
+
+body.textbook-chapter .proposicion {
+  --textbook-block-background: var(--textbook-green-wash);
+  --textbook-block-color: var(--textbook-green);
+  --textbook-block-label: "RESULTADO";
+  --textbook-block-label-color: var(--textbook-green);
+}
+
+body.textbook-chapter .diagnostico {
+  --textbook-block-background: var(--textbook-burgundy-wash);
+  --textbook-block-color: var(--textbook-burgundy);
+  --textbook-block-label: "SUPUESTOS Y LÍMITES";
+  --textbook-block-label-color: var(--textbook-burgundy);
+}
+
+body.textbook-chapter .conexion-probabilistica {
+  --textbook-block-background: var(--textbook-gold-wash);
+  --textbook-block-color: var(--textbook-gold);
+  --textbook-block-label: "CONEXIÓN PROBABILÍSTICA";
+  --textbook-block-label-color: #81530f;
+}
+
+body.textbook-chapter .lectura-grafica {
+  --textbook-block-border-width: 2px;
+  --textbook-block-color: #91a1aa;
+  --textbook-block-label: "LECTURA GRÁFICA";
+  --textbook-block-margin: 1rem 0 2rem;
+  --textbook-block-padding: 0.3rem 1.15rem 0.3rem 1.3rem;
+  color: #44525d;
+  font-family: var(--textbook-sans);
+  font-size: 0.94rem;
+  line-height: 1.58;
+}
+
+body.textbook-chapter .demostracion {
+  --textbook-block-label: "DEMOSTRACIÓN";
+  background: transparent;
+  border: 0;
+  border-left: 1px solid #aeb9c0;
+  border-radius: 0;
+  color: #35424c;
+  margin: -0.5rem 0 2.25rem 1.15rem;
+  padding: 0.85rem 0 0.15rem 1.25rem;
+}
+
+body.textbook-chapter :is(
+  .proposicion,
+  .diagnostico,
+  .conexion-probabilistica,
+  .lectura-grafica,
+  .demostracion
+) > :last-child {
+  margin-bottom: 0;
+}
+
+/* Síntesis, problemas y respuestas */
+
+body.textbook-chapter section[id="síntesis"] {
+  background: var(--textbook-wash);
+  border-top: 4px solid var(--textbook-navy);
+  margin-top: 4.8rem;
+  padding: 0.1rem 1.35rem 1.2rem;
+}
+
+body.textbook-chapter section[id="síntesis"] h2 {
+  border-top: 0;
+  margin-top: 0;
+  padding-top: 1.2rem;
+}
+
+body.textbook-chapter section[id="síntesis"] h2::before {
+  display: none;
+}
+
+body.textbook-chapter #problemas-integrados {
+  margin-top: 4.5rem;
+}
+
+body.textbook-chapter .integrated-problem {
+  border: 0;
+  border-top: 1px solid var(--textbook-line);
+  margin: 2rem 0 0;
+  padding: 0.2rem 0 0.4rem;
+}
+
+body.textbook-chapter .integrated-problem h3 {
+  color: var(--textbook-navy);
+  font-size: 1.12rem;
+  margin: 1.1rem 0 0.75rem;
+}
+
+body.textbook-chapter .integrated-problem ol {
+  padding-left: 1.45rem;
+}
+
+body.textbook-chapter .integrated-problem li {
+  margin-bottom: 0.38rem;
+  padding-left: 0.25rem;
+}
+
+body.textbook-chapter #respuestas-seleccionadas {
+  margin-top: 4.2rem;
+}
+
+body.textbook-chapter .selected-answers {
+  background: #f7f8fa;
+  border: 1px solid var(--textbook-line);
+  border-radius: 4px;
+  color: #35424c;
+  margin: 1.4rem 0 0;
+  padding: 1.15rem 1.25rem;
+}
+
+body.textbook-chapter .selected-answers > :last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+  body.textbook-chapter .table-scroll::before {
+    color: #72808a;
+    content: "\2194";
+    display: block;
+    font-family: var(--textbook-sans);
+    font-size: 1rem;
+    line-height: 1;
+    margin-bottom: 0.35rem;
+    text-align: right;
+  }
+
+  body.textbook-chapter :is(.proposicion, .diagnostico, .conexion-probabilistica) {
+    margin-left: -0.15rem;
+    margin-right: -0.15rem;
+    padding-left: 1rem;
+    padding-right: 0.9rem;
+  }
+
+  body.textbook-chapter .demostracion {
+    margin-left: 0.25rem;
+    padding-left: 0.9rem;
+  }
+
+  body.textbook-chapter section[id="síntesis"] {
+    margin-left: -0.25rem;
+    margin-right: -0.25rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  body.textbook-chapter .selected-answers {
+    padding-left: 0.95rem;
+    padding-right: 0.95rem;
+  }
+}
