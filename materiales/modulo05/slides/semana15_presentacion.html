@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana15_presentacion_files/libs/revealjs/dist/theme/quarto-d210d9fdf93e59f1d7ca3b5ce0d1f973.css">
+  <link rel="stylesheet" href="semana15_presentacion_files/libs/revealjs/dist/theme/quarto-3b3f0925392b9149eeed0a4b3d2d3122.css">
   <link href="semana15_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana15_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana15_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/21-
 <h2>El reporte comienza con una afirmación comprobable</h2>
 <p>El manifiesto permite reconstruir resultados. El reporte debe permitir evaluarlos y cuestionar su alcance.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: pasaremos de una lista de outputs a una tesis respaldada por tablas y figuras con función explícita.</p>
+<p>pasaremos de una lista de outputs a una tesis respaldada por tablas y figuras con función explícita.</p>
 </div>
 </section>
 <section id="una-mejora-pequeña-con-importancia-concreta" class="slide level2 case-slide">
@@ -238,6 +238,26 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/21-
 
 <img src="../figuras/comunicacion-tecnica-reporte.svg" class="wide-figure r-stretch" alt="Tesis técnica conectada con resultados, diagnóstico, recomendación y límites"><div class="figure-reading">
 <p>La tesis aparece primero, pero cada afirmación fuerte debe apuntar a una tabla, figura, cálculo o archivo.</p>
+</div>
+</section>
+<section id="toda-cifra-reportada-es-una-estimación" class="slide level2 probability-slide">
+<h2>Toda cifra reportada es una estimación</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>estimando o desempeño poblacional declarado en el reporte</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>estimación, comparación y medida de incertidumbre</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>población, partición y métrica coinciden con el alcance escrito</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, selección y redacción</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra puede cambiar la cifra y la comparación; el reporte debe conservar esa incertidumbre.</p>
 </div>
 </section>
 <section id="tesis-tabla-figura-y-limitación" class="slide level2 notation-slide">
@@ -272,35 +292,15 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/21-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="toda-cifra-reportada-es-una-estimación" class="slide level2 probability-slide">
-<h2>Toda cifra reportada es una estimación</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>estimando declarado en el reporte</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>estimación y medida de incertidumbre</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>alcance compatible con población y muestreo</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, selección y comunicación</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Cómo cuantificamos una mejora sin exagerarla mediante porcentajes relativos aislados?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Una tabla de comparación tiene una fila por candidato o slice y columnas con partición, métrica, media, dispersión y costo cuando corresponda.</p>
 </div>
 </section>
 <section id="diferencia-absoluta-antes-del-porcentaje-relativo" class="slide level2 formula-slide">
 <h2>Diferencia absoluta antes del porcentaje relativo</h2>
+<div class="formula-question">
+<p>¿Cómo cuantificamos una mejora sin exagerarla mediante porcentajes relativos aislados?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 \Delta_{abs}=M_1-M_0,
@@ -308,31 +308,24 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/21-
 \Delta_{rel}=\frac{M_1-M_0}{|M_0|}.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>La mejora relativa puede parecer grande cuando el denominador es pequeño. El reporte muestra valor base, valor nuevo y diferencia absoluta.</p>
 </div>
 </section>
 <section id="la-mejora-se-mide-contra-un-baseline-visible" class="slide level2 derivation-slide">
 <h2>La mejora se mide contra un baseline visible</h2>
+<div class="derivation-step fragment">
 <p>Una comparación requiere la misma partición, métrica y unidad. Si cambian, <span class="math inline">\(\Delta\)</span> mezcla efectos y deja de atribuirse al modelo.</p>
+</div>
 </section>
 <section id="la-incertidumbre-limita-el-alcance-de-la-comparación" class="slide level2 derivation-slide">
 <h2>La incertidumbre limita el alcance de la comparación</h2>
+<div class="derivation-step fragment">
 <p>Una recomendación se restringe a la población y periodo medidos; si el test es pequeño, se reportan tamaño y conteos además del promedio.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Una tabla de comparación tiene una fila por candidato o slice y columnas con partición, métrica, media, dispersión y costo cuando corresponda.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
-<section id="una-figura-cumple-una-función-argumentativa" class="slide level2 interpretation-slide">
-<h2>Una figura cumple una función argumentativa</h2>
-<p>La tesis no repite ‘el modelo funciona’. Nombra problema, comparación, resultado y límite en una oración verificable.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Una métrica pasa de 0.10 a 0.12. ¿Cómo se reporta sin ocultar el denominador?
@@ -356,8 +349,8 @@ Una métrica pasa de 0.10 a 0.12. ¿Cómo se reporta sin ocultar el denominador?
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -365,67 +358,24 @@ La diferencia absoluta es 0.02 y la mejora relativa es 0.02/0.10=20 %. Mostrar a
 </p>
 </div>
 </section>
-<section id="de-resultados-a-una-tesis-trazable" class="slide level2 algorithm-slide">
-<h2>De resultados a una tesis trazable</h2>
-<div class="algorithm-flow">
-<div>
-<span>1</span><strong>escribir tesis provisional</strong>
-</div>
-<div>
-<span>2</span><strong>vincular cada afirmación a un artefacto</strong>
-</div>
-<div>
-<span>3</span><strong>eliminar figuras sin función</strong>
-</div>
-<div>
-<span>4</span><strong>mostrar baseline y partición</strong>
-</div>
-<div>
-<span>5</span><strong>añadir límite junto al resultado</strong>
-</div>
-<div>
-<span>6</span><strong>revisar lenguaje causal</strong>
-</div>
-</div>
-</section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>required_columns <span class="op">=</span> {</span>
-<span id="cb1-2"><a href=""></a>    <span class="st">"model"</span>, <span class="st">"split"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>, <span class="st">"n"</span></span>
-<span id="cb1-3"><a href=""></a>}</span>
-<span id="cb1-4"><a href=""></a>missing <span class="op">=</span> required_columns <span class="op">-</span> <span class="bu">set</span>(results.columns)</span>
-<span id="cb1-5"><a href=""></a><span class="cf">assert</span> <span class="kw">not</span> missing, <span class="ss">f"Faltan columnas: </span><span class="sc">{</span><span class="bu">sorted</span>(missing)<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb1-6"><a href=""></a></span>
-<span id="cb1-7"><a href=""></a>results.sort_values([<span class="st">"split"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">True</span>, <span class="va">False</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-note">
-<p>La tabla fuente se genera desde resultados; no se transcriben manualmente cifras al documento.</p>
-</div>
-</section>
-<section id="una-tabla-que-permite-reconstruir-la-comparación" class="slide level2 worked-example-slide">
+<section id="una-tabla-que-permite-reconstruir-la-comparación" class="slide level2 worked-example-slide result-slide">
 <h2>Una tabla que permite reconstruir la comparación</h2>
 <p>Una figura de curva de aprendizaje apoya un diagnóstico; una matriz de confusión apoya la distribución de errores; ninguna reemplaza el texto que fija la lectura.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">1</span><span class="label">tesis central</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">1</span><span class="label">baseline explícito</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">junto</span><span class="label">resultado y límite</span>
 </div>
 </div>
 <p>Un reporte puede incluir resultados secundarios, pero la jerarquía visual debe mostrar cuál sostiene la conclusión principal.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
-<div class="notebook-file">
-<p><code>semana15_clinica_proyecto.ipynb</code></p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Una afirmación técnica muestra denominador, baseline y límite junto al resultado.</p>
 </div>
-<p>Abra <code>semana15_clinica_proyecto.ipynb</code> y complete la matriz afirmación–artefacto–límite con su proyecto.</p>
 </section>
 <section id="afirmación-descriptiva-predictiva-y-causal" class="slide level2 comparison-slide">
 <h2>Afirmación descriptiva, predictiva y causal</h2>
@@ -461,59 +411,100 @@ La diferencia absoluta es 0.02 y la mejora relativa es 0.02/0.10=20 %. Mostrar a
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
-<p>Una persona externa debe localizar en menos de un minuto el archivo fuente de cada cifra principal y recomputarla.</p>
-<div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Una tesis técnica puede auditarse cuando baseline, partición, resultados y límites están conectados con artefactos fuente.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Una comunicación clara no corrige un experimento mal partido ni convierte asociación en causalidad.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Una afirmación técnica muestra denominador, baseline y límite junto al resultado.</p>
 </div>
 </section>
-<section id="ocultar-el-denominador-exagera-la-mejora" class="slide level2 failure-slide">
-<h2>Ocultar el denominador exagera la mejora</h2>
-<div class="failure-statement">
-<p>Cambiar denominador entre mejora absoluta y relativa exagera el efecto.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no aparece el valor del baseline</strong></p>
-</div>
-</section>
-<section id="elegir-solo-el-slice-favorable-sesga-la-narrativa" class="slide level2 failure-slide">
-<h2>Elegir solo el slice favorable sesga la narrativa</h2>
-<div class="failure-statement">
-<p>Elegir solo el slice favorable después de mirar todos los resultados produce una narrativa selectiva.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el reporte omite slices o candidatos desfavorables sin criterio previo</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Su figura principal tiene cinco paneles y tres no aparecen en la conclusión. ¿Qué conservaría y qué movería?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Conservaría los paneles que sostienen tesis y límite; movería diagnósticos secundarios a apéndice o los eliminaría. Cada panel debe tener una pregunta.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Una tesis técnica puede auditarse cuando baseline, partición, resultados y límites están conectados con artefactos fuente.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Ocultar el denominador exagera la mejora</span> <strong>Cambiar denominador entre mejora absoluta y relativa exagera el efecto.</strong>
+<p>
+<span>Señal:</span> no aparece el valor del baseline.
+</p>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Elegir solo el slice favorable sesga la narrativa</span> <strong>Elegir solo el slice favorable después de mirar todos los resultados produce una narrativa selectiva.</strong>
+<p>
+<span>Señal:</span> el reporte omite slices o candidatos desfavorables sin criterio previo.
+</p>
+</div>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Una comunicación clara no corrige un experimento mal partido ni convierte asociación en causalidad.</p>
+<section id="de-resultados-a-una-tesis-trazable" class="slide level2 algorithm-slide">
+<h2>De resultados a una tesis trazable</h2>
+<div class="algorithm-flow steps-6">
+<div class="fragment" data-fragment-index="0">
+<span>1</span><strong>escribir tesis provisional</strong>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span>2</span><strong>vincular cada afirmación a un artefacto</strong>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span>3</span><strong>eliminar figuras sin función</strong>
+</div>
+<div class="fragment" data-fragment-index="3">
+<span>4</span><strong>mostrar baseline y partición</strong>
+</div>
+<div class="fragment" data-fragment-index="4">
+<span>5</span><strong>añadir límite junto al resultado</strong>
+</div>
+<div class="fragment" data-fragment-index="5">
+<span>6</span><strong>revisar lenguaje causal</strong>
+</div>
+</div>
 </section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="en-código-de-resultados-a-una-tesis-trazable" class="slide level2 code-slide">
+<h2>En código: De resultados a una tesis trazable</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>required_columns <span class="op">=</span> {</span>
+<span id="cb1-2"><a href=""></a>    <span class="st">"model"</span>, <span class="st">"split"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>, <span class="st">"n"</span></span>
+<span id="cb1-3"><a href=""></a>}</span>
+<span id="cb1-4"><a href=""></a>missing <span class="op">=</span> required_columns <span class="op">-</span> <span class="bu">set</span>(results.columns)</span>
+<span id="cb1-5"><a href=""></a><span class="cf">assert</span> <span class="kw">not</span> missing, <span class="ss">f"Faltan columnas: </span><span class="sc">{</span><span class="bu">sorted</span>(missing)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb1-6"><a href=""></a></span>
+<span id="cb1-7"><a href=""></a>results.sort_values([<span class="st">"split"</span>, <span class="st">"metric"</span>, <span class="st">"value"</span>], ascending<span class="op">=</span>[<span class="va">True</span>, <span class="va">True</span>, <span class="va">False</span>])</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-note">
+<p>La tabla fuente se genera desde resultados; no se transcriben manualmente cifras al documento.</p>
+</div>
+</section>
+<section id="comprobación-en-semana15_clinica_proyecto.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana15_clinica_proyecto.ipynb</code></h2>
+<div class="notebook-file">
+<p><code>semana15_clinica_proyecto.ipynb</code></p>
+</div>
+<p>Abra <code>semana15_clinica_proyecto.ipynb</code> y complete la matriz afirmación–artefacto–límite con su proyecto.</p>
+</section>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>El reporte vale 15 % del curso y la rúbrica de 100 puntos se escala a ese peso; la defensa individual vale 10 % aparte.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>P08 borrador final formativo (19 de noviembre, 23:59).</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>tesis antes de cronología</li>
 <li>baseline + split + métrica</li>
@@ -521,18 +512,18 @@ La diferencia absoluta es 0.02 y la mejora relativa es 0.02/0.10=20 %. Mostrar a
 <li>límite junto al resultado</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>La escritura técnica no consiste en sonar segura; consiste en dejar visible qué resultado sostiene cada frase y dónde termina su alcance.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Cuál es su tesis en una frase?</li>
 <li>¿Qué archivo sostiene la cifra central?</li>
 <li>¿Qué afirmación debe suavizar?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>La escritura técnica no consiste en sonar segura; consiste en dejar visible qué resultado sostiene cada frase y dónde termina su alcance.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> lleve repositorio, manifest, tabla principal y figura fuente a la clínica de la Clase 2.</p>
 

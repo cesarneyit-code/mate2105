@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">Recomendación por similitud entre ítems</title>
+  <desc id="desc">Las columnas de una matriz usuario ítem forman perfiles que se comparan por similitud coseno antes de excluir vistos y ordenar candidatos.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#667085"/></marker>
+    <style>
+      .box{fill:#fff;stroke:#cfd5df;stroke-width:2}.accent{stroke:#0f766e;stroke-width:6}.blue{stroke:#245bbf;stroke-width:6}.gold{stroke:#a66b00;stroke-width:6}.red{stroke:#b73535;stroke-width:6}
+      .title{font:700 21px Arial,sans-serif;fill:#172033}.math{font:22px Georgia,serif;fill:#245bbf}.note{font:17px Arial,sans-serif;fill:#566174}.cell{fill:#e8edf4;stroke:#fff}.seen{fill:#0f766e}.candidate{fill:#a8c4ef}.arrow{stroke:#667085;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="box accent" x="30" y="55" width="245" height="310" rx="5"/>
+  <text class="title" x="152" y="98" text-anchor="middle">Interacciones pasadas</text>
+  <g transform="translate(72 125)">
+    <rect class="seen" x="0" y="0" width="32" height="32"/><rect class="cell" x="35" y="0" width="32" height="32"/><rect class="candidate" x="70" y="0" width="32" height="32"/><rect class="cell" x="105" y="0" width="32" height="32"/>
+    <rect class="cell" x="0" y="35" width="32" height="32"/><rect class="seen" x="35" y="35" width="32" height="32"/><rect class="candidate" x="70" y="35" width="32" height="32"/><rect class="cell" x="105" y="35" width="32" height="32"/>
+    <rect class="seen" x="0" y="70" width="32" height="32"/><rect class="seen" x="35" y="70" width="32" height="32"/><rect class="cell" x="70" y="70" width="32" height="32"/><rect class="candidate" x="105" y="70" width="32" height="32"/>
+    <rect class="cell" x="0" y="105" width="32" height="32"/><rect class="seen" x="35" y="105" width="32" height="32"/><rect class="cell" x="70" y="105" width="32" height="32"/><rect class="candidate" x="105" y="105" width="32" height="32"/>
+  </g>
+  <text class="note" x="152" y="310" text-anchor="middle">usuarios × ítems</text>
+  <line class="arrow" x1="283" y1="210" x2="341" y2="210"/>
+  <rect class="box blue" x="349" y="80" width="225" height="260" rx="5"/>
+  <text class="title" x="461" y="128" text-anchor="middle">Perfiles de ítems</text>
+  <text class="math" x="461" y="185" text-anchor="middle">s(i,j) = cos(rᵢ, rⱼ)</text>
+  <text class="note" x="461" y="235" text-anchor="middle">comparar columnas</text>
+  <text class="note" x="461" y="272" text-anchor="middle">solo con el train temporal</text>
+  <line class="arrow" x1="582" y1="210" x2="640" y2="210"/>
+  <rect class="box gold" x="648" y="80" width="225" height="260" rx="5"/>
+  <text class="title" x="760" y="128" text-anchor="middle">Score del candidato</text>
+  <text class="math" x="760" y="185" text-anchor="middle">score(u,j)</text>
+  <text class="note" x="760" y="235" text-anchor="middle">similitud × historial</text>
+  <text class="note" x="760" y="272" text-anchor="middle">sin usar el futuro</text>
+  <line class="arrow" x1="881" y1="210" x2="939" y2="210"/>
+  <rect class="box red" x="947" y="55" width="220" height="310" rx="5"/>
+  <text class="title" x="1057" y="103" text-anchor="middle">Ranking temporal</text>
+  <text class="note" x="1057" y="154" text-anchor="middle">1. excluir vistos</text>
+  <text class="note" x="1057" y="193" text-anchor="middle">2. ordenar candidatos</text>
+  <text class="note" x="1057" y="232" text-anchor="middle">3. tomar top-k</text>
+  <text class="note" x="1057" y="271" text-anchor="middle">4. usar baseline popular</text>
+  <text class="note" x="1057" y="323" text-anchor="middle">Precision@k futura</text>
+</svg>

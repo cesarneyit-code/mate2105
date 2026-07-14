@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">Proyección, reconstrucción y residual en PCA</title>
+  <desc id="desc">Una matriz centrada se proyecta a k componentes, se reconstruye y deja un residual de reconstrucción.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#667085"/></marker>
+    <style>
+      .box{fill:#fff;stroke:#cfd5df;stroke-width:2}.accent{stroke:#0f766e;stroke-width:6}.blue{stroke:#245bbf;stroke-width:6}.gold{stroke:#a66b00;stroke-width:6}.red{stroke:#b73535;stroke-width:6}
+      .title{font:700 22px Arial,sans-serif;fill:#172033}.math{font:24px Georgia,serif;fill:#245bbf}.note{font:17px Arial,sans-serif;fill:#566174}.arrow{stroke:#667085;stroke-width:3;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect class="box accent" x="35" y="105" width="205" height="190" rx="5"/><text class="title" x="137" y="153" text-anchor="middle">Datos centrados</text><text class="math" x="137" y="205" text-anchor="middle">Xc ∈ ℝⁿˣᵖ</text><text class="note" x="137" y="248" text-anchor="middle">media estimada en train</text>
+  <line class="arrow" x1="248" y1="200" x2="306" y2="200"/>
+  <rect class="box blue" x="314" y="80" width="230" height="240" rx="5"/><text class="title" x="429" y="130" text-anchor="middle">Proyección</text><text class="math" x="429" y="184" text-anchor="middle">Z = Xc Vk</text><text class="note" x="429" y="230" text-anchor="middle">Z ∈ ℝⁿˣᵏ</text><text class="note" x="429" y="270" text-anchor="middle">k &lt; p</text>
+  <line class="arrow" x1="552" y1="200" x2="610" y2="200"/>
+  <rect class="box gold" x="618" y="80" width="230" height="240" rx="5"/><text class="title" x="733" y="130" text-anchor="middle">Reconstrucción</text><text class="math" x="733" y="184" text-anchor="middle">X̂c = Z Vkᵀ</text><text class="note" x="733" y="230" text-anchor="middle">rango a lo sumo k</text><text class="note" x="733" y="270" text-anchor="middle">volver a sumar la media</text>
+  <line class="arrow" x1="856" y1="200" x2="914" y2="200"/>
+  <rect class="box red" x="922" y="105" width="243" height="190" rx="5"/><text class="title" x="1043" y="153" text-anchor="middle">Residual descartado</text><text class="math" x="1043" y="205" text-anchor="middle">E = Xc − X̂c</text><text class="note" x="1043" y="248" text-anchor="middle">‖E‖²F: error de reconstrucción</text>
+  <text class="note" x="600" y="382" text-anchor="middle">Elegir k con varianza explicada responde a compresión; una tarea predictiva exige validación del pipeline completo.</text>
+</svg>

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana13_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-12d0f9af7b10a10548a0ace560094ac1.css">
+  <link rel="stylesheet" href="semana13_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-e1ad195cb3d3df64cca4fac25da9bd04.css">
   <link href="semana13_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana13_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana13_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,25 +219,61 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/17-recomendacion-latente.html">Capítulo 17 · Recomendación latente</a>
 </div>
 </section>
-<section id="la-similitud-necesita-una-historia-de-interacciones" class="slide level2 recap-slide">
-<h2>La similitud necesita una historia de interacciones</h2>
-<p>PCA y K-Means organizan geometría. En recomendación, una matriz dispersa registra interacciones, no gustos completos.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: construiremos similitud ítem–ítem, excluiremos vistos y mediremos recuperación de una interacción futura.</p>
-</div>
-</section>
 <section id="recomendar-el-siguiente-ítem-no-uno-ya-visto" class="slide level2 case-slide">
 <h2>Recomendar el siguiente ítem, no uno ya visto</h2>
+<p>PCA y K-Means organizan geometría. En recomendación, una matriz dispersa registra interacciones, no gustos completos.</p>
+<div class="board">
+<p>construiremos similitud ítem–ítem, excluiremos vistos y mediremos recuperación de una interacción futura.</p>
+</div>
 <p>Una matriz pequeña de estudiantes por recursos del curso registra aperturas o valoraciones. El ejemplo permite calcular cosenos a mano.</p>
 <div class="data-note">
 <p>Cero significa interacción no observada; no necesariamente desagrado.</p>
 </div>
 </section>
-<section id="matriz-usuario-ítem-representación-latente-y-recomendaciones" class="slide level2 visual-slide">
-<h2>Matriz usuario ítem, representación latente y recomendaciones</h2>
+<section id="recomendación-por-similitud-entre-perfiles-de-ítems" class="slide level2 visual-slide">
+<h2>Recomendación por similitud entre perfiles de ítems</h2>
 
-<img src="../figuras/recomendacion-latente.svg" class="wide-figure r-stretch" alt="Matriz usuario ítem, representación latente y recomendaciones"><div class="figure-reading">
-<p>La estructura compartida entre columnas puede sugerir ítems, pero cold start y popularidad siguen presentes.</p>
+<img src="../figuras/recomendacion-similitud-items.svg" class="wide-figure r-stretch" alt="Recomendación por similitud entre perfiles de ítems"><div class="figure-reading">
+<p>Las columnas de la matriz forman perfiles de ítems. El score combina similitudes con el historial pasado, excluye vistos y se evalúa en interacciones posteriores.</p>
+</div>
+</section>
+<section id="un-usuario-y-cuatro-candidatos" class="slide level2 worked-example-slide result-slide">
+<h2>Un usuario y cuatro candidatos</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">train</span><span class="label">construye similitud</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">futuro</span><span class="label">interacción oculta</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">popularidad</span><span class="label">baseline</span>
+</div>
+</div>
+<p>Superar popularidad en una muestra pequeña es un primer control; no resuelve novedad, diversidad ni utilidad real.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> La evaluación respeta el tiempo y excluye vistos; superar popularidad no elimina el sesgo de exposición.</p>
+</div>
+</section>
+<section id="la-exposición-condiciona-lo-que-observamos" class="slide level2 probability-slide">
+<h2>La exposición condiciona lo que observamos</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>utilidad top-k esperada bajo exposición y tiempo</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>Precision@k temporal y baseline de popularidad</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>las interacciones observadas dependen de exposición; ausencia no equivale a rechazo</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>usuarios, ítems, tiempo y mecanismo de exposición</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra ventana temporal cambia perfiles, candidatos y relevancia observada.</p>
 </div>
 </section>
 <section id="usuario-ítem-tiempo-y-soporte" class="slide level2 notation-slide">
@@ -268,83 +304,28 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/17-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-exposición-condiciona-lo-que-observamos" class="slide level2 probability-slide">
-<h2>La exposición condiciona lo que observamos</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>distorsión esperada y preferencia latente</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>inertia, silhouette e interacciones observadas</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>muestra comparable y mecanismo de exposición declarado</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, inicialización y exposición</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> La matriz de similitud es ítems × ítems. Su diagonal vale uno para columnas no nulas y la salida por usuario tiene una entrada por ítem.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué score combina similitudes con el historial y cómo evitamos evaluar sobre interacciones usadas para construirlo?</p>
-</div>
-</section>
-<section id="un-score-ponderado-por-similitud" class="slide level2 formula-slide">
-<h2>Un score ponderado por similitud</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-s(i,j)=\frac{r_i^Tr_j}{\|r_i\|_2\|r_j\|_2},
-\qquad
-\operatorname{score}(u,j)=\sum_{i\in H_u}R_{ui}s(i,j).
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>El score es relativo a interacciones observadas. Ítems sin soporte suficiente pueden tener similitudes inestables.</p>
-</div>
-</section>
-<section id="construir-perfiles-desde-interacciones-pasadas" class="slide level2 derivation-slide">
-<h2>Construir perfiles desde interacciones pasadas</h2>
-<p>El coseno normaliza magnitud y compara dirección de dos columnas de interacción. No corrige sesgo de popularidad por sí solo.</p>
-</section>
-<section id="excluir-vistos-antes-de-ordenar" class="slide level2 derivation-slide">
-<h2>Excluir vistos antes de ordenar</h2>
-<p>La recomendación excluye <span class="math inline">\(H_u\)</span> y ordena candidatos. Para evaluar, se oculta una interacción posterior y se pregunta si aparece en top-<span class="math inline">\(K\)</span>.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>La matriz de similitud es ítems × ítems. Su diagonal vale uno para columnas no nulas y la salida por usuario tiene una entrada por ítem.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="ausencia-de-interacción-no-significa-rechazo" class="slide level2 interpretation-slide">
-<h2>Ausencia de interacción no significa rechazo</h2>
-<p>Alta similitud significa cointeracción bajo la muestra y normalización elegidas. No implica sustitución, causalidad ni calidad.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 En recomendación temporal, se reparten interacciones al azar entre train y test. ¿Cuál es el riesgo principal?
 </div>
 <div class="peer-options">
 <div>
-<span>A</span><strong>Clusters permutados</strong>
+<span>A</span><strong>No hay riesgo si cada interacción aparece una sola vez</strong>
 </div>
 <div>
 <span>B</span><strong>El futuro informa el pasado</strong>
 </div>
 <div>
-<span>C</span><strong>Softmax inestable</strong>
+<span>C</span><strong>Solo cambia la prevalencia de ítems populares</strong>
 </div>
 <div>
-<span>D</span><strong>Demasiados usuarios</strong>
+<span>D</span><strong>La partición aleatoria es más conservadora que la temporal</strong>
 </div>
 </div>
 <div class="peer-cycle">
@@ -352,8 +333,8 @@ En recomendación temporal, se reparten interacciones al azar entre train y test
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -361,28 +342,60 @@ Una interacción futura puede participar en el perfil usado para recomendar una 
 </p>
 </div>
 </section>
+<section id="un-score-ponderado-por-similitud" class="slide level2 formula-slide">
+<h2>Un score ponderado por similitud</h2>
+<div class="formula-question">
+<p>¿Qué score combina similitudes con el historial y cómo evitamos evaluar sobre interacciones usadas para construirlo?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+s(i,j)=\frac{r_i^Tr_j}{\|r_i\|_2\|r_j\|_2},
+\qquad
+\operatorname{score}(u,j)=\sum_{i\in H_u}R_{ui}s(i,j).
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>El score es relativo a interacciones observadas. Ítems sin soporte suficiente pueden tener similitudes inestables.</p>
+</div>
+</section>
+<section id="construir-perfiles-desde-interacciones-pasadas" class="slide level2 derivation-slide">
+<h2>Construir perfiles desde interacciones pasadas</h2>
+<div class="derivation-step fragment">
+<p>El coseno normaliza magnitud y compara dirección de dos columnas de interacción. No corrige sesgo de popularidad por sí solo.</p>
+</div>
+</section>
+<section id="excluir-vistos-antes-de-ordenar" class="slide level2 derivation-slide">
+<h2>Excluir vistos antes de ordenar</h2>
+<div class="derivation-step fragment">
+<p>La recomendación excluye <span class="math inline">\(H_u\)</span> y ordena candidatos. Para evaluar, se oculta una interacción posterior y se pregunta si aparece en top-<span class="math inline">\(K\)</span>.</p>
+</div>
+</section>
+<section id="ausencia-de-interacción-no-significa-rechazo" class="slide level2 interpretation-slide">
+<h2>Ausencia de interacción no significa rechazo</h2>
+<p>Alta similitud significa cointeracción bajo la muestra y normalización elegidas. No implica sustitución, causalidad ni calidad.</p>
+</section>
 <section id="partir-por-tiempo-y-evaluar-recuperación" class="slide level2 algorithm-slide">
 <h2>Partir por tiempo y evaluar recuperación</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>ordenar interacciones por tiempo</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>separar última interacción por usuario elegible</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>construir similitud con train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>excluir vistos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>comparar top-<span class="math inline">\(K\)</span> contra popularidad de train</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-partir-por-tiempo-y-evaluar-recuperación" class="slide level2 code-slide">
+<h2>En código: Partir por tiempo y evaluar recuperación</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>scores <span class="op">=</span> user_history <span class="op">@</span> item_similarity</span>
 <span id="cb1-2"><a href=""></a>scores[seen_items] <span class="op">=</span> <span class="op">-</span>np.inf</span>
 <span id="cb1-3"><a href=""></a>recommendations <span class="op">=</span> np.argsort(scores)[::<span class="op">-</span><span class="dv">1</span>][:top_k]</span>
@@ -393,27 +406,8 @@ Una interacción futura puede participar en el perfil usado para recomendar una 
 <p>El baseline de popularidad se calcula solo con train; usar toda la matriz incluye el futuro oculto.</p>
 </div>
 </section>
-<section id="un-usuario-y-cuatro-candidatos" class="slide level2 worked-example-slide">
-<h2>Un usuario y cuatro candidatos</h2>
-<p>Para cada usuario con al menos dos interacciones, ocultamos la última. Medimos hit-rate@K de similitud y popularidad sobre los mismos usuarios.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">train</span><span class="label">construye similitud</span>
-</div>
-<div>
-<span class="value">futuro</span><span class="label">interacción oculta</span>
-</div>
-<div>
-<span class="value">popularidad</span><span class="label">baseline</span>
-</div>
-</div>
-<p>Superar popularidad en una muestra pequeña es un primer control; no resuelve novedad, diversidad ni utilidad real.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana13_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana13_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana13_live_coding.ipynb</code></p>
 </div>
@@ -453,59 +447,64 @@ Una interacción futura puede participar en el perfil usado para recomendar una 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Asegure intersección vacía entre top-<span class="math inline">\(K\)</span> y vistos, y que el ítem oculto no participe en matriz train ni en popularidad.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>un score ponderado por similitud</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="partir-celdas-al-azar-filtra-el-futuro" class="slide level2 failure-slide">
-<h2>Partir celdas al azar filtra el futuro</h2>
-<div class="failure-statement">
-<p>Partir celdas al azar permite usar interacciones futuras para recomendar el pasado.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Partir celdas al azar filtra el futuro</span> <strong>Partir celdas al azar permite usar interacciones futuras para recomendar el pasado.</strong>
+<p>
+<span>Señal:</span> no hay columna temporal en el split.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no hay columna temporal en el split</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Un cero no es necesariamente una valoración negativa</span> <strong>Tratar todo cero como valoración negativa introduce una semántica no observada.</strong>
+<p>
+<span>Señal:</span> la explicación llama ‘no le gusta’ a toda ausencia.
+</p>
+</div>
 </div>
 </section>
-<section id="un-cero-no-es-necesariamente-una-valoración-negativa" class="slide level2 failure-slide">
-<h2>Un cero no es necesariamente una valoración negativa</h2>
-<div class="failure-statement">
-<p>Tratar todo cero como valoración negativa introduce una semántica no observada.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la explicación llama ‘no le gusta’ a toda ausencia</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El método personalizado iguala popularidad en hit-rate y ofrece menor cobertura. ¿Qué conclusión y siguiente prueba propone?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>No hay mejora medida bajo ese protocolo y la cobertura empeora. Revisaría soporte mínimo, normalización y segmentos de usuarios antes de aumentar complejidad.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Una recomendación ítem–ítem puede construirse offline, excluir vistos y evaluarse temporalmente contra popularidad.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Una recomendación ítem–ítem puede construirse offline, excluir vistos y evaluarse temporalmente contra popularidad.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>La métrica offline no mide satisfacción, diversidad, exposición ni efectos de interfaz; usuarios nuevos siguen sin historial.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>La evaluación respeta el tiempo y excluye vistos; superar popularidad no elimina el sesgo de exposición.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>La métrica offline no mide satisfacción, diversidad, exposición ni efectos de interfaz; usuarios nuevos siguen sin historial.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La guía de Parcial 2 separa PCA/K-Means/recomendación de los materiales privados con respuestas y pruebas ocultas.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 5 y guía de Parcial 2.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>matriz de interacción no es preferencia completa</li>
 <li>similitud se ajusta en train</li>
@@ -513,18 +512,18 @@ Una interacción futura puede participar en el perfil usado para recomendar una 
 <li>evaluar futuro contra popularidad</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Una recomendación solo es interpretable si sabemos qué historial usó, qué candidatos excluyó y contra qué regla simple fue comparada.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué significa un cero?</li>
 <li>¿Dónde se calcula popularidad?</li>
 <li>¿Qué evita un split temporal?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Una recomendación solo es interpretable si sabemos qué historial usó, qué candidatos excluyó y contra qué regla simple fue comparada.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> complete Lab 5 y prepare el Parcial 2 con el contrato de temas publicado.</p>
 

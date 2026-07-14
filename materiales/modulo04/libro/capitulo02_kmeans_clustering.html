@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>K-Means y clustering – MATE-2105: Módulo 4</title>
+<title>K-Means y agrupamiento – MATE-2105: Módulo 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_kmeans_clustering.html"><span class="chapter-title">K-Means y clustering</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_kmeans_clustering.html"><span class="chapter-title">K-Means y agrupamiento</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -187,7 +187,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_kmeans_clustering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">K-Means y clustering</span></a>
+  <a href="./capitulo02_kmeans_clustering.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">K-Means y agrupamiento</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -197,7 +197,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
+  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de aprendizaje no supervisado</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,38 +230,26 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#distorsión-poblacional-y-objetivo-empírico" id="toc-distorsión-poblacional-y-objetivo-empírico" class="nav-link" data-scroll-target="#distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</a></li>
+  <li><a href="#distorsión-poblacional-y-objetivo-empírico" id="toc-distorsión-poblacional-y-objetivo-empírico" class="nav-link active" data-scroll-target="#distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</a></li>
   <li><a href="#función-objetivo" id="toc-función-objetivo" class="nav-link" data-scroll-target="#función-objetivo">Función objetivo</a></li>
   <li><a href="#algoritmo" id="toc-algoritmo" class="nav-link" data-scroll-target="#algoritmo">Algoritmo</a></li>
-  <li><a href="#por-qué-la-inertia-no-aumenta" id="toc-por-qué-la-inertia-no-aumenta" class="nav-link" data-scroll-target="#por-qué-la-inertia-no-aumenta">Por qué la inertia no aumenta</a></li>
-  <li><a href="#inertia" id="toc-inertia" class="nav-link" data-scroll-target="#inertia">Inertia</a></li>
-  <li><a href="#silhouette-score" id="toc-silhouette-score" class="nav-link" data-scroll-target="#silhouette-score">Silhouette score</a></li>
-  <li><a href="#ejemplo-resuelto-por-qué-escalar-cambia-clusters" id="toc-ejemplo-resuelto-por-qué-escalar-cambia-clusters" class="nav-link" data-scroll-target="#ejemplo-resuelto-por-qué-escalar-cambia-clusters">Ejemplo resuelto: por qué escalar cambia clusters</a></li>
+  <li><a href="#por-qué-la-inercia-no-aumenta" id="toc-por-qué-la-inercia-no-aumenta" class="nav-link" data-scroll-target="#por-qué-la-inercia-no-aumenta">Por qué la inercia no aumenta</a></li>
+  <li><a href="#inercia" id="toc-inercia" class="nav-link" data-scroll-target="#inercia">Inercia</a></li>
+  <li><a href="#coeficiente-de-silueta" id="toc-coeficiente-de-silueta" class="nav-link" data-scroll-target="#coeficiente-de-silueta">Coeficiente de silueta</a></li>
+  <li><a href="#ejemplo-resuelto-por-qué-escalar-cambia-los-grupos" id="toc-ejemplo-resuelto-por-qué-escalar-cambia-los-grupos" class="nav-link" data-scroll-target="#ejemplo-resuelto-por-qué-escalar-cambia-los-grupos">Ejemplo resuelto: por qué escalar cambia los grupos</a></li>
   <li><a href="#ejemplo-resuelto-asignación-a-centroides" id="toc-ejemplo-resuelto-asignación-a-centroides" class="nav-link" data-scroll-target="#ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</a></li>
   <li><a href="#ejemplo-resuelto-una-iteración-completa" id="toc-ejemplo-resuelto-una-iteración-completa" class="nav-link" data-scroll-target="#ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</a></li>
   <li><a href="#derivación-guiada-por-qué-el-centroide-es-el-promedio" id="toc-derivación-guiada-por-qué-el-centroide-es-el-promedio" class="nav-link" data-scroll-target="#derivación-guiada-por-qué-el-centroide-es-el-promedio">Derivación guiada: por qué el centroide es el promedio</a></li>
   <li><a href="#complejidad-y-casos-degenerados" id="toc-complejidad-y-casos-degenerados" class="nav-link" data-scroll-target="#complejidad-y-casos-degenerados">Complejidad y casos degenerados</a></li>
   <li><a href="#escalamiento" id="toc-escalamiento" class="nav-link" data-scroll-target="#escalamiento">Escalamiento</a></li>
   <li><a href="#limitaciones" id="toc-limitaciones" class="nav-link" data-scroll-target="#limitaciones">Limitaciones</a></li>
-  <li><a href="#caso-longitudinal-clusters-sintéticos" id="toc-caso-longitudinal-clusters-sintéticos" class="nav-link" data-scroll-target="#caso-longitudinal-clusters-sintéticos">Caso longitudinal: clusters sintéticos</a></li>
+  <li><a href="#un-caso-sintético-de-agrupamiento" id="toc-un-caso-sintético-de-agrupamiento" class="nav-link" data-scroll-target="#un-caso-sintético-de-agrupamiento">Un caso sintético de agrupamiento</a></li>
   <li><a href="#estabilidad-por-inicialización" id="toc-estabilidad-por-inicialización" class="nav-link" data-scroll-target="#estabilidad-por-inicialización">Estabilidad por inicialización</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
+  <li><a href="#antes-de-interpretar-los-grupos" id="toc-antes-de-interpretar-los-grupos" class="nav-link" data-scroll-target="#antes-de-interpretar-los-grupos">Antes de interpretar los grupos</a></li>
+  <li><a href="#comprobaciones-de-la-partición" id="toc-comprobaciones-de-la-partición" class="nav-link" data-scroll-target="#comprobaciones-de-la-partición">Comprobaciones de la partición</a></li>
   <li><a href="#ejemplo-resuelto-elegir-k-con-información-incompleta" id="toc-ejemplo-resuelto-elegir-k-con-información-incompleta" class="nav-link" data-scroll-target="#ejemplo-resuelto-elegir-k-con-información-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con información incompleta</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
-  <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
-  </ul></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a></li>
   </ul>
 </nav>
     </div>
@@ -270,7 +258,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">K-Means y clustering</span></h1>
+<h1 class="title"><span class="chapter-title">K-Means y agrupamiento</span></h1>
+<p class="subtitle lead">Distorsión, centroides y estabilidad de una partición</p>
 </div>
 
 
@@ -287,38 +276,23 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>Si no tenemos etiquetas, aún podemos preguntar:</p>
+<p>Cuando no hay una etiqueta observada todavía podemos buscar observaciones cercanas entre sí. La pregunta parece sencilla:</p>
 <blockquote class="blockquote">
 <p>¿hay grupos de observaciones con patrones similares?</p>
 </blockquote>
-<p>K-Means busca particionar datos en <span class="math inline">\(k\)</span> grupos representados por centroides.</p>
-<div id="fig-cap16-kmeans-centroides" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+<p>K-Means convierte esa pregunta en un objetivo geométrico: escoger <span class="math inline">\(k\)</span> centroides y asignar cada observación al más cercano para minimizar la suma de distancias cuadráticas. La solución depende de la escala de las variables, del valor de <span class="math inline">\(k\)</span> y de la inicialización.</p>
+<div id="fig-cap16-kmeans-centroides" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Dos grupos de puntos con centroides. Las flechas muestran la asignación al centroide más cercano y la actualización del centroide hacia el promedio del grupo.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/kmeans-centroides.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos grupos de puntos con centroides. Flechas muestran asignación al centroide más cercano y actualización del centroide hacia el promedio del cluster.">
+<img src="../figuras/kmeans-centroides.svg" class="img-fluid figure-img" style="width:100.0%" alt="Dos grupos de puntos con centroides. Las flechas muestran la asignación al centroide más cercano y la actualización del centroide hacia el promedio del grupo.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap16-kmeans-centroides-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3.1: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar centroides como promedio de los puntos asignados.
+Figura&nbsp;3.1: K-Means alterna dos pasos: asignar cada punto al centroide más cercano y actualizar los centroides como promedios de los grupos asignados.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> K-Means alterna entre asignar observaciones al centroide más cercano y mover cada centroide al promedio de su grupo. La interpretación aplicada viene después de validar que esa geometría tenga sentido.</p>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>escribir la función objetivo de K-Means;</li>
-<li>explicar los pasos de asignación y actualización;</li>
-<li>interpretar inertia y silhouette sin absolutizarlos;</li>
-<li>justificar el escalamiento antes de usar distancias euclídeas;</li>
-<li>reconocer cuándo un cluster no debe traducirse directamente en una decisión.</li>
-<li>demostrar por qué cada paso no aumenta la función objetivo;</li>
-<li>distinguir convergencia a un punto fijo de optimalidad global y estimar el costo del algoritmo.</li>
-</ol>
-</section>
+<p>K-Means alterna entre asignar observaciones al centroide más cercano y mover cada centroide al promedio de su grupo. La interpretación aplicada viene después de validar que esa geometría tenga sentido.</p>
+<p>Estudiaremos primero la distorsión poblacional y su versión empírica. Después veremos por qué los dos pasos del algoritmo de Lloyd no aumentan la función objetivo, aunque esa monotonía no garantice un mínimo global ni la existencia de grupos sustantivos en la población.</p>
 <section id="distorsión-poblacional-y-objetivo-empírico" class="level2">
 <h2 class="anchored" data-anchor-id="distorsión-poblacional-y-objetivo-empírico">Distorsión poblacional y objetivo empírico</h2>
 <p>Para centros <span class="math inline">\(C=(\mu_1,\ldots,\mu_k)\)</span>, la distorsión poblacional es</p>
@@ -335,7 +309,7 @@ R_P(C)=\mathbb E_{X\sim P}
 <p><code>inertia_</code> es <span class="math inline">\(m\widehat R_m(C)\)</span> en la escala ajustada. Un valor bajo demuestra buena compactación de la muestra para ese <span class="math inline">\(k\)</span>; no prueba que existan clases naturales en la población.</p>
 <p>Hay dos fuentes de variación diferentes:</p>
 <ul>
-<li><strong>inicialización algorítmica:</strong> distintos centros iniciales pueden llegar a mínimos locales diferentes para el mismo dataset;</li>
+<li><strong>inicialización algorítmica:</strong> distintos centros iniciales pueden llegar a mínimos locales diferentes para el mismo conjunto de datos;</li>
 <li><strong>variación muestral:</strong> otro conjunto de observaciones puede producir otra partición aunque el algoritmo encuentre su mejor mínimo empírico.</li>
 </ul>
 <div class="criterio">
@@ -363,10 +337,10 @@ r_{ij}\|x_i-\mu_j\|_2^2.
 <li>Recalcular cada centroide como promedio del grupo.</li>
 <li>Repetir hasta convergencia.</li>
 </ol>
-<p>La frase «hasta convergencia» necesita una regla: ausencia de cambios en las asignaciones, desplazamiento máximo de centroides menor que una tolerancia, reducción de inertia menor que una tolerancia o número máximo de iteraciones. También debe definirse qué ocurre con empates y clusters vacíos.</p>
+<p>La frase «hasta convergencia» necesita una regla: ausencia de cambios en las asignaciones, desplazamiento máximo de centroides menor que una tolerancia, reducción de la inercia menor que una tolerancia o número máximo de iteraciones. También debe definirse qué ocurre con empates y grupos vacíos.</p>
 </section>
-<section id="por-qué-la-inertia-no-aumenta" class="level2">
-<h2 class="anchored" data-anchor-id="por-qué-la-inertia-no-aumenta">Por qué la inertia no aumenta</h2>
+<section id="por-qué-la-inercia-no-aumenta" class="level2">
+<h2 class="anchored" data-anchor-id="por-qué-la-inercia-no-aumenta">Por qué la inercia no aumenta</h2>
 <p>Con centroides fijos, cada fila <span class="math inline">\(r_i\)</span> aparece solo en</p>
 <p><span class="math display">\[
 \sum_{j=1}^k r_{ij}\|x_i-\mu_j\|^2.
@@ -376,39 +350,39 @@ r_{ij}\|x_i-\mu_j\|_2^2.
 <p><span class="math display">\[
 \min_{\mu_j}\sum_{i:r_{ij}=1}\|x_i-\mu_j\|^2.
 \]</span></p>
-<p>Como se deriva más adelante, su minimizador es el promedio del cluster. El paso de actualización tampoco aumenta <span class="math inline">\(J\)</span>. La secuencia de inertias es no creciente y está acotada inferiormente por cero.</p>
-<p>La monotonía implica que la secuencia de valores de <span class="math inline">\(J\)</span> converge. Para concluir terminación finita de las asignaciones hace falta algo más: que todo cambio de asignación reduzca <span class="math inline">\(J\)</span> estrictamente. Esto ocurre, por ejemplo, cuando no hay empates de distancia y ningún cluster queda vacío. Como solo hay un número finito de asignaciones, bajo esas condiciones el algoritmo alcanza una que ya no cambia. Con empates o degeneraciones puede haber pasos de costo idéntico; una implementación debe fijar desempate, tolerancia y número máximo de iteraciones.</p>
+<p>Como se deriva más adelante, su minimizador es el promedio del grupo. El paso de actualización tampoco aumenta <span class="math inline">\(J\)</span>. La secuencia de inercias es no creciente y está acotada inferiormente por cero.</p>
+<p>La monotonía implica que la secuencia de valores de <span class="math inline">\(J\)</span> converge. Para concluir terminación finita de las asignaciones hace falta algo más: que todo cambio de asignación reduzca <span class="math inline">\(J\)</span> estrictamente. Esto ocurre, por ejemplo, cuando no hay empates de distancia y ningún grupo queda vacío. Como solo hay un número finito de asignaciones, bajo esas condiciones el algoritmo alcanza una que ya no cambia. Con empates o degeneraciones puede haber pasos de costo idéntico; una implementación debe fijar desempate, tolerancia y número máximo de iteraciones.</p>
 <div class="proposicion">
-<p><strong>Descenso por bloques de Lloyd.</strong> Cada iteración completa de asignación y actualización no aumenta la función objetivo de K-Means. Si todo cambio de asignación produce descenso estricto y no aparecen clusters vacíos, Lloyd termina en un punto fijo después de un número finito de iteraciones. Ese punto no tiene por qué ser un óptimo global.</p>
+<p><strong>Descenso por bloques de Lloyd.</strong> Cada iteración completa de asignación y actualización no aumenta la función objetivo de K-Means. Si todo cambio de asignación produce descenso estricto y no aparecen grupos vacíos, Lloyd termina en un punto fijo después de un número finito de iteraciones. Ese punto no tiene por qué ser un óptimo global.</p>
 </div>
-<p>K-Means++ escoge centros iniciales favoreciendo puntos alejados de los ya seleccionados. Reduce la probabilidad de una inicialización muy mala, pero no elimina mínimos locales. <code>n_init</code> ejecuta varias inicializaciones y conserva la de menor inertia.</p>
+<p>K-Means++ escoge centros iniciales favoreciendo puntos alejados de los ya seleccionados. Reduce la probabilidad de una inicialización muy mala, pero no elimina mínimos locales. <code>n_init</code> ejecuta varias inicializaciones y conserva la de menor inercia.</p>
 </section>
-<section id="inertia" class="level2">
-<h2 class="anchored" data-anchor-id="inertia">Inertia</h2>
-<p><code>inertia</code> es la suma de distancias cuadradas dentro de clusters. La mejor inertia alcanzable no aumenta al incrementar <span class="math inline">\(k\)</span>: una solución con <span class="math inline">\(k+1\)</span> centros puede reproducir una de <span class="math inline">\(k\)</span>.</p>
-<p>Por eso menor inertia no basta para elegir una segmentación:</p>
+<section id="inercia" class="level2">
+<h2 class="anchored" data-anchor-id="inercia">Inercia</h2>
+<p>La inercia, denominada <code>inertia</code> en <code>scikit-learn</code>, es la suma de distancias cuadradas dentro de los grupos. La menor inercia alcanzable no aumenta al incrementar <span class="math inline">\(k\)</span>: una solución con <span class="math inline">\(k+1\)</span> centros puede reproducir una de <span class="math inline">\(k\)</span>.</p>
+<p>Por eso una inercia menor no basta para elegir una segmentación:</p>
 <ul>
 <li>favorece valores grandes de <span class="math inline">\(k\)</span>;</li>
 <li>no está normalizada;</li>
-<li>puede favorecer clusters poco interpretables.</li>
+<li>puede favorecer grupos poco interpretables.</li>
 </ul>
 </section>
-<section id="silhouette-score" class="level2">
-<h2 class="anchored" data-anchor-id="silhouette-score">Silhouette score</h2>
+<section id="coeficiente-de-silueta" class="level2">
+<h2 class="anchored" data-anchor-id="coeficiente-de-silueta">Coeficiente de silueta</h2>
 <p>Para una observación:</p>
 <p><span class="math display">\[
 s=\frac{b-a}{\max(a,b)}.
 \]</span></p>
 <p>Donde:</p>
 <ul>
-<li><span class="math inline">\(a\)</span>: distancia media al propio cluster;</li>
-<li><span class="math inline">\(b\)</span>: distancia media al cluster vecino más cercano.</li>
+<li><span class="math inline">\(a\)</span>: distancia media al propio grupo;</li>
+<li><span class="math inline">\(b\)</span>: distancia media al grupo vecino más cercano.</li>
 </ul>
-<p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento y valores negativos indican que otra asignación puede quedar más cerca. Silhouette requiere al menos dos clusters y menos clusters que observaciones.</p>
+<p>Valores cercanos a 1 sugieren separación; valores cercanos a 0 sugieren solapamiento y valores negativos indican que otra asignación puede quedar más cerca. El coeficiente de silueta (<em>silhouette score</em>) requiere al menos dos grupos y menos grupos que observaciones.</p>
 </section>
-<section id="ejemplo-resuelto-por-qué-escalar-cambia-clusters" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-por-qué-escalar-cambia-clusters">Ejemplo resuelto: por qué escalar cambia clusters</h2>
-<p>Supón dos variables: ingreso mensual en pesos y número de visitas a una página. Dos observaciones son:</p>
+<section id="ejemplo-resuelto-por-qué-escalar-cambia-los-grupos" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-por-qué-escalar-cambia-los-grupos">Ejemplo resuelto: por qué escalar cambia los grupos</h2>
+<p>Consideremos dos variables: ingreso mensual en pesos y número de visitas a una página. Dos observaciones son:</p>
 <p><span class="math display">\[
 x_1=(5{,}000{,}000, 10),\qquad x_2=(5{,}100{,}000, 80).
 \]</span></p>
@@ -420,7 +394,7 @@ x_1=(5{,}000{,}000, 10),\qquad x_2=(5{,}100{,}000, 80).
 </section>
 <section id="ejemplo-resuelto-asignación-a-centroides" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-asignación-a-centroides">Ejemplo resuelto: asignación a centroides</h2>
-<p>Supón dos centroides en una dimensión:</p>
+<p>Consideremos dos centroides en una dimensión:</p>
 <p><span class="math display">\[
 \mu_1=2,\qquad \mu_2=8.
 \]</span></p>
@@ -432,7 +406,7 @@ x_1=(5{,}000{,}000, 10),\qquad x_2=(5{,}100{,}000, 80).
 </section>
 <section id="ejemplo-resuelto-una-iteración-completa" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-una-iteración-completa">Ejemplo resuelto: una iteración completa</h2>
-<p>Supón cuatro puntos en una dimensión:</p>
+<p>Consideremos cuatro puntos en una dimensión:</p>
 <p><span class="math display">\[
 x=(1,2,8,10)
 \]</span></p>
@@ -447,7 +421,7 @@ x=(1,2,8,10)
 <th style="text-align: right;">Punto</th>
 <th style="text-align: right;">Distancia a <span class="math inline">\(\mu_1\)</span></th>
 <th style="text-align: right;">Distancia a <span class="math inline">\(\mu_2\)</span></th>
-<th style="text-align: right;">Cluster</th>
+<th style="text-align: right;">Grupo</th>
 </tr>
 </thead>
 <tbody>
@@ -477,7 +451,7 @@ x=(1,2,8,10)
 </tr>
 </tbody>
 </table>
-<p>La inertia inicial con estas asignaciones es:</p>
+<p>La inercia inicial con estas asignaciones es:</p>
 <p><span class="math display">\[
 (1-1)^2+(2-1)^2+(8-10)^2+(10-10)^2=5.
 \]</span></p>
@@ -487,15 +461,15 @@ x=(1,2,8,10)
 \qquad
 \mu_2^{nuevo}=\frac{8+10}{2}=9.
 \]</span></p>
-<p>Con los nuevos centroides, la inertia para las mismas asignaciones es:</p>
+<p>Con los nuevos centroides, la inercia para las mismas asignaciones es:</p>
 <p><span class="math display">\[
 (1-1.5)^2+(2-1.5)^2+(8-9)^2+(10-9)^2=2.5.
 \]</span></p>
-<p>La inertia bajó, pero eso no prueba que <span class="math inline">\(k=2\)</span> sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.</p>
+<p>La inercia bajó, pero eso no prueba que <span class="math inline">\(k=2\)</span> sea la mejor decisión aplicada. Solo muestra que la actualización mejoró el objetivo geométrico de K-Means.</p>
 </section>
 <section id="derivación-guiada-por-qué-el-centroide-es-el-promedio" class="level2">
 <h2 class="anchored" data-anchor-id="derivación-guiada-por-qué-el-centroide-es-el-promedio">Derivación guiada: por qué el centroide es el promedio</h2>
-<p>Para un cluster con puntos <span class="math inline">\(x_1,\ldots,x_m\)</span>, K-Means escoge un centroide <span class="math inline">\(\mu\)</span> que minimiza:</p>
+<p>Para un grupo con puntos <span class="math inline">\(x_1,\ldots,x_m\)</span>, K-Means escoge un centroide <span class="math inline">\(\mu\)</span> que minimiza:</p>
 <p><span class="math display">\[
 \sum_{i=1}^{m}\|x_i-\mu\|_2^2.
 \]</span></p>
@@ -520,7 +494,7 @@ x=(1,2,8,10)
 O(sTmkp).
 \]</span></p>
 <p>Una implementación vectorizada puede almacenar una matriz de distancias <span class="math inline">\(m\times k\)</span>, con memoria <span class="math inline">\(O(mk)\)</span>; también puede procesar bloques para reducirla.</p>
-<p>Un cluster vacío no tiene promedio. Las implementaciones deben conservar el centro anterior, reubicarlo o reinicializarlo según una regla explícita. Los empates también necesitan desempate determinista si se quiere reproducibilidad. Estas decisiones rara vez aparecen en la fórmula del objetivo, pero forman parte del algoritmo ejecutado.</p>
+<p>Un grupo vacío no tiene promedio. Las implementaciones deben conservar el centro anterior, reubicarlo o reinicializarlo según una regla explícita. Los empates también necesitan desempate determinista si se quiere reproducibilidad. Estas decisiones rara vez aparecen en la fórmula del objetivo, pero forman parte del algoritmo ejecutado.</p>
 </section>
 <section id="escalamiento" class="level2">
 <h2 class="anchored" data-anchor-id="escalamiento">Escalamiento</h2>
@@ -532,7 +506,7 @@ O(sTmkp).
 </section>
 <section id="limitaciones" class="level2">
 <h2 class="anchored" data-anchor-id="limitaciones">Limitaciones</h2>
-<p>K-Means funciona mejor cuando los clusters son:</p>
+<p>K-Means funciona mejor cuando los grupos son:</p>
 <ul>
 <li>aproximadamente esféricos;</li>
 <li>de tamaños comparables;</li>
@@ -540,8 +514,8 @@ O(sTmkp).
 </ul>
 <p>Puede fallar con formas no convexas, densidades distintas o variables mal escaladas.</p>
 </section>
-<section id="caso-longitudinal-clusters-sintéticos" class="level2">
-<h2 class="anchored" data-anchor-id="caso-longitudinal-clusters-sintéticos">Caso longitudinal: clusters sintéticos</h2>
+<section id="un-caso-sintético-de-agrupamiento" class="level2">
+<h2 class="anchored" data-anchor-id="un-caso-sintético-de-agrupamiento">Un caso sintético de agrupamiento</h2>
 <p>El archivo <code>clusters_sinteticos.csv</code> fue generado con tres centros compactos. Eso lo hace útil para aprender K-Means, pero también peligroso si se generaliza demasiado: favorece justo la geometría que K-Means prefiere.</p>
 <table class="caption-top table">
 <thead>
@@ -556,15 +530,15 @@ O(sTmkp).
 <td>inspección geométrica inicial</td>
 </tr>
 <tr class="even">
-<td>inertia por <span class="math inline">\(k\)</span></td>
+<td>inercia por <span class="math inline">\(k\)</span></td>
 <td>reducción de compactación</td>
 </tr>
 <tr class="odd">
-<td>silhouette</td>
+<td>coeficiente de silueta</td>
 <td>separación relativa</td>
 </tr>
 <tr class="even">
-<td>tamaños de clusters</td>
+<td>tamaños de los grupos</td>
 <td>detectar grupos diminutos</td>
 </tr>
 <tr class="odd">
@@ -573,41 +547,41 @@ O(sTmkp).
 </tr>
 </tbody>
 </table>
-<p>Si <span class="math inline">\(k=3\)</span> gana en este dataset, no significa que “siempre hay tres segmentos”. Significa que, bajo esta geometría sintética y esta escala, tres centroides resumen bien la nube de puntos.</p>
+<p>Si <span class="math inline">\(k=3\)</span> resulta preferible en este conjunto, no significa que “siempre hay tres segmentos”. Significa que, bajo esta geometría sintética y esta escala, tres centroides resumen bien la nube de puntos.</p>
 </section>
 <section id="estabilidad-por-inicialización" class="level2">
 <h2 class="anchored" data-anchor-id="estabilidad-por-inicialización">Estabilidad por inicialización</h2>
-<p>K-Means puede converger a soluciones distintas si cambian los centroides iniciales. Por eso un reporte debe fijar <code>random_state</code> y usar varias inicializaciones (<code>n_init</code>). Si dos corridas con el mismo <span class="math inline">\(k\)</span> producen centroides muy distintos o clusters con tamaños incompatibles, la segmentación no es estable.</p>
-<p>La estabilidad puede medirse comparando asignaciones con una cantidad invariante a permutaciones de etiquetas, como adjusted Rand index, o emparejando centroides. No convierte los clusters en categorías reales; solo indica que el algoritmo encuentra una partición parecida bajo variaciones de inicialización.</p>
+<p>K-Means puede converger a soluciones distintas si cambian los centroides iniciales. Por eso un reporte debe fijar <code>random_state</code> y usar varias inicializaciones (<code>n_init</code>). Si dos corridas con el mismo <span class="math inline">\(k\)</span> producen centroides muy distintos o grupos con tamaños incompatibles, la segmentación no es estable.</p>
+<p>La estabilidad puede medirse comparando asignaciones con una cantidad invariante a permutaciones de etiquetas, como adjusted Rand index, o emparejando centroides. No convierte los grupos en categorías reales; solo indica que el algoritmo encuentra una partición parecida bajo variaciones de inicialización.</p>
 </section>
-<section id="punto-de-control" class="level2">
-<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
-<p>Antes de reportar clusters, verifica:</p>
+<section id="antes-de-interpretar-los-grupos" class="level2">
+<h2 class="anchored" data-anchor-id="antes-de-interpretar-los-grupos">Antes de interpretar los grupos</h2>
+<p>Antes de interpretar los grupos conviene verificar:</p>
 <ol type="1">
 <li>¿las variables están en escalas comparables?</li>
 <li>¿probaste más de un <span class="math inline">\(k\)</span>?</li>
-<li>¿los clusters son interpretables con variables originales?</li>
-<li>¿hay un cluster demasiado grande o demasiado pequeño?</li>
+<li>¿los grupos son interpretables con las variables originales?</li>
+<li>¿hay un grupo demasiado grande o demasiado pequeño?</li>
 <li>¿qué decisión concreta usaría esta segmentación?</li>
 </ol>
 </section>
-<section id="verificaciones-seleccionadas" class="level2">
-<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<section id="comprobaciones-de-la-partición" class="level2">
+<h2 class="anchored" data-anchor-id="comprobaciones-de-la-partición">Comprobaciones de la partición</h2>
 <ol type="1">
-<li>El óptimo global de inertia es no creciente con <span class="math inline">\(k\)</span>; por eso no basta para elegir el número de clusters. Una corrida local mal inicializada puede no mostrar la monotonía esperada.</li>
+<li>El óptimo global de la inercia es no creciente con <span class="math inline">\(k\)</span>; por eso no basta para elegir el número de grupos. Una corrida local mal inicializada puede no mostrar la monotonía esperada.</li>
 <li>Si dos variables tienen escalas muy distintas, K-Means puede agrupar por la variable de mayor escala aunque no sea la más relevante.</li>
-<li>Un cluster no es una categoría real hasta que se interpreta con variables originales y contexto de decisión.</li>
+<li>Un grupo no es una categoría real hasta que se interpreta con variables originales y contexto de decisión.</li>
 </ol>
 </section>
 <section id="ejemplo-resuelto-elegir-k-con-información-incompleta" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-elegir-k-con-información-incompleta">Ejemplo resuelto: elegir <span class="math inline">\(k\)</span> con información incompleta</h2>
-<p>Supón:</p>
+<p>Consideremos:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
 <th style="text-align: right;"><span class="math inline">\(k\)</span></th>
-<th style="text-align: right;">Inertia</th>
-<th style="text-align: right;">Silhouette</th>
+<th style="text-align: right;">Inercia</th>
+<th style="text-align: right;">Silueta</th>
 </tr>
 </thead>
 <tbody>
@@ -628,84 +602,34 @@ O(sTmkp).
 </tr>
 </tbody>
 </table>
-<p>La inertia baja de 3 a 4, pero silhouette cae. Puede elegirse <span class="math inline">\(k=3\)</span> como representación candidata, siempre que los clusters tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que <span class="math inline">\(k=3\)</span> es una representación útil bajo esta geometría.</p>
+<p>La inercia baja de 3 a 4, pero el coeficiente de silueta cae. Puede elegirse <span class="math inline">\(k=3\)</span> como representación candidata, siempre que los grupos tengan tamaño razonable y puedan describirse con variables originales. La tabla no prueba que existan tres grupos naturales; solo apoya que <span class="math inline">\(k=3\)</span> es una representación útil bajo esta geometría.</p>
 </section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> ejecuta una iteración de K-Means a mano con cuatro puntos y dos centroides iniciales distintos.</li>
-<li><strong>Extensión computacional:</strong> compara inercia y silueta para varios valores de <span class="math inline">\(k\)</span>, usando la misma escala de variables.</li>
-<li><strong>Conexión con proyecto:</strong> describe qué significaría cada cluster para una decisión real y qué variables dominan esa interpretación.</li>
-</ul>
-</div>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>K-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de grupos. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.</p>
+<p>La inercia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. El coeficiente de silueta aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
+<p>Una segmentación requiere una escala justificada, varias inicializaciones, descripción con variables originales y cautela aplicada. Un grupo matemático no es automáticamente un grupo útil para una acción ni una categoría real de dominio.</p>
 </section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>K-Means busca centroides que reduzcan la suma de distancias cuadráticas dentro de clusters. El algoritmo alterna asignación de puntos al centroide más cercano y actualización de centroides como promedios.</p>
-<p>La inertia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>, por lo que no puede usarse sola como prueba de calidad. Silhouette aporta otra señal, pero también depende de geometría, escala y estructura de los datos.</p>
-<p>Una segmentación requiere una escala justificada, varias inicializaciones, descripción con variables originales y cautela aplicada. Un cluster matemático no es automáticamente un grupo útil para una acción ni una categoría real de dominio.</p>
-</section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Clustering:</strong> agrupación no supervisada de observaciones.</li>
-<li><strong>Centroide:</strong> punto representativo de un cluster.</li>
-<li><strong>Inertia:</strong> suma de distancias cuadradas a centroides.</li>
-<li><strong>Silhouette:</strong> métrica que compara cercanía al cluster propio frente a otros.</li>
-<li><strong>Escalamiento:</strong> transformación necesaria cuando las variables tienen unidades distintas.</li>
-<li><strong>Segmentación:</strong> interpretación aplicada de grupos, que requiere validación de negocio o dominio.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <ol type="1">
-<li>Explique por qué la inertia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>.</li>
-<li>¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</li>
-</ol>
-</section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="3" type="1">
-<li>Asigne tres puntos en una dimensión a dos centroides dados y calcule inertia.</li>
-<li>Si un cluster contiene 90% de las observaciones, ¿qué revisaría antes de reportarlo?</li>
-</ol>
-</section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="5" type="1">
-<li>Ajuste K-Means para varios valores de <span class="math inline">\(k\)</span> y reporte inertia y silhouette.</li>
-<li>Construya un pipeline con escalamiento y K-Means.</li>
-</ol>
-</section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="7" type="1">
-<li>Proponga una situación donde clusters matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</li>
-<li>¿Qué resultados usaría para nombrar un cluster sin caer en sobreinterpretación?</li>
-</ol>
-</section>
-<section id="profundización-matemática-y-algorítmica" class="level3">
-<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
-<ol start="9" type="1">
-<li>Demuestre que el paso de asignación y el paso de actualización no aumentan la función objetivo.</li>
-<li>Explique por qué monotonía de la inertia no implica alcanzar el mínimo global.</li>
-<li>Calcule el costo asintótico para <span class="math inline">\(T\)</span> iteraciones, <span class="math inline">\(s\)</span> inicializaciones, <span class="math inline">\(m\)</span> observaciones, <span class="math inline">\(k\)</span> clusters y <span class="math inline">\(p\)</span> variables.</li>
-<li>Proponga reglas reproducibles para un empate y para un cluster vacío.</li>
-</ol>
-</section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="13" type="1">
-<li>Genere una segmentación con K-Means, describa cada cluster usando variables originales y escriba una recomendación cautelosa de uso.</li>
+<li><p>Explique por qué la inercia óptima no aumenta cuando crece <span class="math inline">\(k\)</span>.</p></li>
+<li><p>¿Por qué K-Means debe usarse con escalamiento en variables de unidades distintas?</p></li>
+<li><p>Asigne tres puntos en una dimensión a dos centroides dados y calcule la inercia.</p></li>
+<li><p>Si un grupo contiene 90% de las observaciones, ¿qué revisaría antes de interpretarlo?</p></li>
+<li><p>Ajuste K-Means para varios valores de <span class="math inline">\(k\)</span> y reporte la inercia y el coeficiente de silueta.</p></li>
+<li><p>Construya una tubería con escalamiento y K-Means.</p></li>
+<li><p>Proponga una situación donde grupos matemáticamente separados no deberían convertirse directamente en una decisión aplicada.</p></li>
+<li><p>¿Qué resultados usaría para nombrar un grupo sin caer en sobreinterpretación?</p></li>
+<li><p>Demuestre que el paso de asignación y el paso de actualización no aumentan la función objetivo.</p></li>
+<li><p>Explique por qué la monotonía de la inercia no implica alcanzar el mínimo global.</p></li>
+<li><p>Calcule el costo asintótico para <span class="math inline">\(T\)</span> iteraciones, <span class="math inline">\(s\)</span> inicializaciones, <span class="math inline">\(m\)</span> observaciones, <span class="math inline">\(k\)</span> grupos y <span class="math inline">\(p\)</span> variables.</p></li>
+<li><p>Proponga reglas reproducibles para un empate y para un grupo vacío.</p></li>
+<li><p>Ejecute una iteración de K-Means a mano con cuatro puntos y dos elecciones distintas de centroides iniciales; compare las soluciones.</p></li>
+<li><p>Genere una segmentación con K-Means, describa cada grupo mediante las variables originales y precise qué interpretación requeriría información de dominio adicional.</p></li>
 </ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

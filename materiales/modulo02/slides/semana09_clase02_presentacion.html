@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana09_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana09_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana09_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-diagnostico-regularizacion-redes.html">Capítulo 8 · Diagnóstico y regularización de redes</a>
 </div>
 </section>
-<section id="una-curva-registra-el-procedimiento-de-entrenamiento" class="slide level2 recap-slide">
-<h2>Una curva registra el procedimiento de entrenamiento</h2>
-<p>La inicialización determina el punto de partida. Durante entrenamiento, train y dev muestran si el modelo ajusta y si el ajuste se sostiene.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: compararemos L2 y early stopping bajo una convención explícita y un presupuesto comparable.</p>
-</div>
-</section>
 <section id="train-mejora-mientras-dev-deja-de-hacerlo" class="slide level2 case-slide">
 <h2>Train mejora mientras dev deja de hacerlo</h2>
+<p>La inicialización determina el punto de partida. Durante entrenamiento, train y dev muestran si el modelo ajusta y si el ajuste se sostiene.</p>
+<div class="board">
+<p>compararemos L2 y early stopping bajo una convención explícita y un presupuesto comparable.</p>
+</div>
 <p>Entrenamos la misma MLP en un subconjunto de dígitos con y sin L2; guardamos CE y accuracy de train/dev por época.</p>
 <div class="data-note">
 <p>La partición, arquitectura, inicialización y tasa permanecen fijas; solo cambia <span class="math inline">\(\lambda\)</span>.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-
 
 <img src="../figuras/curvas-aprendizaje.svg" class="wide-figure r-stretch" alt="Curvas de pérdida de entrenamiento y validación con brecha creciente"><div class="figure-reading">
 <p>El mínimo de dev marca un candidato de early stopping. Seleccionarlo exige conservar el estado de esa época, no el último.</p>
+</div>
+</section>
+<section id="dos-curvas-y-una-decisión-de-parada" class="slide level2 worked-example-slide result-slide">
+<h2>Dos curvas y una decisión de parada</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">train↓ dev↑</span><span class="label">patrón de overfitting</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">ambos altos</span><span class="label">underfitting posible</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">mejor época</span><span class="label">estado guardado</span>
+</div>
+</div>
+<p>Los patrones sugieren hipótesis. Para atribuir causa se cambia un factor y se repite la medición.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Una curva propone el siguiente experimento; una sola corrida no estima por sí sola el efecto de L2.</p>
+</div>
+</section>
+<section id="la-época-elegida-depende-de-la-muestra-de-dev" class="slide level2 probability-slide">
+<h2>La época elegida depende de la muestra de dev</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>riesgo del procedimiento de entrenamiento y parada</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>curvas de train y dev por época</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>dev representa el uso futuro y no participa en los gradientes</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, semilla y selección de época</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra partición puede mover la mejor época y la brecha observada.</p>
 </div>
 </section>
 <section id="pérdida-época-estado-y-conjunto-de-datos" class="slide level2 notation-slide">
@@ -268,66 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/08-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-época-elegida-depende-de-la-muestra-de-dev" class="slide level2 probability-slide">
-<h2>La época elegida depende de la muestra de dev</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>riesgo del procedimiento de entrenamiento</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>curvas de train y dev</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>dev representa el uso futuro</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, inicialización, dropout y parada</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(\lambda W_l\)</span> tiene la misma forma que <span class="math inline">\(dW_l\)</span>. No existe un término L2 para <code>db</code> bajo esta convención.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué gradiente añade L2 a los pesos y cómo se combina con una regla de parada basada en dev?</p>
-</div>
-</section>
-<section id="l2-añade-un-gradiente-a-los-pesos" class="slide level2 formula-slide">
-<h2>L2 añade un gradiente a los pesos</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-J=\frac1m\sum_i\ell_i+rac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
-\qquad dW^{[l]}\leftarrow dW^{[l]}+\lambda W^{[l]}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>El término se añade una vez y no incluye sesgos. Esta es la convención usada por Lab 3.</p>
-</div>
-</section>
-<section id="la-penalización-entra-una-sola-vez" class="slide level2 derivation-slide">
-<h2>La penalización entra una sola vez</h2>
-<p>Como <span class="math inline">\(\partial\|W\|_F^2/\partial W=2W\)</span>, el factor <span class="math inline">\(1/2\)</span> deja <span class="math inline">\(\lambda W\)</span>.</p>
-</section>
-<section id="early-stopping-selecciona-un-estado" class="slide level2 derivation-slide">
-<h2>Early stopping selecciona un estado</h2>
-<p>Early stopping selecciona <span class="math display">\[t^*=\arg\min_t J_{dev}(\theta_t).\]</span> El estado <span class="math inline">\(\theta_{t^*}\)</span> debe guardarse durante la corrida.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(\lambda W_l\)</span> tiene la misma forma que <span class="math inline">\(dW_l\)</span>. No existe un término L2 para <code>db</code> bajo esta convención.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="regularizar-y-detener-responden-a-señales-distintas" class="slide level2 interpretation-slide">
-<h2>Regularizar y detener responden a señales distintas</h2>
-<p>L2 cambia la trayectoria y la solución; early stopping elige un punto de una trayectoria. Pueden combinarse, pero no son el mismo mecanismo.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Se elige la época con menor pérdida de test y se reporta esa misma pérdida. ¿Qué ocurrió?
@@ -351,8 +333,8 @@ Se elige la época con menor pérdida de test y se reporta esa misma pérdida. �
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -360,28 +342,59 @@ La época es un hiperparámetro del procedimiento. Debe seleccionarse con dev o 
 </p>
 </div>
 </section>
+<section id="l2-añade-un-gradiente-a-los-pesos" class="slide level2 formula-slide">
+<h2>L2 añade un gradiente a los pesos</h2>
+<div class="formula-question">
+<p>¿Qué gradiente añade L2 a los pesos y cómo se combina con una regla de parada basada en dev?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+J=\frac1m\sum_i\ell_i+\frac\lambda2\sum_l\lVert W^{[l]}\rVert_F^2,
+\qquad dW^{[l]}\leftarrow dW^{[l]}+\lambda W^{[l]}.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>El término se añade una vez y no incluye sesgos. Esta es la convención usada por Lab 3.</p>
+</div>
+</section>
+<section id="la-penalización-entra-una-sola-vez" class="slide level2 derivation-slide">
+<h2>La penalización entra una sola vez</h2>
+<div class="derivation-step fragment">
+<p>Como <span class="math inline">\(\partial\|W\|_F^2/\partial W=2W\)</span>, el factor <span class="math inline">\(1/2\)</span> deja <span class="math inline">\(\lambda W\)</span>.</p>
+</div>
+</section>
+<section id="early-stopping-selecciona-un-estado" class="slide level2 derivation-slide">
+<h2>Early stopping selecciona un estado</h2>
+<div class="derivation-step fragment">
+<p>Early stopping selecciona <span class="math display">\[t^*=\arg\min_t J_{dev}(\theta_t).\]</span> El estado <span class="math inline">\(\theta_{t^*}\)</span> debe guardarse durante la corrida.</p>
+</div>
+</section>
+<section id="regularizar-y-detener-responden-a-señales-distintas" class="slide level2 interpretation-slide">
+<h2>Regularizar y detener responden a señales distintas</h2>
+<p>L2 cambia la trayectoria y la solución; early stopping elige un punto de una trayectoria. Pueden combinarse, pero no son el mismo mecanismo.</p>
+</section>
 <section id="conservar-la-mejor-época-sin-mirar-test" class="slide level2 algorithm-slide">
 <h2>Conservar la mejor época sin mirar test</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>fijar presupuesto máximo</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>registrar train/dev por época</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>guardar mejor estado de dev</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>comparar varias <span class="math inline">\(\lambda\)</span> en validación</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>evaluar test solo tras fijar configuración</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-conservar-la-mejor-época-sin-mirar-test" class="slide level2 code-slide">
+<h2>En código: Conservar la mejor época sin mirar test</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="cf">if</span> dev_loss <span class="op">&lt;</span> best_dev_loss:</span>
 <span id="cb1-2"><a href=""></a>    best_dev_loss <span class="op">=</span> dev_loss</span>
 <span id="cb1-3"><a href=""></a>    best_epoch <span class="op">=</span> epoch</span>
@@ -393,27 +406,8 @@ La época es un hiperparámetro del procedimiento. Debe seleccionarse con dev o 
 <p>Guardar copias evita que actualizaciones posteriores modifiquen el supuesto mejor estado.</p>
 </div>
 </section>
-<section id="dos-curvas-y-una-decisión-de-parada" class="slide level2 worked-example-slide">
-<h2>Dos curvas y una decisión de parada</h2>
-<p>Sin L2, train continúa bajando después de que dev sube. Con <span class="math inline">\(\lambda\)</span> moderado, la brecha se reduce en esta partición; con <span class="math inline">\(\lambda\)</span> alto, ambos errores permanecen altos.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">train↓ dev↑</span><span class="label">patrón de overfitting</span>
-</div>
-<div>
-<span class="value">ambos altos</span><span class="label">underfitting posible</span>
-</div>
-<div>
-<span class="value">mejor época</span><span class="label">estado guardado</span>
-</div>
-</div>
-<p>Los patrones sugieren hipótesis. Para atribuir causa se cambia un factor y se repite la medición.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana09_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana09_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana09_live_coding.ipynb</code></p>
 </div>
@@ -448,59 +442,64 @@ La época es un hiperparámetro del procedimiento. Debe seleccionarse con dev o 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compruebe que el objetivo reportado incluye la misma convención L2 usada por el gradiente y que <code>best_params</code> reproduce la cifra de dev registrada.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>l2 añade un gradiente a los pesos</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="test-no-selecciona-la-época" class="slide level2 failure-slide">
-<h2>Test no selecciona la época</h2>
-<div class="failure-statement">
-<p>Elegir la mejor época mirando test reutiliza test como validación.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Test no selecciona la época</span> <strong>Elegir la mejor época mirando test reutiliza test como validación.</strong>
+<p>
+<span>Señal:</span> la época se decide con <code>test_loss</code>.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la época se decide con <code>test_loss</code></strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Accuracy sola oculta el deterioro de la pérdida</span> <strong>Reportar solo accuracy puede esconder una pérdida que ya se deteriora y probabilidades extremas.</strong>
+<p>
+<span>Señal:</span> no se conserva CE ni estado de la mejor época.
+</p>
+</div>
 </div>
 </section>
-<section id="accuracy-sola-oculta-el-deterioro-de-la-pérdida" class="slide level2 failure-slide">
-<h2>Accuracy sola oculta el deterioro de la pérdida</h2>
-<div class="failure-statement">
-<p>Reportar solo accuracy puede esconder una pérdida que ya se deteriora y probabilidades extremas.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no se conserva CE ni estado de la mejor época</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Train y dev loss bajan, pero dev accuracy queda plana. Proponga dos lecturas y una salida adicional.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Puede mejorar confianza sin cambiar clases, o concentrarse en casos ya correctos. Revisaría calibración, matriz de confusión o margen por clase antes de concluir.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Curvas train/dev, un objetivo L2 coherente y el mejor estado guardado permiten convertir un patrón en un experimento siguiente.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Curvas train/dev, un objetivo L2 coherente y el mejor estado guardado permiten convertir un patrón en un experimento siguiente.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Una curva de una sola semilla no separa variación muestral de efecto de regularización.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Una curva propone el siguiente experimento; una sola corrida no estima por sí sola el efecto de L2.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Una curva de una sola semilla no separa variación muestral de efecto de regularización.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>El checkpoint del proyecto debe nombrar el patrón, el cambio propuesto y la salida que comprobará si funcionó.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Checkpoint técnico del proyecto.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>CE promedio + L2/2</li>
 <li><span class="math inline">\(dW+=\lambda W\)</span></li>
@@ -508,18 +507,18 @@ La época es un hiperparámetro del procedimiento. Debe seleccionarse con dev o 
 <li>early stopping guarda mejor dev</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Una curva sirve cuando termina en una hipótesis concreta y en un experimento que puede refutarla.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué parámetros penalizamos?</li>
 <li>¿Qué diferencia L2 de early stopping?</li>
 <li>¿Qué estado se entrega al final?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Una curva sirve cuando termina en una hipótesis concreta y en un experimento que puede refutarla.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> prepare la comparación entre gradiente full-batch, mini-batch y momentum.</p>
 

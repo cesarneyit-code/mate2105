@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -256,7 +256,7 @@ window.Quarto = {
   <li><a href="#seleccionar-sin-consultar-prueba" id="toc-seleccionar-sin-consultar-prueba" class="nav-link" data-scroll-target="#seleccionar-sin-consultar-prueba">Seleccionar sin consultar prueba</a></li>
   <li><a href="#regreso-a-las-subzonas-de-bogotá" id="toc-regreso-a-las-subzonas-de-bogotá" class="nav-link" data-scroll-target="#regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</a></li>
   <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
-  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a>
   <ul class="collapse">
   <li><a href="#complejidad-que-mejora-el-objetivo-equivocado" id="toc-complejidad-que-mejora-el-objetivo-equivocado" class="nav-link" data-scroll-target="#complejidad-que-mejora-el-objetivo-equivocado">1. Complejidad que mejora el objetivo equivocado</a></li>
   <li><a href="#una-tubería-con-y-sin-filtración" id="toc-una-tubería-con-y-sin-filtración" class="nav-link" data-scroll-target="#una-tubería-con-y-sin-filtración">2. Una tubería con y sin filtración</a></li>
@@ -438,7 +438,7 @@ Figura&nbsp;4.1: Curvas de aprendizaje: el sobreajuste mantiene una brecha entre
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>validation_prediction <span class="op">=</span> model.predict(X_validation)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>El método <code>fit</code> del pipeline aprende polinomio, escalas y regresión únicamente a partir de entrenamiento. <code>predict</code> reutiliza esos objetos.</p>
+<p>El método <code>fit</code> de la tubería aprende polinomio, escalas y regresión únicamente a partir de entrenamiento. <code>predict</code> reutiliza esos objetos.</p>
 </section>
 <section id="ridge-encoger-direcciones-inestables" class="level2">
 <h2 class="anchored" data-anchor-id="ridge-encoger-direcciones-inestables">Ridge: encoger direcciones inestables</h2>
@@ -642,16 +642,16 @@ S(a,\lambda)
 </tr>
 </tbody>
 </table>
-<p>Ridge reduce la brecha del polinomio de grado 15. Sin embargo, el polinomio de grado 3 obtiene MSE de validación 2.172 y resulta ligeramente mejor entre las configuraciones comparadas. Se fija entonces el procedimiento de grado 3 y se consulta prueba por primera vez: su MSE es 2.103. El baseline, cuya media se calculó solo con entrenamiento, obtiene 5.533.</p>
+<p>Ridge reduce la brecha del polinomio de grado 15. Sin embargo, el polinomio de grado 3 obtiene MSE de validación 2.172 y resulta ligeramente mejor entre las configuraciones comparadas. Se fija entonces el procedimiento de grado 3 y se consulta prueba por primera vez: su MSE es 2.103. La regla de referencia, cuya media se calculó solo con entrenamiento, obtiene 5.533.</p>
 <p>Esta evaluación no prueba que el grado 3 sea óptimo para toda muestra futura. Sí documenta una comparación reproducible en la que la prueba no participó en la selección.</p>
 </section>
 <section id="regreso-a-las-subzonas-de-bogotá" class="level2">
 <h2 class="anchored" data-anchor-id="regreso-a-las-subzonas-de-bogotá">Regreso a las subzonas de Bogotá</h2>
 <p>En el caso de Bogotá solo hay 32 filas. Una partición de 24 subzonas para ajuste y 8 para evaluación produce una métrica muy sensible a cuáles subzonas quedaron en cada grupo.</p>
-<div id="fig-cap03-vivienda-bogota-variacion-particiones" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de líneas del MAE para ocho semillas. El baseline y el modelo lineal cambian de manera visible entre particiones.">
+<div id="fig-cap03-vivienda-bogota-variacion-particiones" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de líneas del MAE para ocho semillas. La regla de referencia y el modelo lineal cambian de manera visible entre particiones.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap03-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="figuras/vivienda-bogota-variacion-particiones.svg" class="img-fluid figure-img" style="width:90.0%" alt="Gráfico de líneas del MAE para ocho semillas. El baseline y el modelo lineal cambian de manera visible entre particiones.">
+<img src="figuras/vivienda-bogota-variacion-particiones.svg" class="img-fluid figure-img" style="width:90.0%" alt="Gráfico de líneas del MAE para ocho semillas. La regla de referencia y el modelo lineal cambian de manera visible entre particiones.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap03-vivienda-bogota-variacion-particiones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figura&nbsp;4.3: El MAE cambia entre particiones de las 32 subzonas. La semilla registra una fuente de variación; no debe escogerse por producir el menor error.
@@ -667,8 +667,8 @@ Figura&nbsp;4.3: El MAE cambia entre particiones de las 32 subzonas. La semilla 
 <p>Ridge añade una penalización cuadrática que encoge especialmente las direcciones mal determinadas. Lasso utiliza valores absolutos y puede producir ceros por su condición de subgradiente. En ambos casos, el intercepto no se penaliza y las características se estandarizan con estadísticas aprendidas solo en entrenamiento.</p>
 <p>Regularizar, validar y evitar filtración son partes del mismo procedimiento. Una buena métrica de prueba no borra, sin embargo, las restricciones de unidad, muestreo y medición establecidas antes del ajuste.</p>
 </section>
-<section id="problemas-integrados" class="level2">
-<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <section id="complejidad-que-mejora-el-objetivo-equivocado" class="level3">
 <h3 class="anchored" data-anchor-id="complejidad-que-mejora-el-objetivo-equivocado">1. Complejidad que mejora el objetivo equivocado</h3>
 <p>Use <code>x1</code> y <code>target</code> de <code>regresion_lineal_sintetica.csv</code> con las particiones descritas al inicio.</p>
@@ -685,7 +685,7 @@ Figura&nbsp;4.3: El MAE cambia entre particiones de las 32 subzonas. La semilla 
 <p>Construya una variable con faltantes y una categoría poco frecuente.</p>
 <ol type="1">
 <li>Divida los datos antes de imputar, codificar o estandarizar.</li>
-<li>Implemente un pipeline que aprenda todas esas transformaciones con entrenamiento.</li>
+<li>Implemente una tubería que aprenda todas esas transformaciones con entrenamiento.</li>
 <li>Implemente deliberadamente una versión que las aprenda con toda la tabla.</li>
 <li>Compare los objetos aprendidos, no solo la métrica final.</li>
 <li>Identifique cuál información reservada ingresó en cada transformación y por qué una diferencia pequeña en la métrica no vuelve correcto el procedimiento.</li>
@@ -719,7 +719,7 @@ Figura&nbsp;4.3: El MAE cambia entre particiones de las 32 subzonas. La semilla 
 <ol type="1">
 <li>Defina una tubería con estandarización y Ridge.</li>
 <li>Compare una rejilla de penalizaciones mediante particiones fijadas o validación cruzada.</li>
-<li>Incluya el baseline en cada división y conserve resultados por subzona.</li>
+<li>Incluya la regla de referencia en cada división y conserve resultados por subzona.</li>
 <li>Muestre la distribución de métricas y la estabilidad de coeficientes.</li>
 <li>Escriba qué conclusión permiten esas 32 filas y qué población adicional no puede afirmarse sin un diseño de muestreo.</li>
 </ol>

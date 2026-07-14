@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-d210d9fdf93e59f1d7ca3b5ce0d1f973.css">
+  <link rel="stylesheet" href="semana14_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-3b3f0925392b9149eeed0a4b3d2d3122.css">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana14_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/20-reproducibilidad-tracking.html">Capítulo 20 · Reproducibilidad y tracking</a>
 </div>
 </section>
-<section id="una-cifra-sin-procedencia-no-es-reproducible" class="slide level2 recap-slide">
-<h2>Una cifra sin procedencia no es reproducible</h2>
-<p>El parcial verificó algoritmos. El proyecto final debe además conservar el rastro que produjo cada resultado.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: construiremos un manifiesto mínimo y comprobaremos hashes, rutas y ejecución limpia.</p>
-</div>
-</section>
 <section id="el-mismo-proyecto-en-otro-computador" class="slide level2 case-slide">
 <h2>El mismo proyecto en otro computador</h2>
+<p>El parcial verificó algoritmos. El proyecto final debe además conservar el rastro que produjo cada resultado.</p>
+<div class="board">
+<p>construiremos un manifiesto mínimo y comprobaremos hashes, rutas y ejecución limpia.</p>
+</div>
 <p>Empaquetaremos un pipeline de clasificación con fuente de datos, commit, semilla, parámetros, métricas por partición y artefactos.</p>
 <div class="data-note">
 <p>El manifiesto registra la corrida observada; no demuestra que el modelo sea correcto ni que se replique en otra muestra.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/20-
 
 <img src="../figuras/reproducibilidad-manifest.svg" class="wide-figure r-stretch" alt="Flujo de datos, código, entorno y parámetros hacia métricas, artefactos y manifest"><div class="figure-reading">
 <p>Reproducibilidad conecta entradas y salidas. Un hash identifica bytes; no certifica su calidad científica.</p>
+</div>
+</section>
+<section id="un-archivo-cambia-y-el-hash-lo-revela" class="slide level2 worked-example-slide result-slide">
+<h2>Un archivo cambia y el hash lo revela</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">4</span><span class="label">campos obligatorios</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">SHA-256</span><span class="label">identidad de artefacto</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">limpio</span><span class="label">entorno de prueba</span>
+</div>
+</div>
+<p>La prueba útil es que un tercero siga instrucciones y reconstruya, no que el autor vuelva a ejecutar en un estado ya preparado.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> El manifiesto conecta una cifra con sus archivos; la validez de la inferencia se evalúa por separado.</p>
+</div>
+</section>
+<section id="reproducibilidad-computacional-no-elimina-incertidumbre" class="slide level2 probability-slide">
+<h2>Reproducibilidad computacional no elimina incertidumbre</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>resultado del procedimiento científico que se desea reconstruir</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>artefactos, hashes, parámetros y métricas regeneradas</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>misma fuente, versión de datos, código y protocolo</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra estadística frente a variación computacional</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Repetir los mismos bytes controla identidad computacional, no incertidumbre estadística.</p>
 </div>
 </section>
 <section id="archivo-versión-hash-y-entorno" class="slide level2 notation-slide">
@@ -272,65 +308,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/20-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="reproducibilidad-computacional-no-elimina-incertidumbre" class="slide level2 probability-slide">
-<h2>Reproducibilidad computacional no elimina incertidumbre</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>desempeño del procedimiento completo</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>métricas y artefactos reproducidos</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>misma pregunta, población y protocolo</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra frente a variación computacional</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Métricas se almacenan por partición y nombre; un escalar <code>score</code> sin contexto no permite saber qué se midió ni dónde.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué propiedad verifica un hash criptográfico y qué queda fuera de esa verificación?</p>
-</div>
-</section>
-<section id="sha-256-identifica-bytes" class="slide level2 formula-slide">
-<h2>SHA-256 identifica bytes</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-h=\operatorname{SHA256}(\text{bytes del archivo}).
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>Hashes iguales implican identidad de bytes con probabilidad práctica muy alta. No implican datos válidos, código correcto ni inferencia adecuada.</p>
-</div>
-</section>
-<section id="el-manifiesto-fija-nombres-y-hashes" class="slide level2 derivation-slide">
-<h2>El manifiesto fija nombres y hashes</h2>
-<p>El manifiesto fija una función de reconstrucción: entradas + código + entorno + parámetros deben producir artefactos y métricas equivalentes dentro de tolerancia.</p>
-</section>
-<section id="la-ejecución-limpia-prueba-las-dependencias-declaradas" class="slide level2 derivation-slide">
-<h2>La ejecución limpia prueba las dependencias declaradas</h2>
-<p>Si cambia un byte del dataset o modelo, cambia el hash. Para resultados numéricos puede requerirse tolerancia por plataforma, pero el cambio debe registrarse.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Métricas se almacenan por partición y nombre; un escalar <code>score</code> sin contexto no permite saber qué se midió ni dónde.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="identidad-de-bytes-no-implica-validez-científica" class="slide level2 interpretation-slide">
-<h2>Identidad de bytes no implica validez científica</h2>
-<p>Un commit identifica código versionado; un entorno identifica dependencias; una semilla reconstruye elecciones pseudoaleatorias cuando la biblioteca es determinista.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Dos archivos tienen el mismo SHA-256. ¿Qué afirmación está justificada?
@@ -354,8 +337,8 @@ Dos archivos tienen el mismo SHA-256. ¿Qué afirmación está justificada?
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -363,34 +346,64 @@ La igualdad del hash respalda identidad de bytes con probabilidad práctica muy 
 </p>
 </div>
 </section>
+<section id="sha-256-identifica-bytes" class="slide level2 formula-slide">
+<h2>SHA-256 identifica bytes</h2>
+<div class="formula-question">
+<p>¿Qué propiedad verifica un hash criptográfico y qué queda fuera de esa verificación?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+h=\operatorname{SHA256}(\text{bytes del archivo}).
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>Hashes iguales implican identidad de bytes con probabilidad práctica muy alta. No implican datos válidos, código correcto ni inferencia adecuada.</p>
+</div>
+</section>
+<section id="el-manifiesto-fija-nombres-y-hashes" class="slide level2 derivation-slide">
+<h2>El manifiesto fija nombres y hashes</h2>
+<div class="derivation-step fragment">
+<p>El manifiesto fija una función de reconstrucción: entradas + código + entorno + parámetros deben producir artefactos y métricas equivalentes dentro de tolerancia.</p>
+</div>
+</section>
+<section id="la-ejecución-limpia-prueba-las-dependencias-declaradas" class="slide level2 derivation-slide">
+<h2>La ejecución limpia prueba las dependencias declaradas</h2>
+<div class="derivation-step fragment">
+<p>Si cambia un byte del dataset o modelo, cambia el hash. Para resultados numéricos puede requerirse tolerancia por plataforma, pero el cambio debe registrarse.</p>
+</div>
+</section>
+<section id="identidad-de-bytes-no-implica-validez-científica" class="slide level2 interpretation-slide">
+<h2>Identidad de bytes no implica validez científica</h2>
+<p>Un commit identifica código versionado; un entorno identifica dependencias; una semilla reconstruye elecciones pseudoaleatorias cuando la biblioteca es determinista.</p>
+</section>
 <section id="construir-y-verificar-un-manifiesto" class="slide level2 algorithm-slide">
 <h2>Construir y verificar un manifiesto</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-7">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>guardar fuente y snapshot de datos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>registrar commit</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>capturar entorno</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>guardar parámetros/split</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>exportar métricas y artefactos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="5">
 <span>6</span><strong>calcular hashes</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="6">
 <span>7</span><strong>ejecutar desde limpio</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-construir-y-verificar-un-manifiesto" class="slide level2 code-slide">
+<h2>En código: Construir y verificar un manifiesto</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> sha256_file(path):</span>
 <span id="cb1-2"><a href=""></a>    digest <span class="op">=</span> hashlib.sha256()</span>
 <span id="cb1-3"><a href=""></a>    <span class="cf">with</span> <span class="bu">open</span>(path, <span class="st">"rb"</span>) <span class="im">as</span> handle:</span>
@@ -403,27 +416,8 @@ La igualdad del hash respalda identidad de bytes con probabilidad práctica muy 
 <p>El hash se calcula después de cerrar el archivo y sobre la versión que realmente se entregará.</p>
 </div>
 </section>
-<section id="un-archivo-cambia-y-el-hash-lo-revela" class="slide level2 worked-example-slide">
-<h2>Un archivo cambia y el hash lo revela</h2>
-<p>El notebook guarda modelo, tabla de métricas y manifest. Luego una carpeta temporal ejecuta el script usando solo archivos incluidos.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">4</span><span class="label">campos obligatorios</span>
-</div>
-<div>
-<span class="value">SHA-256</span><span class="label">identidad de artefacto</span>
-</div>
-<div>
-<span class="value">limpio</span><span class="label">entorno de prueba</span>
-</div>
-</div>
-<p>La prueba útil es que un tercero siga instrucciones y reconstruya, no que el autor vuelva a ejecutar en un estado ya preparado.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana14_reproducibilidad.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana14_reproducibilidad.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana14_reproducibilidad.ipynb</code></p>
 </div>
@@ -463,59 +457,64 @@ La igualdad del hash respalda identidad de bytes con probabilidad práctica muy 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Valide JSON, recalcule hashes y ejecute el pipeline en una carpeta sin rutas absolutas. Compare métricas con tolerancia declarada.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>sha-256 identifica bytes</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="las-rutas-absolutas-atan-el-proyecto-a-un-computador" class="slide level2 failure-slide">
-<h2>Las rutas absolutas atan el proyecto a un computador</h2>
-<div class="failure-statement">
-<p>Rutas locales absolutas hacen que la corrida dependa del computador del autor.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Las rutas absolutas atan el proyecto a un computador</span> <strong>Rutas locales absolutas hacen que la corrida dependa del computador del autor.</strong>
+<p>
+<span>Señal:</span> aparece <code>/Users/...</code> en código o manifest.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>aparece <code>/Users/...</code> en código o manifest</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Dependencias sin versión no fijan el entorno</span> <strong>Guardar solo <code>requirements.txt</code> sin versiones puede reconstruir un entorno distinto meses después.</strong>
+<p>
+<span>Señal:</span> dependencias no tienen versión ni archivo de lock.
+</p>
+</div>
 </div>
 </section>
-<section id="dependencias-sin-versión-no-fijan-el-entorno" class="slide level2 failure-slide">
-<h2>Dependencias sin versión no fijan el entorno</h2>
-<div class="failure-statement">
-<p>Guardar solo <code>requirements.txt</code> sin versiones puede reconstruir un entorno distinto meses después.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>dependencias no tienen versión ni archivo de lock</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El hash del modelo coincide, pero la tabla de métricas no. Diseñe una secuencia de auditoría.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Verificar hash de datos, commit, parámetros y partición; cargar el modelo y recomputar métricas; comparar definición y orden de etiquetas. El hash solo identifica el modelo.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Un manifiesto con entorno, parámetros, métricas y artefactos conecta una corrida con archivos verificables y una ruta de reconstrucción.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Un manifiesto con entorno, parámetros, métricas y artefactos conecta una corrida con archivos verificables y una ruta de reconstrucción.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Reproducibilidad computacional no demuestra validez externa, ausencia de sesgo ni corrección de la pregunta.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>El manifiesto conecta una cifra con sus archivos; la validez de la inferencia se evalúa por separado.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Reproducibilidad computacional no demuestra validez externa, ausencia de sesgo ni corrección de la pregunta.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>P07 exige una copia reproducible con manifest, métricas, dependencias y prueba limpia; la defensa puede pedir abrir cualquiera de esos archivos.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Parcial 2 y P07 reproducibilidad (12 de noviembre, 23:59).</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>entorno + parámetros + métricas + artefactos</li>
 <li>hash identifica bytes</li>
@@ -523,18 +522,18 @@ La igualdad del hash respalda identidad de bytes con probabilidad práctica muy 
 <li>probar desde una ruta limpia</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Reproducir es reducir la distancia entre una afirmación y los archivos que permiten volver a calcularla.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué demuestra SHA-256?</li>
 <li>¿Qué métrica debe llevar partición?</li>
 <li>¿Qué ruta local debe desaparecer?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Reproducir es reducir la distancia entre una afirmación y los archivos que permiten volver a calcularla.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> entregue P07 el 12 de noviembre a las 23:59 y lleve una tabla o figura central del proyecto.</p>
 

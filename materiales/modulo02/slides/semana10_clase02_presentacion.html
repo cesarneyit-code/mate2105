@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana10_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana10_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana10_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana10_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana10_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,25 +219,61 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/09-optimizadores-pytorch.html">Capítulo 9 · Optimizadores y PyTorch</a>
 </div>
 </section>
-<section id="pytorch-automatiza-derivadas-no-el-experimento" class="slide level2 recap-slide">
-<h2>PyTorch automatiza derivadas, no el experimento</h2>
-<p>NumPy hizo visibles cada cache y derivada. PyTorch automatiza la diferenciación, pero no decide datos, objetivo, forma de logits ni evaluación.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: leeremos un loop línea por línea y construiremos una comparación NumPy–PyTorch con el mismo experimento.</p>
-</div>
-</section>
 <section id="numpy-y-pytorch-sobre-el-mismo-batch" class="slide level2 case-slide">
 <h2>NumPy y PyTorch sobre el mismo batch</h2>
+<p>NumPy hizo visibles cada cache y derivada. PyTorch automatiza la diferenciación, pero no decide datos, objetivo, forma de logits ni evaluación.</p>
+<div class="board">
+<p>leeremos un loop línea por línea y construiremos una comparación NumPy–PyTorch con el mismo experimento.</p>
+</div>
 <p>Entrenamos una red <code>64→32→10</code> sobre el mismo subconjunto de dígitos usado por NumPy.</p>
 <div class="data-note">
 <p>PyTorch es dependencia del Módulo 2; el notebook ofrece un mensaje de instalación claro si no está disponible.</p>
 </div>
 </section>
-<section id="optimizadores-y-reglas-de-actualización-con-memoria-y-escala" class="slide level2 visual-slide">
-<h2>Optimizadores y reglas de actualización con memoria y escala</h2>
+<section id="responsabilidades-de-un-paso-de-entrenamiento-en-pytorch" class="slide level2 visual-slide">
+<h2>Responsabilidades de un paso de entrenamiento en PyTorch</h2>
 
-<img src="../figuras/optimizadores-momentum-adam.svg" class="wide-figure r-stretch" alt="Optimizadores y reglas de actualización con memoria y escala"><div class="figure-reading">
-<p>La clase de optimizador encapsula estado y actualización; la pérdida sigue definiendo qué gradiente calcula autograd.</p>
+<img src="../figuras/loop-pytorch.svg" class="wide-figure r-stretch" alt="Responsabilidades de un paso de entrenamiento en PyTorch"><div class="figure-reading">
+<p>Autograd calcula gradientes, pero el loop todavía debe limpiar acumulaciones, construir logits, evaluar la pérdida, actualizar y registrar el experimento.</p>
+</div>
+</section>
+<section id="una-actualización-que-coincide-entre-implementaciones" class="slide level2 worked-example-slide result-slide">
+<h2>Una actualización que coincide entre implementaciones</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">logits</span><span class="label">entrada de CE</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">.grad</span><span class="label">acumula</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">eval</span><span class="label">modo de medición</span>
+</div>
+</div>
+<p>Coincidencia de una actualización pequeña valida la traducción básica; entrenamientos completos pueden divergir por orden y precisión.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Alinear una actualización verifica la traducción local; la evaluación fuera de muestra sigue siendo otra pregunta.</p>
+</div>
+</section>
+<section id="la-comparación-exige-la-misma-muestra-y-protocolo" class="slide level2 probability-slide">
+<h2>La comparación exige la misma muestra y protocolo</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>mismo objetivo matemático implementado en dos sistemas</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>pérdida y actualización sobre un batch común</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>datos, parámetros, convención y aleatoriedad están alineados</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>precisión numérica, biblioteca y dispositivo</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>La coincidencia debe juzgarse con tolerancia, no por igualdad textual de salidas.</p>
 </div>
 </section>
 <section id="tensor-módulo-pérdida-y-optimizador" class="slide level2 notation-slide">
@@ -272,66 +308,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/09-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-comparación-exige-la-misma-muestra-y-protocolo" class="slide level2 probability-slide">
-<h2>La comparación exige la misma muestra y protocolo</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>gradiente esperado bajo el muestreo de datos</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>actualización calculada con minibatches</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>muestreo de minibatches compatible con el objetivo</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>ruido del gradiente y semilla</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> El batch entra como <code>(m, 64)</code>, logits salen <code>(m, 10)</code> y etiquetas para CE tienen forma <code>(m,)</code> con enteros de clase.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué debe conservarse para que NumPy y PyTorch respondan la misma pregunta experimental?</p>
-</div>
-</section>
-<section id="crossentropyloss-recibe-logits" class="slide level2 formula-slide">
-<h2>CrossEntropyLoss recibe logits</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\texttt{CrossEntropyLoss(logits, y)}
-=-\frac1m\sum_i\log\operatorname{softmax}(Z_i)_{y_i}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p><code>CrossEntropyLoss</code> recibe logits. Aplicar softmax antes cambia la función que la biblioteca calcula.</p>
-</div>
-</section>
-<section id="autograd-construye-el-grafo-durante-forward" class="slide level2 derivation-slide">
-<h2>Autograd construye el grafo durante forward</h2>
-<p>Autograd construye un grafo durante forward y acumula derivadas en <code>.grad</code> al llamar <code>backward()</code>.</p>
-</section>
-<section id="backward-acumula-gradientes-en-parámetros" class="slide level2 derivation-slide">
-<h2>Backward acumula gradientes en parámetros</h2>
-<p><code>optimizer.step()</code> lee esos gradientes. Por defecto, una nueva llamada a <code>backward()</code> suma sobre <code>.grad</code>; por eso se borran antes del siguiente batch.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>El batch entra como <code>(m, 64)</code>, logits salen <code>(m, 10)</code> y etiquetas para CE tienen forma <code>(m,)</code> con enteros de clase.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="la-biblioteca-conserva-la-matemática-no-la-intención" class="slide level2 interpretation-slide">
-<h2>La biblioteca conserva la matemática, no la intención</h2>
-<p>La biblioteca reduce trabajo mecánico. El profesor y el estudiante siguen siendo responsables de pérdida, partición, tasa, modo train/eval y métrica.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 ¿Qué debe recibir <code>torch.nn.CrossEntropyLoss</code> en clasificación multiclase?
@@ -355,8 +337,8 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/09-
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta A</span>
 <p>
@@ -364,31 +346,62 @@ La función combina internamente <code>log_softmax</code> y negative log-likelih
 </p>
 </div>
 </section>
+<section id="crossentropyloss-recibe-logits" class="slide level2 formula-slide">
+<h2>CrossEntropyLoss recibe logits</h2>
+<div class="formula-question">
+<p>¿Qué debe conservarse para que NumPy y PyTorch respondan la misma pregunta experimental?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\texttt{CrossEntropyLoss(logits, y)}
+=-\frac1m\sum_i\log\operatorname{softmax}(Z_i)_{y_i}.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p><code>CrossEntropyLoss</code> recibe logits. Aplicar softmax antes cambia la función que la biblioteca calcula.</p>
+</div>
+</section>
+<section id="autograd-construye-el-grafo-durante-forward" class="slide level2 derivation-slide">
+<h2>Autograd construye el grafo durante forward</h2>
+<div class="derivation-step fragment">
+<p>Autograd construye un grafo durante forward y acumula derivadas en <code>.grad</code> al llamar <code>backward()</code>.</p>
+</div>
+</section>
+<section id="backward-acumula-gradientes-en-parámetros" class="slide level2 derivation-slide">
+<h2>Backward acumula gradientes en parámetros</h2>
+<div class="derivation-step fragment">
+<p><code>optimizer.step()</code> lee esos gradientes. Por defecto, una nueva llamada a <code>backward()</code> suma sobre <code>.grad</code>; por eso se borran antes del siguiente batch.</p>
+</div>
+</section>
+<section id="la-biblioteca-conserva-la-matemática-no-la-intención" class="slide level2 interpretation-slide">
+<h2>La biblioteca conserva la matemática, no la intención</h2>
+<p>La biblioteca reduce trabajo mecánico. El profesor y el estudiante siguen siendo responsables de pérdida, partición, tasa, modo train/eval y métrica.</p>
+</section>
 <section id="un-loop-con-cinco-responsabilidades" class="slide level2 algorithm-slide">
 <h2>Un loop con cinco responsabilidades</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-6">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>poner modelo en modo train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>iterar batches</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>borrar gradientes</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>forward y pérdida</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>backward y step</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="5">
 <span>6</span><strong>evaluar en modo eval sin gradientes</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-un-loop-con-cinco-responsabilidades" class="slide level2 code-slide">
+<h2>En código: Un loop con cinco responsabilidades</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>model.train()</span>
 <span id="cb1-2"><a href=""></a><span class="cf">for</span> Xb, yb <span class="kw">in</span> train_loader:</span>
 <span id="cb1-3"><a href=""></a>    optimizer.zero_grad()</span>
@@ -404,27 +417,8 @@ La función combina internamente <code>log_softmax</code> y negative log-likelih
 <p><code>eval()</code> cambia capas como dropout o batch norm; <code>no_grad()</code> evita construir el grafo de evaluación.</p>
 </div>
 </section>
-<section id="una-actualización-que-coincide-entre-implementaciones" class="slide level2 worked-example-slide">
-<h2>Una actualización que coincide entre implementaciones</h2>
-<p>Inicializamos pesos equivalentes cuando sea posible y comparamos una pasada forward, la CE y una actualización SGD sobre el mismo batch.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">logits</span><span class="label">entrada de CE</span>
-</div>
-<div>
-<span class="value">.grad</span><span class="label">acumula</span>
-</div>
-<div>
-<span class="value">eval</span><span class="label">modo de medición</span>
-</div>
-</div>
-<p>Coincidencia de una actualización pequeña valida la traducción básica; entrenamientos completos pueden divergir por orden y precisión.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana10_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana10_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana10_live_coding.ipynb</code></p>
 </div>
@@ -464,59 +458,64 @@ La función combina internamente <code>log_softmax</code> y negative log-likelih
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compare logits y pérdida sobre un batch fijo; compruebe que después de <code>zero_grad()</code> los gradientes previos son <code>None</code> o cero según configuración.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>crossentropyloss recibe logits</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="softmax-antes-de-crossentropyloss-cambia-el-objetivo" class="slide level2 failure-slide">
-<h2>Softmax antes de CrossEntropyLoss cambia el objetivo</h2>
-<div class="failure-statement">
-<p>Aplicar softmax antes de <code>CrossEntropyLoss</code> distorsiona el objetivo y los gradientes.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Softmax antes de CrossEntropyLoss cambia el objetivo</span> <strong>Aplicar softmax antes de <code>CrossEntropyLoss</code> distorsiona el objetivo y los gradientes.</strong>
+<p>
+<span>Señal:</span> el modelo termina con <code>Softmax</code> antes de CE.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el modelo termina con <code>Softmax</code> antes de CE</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">AdamW y L2 acoplada no son la misma regla</span> <strong>Usar <code>AdamW(weight_decay=λ)</code> como si fuera la misma penalización L2 acoplada de SGD confunde dos actualizaciones.</strong>
+<p>
+<span>Señal:</span> el reporte llama idénticos a weight decay acoplado y desacoplado.
+</p>
+</div>
 </div>
 </section>
-<section id="adamw-y-l2-acoplada-no-son-la-misma-regla" class="slide level2 failure-slide">
-<h2>AdamW y L2 acoplada no son la misma regla</h2>
-<div class="failure-statement">
-<p>Usar <code>AdamW(weight_decay=λ)</code> como si fuera la misma penalización L2 acoplada de SGD confunde dos actualizaciones.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el reporte llama idénticos a weight decay acoplado y desacoplado</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Se quiere reproducir <span class="math inline">\(J=CE+\lambda\sum\|W\|^2/2\)</span> sin penalizar sesgos. ¿Qué grupos de parámetros construiría?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Separar pesos y sesgos; aplicar regularización solo a pesos. Con SGD, <code>weight_decay=λ</code> añade <span class="math inline">\(λW\)</span> al gradiente; con AdamW la contracción es desacoplada y debe reportarse como tal.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>El loop de PyTorch implementa el mismo esquema forward–pérdida–backward–actualización y puede contrastarse con NumPy bajo entradas fijas.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>El loop de PyTorch implementa el mismo esquema forward–pérdida–backward–actualización y puede contrastarse con NumPy bajo entradas fijas.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Coincidencia de API no implica reproducibilidad si cambian inicialización, batches, precisión, regularización o semilla.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Alinear una actualización verifica la traducción local; la evaluación fuera de muestra sigue siendo otra pregunta.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Coincidencia de API no implica reproducibilidad si cambian inicialización, batches, precisión, regularización o semilla.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La entrega de Lab 3 conserva pruebas NumPy; PyTorch funciona como contraste y no reemplaza las funciones solicitadas desde cero.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 3.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>CE recibe logits</li>
 <li>gradientes se acumulan</li>
@@ -524,18 +523,18 @@ La función combina internamente <code>log_softmax</code> y negative log-likelih
 <li>SGD L2 y AdamW no son la misma regla</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Usar autograd con criterio significa reconocer cada objeto del algoritmo aunque la biblioteca calcule sus derivadas.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué recibe CE?</li>
 <li>¿Por qué se llama <code>zero_grad</code>?</li>
 <li>¿Qué debe fijarse al comparar NumPy y PyTorch?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Usar autograd con criterio significa reconocer cada objeto del algoritmo aunque la biblioteca calcule sus derivadas.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> entregue Lab 3 y prepare una evaluación completa con baseline, métrica y test reservado.</p>
 

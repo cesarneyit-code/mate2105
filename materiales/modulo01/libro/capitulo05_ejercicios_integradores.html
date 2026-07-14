@@ -104,7 +104,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -211,7 +211,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#síntesis-de-la-parte" id="toc-síntesis-de-la-parte" class="nav-link active" data-scroll-target="#síntesis-de-la-parte">Síntesis de la parte</a></li>
-  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a>
   <ul class="collapse">
   <li><a href="#una-población-conocida-y-muchas-muestras" id="toc-una-población-conocida-y-muchas-muestras" class="nav-link" data-scroll-target="#una-población-conocida-y-muchas-muestras">1. Una población conocida y muchas muestras</a></li>
   <li><a href="#mínimos-cuadrados-desde-tres-representaciones" id="toc-mínimos-cuadrados-desde-tres-representaciones" class="nav-link" data-scroll-target="#mínimos-cuadrados-desde-tres-representaciones">2. Mínimos cuadrados desde tres representaciones</a></li>
@@ -251,15 +251,15 @@ window.Quarto = {
 </header>
 
 
-<p>Los problemas de este capítulo reúnen las ideas de la Parte II. No están separados en preguntas conceptuales, cálculos y programación: cada secuencia exige conectar esos niveles. Los datasets se encuentran en el directorio <code>datos/</code> del libro y fueron congelados para que los resultados sean reproducibles.</p>
+<p>Los problemas de este capítulo reúnen las ideas de la Parte II. No están separados en preguntas conceptuales, cálculos y programación: cada secuencia exige conectar esos niveles. Los conjuntos de datos se encuentran en el directorio <code>datos/</code> del libro y fueron congelados para que los resultados sean reproducibles.</p>
 <p>Una solución completa debe declarar la unidad de observación, las dimensiones de los arreglos, la función que se optimiza y los datos usados para cada decisión. Los resultados numéricos deben acompañarse de un diagnóstico y de una conclusión cuyo alcance coincida con la población descrita.</p>
 <section id="síntesis-de-la-parte" class="level2">
 <h2 class="anchored" data-anchor-id="síntesis-de-la-parte">Síntesis de la parte</h2>
 <p>Regresión lineal, Ridge y regresión logística pueden escribirse mediante una matriz de diseño <span class="math inline">\(\mathbf X\)</span>, un vector de parámetros <span class="math inline">\(\boldsymbol\theta\)</span> y una pérdida empírica. Esa escritura común no vuelve idénticos sus objetivos: mínimos cuadrados aproxima una media condicional, log-loss aproxima una probabilidad condicional y las penalizaciones modifican el estimador para controlar su sensibilidad.</p>
 <p>La optimización responde cómo calcular parámetros para un problema fijado. La validación responde cómo escoger entre procedimientos que aprendieron de los datos. Los residuales, las curvas de pérdida, el rango, las métricas y la matriz de confusión examinan fallos diferentes. Ninguno corrige una unidad de observación equivocada, una variable filtrada o una población de uso mal definida.</p>
 </section>
-<section id="problemas-integrados" class="level2">
-<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <section id="una-población-conocida-y-muchas-muestras" class="level3">
 <h3 class="anchored" data-anchor-id="una-población-conocida-y-muchas-muestras">1. Una población conocida y muchas muestras</h3>
 <p>Considere las 160 filas de <code>regresion_lineal_sintetica.csv</code> como una población finita. El mecanismo generador conocido es</p>
@@ -269,7 +269,7 @@ Y=4+2.5X_1-1.2X_2+0.7X_3+\varepsilon,
 \mathbb E[\varepsilon\mid\boldsymbol X]=0.
 \]</span></p>
 <ol type="1">
-<li>Calcule el promedio de <code>target</code>, el riesgo cuadrático del baseline constante y el riesgo de la función generadora sobre las 160 filas.</li>
+<li>Calcule el promedio de <code>target</code>, el riesgo cuadrático de la regla constante de referencia y el riesgo de la función generadora sobre las 160 filas.</li>
 <li>Extraiga 500 muestras de tamaño 40. En cada una ajuste un intercepto y las tres variables mediante <code>np.linalg.lstsq</code>.</li>
 <li>Grafique las distribuciones muestrales de los cuatro coeficientes y compare sus centros con <span class="math inline">\((4,2.5,-1.2,0.7)\)</span>.</li>
 <li>Compare, para cada muestra, MSE de ajuste y MSE sobre la población finita.</li>
@@ -313,12 +313,12 @@ y=(1.1,2.9,5.2,6.8).
 <h3 class="anchored" data-anchor-id="complejidad-selección-y-prueba">4. Complejidad, selección y prueba</h3>
 <p>Use únicamente <code>x1</code> para predecir <code>target</code>. Construya una partición entrenamiento/validación/prueba con semillas fijadas antes de calcular métricas.</p>
 <ol type="1">
-<li>Compare grados 1, 3, 8 y 15 mediante un pipeline que incluya <code>PolynomialFeatures</code> y <code>StandardScaler</code>.</li>
+<li>Compare grados 1, 3, 8 y 15 mediante una tubería que incluya <code>PolynomialFeatures</code> y <code>StandardScaler</code>.</li>
 <li>Grafique MSE de entrenamiento y validación en función del grado.</li>
 <li>Para los grados 8 y 15, compare Ridge en una rejilla logarítmica de penalizaciones.</li>
 <li>Registre MSE, norma de coeficientes y número efectivo de características.</li>
 <li>Fije una regla de selección que use solo validación y aplíquela sin consultar prueba.</li>
-<li>Evalúe la configuración seleccionada y el baseline una sola vez en prueba.</li>
+<li>Evalúe la configuración seleccionada y la regla de referencia una sola vez en prueba.</li>
 <li>Repita la partición completa con cinco semillas para estudiar la estabilidad de la selección, sin reemplazar la evaluación final por la semilla más favorable.</li>
 <li>Redacte una conclusión que separe optimización, selección e incertidumbre por partición.</li>
 </ol>
@@ -347,7 +347,7 @@ Y=2X_1+2X_2+\varepsilon,
 <h3 class="anchored" data-anchor-id="de-bernoulli-a-regresión-logística">6. De Bernoulli a regresión logística</h3>
 <p>Use únicamente las 180 filas <code>base</code> de <code>clasificacion_binaria_sintetica.csv</code>. No utilice <code>score_latente</code>, <code>probabilidad</code> ni <code>slice</code> como predictores.</p>
 <ol type="1">
-<li>Identifique la clase positiva, calcule su prevalencia y defina dos baselines.</li>
+<li>Identifique la clase positiva, calcule su prevalencia y defina dos reglas de referencia.</li>
 <li>A partir de la masa Bernoulli, derive log-loss, gradiente y Hessiana.</li>
 <li>Implemente <code>sigmoid</code>, <code>log_loss_from_logits</code> y <code>logistic_gradient</code>.</li>
 <li>Compruebe el gradiente por diferencias finitas en parámetros aleatorios con semilla fija.</li>
@@ -376,12 +376,12 @@ Y=2X_1+2X_2+\varepsilon,
 <p>Construya en <span class="math inline">\(\mathbb R^2\)</span> dos grupos que una recta separe perfectamente.</p>
 <ol type="1">
 <li>Ajuste regresión logística sin penalización durante un número creciente de iteraciones.</li>
-<li>Registre log-loss, accuracy, margen mínimo y norma de parámetros.</li>
-<li>Explique por qué accuracy puede estabilizarse en uno mientras la log-loss y los parámetros siguen cambiando.</li>
+<li>Registre pérdida logarítmica, exactitud, margen mínimo y norma de parámetros.</li>
+<li>Explique por qué la exactitud puede estabilizarse en uno mientras la pérdida logarítmica y los parámetros siguen cambiando.</li>
 <li>Demuestre que multiplicar una dirección separadora reduce la pérdida sin alcanzar cero con parámetros finitos.</li>
 <li>Añada Ridge sin penalizar el intercepto y compare las soluciones.</li>
 <li>Estudie cómo cambia el margen y la calibración aparente al variar la penalización.</li>
-<li>Distinga existencia de un minimizador, convergencia del solver y desempeño fuera de muestra.</li>
+<li>Distinga existencia de un minimizador, convergencia del método de solución y desempeño fuera de muestra.</li>
 </ol>
 </section>
 <section id="un-análisis-completo-de-las-subzonas-de-bogotá" class="level3">
@@ -390,12 +390,12 @@ Y=2X_1+2X_2+\varepsilon,
 <ol type="1">
 <li>Reconstruya el diccionario de las siete columnas y documente la unidad de observación. No invente la unidad de <code>precio_reportado</code>.</li>
 <li>Formule una pregunta descriptiva y una predictiva que tengan a la subzona como unidad.</li>
-<li>Compare baseline, OLS y Ridge mediante un procedimiento de validación fijado antes de ver resultados.</li>
-<li>Mantenga estandarización, ajuste y selección dentro de un pipeline.</li>
+<li>Compare la regla de referencia, OLS y Ridge mediante un procedimiento de validación fijado antes de ver resultados.</li>
+<li>Mantenga estandarización, ajuste y selección dentro de una tubería.</li>
 <li>Reporte métricas por partición, residuales, rango, valores singulares y estabilidad de coeficientes.</li>
 <li>Identifique una subzona cuyo residual merezca revisar la documentación, sin eliminarla automáticamente.</li>
 <li>Explique por qué una mejora predictiva entre subzonas no describe viviendas individuales ni establece causalidad.</li>
-<li>Escriba una conclusión de no más de 180 palabras con resultado, baseline, variación observada y dos limitaciones concretas.</li>
+<li>Escriba una conclusión de no más de 180 palabras con resultado, regla de referencia, variación observada y dos limitaciones concretas.</li>
 </ol>
 </section>
 <section id="diseñar-una-investigación-reproducible" class="level3">
@@ -404,7 +404,7 @@ Y=2X_1+2X_2+\varepsilon,
 <ol type="1">
 <li>Defina unidad, población, salida, momento de predicción y uso previsto.</li>
 <li>Justifique si el problema es regresión o clasificación y cuál objeto condicional intenta aproximar.</li>
-<li>Declare un baseline, una métrica y una regla de partición antes del ajuste.</li>
+<li>Declare una regla de referencia, una métrica y una regla de partición antes del ajuste.</li>
 <li>Implemente una función central desde cero y compruébela contra una biblioteca.</li>
 <li>Compare al menos una decisión de complejidad o regularización con validación.</li>
 <li>Incluya un diagnóstico de optimización y otro de comportamiento fuera de muestra.</li>
@@ -415,7 +415,7 @@ Y=2X_1+2X_2+\varepsilon,
 </section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
-<p><strong>Problema 1.</strong> En las 160 filas, el promedio de <code>target</code> es aproximadamente 4.121. El MSE del baseline constante es 5.277 y el de la función generadora es 0.289. El segundo valor no es cero porque la respuesta incluye ruido incluso condicionado en las entradas.</p>
+<p><strong>Problema 1.</strong> En las 160 filas, el promedio de <code>target</code> es aproximadamente 4.121. El MSE de la regla constante de referencia es 5.277 y el de la función generadora es 0.289. El segundo valor no es cero porque la respuesta incluye ruido incluso condicionado en las entradas.</p>
 <p><strong>Problema 2.</strong> La solución es <span class="math inline">\(\widehat{\boldsymbol\theta}=(1.09,1.94)^\top\)</span>, con predicciones <span class="math inline">\((1.09,3.03,4.97,6.91)\)</span>, residuales <span class="math inline">\((0.01,-0.13,0.23,-0.11)\)</span> y MSE 0.0205. La suma de residuales y su producto con la columna de <span class="math inline">\(x\)</span> son cero salvo redondeo.</p>
 <p><strong>Problema 3.</strong> Al multiplicar <code>x2</code> por 1000, el número de condición del diseño es aproximadamente 1311 y el límite de paso es <span class="math inline">\(1.68\times10^{-6}\)</span>. Después de estandarizar, esos valores son aproximadamente 2.16 y 1.207. La unidad altera los parámetros y la trayectoria, pero las predicciones pueden transformarse de manera equivalente.</p>
 <p><strong>Problema 6.</strong> La Hessiana tiene la forma</p>

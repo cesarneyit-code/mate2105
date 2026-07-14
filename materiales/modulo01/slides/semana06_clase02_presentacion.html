@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana06_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-586566baa65c003b9bfc3da61172d24e.css">
+  <link rel="stylesheet" href="semana06_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-6308f6c74eeaac9854a9557d42d59a76.css">
   <link href="semana06_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana06_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana06_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-regresion-logistica.html">Capítulo 4 · Regresión logística</a>
 </div>
 </section>
-<section id="el-modelo-puntúa-el-umbral-decide-la-clase" class="slide level2 recap-slide">
-<h2>El modelo puntúa; el umbral decide la clase</h2>
-<p>El modelo produce probabilidades estimadas. Una clase aparece solo después de aplicar una regla <span class="math inline">\(\widehat p\geq\tau\)</span>.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: mantendremos fijo el modelo y estudiaremos cómo el umbral redistribuye falsos positivos y falsos negativos.</p>
-</div>
-</section>
 <section id="mover-el-umbral-sin-reentrenar-el-modelo" class="slide level2 case-slide">
 <h2>Mover el umbral sin reentrenar el modelo</h2>
+<p>El modelo produce probabilidades estimadas. Una clase aparece solo después de aplicar una regla <span class="math inline">\(\widehat p\geq\tau\)</span>.</p>
+<div class="board">
+<p>mantendremos fijo el modelo y estudiaremos cómo el umbral redistribuye falsos positivos y falsos negativos.</p>
+</div>
 <p>En el dataset de cáncer de mama, analizaremos sensibilidad a umbral como ejercicio matemático. El contexto real exigiría validación clínica externa.</p>
 <div class="data-note">
 <p>La actividad es educativa; no convierte el modelo del curso en dispositivo médico.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-
 
 <img src="../figuras/logistica-umbral-metricas.svg" class="wide-figure r-stretch" alt="Umbral sobre sigmoide y celdas de una matriz de confusión"><div class="figure-reading">
 <p>Mover <span class="math inline">\(\tau\)</span> cambia la matriz de confusión. No hay un umbral correcto sin declarar qué error importa y en qué población.</p>
+</div>
+</section>
+<section id="una-rejilla-de-umbrales-sobre-las-mismas-probabilidades" class="slide level2 worked-example-slide result-slide">
+<h2>Una rejilla de umbrales sobre las mismas probabilidades</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">dev</span><span class="label">selección de umbral</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">test</span><span class="label">estimación final</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">4</span><span class="label">conteos que auditar</span>
+</div>
+</div>
+<p>Una mejora de F1 puede ocultar un aumento en el error más costoso; la matriz conserva la dirección del intercambio.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> El umbral se congela antes de test; la métrica reportada estima el desempeño de esa regla completa.</p>
+</div>
+</section>
+<section id="la-métrica-observada-estima-desempeño-futuro" class="slide level2 probability-slide">
+<h2>La métrica observada estima desempeño futuro</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>costo esperado de una regla de clasificación con umbral</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>conteos y métricas calculados en validación</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>costos y prevalencia de validación representan el uso previsto</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, calibración y selección del umbral</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra cambia precisión, recall y el umbral seleccionado aun con el mismo score.</p>
 </div>
 </section>
 <section id="cuatro-conteos-detrás-de-las-métricas" class="slide level2 notation-slide">
@@ -268,67 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-métrica-observada-estima-desempeño-futuro" class="slide level2 probability-slide">
-<h2>La métrica observada estima desempeño futuro</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>probabilidad Bernoulli condicional y riesgo logarítmico</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>probabilidades, log-loss y métricas observadas</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>test procede de la población objetivo</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, calibración y selección de umbral</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> La matriz binaria tiene cuatro conteos cuya suma es el tamaño de la partición evaluada. Si no suma, hay un error de etiquetas o filtros.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué umbral optimiza una métrica declarada en validación y qué costo queda fuera de esa métrica?</p>
-</div>
-</section>
-<section id="el-umbral-se-selecciona-en-validación" class="slide level2 formula-slide">
-<h2>El umbral se selecciona en validación</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\widehat y_\tau=\mathbf 1\{\widehat p\geq\tau\},
-\qquad
-\tau^*=\arg\max_{\tau\in\mathcal T}M_{dev}(\tau).
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>El argmax usa validación. Test mide una vez el modelo y el umbral ya fijados.</p>
-</div>
-</section>
-<section id="bajar-el-umbral-amplía-el-conjunto-predicho-positivo" class="slide level2 derivation-slide">
-<h2>Bajar el umbral amplía el conjunto predicho positivo</h2>
-<p>Al disminuir <span class="math inline">\(\tau\)</span>, ningún caso deja de ser positivo predicho. Por tanto, <span class="math inline">\(TP+FP\)</span> no disminuye.</p>
-</section>
-<section id="recall-y-precisión-reaccionan-de-manera-distinta" class="slide level2 derivation-slide">
-<h2>Recall y precisión reaccionan de manera distinta</h2>
-<p>Recall suele no disminuir al bajar el umbral, mientras precisión puede bajar. ‘Suele’ importa: empates y muestras finitas requieren mirar la tabla real.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>La matriz binaria tiene cuatro conteos cuya suma es el tamaño de la partición evaluada. Si no suma, hay un error de etiquetas o filtros.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="una-métrica-solo-representa-parte-del-costo" class="slide level2 interpretation-slide">
-<h2>Una métrica solo representa parte del costo</h2>
-<p>Accuracy puede ser alta en clases desbalanceadas. Una métrica es útil si refleja el costo relativo de errores y la prevalencia del conjunto donde se calcula.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Se prueba una rejilla de umbrales directamente sobre test y se publica el mejor F1. ¿Qué ocurrió?
@@ -352,8 +333,8 @@ Se prueba una rejilla de umbrales directamente sobre test y se publica el mejor 
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -361,28 +342,60 @@ Aunque los coeficientes no cambien, elegir el umbral usa las etiquetas de test. 
 </p>
 </div>
 </section>
+<section id="el-umbral-se-selecciona-en-validación" class="slide level2 formula-slide">
+<h2>El umbral se selecciona en validación</h2>
+<div class="formula-question">
+<p>¿Qué umbral optimiza una métrica declarada en validación y qué costo queda fuera de esa métrica?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat y_\tau=\mathbf 1\{\widehat p\geq\tau\},
+\qquad
+\tau^*=\arg\max_{\tau\in\mathcal T}M_{dev}(\tau).
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>El argmax usa validación. Test mide una vez el modelo y el umbral ya fijados.</p>
+</div>
+</section>
+<section id="bajar-el-umbral-amplía-el-conjunto-predicho-positivo" class="slide level2 derivation-slide">
+<h2>Bajar el umbral amplía el conjunto predicho positivo</h2>
+<div class="derivation-step fragment">
+<p>Al disminuir <span class="math inline">\(\tau\)</span>, ningún caso deja de ser positivo predicho. Por tanto, <span class="math inline">\(TP+FP\)</span> no disminuye.</p>
+</div>
+</section>
+<section id="recall-y-precisión-reaccionan-de-manera-distinta" class="slide level2 derivation-slide">
+<h2>Recall y precisión reaccionan de manera distinta</h2>
+<div class="derivation-step fragment">
+<p>Recall suele no disminuir al bajar el umbral, mientras precisión puede bajar. ‘Suele’ importa: empates y muestras finitas requieren mirar la tabla real.</p>
+</div>
+</section>
+<section id="una-métrica-solo-representa-parte-del-costo" class="slide level2 interpretation-slide">
+<h2>Una métrica solo representa parte del costo</h2>
+<p>Accuracy puede ser alta en clases desbalanceadas. Una métrica es útil si refleja el costo relativo de errores y la prevalencia del conjunto donde se calcula.</p>
+</section>
 <section id="congelar-modelo-y-umbral-antes-de-test" class="slide level2 algorithm-slide">
 <h2>Congelar modelo y umbral antes de test</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>ajustar el modelo con train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>obtener probabilidades en dev</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>evaluar rejilla de umbrales</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>elegir según métrica/costo declarado</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>congelar y medir una vez en test</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-congelar-modelo-y-umbral-antes-de-test" class="slide level2 code-slide">
+<h2>En código: Congelar modelo y umbral antes de test</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>rows <span class="op">=</span> []</span>
 <span id="cb1-2"><a href=""></a><span class="cf">for</span> threshold <span class="kw">in</span> thresholds:</span>
 <span id="cb1-3"><a href=""></a>    pred <span class="op">=</span> (p_dev <span class="op">&gt;=</span> threshold).astype(<span class="bu">int</span>)</span>
@@ -396,27 +409,8 @@ Aunque los coeficientes no cambien, elegir el umbral usa las etiquetas de test. 
 <p><code>zero_division=0</code> evita una excepción, pero la tabla debe señalar si el modelo no predijo positivos.</p>
 </div>
 </section>
-<section id="una-rejilla-de-umbrales-sobre-las-mismas-probabilidades" class="slide level2 worked-example-slide">
-<h2>Una rejilla de umbrales sobre las mismas probabilidades</h2>
-<p>Comparamos <span class="math inline">\(\tau\in\{0.2,0.3,\ldots,0.8\}\)</span> sobre dev. La elección se acompaña de matriz de confusión, no solo de F1.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">dev</span><span class="label">selección de umbral</span>
-</div>
-<div>
-<span class="value">test</span><span class="label">estimación final</span>
-</div>
-<div>
-<span class="value">4</span><span class="label">conteos que auditar</span>
-</div>
-</div>
-<p>Una mejora de F1 puede ocultar un aumento en el error más costoso; la matriz conserva la dirección del intercambio.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana06_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana06_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana06_live_coding.ipynb</code></p>
 </div>
@@ -451,59 +445,64 @@ Aunque los coeficientes no cambien, elegir el umbral usa las etiquetas de test. 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Para cada umbral, compruebe que <code>tn + fp + fn + tp == len(y_dev)</code> y que el umbral elegido no usó <code>y_test</code>.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>el umbral se selecciona en validación</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="elegir-el-umbral-con-test-mezcla-selección-y-evaluación" class="slide level2 failure-slide">
-<h2>Elegir el umbral con test mezcla selección y evaluación</h2>
-<div class="failure-statement">
-<p>Elegir umbral con test hace que la cifra final mida selección y evaluación a la vez.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Elegir el umbral con test mezcla selección y evaluación</span> <strong>Elegir umbral con test hace que la cifra final mida selección y evaluación a la vez.</strong>
+<p>
+<span>Señal:</span> <code>y_test</code> aparece en el bucle de umbrales.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong><code>y_test</code> aparece en el bucle de umbrales</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Una cifra agregada oculta qué error aumentó</span> <strong>Reportar solo una métrica agregada oculta qué celda de la matriz cambió.</strong>
+<p>
+<span>Señal:</span> no se publican conteos o métricas complementarias.
+</p>
+</div>
 </div>
 </section>
-<section id="una-cifra-agregada-oculta-qué-error-aumentó" class="slide level2 failure-slide">
-<h2>Una cifra agregada oculta qué error aumentó</h2>
-<div class="failure-statement">
-<p>Reportar solo una métrica agregada oculta qué celda de la matriz cambió.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no se publican conteos o métricas complementarias</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Dos umbrales tienen F1 parecido. Uno duplica falsos negativos y reduce falsos positivos. ¿Qué información falta para decidir?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>El costo de cada error, la prevalencia esperada y el uso del modelo. La métrica sola no fija la consecuencia operativa.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Un umbral puede elegirse de manera reproducible en validación y su efecto se explica mediante conteos y métricas derivadas.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Un umbral puede elegirse de manera reproducible en validación y su efecto se explica mediante conteos y métricas derivadas.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>La elección interna no garantiza calibración ni desempeño en otra institución, periodo o prevalencia.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>El umbral se congela antes de test; la métrica reportada estima el desempeño de esa regla completa.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>La elección interna no garantiza calibración ni desempeño en otra institución, periodo o prevalencia.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Parcial 1 combina 70 % notebook, 20 % preguntas estructuradas y 10 % explicación corta. Test y respuestas privadas no se publican.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Parcial 1 y baseline del proyecto.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li><span class="math inline">\(\widehat y=1\{p\geq\tau\}\)</span></li>
 <li>umbral se elige en dev</li>
@@ -511,18 +510,18 @@ Aunque los coeficientes no cambien, elegir el umbral usa las etiquetas de test. 
 <li>matriz explica qué error cambia</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>El modelo ordena o puntúa casos; la política de umbral convierte ese resultado en errores concretos que deben hacerse visibles.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Dónde se elige el umbral?</li>
 <li>¿Qué conteo cambia al bajar <span class="math inline">\(\tau\)</span>?</li>
 <li>¿Qué información complementa F1?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>El modelo ordena o puntúa casos; la política de umbral convierte ese resultado en errores concretos que deben hacerse visibles.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> complete el Parcial 1 con el entorno verificado y conserve el baseline inicial de su proyecto.</p>
 

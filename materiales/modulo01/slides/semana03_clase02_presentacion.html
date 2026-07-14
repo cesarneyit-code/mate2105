@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana03_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-586566baa65c003b9bfc3da61172d24e.css">
+  <link rel="stylesheet" href="semana03_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-6308f6c74eeaac9854a9557d42d59a76.css">
   <link href="semana03_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana03_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana03_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/02-descenso-gradiente.html">Capítulo 2 · Descenso del gradiente</a>
 </div>
 </section>
-<section id="una-sola-tasa-para-coordenadas-diferentes" class="slide level2 recap-slide">
-<h2>Una sola tasa para coordenadas diferentes</h2>
-<p>La actualización usa una sola tasa para todas las coordenadas. Esa tasa interactúa con la curvatura de la pérdida.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: mantendremos el modelo y cambiaremos únicamente la representación numérica de las columnas.</p>
-</div>
-</section>
 <section id="dos-variables-separadas-por-seis-órdenes-de-magnitud" class="slide level2 case-slide">
 <h2>Dos variables separadas por seis órdenes de magnitud</h2>
+<p>La actualización usa una sola tasa para todas las coordenadas. Esa tasa interactúa con la curvatura de la pérdida.</p>
+<div class="board">
+<p>mantendremos el modelo y cambiaremos únicamente la representación numérica de las columnas.</p>
+</div>
 <p>Construiremos dos variables: una varía cerca de unidades y la otra cerca de millones. La solución predictiva existe en ambos casos, pero la trayectoria iterativa no se comporta igual.</p>
 <div class="data-note">
 <p>Ejemplo controlado; el escalador se ajusta solo con entrenamiento para conservar el contrato de evaluación.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/02-
 
 <img src="../figuras/descenso-gradiente-trayectoria.svg" class="wide-figure r-stretch" alt="Contornos de pérdida alargados y trayectorias con distintos tamaños de paso"><div class="figure-reading">
 <p>Un valle alargado obliga a alternar entre direcciones de curvatura muy diferente. El zigzag es una propiedad de la geometría, no del orden de las filas.</p>
+</div>
+</section>
+<section id="la-misma-inicialización-en-dos-sistemas-de-coordenadas" class="slide level2 worked-example-slide result-slide">
+<h2>La misma inicialización en dos sistemas de coordenadas</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">10⁵</span><span class="label"><span class="math inline">\(\kappa(X)\)</span> sin escalar, orden</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">10¹</span><span class="label"><span class="math inline">\(\kappa(X_z)\)</span>, orden</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">misma</span><span class="label">partición</span>
+</div>
+</div>
+<p>La comparación atribuye el cambio de trayectoria al preprocesamiento porque conserva filas, objetivo e inicialización.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> La mejora de convergencia observada pertenece a esta geometría y debe revisarse cuando cambia la distribución de entrada.</p>
+</div>
+</section>
+<section id="la-geometría-se-estima-con-entrenamiento" class="slide level2 probability-slide">
+<h2>La geometría se estima con entrenamiento</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>geometría de <span class="math inline">\(X\)</span> bajo la distribución de las covariables</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>medias, escalas y valores singulares estimados en train</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>train representa las escalas que aparecerán al predecir</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra de train, colinealidad y unidades de medición</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Con otra muestra cambian medias, desviaciones y número de condición; por eso el escalador se aprende dentro de train.</p>
 </div>
 </section>
 <section id="lo-que-aprende-el-escalador" class="slide level2 notation-slide">
@@ -278,67 +314,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/02-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-geometría-se-estima-con-entrenamiento" class="slide level2 probability-slide">
-<h2>La geometría se estima con entrenamiento</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>riesgo cuadrático esperado</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>MSE y gradiente calculados con la muestra</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>observaciones comparables y segundos momentos finitos</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, minibatch y ruido de medición</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> El vector <span class="math inline">\(\mu\)</span> y el vector <span class="math inline">\(s\)</span> tienen una entrada por variable medida; el intercepto se agrega después del escalamiento manual.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Cómo conectan los valores singulares de <span class="math inline">\(\mathbf X\)</span> con la velocidad y estabilidad del descenso?</p>
-</div>
-</section>
-<section id="cambiar-coordenadas-sin-cambiar-observaciones" class="slide level2 formula-slide">
-<h2>Cambiar coordenadas sin cambiar observaciones</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-z_{ij}=\frac{x_{ij}-\mu_j}{s_j},
-\qquad
-\kappa_2(\mathbf X)=\frac{\sigma_{\max}(\mathbf X)}{\sigma_{\min}(\mathbf X)}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>Estandarizar cambia las coordenadas y suele hacer comparables las escalas. No elimina colinealidad ni garantiza <span class="math inline">\(\kappa\approx1\)</span>.</p>
-</div>
-</section>
-<section id="la-hessiana-contiene-la-geometría-del-diseño" class="slide level2 derivation-slide">
-<h2>La Hessiana contiene la geometría del diseño</h2>
-<p>Para mínimos cuadrados, la Hessiana es <span class="math display">\[\nabla^2\widehat R_n(\boldsymbol\theta)=\frac1n\mathbf X^\top\mathbf X.\]</span></p>
-</section>
-<section id="las-ecuaciones-normales-amplifican-el-condicionamiento" class="slide level2 derivation-slide">
-<h2>Las ecuaciones normales amplifican el condicionamiento</h2>
-<p>Si <span class="math inline">\(\mathbf X\)</span> tiene rango columna completo, <span class="math display">\[\kappa_2(\mathbf X^\top\mathbf X)=\kappa_2(\mathbf X)^2.\]</span> Formar <span class="math inline">\(\mathbf X^\top\mathbf X\)</span> amplifica el problema de condicionamiento.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>El vector <span class="math inline">\(\mu\)</span> y el vector <span class="math inline">\(s\)</span> tienen una entrada por variable medida; el intercepto se agrega después del escalamiento manual.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="coeficientes-frágiles-y-predicciones-parecidas-pueden-coexistir" class="slide level2 interpretation-slide">
-<h2>Coeficientes frágiles y predicciones parecidas pueden coexistir</h2>
-<p>Un número de condición grande advierte sensibilidad. No prueba que todas las predicciones sean malas: coeficientes pueden ser inestables aun cuando ciertas combinaciones predigan de forma parecida.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Si <span class="math inline">\(\kappa_2(\mathbf X)=10^4\)</span> y <span class="math inline">\(\mathbf X\)</span> tiene rango columna completo, ¿cuánto vale <span class="math inline">\(\kappa_2(\mathbf X^\top\mathbf X)\)</span>?
@@ -362,8 +343,8 @@ Si <span class="math inline">\(\kappa_2(\mathbf X)=10^4\)</span> y <span class="
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -371,28 +352,60 @@ Los valores singulares quedan al cuadrado: <span class="math inline">\(\kappa_2(
 </p>
 </div>
 </section>
+<section id="cambiar-coordenadas-sin-cambiar-observaciones" class="slide level2 formula-slide">
+<h2>Cambiar coordenadas sin cambiar observaciones</h2>
+<div class="formula-question">
+<p>¿Cómo conectan los valores singulares de <span class="math inline">\(\mathbf X\)</span> con la velocidad y estabilidad del descenso?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+z_{ij}=\frac{x_{ij}-\mu_j}{s_j},
+\qquad
+\kappa_2(\mathbf X)=\frac{\sigma_{\max}(\mathbf X)}{\sigma_{\min}(\mathbf X)}.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>Estandarizar cambia las coordenadas y suele hacer comparables las escalas. No elimina colinealidad ni garantiza <span class="math inline">\(\kappa\approx1\)</span>.</p>
+</div>
+</section>
+<section id="la-hessiana-contiene-la-geometría-del-diseño" class="slide level2 derivation-slide">
+<h2>La Hessiana contiene la geometría del diseño</h2>
+<div class="derivation-step fragment">
+<p>Para mínimos cuadrados, la Hessiana es <span class="math display">\[\nabla^2\widehat R_n(\boldsymbol\theta)=\frac1n\mathbf X^\top\mathbf X.\]</span></p>
+</div>
+</section>
+<section id="las-ecuaciones-normales-amplifican-el-condicionamiento" class="slide level2 derivation-slide">
+<h2>Las ecuaciones normales amplifican el condicionamiento</h2>
+<div class="derivation-step fragment">
+<p>Si <span class="math inline">\(\mathbf X\)</span> tiene rango columna completo, <span class="math display">\[\kappa_2(\mathbf X^\top\mathbf X)=\kappa_2(\mathbf X)^2.\]</span> Formar <span class="math inline">\(\mathbf X^\top\mathbf X\)</span> amplifica el problema de condicionamiento.</p>
+</div>
+</section>
+<section id="coeficientes-frágiles-y-predicciones-parecidas-pueden-coexistir" class="slide level2 interpretation-slide">
+<h2>Coeficientes frágiles y predicciones parecidas pueden coexistir</h2>
+<p>Un número de condición grande advierte sensibilidad. No prueba que todas las predicciones sean malas: coeficientes pueden ser inestables aun cuando ciertas combinaciones predigan de forma parecida.</p>
+</section>
 <section id="escalar-sin-mirar-validación" class="slide level2 algorithm-slide">
 <h2>Escalar sin mirar validación</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>separar train y validación</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>calcular <span class="math inline">\(\mu\)</span> y <span class="math inline">\(s\)</span> en train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>transformar train y validación con esos valores</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>agregar intercepto</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>comparar trayectorias con la misma regla de parada</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-escalar-sin-mirar-validación" class="slide level2 code-slide">
+<h2>En código: Escalar sin mirar validación</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>mu <span class="op">=</span> X_train.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-2"><a href=""></a>scale <span class="op">=</span> X_train.std(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-3"><a href=""></a>X_train_z <span class="op">=</span> (X_train <span class="op">-</span> mu) <span class="op">/</span> scale</span>
@@ -403,27 +416,8 @@ Los valores singulares quedan al cuadrado: <span class="math inline">\(\kappa_2(
 <p>Validación usa estadísticas de train; recalcularlas en dev cambiaría el procedimiento y filtraría información.</p>
 </div>
 </section>
-<section id="la-misma-inicialización-en-dos-sistemas-de-coordenadas" class="slide level2 worked-example-slide">
-<h2>La misma inicialización en dos sistemas de coordenadas</h2>
-<p>Ejecutamos la misma inicialización y el mismo presupuesto de pasos sobre <span class="math inline">\(X\)</span> original y <span class="math inline">\(X_z\)</span>. Ajustamos la tasa por una rejilla declarada en train/dev.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">10⁵</span><span class="label"><span class="math inline">\(\kappa(X)\)</span> sin escalar, orden</span>
-</div>
-<div>
-<span class="value">10¹</span><span class="label"><span class="math inline">\(\kappa(X_z)\)</span>, orden</span>
-</div>
-<div>
-<span class="value">misma</span><span class="label">partición</span>
-</div>
-</div>
-<p>La comparación atribuye el cambio de trayectoria al preprocesamiento porque conserva filas, objetivo e inicialización.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana03_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana03_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana03_live_coding.ipynb</code></p>
 </div>
@@ -463,59 +457,64 @@ Los valores singulares quedan al cuadrado: <span class="math inline">\(\kappa_2(
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Calcule <code>cond(X_train)</code> y <code>cond(X_train_z)</code>, y compruebe que <code>mu</code> y <code>scale</code> usados en dev son exactamente los guardados de train.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>cambiar coordenadas sin cambiar observaciones</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="escalar-antes-de-partir-filtra-validación" class="slide level2 failure-slide">
-<h2>Escalar antes de partir filtra validación</h2>
-<div class="failure-statement">
-<p>Escalar antes de partir mezcla información de validación en el entrenamiento.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Escalar antes de partir filtra validación</span> <strong>Escalar antes de partir mezcla información de validación en el entrenamiento.</strong>
+<p>
+<span>Señal:</span> el notebook no conserva el objeto o estadísticas ajustadas en train.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el notebook no conserva el objeto o estadísticas ajustadas en train</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Un coeficiente escalado no conserva sus unidades</span> <strong>Interpretar coeficientes estandarizados como cambios en unidades originales confunde dos parametrizaciones.</strong>
+<p>
+<span>Señal:</span> la explicación omite la transformación inversa de escala.
+</p>
+</div>
 </div>
 </section>
-<section id="un-coeficiente-escalado-no-conserva-sus-unidades" class="slide level2 failure-slide">
-<h2>Un coeficiente escalado no conserva sus unidades</h2>
-<div class="failure-statement">
-<p>Interpretar coeficientes estandarizados como cambios en unidades originales confunde dos parametrizaciones.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la explicación omite la transformación inversa de escala</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Dos modelos tienen MSE de validación casi igual; uno usa columnas sin escalar y coeficientes enormes. ¿Qué revisaría antes de elegir?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Condicionamiento, estabilidad ante otra partición y sensibilidad de coeficientes. El MSE cercano no borra la fragilidad numérica ni autoriza interpretación causal.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>En este experimento, escalar con estadísticas de train mejora la geometría y permite una trayectoria más estable bajo un presupuesto comparable.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>En este experimento, escalar con estadísticas de train mejora la geometría y permite una trayectoria más estable bajo un presupuesto comparable.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>El escalamiento no resuelve variables redundantes, cambio de distribución ni una forma funcional equivocada.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>La mejora de convergencia observada pertenece a esta geometría y debe revisarse cuando cambia la distribución de entrada.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>El escalamiento no resuelve variables redundantes, cambio de distribución ni una forma funcional equivocada.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La prepropuesta debe declarar unidad de observación, objetivo, partición prevista y cualquier transformación que aprenda parámetros de los datos.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Prepropuesta de proyecto y entrega de Lab 1.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>la Hessiana es <span class="math inline">\(\mathbf X^\top\mathbf X/n\)</span></li>
 <li><span class="math inline">\(\kappa(\mathbf X^\top\mathbf X)=\kappa(\mathbf X)^2\)</span></li>
@@ -523,18 +522,18 @@ Los valores singulares quedan al cuadrado: <span class="math inline">\(\kappa_2(
 <li>mejor geometría no equivale a mejor pregunta</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>El algoritmo no ve nombres ni unidades: ve una geometría inducida por las columnas que le entregamos.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué calcula el escalador y con qué filas?</li>
 <li>¿Qué no concluye un número de condición alto?</li>
 <li>¿Qué mantendría fijo al comparar trayectorias?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>El algoritmo no ve nombres ni unidades: ve una geometría inducida por las columnas que le entregamos.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> revise el Capítulo 3 y distinga transformar variables de aumentar la complejidad del modelo.</p>
 

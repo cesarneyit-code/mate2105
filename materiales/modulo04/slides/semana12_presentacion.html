@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-12d0f9af7b10a10548a0ace560094ac1.css">
+  <link rel="stylesheet" href="semana12_presentacion_files/libs/revealjs/dist/theme/quarto-e1ad195cb3d3df64cca4fac25da9bd04.css">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana12_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/15-
 <h2>Reducir dimensión exige elegir qué conservar</h2>
 <p>Hasta ahora una etiqueta definía pérdida y métrica. En PCA no hay objetivo observado: elegimos qué estructura geométrica conservar.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: derivaremos proyección y reconstrucción desde una matriz centrada.</p>
+<p>derivaremos proyección y reconstrucción desde una matriz centrada.</p>
 </div>
 </section>
 <section id="una-nube-centrada-en-un-plano" class="slide level2 case-slide">
@@ -272,35 +272,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/15-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(Z_k\)</span> tiene forma <span class="math inline">\(m\times k\)</span> y <span class="math inline">\(Z_kV_k^T\)</span> vuelve a <span class="math inline">\(m\times p\)</span>. <code>Vt[:k].T</code> contiene componentes como columnas.</p>
+</div>
 </section>
 <section id="la-covarianza-muestral-aproxima-una-geometría-poblacional" class="slide level2 probability-slide">
 <h2>La covarianza muestral aproxima una geometría poblacional</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>covarianza y subespacio principal poblacionales</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>subespacio principal de la covarianza poblacional</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>covarianza muestral, SVD y varianza explicada</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>SVD de la matriz centrada y covarianza muestral</strong>
 </div>
-<div class="assumption">
+<div class="assumption fragment" data-fragment-index="1">
 <span class="label">Supuesto de enlace</span><strong>segundos momentos finitos y muestra comparable</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, signo y estabilidad del subespacio</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, signo y separación entre valores singulares</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué rango-<span class="math inline">\(k\)</span> minimiza el error de reconstrucción de la matriz centrada en norma de Frobenius?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra cambia vectores y valores singulares; el subespacio es más estable cuando existe una brecha espectral.</p>
 </div>
 </section>
 <section id="la-svd-ordena-direcciones-por-energía" class="slide level2 formula-slide">
 <h2>La SVD ordena direcciones por energía</h2>
+<div class="formula-question">
+<p>¿Qué rango-<span class="math inline">\(k\)</span> minimiza el error de reconstrucción de la matriz centrada en norma de Frobenius?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 X_c=U\Sigma V^\top,
@@ -308,31 +308,28 @@ X_c=U\Sigma V^\top,
 X_{c,k}=U_k\Sigma_kV_k^\top.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>Por Eckart–Young, truncar SVD produce la mejor aproximación de rango a lo sumo <span class="math inline">\(k\)</span> en norma de Frobenius.</p>
 </div>
 </section>
 <section id="proyectar-sobre-los-primeros-vectores" class="slide level2 derivation-slide">
 <h2>Proyectar sobre los primeros vectores</h2>
+<div class="derivation-step fragment">
 <p>Las coordenadas PCA son <span class="math display">\[Z_k=X_cV_k=U_k\Sigma_k.\]</span></p>
+</div>
 </section>
 <section id="reconstruir-produce-la-mejor-aproximación-de-rango-k" class="slide level2 derivation-slide">
 <h2>Reconstruir produce la mejor aproximación de rango k</h2>
+<div class="derivation-step fragment">
 <p>La reconstrucción en unidades originales es <span class="math display">\[\widehat X_k=Z_kV_k^\top+\mathbf1_m\mu^\top.\]</span> Olvidar sumar la media reconstruye alrededor del origen equivocado.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(Z_k\)</span> tiene forma <span class="math inline">\(m\times k\)</span> y <span class="math inline">\(Z_kV_k^T\)</span> vuelve a <span class="math inline">\(m\times p\)</span>. <code>Vt[:k].T</code> contiene componentes como columnas.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="el-signo-cambia-el-subespacio-no" class="slide level2 interpretation-slide">
 <h2>El signo cambia; el subespacio no</h2>
 <p>Un componente puede cambiar de signo sin cambiar el subespacio ni la reconstrucción. El signo no es identificable.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Una implementación devuelve <span class="math inline">\(-v_1\)</span> en lugar de <span class="math inline">\(v_1\)</span> como primer componente principal. ¿Qué concluye?
@@ -356,8 +353,8 @@ Una implementación devuelve <span class="math inline">\(-v_1\)</span> en lugar 
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -367,26 +364,26 @@ Los vectores singulares están determinados salvo signo. <span class="math inlin
 </section>
 <section id="centrar-descomponer-proyectar" class="slide level2 algorithm-slide">
 <h2>Centrar, descomponer, proyectar</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>calcular media en train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>centrar train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>aplicar SVD reducida</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>seleccionar primeros <span class="math inline">\(k\)</span> vectores</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>proyectar y reconstruir</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-centrar-descomponer-proyectar" class="slide level2 code-slide">
+<h2>En código: Centrar, descomponer, proyectar</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>mu <span class="op">=</span> X_train.mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb1-2"><a href=""></a>Xc <span class="op">=</span> X_train <span class="op">-</span> mu</span>
 <span id="cb1-3"><a href=""></a>U, S, Vt <span class="op">=</span> np.linalg.svd(Xc, full_matrices<span class="op">=</span><span class="va">False</span>)</span>
@@ -397,27 +394,27 @@ Los vectores singulares están determinados salvo signo. <span class="math inlin
 <p>Para transformar nuevos datos se resta la media de train y se usa el mismo <span class="math inline">\(V_k\)</span>.</p>
 </div>
 </section>
-<section id="una-matriz-de-rango-dos-en-el-tablero" class="slide level2 worked-example-slide">
+<section id="una-matriz-de-rango-dos-en-el-tablero" class="slide level2 worked-example-slide result-slide">
 <h2>Una matriz de rango dos en el tablero</h2>
 <p>Con una matriz 4×2 calculable a mano, verificamos que <span class="math inline">\(X_c^T\mathbf1=0\)</span> y que el error disminuye al pasar de rango 1 a rango 2.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">centrada</span><span class="label">matriz de entrada</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">k</span><span class="label">dimensiones conservadas</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">Frobenius</span><span class="label">error optimizado</span>
 </div>
 </div>
 <p>PCA preserva variación cuadrática global, no necesariamente la estructura que importa para una tarea posterior.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> El signo de un vector no es identificable; proyección y reconstrucción son las cantidades comparables.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana12_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana12_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana12_live_coding.ipynb</code></p>
 </div>
@@ -457,59 +454,64 @@ Los vectores singulares están determinados salvo signo. <span class="math inlin
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Exija <code>np.allclose(Xc.mean(axis=0), 0)</code> y compare reconstrucción manual con <code>PCA.inverse_transform</code> bajo el mismo centrado.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>la svd ordena direcciones por energía</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="sin-centrar-el-nivel-medio-domina" class="slide level2 failure-slide">
-<h2>Sin centrar, el nivel medio domina</h2>
-<div class="failure-statement">
-<p>Aplicar SVD a datos sin centrar hace que el primer componente capture el nivel medio.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Sin centrar, el nivel medio domina</span> <strong>Aplicar SVD a datos sin centrar hace que el primer componente capture el nivel medio.</strong>
+<p>
+<span>Señal:</span> no existe vector <code>mu</code>.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no existe vector <code>mu</code></strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">El signo de un componente no es intrínseco</span> <strong>Interpretar el signo de un componente como dirección intrínseca ignora su indeterminación.</strong>
+<p>
+<span>Señal:</span> la narrativa cambia si <code>V[k]</code> se multiplica por -1.
+</p>
+</div>
 </div>
 </section>
-<section id="el-signo-de-un-componente-no-es-intrínseco" class="slide level2 failure-slide">
-<h2>El signo de un componente no es intrínseco</h2>
-<div class="failure-statement">
-<p>Interpretar el signo de un componente como dirección intrínseca ignora su indeterminación.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la narrativa cambia si <code>V[k]</code> se multiplica por -1</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Dos ejecuciones producen componentes con signo opuesto y coordenadas reflejadas. ¿Cambió el PCA? Diseñe una prueba.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>No necesariamente. Compare subespacios o reconstrucciones; <span class="math inline">\(V_kV_k^T\)</span> y <span class="math inline">\(\widehat X\)</span> deben coincidir aunque cambie el signo.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>SVD sobre una matriz centrada produce una proyección y la mejor reconstrucción de rango bajo para la norma elegida.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>SVD sobre una matriz centrada produce una proyección y la mejor reconstrucción de rango bajo para la norma elegida.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Máxima varianza no equivale a máxima utilidad, separación de clases ni causalidad.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>El signo de un vector no es identificable; proyección y reconstrucción son las cantidades comparables.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Máxima varianza no equivale a máxima utilidad, separación de clases ni causalidad.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 5 verifica centrado, SVD, proyección, reconstrucción y lectura prudente de varianza explicada.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 4 y publicación de Lab 5.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>centrar con media de train</li>
 <li><span class="math inline">\(X_c=U\Sigma V^T\)</span></li>
@@ -517,18 +519,18 @@ Los vectores singulares están determinados salvo signo. <span class="math inlin
 <li><span class="math inline">\(\widehat X=ZV_k^T+\mu\)</span></li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>PCA no descubre nombres ocultos: construye un subespacio que comprime variación bajo una geometría declarada.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Por qué centrar?</li>
 <li>¿Qué forma tiene <span class="math inline">\(Z_k\)</span>?</li>
 <li>¿Qué significa la indeterminación de signo?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>PCA no descubre nombres ocultos: construye un subespacio que comprime variación bajo una geometría declarada.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> lleve una interpretación de error de reconstrucción y otra de varianza explicada; no las confunda.</p>
 

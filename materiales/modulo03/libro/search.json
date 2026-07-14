@@ -74,37 +74,7 @@
     "href": "capitulo01_metricas_particiones.html",
     "title": "Métricas y particiones",
     "section": "",
-    "text": "Pregunta aplicada\nUn modelo puede tener buena accuracy y aun así ser inaceptable si falla en los casos importantes. Antes de entrenar más modelos, debemos decidir:",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo01_metricas_particiones.html#pregunta-aplicada",
-    "href": "capitulo01_metricas_particiones.html#pregunta-aplicada",
-    "title": "Métricas y particiones",
-    "section": "",
-    "text": "¿qué error cuesta más y qué comparación será suficiente para elegir?",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
-    "href": "capitulo01_metricas_particiones.html#objetivos-del-capítulo",
-    "title": "Métricas y particiones",
-    "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nelegir una métrica principal alineada con el costo de error;\nexplicar por qué accuracy falla en clases desbalanceadas;\nconstruir un baseline útil;\nseparar train, dev y test sin leakage;\nusar pipelines como defensa contra preprocesamiento incorrecto.\ninterpretar métricas como estimadores de probabilidades poblacionales;\ndeducir un umbral de decisión a partir de costos de error y reconocer cuándo esa deducción no basta;\nexplicar mediante la fórmula de Bayes por qué la prevalencia modifica la precision de un clasificador.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo01_metricas_particiones.html#una-métrica-es-un-estadístico",
-    "href": "capitulo01_metricas_particiones.html#una-métrica-es-un-estadístico",
-    "title": "Métricas y particiones",
-    "section": "Una métrica es un estadístico",
-    "text": "Una métrica es un estadístico\nSea \\(f\\) un procedimiento ya fijado y \\(L=\\ell(f(X),Y)\\). El riesgo de uso es\n\\[\nR_{P_{\\mathrm{uso}}}(f)=\\mathbb E[L],\n\\]\nmientras que una evaluación de \\(n\\) casos produce\n\\[\n\\widehat R_n(f)=\\frac1n\\sum_{i=1}^n L_i.\n\\]\nEl segundo objeto cambia si cambia la muestra. Bajo casos iid y varianza finita,\n\\[\n\\operatorname{se}(\\widehat R_n)\n=\\sqrt{\\frac{\\operatorname{Var}(L)}{n}}.\n\\]\nPara accuracy, \\(L_i=\\mathbf 1\\{f(X_i)\\neq Y_i\\}\\) es Bernoulli con probabilidad de error \\(p_e\\). Por tanto,\n\\[\n\\operatorname{Var}(\\widehat{\\mathrm{accuracy}})\n=\\frac{a(1-a)}{n},\n\\]\ndonde \\(a=1-p_e\\). En una muestra reemplazamos \\(a\\) por la accuracy observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.\nCuando la aproximación normal es razonable, un intervalo de referencia para una métrica promedio tiene la forma\n\\[\n\\widehat R_n\\pm z_{1-\\alpha/2}\\,\n\\widehat{\\operatorname{se}}(\\widehat R_n).\n\\]\nEste intervalo cuantifica la variación asociada con la muestra de evaluación para un modelo ya fijado. No incluye la incertidumbre producida por escoger el modelo, las variables o el umbral con esos mismos datos. Para proporciones cercanas a cero o uno, muestras pequeñas o datos dependientes, la aproximación puede ser deficiente y debe reemplazarse por un procedimiento compatible con el diseño de muestreo.\nSi dos modelos \\(f_A\\) y \\(f_B\\) se evalúan sobre los mismos casos, la comparación natural es pareada. Definimos\n\\[\nD_i=\\ell(f_A(X_i),Y_i)-\\ell(f_B(X_i),Y_i),\n\\qquad\n\\widehat\\Delta=\\frac1n\\sum_{i=1}^n D_i,\n\\]\ny estimamos\n\\[\n\\widehat{\\operatorname{se}}(\\widehat\\Delta)\n=\\frac{s_D}{\\sqrt n}.\n\\]\nLa diferencia conserva la dificultad particular de cada observación: un caso difícil afecta a ambos modelos antes de calcular \\(D_i\\). Comparar dos intervalos construidos por separado desperdicia este emparejamiento y puede dar una lectura engañosa. La interpretación sigue condicionada a que el conjunto de evaluación no haya intervenido en la elección de ninguno de los dos modelos.",
+    "text": "Una métrica es un estadístico\nUn modelo puede alcanzar una exactitud elevada y, sin embargo, fallar en los casos que motivaron su construcción. Antes de comparar algoritmos es necesario decidir qué errores importan, qué regla sencilla servirá como referencia y qué datos se reservarán para evaluar el procedimiento.\nUna métrica calculada sobre una muestra es un estadístico, no una propiedad fija del modelo. Comenzaremos por esa distinción y por los denominadores de la matriz de confusión. Después conectaremos prevalencia, costos y umbrales mediante la fórmula de Bayes, y asignaremos funciones diferentes a los conjuntos de entrenamiento, validación y prueba.\nSea \\(f\\) un procedimiento ya fijado y \\(L=\\ell(f(X),Y)\\). El riesgo de uso es\n\\[\nR_{P_{\\mathrm{uso}}}(f)=\\mathbb E[L],\n\\]\nmientras que una evaluación de \\(n\\) casos produce\n\\[\n\\widehat R_n(f)=\\frac1n\\sum_{i=1}^n L_i.\n\\]\nEl segundo objeto cambia si cambia la muestra. Bajo casos iid y varianza finita,\n\\[\n\\operatorname{se}(\\widehat R_n)\n=\\sqrt{\\frac{\\operatorname{Var}(L)}{n}}.\n\\]\nPara la exactitud, \\(L_i=\\mathbf 1\\{f(X_i)\\neq Y_i\\}\\) es Bernoulli con probabilidad de error \\(p_e\\). Por tanto,\n\\[\n\\operatorname{Var}(\\widehat{\\mathrm{exactitud}})\n=\\frac{a(1-a)}{n},\n\\]\ndonde \\(a=1-p_e\\). En una muestra reemplazamos \\(a\\) por la exactitud observada para obtener un error estándar aproximado. Esta fórmula no corrige selección del modelo, dependencia ni cambio de población.\nCuando la aproximación normal es razonable, un intervalo de referencia para una métrica promedio tiene la forma\n\\[\n\\widehat R_n\\pm z_{1-\\alpha/2}\\,\n\\widehat{\\operatorname{se}}(\\widehat R_n).\n\\]\nEste intervalo cuantifica la variación asociada con la muestra de evaluación para un modelo ya fijado. No incluye la incertidumbre producida por escoger el modelo, las variables o el umbral con esos mismos datos. Para proporciones cercanas a cero o uno, muestras pequeñas o datos dependientes, la aproximación puede ser deficiente y debe reemplazarse por un procedimiento compatible con el diseño de muestreo.\nSi dos modelos \\(f_A\\) y \\(f_B\\) se evalúan sobre los mismos casos, la comparación natural es pareada. Definimos\n\\[\nD_i=\\ell(f_A(X_i),Y_i)-\\ell(f_B(X_i),Y_i),\n\\qquad\n\\widehat\\Delta=\\frac1n\\sum_{i=1}^n D_i,\n\\]\ny estimamos\n\\[\n\\widehat{\\operatorname{se}}(\\widehat\\Delta)\n=\\frac{s_D}{\\sqrt n}.\n\\]\nLa diferencia conserva la dificultad particular de cada observación: un caso difícil afecta a ambos modelos antes de calcular \\(D_i\\). Comparar dos intervalos construidos por separado desperdicia este emparejamiento y puede dar una lectura engañosa. La interpretación sigue condicionada a que el conjunto de evaluación no haya intervenido en la elección de ninguno de los dos modelos.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -114,7 +84,7 @@
     "href": "capitulo01_metricas_particiones.html#matriz-de-confusión-poblacional-y-empírica",
     "title": "Métricas y particiones",
     "section": "Matriz de confusión poblacional y empírica",
-    "text": "Matriz de confusión poblacional y empírica\nCada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo\n\\[\n\\mathbb P(\\widehat Y=1,Y=0)\n\\quad\\text{mediante}\\quad\n\\frac{\\#\\{i:\\widehat y_i=1,y_i=0\\}}{n}.\n\\]\nPrecision y recall son probabilidades condicionales estimadas:\n\\[\n\\operatorname{precision}=\\mathbb P(Y=1\\mid\\widehat Y=1),\n\\qquad\n\\operatorname{recall}=\\mathbb P(\\widehat Y=1\\mid Y=1).\n\\]\nEl denominador efectivo de cada métrica puede ser mucho menor que \\(n\\), por lo que su incertidumbre puede ser grande incluso en un test aparentemente amplio.\nLas definiciones poblacionales requieren denominadores positivos:\n\\[\n\\operatorname{precision}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(\\widehat Y=1)},\n\\qquad\n\\operatorname{recall}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(Y=1)}.\n\\]\nSi el clasificador no predice positivos, precision no está definida; asignarle cero es una convención de software, no una identidad matemática. Si el conjunto evaluado no contiene positivos, recall tampoco está definido para esa muestra. Un reporte debe mostrar conteos para que el lector pueda detectar estos casos.\nPara recall, el tamaño efectivo es \\(TP+FN\\), es decir, el número de positivos observados. Bajo una aproximación binomial condicional, su error estándar es\n\\[\n\\widehat{\\operatorname{se}}(\\widehat{\\operatorname{recall}})\n\\approx\n\\sqrt{\\frac{\\widehat r(1-\\widehat r)}{TP+FN}}.\n\\]\nLa fórmula análoga para precision usa \\(TP+FP\\). Estas aproximaciones requieren casos independientes y un procedimiento fijado; no incluyen la incertidumbre por haber escogido modelo y umbral con los mismos datos.",
+    "text": "Matriz de confusión poblacional y empírica\nCada celda de la matriz de confusión estima una probabilidad conjunta, por ejemplo\n\\[\n\\mathbb P(\\widehat Y=1,Y=0)\n\\quad\\text{mediante}\\quad\n\\frac{\\#\\{i:\\widehat y_i=1,y_i=0\\}}{n}.\n\\]\nPrecision y recall son probabilidades condicionales estimadas:\n\\[\n\\operatorname{precision}=\\mathbb P(Y=1\\mid\\widehat Y=1),\n\\qquad\n\\operatorname{recall}=\\mathbb P(\\widehat Y=1\\mid Y=1).\n\\]\nEl denominador efectivo de cada métrica puede ser mucho menor que \\(n\\), por lo que su incertidumbre puede ser grande incluso en un conjunto de prueba aparentemente amplio.\nLas definiciones poblacionales requieren denominadores positivos:\n\\[\n\\operatorname{precision}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(\\widehat Y=1)},\n\\qquad\n\\operatorname{recall}\n=\\frac{\\mathbb P(\\widehat Y=1,Y=1)}{\\mathbb P(Y=1)}.\n\\]\nSi el clasificador no predice positivos, precision no está definida; asignarle cero es una convención de software, no una identidad matemática. Si el conjunto evaluado no contiene positivos, recall tampoco está definido para esa muestra. Un reporte debe mostrar conteos para que el lector pueda detectar estos casos.\nPara recall, el tamaño efectivo es \\(TP+FN\\), es decir, el número de positivos observados. Bajo una aproximación binomial condicional, su error estándar es\n\\[\n\\widehat{\\operatorname{se}}(\\widehat{\\operatorname{recall}})\n\\approx\n\\sqrt{\\frac{\\widehat r(1-\\widehat r)}{TP+FN}}.\n\\]\nLa fórmula análoga para precision usa \\(TP+FP\\). Estas aproximaciones requieren casos independientes y un procedimiento fijado; no incluyen la incertidumbre por haber escogido modelo y umbral con los mismos datos.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -124,7 +94,7 @@
     "href": "capitulo01_metricas_particiones.html#el-condicionamiento-inverso-y-la-prevalencia",
     "title": "Métricas y particiones",
     "section": "El condicionamiento inverso y la prevalencia",
-    "text": "El condicionamiento inverso y la prevalencia\nRecall y precision condicionan en direcciones diferentes. Recall pregunta por la predicción entre los casos realmente positivos; precision pregunta por el estado real entre los casos que el modelo declaró positivos. La fórmula de Bayes conecta ambas direcciones:\n\\[\n\\mathbb P(Y=1\\mid \\widehat Y=1)\n=\\frac{\n\\mathbb P(\\widehat Y=1\\mid Y=1)\\mathbb P(Y=1)\n}{\n\\mathbb P(\\widehat Y=1)\n}.\n\\]\nSi llamamos \\(r\\) al recall, \\(s\\) a la especificidad y \\(\\pi=\\mathbb P(Y=1)\\) a la prevalencia, entonces\n\\[\n\\mathbb P(\\widehat Y=1)\n=r\\pi+(1-s)(1-\\pi),\n\\]\ny por tanto\n\\[\n\\operatorname{precision}\n=\\frac{r\\pi}{r\\pi+(1-s)(1-\\pi)}.\n\\]\nEsta identidad muestra por qué precision puede cambiar entre poblaciones aunque recall y especificidad permanezcan aproximadamente constantes: depende de la prevalencia. En aplicaciones diagnósticas o de detección, reportar solo una de estas cantidades oculta parte del problema.\n\nEjemplo: una clase poco frecuente. Supongamos \\(r=0.90\\), \\(s=0.95\\) y una prevalencia \\(\\pi=0.01\\). Entonces\n\\[\n\\operatorname{precision}\n=\\frac{0.90(0.01)}{0.90(0.01)+0.05(0.99)}\n\\approx 0.154.\n\\]\nAunque el clasificador detecta el 90% de los positivos y descarta correctamente el 95% de los negativos, menos de una de cada seis alertas corresponde a un caso positivo. La baja prevalencia no invalida el modelo, pero cambia el uso que puede darse a sus alertas.\n\n\n\n\n\n\n\nFigura 2.1: Particiones: train ajusta parámetros, dev selecciona modelos y test estima desempeño final; mezclar esos roles produce evaluaciones optimistas.\n\n\n\nLectura de la figura. Cada partición tiene un uso. Train puede aprender parámetros y transformaciones; dev puede guiar elecciones de modelo; test se reserva para estimar el desempeño final. Si test participa en selección, la comparación queda contaminada.",
+    "text": "El condicionamiento inverso y la prevalencia\nRecall y precision condicionan en direcciones diferentes. Recall pregunta por la predicción entre los casos realmente positivos; precision pregunta por el estado real entre los casos que el modelo declaró positivos. La fórmula de Bayes conecta ambas direcciones:\n\\[\n\\mathbb P(Y=1\\mid \\widehat Y=1)\n=\\frac{\n\\mathbb P(\\widehat Y=1\\mid Y=1)\\mathbb P(Y=1)\n}{\n\\mathbb P(\\widehat Y=1)\n}.\n\\]\nSi llamamos \\(r\\) al recall, \\(s\\) a la especificidad y \\(\\pi=\\mathbb P(Y=1)\\) a la prevalencia, entonces\n\\[\n\\mathbb P(\\widehat Y=1)\n=r\\pi+(1-s)(1-\\pi),\n\\]\ny por tanto\n\\[\n\\operatorname{precision}\n=\\frac{r\\pi}{r\\pi+(1-s)(1-\\pi)}.\n\\]\nEsta identidad muestra por qué precision puede cambiar entre poblaciones aunque recall y especificidad permanezcan aproximadamente constantes: depende de la prevalencia. En aplicaciones diagnósticas o de detección, reportar solo una de estas cantidades oculta parte del problema.\n\nEjemplo: una clase poco frecuente. Supongamos \\(r=0.90\\), \\(s=0.95\\) y una prevalencia \\(\\pi=0.01\\). Entonces\n\\[\n\\operatorname{precision}\n=\\frac{0.90(0.01)}{0.90(0.01)+0.05(0.99)}\n\\approx 0.154.\n\\]\nAunque el clasificador detecta el 90% de los positivos y descarta correctamente el 95% de los negativos, menos de una de cada seis alertas corresponde a un caso positivo. La baja prevalencia no invalida el modelo, pero cambia el uso que puede darse a sus alertas.\n\n\n\n\n\n\n\nFigura 2.1: Las observaciones de entrenamiento ajustan parámetros, las de validación seleccionan modelos y las de prueba evalúan el procedimiento final.\n\n\n\nCada partición tiene un uso. Entrenamiento puede aprender parámetros y transformaciones; validación puede guiar elecciones de modelo; prueba se reserva para estimar el desempeño final. Si prueba participa en selección, la comparación queda contaminada.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -140,21 +110,21 @@
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#accuracy-no-siempre-basta",
-    "href": "capitulo01_metricas_particiones.html#accuracy-no-siempre-basta",
+    "objectID": "capitulo01_metricas_particiones.html#la-exactitud-no-siempre-basta",
+    "href": "capitulo01_metricas_particiones.html#la-exactitud-no-siempre-basta",
     "title": "Métricas y particiones",
-    "section": "Accuracy no siempre basta",
-    "text": "Accuracy no siempre basta\nEn clases desbalanceadas, un modelo que predice siempre la clase mayoritaria puede tener alta accuracy.\nPor eso, en clasificación binaria se debe revisar:\n\nmatriz de confusión;\nprecision;\nrecall;\nF1;\nROC-AUC o PR-AUC;\ncosto de falsos positivos y falsos negativos.",
+    "section": "La exactitud no siempre basta",
+    "text": "La exactitud no siempre basta\nEn clases desbalanceadas, un modelo que predice siempre la clase mayoritaria puede tener alta exactitud.\nPor eso, en clasificación binaria se debe revisar:\n\nmatriz de confusión;\nprecision;\nrecall;\nF1;\nROC-AUC o PR-AUC;\ncosto de falsos positivos y falsos negativos.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#ejemplo-resuelto-accuracy-engañosa",
-    "href": "capitulo01_metricas_particiones.html#ejemplo-resuelto-accuracy-engañosa",
+    "objectID": "capitulo01_metricas_particiones.html#ejemplo-resuelto-una-exactitud-engañosa",
+    "href": "capitulo01_metricas_particiones.html#ejemplo-resuelto-una-exactitud-engañosa",
     "title": "Métricas y particiones",
-    "section": "Ejemplo resuelto: accuracy engañosa",
-    "text": "Ejemplo resuelto: accuracy engañosa\nSupón un problema con 1000 observaciones:\n\n950 son negativas;\n50 son positivas;\nun modelo predice todo como negativo.\n\nLa accuracy es:\n\\[\n\\frac{950}{1000}=0.95.\n\\]\nPero el recall de la clase positiva es:\n\\[\n\\frac{TP}{TP+FN}=\\frac{0}{0+50}=0.\n\\]\nSi detectar positivos era el objetivo, este modelo no sirve aunque su accuracy parezca alta.",
+    "section": "Ejemplo resuelto: una exactitud engañosa",
+    "text": "Ejemplo resuelto: una exactitud engañosa\nConsideremos un problema con 1000 observaciones:\n\n950 son negativas;\n50 son positivas;\nun modelo predice todo como negativo.\n\nLa exactitud es:\n\\[\n\\frac{950}{1000}=0.95.\n\\]\nPero el recall de la clase positiva es:\n\\[\n\\frac{TP}{TP+FN}=\\frac{0}{0+50}=0.\n\\]\nSi detectar positivos era el objetivo, este modelo no sirve aunque su exactitud parezca alta.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -164,7 +134,7 @@
     "href": "capitulo01_metricas_particiones.html#ejemplo-resuelto-costo-de-falsos-negativos",
     "title": "Métricas y particiones",
     "section": "Ejemplo resuelto: costo de falsos negativos",
-    "text": "Ejemplo resuelto: costo de falsos negativos\nSupón un problema con 50 positivos y 950 negativos. Comparamos dos umbrales:\n\n\n\nUmbral\nTP\nFP\nFN\nTN\n\n\n\n\nA\n35\n40\n15\n910\n\n\nB\n25\n10\n25\n940\n\n\n\nEl umbral A tiene:\n\\[\n\\text{precision}_A=\\frac{35}{35+40}\\approx0.467,\n\\qquad\n\\text{recall}_A=\\frac{35}{35+15}=0.70.\n\\]\nEl umbral B tiene:\n\\[\n\\text{precision}_B=\\frac{25}{25+10}\\approx0.714,\n\\qquad\n\\text{recall}_B=\\frac{25}{25+25}=0.50.\n\\]\nSi un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo total observado de cada umbral es:\n\\[\nC_A=40(1)+15(10)=190,\n\\qquad\nC_B=10(1)+25(10)=260.\n\\]\nAunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. Si se quisiera un costo promedio por caso, se dividiría cada total por 1000. La métrica correcta depende del uso y de los costos declarados, no de cuál número se ve más alto.",
+    "text": "Ejemplo resuelto: costo de falsos negativos\nConsideremos un problema con 50 positivos y 950 negativos. Comparemos dos umbrales:\n\n\n\nUmbral\nTP\nFP\nFN\nTN\n\n\n\n\nA\n35\n40\n15\n910\n\n\nB\n25\n10\n25\n940\n\n\n\nEl umbral A tiene:\n\\[\n\\text{precision}_A=\\frac{35}{35+40}\\approx0.467,\n\\qquad\n\\text{recall}_A=\\frac{35}{35+15}=0.70.\n\\]\nEl umbral B tiene:\n\\[\n\\text{precision}_B=\\frac{25}{25+10}\\approx0.714,\n\\qquad\n\\text{recall}_B=\\frac{25}{25+25}=0.50.\n\\]\nSi un falso positivo cuesta 1 unidad y un falso negativo cuesta 10 unidades, el costo total observado de cada umbral es:\n\\[\nC_A=40(1)+15(10)=190,\n\\qquad\nC_B=10(1)+25(10)=260.\n\\]\nAunque B tiene mayor precision, A es preferible bajo esta función de costo porque reduce falsos negativos. Si se quisiera un costo promedio por caso, se dividiría cada total por 1000. La métrica correcta depende del uso y de los costos declarados, no de cuál número se ve más alto.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -184,17 +154,17 @@
     "href": "capitulo01_metricas_particiones.html#de-costos-a-una-regla-de-decisión",
     "title": "Métricas y particiones",
     "section": "De costos a una regla de decisión",
-    "text": "De costos a una regla de decisión\nSupongamos que el modelo entrega la probabilidad condicional bien calibrada \\(\\eta(x)=\\mathbb P(Y=1\\mid X=x)\\). Si predecir 1 cuando \\(Y=0\\) cuesta \\(C_{FP}\\) y predecir 0 cuando \\(Y=1\\) cuesta \\(C_{FN}\\), los costos condicionales son\n\\[\n\\mathcal C(1\\mid x)=C_{FP}[1-\\eta(x)],\n\\qquad\n\\mathcal C(0\\mid x)=C_{FN}\\eta(x).\n\\]\nElegimos la clase 1 cuando \\(\\mathcal C(1\\mid x)\\leq\\mathcal C(0\\mid x)\\). Al reordenar,\n\\[\n\\eta(x)\\geq\n\\frac{C_{FP}}{C_{FP}+C_{FN}}.\n\\]\nCon costos iguales se obtiene el umbral \\(1/2\\). Si los falsos negativos son más costosos, el umbral disminuye. La deducción muestra que el umbral pertenece a la decisión, no al ajuste de la distribución predictiva.\nEn datos reales usamos \\(\\widehat p(x)\\), no \\(\\eta(x)\\) conocida. El umbral teórico solo es aplicable si las probabilidades están suficientemente calibradas, los costos representan el uso y no hay restricciones adicionales de capacidad. Por eso se comprueba y, cuando hace falta, se selecciona con validación; después se fija antes de evaluar test.\n\nRegla de Bayes con dos costos. Bajo probabilidades condicionales conocidas y costos constantes \\(C_{FP},C_{FN}&gt;0\\), la regla que minimiza el costo esperado condicional predice 1 exactamente cuando \\(\\eta(x)\\geq C_{FP}/(C_{FP}+C_{FN})\\).",
+    "text": "De costos a una regla de decisión\nSupongamos que el modelo entrega la probabilidad condicional bien calibrada \\(\\eta(x)=\\mathbb P(Y=1\\mid X=x)\\). Si predecir 1 cuando \\(Y=0\\) cuesta \\(C_{FP}\\) y predecir 0 cuando \\(Y=1\\) cuesta \\(C_{FN}\\), los costos condicionales son\n\\[\n\\mathcal C(1\\mid x)=C_{FP}[1-\\eta(x)],\n\\qquad\n\\mathcal C(0\\mid x)=C_{FN}\\eta(x).\n\\]\nElegimos la clase 1 cuando \\(\\mathcal C(1\\mid x)\\leq\\mathcal C(0\\mid x)\\). Al reordenar,\n\\[\n\\eta(x)\\geq\n\\frac{C_{FP}}{C_{FP}+C_{FN}}.\n\\]\nCon costos iguales se obtiene el umbral \\(1/2\\). Si los falsos negativos son más costosos, el umbral disminuye. La deducción muestra que el umbral pertenece a la decisión, no al ajuste de la distribución predictiva.\nEn datos reales usamos \\(\\widehat p(x)\\), no \\(\\eta(x)\\) conocida. El umbral teórico solo es aplicable si las probabilidades están suficientemente calibradas, los costos representan el uso y no hay restricciones adicionales de capacidad. Por eso se comprueba y, cuando hace falta, se selecciona con validación; después se fija antes de evaluar prueba.\n\nRegla de Bayes con dos costos. Bajo probabilidades condicionales conocidas y costos constantes \\(C_{FP},C_{FN}&gt;0\\), la regla que minimiza el costo esperado condicional predice 1 exactamente cuando \\(\\eta(x)\\geq C_{FP}/(C_{FP}+C_{FN})\\).",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#baseline",
-    "href": "capitulo01_metricas_particiones.html#baseline",
+    "objectID": "capitulo01_metricas_particiones.html#regla-de-referencia",
+    "href": "capitulo01_metricas_particiones.html#regla-de-referencia",
     "title": "Métricas y particiones",
-    "section": "Baseline",
-    "text": "Baseline\n\nNingún modelo se reporta sin baseline.\n\nUn baseline puede ser:\n\nclase mayoritaria;\npromedio de entrenamiento;\nmodelo lineal simple;\nregla de negocio;\nmodelo anterior del proyecto.",
+    "section": "Regla de referencia",
+    "text": "Regla de referencia\n\nNingún modelo se interpreta sin una regla de referencia.\n\nUna regla de referencia puede ser:\n\nclase mayoritaria;\npromedio de entrenamiento;\nmodelo lineal simple;\nregla de negocio;\nmodelo anterior en la aplicación.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -204,17 +174,17 @@
     "href": "capitulo01_metricas_particiones.html#particiones",
     "title": "Métricas y particiones",
     "section": "Particiones",
-    "text": "Particiones\nLa estructura estándar es:\ntrain -&gt; ajustar parámetros\ndev/validation -&gt; elegir modelo e hiperparámetros\ntest -&gt; estimar desempeño final",
+    "text": "Particiones\nLa separación básica es:\nentrenamiento -&gt; ajustar parámetros y transformaciones\nvalidación -&gt; elegir modelo, hiperparámetros y umbral\nprueba -&gt; estimar el desempeño final del procedimiento fijado",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#test-se-toca-una-vez",
-    "href": "capitulo01_metricas_particiones.html#test-se-toca-una-vez",
+    "objectID": "capitulo01_metricas_particiones.html#el-conjunto-de-prueba-se-reserva",
+    "href": "capitulo01_metricas_particiones.html#el-conjunto-de-prueba-se-reserva",
     "title": "Métricas y particiones",
-    "section": "Test se toca una vez",
-    "text": "Test se toca una vez\nSi se usa test para tomar decisiones, deja de ser una estimación honesta del desempeño final.\n\n\n\n\n\n\nAdvertencia\n\n\n\nEl conjunto de test no es una herramienta de diseño. Es una auditoría final.\n\n\nLa misma regla se aplica al umbral. Se elige con validación; después se fija y se evalúa una vez en test junto con el modelo final.",
+    "section": "El conjunto de prueba se reserva",
+    "text": "El conjunto de prueba se reserva\nSi el conjunto de prueba se usa para tomar decisiones, deja de proporcionar una evaluación independiente del procedimiento final.\n\n\n\n\n\n\nAdvertencia\n\n\n\nEl conjunto de prueba no es una herramienta de diseño. Se reserva para la evaluación final.\n\n\nLa misma regla se aplica al umbral. Se elige con validación; después se fija y se evalúa una vez en prueba junto con el modelo final.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -224,7 +194,7 @@
     "href": "capitulo01_metricas_particiones.html#estratificación",
     "title": "Métricas y particiones",
     "section": "Estratificación",
-    "text": "Estratificación\nEn clasificación, la partición debe preservar proporciones de clase cuando sea razonable:\ntrain_test_split(X, y, stratify=y, random_state=42)\nSi no se estratifica un dataset pequeño o desbalanceado, una partición puede cambiar artificialmente la dificultad.",
+    "text": "Estratificación\nEn clasificación, la partición debe preservar proporciones de clase cuando sea razonable:\ntrain_test_split(X, y, stratify=y, random_state=42)\nSi no se estratifica un conjunto de datos pequeño o desbalanceado, una partición puede cambiar artificialmente la dificultad.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -234,97 +204,77 @@
     "href": "capitulo01_metricas_particiones.html#ejemplo-resuelto-conteos-en-una-partición-estratificada",
     "title": "Métricas y particiones",
     "section": "Ejemplo resuelto: conteos en una partición estratificada",
-    "text": "Ejemplo resuelto: conteos en una partición estratificada\nSupón un dataset con 2000 observaciones y clase positiva de 8%. Entonces hay:\n\\[\n2000(0.08)=160\n\\]\nobservaciones positivas. En una división 60/20/20 estratificada, los tamaños esperados son:\n\n\n\nConjunto\nObservaciones\nPositivos esperados\nNegativos esperados\n\n\n\n\ntrain\n\\(2000(0.60)=1200\\)\n\\(160(0.60)=96\\)\n1104\n\n\ndev\n\\(2000(0.20)=400\\)\n\\(160(0.20)=32\\)\n368\n\n\ntest\n\\(2000(0.20)=400\\)\n\\(160(0.20)=32\\)\n368\n\n\n\nLa tabla no garantiza que cada partición sea perfecta en todos los rasgos del problema. Solo preserva, aproximadamente, la proporción de la clase usada para estratificar. Si hay tiempo, grupos, hospitales, sedes o usuarios repetidos, esas restricciones pueden ser más importantes que una estratificación simple.",
+    "text": "Ejemplo resuelto: conteos en una partición estratificada\nConsideremos un conjunto con 2000 observaciones y una clase positiva de 8%. Entonces hay:\n\\[\n2000(0.08)=160\n\\]\nobservaciones positivas. En una división 60/20/20 estratificada, los tamaños esperados son:\n\n\n\nConjunto\nObservaciones\nPositivos esperados\nNegativos esperados\n\n\n\n\nentrenamiento\n\\(2000(0.60)=1200\\)\n\\(160(0.60)=96\\)\n1104\n\n\nvalidación\n\\(2000(0.20)=400\\)\n\\(160(0.20)=32\\)\n368\n\n\nprueba\n\\(2000(0.20)=400\\)\n\\(160(0.20)=32\\)\n368\n\n\n\nLa tabla no garantiza que cada partición sea perfecta en todos los rasgos del problema. Solo preserva, aproximadamente, la proporción de la clase usada para estratificar. Si hay tiempo, grupos, hospitales, sedes o usuarios repetidos, esas restricciones pueden ser más importantes que una estratificación simple.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#leakage",
-    "href": "capitulo01_metricas_particiones.html#leakage",
+    "objectID": "capitulo01_metricas_particiones.html#filtración-de-información",
+    "href": "capitulo01_metricas_particiones.html#filtración-de-información",
     "title": "Métricas y particiones",
-    "section": "Leakage",
-    "text": "Leakage\nLeakage ocurre cuando información no disponible en producción entra al entrenamiento o a la evaluación.\nEjemplos:\n\nescalar usando todo el dataset antes de partir;\nseleccionar variables usando test;\nusar variables creadas después del evento a predecir;\nduplicados entre train y test;\nelegir hiperparámetros mirando test.",
+    "section": "Filtración de información",
+    "text": "Filtración de información\nHay filtración de información (data leakage) cuando datos que no estarían disponibles al aplicar el modelo intervienen en el ajuste o en la selección.\nEjemplos:\n\nescalar usando todo el conjunto de datos antes de partir;\nseleccionar variables usando prueba;\nusar variables creadas después del evento a predecir;\nduplicados entre entrenamiento y prueba;\nelegir hiperparámetros mirando prueba.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#pipeline-como-defensa",
-    "href": "capitulo01_metricas_particiones.html#pipeline-como-defensa",
+    "objectID": "capitulo01_metricas_particiones.html#una-tubería-como-protección",
+    "href": "capitulo01_metricas_particiones.html#una-tubería-como-protección",
     "title": "Métricas y particiones",
-    "section": "Pipeline como defensa",
-    "text": "Pipeline como defensa\nLos pipelines ayudan a aplicar fit solo donde corresponde:\nPipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression())\n])\nEn cross-validation, cada fold ajusta sus transformaciones solo con el train fold.",
+    "section": "Una tubería como protección",
+    "text": "Una tubería como protección\nLas tuberías de procesamiento ayudan a aplicar fit solo donde corresponde:\nPipeline([\n    (\"scaler\", StandardScaler()),\n    (\"model\", LogisticRegression())\n])\nEn validación cruzada, cada pliegue ajusta sus transformaciones solo con las observaciones de entrenamiento de ese pliegue.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#caso-longitudinal-clasificación-con-slice-reciente",
-    "href": "capitulo01_metricas_particiones.html#caso-longitudinal-clasificación-con-slice-reciente",
+    "objectID": "capitulo01_metricas_particiones.html#clasificación-en-un-periodo-reciente",
+    "href": "capitulo01_metricas_particiones.html#clasificación-en-un-periodo-reciente",
     "title": "Métricas y particiones",
-    "section": "Caso longitudinal: clasificación con slice reciente",
-    "text": "Caso longitudinal: clasificación con slice reciente\nEl archivo clasificacion_binaria_sintetica.csv acompaña varios capítulos. Tiene variables x1, x2, una etiqueta binaria target y una columna slice con valores base y reciente. El objetivo pedagógico es discutir qué pasa cuando un modelo parece razonable en promedio, pero cambia su comportamiento en una subpoblación o periodo.\nPara este caso, una primera partición debe declarar:\n\n\n\n\n\n\n\nDecisión\nCriterio\n\n\n\n\nbaseline\nclase mayoritaria o logística simple\n\n\nmétrica primaria\nF1 o recall si la clase positiva importa\n\n\npartición\ntrain/dev/test con semilla fija\n\n\nestratificación\npreservar proporción de target cuando sea razonable\n\n\nauditoría\nrevisar desempeño por slice antes de recomendar\n\n\n\nLa columna slice no debe usarse automáticamente como variable predictora. A veces se usa para diagnóstico, no para entrenamiento. Esa distinción evita que el modelo aprenda un marcador de origen que no estará disponible o que no se quiere usar en producción.",
+    "section": "Clasificación en un periodo reciente",
+    "text": "Clasificación en un periodo reciente\nEl archivo clasificacion_binaria_sintetica.csv acompaña varios capítulos. Tiene variables x1, x2, una etiqueta binaria target y una columna slice con valores base y reciente. El objetivo pedagógico es discutir qué pasa cuando un modelo parece razonable en promedio, pero cambia su comportamiento en una subpoblación o periodo.\nPara este caso, una primera partición debe declarar:\n\n\n\n\n\n\n\nDecisión\nCriterio\n\n\n\n\nregla de referencia\nclase mayoritaria o logística simple\n\n\nmétrica primaria\nF1 o recall si la clase positiva importa\n\n\npartición\nentrenamiento/validación/prueba con semilla fija\n\n\nestratificación\npreservar proporción de target cuando sea razonable\n\n\nauditoría\nrevisar desempeño por slice antes de recomendar\n\n\n\nLa columna slice no debe usarse automáticamente como variable predictora. A veces se usa para diagnóstico, no para entrenamiento. Esa distinción evita que el modelo aprenda un marcador de origen que no estará disponible o que no se quiere usar en producción.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#punto-de-control",
-    "href": "capitulo01_metricas_particiones.html#punto-de-control",
+    "objectID": "capitulo01_metricas_particiones.html#protocolo-antes-de-comparar",
+    "href": "capitulo01_metricas_particiones.html#protocolo-antes-de-comparar",
     "title": "Métricas y particiones",
-    "section": "Punto de control",
-    "text": "Punto de control\nAntes de comparar modelos, escribe explícitamente:\n\nmétrica principal;\nbaseline;\npartición;\ntransformación dentro de pipeline;\nregla para no tocar test.",
+    "section": "Protocolo antes de comparar",
+    "text": "Protocolo antes de comparar\nAntes de comparar modelos conviene escribir explícitamente:\n\nmétrica principal;\nregla de referencia;\npartición;\ntransformación dentro de la tubería;\nregla para reservar el conjunto de prueba.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#verificaciones-seleccionadas",
-    "href": "capitulo01_metricas_particiones.html#verificaciones-seleccionadas",
+    "objectID": "capitulo01_metricas_particiones.html#comprobaciones-de-la-partición",
+    "href": "capitulo01_metricas_particiones.html#comprobaciones-de-la-partición",
     "title": "Métricas y particiones",
-    "section": "Verificaciones seleccionadas",
-    "text": "Verificaciones seleccionadas\n\nSi la clase positiva representa 8% de 2000 observaciones, hay 160 positivos.\nEn una división estratificada 60/20/20, se esperan aproximadamente 96 positivos en train, 32 en dev y 32 en test.\nSi se ajusta StandardScaler antes de partir datos, el promedio de dev/test ya contaminó el preprocesamiento.",
+    "section": "Comprobaciones de la partición",
+    "text": "Comprobaciones de la partición\n\nSi la clase positiva representa 8% de 2000 observaciones, hay 160 positivos.\nEn una división estratificada 60/20/20, se esperan aproximadamente 96 positivos en entrenamiento, 32 en validación y 32 en prueba.\nSi se ajusta StandardScaler antes de partir datos, el promedio de validación y prueba ya contaminó el preprocesamiento.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#para-explorar-más",
-    "href": "capitulo01_metricas_particiones.html#para-explorar-más",
+    "objectID": "capitulo01_metricas_particiones.html#síntesis",
+    "href": "capitulo01_metricas_particiones.html#síntesis",
     "title": "Métricas y particiones",
-    "section": "Para explorar más",
-    "text": "Para explorar más\n\n\nExtensión matemática: calcula precisión, recall, F1 y balanced accuracy para dos matrices de confusión con el mismo accuracy.\nExtensión computacional: repite una partición estratificada con varias semillas y mide la variación de la métrica principal.\nConexión con proyecto: escribe qué métrica será primaria, cuál será secundaria y qué baseline debe superar tu modelo.",
+    "section": "Síntesis",
+    "text": "Síntesis\nEste capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. La exactitud puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro. Precision y recall condicionan en direcciones diferentes; la fórmula de Bayes muestra que la precision también depende de la prevalencia de la clase positiva en la población evaluada.\nLos conjuntos de entrenamiento, validación y prueba cumplen funciones distintas. El primero ajusta parámetros, el segundo guía decisiones de modelo y el tercero estima el desempeño final. La estratificación, las particiones temporales o por grupo deben elegirse según el problema, no por costumbre.\nLa filtración suele entrar por preprocesamiento aprendido con demasiados datos. Un Pipeline no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde. No evita por sí solo variables posteriores al evento, duplicados entre personas o una partición temporal mal construida; esos riesgos pertenecen al diseño del conjunto de datos.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
   },
   {
-    "objectID": "capitulo01_metricas_particiones.html#revisión-del-capítulo",
-    "href": "capitulo01_metricas_particiones.html#revisión-del-capítulo",
+    "objectID": "capitulo01_metricas_particiones.html#problemas",
+    "href": "capitulo01_metricas_particiones.html#problemas",
     "title": "Métricas y particiones",
-    "section": "Revisión del capítulo",
-    "text": "Revisión del capítulo\nEste capítulo separa entrenamiento de evaluación. La métrica principal debe elegirse antes de comparar modelos y debe estar alineada con el costo de error. Accuracy puede ser engañosa cuando las clases están desbalanceadas o cuando un tipo de error pesa más que otro. Precision y recall condicionan en direcciones diferentes; la fórmula de Bayes muestra que la precision también depende de la prevalencia de la clase positiva en la población evaluada.\nLas particiones train, dev y test cumplen funciones distintas. Train ajusta parámetros, dev guía decisiones de modelo y test estima desempeño final. La estratificación, las particiones temporales o por grupo deben elegirse según el problema, no por costumbre.\nEl leakage suele entrar por preprocesamiento aprendido con demasiados datos. Un Pipeline no es solo comodidad de código: es una barrera operativa para que escalamiento, imputación y selección de variables se ajusten donde corresponde. No evita por sí solo variables posteriores al evento, duplicados entre personas o una partición temporal mal construida; esos riesgos pertenecen al diseño del dataset.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo01_metricas_particiones.html#términos-clave",
-    "href": "capitulo01_metricas_particiones.html#términos-clave",
-    "title": "Métricas y particiones",
-    "section": "Términos clave",
-    "text": "Términos clave\n\n\nMétrica principal: cantidad que guía la selección del modelo.\nBaseline: regla simple que fija un punto mínimo de comparación.\nPrevalencia: probabilidad poblacional de la clase positiva.\nFórmula de Bayes: identidad que invierte el condicionamiento combinando verosimilitud y prevalencia.\nTrain/dev/test: separación para entrenar, seleccionar y estimar desempeño final.\nEstratificación: partición que preserva proporciones de clase.\nLeakage: entrada de información no disponible en producción al entrenamiento o evaluación.\nPipeline: objeto que encadena preprocesamiento y modelo para evitar ajustes fuera de lugar.",
-    "crumbs": [
-      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo01_metricas_particiones.html#ejercicios",
-    "href": "capitulo01_metricas_particiones.html#ejercicios",
-    "title": "Métricas y particiones",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nPara un problema de fraude, explique cuándo preferiría recall y cuándo precision.\n¿Por qué accuracy puede ser una mala métrica en clases desbalanceadas?\n\n\n\nProblemas cuantitativos\n\nDiseñe una partición train/dev/test para un dataset de 2000 observaciones con clases desbalanceadas.\nSi una clase positiva representa 8% de los datos, estime cuántos positivos deberían aparecer en cada partición de una división 60/20/20 estratificada.\n\n\n\nPráctica computacional\n\nImplemente una partición estratificada con semilla fija.\nConstruya un Pipeline que escale variables numéricas y ajuste un modelo.\n\n\n\nInterpretación y pensamiento crítico\n\nIdentifique el leakage: se imputa la media de cada variable usando todo el dataset antes de train_test_split.\nEscriba una regla concreta para decidir cuándo se permite tocar el conjunto de test.\n\n\n\nProfundización matemática y estadística\n\nDerive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\) a partir de los dos costos condicionales.\nCompare el error estándar aproximado de recall 0.80 con 10 y con 500 positivos.\nConstruya un caso donde precision no esté definida y distinga la definición matemática de la convención de una biblioteca.\nExplique por qué seleccionar el umbral con test invalida la interpretación de su métrica final, aunque el modelo no se vuelva a entrenar.\nDerive la expresión de precision en términos de recall, especificidad y prevalencia. Evalúela para prevalencias 0.01, 0.10 y 0.50 manteniendo fijos recall y especificidad, e interprete el cambio.\n\n\n\nProyecto de cierre\n\nPara su proyecto, escriba una ficha de evaluación con métrica principal, baseline, partición, riesgo de leakage y regla de uso del test.",
+    "section": "Problemas",
+    "text": "Problemas\n\nPara un problema de fraude, explique cuándo preferiría recall y cuándo precision.\n¿Por qué la exactitud puede ser una mala métrica en clases desbalanceadas?\nDiseñe una partición de entrenamiento, validación y prueba para un conjunto de 2000 observaciones con clases desbalanceadas.\nSi una clase positiva representa 8% de los datos, estime cuántos positivos deberían aparecer en cada partición de una división 60/20/20 estratificada.\nImplemente una partición estratificada con semilla fija.\nConstruya un Pipeline que escale variables numéricas y ajuste un modelo.\nIdentifique la filtración: se imputa la media de cada variable usando todo el conjunto antes de train_test_split.\nEscriba una regla concreta para decidir cuándo se permite consultar el conjunto de prueba.\nDerive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\) a partir de los dos costos condicionales.\nCompare el error estándar aproximado de recall 0.80 con 10 y con 500 positivos.\nConstruya un caso donde precision no esté definida y distinga la definición matemática de la convención de una biblioteca.\nExplique por qué seleccionar el umbral con prueba invalida la interpretación de su métrica final, aunque el modelo no se vuelva a entrenar.\nDerive la expresión de precision en términos de recall, especificidad y prevalencia. Evalúela para prevalencias 0.01, 0.10 y 0.50 manteniendo fijos recall y especificidad, e interprete el cambio.\nCompare dos matrices de confusión con la misma exactitud mediante precisión, recall, (F_1) y exactitud balanceada.\nDiseñe una ficha de evaluación que declare métrica principal, regla de referencia, partición, riesgo de filtración y uso permitido del conjunto de prueba.",
     "crumbs": [
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>Métricas y particiones</span>"
     ]
@@ -334,27 +284,7 @@
     "href": "capitulo02_validacion_curvas.html",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "",
-    "text": "Pregunta aplicada\nUn solo split puede ser afortunado o desafortunado. Necesitamos estimar variabilidad:",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo02_validacion_curvas.html#pregunta-aplicada",
-    "href": "capitulo02_validacion_curvas.html#pregunta-aplicada",
-    "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "",
-    "text": "¿el modelo funciona de forma estable o solo tuvo suerte en una partición?",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo02_validacion_curvas.html#objetivos-del-capítulo",
-    "href": "capitulo02_validacion_curvas.html#objetivos-del-capítulo",
-    "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nexplicar qué estima cross-validation;\nreportar media y variabilidad de una métrica;\nusar grid search sin contaminar test;\nleer learning curves y validation curves;\ndistinguir problemas de sesgo, varianza y ruido.\ndistinguir validación para selección de validación para estimación;\ndiseñar validación anidada y calcular su costo en número de ajustes.",
+    "text": "Qué aleatoriedad intenta representar la validación\nUna sola partición puede favorecer o perjudicar accidentalmente a un modelo. Una diferencia observada en ese reparto no permite saber si el procedimiento es estable frente a otras muestras de entrenamiento y validación.\nLa validación cruzada reutiliza una muestra para construir varias comparaciones, pero sus resultados no son réplicas independientes. Estudiaremos qué cantidad aproxima, cómo reportar su dispersión y por qué buscar entre muchas configuraciones introduce una nueva fuente de optimismo. Las curvas de aprendizaje y validación permitirán traducir después esa comparación en una hipótesis sobre sesgo, varianza o cantidad de datos.\nIdealmente evaluamos un procedimiento \\(A\\) que transforma una muestra de entrenamiento en un modelo \\(A(D_m)\\). Su desempeño esperado para tamaño \\(m\\) es\n\\[\n\\mathcal R_m(A)\n=\\mathbb E_{D_m\\sim P^m}\n\\mathbb E_{Z\\sim P}\\left[\\ell(A(D_m);Z)\\right].\n\\]\nLa validación cruzada reutiliza una muestra finita para aproximar esta esperanza sobre posibles conjuntos de entrenamiento y observaciones de validación. Los pliegues no son réplicas independientes: comparten datos y sus modelos están correlacionados. Por eso la desviación entre pliegues es descriptiva y no debe convertirse automáticamente en un intervalo de confianza.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -363,8 +293,8 @@
     "objectID": "capitulo02_validacion_curvas.html#qué-aleatoriedad-intenta-representar-la-validación",
     "href": "capitulo02_validacion_curvas.html#qué-aleatoriedad-intenta-representar-la-validación",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Qué aleatoriedad intenta representar la validación",
-    "text": "Qué aleatoriedad intenta representar la validación\nIdealmente evaluamos un procedimiento \\(A\\) que transforma una muestra de entrenamiento en un modelo \\(A(D_m)\\). Su desempeño esperado para tamaño \\(m\\) es\n\\[\n\\mathcal R_m(A)\n=\\mathbb E_{D_m\\sim P^m}\n\\mathbb E_{Z\\sim P}\\left[\\ell(A(D_m);Z)\\right].\n\\]\nCross-validation reutiliza una muestra finita para aproximar esta esperanza sobre posibles conjuntos de entrenamiento y observaciones de validación. Los folds no son réplicas independientes: comparten datos y sus modelos están correlacionados. Por eso la desviación entre folds es descriptiva y no debe convertirse automáticamente en un intervalo de confianza.\n\nIndependencia de test. Si el procedimiento completo \\(A\\) queda fijado sin usar test y \\(D_{\\mathrm{test}}\\) es independiente con distribución \\(P\\), entonces el promedio de pérdidas de test es condicionalmente insesgado para el riesgo de \\(A(D_m)\\):\n\\[\n\\mathbb E[\\widehat R_{\\mathrm{test}}(A(D_m))\\mid D_m]\n=R_P(A(D_m)).\n\\]\nLa igualdad deja de describir el protocolo si test modifica hiperparámetros, features, umbral o selección del reporte.",
+    "section": "",
+    "text": "Independencia de la prueba. Si el procedimiento completo \\(A\\) queda fijado sin usar prueba y \\(D_{\\mathrm{test}}\\) es independiente con distribución \\(P\\), entonces el promedio de pérdidas de prueba es condicionalmente insesgado para el riesgo de \\(A(D_m)\\):\n\\[\n\\mathbb E[\\widehat R_{\\mathrm{test}}(A(D_m))\\mid D_m]\n=R_P(A(D_m)).\n\\]\nLa igualdad deja de describir el protocolo si el conjunto de prueba modifica hiperparámetros, variables, umbral o selección del reporte.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -380,11 +310,11 @@
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#cross-validation",
-    "href": "capitulo02_validacion_curvas.html#cross-validation",
+    "objectID": "capitulo02_validacion_curvas.html#validación-cruzada",
+    "href": "capitulo02_validacion_curvas.html#validación-cruzada",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Cross-validation",
-    "text": "Cross-validation\nEn \\(k\\)-fold cross-validation:\n\nSe divide el conjunto de entrenamiento en \\(k\\) folds.\nSe entrena \\(k\\) veces.\nCada fold actúa una vez como validación.\nSe reporta media y variabilidad.\n\nscores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring=\"f1\")",
+    "section": "Validación cruzada",
+    "text": "Validación cruzada\nEn validación cruzada con \\(k\\) pliegues:\n\nSe divide el conjunto de entrenamiento en \\(k\\) pliegues.\nSe entrena \\(k\\) veces.\nCada pliegue actúa una vez como validación.\nSe reporta media y variabilidad.\n\nscores = cross_val_score(pipeline, X_train, y_train, cv=5, scoring=\"f1\")",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -394,7 +324,7 @@
     "href": "capitulo02_validacion_curvas.html#qué-reportar",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Qué reportar",
-    "text": "Qué reportar\nUn reporte no debe decir solo:\nF1 = 0.84\nDice:\nF1 CV = 0.84 ± 0.03\nLa desviación describe dispersión entre folds. No es, por sí sola, el error estándar de la media ni define un intervalo de confianza: los folds comparten gran parte de sus datos de entrenamiento y sus puntajes no son independientes.",
+    "text": "Qué reportar\nUn reporte no debe decir solo:\nF1 = 0.84\nDice:\nF1 CV = 0.84 ± 0.03\nLa desviación describe dispersión entre pliegues. No es, por sí sola, el error estándar de la media ni define un intervalo de confianza: los pliegues comparten gran parte de sus datos de entrenamiento y sus puntajes no son independientes.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -404,7 +334,7 @@
     "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-elegir-entre-dos-modelos",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Ejemplo resuelto: elegir entre dos modelos",
-    "text": "Ejemplo resuelto: elegir entre dos modelos\nSupón dos modelos evaluados con 5-fold CV:\n\n\n\nModelo\nF1 medio\nDesviación\n\n\n\n\nA\n0.84\n0.02\n\n\nB\n0.86\n0.10\n\n\n\nEl modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse en slices o con más datos.\nLa selección no mira solo el máximo promedio.",
+    "text": "Ejemplo resuelto: elegir entre dos modelos\nConsideremos dos modelos evaluados mediante validación cruzada con cinco pliegues:\n\n\n\nModelo\nF1 medio\nDesviación\n\n\n\n\nA\n0.84\n0.02\n\n\nB\n0.86\n0.10\n\n\n\nEl modelo B tiene mayor promedio, pero también mucha mayor variabilidad. Si el contexto exige estabilidad, A puede ser preferible. Si se elige B, debe justificarse y revisarse por segmentos o con más datos.\nLa selección no mira solo el máximo promedio.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -414,17 +344,17 @@
     "href": "capitulo02_validacion_curvas.html#derivación-guiada-media-y-variabilidad-de-cv",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Derivación guiada: media y variabilidad de CV",
-    "text": "Derivación guiada: media y variabilidad de CV\nSi los puntajes de cinco folds son:\n\\[\n0.80,\\ 0.84,\\ 0.83,\\ 0.86,\\ 0.87,\n\\]\nla media es:\n\\[\n\\bar s=\\frac{0.80+0.84+0.83+0.86+0.87}{5}=0.84.\n\\]\nLa desviación resume qué tanto cambian los resultados entre folds. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como regla universal. En reportes del curso, escribe media y variabilidad juntas:\nF1 CV = 0.84 ± 0.03\nEn Lab 4 usaremos la regla explícita\n\\[\ns_{\\text{cons}}=\\bar s-s_{\\text{folds}}\n\\]\npara ordenar candidatos cuando mayor es mejor. Es un puntaje conservador heurístico: penaliza dispersión, pero no tiene cobertura probabilística ni reemplaza la inspección de los folds.",
+    "text": "Derivación guiada: media y variabilidad de CV\nSi los puntajes de cinco pliegues son:\n\\[\n0.80,\\ 0.84,\\ 0.83,\\ 0.86,\\ 0.87,\n\\]\nla media es:\n\\[\n\\bar s=\\frac{0.80+0.84+0.83+0.86+0.87}{5}=0.84.\n\\]\nLa desviación resume qué tanto cambian los resultados entre pliegues. No convierte la validación cruzada en garantía absoluta, pero sí evita tratar una partición afortunada como regla universal. En un reporte conviene presentar juntas la media y la variabilidad:\nF1 CV = 0.84 ± 0.03\nEn Lab 4 usaremos la regla explícita\n\\[\ns_{\\text{cons}}=\\bar s-s_{\\text{folds}}\n\\]\npara ordenar candidatos cuando mayor es mejor. Es un puntaje conservador heurístico: penaliza dispersión, pero no tiene cobertura probabilística ni reemplaza la inspección de los pliegues.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#grid-search",
-    "href": "capitulo02_validacion_curvas.html#grid-search",
+    "objectID": "capitulo02_validacion_curvas.html#búsqueda-en-rejilla",
+    "href": "capitulo02_validacion_curvas.html#búsqueda-en-rejilla",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Grid search",
-    "text": "Grid search\nPara seleccionar hiperparámetros:\nGridSearchCV(\n    estimator=pipeline,\n    param_grid=grid,\n    scoring=\"f1\",\n    cv=5\n)\nEl grid search debe ocurrir dentro de entrenamiento/desarrollo, no sobre test.",
+    "section": "Búsqueda en rejilla",
+    "text": "Búsqueda en rejilla\nPara seleccionar hiperparámetros:\nGridSearchCV(\n    estimator=pipeline,\n    param_grid=grid,\n    scoring=\"f1\",\n    cv=5\n)\nLa búsqueda en rejilla debe ocurrir dentro de entrenamiento y desarrollo, no sobre el conjunto de prueba.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -434,7 +364,7 @@
     "href": "capitulo02_validacion_curvas.html#selección-y-validación-anidada",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Selección y validación anidada",
-    "text": "Selección y validación anidada\nSupongamos que comparamos \\(M\\) configuraciones y escogemos\n\\[\n\\widehat\\lambda\n=\\arg\\min_{\\lambda\\in\\Lambda}\n\\widehat R_{\\mathrm{CV}}(A_\\lambda).\n\\]\nEl mismo ruido que hace fluctuar los puntajes también influye en qué configuración gana. El mínimo observado tiende a ser optimista porque se escogió después de mirar \\(M\\) estimaciones. Aumentar la grilla puede aumentar este sesgo de selección aunque ninguna configuración nueva sea realmente mejor.\nLa validación cruzada anidada separa ambos papeles:\npara cada fold exterior:\n    reservar el fold exterior para evaluación\n    dentro de los datos restantes:\n        comparar hiperparámetros con folds interiores\n        escoger una configuración\n        reajustar con todo el train exterior\n    evaluar una vez en el fold exterior\nagregar los puntajes exteriores\nLos folds exteriores estiman el desempeño del procedimiento de selección, no de una configuración elegida de antemano. Después de cerrar el análisis, se selecciona una configuración con todos los datos de desarrollo, se reajusta y se usa el test externo una sola vez si existe.\n\nCuándo usarla. En el curso, un train/dev/test bien definido suele ser suficiente para laboratorios y proyecto. La CV anidada resulta apropiada cuando el dataset es pequeño, se comparan muchas configuraciones y se necesita una estimación menos optimista del procedimiento de selección.",
+    "text": "Selección y validación anidada\nSupongamos que comparamos \\(M\\) configuraciones y escogemos\n\\[\n\\widehat\\lambda\n=\\arg\\min_{\\lambda\\in\\Lambda}\n\\widehat R_{\\mathrm{CV}}(A_\\lambda).\n\\]\nEl mismo ruido que hace fluctuar los puntajes también influye en qué configuración gana. El mínimo observado tiende a ser optimista porque se escogió después de mirar \\(M\\) estimaciones. Aumentar la grilla puede aumentar este sesgo de selección aunque ninguna configuración nueva sea realmente mejor.\nLa validación cruzada anidada separa ambos papeles:\npara cada pliegue exterior:\n    reservar el pliegue exterior para evaluación\n    dentro de los datos restantes:\n        comparar hiperparámetros con pliegues interiores\n        escoger una configuración\n        reajustar con todo el entrenamiento exterior\n    evaluar una vez en el pliegue exterior\nagregar los puntajes exteriores\nLos pliegues exteriores estiman el desempeño del procedimiento de selección, no de una configuración elegida de antemano. Después de cerrar el análisis, se selecciona una configuración con todos los datos de desarrollo, se reajusta y se usa el conjunto de prueba externo una sola vez si existe.\n\nCuándo usarla. Una partición bien definida de entrenamiento, validación y prueba suele ser suficiente cuando la muestra permite reservar observaciones. La validación cruzada anidada resulta apropiada cuando el conjunto de datos es pequeño, se comparan muchas configuraciones y se necesita una estimación menos optimista del procedimiento de selección.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -444,37 +374,37 @@
     "href": "capitulo02_validacion_curvas.html#costo-computacional-de-validar",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Costo computacional de validar",
-    "text": "Costo computacional de validar\nSi una búsqueda evalúa \\(M\\) configuraciones con \\(k\\) folds, requiere \\(Mk\\) ajustes, más el ajuste final. Con validación anidada de \\(r\\) folds exteriores y \\(k\\) interiores, la búsqueda requiere aproximadamente\n\\[\nr(Mk+1)\n\\]\najustes, antes del modelo final. El costo real depende de que cada fold usa menos datos y de si la biblioteca reutiliza cálculos, pero el orden explica por qué una grilla indiscriminada puede consumir el presupuesto sin aportar comprensión.\nLa comparación debe fijar también el presupuesto. Si una configuración recibe más épocas, más semillas o una grilla más favorable, el resultado mezcla calidad del modelo con esfuerzo de búsqueda.",
+    "text": "Costo computacional de validar\nSi una búsqueda evalúa \\(M\\) configuraciones con \\(k\\) pliegues, requiere \\(Mk\\) ajustes, más el ajuste final. Con validación anidada de \\(r\\) pliegues exteriores y \\(k\\) interiores, la búsqueda requiere aproximadamente\n\\[\nr(Mk+1)\n\\]\najustes, antes del modelo final. El costo real depende de que cada pliegue use menos datos y de si la biblioteca reutiliza cálculos, pero el orden explica por qué una rejilla indiscriminada puede consumir el presupuesto sin aportar comprensión.\nLa comparación debe fijar también el presupuesto. Si una configuración recibe más épocas, más semillas o una rejilla más favorable, el resultado mezcla calidad del modelo con esfuerzo de búsqueda.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#learning-curve",
-    "href": "capitulo02_validacion_curvas.html#learning-curve",
+    "objectID": "capitulo02_validacion_curvas.html#curva-de-aprendizaje",
+    "href": "capitulo02_validacion_curvas.html#curva-de-aprendizaje",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Learning curve",
-    "text": "Learning curve\nUna curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.\n\n\n\n\n\n\nFigura 3.1: Curvas de aprendizaje: un caso de overfitting mantiene una brecha entre entrenamiento y validación, un caso de underfitting mantiene ambos desempeños bajos, y un caso estable cierra la brecha con más datos.\n\n\n\nLectura de la figura. Una learning curve no se interpreta por el valor final aislado, sino por la relación entre entrenamiento y validación. La brecha sugiere varianza; valores bajos en ambas curvas sugieren sesgo; curvas que se acercan pueden indicar que más datos ayudan.\nSeñales típicas:\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico\nAcción\n\n\n\n\nTrain alto y val bajo\noverfitting\nregularizar, simplificar, más datos\n\n\nTrain bajo y val bajo\nunderfitting\nmodelo más expresivo, mejores features\n\n\nTrain y val se acercan\nestabilidad\nevaluar límite por ruido\n\n\nVal mejora con más datos\nconseguir más datos puede ayudar",
+    "section": "Curva de aprendizaje",
+    "text": "Curva de aprendizaje\nUna curva de aprendizaje compara desempeño al aumentar el tamaño del conjunto de entrenamiento.\n\n\n\n\n\n\nFigura 3.1: Curvas de aprendizaje: el sobreajuste mantiene una brecha entre entrenamiento y validación, el subajuste mantiene ambos desempeños bajos y un caso estable cierra la brecha con más datos.\n\n\n\nUna curva de aprendizaje no se interpreta por el valor final aislado, sino por la relación entre entrenamiento y validación. La brecha sugiere varianza; valores bajos en ambas curvas sugieren sesgo; curvas que se acercan pueden indicar que más datos ayudan.\nSeñales típicas:\n\n\n\n\n\n\n\n\nSeñal\nDiagnóstico\nAcción\n\n\n\n\nEntrenamiento alto y validación baja\nsobreajuste\nregularizar, simplificar, más datos\n\n\nEntrenamiento y validación bajos\nsubajuste\nmodelo más expresivo, mejores variables\n\n\nEntrenamiento y validación se acercan\nestabilidad\nevaluar el límite impuesto por el ruido\n\n\nValidación mejora con más datos\nconseguir más datos puede ayudar",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-leer-una-learning-curve",
-    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-leer-una-learning-curve",
+    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-leer-una-curva-de-aprendizaje",
+    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-leer-una-curva-de-aprendizaje",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Ejemplo resuelto: leer una learning curve",
-    "text": "Ejemplo resuelto: leer una learning curve\nSupón que una curva de aprendizaje produce:\n\n\n\nTamaño train\nF1 train\nF1 validación\n\n\n\n\n200\n0.98\n0.63\n\n\n800\n0.95\n0.74\n\n\n2000\n0.92\n0.82\n\n\n5000\n0.90\n0.86\n\n\n\nLectura:\n\nEl desempeño de entrenamiento baja al aumentar datos, lo cual es normal.\nEl desempeño de validación sube de forma sostenida.\nLa brecha train-validación se reduce de \\(0.35\\) a \\(0.04\\).\nEl diagnóstico es alta varianza inicial que mejora con más datos.\n\nLa acción razonable no es aumentar complejidad. Primero conviene conseguir más datos, usar regularización moderada o mantener el modelo si el costo de más datos es alto.",
+    "section": "Ejemplo resuelto: leer una curva de aprendizaje",
+    "text": "Ejemplo resuelto: leer una curva de aprendizaje\nConsideremos una curva de aprendizaje que produce:\n\n\n\nTamaño de entrenamiento\nF1 de entrenamiento\nF1 de validación\n\n\n\n\n200\n0.98\n0.63\n\n\n800\n0.95\n0.74\n\n\n2000\n0.92\n0.82\n\n\n5000\n0.90\n0.86\n\n\n\nLectura:\n\nEl desempeño de entrenamiento baja al aumentar datos, lo cual es normal.\nEl desempeño de validación sube de forma sostenida.\nLa brecha entre entrenamiento y validación se reduce de \\(0.35\\) a \\(0.04\\).\nEl diagnóstico es alta varianza inicial que mejora con más datos.\n\nLa acción razonable no es aumentar complejidad. Primero conviene conseguir más datos, usar regularización moderada o mantener el modelo si el costo de más datos es alto.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#validation-curve",
-    "href": "capitulo02_validacion_curvas.html#validation-curve",
+    "objectID": "capitulo02_validacion_curvas.html#curva-de-validación",
+    "href": "capitulo02_validacion_curvas.html#curva-de-validación",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Validation curve",
-    "text": "Validation curve\nUna validation curve varía un hiperparámetro:\nregularización baja -&gt; modelo flexible\nregularización alta -&gt; modelo simple\nPermite detectar si el hiperparámetro está empujando al modelo hacia overfitting o underfitting.",
+    "section": "Curva de validación",
+    "text": "Curva de validación\nUna curva de validación varía un hiperparámetro:\nregularización baja -&gt; modelo flexible\nregularización alta -&gt; modelo simple\nPermite detectar si el hiperparámetro está empujando al modelo hacia sobreajuste o subajuste.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -484,7 +414,7 @@
     "href": "capitulo02_validacion_curvas.html#caso-longitudinal-estabilidad-del-modelo-de-clasificación",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Caso longitudinal: estabilidad del modelo de clasificación",
-    "text": "Caso longitudinal: estabilidad del modelo de clasificación\nEn clasificacion_binaria_sintetica.csv, una validación de cinco folds puede producir algo como:\n\n\n\n\n\n\n\n\n\nModelo\nF1 CV medio\nDesviación\nLectura\n\n\n\n\nlogística simple\n0.71\n0.03\nbaseline estable\n\n\nlogística con features polinomiales\n0.76\n0.09\nmejora media, alta varianza\n\n\nmodelo regularizado\n0.74\n0.04\nbalance entre mejora y estabilidad\n\n\n\nLa selección no es automática. Si el contexto tolera variabilidad y luego se hará error analysis por slice, podría explorarse el modelo polinomial. Si se quiere una selección conservadora, el modelo regularizado puede ser preferible. El punto es que media y desviación se leen juntas.",
+    "text": "Caso longitudinal: estabilidad del modelo de clasificación\nEn clasificacion_binaria_sintetica.csv, una validación de cinco pliegues puede producir algo como:\n\n\n\n\n\n\n\n\n\nModelo\nF1 CV medio\nDesviación\nLectura\n\n\n\n\nlogística simple\n0.71\n0.03\nreferencia estable\n\n\nlogística con variables polinomiales\n0.76\n0.09\nmejora media, alta varianza\n\n\nmodelo regularizado\n0.74\n0.04\nbalance entre mejora y estabilidad\n\n\n\nLa selección no es automática. Si el contexto tolera variabilidad y luego se hará análisis de errores por segmentos, podría explorarse el modelo polinomial. Si se quiere una selección conservadora, el modelo regularizado puede ser preferible. El punto es que media y desviación se leen juntas.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -494,7 +424,7 @@
     "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-decisión-con-diferencia-pequeña",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Ejemplo resuelto: decisión con diferencia pequeña",
-    "text": "Ejemplo resuelto: decisión con diferencia pequeña\nSupón que dos modelos tienen:\n\n\n\nModelo\nF1 CV medio\nDesviación\n\n\n\n\nA\n0.812\n0.018\n\n\nB\n0.819\n0.061\n\n\n\nLa diferencia de medias es \\(0.007\\), menor que la variabilidad reportada de B. Una lectura cuidadosa no diría que B “gana” de forma clara. Diría que B tiene una mejora media pequeña, pero su inestabilidad exige revisar folds, slices o una partición temporal antes de cambiar la recomendación. En validación, ganar por una milésima no equivale a ganar una decisión.",
+    "text": "Ejemplo resuelto: decisión con diferencia pequeña\nConsideremos dos modelos con los siguientes resultados:\n\n\n\nModelo\nF1 CV medio\nDesviación\n\n\n\n\nA\n0.812\n0.018\n\n\nB\n0.819\n0.061\n\n\n\nLa diferencia de medias es \\(0.007\\), menor que la variabilidad reportada de B. Una lectura cuidadosa no diría que B “gana” de forma clara. Diría que B tiene una mejora media pequeña, pero su inestabilidad exige revisar pliegues, segmentos o una partición temporal antes de cambiar la recomendación. En validación, ganar por una milésima no equivale a ganar una decisión.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -510,41 +440,31 @@
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#punto-de-control",
-    "href": "capitulo02_validacion_curvas.html#punto-de-control",
+    "objectID": "capitulo02_validacion_curvas.html#antes-de-aumentar-la-complejidad",
+    "href": "capitulo02_validacion_curvas.html#antes-de-aumentar-la-complejidad",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Punto de control",
-    "text": "Punto de control\nSi una learning curve muestra train alto y validación bajo, no concluyas “necesito una red más grande”. Primero pregunta:\n\n¿hay leakage?\n¿la métrica está alineada con la decisión?\n¿el modelo ya tiene demasiada varianza?\n¿más datos podría cerrar la brecha?",
+    "section": "Antes de aumentar la complejidad",
+    "text": "Antes de aumentar la complejidad\nSi una curva de aprendizaje muestra un desempeño alto en entrenamiento y bajo en validación, aumentar el tamaño del modelo no es una conclusión automática. Antes conviene preguntar:\n\n¿hay filtración de información?\n¿la métrica está alineada con la decisión?\n¿el modelo ya tiene demasiada varianza?\n¿más datos podría cerrar la brecha?",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#verificaciones-seleccionadas",
-    "href": "capitulo02_validacion_curvas.html#verificaciones-seleccionadas",
+    "objectID": "capitulo02_validacion_curvas.html#comprobaciones-del-costo-de-selección",
+    "href": "capitulo02_validacion_curvas.html#comprobaciones-del-costo-de-selección",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Verificaciones seleccionadas",
-    "text": "Verificaciones seleccionadas\n\nEvaluar 4 valores de C, 3 valores de penalty y 5 folds entrena \\(4\\cdot3\\cdot5=60\\) ajustes.\nSi la media CV mejora poco pero la desviación se triplica, la mejora puede no justificar el cambio de modelo.\nGridSearchCV debe recibir el pipeline completo cuando hay escalamiento, imputación o selección de variables.",
+    "section": "Comprobaciones del costo de selección",
+    "text": "Comprobaciones del costo de selección\n\nEvaluar 4 valores de C, 3 valores de penalty y 5 pliegues entrena \\(4\\cdot3\\cdot5=60\\) ajustes.\nSi la media de validación cruzada mejora poco pero la desviación se triplica, la mejora puede no justificar el cambio de modelo.\nGridSearchCV debe recibir la tubería completa cuando hay escalamiento, imputación o selección de variables.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande",
-    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-hacer-grid-más-grande",
+    "objectID": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-ampliar-la-rejilla",
+    "href": "capitulo02_validacion_curvas.html#ejemplo-resuelto-cuándo-no-ampliar-la-rejilla",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Ejemplo resuelto: cuándo no hacer grid más grande",
-    "text": "Ejemplo resuelto: cuándo no hacer grid más grande\nSi una grilla inicial muestra que todos los valores de regularización fuerte tienen train y dev bajos, aumentar la grilla alrededor de regularización más fuerte probablemente no ayudará. La acción más razonable es revisar features, capacidad del modelo o métrica. Grid search no reemplaza diagnóstico: solo prueba combinaciones dentro del espacio que tú definiste.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo02_validacion_curvas.html#para-explorar-más",
-    "href": "capitulo02_validacion_curvas.html#para-explorar-más",
-    "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Para explorar más",
-    "text": "Para explorar más\n\n\nExtensión matemática: interpreta una curva con alto sesgo y otra con alta varianza usando brechas train/dev.\nExtensión computacional: genera curvas de aprendizaje para dos tamaños de entrenamiento y reporta si más datos parecen útiles.\nConexión con proyecto: decide qué experimento harías primero: más datos, más regularización, más features o modelo más flexible.",
+    "section": "Ejemplo resuelto: cuándo no ampliar la rejilla",
+    "text": "Ejemplo resuelto: cuándo no ampliar la rejilla\nSi una rejilla inicial muestra que todos los valores de regularización fuerte producen desempeños bajos en entrenamiento y validación, explorar una regularización todavía mayor probablemente no ayudará. La acción más razonable es revisar variables, capacidad del modelo o métrica. La búsqueda en rejilla no reemplaza el diagnóstico: solo prueba combinaciones dentro del espacio definido.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -554,37 +474,27 @@
     "href": "capitulo02_validacion_curvas.html#criterio-práctico-de-decisión",
     "title": "Validación cruzada y curvas de aprendizaje",
     "section": "Criterio práctico de decisión",
-    "text": "Criterio práctico de decisión\nCuando dos modelos tienen métricas cercanas, la elección no debe depender solo del tercer decimal. Un criterio razonable compara desempeño medio, variabilidad, complejidad, costo de explicación y estabilidad por slice. Si el modelo más complejo mejora 0.003 en F1, pero tiene mayor varianza entre folds y errores más difíciles de explicar, puede conservarse el modelo simple como baseline operativo.\nLa validación no declara un campeón universal. Compara candidatos bajo una partición, una métrica y un presupuesto. Elegir bien también significa registrar cuándo la diferencia observada no basta para preferir una alternativa más complicada.",
+    "text": "Criterio práctico de decisión\nCuando dos modelos tienen métricas cercanas, la elección no debe depender solo del tercer decimal. Un criterio razonable compara desempeño medio, variabilidad, complejidad, costo de explicación y estabilidad por segmento. Si el modelo más complejo mejora 0.003 en F1, pero tiene mayor varianza entre pliegues y errores más difíciles de explicar, puede conservarse el modelo simple como referencia operativa.\nLa validación no declara un campeón universal. Compara candidatos bajo una partición, una métrica y un presupuesto. Elegir bien también significa registrar cuándo la diferencia observada no basta para preferir una alternativa más complicada.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#revisión-del-capítulo",
-    "href": "capitulo02_validacion_curvas.html#revisión-del-capítulo",
+    "objectID": "capitulo02_validacion_curvas.html#síntesis",
+    "href": "capitulo02_validacion_curvas.html#síntesis",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Revisión del capítulo",
-    "text": "Revisión del capítulo\nLa validación cruzada estima desempeño con variabilidad. Reportar solo una media oculta si el modelo es estable o si depende demasiado de una partición particular. La desviación entre folds puede cambiar una decisión técnica.\nGrid search debe evaluar pipelines completos para no contaminar cada fold. Las learning curves y validation curves ayudan a distinguir sesgo, varianza, falta de datos, hiperparámetros mal calibrados y ruido irreducible.\nLa pregunta no es únicamente qué modelo gana. También importa si los resultados justifican cambiar complejidad, recolectar datos, ajustar regularización o aceptar un límite. La curva debe terminar en un experimento, no solo en una imagen.",
+    "section": "Síntesis",
+    "text": "Síntesis\nLa validación cruzada estima desempeño con variabilidad. Reportar solo una media oculta si el modelo es estable o si depende demasiado de una partición particular. La desviación entre pliegues puede cambiar una decisión técnica.\nLa búsqueda en rejilla debe evaluar tuberías completas para no contaminar cada pliegue. Las curvas de aprendizaje y validación ayudan a distinguir sesgo, varianza, falta de datos, hiperparámetros mal calibrados y ruido irreducible.\nLa pregunta no es únicamente qué modelo gana. También importa si los resultados justifican cambiar complejidad, recolectar datos, ajustar regularización o aceptar un límite. La curva debe terminar en un experimento, no solo en una imagen.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
   },
   {
-    "objectID": "capitulo02_validacion_curvas.html#términos-clave",
-    "href": "capitulo02_validacion_curvas.html#términos-clave",
+    "objectID": "capitulo02_validacion_curvas.html#problemas",
+    "href": "capitulo02_validacion_curvas.html#problemas",
     "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Términos clave",
-    "text": "Términos clave\n\n\nCross-validation: estimación de desempeño usando varias particiones train/validation.\nGrid search: búsqueda sistemática sobre combinaciones de hiperparámetros.\nLearning curve: curva que compara desempeño al variar tamaño de entrenamiento.\nValidation curve: curva que compara desempeño al variar un hiperparámetro.\nSesgo: error sistemático por modelo demasiado restrictivo.\nVarianza: sensibilidad del modelo a cambios en datos de entrenamiento.\nRuido: variación no explicable con las variables disponibles.",
-    "crumbs": [
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo02_validacion_curvas.html#ejercicios",
-    "href": "capitulo02_validacion_curvas.html#ejercicios",
-    "title": "Validación cruzada y curvas de aprendizaje",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nUna learning curve muestra train F1 0.99 y validation F1 0.70. Diagnostique y proponga dos acciones.\n¿Por qué reportar desviación estándar de cross-validation puede cambiar una decisión de modelo?\n\n\n\nProblemas cuantitativos\n\nCompare dos modelos con medias CV similares pero desviaciones estándar diferentes. ¿Cuál elegiría si la estabilidad es prioritaria?\nSi se evalúan 4 valores de C, 3 valores de penalty y 5 folds, ¿cuántos ajustes se entrenan?\n\n\n\nPráctica computacional\n\nExplique por qué GridSearchCV debe recibir un Pipeline completo si hay escalamiento.\nGenere una tabla con media y desviación estándar de CV para al menos tres configuraciones.\n\n\n\nInterpretación y pensamiento crítico\n\nUna validation curve mejora hasta cierto punto y luego cae. Explique qué sugiere sobre el hiperparámetro.\n¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?\n\n\n\nProfundización matemática y estadística\n\nExplique por qué el mínimo entre muchas estimaciones ruidosas de CV tiende a ser optimista para la configuración seleccionada.\nDiseñe una validación anidada con 5 folds exteriores, 4 interiores y 12 configuraciones. Calcule el número aproximado de ajustes.\nDistinga el riesgo de una configuración fija del riesgo del procedimiento que escoge una configuración con los datos.\nExplique por qué dividir la desviación entre folds por \\(\\sqrt{k}\\) no produce automáticamente un error estándar válido.\n\n\n\nProyecto de cierre\n\nConstruya una learning curve o validation curve para un modelo de su proyecto y escriba un diagnóstico de sesgo/varianza/ruido con una acción siguiente.",
+    "section": "Problemas",
+    "text": "Problemas\n\nUna curva de aprendizaje muestra (F_1=0.99) en entrenamiento y (F_1=0.70) en validación. Diagnostique el patrón y proponga dos acciones.\n¿Por qué reportar la desviación estándar de una validación cruzada puede cambiar una decisión de modelo?\nCompare dos modelos con medias CV similares pero desviaciones estándar diferentes. ¿Cuál elegiría si la estabilidad es prioritaria?\nSi se evalúan 4 valores de C, 3 valores de penalty y 5 pliegues, ¿cuántos ajustes se entrenan?\nExplique por qué GridSearchCV debe recibir un Pipeline completo si hay escalamiento.\nGenere una tabla con media y desviación estándar de CV para al menos tres configuraciones.\nUna curva de validación mejora hasta cierto punto y luego cae. Explique qué sugiere sobre el hiperparámetro.\n¿Cuándo buscar más datos es más razonable que cambiar de algoritmo?\nExplique por qué el mínimo entre muchas estimaciones ruidosas de CV tiende a ser optimista para la configuración seleccionada.\nDiseñe una validación anidada con 5 pliegues exteriores, 4 interiores y 12 configuraciones. Calcule el número aproximado de ajustes.\nDistinga el riesgo de una configuración fija del riesgo del procedimiento que escoge una configuración con los datos.\nExplique por qué dividir la desviación entre pliegues por \\(\\sqrt{k}\\) no produce automáticamente un error estándar válido.\nGenere curvas de aprendizaje para dos tamaños de entrenamiento y determine si los resultados respaldan la recolección de más datos.\nConstruya una curva de aprendizaje o validación para un modelo y escriba un diagnóstico de sesgo, varianza o ruido junto con el experimento siguiente.",
     "crumbs": [
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Validación cruzada y curvas de aprendizaje</span>"
     ]
@@ -592,331 +502,251 @@
   {
     "objectID": "capitulo03_error_analysis_data_mismatch.html",
     "href": "capitulo03_error_analysis_data_mismatch.html",
-    "title": "Error analysis y data mismatch",
+    "title": "Análisis de errores y cambio de distribución",
     "section": "",
-    "text": "Pregunta aplicada\nDos modelos pueden tener la misma métrica agregada y fallar en casos completamente distintos.\nEl análisis de errores pregunta:",
+    "text": "Riesgo condicional por segmento\nDos modelos pueden tener la misma métrica agregada y fallar en casos completamente distintos. Un promedio no muestra si los errores se concentran en un periodo, una región, un instrumento de medición o una clase poco frecuente. El análisis de errores pregunta:\nPara localizar esas fallas estudiaremos riesgos condicionados a segmentos de la población. Después compararemos las distribuciones de entrenamiento y de uso, y distinguiremos segmentos definidos antes del análisis de aquellos descubiertos al inspeccionar muchos resultados. El tamaño y el denominador efectivo de cada segmento acompañarán siempre a su métrica.\nPara un segmento (slice) \\(S\\subseteq\\mathcal X\\times\\mathcal Y\\) con \\(\\mathbb P_P(S)&gt;0\\), definimos\n\\[\nR_P(f\\mid S)\n=\\mathbb E_P[\\ell(f(X),Y)\\mid (X,Y)\\in S].\n\\]\nEl promedio global satisface una descomposición por una partición \\(S_1,\\ldots,S_J\\):\n\\[\nR_P(f)=\\sum_{j=1}^J\\mathbb P_P(S_j)R_P(f\\mid S_j).\n\\]\nUn segmento pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#pregunta-aplicada",
-    "href": "capitulo03_error_analysis_data_mismatch.html#pregunta-aplicada",
-    "title": "Error analysis y data mismatch",
-    "section": "",
-    "text": "¿dónde falla el modelo, para quién falla y qué experimento debe seguir?",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#objetivos-del-capítulo",
-    "href": "capitulo03_error_analysis_data_mismatch.html#objetivos-del-capítulo",
-    "title": "Error analysis y data mismatch",
-    "section": "Objetivos del capítulo",
-    "text": "Objetivos del capítulo\nAl terminar este capítulo deberías poder:\n\nseparar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;\ndefinir slices relevantes para un proyecto;\ndetectar señales de data mismatch;\nescribir una recomendación con resultado, diagnóstico y acción;\nreconocer cuándo una métrica agregada oculta daño o riesgo.\ncuantificar la variación de una métrica por slice usando su denominador efectivo;\nseparar slices predefinidos de hallazgos exploratorios seleccionados después de mirar los errores.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#riesgo-condicional-por-slice",
-    "href": "capitulo03_error_analysis_data_mismatch.html#riesgo-condicional-por-slice",
-    "title": "Error analysis y data mismatch",
-    "section": "Riesgo condicional por slice",
-    "text": "Riesgo condicional por slice\nPara un slice \\(S\\subseteq\\mathcal X\\times\\mathcal Y\\) con \\(\\mathbb P_P(S)&gt;0\\), definimos\n\\[\nR_P(f\\mid S)\n=\\mathbb E_P[\\ell(f(X),Y)\\mid (X,Y)\\in S].\n\\]\nEl promedio global satisface una descomposición por una partición \\(S_1,\\ldots,S_J\\):\n\\[\nR_P(f)=\\sum_{j=1}^J\\mathbb P_P(S_j)R_P(f\\mid S_j).\n\\]\nUn slice pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#cambio-de-distribución-como-cambio-de-medida",
     "href": "capitulo03_error_analysis_data_mismatch.html#cambio-de-distribución-como-cambio-de-medida",
-    "title": "Error analysis y data mismatch",
+    "title": "Análisis de errores y cambio de distribución",
     "section": "Cambio de distribución como cambio de medida",
-    "text": "Cambio de distribución como cambio de medida\nTrain y uso corresponden a distribuciones \\(P_{\\mathrm{train}}\\) y \\(P_{\\mathrm{uso}}\\) sobre el mismo espacio de observaciones. Si \\(P_{\\mathrm{uso}}\\) es absolutamente continua respecto de \\(P_{\\mathrm{train}}\\), el riesgo de uso puede escribirse formalmente como\n\\[\nR_{\\mathrm{uso}}(f)\n=\\mathbb E_{P_{\\mathrm{train}}}\n\\left[w(X,Y)\\ell(f(X),Y)\\right],\n\\qquad\nw=\\frac{dP_{\\mathrm{uso}}}{dP_{\\mathrm{train}}}.\n\\]\nEsta identidad no resuelve el problema: las razones pueden ser desconocidas o muy inestables, y puede haber regiones de uso sin soporte en entrenamiento. Sirve para precisar por qué comparar histogramas no basta para garantizar transportabilidad.\nLa expresión general reúne situaciones distintas, pero distinguirlas orienta el diagnóstico:\n\nEn un cambio de covariables, cambia \\(P(X)\\) mientras \\(P(Y\\mid X)\\) permanece aproximadamente estable. Reponderar observaciones puede ser útil solo si las regiones relevantes de uso tienen soporte en entrenamiento.\nEn un cambio de prevalencia, cambia \\(P(Y)\\) y se supone aproximadamente estable \\(P(X\\mid Y)\\). Las probabilidades posteriores, la precision y el umbral operativo pueden cambiar aunque las distribuciones dentro de cada clase sean semejantes.\nEn un cambio de concepto, cambia \\(P(Y\\mid X)\\). Un patrón que antes estaba asociado con la respuesta deja de tener el mismo significado; reponderar \\(X\\) no corrige por sí solo este problema.\nEn un cambio de medición o de soporte, se modifica el instrumento, la definición de una variable, la población observable o aparecen regiones que no existían en los datos de entrenamiento. Sin observaciones comparables, el riesgo de uso no puede recuperarse solo a partir del conjunto original.\n\nPor eso no existe una prueba única de data mismatch. Comparar marginales de variables puede revelar cambio de covariables, pero no demuestra estabilidad de \\(P(Y\\mid X)\\). Comparar prevalencias detecta otra clase de cambio, y auditar el proceso de medición resulta indispensable cuando las columnas conservan el mismo nombre pero ya no representan el mismo objeto.",
+    "text": "Cambio de distribución como cambio de medida\nEntrenamiento y uso corresponden a distribuciones \\(P_{\\mathrm{train}}\\) y \\(P_{\\mathrm{uso}}\\) sobre el mismo espacio de observaciones. Si \\(P_{\\mathrm{uso}}\\) es absolutamente continua respecto de \\(P_{\\mathrm{train}}\\), el riesgo de uso puede escribirse formalmente como\n\\[\nR_{\\mathrm{uso}}(f)\n=\\mathbb E_{P_{\\mathrm{train}}}\n\\left[w(X,Y)\\ell(f(X),Y)\\right],\n\\qquad\nw=\\frac{dP_{\\mathrm{uso}}}{dP_{\\mathrm{train}}}.\n\\]\nEsta identidad no resuelve el problema: las razones pueden ser desconocidas o muy inestables, y puede haber regiones de uso sin soporte en entrenamiento. Sirve para precisar por qué comparar histogramas no basta para garantizar transportabilidad.\nLa expresión general reúne situaciones distintas, pero distinguirlas orienta el diagnóstico:\n\nEn un cambio de covariables, cambia \\(P(X)\\) mientras \\(P(Y\\mid X)\\) permanece aproximadamente estable. Reponderar observaciones puede ser útil solo si las regiones relevantes de uso tienen soporte en entrenamiento.\nEn un cambio de prevalencia, cambia \\(P(Y)\\) y se supone aproximadamente estable \\(P(X\\mid Y)\\). Las probabilidades posteriores, la precision y el umbral operativo pueden cambiar aunque las distribuciones dentro de cada clase sean semejantes.\nEn un cambio de concepto, cambia \\(P(Y\\mid X)\\). Un patrón que antes estaba asociado con la respuesta deja de tener el mismo significado; reponderar \\(X\\) no corrige por sí solo este problema.\nEn un cambio de medición o de soporte, se modifica el instrumento, la definición de una variable, la población observable o aparecen regiones que no existían en los datos de entrenamiento. Sin observaciones comparables, el riesgo de uso no puede recuperarse solo a partir del conjunto original.\n\nPor eso no existe una prueba única para detectar todo cambio de distribución. Comparar marginales de variables puede revelar cambio de covariables, pero no demuestra estabilidad de \\(P(Y\\mid X)\\). Comparar prevalencias detecta otra clase de cambio, y auditar el proceso de medición resulta indispensable cuando las columnas conservan el mismo nombre pero ya no representan el mismo objeto.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
-    "href": "capitulo03_error_analysis_data_mismatch.html#error-analysis",
-    "title": "Error analysis y data mismatch",
-    "section": "Error analysis",
-    "text": "Error analysis\nUn análisis mínimo incluye:\n\nCasos correctamente clasificados.\nFalsos positivos.\nFalsos negativos.\nSubgrupos con peor desempeño.\nVariables o condiciones asociadas al error.\n\n\n\n\n\n\n\nFigura 4.1: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con resultado, diagnóstico, acción y límite.\n\n\n\nLectura de la figura. El promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un slice importante falla. La figura propone la secuencia mínima: resultado, diagnóstico, acción y límite.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#análisis-de-errores",
+    "href": "capitulo03_error_analysis_data_mismatch.html#análisis-de-errores",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Análisis de errores",
+    "text": "Análisis de errores\nUn análisis mínimo incluye:\n\nCasos correctamente clasificados.\nFalsos positivos.\nFalsos negativos.\nSubgrupos con peor desempeño.\nVariables o condiciones asociadas al error.\n\n\n\n\n\n\n\nFigura 4.1: El análisis por segmentos muestra que el promedio global puede ocultar un grupo con desempeño bajo.\n\n\n\nEl promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un segmento importante falla. La figura propone la secuencia mínima: resultado, diagnóstico, acción y límite.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#slices",
-    "href": "capitulo03_error_analysis_data_mismatch.html#slices",
-    "title": "Error analysis y data mismatch",
-    "section": "Slices",
-    "text": "Slices\nUn slice es un subconjunto interpretable de datos:\n\npacientes mayores de cierta edad;\nobservaciones con medición faltante;\nimágenes de baja calidad;\ntransacciones de monto alto;\nejemplos de una fuente específica.\n\nEl objetivo es detectar fallas ocultas por el promedio.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#segmentos-de-la-población",
+    "href": "capitulo03_error_analysis_data_mismatch.html#segmentos-de-la-población",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Segmentos de la población",
+    "text": "Segmentos de la población\nUn segmento (slice) es un subconjunto interpretable de datos:\n\npacientes mayores de cierta edad;\nobservaciones con medición faltante;\nimágenes de baja calidad;\ntransacciones de monto alto;\nejemplos de una fuente específica.\n\nEl objetivo es detectar fallas ocultas por el promedio.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-slices",
-    "href": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-slices",
-    "title": "Error analysis y data mismatch",
-    "section": "Incertidumbre y búsqueda entre slices",
-    "text": "Incertidumbre y búsqueda entre slices\nSea \\(n_S\\) el número de observaciones de un slice. Para una pérdida promedio,\n\\[\n\\widehat R_S=\\frac1{n_S}\\sum_{i:Z_i\\in S}L_i,\n\\qquad\n\\widehat{\\operatorname{se}}(\\widehat R_S)\n=\\frac{s_S}{\\sqrt{n_S}}.\n\\]\nSi \\(L_i\\) es el indicador de error, una aproximación binomial usa\n\\[\n\\sqrt{\\frac{\\widehat e_S(1-\\widehat e_S)}{n_S}}.\n\\]\nPara recall, el denominador no es \\(n_S\\), sino el número de positivos del slice; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.\nHay además un problema de selección. Si se inspeccionan cien slices y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los slices ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.\nNo imponemos una prueba de hipótesis automática para cada slice. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra baseline y etiqueta clara de análisis confirmatorio o exploratorio.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-segmentos",
+    "href": "capitulo03_error_analysis_data_mismatch.html#incertidumbre-y-búsqueda-entre-segmentos",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Incertidumbre y búsqueda entre segmentos",
+    "text": "Incertidumbre y búsqueda entre segmentos\nSea \\(n_S\\) el número de observaciones de un segmento. Para una pérdida promedio,\n\\[\n\\widehat R_S=\\frac1{n_S}\\sum_{i:Z_i\\in S}L_i,\n\\qquad\n\\widehat{\\operatorname{se}}(\\widehat R_S)\n=\\frac{s_S}{\\sqrt{n_S}}.\n\\]\nSi \\(L_i\\) es el indicador de error, una aproximación binomial usa\n\\[\n\\sqrt{\\frac{\\widehat e_S(1-\\widehat e_S)}{n_S}}.\n\\]\nPara recall, el denominador no es \\(n_S\\), sino el número de positivos del segmento; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.\nHay además un problema de selección. Si se inspeccionan cien segmentos y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los segmentos ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.\nNo imponemos una prueba de hipótesis automática para cada segmento. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra la regla de referencia y etiqueta clara de análisis confirmatorio o exploratorio.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#data-mismatch",
-    "href": "capitulo03_error_analysis_data_mismatch.html#data-mismatch",
-    "title": "Error analysis y data mismatch",
-    "section": "Data mismatch",
-    "text": "Data mismatch\nData mismatch ocurre cuando train, dev o test no vienen de la misma distribución relevante.\nEjemplos:\n\nentrenar con datos de una ciudad y probar en otra;\nentrenar con datos históricos y usar en una temporada distinta;\nusar datos limpios de laboratorio y desplegar en datos ruidosos;\ncombinar fuentes sin controlar origen.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#diferencias-entre-las-distribuciones",
+    "href": "capitulo03_error_analysis_data_mismatch.html#diferencias-entre-las-distribuciones",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Diferencias entre las distribuciones",
+    "text": "Diferencias entre las distribuciones\nHay una diferencia de distribución cuando entrenamiento, validación y prueba no provienen de la misma población relevante.\nEjemplos:\n\nentrenar con datos de una ciudad y probar en otra;\nentrenar con datos históricos y usar en una temporada distinta;\najustar con datos obtenidos bajo condiciones controladas y usar el modelo con datos ruidosos;\ncombinar fuentes sin controlar origen.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-de-mismatch",
-    "href": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-de-mismatch",
-    "title": "Error analysis y data mismatch",
-    "section": "Diagnóstico de mismatch",
-    "text": "Diagnóstico de mismatch\nCompare:\n\ndistribución de variables clave;\nproporción de clases;\ndesempeño por fuente;\nerror por periodo;\ndesempeño en dev vs test.\n\nSi validación y test difieren mucho, no basta con cambiar hiperparámetros. Puede existir mismatch.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-del-cambio-de-distribución",
+    "href": "capitulo03_error_analysis_data_mismatch.html#diagnóstico-del-cambio-de-distribución",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Diagnóstico del cambio de distribución",
+    "text": "Diagnóstico del cambio de distribución\nCompare:\n\ndistribución de variables clave;\nproporción de clases;\ndesempeño por fuente;\nerror por periodo;\ndesempeño en validación frente a prueba.\n\nSi validación y prueba difieren mucho, no basta con cambiar hiperparámetros. Puede existir un cambio de distribución.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-mismatch-por-proporción-de-clase",
-    "href": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-mismatch-por-proporción-de-clase",
-    "title": "Error analysis y data mismatch",
-    "section": "Ejemplo resuelto: mismatch por proporción de clase",
-    "text": "Ejemplo resuelto: mismatch por proporción de clase\nSupón la siguiente auditoría:\n\n\n\nConjunto\nObservaciones\nPositivos\nPorcentaje positivo\nRecall\n\n\n\n\ntrain\n5000\n1000\n20%\n0.84\n\n\ndev\n1000\n210\n21%\n0.82\n\n\ntest\n1000\n80\n8%\n0.55\n\n\n\nTrain y dev se parecen en proporción de clase y desempeño. Test, en cambio, tiene una clase positiva mucho menos frecuente y recall mucho menor. El cambio de prevalencia puede alterar precision, pero no explica por sí solo la caída de recall. Esa caída obliga a comparar también las distribuciones condicionadas a la clase y el proceso de medición.\nLa primera hipótesis no debería ser “el modelo necesita más hiperparámetros”. Una explicación más plausible es que test proviene de otra población, fuente o periodo. La acción técnica sería:\n\nrevisar cómo se construyó test;\ncomparar distribuciones de variables clave;\nreportar desempeño por fuente o periodo;\ndecidir si se necesita un dev set más parecido a producción.\n\nSi test representa producción real, el resultado indica un riesgo de despliegue, no solo una oportunidad de tuning.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-cambio-en-la-proporción-de-clase",
+    "href": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-cambio-en-la-proporción-de-clase",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Ejemplo resuelto: cambio en la proporción de clase",
+    "text": "Ejemplo resuelto: cambio en la proporción de clase\nConsideremos la siguiente auditoría:\n\n\n\nConjunto\nObservaciones\nPositivos\nPorcentaje positivo\nRecall\n\n\n\n\nentrenamiento\n5000\n1000\n20%\n0.84\n\n\nvalidación\n1000\n210\n21%\n0.82\n\n\nprueba\n1000\n80\n8%\n0.55\n\n\n\nEntrenamiento y validación se parecen en proporción de clase y desempeño. Prueba, en cambio, tiene una clase positiva mucho menos frecuente y recall mucho menor. El cambio de prevalencia puede alterar precision, pero no explica por sí solo la caída de recall. Esa caída obliga a comparar también las distribuciones condicionadas a la clase y el proceso de medición.\nLa primera hipótesis no debería ser “el modelo necesita más hiperparámetros”. Una explicación más plausible es que prueba proviene de otra población, fuente o periodo. La acción técnica sería:\n\nrevisar cómo se construyó el conjunto de prueba;\ncomparar distribuciones de variables clave;\nreportar desempeño por fuente o periodo;\ndecidir si se necesita una validación más parecida a la población de uso.\n\nSi prueba representa la población de uso, el resultado limita el alcance del modelo, no solo una oportunidad de tuning.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-qué-métricas-pueden-promediarse-por-slices",
-    "href": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-qué-métricas-pueden-promediarse-por-slices",
-    "title": "Error analysis y data mismatch",
-    "section": "Derivación guiada: qué métricas pueden promediarse por slices",
-    "text": "Derivación guiada: qué métricas pueden promediarse por slices\nUna pérdida promedio o la exactitud puede descomponerse por observación. Si un conjunto tiene dos slices con tamaños \\(n_A,n_B\\) y promedios \\(L_A,L_B\\), entonces:\n\\[\nL_{\\text{global}}\n=\n\\frac{n_A L_A+n_B L_B}{n_A+n_B}.\n\\]\nEsto no vale en general para F1, precision o recall. Para obtener su valor global se suman primero los conteos \\(TP\\), \\(FP\\), \\(FN\\) y \\(TN\\) de los slices y luego se aplica la fórmula de la métrica. Un promedio ponderado de F1 por tamaño puede dar otro número. En ambos casos, un slice grande puede ocultar la caída de uno pequeño; por eso se reportan el tamaño y los conteos junto a la métrica.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos",
+    "href": "capitulo03_error_analysis_data_mismatch.html#derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Derivación guiada: qué métricas pueden promediarse por segmentos",
+    "text": "Derivación guiada: qué métricas pueden promediarse por segmentos\nUna pérdida promedio o la exactitud puede descomponerse por observación. Si un conjunto tiene dos segmentos con tamaños \\(n_A,n_B\\) y promedios \\(L_A,L_B\\), entonces:\n\\[\nL_{\\text{global}}\n=\n\\frac{n_A L_A+n_B L_B}{n_A+n_B}.\n\\]\nEsto no vale en general para F1, precision o recall. Para obtener su valor global se suman primero los conteos \\(TP\\), \\(FP\\), \\(FN\\) y \\(TN\\) de los segmentos y luego se aplica la fórmula de la métrica. Un promedio ponderado de F1 por tamaño puede dar otro número. En ambos casos, un segmento grande puede ocultar la caída de uno pequeño; por eso se reportan el tamaño y los conteos junto a la métrica.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
     "href": "capitulo03_error_analysis_data_mismatch.html#recomendación-técnica",
-    "title": "Error analysis y data mismatch",
+    "title": "Análisis de errores y cambio de distribución",
     "section": "Recomendación técnica",
-    "text": "Recomendación técnica\nUna recomendación debe seguir la forma:\nResultado -&gt; diagnóstico -&gt; acción\nEjemplo:\nEl recall cae de 0.84 a 0.62 en el grupo de mayor riesgo.\nDiagnóstico: el modelo no generaliza bien a ese slice.\nAcción: revisar representación de variables, ampliar datos del slice y ajustar métrica de selección.",
+    "text": "Recomendación técnica\nUna recomendación debe seguir la forma:\nResultado -&gt; diagnóstico -&gt; acción\nEjemplo:\nEl recall cae de 0.84 a 0.62 en el grupo de mayor riesgo.\nDiagnóstico: el modelo no generaliza bien a ese segmento.\nAcción: revisar la representación de variables, ampliar los datos del segmento y ajustar la métrica de selección.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-dos-modelos-con-el-mismo-f1",
     "href": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-dos-modelos-con-el-mismo-f1",
-    "title": "Error analysis y data mismatch",
+    "title": "Análisis de errores y cambio de distribución",
     "section": "Ejemplo resuelto: dos modelos con el mismo F1",
-    "text": "Ejemplo resuelto: dos modelos con el mismo F1\nSupón dos modelos con F1 global 0.82.\n\n\n\nSlice\nModelo A\nModelo B\n\n\n\n\nDatos recientes\n0.80\n0.83\n\n\nDatos antiguos\n0.84\n0.81\n\n\nGrupo de alto riesgo\n0.55\n0.76\n\n\n\nAunque el F1 global sea igual, el Modelo B puede ser preferible si el grupo de alto riesgo es central para el uso propuesto. Antes de escogerlo hay que revisar el tamaño del slice y sus conteos de error.",
+    "text": "Ejemplo resuelto: dos modelos con el mismo F1\nConsideremos dos modelos con F1 global 0.82.\n\n\n\nSlice\nModelo A\nModelo B\n\n\n\n\nDatos recientes\n0.80\n0.83\n\n\nDatos antiguos\n0.84\n0.81\n\n\nGrupo de alto riesgo\n0.55\n0.76\n\n\n\nAunque el F1 global sea igual, el Modelo B puede ser preferible si el grupo de alto riesgo es central para el uso propuesto. Antes de escogerlo hay que revisar el tamaño del segmento y sus conteos de error.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
     "objectID": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-brecha-contra-el-promedio",
     "href": "capitulo03_error_analysis_data_mismatch.html#ejemplo-resuelto-brecha-contra-el-promedio",
-    "title": "Error analysis y data mismatch",
+    "title": "Análisis de errores y cambio de distribución",
     "section": "Ejemplo resuelto: brecha contra el promedio",
-    "text": "Ejemplo resuelto: brecha contra el promedio\nSupón que un modelo tiene F1 global de 0.81, pero el análisis por slice muestra:\n\n\n\nSlice\nObservaciones\nF1\n\n\n\n\nfuente A\n1400\n0.84\n\n\nfuente B\n900\n0.80\n\n\nfuente C\n220\n0.57\n\n\n\nLa brecha del slice C contra el promedio global es:\n\\[\n0.81 - 0.57 = 0.24.\n\\]\nEsa diferencia es grande y afecta una fuente específica. La recomendación no debería ser simplemente “el modelo tiene F1 0.81”. Una recomendación concreta sería:\nResultado: el F1 global es 0.81, pero en fuente C cae a 0.57 con 220 casos.\nDiagnóstico: el modelo generaliza mal a la fuente C o esa fuente tiene un proceso\nde medición distinto.\nAcción: auditar variables, faltantes y distribución de fuente C; entrenar/dev\ncon datos representativos de esa fuente antes de recomendar despliegue.\nLímite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la brecha.\nLa magnitud de la brecha no prueba por sí sola la causa. Sí prueba que el promedio global es insuficiente para tomar la decisión.",
+    "text": "Ejemplo resuelto: brecha contra el promedio\nConsideremos un modelo con F1 global de 0.81 cuyo análisis por segmento muestra:\n\n\n\nSlice\nObservaciones\nF1\n\n\n\n\nfuente A\n1400\n0.84\n\n\nfuente B\n900\n0.80\n\n\nfuente C\n220\n0.57\n\n\n\nLa brecha del segmento C respecto al promedio global es:\n\\[\n0.81 - 0.57 = 0.24.\n\\]\nEsa diferencia es grande y afecta una fuente específica. La recomendación no debería ser simplemente “el modelo tiene F1 0.81”. Una recomendación concreta sería:\nResultado: el F1 global es 0.81, pero en fuente C cae a 0.57 con 220 casos.\nDiagnóstico: el modelo generaliza mal a la fuente C o esa fuente tiene un proceso\nde medición distinto.\nAcción: auditar variables, faltantes y distribución de la fuente C; volver a\nentrenar y validar con datos representativos de esa fuente antes de recomendar su uso.\nLímite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la brecha.\nLa magnitud de la brecha no prueba por sí sola la causa. Sí prueba que el promedio global es insuficiente para tomar la decisión.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#caso-longitudinal-slice-reciente",
-    "href": "capitulo03_error_analysis_data_mismatch.html#caso-longitudinal-slice-reciente",
-    "title": "Error analysis y data mismatch",
-    "section": "Caso longitudinal: slice reciente",
-    "text": "Caso longitudinal: slice reciente\nEn clasificacion_binaria_sintetica.csv, la columna slice permite construir una tabla mínima:\n\n\n\nSlice\nObservaciones\nF1\nRecall\nLectura\n\n\n\n\nbase\n180\n0.82\n0.79\ndesempeño esperado\n\n\nreciente\n60\n0.61\n0.48\nposible mismatch\n\n\n\nAunque el número exacto dependa de la partición y del modelo, la pregunta permanece: si el uso real se parece al slice reciente, el promedio global no justifica despliegue. La acción razonable es construir un dev set más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#el-segmento-reciente",
+    "href": "capitulo03_error_analysis_data_mismatch.html#el-segmento-reciente",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "El segmento reciente",
+    "text": "El segmento reciente\nEn clasificacion_binaria_sintetica.csv, la columna slice permite construir una tabla mínima:\n\n\n\nSegmento\nObservaciones\nF1\nRecall\nLectura\n\n\n\n\nbase\n180\n0.82\n0.79\ndesempeño esperado\n\n\nreciente\n60\n0.61\n0.48\nposible cambio de distribución\n\n\n\nAunque el número exacto dependa de la partición y del modelo, la pregunta permanece: si el uso real se parece al segmento reciente, el promedio global no justifica el uso. La acción razonable es construir un conjunto de validación más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
-    "href": "capitulo03_error_analysis_data_mismatch.html#punto-de-control",
-    "title": "Error analysis y data mismatch",
-    "section": "Punto de control",
-    "text": "Punto de control\nUna recomendación técnica es incompleta si no responde:\n\n¿qué resultado observaste?;\n¿qué diagnóstico es compatible con ese resultado?;\n¿qué acción concreta sigue?;\n¿qué límite o riesgo debe comunicarse?",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#de-la-observación-a-una-acción",
+    "href": "capitulo03_error_analysis_data_mismatch.html#de-la-observación-a-una-acción",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "De la observación a una acción",
+    "text": "De la observación a una acción\nUna recomendación técnica es incompleta si no responde:\n\n¿qué resultado observaste?;\n¿qué diagnóstico es compatible con ese resultado?;\n¿qué acción concreta sigue?;\n¿qué límite o riesgo debe comunicarse?",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#verificaciones-seleccionadas",
-    "href": "capitulo03_error_analysis_data_mismatch.html#verificaciones-seleccionadas",
-    "title": "Error analysis y data mismatch",
-    "section": "Verificaciones seleccionadas",
-    "text": "Verificaciones seleccionadas\n\nSi el F1 global es 0.81 y el F1 de un slice es 0.57, la brecha es 0.24.\nUna brecha por slice no prueba la causa; prueba que el promedio global es insuficiente para la decisión.\nSi dev y test tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de hacer más tuning.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#comprobaciones-del-diagnóstico",
+    "href": "capitulo03_error_analysis_data_mismatch.html#comprobaciones-del-diagnóstico",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Comprobaciones del diagnóstico",
+    "text": "Comprobaciones del diagnóstico\n\nSi el F1 global es 0.81 y el F1 de un segmento es 0.57, la brecha es 0.24.\nUna brecha por segmento no prueba la causa; muestra que el promedio global es insuficiente para la decisión.\nSi validación y prueba tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de realizar más ajustes.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#procedimiento-de-auditoría-por-slice",
-    "href": "capitulo03_error_analysis_data_mismatch.html#procedimiento-de-auditoría-por-slice",
-    "title": "Error analysis y data mismatch",
-    "section": "Procedimiento de auditoría por slice",
-    "text": "Procedimiento de auditoría por slice\nUna auditoría mínima por slice sigue cuatro pasos. Primero, predefine los slices que sostendrán conclusiones confirmatorias: periodo, fuente, región, rango de edad, instrumento de medición o categoría operativa relevante. Segundo, calcula para cada slice tamaño, tasa de clase positiva, métrica principal y tipo de error dominante. Tercero, compara contra el desempeño global y contra el baseline; un slice puede tener bajo desempeño absoluto pero seguir mejorando el baseline, o puede empeorar aunque el promedio global suba. Cuarto, escribe una acción: recoger más datos, cambiar partición, ajustar umbral, crear feature, separar modelo o limitar el uso.\nLos slices encontrados después de inspeccionar errores son útiles para generar hipótesis, pero deben marcarse como exploratorios y confirmarse con otra muestra o periodo. De lo contrario se seleccionan, sin decirlo, los grupos con la caída más llamativa.\nLa auditoría también debe proteger contra conclusiones exageradas. Un slice con 12 observaciones no sostiene una afirmación fuerte, pero sí puede activar una revisión. Un slice grande con caída persistente sí cambia la recomendación. En el reporte, el tamaño del slice y la métrica deben aparecer juntos.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#procedimiento-de-auditoría-por-segmentos",
+    "href": "capitulo03_error_analysis_data_mismatch.html#procedimiento-de-auditoría-por-segmentos",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Procedimiento de auditoría por segmentos",
+    "text": "Procedimiento de auditoría por segmentos\nUna auditoría mínima sigue cuatro pasos. Primero, se definen los segmentos que sostendrán conclusiones confirmatorias: periodo, fuente, región, rango de edad, instrumento de medición o categoría operativa relevante. Segundo, para cada uno se calculan el tamaño, la tasa de clase positiva, la métrica principal y el tipo de error dominante. Tercero, se compara cada resultado con el desempeño global y con la regla de referencia; un segmento puede tener bajo desempeño absoluto y, sin embargo, mejorar esa referencia, o puede empeorar aunque el promedio global suba. Cuarto, se formula una acción: recoger más datos, cambiar la partición, ajustar el umbral, crear una variable, separar el modelo o limitar su uso.\nLos segmentos encontrados después de inspeccionar errores son útiles para generar hipótesis, pero deben marcarse como exploratorios y confirmarse con otra muestra o periodo. De lo contrario se seleccionan, sin decirlo, los grupos con la caída más llamativa.\nLa auditoría también debe proteger contra conclusiones exageradas. Un segmento con 12 observaciones no sostiene una afirmación fuerte, pero sí puede activar una revisión. Un segmento grande con una caída persistente sí cambia la recomendación. En el reporte, el tamaño del segmento y la métrica deben aparecer juntos.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#para-explorar-más",
-    "href": "capitulo03_error_analysis_data_mismatch.html#para-explorar-más",
-    "title": "Error analysis y data mismatch",
-    "section": "Para explorar más",
-    "text": "Para explorar más\n\n\nExtensión matemática: calcula tasas de error por slice y estima la brecha respecto al promedio global.\nExtensión computacional: crea una tabla de errores con columnas para predicción, etiqueta, slice, score y tipo de fallo.\nConexión con proyecto: define dos slices que podrían revelar data mismatch y explica qué acción tomarías si fallan.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#síntesis",
+    "href": "capitulo03_error_analysis_data_mismatch.html#síntesis",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Síntesis",
+    "text": "Síntesis\nEl análisis de errores convierte una métrica agregada en diagnóstico. Separar falsos positivos, falsos negativos, casos ambiguos y segmentos críticos revela fallas que un promedio puede ocultar.\nLa diferencia de distribución aparece cuando entrenamiento, validación, prueba o uso no representan la misma población, periodo o proceso de medición. Antes de ajustar hiperparámetros, hay que revisar si la caída de desempeño se explica por cambio de distribución.\nUna recomendación técnica debe tener estructura: resultado observado, diagnóstico probable, acción concreta y límite. Sin esa estructura, el reporte queda como una opinión difícil de auditar.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#revisión-del-capítulo",
-    "href": "capitulo03_error_analysis_data_mismatch.html#revisión-del-capítulo",
-    "title": "Error analysis y data mismatch",
-    "section": "Revisión del capítulo",
-    "text": "Revisión del capítulo\nEl análisis de errores convierte una métrica agregada en diagnóstico. Separar falsos positivos, falsos negativos, casos ambiguos y slices críticos revela fallas que un promedio puede ocultar.\nData mismatch aparece cuando train, dev o test no representan la misma población, periodo o proceso de medición. Antes de ajustar hiperparámetros, hay que revisar si la caída de desempeño se explica por cambio de distribución.\nUna recomendación técnica debe tener estructura: resultado observado, diagnóstico probable, acción concreta y límite. Sin esa estructura, el reporte queda como una opinión difícil de auditar.",
+    "objectID": "capitulo03_error_analysis_data_mismatch.html#problemas",
+    "href": "capitulo03_error_analysis_data_mismatch.html#problemas",
+    "title": "Análisis de errores y cambio de distribución",
+    "section": "Problemas",
+    "text": "Problemas\n\nProponga tres segmentos relevantes para un problema de predicción de abandono de clientes.\n¿Por qué un F1 global puede ocultar una falla grave?\nDada una tabla de métricas por segmento, identifique el segmento crítico y calcule la brecha respecto al desempeño global.\nSi validación tiene 30% de clase positiva y prueba 12%, ¿qué debe comprobarse antes de ajustar hiperparámetros?\nEscriba una función que calcule una métrica por grupo.\nCompare la distribución de una variable clave entre validación y prueba con una tabla o gráfico.\n¿Qué resultados sugerirían una diferencia de distribución entre validación y prueba?\nEscriba una recomendación técnica con la estructura resultado-diagnóstico-acción.\nPara un segmento con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.\nExplique por qué el denominador efectivo de recall por segmento es el número de positivos y no el tamaño total del segmento.\nSe inspeccionaron 80 segmentos y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.\nIndique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.\nConstruya una tabla de análisis de errores con al menos tres segmentos, tamaño, denominador efectivo, diagnóstico y una acción concreta. Distinga los segmentos definidos de antemano de los hallados durante la exploración.",
     "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#términos-clave",
-    "href": "capitulo03_error_analysis_data_mismatch.html#términos-clave",
-    "title": "Error analysis y data mismatch",
-    "section": "Términos clave",
-    "text": "Términos clave\n\n\nError analysis: revisión sistemática de casos donde el modelo falla.\nSlice: subconjunto de datos definido por una característica relevante.\nData mismatch: diferencia entre distribuciones o condiciones de dev, test o producción.\nDiagnóstico: explicación técnica probable de un patrón de error.\nRecomendación técnica: acción proporcional al resultado, diagnóstico y límites.\nLímite: condición bajo la cual la conclusión no debe extrapolarse.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
-    "href": "capitulo03_error_analysis_data_mismatch.html#ejercicios",
-    "title": "Error analysis y data mismatch",
-    "section": "Ejercicios",
-    "text": "Ejercicios\n\nPreguntas conceptuales\n\nProponga tres slices relevantes para un proyecto de predicción de abandono de clientes.\n¿Por qué un F1 global puede ocultar una falla grave?\n\n\n\nProblemas cuantitativos\n\nDada una tabla de métricas por slice, identifique el slice crítico y calcule la brecha contra el desempeño global.\nSi dev tiene 30% de clase positiva y test 12%, ¿qué sospecha antes de ajustar hiperparámetros?\n\n\n\nPráctica computacional\n\nEscriba una función que calcule una métrica por grupo.\nCompare distribución de una variable clave entre dev y test con una tabla o gráfico.\n\n\n\nInterpretación y pensamiento crítico\n\n¿Qué resultados sugerirían data mismatch entre dev y test?\nEscriba una recomendación técnica con la estructura resultado-diagnóstico-acción.\n\n\n\nProfundización matemática y estadística\n\nPara un slice con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.\nExplique por qué el denominador efectivo de recall por slice es el número de positivos y no el tamaño total del slice.\nSe inspeccionaron 80 slices y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.\nIndique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.\n\n\n\nProyecto de cierre\n\nPara su proyecto, entregue una tabla de error analysis con al menos tres slices, diagnóstico por slice y una acción concreta.",
-    "crumbs": [
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Error analysis y data mismatch</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Análisis de errores y cambio de distribución</span>"
     ]
   },
   {
     "objectID": "capitulo04_ejercicios_integradores.html",
     "href": "capitulo04_ejercicios_integradores.html",
-    "title": "Ejercicios integradores: estrategia de machine learning",
+    "title": "Problemas integradores de evaluación",
     "section": "",
-    "text": "Resultados de práctica\nEsta sección entrena la habilidad central del módulo: convertir métricas y particiones en comparaciones verificables. Una buena respuesta nombra el resultado, explica por qué es relevante y reconoce qué todavía no se sabe.\nAl terminar este banco deberías poder:",
+    "text": "Métricas como cantidades aleatorias\nEstos problemas reúnen las cantidades poblacionales, los estadísticos y las decisiones que intervienen al evaluar un modelo. Una comparación completa debe declarar la métrica, la regla de referencia, la partición y cualquier posible filtración de información; también debe mostrar la variación de la estimación y localizar los errores que un promedio oculta.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
-    "objectID": "capitulo04_ejercicios_integradores.html#resultados-de-práctica",
-    "href": "capitulo04_ejercicios_integradores.html#resultados-de-práctica",
-    "title": "Ejercicios integradores: estrategia de machine learning",
+    "objectID": "capitulo04_ejercicios_integradores.html#métricas-como-cantidades-aleatorias",
+    "href": "capitulo04_ejercicios_integradores.html#métricas-como-cantidades-aleatorias",
+    "title": "Problemas integradores de evaluación",
     "section": "",
-    "text": "elegir una métrica según costo de error;\ndiseñar particiones que respeten el problema;\ndetectar leakage antes de confiar en una métrica;\ninterpretar curvas de aprendizaje;\nconvertir error analysis en una recomendación técnica.",
+    "text": "P1. Exactitud aleatoria. Un modelo fijo acierta 180 de 200 casos iid. Calcule la exactitud y un error estándar aproximado. Explique qué supuesto permite usar la fórmula Bernoulli.\n\n\nP2. Denominadores. Dos grupos tienen recall 0.80; uno contiene 10 positivos y otro 500. Compare la información que aportan ambas cifras sin usar solo el valor puntual.\n\n\nP3. Procedimiento y modelo. Distinga el riesgo de un modelo ya fijado del riesgo esperado de un procedimiento que selecciona hiperparámetros a partir de una muestra.\n\n\nP4. Dependencia de los pliegues. Explique por qué los puntajes de una validación cruzada con cinco pliegues no son independientes y por qué media ± desviación no constituye automáticamente un intervalo de confianza.\n\n\nP5. Bootstrap por grupos. Diseñe un remuestreo para datos con diez mediciones por paciente. Compare con remuestrear filas individualmente.\n\n\nP6. Riesgo por segmentos. Construya dos segmentos con pesos poblacionales y riesgos condicionales dados; verifique la descomposición del riesgo global y muestre cómo un segmento crítico puede quedar oculto.\n\n\nP7. Soporte. Dé un ejemplo de observaciones posibles en producción con probabilidad positiva bajo \\(P_{\\mathrm{uso}}\\) y probabilidad cero bajo \\(P_{\\mathrm{train}}\\). Explique por qué ponderar entrenamiento no basta.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
-    "objectID": "capitulo04_ejercicios_integradores.html#mapa-del-banco",
-    "href": "capitulo04_ejercicios_integradores.html#mapa-del-banco",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Mapa del banco",
-    "text": "Mapa del banco\n\n\n\nBloque\nQué comprueba\n\n\n\n\nA\nmétrica principal, métrica secundaria y baseline\n\n\nB\nparticiones, validación y leakage\n\n\nC\ncurvas, variabilidad y validación cruzada\n\n\nD\nanálisis de errores por slices",
+    "objectID": "capitulo04_ejercicios_integradores.html#costos-métricas-y-reglas-de-referencia",
+    "href": "capitulo04_ejercicios_integradores.html#costos-métricas-y-reglas-de-referencia",
+    "title": "Problemas integradores de evaluación",
+    "section": "Costos, métricas y reglas de referencia",
+    "text": "Costos, métricas y reglas de referencia\n\nA1. En un problema con falsos negativos costosos, explique por qué la exactitud puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una secundaria para un sistema de detección temprana de riesgo.\n\n\nA4. Derive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\). Indique qué supuestos sobre calibración y costos necesita para usarlo con un score estimado.\n\n\nA5. Dos clasificadores tienen recall 0.80, uno con 12 positivos y otro con 480. Calcule errores estándar aproximados y discuta qué comparación puede sostenerse.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
-    "objectID": "capitulo04_ejercicios_integradores.html#criterio-de-respuesta",
-    "href": "capitulo04_ejercicios_integradores.html#criterio-de-respuesta",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Criterio de respuesta",
-    "text": "Criterio de respuesta\nEn problemas aplicados, una respuesta completa suele tener esta forma:\nmétrica elegida -&gt; baseline -&gt; partición -&gt; riesgo de leakage -&gt; decisión o siguiente experimento\nSi falta una de esas piezas, la comparación queda débil.",
+    "objectID": "capitulo04_ejercicios_integradores.html#particiones-y-filtración-de-información",
+    "href": "capitulo04_ejercicios_integradores.html#particiones-y-filtración-de-información",
+    "title": "Problemas integradores de evaluación",
+    "section": "Particiones y filtración de información",
+    "text": "Particiones y filtración de información\n\nB1. Explique por qué escalar antes de partir datos puede contaminar validación.\n\n\nB2. Diseñe una partición para datos temporales. ¿Por qué shuffle=True puede ser inadecuado?\n\n\nB3. Identifique dos formas de filtración de información en un análisis predictivo.\n\n\nB4. Explique por qué elegir un umbral o una figura después de mirar prueba es selección, aunque los parámetros del modelo permanezcan fijos.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
-    "objectID": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
-    "href": "capitulo04_ejercicios_integradores.html#columna-probabilística-del-módulo",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Columna probabilística del módulo",
-    "text": "Columna probabilística del módulo\n\nP1. Accuracy aleatoria. Un modelo fijo acierta 180 de 200 casos iid. Calcule accuracy y un error estándar aproximado. Explique qué supuesto permite usar la fórmula Bernoulli.\n\n\nP2. Denominadores. Dos grupos tienen recall 0.80; uno contiene 10 positivos y otro 500. Compare la información que aportan ambas cifras sin usar solo el valor puntual.\n\n\nP3. Procedimiento y modelo. Distinga el riesgo de un modelo ya fijado del riesgo esperado de un procedimiento que selecciona hiperparámetros a partir de una muestra.\n\n\nP4. Dependencia de folds. Explique por qué los puntajes de 5-fold CV no son independientes y por qué media ± desviación no constituye automáticamente un intervalo de confianza.\n\n\nP5. Bootstrap por grupos. Diseñe un remuestreo para datos con diez mediciones por paciente. Compare con remuestrear filas individualmente.\n\n\nP6. Riesgo por slices. Construya dos slices con pesos poblacionales y riesgos condicionales dados; verifique la descomposición del riesgo global y muestre cómo un slice crítico puede quedar oculto.\n\n\nP7. Soporte. Dé un ejemplo de observaciones posibles en producción con probabilidad positiva bajo \\(P_{\\mathrm{uso}}\\) y probabilidad cero bajo \\(P_{\\mathrm{train}}\\). Explique por qué ponderar entrenamiento no basta.",
+    "objectID": "capitulo04_ejercicios_integradores.html#validación-y-curvas",
+    "href": "capitulo04_ejercicios_integradores.html#validación-y-curvas",
+    "title": "Problemas integradores de evaluación",
+    "section": "Validación y curvas",
+    "text": "Validación y curvas\n\nC1. Interprete una curva con desempeño alto en entrenamiento y bajo en validación.\n\n\nC2. Explique cuándo más datos probablemente ayudarían.\n\n\nC3. ¿Qué información agrega la validación cruzada frente a una única partición?\n\n\nC4. Diseñe una validación cruzada anidada para 20 configuraciones, 5 pliegues interiores y 4 exteriores. Calcule el número aproximado de ajustes.\n\n\nC5. Explique por qué la mejor de muchas estimaciones de CV suele ser optimista para el candidato seleccionado.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
-    "objectID": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
-    "href": "capitulo04_ejercicios_integradores.html#bloque-a-métricas",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Bloque A: métricas",
-    "text": "Bloque A: métricas\n\nA1. En un problema con falsos negativos costosos, explique por qué accuracy puede ser una mala métrica principal.\n\n\nA2. Dada una matriz de confusión, calcule precision, recall y F1.\n\n\nA3. Proponga una métrica principal y una métrica secundaria para un proyecto de detección temprana de riesgo.\n\n\nA4. Derive el umbral de Bayes para costos \\(C_{FP}\\) y \\(C_{FN}\\). Indique qué supuestos sobre calibración y costos necesita para usarlo con un score estimado.\n\n\nA5. Dos clasificadores tienen recall 0.80, uno con 12 positivos y otro con 480. Calcule errores estándar aproximados y discuta qué comparación puede sostenerse.",
+    "objectID": "capitulo04_ejercicios_integradores.html#análisis-de-errores-por-segmentos",
+    "href": "capitulo04_ejercicios_integradores.html#análisis-de-errores-por-segmentos",
+    "title": "Problemas integradores de evaluación",
+    "section": "Análisis de errores por segmentos",
+    "text": "Análisis de errores por segmentos\n\nD1. Proponga segmentos para analizar errores en clasificación de dígitos escritos a mano.\n\n\nD2. Escriba una recomendación técnica basada en un segmento donde el F1 cae de 0.80 a 0.55.\n\n\nD3. Explique por qué una métrica agregada no reemplaza inspección de errores.\n\n\nD4. Se exploraron cincuenta segmentos y se reportó el de peor resultado. Diseñe un protocolo para distinguir hallazgo exploratorio de confirmación y especifique qué denominadores publicaría.",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo04_ejercicios_integradores.html#bloque-b-particiones-y-leakage",
-    "href": "capitulo04_ejercicios_integradores.html#bloque-b-particiones-y-leakage",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Bloque B: particiones y leakage",
-    "text": "Bloque B: particiones y leakage\n\nB1. Explique por qué escalar antes de partir datos puede contaminar validación.\n\n\nB2. Diseñe una partición para datos temporales. ¿Por qué shuffle=True puede ser inadecuado?\n\n\nB3. Identifique dos formas de leakage en proyectos estudiantiles.\n\n\nB4. Explique por qué elegir un umbral o una figura después de mirar test es selección, aunque los parámetros del modelo permanezcan fijos.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo04_ejercicios_integradores.html#bloque-c-validación-y-curvas",
-    "href": "capitulo04_ejercicios_integradores.html#bloque-c-validación-y-curvas",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Bloque C: validación y curvas",
-    "text": "Bloque C: validación y curvas\n\nC1. Interprete una curva con train alto y validation bajo.\n\n\nC2. Explique cuándo más datos probablemente ayudarían.\n\n\nC3. ¿Qué información agrega cross-validation frente a un único split?\n\n\nC4. Diseñe una validación cruzada anidada para 20 configuraciones, 5 folds interiores y 4 exteriores. Calcule el número aproximado de ajustes.\n\n\nC5. Explique por qué la mejor de muchas estimaciones de CV suele ser optimista para el candidato seleccionado.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
-    ]
-  },
-  {
-    "objectID": "capitulo04_ejercicios_integradores.html#bloque-d-error-analysis",
-    "href": "capitulo04_ejercicios_integradores.html#bloque-d-error-analysis",
-    "title": "Ejercicios integradores: estrategia de machine learning",
-    "section": "Bloque D: error analysis",
-    "text": "Bloque D: error analysis\n\nD1. Proponga slices para analizar errores en clasificación de dígitos escritos a mano.\n\n\nD2. Escriba una recomendación técnica basada en un slice donde el F1 cae de 0.80 a 0.55.\n\n\nD3. Explique por qué una métrica agregada no reemplaza inspección de errores.\n\n\nD4. Se exploraron cincuenta slices y se reportó el de peor resultado. Diseñe un protocolo para distinguir hallazgo exploratorio de confirmación y especifique qué denominadores publicaría.",
-    "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {
     "objectID": "capitulo04_ejercicios_integradores.html#respuestas-seleccionadas",
     "href": "capitulo04_ejercicios_integradores.html#respuestas-seleccionadas",
-    "title": "Ejercicios integradores: estrategia de machine learning",
+    "title": "Problemas integradores de evaluación",
     "section": "Respuestas seleccionadas",
-    "text": "Respuestas seleccionadas\n\nA1. Accuracy puede ser alta aunque el modelo ignore la clase importante. Si los falsos negativos son costosos, recall, F1 o una métrica ponderada por costo pueden reflejar mejor la decisión.\n\n\nB1. Escalar antes de partir datos usa media y desviación calculadas con información de validación. Eso contamina la evaluación porque el preprocesamiento ya vio datos que debían permanecer independientes.\n\n\nC3. Cross-validation muestra la dispersión de resultados entre folds. Un único split puede favorecer o perjudicar accidentalmente a un modelo. La desviación entre folds no es automáticamente un intervalo de confianza.\n\n\nD2. Una recomendación mínima sería: “El F1 global es 0.80 y el del slice crítico es 0.55. El patrón es compatible con una falla de representación o mismatch. Antes de recomendar uso, se deben revisar tamaño y conteos de error del slice y confirmar la caída en otra muestra.”",
+    "text": "Respuestas seleccionadas\n\nA1. La exactitud puede ser alta aunque el modelo ignore la clase importante. Si los falsos negativos son costosos, recall, F1 o una métrica ponderada por costo pueden reflejar mejor la decisión.\n\n\nB1. Escalar antes de partir datos usa media y desviación calculadas con información de validación. Eso contamina la evaluación porque el preprocesamiento ya vio datos que debían permanecer independientes.\n\n\nC3. La validación cruzada muestra la dispersión de resultados entre pliegues. Una única partición puede favorecer o perjudicar accidentalmente a un modelo. La desviación entre pliegues no es automáticamente un intervalo de confianza.\n\n\nD2. Una recomendación mínima sería: “El F1 global es 0.80 y el del segmento crítico es 0.55. El patrón es compatible con una falla de representación o un cambio de distribución. Antes de recomendar uso, se deben revisar el tamaño y los conteos de error del segmento y confirmar la caída en otra muestra.”",
     "crumbs": [
-      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Ejercicios integradores: estrategia de machine learning</span>"
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Problemas integradores de evaluación</span>"
     ]
   },
   {

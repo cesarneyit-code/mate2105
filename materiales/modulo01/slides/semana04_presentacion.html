@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana04_presentacion_files/libs/revealjs/dist/theme/quarto-586566baa65c003b9bfc3da61172d24e.css">
+  <link rel="stylesheet" href="semana04_presentacion_files/libs/revealjs/dist/theme/quarto-6308f6c74eeaac9854a9557d42d59a76.css">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana04_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-
 <h2>La capacidad puede entrar por las columnas</h2>
 <p>La semana anterior cambiamos escala sin cambiar la familia esencial de predictores. Ahora construiremos columnas nuevas de forma explícita.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: la complejidad aparecerá en la matriz de diseño, no en un optimizador distinto.</p>
+<p>la complejidad aparecerá en la matriz de diseño, no en un optimizador distinto.</p>
 </div>
 </section>
 <section id="una-parábola-observada-con-ruido" class="slide level2 case-slide">
@@ -268,35 +268,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Con una variable y grado <span class="math inline">\(d\)</span>, <span class="math inline">\(\mathbf\Phi_d\in\mathbb R^{n\times(d+1)}\)</span>. Si <code>include_bias=True</code>, no agregue otro intercepto.</p>
+</div>
 </section>
 <section id="comparar-grados-exige-observaciones-no-usadas-en-el-ajuste" class="slide level2 probability-slide">
 <h2>Comparar grados exige observaciones no usadas en el ajuste</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>riesgo de la regla predictiva</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>riesgo esperado dentro de una familia de bases polinomiales</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>errores de train y validación</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>errores de train y validación para cada grado</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>train y validación representan el mismo uso objetivo</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>la transformación se fija sin usar etiquetas de validación</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra y selección entre grados</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, ruido y elección del grado</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué diseño permite ajustar una función polinomial mediante mínimos cuadrados ordinarios?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra altera las curvas de error y puede cambiar el grado preferido.</p>
 </div>
 </section>
 <section id="no-lineal-en-la-entrada-lineal-en-los-parámetros" class="slide level2 formula-slide">
 <h2>No lineal en la entrada, lineal en los parámetros</h2>
+<div class="formula-question">
+<p>¿Qué diseño permite ajustar una función polinomial mediante mínimos cuadrados ordinarios?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 \boldsymbol\phi_d(x)=(1,x,x^2,\ldots,x^d)^\top,
@@ -304,33 +304,30 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-
 \widehat y=\boldsymbol\phi_d(x)^\top\boldsymbol\theta.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>El predictor es no lineal en <span class="math inline">\(x\)</span> y lineal en <span class="math inline">\(\theta\)</span>. Esta distinción permite reutilizar pérdida, gradiente y <code>lstsq</code>.</p>
 </div>
 </section>
 <section id="cada-observación-produce-una-fila-transformada" class="slide level2 derivation-slide">
 <h2>Cada observación produce una fila transformada</h2>
+<div class="derivation-step fragment">
 <p>Apilando filas transformadas, <span class="math display">\[\mathbf\Phi_d=[\boldsymbol\phi_d(x_1)^\top;\ldots;\boldsymbol\phi_d(x_n)^\top].\]</span></p>
+</div>
 </section>
 <section id="después-de-transformar-seguimos-resolviendo-mínimos-cuadrados" class="slide level2 derivation-slide">
 <h2>Después de transformar, seguimos resolviendo mínimos cuadrados</h2>
+<div class="derivation-step fragment">
 <p>El ajuste resuelve <span class="math display">\[\widehat{\boldsymbol\theta}_d
 =\arg\min_{\boldsymbol\theta}
 \lVert\mathbf\Phi_d\boldsymbol\theta-\mathbf y\rVert_2^2.\]</span> Cada grado define un problema distinto y debe compararse fuera de train.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Con una variable y grado <span class="math inline">\(d\)</span>, <span class="math inline">\(\mathbf\Phi_d\in\mathbb R^{n\times(d+1)}\)</span>. Si <code>include_bias=True</code>, no agregue otro intercepto.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="un-coeficiente-de-curvatura-depende-de-la-base-y-del-rango-observado" class="slide level2 interpretation-slide">
 <h2>Un coeficiente de curvatura depende de la base y del rango observado</h2>
 <p>Un coeficiente de <span class="math inline">\(x^2\)</span> describe curvatura dentro de esta base y este rango observado. No representa automáticamente el efecto de elevar una variable al cuadrado en el mundo.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Con una entrada escalar y una base polinomial de grado 3 que incluye intercepto, ¿cuántas columnas tiene <span class="math inline">\(\boldsymbol\phi_3(x)\)</span>?
@@ -354,8 +351,8 @@ Con una entrada escalar y una base polinomial de grado 3 que incluye intercepto,
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -365,26 +362,26 @@ Las columnas corresponden a <span class="math inline">\(1,x,x^2,x^3\)</span>. El
 </section>
 <section id="comparar-grados-sin-consultar-test" class="slide level2 algorithm-slide">
 <h2>Comparar grados sin consultar test</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>fijar grados candidatos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>ajustar el transformador dentro de cada partición</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>construir el modelo sobre train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>medir en validación</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>reservar test para el procedimiento elegido</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-comparar-grados-sin-consultar-test" class="slide level2 code-slide">
+<h2>En código: Comparar grados sin consultar test</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>model <span class="op">=</span> make_pipeline(</span>
 <span id="cb1-2"><a href=""></a>    PolynomialFeatures(degree<span class="op">=</span>degree, include_bias<span class="op">=</span><span class="va">False</span>),</span>
 <span id="cb1-3"><a href=""></a>    StandardScaler(),</span>
@@ -396,27 +393,27 @@ Las columnas corresponden a <span class="math inline">\(1,x,x^2,x^3\)</span>. El
 <p>La tubería conserva juntas transformación y estimación; validación no participa en <code>fit</code>.</p>
 </div>
 </section>
-<section id="cuatro-grados-sobre-la-misma-partición" class="slide level2 worked-example-slide">
+<section id="cuatro-grados-sobre-la-misma-partición" class="slide level2 worked-example-slide result-slide">
 <h2>Cuatro grados sobre la misma partición</h2>
 <p>Comparamos grados 1, 2, 5 y 12 con la misma partición. El grado 2 coincide con la forma generadora, pero la selección se basa en validación, no en ese conocimiento oculto.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">4</span><span class="label">grados candidatos</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">1</span><span class="label">partición fijada</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">MSE</span><span class="label">métrica de selección</span>
 </div>
 </div>
 <p>La tabla completa de train y dev importa más que anunciar el grado ganador.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> La comparación entre grados necesita validación; el mejor ajuste de train no estima por sí solo el riesgo futuro.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana04_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana04_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana04_live_coding.ipynb</code></p>
 </div>
@@ -451,59 +448,64 @@ Las columnas corresponden a <span class="math inline">\(1,x,x^2,x^3\)</span>. El
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compruebe el número de columnas con <code>named_steps['polynomialfeatures'].n_output_features_</code> y que cada grado use exactamente los mismos índices de train/dev.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>no lineal en la entrada, lineal en los parámetros</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="una-característica-construida-con-el-objetivo-es-leakage" class="slide level2 failure-slide">
-<h2>Una característica construida con el objetivo es leakage</h2>
-<div class="failure-statement">
-<p>Agregar términos calculados con información del objetivo filtra la respuesta en las variables.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Una característica construida con el objetivo es leakage</span> <strong>Agregar términos calculados con información del objetivo filtra la respuesta en las variables.</strong>
+<p>
+<span>Señal:</span> alguna columna se construye usando <code>y</code> o información posterior.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>alguna columna se construye usando <code>y</code> o información posterior</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">El error de entrenamiento siempre favorece más capacidad</span> <strong>Comparar grados por error de entrenamiento elige complejidad sin estimar generalización.</strong>
+<p>
+<span>Señal:</span> el criterio siempre favorece el grado máximo.
+</p>
+</div>
 </div>
 </section>
-<section id="el-error-de-entrenamiento-siempre-favorece-más-capacidad" class="slide level2 failure-slide">
-<h2>El error de entrenamiento siempre favorece más capacidad</h2>
-<div class="failure-statement">
-<p>Comparar grados por error de entrenamiento elige complejidad sin estimar generalización.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el criterio siempre favorece el grado máximo</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Una variable <code>promedio_futuro_del_objetivo</code> mejora mucho validación aleatoria. ¿Es un mapa de características válido? Diseñe una prueba.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>No si usa información posterior al momento de predicción. Se debe reconstruir la variable respetando el tiempo y repetir una partición temporal; si no puede calcularse para casos futuros, se elimina.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Los mapas polinomiales permiten representar curvatura con un estimador lineal en parámetros y comparar complejidad mediante validación.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Los mapas polinomiales permiten representar curvatura con un estimador lineal en parámetros y comparar complejidad mediante validación.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Una mejor curva dentro del rango observado no justifica extrapolación, causalidad ni estabilidad fuera de la fuente de datos.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>La comparación entre grados necesita validación; el mejor ajuste de train no estima por sí solo el riesgo futuro.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Una mejor curva dentro del rango observado no justifica extrapolación, causalidad ni estabilidad fuera de la fuente de datos.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La propuesta de proyecto debe separar variables disponibles al predecir de variables conocidas solo después del resultado.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Propuesta aprobable y publicación de Lab 2.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li><span class="math inline">\(\boldsymbol\phi_d(x)=(1,x,\ldots,x^d)\)</span></li>
 <li><span class="math inline">\(\mathbf\Phi_d\)</span> cambia con el grado</li>
@@ -511,18 +513,18 @@ Las columnas corresponden a <span class="math inline">\(1,x,x^2,x^3\)</span>. El
 <li>grado se elige en validación</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>La base crea capacidad; la partición decide si esa capacidad ayuda fuera de las filas usadas para ajustar.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Cuántas columnas produce grado 4 con una variable e intercepto?</li>
 <li>¿Dónde se elige el grado?</li>
 <li>¿Qué diferencia hay entre transformación determinista y leakage?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>La base crea capacidad; la partición decide si esa capacidad ayuda fuera de las filas usadas para ajustar.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> lleve al notebook una predicción sobre cuál grado tendrá menor error de validación.</p>
 

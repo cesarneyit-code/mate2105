@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana10_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana10_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/09-
 <h2>El objetivo permanece; cambia la actualización</h2>
 <p>Hasta ahora usamos un gradiente por todo train. En redes, estimar el gradiente con mini-batches reduce costo por actualización y añade variación.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: compararemos optimizadores bajo el mismo número de actualizaciones y la misma secuencia de batches.</p>
+<p>compararemos optimizadores bajo el mismo número de actualizaciones y la misma secuencia de batches.</p>
 </div>
 </section>
 <section id="la-misma-secuencia-de-minibatches" class="slide level2 case-slide">
@@ -272,35 +272,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/09-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(v_t\)</span>, <span class="math inline">\(s_t\)</span>, <span class="math inline">\(g_t\)</span> y <span class="math inline">\(\theta_t\)</span> tienen la misma estructura por parámetro. El estado del optimizador no es un escalar global.</p>
+</div>
 </section>
 <section id="cada-minibatch-introduce-ruido-en-la-trayectoria" class="slide level2 probability-slide">
 <h2>Cada minibatch introduce ruido en la trayectoria</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>gradiente esperado bajo el muestreo de datos</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>gradiente esperado del objetivo de entrenamiento</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>actualización calculada con minibatches</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>gradiente del minibatch y trayectoria observada</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>muestreo de minibatches compatible con el objetivo</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>el muestreo de minibatches es compatible con el objetivo</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>ruido del gradiente y semilla</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>orden de batches, semilla y estado del optimizador</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué información histórica usa cada actualización y cómo hacemos una comparación justa?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra secuencia de batches produce otra trayectoria aun con igual punto inicial.</p>
 </div>
 </section>
 <section id="momentum-acumula-dirección" class="slide level2 formula-slide">
 <h2>Momentum acumula dirección</h2>
+<div class="formula-question">
+<p>¿Qué información histórica usa cada actualización y cómo hacemos una comparación justa?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 v_t=\beta v_{t-1}+(1-\beta)g_t,
@@ -308,31 +308,28 @@ v_t=\beta v_{t-1}+(1-\beta)g_t,
 \theta_{t+1}=\theta_t-\alpha v_t.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>Esta es la convención de momentum del libro. Algunas bibliotecas escalan o nombran la memoria de otra manera; se compara la actualización efectiva.</p>
 </div>
 </section>
 <section id="la-memoria-mezcla-gradientes-pasados" class="slide level2 derivation-slide">
 <h2>La memoria mezcla gradientes pasados</h2>
+<div class="derivation-step fragment">
 <p>Un mini-batch estima <span class="math display">\[g_t=\frac1{|B_t|}\sum_{i\in B_t}\nabla_\theta\ell_i(\theta_t).\]</span></p>
+</div>
 </section>
 <section id="adam-normaliza-por-un-segundo-momento" class="slide level2 derivation-slide">
 <h2>Adam normaliza por un segundo momento</h2>
+<div class="derivation-step fragment">
 <p>Adam mantiene un promedio de <span class="math inline">\(g_t\)</span> y otro de <span class="math inline">\(g_t^2\)</span>, corrige sesgo inicial y divide por una raíz de segundo momento más <span class="math inline">\(\varepsilon\)</span>.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(v_t\)</span>, <span class="math inline">\(s_t\)</span>, <span class="math inline">\(g_t\)</span> y <span class="math inline">\(\theta_t\)</span> tienen la misma estructura por parámetro. El estado del optimizador no es un escalar global.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="la-trayectoria-depende-del-estado-del-optimizador" class="slide level2 interpretation-slide">
 <h2>La trayectoria depende del estado del optimizador</h2>
 <p>Una pérdida que baja más rápido en train no identifica el mejor modelo validado. También cambian la escala efectiva y el ruido de las actualizaciones.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Dos optimizadores usan el mismo número de épocas, pero batch sizes 32 y 256. ¿Es una comparación justa?
@@ -356,8 +353,8 @@ Dos optimizadores usan el mismo número de épocas, pero batch sizes 32 y 256. �
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -367,26 +364,26 @@ Con batch sizes distintos cambia el número de actualizaciones y el ruido del gr
 </section>
 <section id="comparar-con-igual-presupuesto" class="slide level2 algorithm-slide">
 <h2>Comparar con igual presupuesto</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>fijar orden de batches</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>inicializar mismo modelo</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>asignar tasa declarada</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>contar actualizaciones y ejemplos vistos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>comparar train/dev y tiempo</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-comparar-con-igual-presupuesto" class="slide level2 code-slide">
+<h2>En código: Comparar con igual presupuesto</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> momentum_step(theta, grad, velocity, alpha, beta<span class="op">=</span><span class="fl">0.9</span>):</span>
 <span id="cb1-2"><a href=""></a>    velocity <span class="op">=</span> beta <span class="op">*</span> velocity <span class="op">+</span> (<span class="dv">1</span> <span class="op">-</span> beta) <span class="op">*</span> grad</span>
 <span id="cb1-3"><a href=""></a>    theta <span class="op">=</span> theta <span class="op">-</span> alpha <span class="op">*</span> velocity</span>
@@ -395,27 +392,27 @@ Con batch sizes distintos cambia el número de actualizaciones y el ruido del gr
 <p>La función devuelve el estado nuevo; reiniciar <code>velocity</code> dentro del loop elimina la memoria.</p>
 </div>
 </section>
-<section id="dos-actualizaciones-sobre-el-mismo-gradiente" class="slide level2 worked-example-slide">
+<section id="dos-actualizaciones-sobre-el-mismo-gradiente" class="slide level2 worked-example-slide result-slide">
 <h2>Dos actualizaciones sobre el mismo gradiente</h2>
 <p>Sobre una cuadrática anisotrópica, SGD zigzaguea y momentum suaviza la trayectoria. En la red, la ventaja debe medirse con dev bajo presupuesto fijo.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">mismo</span><span class="label">número de updates</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">misma</span><span class="label">secuencia de batches</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">dev</span><span class="label">criterio de selección</span>
 </div>
 </div>
 <p>Las tasas no tienen que ser numéricamente iguales: deben declararse y seleccionarse bajo el mismo protocolo.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> La comparación controla número de actualizaciones y batches antes de atribuir diferencias al optimizador.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana10_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana10_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana10_live_coding.ipynb</code></p>
 </div>
@@ -450,59 +447,64 @@ Con batch sizes distintos cambia el número de actualizaciones y el ruido del gr
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Alimente una secuencia de gradientes conocida y compare cada estado con cálculos manuales antes de usar matrices de red.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>momentum acumula dirección</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="épocas-iguales-no-implican-actualizaciones-iguales" class="slide level2 failure-slide">
-<h2>Épocas iguales no implican actualizaciones iguales</h2>
-<div class="failure-statement">
-<p>Comparar por épocas con batch sizes distintos cambia el número de actualizaciones.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Épocas iguales no implican actualizaciones iguales</span> <strong>Comparar por épocas con batch sizes distintos cambia el número de actualizaciones.</strong>
+<p>
+<span>Señal:</span> los candidatos ven diferente número de batches.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>los candidatos ven diferente número de batches</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Reiniciar la memoria cambia el algoritmo</span> <strong>Reiniciar el estado del optimizador en cada época convierte momentum o Adam en otra regla.</strong>
+<p>
+<span>Señal:</span> <code>velocity=zeros</code> aparece dentro del loop de épocas.
+</p>
+</div>
 </div>
 </section>
-<section id="reiniciar-la-memoria-cambia-el-algoritmo" class="slide level2 failure-slide">
-<h2>Reiniciar la memoria cambia el algoritmo</h2>
-<div class="failure-statement">
-<p>Reiniciar el estado del optimizador en cada época convierte momentum o Adam en otra regla.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong><code>velocity=zeros</code> aparece dentro del loop de épocas</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Adam llega antes a baja train loss, pero dev empeora frente a SGD. ¿Qué afirmación sí puede hacer y qué probaría después?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Adam optimiza train más rápido bajo esa configuración, pero no selecciona mejor modelo. Probaría tasas y regularización en dev manteniendo presupuesto y semillas.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>SGD, momentum y Adam pueden compararse si se fijan datos, inicialización, batches, presupuesto y métrica de validación.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>SGD, momentum y Adam pueden compararse si se fijan datos, inicialización, batches, presupuesto y métrica de validación.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Un ganador de una semilla o una tasa no establece superioridad general del optimizador.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>La comparación controla número de actualizaciones y batches antes de atribuir diferencias al optimizador.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Un ganador de una semilla o una tasa no establece superioridad general del optimizador.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 3 exige documentar configuración y comparar con la referencia bajo la misma partición; el código numérico se autocalifica.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 3.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>mini-batch estima gradiente</li>
 <li>momentum conserva dirección</li>
@@ -510,18 +512,18 @@ Con batch sizes distintos cambia el número de actualizaciones y el ruido del gr
 <li>comparar por updates y dev</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>El optimizador cambia cómo recorremos el objetivo; la evaluación decide si ese recorrido produjo un modelo útil fuera de train.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué estado conserva momentum?</li>
 <li>¿Por qué épocas no bastan para comparar?</li>
 <li>¿Qué salida decide el modelo final?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>El optimizador cambia cómo recorremos el objetivo; la evaluación decide si ese recorrido produjo un modelo útil fuera de train.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> instale o verifique PyTorch y localice <code>zero_grad</code>, <code>backward</code> y <code>step</code> en un loop mínimo.</p>
 

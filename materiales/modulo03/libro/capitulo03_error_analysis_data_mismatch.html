@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Error analysis y data mismatch – MATE-2105: Módulo 3</title>
+<title>Análisis de errores y cambio de distribución – MATE-2105: Módulo 3</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -113,7 +113,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo03_error_analysis_data_mismatch.html"><span class="chapter-title">Error analysis y data mismatch</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo03_error_analysis_data_mismatch.html"><span class="chapter-title">Análisis de errores y cambio de distribución</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -157,12 +157,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo03_error_analysis_data_mismatch.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Error analysis y data mismatch</span></a>
+  <a href="./capitulo03_error_analysis_data_mismatch.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Análisis de errores y cambio de distribución</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></a>
+  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de evaluación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -190,36 +190,24 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#riesgo-condicional-por-slice" id="toc-riesgo-condicional-por-slice" class="nav-link" data-scroll-target="#riesgo-condicional-por-slice">Riesgo condicional por slice</a></li>
+  <li><a href="#riesgo-condicional-por-segmento" id="toc-riesgo-condicional-por-segmento" class="nav-link active" data-scroll-target="#riesgo-condicional-por-segmento">Riesgo condicional por segmento</a></li>
   <li><a href="#cambio-de-distribución-como-cambio-de-medida" id="toc-cambio-de-distribución-como-cambio-de-medida" class="nav-link" data-scroll-target="#cambio-de-distribución-como-cambio-de-medida">Cambio de distribución como cambio de medida</a></li>
-  <li><a href="#error-analysis" id="toc-error-analysis" class="nav-link" data-scroll-target="#error-analysis">Error analysis</a></li>
-  <li><a href="#slices" id="toc-slices" class="nav-link" data-scroll-target="#slices">Slices</a></li>
-  <li><a href="#incertidumbre-y-búsqueda-entre-slices" id="toc-incertidumbre-y-búsqueda-entre-slices" class="nav-link" data-scroll-target="#incertidumbre-y-búsqueda-entre-slices">Incertidumbre y búsqueda entre slices</a></li>
-  <li><a href="#data-mismatch" id="toc-data-mismatch" class="nav-link" data-scroll-target="#data-mismatch">Data mismatch</a></li>
-  <li><a href="#diagnóstico-de-mismatch" id="toc-diagnóstico-de-mismatch" class="nav-link" data-scroll-target="#diagnóstico-de-mismatch">Diagnóstico de mismatch</a></li>
-  <li><a href="#ejemplo-resuelto-mismatch-por-proporción-de-clase" id="toc-ejemplo-resuelto-mismatch-por-proporción-de-clase" class="nav-link" data-scroll-target="#ejemplo-resuelto-mismatch-por-proporción-de-clase">Ejemplo resuelto: mismatch por proporción de clase</a></li>
-  <li><a href="#derivación-guiada-qué-métricas-pueden-promediarse-por-slices" id="toc-derivación-guiada-qué-métricas-pueden-promediarse-por-slices" class="nav-link" data-scroll-target="#derivación-guiada-qué-métricas-pueden-promediarse-por-slices">Derivación guiada: qué métricas pueden promediarse por slices</a></li>
+  <li><a href="#análisis-de-errores" id="toc-análisis-de-errores" class="nav-link" data-scroll-target="#análisis-de-errores">Análisis de errores</a></li>
+  <li><a href="#segmentos-de-la-población" id="toc-segmentos-de-la-población" class="nav-link" data-scroll-target="#segmentos-de-la-población">Segmentos de la población</a></li>
+  <li><a href="#incertidumbre-y-búsqueda-entre-segmentos" id="toc-incertidumbre-y-búsqueda-entre-segmentos" class="nav-link" data-scroll-target="#incertidumbre-y-búsqueda-entre-segmentos">Incertidumbre y búsqueda entre segmentos</a></li>
+  <li><a href="#diferencias-entre-las-distribuciones" id="toc-diferencias-entre-las-distribuciones" class="nav-link" data-scroll-target="#diferencias-entre-las-distribuciones">Diferencias entre las distribuciones</a></li>
+  <li><a href="#diagnóstico-del-cambio-de-distribución" id="toc-diagnóstico-del-cambio-de-distribución" class="nav-link" data-scroll-target="#diagnóstico-del-cambio-de-distribución">Diagnóstico del cambio de distribución</a></li>
+  <li><a href="#ejemplo-resuelto-cambio-en-la-proporción-de-clase" id="toc-ejemplo-resuelto-cambio-en-la-proporción-de-clase" class="nav-link" data-scroll-target="#ejemplo-resuelto-cambio-en-la-proporción-de-clase">Ejemplo resuelto: cambio en la proporción de clase</a></li>
+  <li><a href="#derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos" id="toc-derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos" class="nav-link" data-scroll-target="#derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos">Derivación guiada: qué métricas pueden promediarse por segmentos</a></li>
   <li><a href="#recomendación-técnica" id="toc-recomendación-técnica" class="nav-link" data-scroll-target="#recomendación-técnica">Recomendación técnica</a></li>
   <li><a href="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1" id="toc-ejemplo-resuelto-dos-modelos-con-el-mismo-f1" class="nav-link" data-scroll-target="#ejemplo-resuelto-dos-modelos-con-el-mismo-f1">Ejemplo resuelto: dos modelos con el mismo F1</a></li>
   <li><a href="#ejemplo-resuelto-brecha-contra-el-promedio" id="toc-ejemplo-resuelto-brecha-contra-el-promedio" class="nav-link" data-scroll-target="#ejemplo-resuelto-brecha-contra-el-promedio">Ejemplo resuelto: brecha contra el promedio</a></li>
-  <li><a href="#caso-longitudinal-slice-reciente" id="toc-caso-longitudinal-slice-reciente" class="nav-link" data-scroll-target="#caso-longitudinal-slice-reciente">Caso longitudinal: slice <code>reciente</code></a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
-  <li><a href="#procedimiento-de-auditoría-por-slice" id="toc-procedimiento-de-auditoría-por-slice" class="nav-link" data-scroll-target="#procedimiento-de-auditoría-por-slice">Procedimiento de auditoría por slice</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
-  <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#profundización-matemática-y-estadística" id="toc-profundización-matemática-y-estadística" class="nav-link" data-scroll-target="#profundización-matemática-y-estadística">Profundización matemática y estadística</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
-  </ul></li>
+  <li><a href="#el-segmento-reciente" id="toc-el-segmento-reciente" class="nav-link" data-scroll-target="#el-segmento-reciente">El segmento <code>reciente</code></a></li>
+  <li><a href="#de-la-observación-a-una-acción" id="toc-de-la-observación-a-una-acción" class="nav-link" data-scroll-target="#de-la-observación-a-una-acción">De la observación a una acción</a></li>
+  <li><a href="#comprobaciones-del-diagnóstico" id="toc-comprobaciones-del-diagnóstico" class="nav-link" data-scroll-target="#comprobaciones-del-diagnóstico">Comprobaciones del diagnóstico</a></li>
+  <li><a href="#procedimiento-de-auditoría-por-segmentos" id="toc-procedimiento-de-auditoría-por-segmentos" class="nav-link" data-scroll-target="#procedimiento-de-auditoría-por-segmentos">Procedimiento de auditoría por segmentos</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a></li>
   </ul>
 </nav>
     </div>
@@ -228,7 +216,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Error analysis y data mismatch</span></h1>
+<h1 class="title"><span class="chapter-title">Análisis de errores y cambio de distribución</span></h1>
+<p class="subtitle lead">Riesgos condicionados, segmentos y poblaciones de uso</p>
 </div>
 
 
@@ -245,30 +234,14 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>Dos modelos pueden tener la misma métrica agregada y fallar en casos completamente distintos.</p>
-<p>El análisis de errores pregunta:</p>
+<p>Dos modelos pueden tener la misma métrica agregada y fallar en casos completamente distintos. Un promedio no muestra si los errores se concentran en un periodo, una región, un instrumento de medición o una clase poco frecuente. El análisis de errores pregunta:</p>
 <blockquote class="blockquote">
 <p>¿dónde falla el modelo, para quién falla y qué experimento debe seguir?</p>
 </blockquote>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>separar errores por tipo: falsos positivos, falsos negativos y casos ambiguos;</li>
-<li>definir slices relevantes para un proyecto;</li>
-<li>detectar señales de data mismatch;</li>
-<li>escribir una recomendación con resultado, diagnóstico y acción;</li>
-<li>reconocer cuándo una métrica agregada oculta daño o riesgo.</li>
-<li>cuantificar la variación de una métrica por slice usando su denominador efectivo;</li>
-<li>separar slices predefinidos de hallazgos exploratorios seleccionados después de mirar los errores.</li>
-</ol>
-</section>
-<section id="riesgo-condicional-por-slice" class="level2">
-<h2 class="anchored" data-anchor-id="riesgo-condicional-por-slice">Riesgo condicional por slice</h2>
-<p>Para un slice <span class="math inline">\(S\subseteq\mathcal X\times\mathcal Y\)</span> con <span class="math inline">\(\mathbb P_P(S)&gt;0\)</span>, definimos</p>
+<p>Para localizar esas fallas estudiaremos riesgos condicionados a segmentos de la población. Después compararemos las distribuciones de entrenamiento y de uso, y distinguiremos segmentos definidos antes del análisis de aquellos descubiertos al inspeccionar muchos resultados. El tamaño y el denominador efectivo de cada segmento acompañarán siempre a su métrica.</p>
+<section id="riesgo-condicional-por-segmento" class="level2">
+<h2 class="anchored" data-anchor-id="riesgo-condicional-por-segmento">Riesgo condicional por segmento</h2>
+<p>Para un segmento (<em>slice</em>) <span class="math inline">\(S\subseteq\mathcal X\times\mathcal Y\)</span> con <span class="math inline">\(\mathbb P_P(S)&gt;0\)</span>, definimos</p>
 <p><span class="math display">\[
 R_P(f\mid S)
 =\mathbb E_P[\ell(f(X),Y)\mid (X,Y)\in S].
@@ -277,11 +250,11 @@ R_P(f\mid S)
 <p><span class="math display">\[
 R_P(f)=\sum_{j=1}^J\mathbb P_P(S_j)R_P(f\mid S_j).
 \]</span></p>
-<p>Un slice pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.</p>
+<p>Un segmento pequeño puede tener riesgo alto y aportar poco al promedio global. Por eso el análisis debe reportar simultáneamente tamaño, prevalencia, conteos de error y métrica condicional.</p>
 </section>
 <section id="cambio-de-distribución-como-cambio-de-medida" class="level2">
 <h2 class="anchored" data-anchor-id="cambio-de-distribución-como-cambio-de-medida">Cambio de distribución como cambio de medida</h2>
-<p>Train y uso corresponden a distribuciones <span class="math inline">\(P_{\mathrm{train}}\)</span> y <span class="math inline">\(P_{\mathrm{uso}}\)</span> sobre el mismo espacio de observaciones. Si <span class="math inline">\(P_{\mathrm{uso}}\)</span> es absolutamente continua respecto de <span class="math inline">\(P_{\mathrm{train}}\)</span>, el riesgo de uso puede escribirse formalmente como</p>
+<p>Entrenamiento y uso corresponden a distribuciones <span class="math inline">\(P_{\mathrm{train}}\)</span> y <span class="math inline">\(P_{\mathrm{uso}}\)</span> sobre el mismo espacio de observaciones. Si <span class="math inline">\(P_{\mathrm{uso}}\)</span> es absolutamente continua respecto de <span class="math inline">\(P_{\mathrm{train}}\)</span>, el riesgo de uso puede escribirse formalmente como</p>
 <p><span class="math display">\[
 R_{\mathrm{uso}}(f)
 =\mathbb E_{P_{\mathrm{train}}}
@@ -297,10 +270,10 @@ w=\frac{dP_{\mathrm{uso}}}{dP_{\mathrm{train}}}.
 <li>En un <strong>cambio de concepto</strong>, cambia <span class="math inline">\(P(Y\mid X)\)</span>. Un patrón que antes estaba asociado con la respuesta deja de tener el mismo significado; reponderar <span class="math inline">\(X\)</span> no corrige por sí solo este problema.</li>
 <li>En un <strong>cambio de medición o de soporte</strong>, se modifica el instrumento, la definición de una variable, la población observable o aparecen regiones que no existían en los datos de entrenamiento. Sin observaciones comparables, el riesgo de uso no puede recuperarse solo a partir del conjunto original.</li>
 </ul>
-<p>Por eso no existe una prueba única de <em>data mismatch</em>. Comparar marginales de variables puede revelar cambio de covariables, pero no demuestra estabilidad de <span class="math inline">\(P(Y\mid X)\)</span>. Comparar prevalencias detecta otra clase de cambio, y auditar el proceso de medición resulta indispensable cuando las columnas conservan el mismo nombre pero ya no representan el mismo objeto.</p>
+<p>Por eso no existe una prueba única para detectar todo cambio de distribución. Comparar marginales de variables puede revelar cambio de covariables, pero no demuestra estabilidad de <span class="math inline">\(P(Y\mid X)\)</span>. Comparar prevalencias detecta otra clase de cambio, y auditar el proceso de medición resulta indispensable cuando las columnas conservan el mismo nombre pero ya no representan el mismo objeto.</p>
 </section>
-<section id="error-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="error-analysis">Error analysis</h2>
+<section id="análisis-de-errores" class="level2">
+<h2 class="anchored" data-anchor-id="análisis-de-errores">Análisis de errores</h2>
 <p>Un análisis mínimo incluye:</p>
 <ol type="1">
 <li>Casos correctamente clasificados.</li>
@@ -309,21 +282,21 @@ w=\frac{dP_{\mathrm{uso}}}{dP_{\mathrm{train}}}.
 <li>Subgrupos con peor desempeño.</li>
 <li>Variables o condiciones asociadas al error.</li>
 </ol>
-<div id="fig-cap13-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado diagnóstico acción límite.">
+<div id="fig-cap13-error-analysis-slices" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado, diagnóstico, acción y límite.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap13-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado diagnóstico acción límite.">
+<img src="../figuras/error-analysis-slices.svg" class="img-fluid figure-img" style="width:100.0%" alt="Gráfico de barras con F1 por fuente donde la fuente C cae por debajo del promedio global, seguido por el flujo resultado, diagnóstico, acción y límite.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap13-error-analysis-slices-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un slice crítico con desempeño bajo y exige una recomendación con resultado, diagnóstico, acción y límite.
+Figura&nbsp;4.1: El análisis por segmentos muestra que el promedio global puede ocultar un grupo con desempeño bajo.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> El promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un slice importante falla. La figura propone la secuencia mínima: resultado, diagnóstico, acción y límite.</p>
+<p>El promedio global puede ser suficiente para comparar dos prototipos, pero no para recomendar una decisión si un segmento importante falla. La figura propone la secuencia mínima: resultado, diagnóstico, acción y límite.</p>
 </section>
-<section id="slices" class="level2">
-<h2 class="anchored" data-anchor-id="slices">Slices</h2>
-<p>Un <strong>slice</strong> es un subconjunto interpretable de datos:</p>
+<section id="segmentos-de-la-población" class="level2">
+<h2 class="anchored" data-anchor-id="segmentos-de-la-población">Segmentos de la población</h2>
+<p>Un <strong>segmento</strong> (<em>slice</em>) es un subconjunto interpretable de datos:</p>
 <ul>
 <li>pacientes mayores de cierta edad;</li>
 <li>observaciones con medición faltante;</li>
@@ -333,9 +306,9 @@ Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un 
 </ul>
 <p>El objetivo es detectar fallas ocultas por el promedio.</p>
 </section>
-<section id="incertidumbre-y-búsqueda-entre-slices" class="level2">
-<h2 class="anchored" data-anchor-id="incertidumbre-y-búsqueda-entre-slices">Incertidumbre y búsqueda entre slices</h2>
-<p>Sea <span class="math inline">\(n_S\)</span> el número de observaciones de un slice. Para una pérdida promedio,</p>
+<section id="incertidumbre-y-búsqueda-entre-segmentos" class="level2">
+<h2 class="anchored" data-anchor-id="incertidumbre-y-búsqueda-entre-segmentos">Incertidumbre y búsqueda entre segmentos</h2>
+<p>Sea <span class="math inline">\(n_S\)</span> el número de observaciones de un segmento. Para una pérdida promedio,</p>
 <p><span class="math display">\[
 \widehat R_S=\frac1{n_S}\sum_{i:Z_i\in S}L_i,
 \qquad
@@ -346,36 +319,36 @@ Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un 
 <p><span class="math display">\[
 \sqrt{\frac{\widehat e_S(1-\widehat e_S)}{n_S}}.
 \]</span></p>
-<p>Para recall, el denominador no es <span class="math inline">\(n_S\)</span>, sino el número de positivos del slice; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.</p>
-<p>Hay además un problema de selección. Si se inspeccionan cien slices y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los slices ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.</p>
-<p>No imponemos una prueba de hipótesis automática para cada slice. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra baseline y etiqueta clara de análisis confirmatorio o exploratorio.</p>
+<p>Para recall, el denominador no es <span class="math inline">\(n_S\)</span>, sino el número de positivos del segmento; para precision es el número de predicciones positivas. Una métrica extrema con denominador 6 no tiene la misma estabilidad que la misma métrica con denominador 600.</p>
+<p>Hay además un problema de selección. Si se inspeccionan cien segmentos y se reporta solo el peor, parte de la caída puede deberse a variación aleatoria. Los segmentos ligados a riesgos conocidos deben definirse antes de mirar resultados. Los hallazgos posteriores son hipótesis exploratorias y necesitan confirmación en otro periodo o muestra.</p>
+<p>No imponemos una prueba de hipótesis automática para cada segmento. Exigimos algo más básico y útil para este nivel: tamaño, denominadores de la métrica, intervalo o error estándar cuando sea razonable, comparación contra la regla de referencia y etiqueta clara de análisis confirmatorio o exploratorio.</p>
 </section>
-<section id="data-mismatch" class="level2">
-<h2 class="anchored" data-anchor-id="data-mismatch">Data mismatch</h2>
-<p>Data mismatch ocurre cuando train, dev o test no vienen de la misma distribución relevante.</p>
+<section id="diferencias-entre-las-distribuciones" class="level2">
+<h2 class="anchored" data-anchor-id="diferencias-entre-las-distribuciones">Diferencias entre las distribuciones</h2>
+<p>Hay una diferencia de distribución cuando entrenamiento, validación y prueba no provienen de la misma población relevante.</p>
 <p>Ejemplos:</p>
 <ul>
 <li>entrenar con datos de una ciudad y probar en otra;</li>
 <li>entrenar con datos históricos y usar en una temporada distinta;</li>
-<li>usar datos limpios de laboratorio y desplegar en datos ruidosos;</li>
+<li>ajustar con datos obtenidos bajo condiciones controladas y usar el modelo con datos ruidosos;</li>
 <li>combinar fuentes sin controlar origen.</li>
 </ul>
 </section>
-<section id="diagnóstico-de-mismatch" class="level2">
-<h2 class="anchored" data-anchor-id="diagnóstico-de-mismatch">Diagnóstico de mismatch</h2>
+<section id="diagnóstico-del-cambio-de-distribución" class="level2">
+<h2 class="anchored" data-anchor-id="diagnóstico-del-cambio-de-distribución">Diagnóstico del cambio de distribución</h2>
 <p>Compare:</p>
 <ul>
 <li>distribución de variables clave;</li>
 <li>proporción de clases;</li>
 <li>desempeño por fuente;</li>
 <li>error por periodo;</li>
-<li>desempeño en dev vs test.</li>
+<li>desempeño en validación frente a prueba.</li>
 </ul>
-<p>Si validación y test difieren mucho, no basta con cambiar hiperparámetros. Puede existir mismatch.</p>
+<p>Si validación y prueba difieren mucho, no basta con cambiar hiperparámetros. Puede existir un cambio de distribución.</p>
 </section>
-<section id="ejemplo-resuelto-mismatch-por-proporción-de-clase" class="level2">
-<h2 class="anchored" data-anchor-id="ejemplo-resuelto-mismatch-por-proporción-de-clase">Ejemplo resuelto: mismatch por proporción de clase</h2>
-<p>Supón la siguiente auditoría:</p>
+<section id="ejemplo-resuelto-cambio-en-la-proporción-de-clase" class="level2">
+<h2 class="anchored" data-anchor-id="ejemplo-resuelto-cambio-en-la-proporción-de-clase">Ejemplo resuelto: cambio en la proporción de clase</h2>
+<p>Consideremos la siguiente auditoría:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -388,21 +361,21 @@ Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un 
 </thead>
 <tbody>
 <tr class="odd">
-<td>train</td>
+<td>entrenamiento</td>
 <td style="text-align: right;">5000</td>
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">20%</td>
 <td style="text-align: right;">0.84</td>
 </tr>
 <tr class="even">
-<td>dev</td>
+<td>validación</td>
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">210</td>
 <td style="text-align: right;">21%</td>
 <td style="text-align: right;">0.82</td>
 </tr>
 <tr class="odd">
-<td>test</td>
+<td>prueba</td>
 <td style="text-align: right;">1000</td>
 <td style="text-align: right;">80</td>
 <td style="text-align: right;">8%</td>
@@ -410,25 +383,25 @@ Figura&nbsp;4.1: Error analysis por slices: el promedio global puede ocultar un 
 </tr>
 </tbody>
 </table>
-<p>Train y dev se parecen en proporción de clase y desempeño. Test, en cambio, tiene una clase positiva mucho menos frecuente y recall mucho menor. El cambio de prevalencia puede alterar precision, pero no explica por sí solo la caída de recall. Esa caída obliga a comparar también las distribuciones condicionadas a la clase y el proceso de medición.</p>
-<p>La primera hipótesis no debería ser “el modelo necesita más hiperparámetros”. Una explicación más plausible es que test proviene de otra población, fuente o periodo. La acción técnica sería:</p>
+<p>Entrenamiento y validación se parecen en proporción de clase y desempeño. Prueba, en cambio, tiene una clase positiva mucho menos frecuente y recall mucho menor. El cambio de prevalencia puede alterar precision, pero no explica por sí solo la caída de recall. Esa caída obliga a comparar también las distribuciones condicionadas a la clase y el proceso de medición.</p>
+<p>La primera hipótesis no debería ser “el modelo necesita más hiperparámetros”. Una explicación más plausible es que prueba proviene de otra población, fuente o periodo. La acción técnica sería:</p>
 <ol type="1">
-<li>revisar cómo se construyó test;</li>
+<li>revisar cómo se construyó el conjunto de prueba;</li>
 <li>comparar distribuciones de variables clave;</li>
 <li>reportar desempeño por fuente o periodo;</li>
-<li>decidir si se necesita un dev set más parecido a producción.</li>
+<li>decidir si se necesita una validación más parecida a la población de uso.</li>
 </ol>
-<p>Si test representa producción real, el resultado indica un riesgo de despliegue, no solo una oportunidad de tuning.</p>
+<p>Si prueba representa la población de uso, el resultado limita el alcance del modelo, no solo una oportunidad de tuning.</p>
 </section>
-<section id="derivación-guiada-qué-métricas-pueden-promediarse-por-slices" class="level2">
-<h2 class="anchored" data-anchor-id="derivación-guiada-qué-métricas-pueden-promediarse-por-slices">Derivación guiada: qué métricas pueden promediarse por slices</h2>
-<p>Una pérdida promedio o la exactitud puede descomponerse por observación. Si un conjunto tiene dos slices con tamaños <span class="math inline">\(n_A,n_B\)</span> y promedios <span class="math inline">\(L_A,L_B\)</span>, entonces:</p>
+<section id="derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos" class="level2">
+<h2 class="anchored" data-anchor-id="derivación-guiada-qué-métricas-pueden-promediarse-por-segmentos">Derivación guiada: qué métricas pueden promediarse por segmentos</h2>
+<p>Una pérdida promedio o la exactitud puede descomponerse por observación. Si un conjunto tiene dos segmentos con tamaños <span class="math inline">\(n_A,n_B\)</span> y promedios <span class="math inline">\(L_A,L_B\)</span>, entonces:</p>
 <p><span class="math display">\[
 L_{\text{global}}
 =
 \frac{n_A L_A+n_B L_B}{n_A+n_B}.
 \]</span></p>
-<p>Esto <strong>no</strong> vale en general para F1, precision o recall. Para obtener su valor global se suman primero los conteos <span class="math inline">\(TP\)</span>, <span class="math inline">\(FP\)</span>, <span class="math inline">\(FN\)</span> y <span class="math inline">\(TN\)</span> de los slices y luego se aplica la fórmula de la métrica. Un promedio ponderado de F1 por tamaño puede dar otro número. En ambos casos, un slice grande puede ocultar la caída de uno pequeño; por eso se reportan el tamaño y los conteos junto a la métrica.</p>
+<p>Esto <strong>no</strong> vale en general para F1, precision o recall. Para obtener su valor global se suman primero los conteos <span class="math inline">\(TP\)</span>, <span class="math inline">\(FP\)</span>, <span class="math inline">\(FN\)</span> y <span class="math inline">\(TN\)</span> de los segmentos y luego se aplica la fórmula de la métrica. Un promedio ponderado de F1 por tamaño puede dar otro número. En ambos casos, un segmento grande puede ocultar la caída de uno pequeño; por eso se reportan el tamaño y los conteos junto a la métrica.</p>
 </section>
 <section id="recomendación-técnica" class="level2">
 <h2 class="anchored" data-anchor-id="recomendación-técnica">Recomendación técnica</h2>
@@ -436,12 +409,12 @@ L_{\text{global}}
 <pre class="text"><code>Resultado -&gt; diagnóstico -&gt; acción</code></pre>
 <p>Ejemplo:</p>
 <pre class="text"><code>El recall cae de 0.84 a 0.62 en el grupo de mayor riesgo.
-Diagnóstico: el modelo no generaliza bien a ese slice.
-Acción: revisar representación de variables, ampliar datos del slice y ajustar métrica de selección.</code></pre>
+Diagnóstico: el modelo no generaliza bien a ese segmento.
+Acción: revisar la representación de variables, ampliar los datos del segmento y ajustar la métrica de selección.</code></pre>
 </section>
 <section id="ejemplo-resuelto-dos-modelos-con-el-mismo-f1" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-dos-modelos-con-el-mismo-f1">Ejemplo resuelto: dos modelos con el mismo F1</h2>
-<p>Supón dos modelos con F1 global 0.82.</p>
+<p>Consideremos dos modelos con F1 global 0.82.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -468,11 +441,11 @@ Acción: revisar representación de variables, ampliar datos del slice y ajustar
 </tr>
 </tbody>
 </table>
-<p>Aunque el F1 global sea igual, el Modelo B puede ser preferible si el grupo de alto riesgo es central para el uso propuesto. Antes de escogerlo hay que revisar el tamaño del slice y sus conteos de error.</p>
+<p>Aunque el F1 global sea igual, el Modelo B puede ser preferible si el grupo de alto riesgo es central para el uso propuesto. Antes de escogerlo hay que revisar el tamaño del segmento y sus conteos de error.</p>
 </section>
 <section id="ejemplo-resuelto-brecha-contra-el-promedio" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-brecha-contra-el-promedio">Ejemplo resuelto: brecha contra el promedio</h2>
-<p>Supón que un modelo tiene F1 global de 0.81, pero el análisis por slice muestra:</p>
+<p>Consideremos un modelo con F1 global de 0.81 cuyo análisis por segmento muestra:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -499,7 +472,7 @@ Acción: revisar representación de variables, ampliar datos del slice y ajustar
 </tr>
 </tbody>
 </table>
-<p>La brecha del slice C contra el promedio global es:</p>
+<p>La brecha del segmento C respecto al promedio global es:</p>
 <p><span class="math display">\[
 0.81 - 0.57 = 0.24.
 \]</span></p>
@@ -507,18 +480,18 @@ Acción: revisar representación de variables, ampliar datos del slice y ajustar
 <pre class="text"><code>Resultado: el F1 global es 0.81, pero en fuente C cae a 0.57 con 220 casos.
 Diagnóstico: el modelo generaliza mal a la fuente C o esa fuente tiene un proceso
 de medición distinto.
-Acción: auditar variables, faltantes y distribución de fuente C; entrenar/dev
-con datos representativos de esa fuente antes de recomendar despliegue.
+Acción: auditar variables, faltantes y distribución de la fuente C; volver a
+entrenar y validar con datos representativos de esa fuente antes de recomendar su uso.
 Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la brecha.</code></pre>
 <p>La magnitud de la brecha no prueba por sí sola la causa. Sí prueba que el promedio global es insuficiente para tomar la decisión.</p>
 </section>
-<section id="caso-longitudinal-slice-reciente" class="level2">
-<h2 class="anchored" data-anchor-id="caso-longitudinal-slice-reciente">Caso longitudinal: slice <code>reciente</code></h2>
+<section id="el-segmento-reciente" class="level2">
+<h2 class="anchored" data-anchor-id="el-segmento-reciente">El segmento <code>reciente</code></h2>
 <p>En <code>clasificacion_binaria_sintetica.csv</code>, la columna <code>slice</code> permite construir una tabla mínima:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th>Slice</th>
+<th>Segmento</th>
 <th style="text-align: right;">Observaciones</th>
 <th style="text-align: right;">F1</th>
 <th style="text-align: right;">Recall</th>
@@ -538,14 +511,14 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
 <td style="text-align: right;">60</td>
 <td style="text-align: right;">0.61</td>
 <td style="text-align: right;">0.48</td>
-<td>posible mismatch</td>
+<td>posible cambio de distribución</td>
 </tr>
 </tbody>
 </table>
-<p>Aunque el número exacto dependa de la partición y del modelo, la pregunta permanece: si el uso real se parece al slice <code>reciente</code>, el promedio global no justifica despliegue. La acción razonable es construir un dev set más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.</p>
+<p>Aunque el número exacto dependa de la partición y del modelo, la pregunta permanece: si el uso real se parece al segmento <code>reciente</code>, el promedio global no justifica el uso. La acción razonable es construir un conjunto de validación más parecido a producción, revisar variables que cambian en el tiempo y reportar la limitación.</p>
 </section>
-<section id="punto-de-control" class="level2">
-<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
+<section id="de-la-observación-a-una-acción" class="level2">
+<h2 class="anchored" data-anchor-id="de-la-observación-a-una-acción">De la observación a una acción</h2>
 <p>Una recomendación técnica es incompleta si no responde:</p>
 <ol type="1">
 <li>¿qué resultado observaste?;</li>
@@ -554,96 +527,45 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
 <li>¿qué límite o riesgo debe comunicarse?</li>
 </ol>
 </section>
-<section id="verificaciones-seleccionadas" class="level2">
-<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<section id="comprobaciones-del-diagnóstico" class="level2">
+<h2 class="anchored" data-anchor-id="comprobaciones-del-diagnóstico">Comprobaciones del diagnóstico</h2>
 <ol type="1">
-<li>Si el F1 global es 0.81 y el F1 de un slice es 0.57, la brecha es 0.24.</li>
-<li>Una brecha por slice no prueba la causa; prueba que el promedio global es insuficiente para la decisión.</li>
-<li>Si dev y test tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de hacer más tuning.</li>
+<li>Si el F1 global es 0.81 y el F1 de un segmento es 0.57, la brecha es 0.24.</li>
+<li>Una brecha por segmento no prueba la causa; muestra que el promedio global es insuficiente para la decisión.</li>
+<li>Si validación y prueba tienen proporciones de clase muy distintas, primero se audita la construcción de particiones antes de realizar más ajustes.</li>
 </ol>
 </section>
-<section id="procedimiento-de-auditoría-por-slice" class="level2">
-<h2 class="anchored" data-anchor-id="procedimiento-de-auditoría-por-slice">Procedimiento de auditoría por slice</h2>
-<p>Una auditoría mínima por slice sigue cuatro pasos. Primero, predefine los slices que sostendrán conclusiones confirmatorias: periodo, fuente, región, rango de edad, instrumento de medición o categoría operativa relevante. Segundo, calcula para cada slice tamaño, tasa de clase positiva, métrica principal y tipo de error dominante. Tercero, compara contra el desempeño global y contra el baseline; un slice puede tener bajo desempeño absoluto pero seguir mejorando el baseline, o puede empeorar aunque el promedio global suba. Cuarto, escribe una acción: recoger más datos, cambiar partición, ajustar umbral, crear feature, separar modelo o limitar el uso.</p>
-<p>Los slices encontrados después de inspeccionar errores son útiles para generar hipótesis, pero deben marcarse como exploratorios y confirmarse con otra muestra o periodo. De lo contrario se seleccionan, sin decirlo, los grupos con la caída más llamativa.</p>
-<p>La auditoría también debe proteger contra conclusiones exageradas. Un slice con 12 observaciones no sostiene una afirmación fuerte, pero sí puede activar una revisión. Un slice grande con caída persistente sí cambia la recomendación. En el reporte, el tamaño del slice y la métrica deben aparecer juntos.</p>
+<section id="procedimiento-de-auditoría-por-segmentos" class="level2">
+<h2 class="anchored" data-anchor-id="procedimiento-de-auditoría-por-segmentos">Procedimiento de auditoría por segmentos</h2>
+<p>Una auditoría mínima sigue cuatro pasos. Primero, se definen los segmentos que sostendrán conclusiones confirmatorias: periodo, fuente, región, rango de edad, instrumento de medición o categoría operativa relevante. Segundo, para cada uno se calculan el tamaño, la tasa de clase positiva, la métrica principal y el tipo de error dominante. Tercero, se compara cada resultado con el desempeño global y con la regla de referencia; un segmento puede tener bajo desempeño absoluto y, sin embargo, mejorar esa referencia, o puede empeorar aunque el promedio global suba. Cuarto, se formula una acción: recoger más datos, cambiar la partición, ajustar el umbral, crear una variable, separar el modelo o limitar su uso.</p>
+<p>Los segmentos encontrados después de inspeccionar errores son útiles para generar hipótesis, pero deben marcarse como exploratorios y confirmarse con otra muestra o periodo. De lo contrario se seleccionan, sin decirlo, los grupos con la caída más llamativa.</p>
+<p>La auditoría también debe proteger contra conclusiones exageradas. Un segmento con 12 observaciones no sostiene una afirmación fuerte, pero sí puede activar una revisión. Un segmento grande con una caída persistente sí cambia la recomendación. En el reporte, el tamaño del segmento y la métrica deben aparecer juntos.</p>
 </section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> calcula tasas de error por slice y estima la brecha respecto al promedio global.</li>
-<li><strong>Extensión computacional:</strong> crea una tabla de errores con columnas para predicción, etiqueta, slice, score y tipo de fallo.</li>
-<li><strong>Conexión con proyecto:</strong> define dos slices que podrían revelar data mismatch y explica qué acción tomarías si fallan.</li>
-</ul>
-</div>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>El análisis de errores convierte una métrica agregada en diagnóstico. Separar falsos positivos, falsos negativos, casos ambiguos y slices críticos revela fallas que un promedio puede ocultar.</p>
-<p>Data mismatch aparece cuando train, dev o test no representan la misma población, periodo o proceso de medición. Antes de ajustar hiperparámetros, hay que revisar si la caída de desempeño se explica por cambio de distribución.</p>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>El análisis de errores convierte una métrica agregada en diagnóstico. Separar falsos positivos, falsos negativos, casos ambiguos y segmentos críticos revela fallas que un promedio puede ocultar.</p>
+<p>La diferencia de distribución aparece cuando entrenamiento, validación, prueba o uso no representan la misma población, periodo o proceso de medición. Antes de ajustar hiperparámetros, hay que revisar si la caída de desempeño se explica por cambio de distribución.</p>
 <p>Una recomendación técnica debe tener estructura: resultado observado, diagnóstico probable, acción concreta y límite. Sin esa estructura, el reporte queda como una opinión difícil de auditar.</p>
 </section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Error analysis:</strong> revisión sistemática de casos donde el modelo falla.</li>
-<li><strong>Slice:</strong> subconjunto de datos definido por una característica relevante.</li>
-<li><strong>Data mismatch:</strong> diferencia entre distribuciones o condiciones de dev, test o producción.</li>
-<li><strong>Diagnóstico:</strong> explicación técnica probable de un patrón de error.</li>
-<li><strong>Recomendación técnica:</strong> acción proporcional al resultado, diagnóstico y límites.</li>
-<li><strong>Límite:</strong> condición bajo la cual la conclusión no debe extrapolarse.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <ol type="1">
-<li>Proponga tres slices relevantes para un proyecto de predicción de abandono de clientes.</li>
-<li>¿Por qué un F1 global puede ocultar una falla grave?</li>
-</ol>
-</section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="3" type="1">
-<li>Dada una tabla de métricas por slice, identifique el slice crítico y calcule la brecha contra el desempeño global.</li>
-<li>Si dev tiene 30% de clase positiva y test 12%, ¿qué sospecha antes de ajustar hiperparámetros?</li>
-</ol>
-</section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="5" type="1">
-<li>Escriba una función que calcule una métrica por grupo.</li>
-<li>Compare distribución de una variable clave entre dev y test con una tabla o gráfico.</li>
-</ol>
-</section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
-<ol start="7" type="1">
-<li>¿Qué resultados sugerirían data mismatch entre dev y test?</li>
-<li>Escriba una recomendación técnica con la estructura resultado-diagnóstico-acción.</li>
-</ol>
-</section>
-<section id="profundización-matemática-y-estadística" class="level3">
-<h3 class="anchored" data-anchor-id="profundización-matemática-y-estadística">Profundización matemática y estadística</h3>
-<ol start="9" type="1">
-<li>Para un slice con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.</li>
-<li>Explique por qué el denominador efectivo de recall por slice es el número de positivos y no el tamaño total del slice.</li>
-<li>Se inspeccionaron 80 slices y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.</li>
-<li>Indique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.</li>
-</ol>
-</section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="13" type="1">
-<li>Para su proyecto, entregue una tabla de error analysis con al menos tres slices, diagnóstico por slice y una acción concreta.</li>
+<li><p>Proponga tres segmentos relevantes para un problema de predicción de abandono de clientes.</p></li>
+<li><p>¿Por qué un F1 global puede ocultar una falla grave?</p></li>
+<li><p>Dada una tabla de métricas por segmento, identifique el segmento crítico y calcule la brecha respecto al desempeño global.</p></li>
+<li><p>Si validación tiene 30% de clase positiva y prueba 12%, ¿qué debe comprobarse antes de ajustar hiperparámetros?</p></li>
+<li><p>Escriba una función que calcule una métrica por grupo.</p></li>
+<li><p>Compare la distribución de una variable clave entre validación y prueba con una tabla o gráfico.</p></li>
+<li><p>¿Qué resultados sugerirían una diferencia de distribución entre validación y prueba?</p></li>
+<li><p>Escriba una recomendación técnica con la estructura resultado-diagnóstico-acción.</p></li>
+<li><p>Para un segmento con 20 casos y tasa de error 0.30, calcule un error estándar binomial aproximado. Repita con 500 casos.</p></li>
+<li><p>Explique por qué el denominador efectivo de recall por segmento es el número de positivos y no el tamaño total del segmento.</p></li>
+<li><p>Se inspeccionaron 80 segmentos y se publicó solo el peor. Describa el sesgo de selección y diseñe una comprobación confirmatoria.</p></li>
+<li><p>Indique qué falla en la ponderación por densidades cuando producción contiene una región sin soporte en entrenamiento.</p></li>
+<li><p>Construya una tabla de análisis de errores con al menos tres segmentos, tamaño, denominador efectivo, diagnóstico y una acción concreta. Distinga los segmentos definidos de antemano de los hallados durante la exploración.</p></li>
 </ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1054,8 +976,8 @@ Límite: el desempeño global no debe extrapolarse a fuente C hasta cerrar la br
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./capitulo04_ejercicios_integradores.html" class="pagination-link" aria-label="Ejercicios integradores: estrategia de machine learning">
-        <span class="nav-page-text"><span class="chapter-title">Ejercicios integradores: estrategia de machine learning</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./capitulo04_ejercicios_integradores.html" class="pagination-link" aria-label="Problemas integradores de evaluación">
+        <span class="nav-page-text"><span class="chapter-title">Problemas integradores de evaluación</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

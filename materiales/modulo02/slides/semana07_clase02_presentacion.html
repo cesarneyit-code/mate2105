@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana07_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana07_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana07_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana07_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana07_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,25 +219,61 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-perceptron-forward.html">Capítulo 6 · Perceptrón y forward propagation</a>
 </div>
 </section>
-<section id="las-formas-ya-están-fijadas" class="slide level2 recap-slide">
-<h2>Las formas ya están fijadas</h2>
-<p>La primera clase fijó formas y mostró por qué necesitamos ReLU. Falta transformar los logits de salida y medir qué probabilidad asignamos a la clase observada.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: implementaremos el forward completo y lo probaremos en un batch antes de entrenar.</p>
-</div>
-</section>
 <section id="un-batch-de-dígitos-antes-de-entrenar" class="slide level2 case-slide">
 <h2>Un batch de dígitos antes de entrenar</h2>
+<p>La primera clase fijó formas y mostró por qué necesitamos ReLU. Falta transformar los logits de salida y medir qué probabilidad asignamos a la clase observada.</p>
+<div class="board">
+<p>implementaremos el forward completo y lo probaremos en un batch antes de entrenar.</p>
+</div>
 <p>Las diez clases de <code>load_digits</code> están relativamente equilibradas. Una regla de clase mayoritaria sigue siendo el primer baseline.</p>
 <div class="data-note">
 <p>Imágenes 8×8, intensidades normalizadas y partición estratificada; no hay descarga durante clase.</p>
 </div>
 </section>
-<section id="grafo-forward-desde-x-hasta-logits-softmax-y-pérdida" class="slide level2 visual-slide">
-<h2>Grafo forward desde X hasta logits, softmax y pérdida</h2>
+<section id="softmax-estable-aplicado-a-una-fila-de-logits" class="slide level2 visual-slide">
+<h2>Softmax estable aplicado a una fila de logits</h2>
 
-<img src="../figuras/backpropagation-grafo.svg" class="wide-figure r-stretch" alt="Grafo forward desde X hasta logits, softmax y pérdida"><div class="figure-reading">
-<p>La pérdida se calcula después de logits y softmax. Para bibliotecas, esa combinación puede implementarse internamente de forma más estable.</p>
+<img src="../figuras/softmax-probabilidades.svg" class="wide-figure r-stretch" alt="Softmax estable aplicado a una fila de logits"><div class="figure-reading">
+<p>Restar el máximo conserva las probabilidades y controla la escala de los exponentes. La normalización ocurre por observación, no sobre toda la tabla.</p>
+</div>
+</section>
+<section id="tres-logits-calculados-a-mano" class="slide level2 worked-example-slide result-slide">
+<h2>Tres logits calculados a mano</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">≈2.303</span><span class="label"><span class="math inline">\(\log(10)\)</span></span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">1</span><span class="label">suma por fila</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">10</span><span class="label">probabilidades por imagen</span>
+</div>
+</div>
+<p>Una pérdida inicial muy lejos de <span class="math inline">\(\log(10)\)</span> puede indicar saturación, inicialización sesgada o un error de implementación.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Sumar uno verifica la normalización; no demuestra que las probabilidades estén calibradas.</p>
+</div>
+</section>
+<section id="entropía-cruzada-como-riesgo-empírico" class="slide level2 probability-slide">
+<h2>Entropía cruzada como riesgo empírico</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>probabilidades condicionales de las clases</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>softmax y entropía cruzada promedio por batch</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>las clases son exhaustivas y la muestra representa el uso objetivo</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, inicialización y calibración</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Cambiar el batch cambia la pérdida promedio, aunque cada fila de softmax siga sumando uno.</p>
 </div>
 </section>
 <section id="logits-probabilidades-y-etiquetas" class="slide level2 notation-slide">
@@ -268,66 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="entropía-cruzada-como-riesgo-empírico" class="slide level2 probability-slide">
-<h2>Entropía cruzada como riesgo empírico</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>distribución categórica condicional</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>entropía cruzada promedio</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>etiquetas siguen una distribución comparable</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra e inicialización</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Cada fila de <span class="math inline">\(P\)</span> tiene <span class="math inline">\(k\)</span> entradas y suma uno. <code>Y</code> y <code>P</code> deben tener exactamente la misma forma para la fórmula matricial.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Cómo calculamos softmax sin overflow y qué pérdida corresponde a la clase observada?</p>
-</div>
-</section>
-<section id="softmax-estable-por-fila" class="slide level2 formula-slide">
-<h2>Softmax estable por fila</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-P_{ic}=\frac{\exp(z_{ic}-a_i)}{\sum_{j=1}^k\exp(z_{ij}-a_i)},
-\qquad a_i=\max_j z_{ij}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>Restar una constante por fila no cambia softmax y mantiene el exponente máximo en cero.</p>
-</div>
-</section>
-<section id="restar-el-máximo-no-cambia-softmax" class="slide level2 derivation-slide">
-<h2>Restar el máximo no cambia softmax</h2>
-<p>Para cualquier constante <span class="math inline">\(a\)</span>, <span class="math display">\[\frac{e^{z_c-a}}{\sum_j e^{z_j-a}}=\frac{e^{z_c}}{\sum_j e^{z_j}}.\]</span></p>
-</section>
-<section id="la-etiqueta-selecciona-un-término" class="slide level2 derivation-slide">
-<h2>La etiqueta selecciona un término</h2>
-<p>Con etiquetas one-hot <span class="math inline">\(Y\)</span>, <span class="math display">\[J=-\frac1m\sum_{i=1}^m\sum_{c=1}^kY_{ic}\log P_{ic}.\]</span> Solo la probabilidad asignada a la clase observada entra por fila.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Cada fila de <span class="math inline">\(P\)</span> tiene <span class="math inline">\(k\)</span> entradas y suma uno. <code>Y</code> y <code>P</code> deben tener exactamente la misma forma para la fórmula matricial.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="un-logit-importa-por-sus-diferencias" class="slide level2 interpretation-slide">
-<h2>Un logit importa por sus diferencias</h2>
-<p>Logits pueden trasladarse por una constante sin cambiar probabilidades. Su magnitud relativa, no su nivel absoluto, determina softmax.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Antes de exponentiar los logits de cada fila, restamos su máximo. ¿Qué cambia?
@@ -351,8 +333,8 @@ Antes de exponentiar los logits de cada fila, restamos su máximo. ¿Qué cambia
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -360,28 +342,59 @@ Softmax es invariante a sumar o restar una constante común por fila. Restar el 
 </p>
 </div>
 </section>
+<section id="softmax-estable-por-fila" class="slide level2 formula-slide">
+<h2>Softmax estable por fila</h2>
+<div class="formula-question">
+<p>¿Cómo calculamos softmax sin overflow y qué pérdida corresponde a la clase observada?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+P_{ic}=\frac{\exp(z_{ic}-a_i)}{\sum_{j=1}^k\exp(z_{ij}-a_i)},
+\qquad a_i=\max_j z_{ij}.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>Restar una constante por fila no cambia softmax y mantiene el exponente máximo en cero.</p>
+</div>
+</section>
+<section id="restar-el-máximo-no-cambia-softmax" class="slide level2 derivation-slide">
+<h2>Restar el máximo no cambia softmax</h2>
+<div class="derivation-step fragment">
+<p>Para cualquier constante <span class="math inline">\(a\)</span>, <span class="math display">\[\frac{e^{z_c-a}}{\sum_j e^{z_j-a}}=\frac{e^{z_c}}{\sum_j e^{z_j}}.\]</span></p>
+</div>
+</section>
+<section id="la-etiqueta-selecciona-un-término" class="slide level2 derivation-slide">
+<h2>La etiqueta selecciona un término</h2>
+<div class="derivation-step fragment">
+<p>Con etiquetas one-hot <span class="math inline">\(Y\)</span>, <span class="math display">\[J=-\frac1m\sum_{i=1}^m\sum_{c=1}^kY_{ic}\log P_{ic}.\]</span> Solo la probabilidad asignada a la clase observada entra por fila.</p>
+</div>
+</section>
+<section id="un-logit-importa-por-sus-diferencias" class="slide level2 interpretation-slide">
+<h2>Un logit importa por sus diferencias</h2>
+<p>Logits pueden trasladarse por una constante sin cambiar probabilidades. Su magnitud relativa, no su nivel absoluto, determina softmax.</p>
+</section>
 <section id="forward-completo-antes-del-optimizador" class="slide level2 algorithm-slide">
 <h2>Forward completo antes del optimizador</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>calcular <span class="math inline">\(Z_1\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>aplicar ReLU</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>calcular logits <span class="math inline">\(Z_2\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>restar máximo por fila</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>normalizar exponentes y calcular CE</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-forward-completo-antes-del-optimizador" class="slide level2 code-slide">
+<h2>En código: Forward completo antes del optimizador</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> softmax(logits):</span>
 <span id="cb1-2"><a href=""></a>    shifted <span class="op">=</span> logits <span class="op">-</span> logits.<span class="bu">max</span>(axis<span class="op">=</span><span class="dv">1</span>, keepdims<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb1-3"><a href=""></a>    exp_shifted <span class="op">=</span> np.exp(shifted)</span>
@@ -393,27 +406,8 @@ Softmax es invariante a sumar o restar una constante común por fila. Restar el 
 <p>El epsilon evita <code>log(0)</code> por redondeo; no reemplaza una implementación combinada logits–CE en producción.</p>
 </div>
 </section>
-<section id="tres-logits-calculados-a-mano" class="slide level2 worked-example-slide">
-<h2>Tres logits calculados a mano</h2>
-<p>Inicializamos pesos pequeños con semilla fija y ejecutamos 32 imágenes. Antes de entrenar, la pérdida debe estar cerca de <span class="math inline">\(\log(10)\)</span> si las clases reciben probabilidad parecida.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">≈2.303</span><span class="label"><span class="math inline">\(\log(10)\)</span></span>
-</div>
-<div>
-<span class="value">1</span><span class="label">suma por fila</span>
-</div>
-<div>
-<span class="value">10</span><span class="label">probabilidades por imagen</span>
-</div>
-</div>
-<p>Una pérdida inicial muy lejos de <span class="math inline">\(\log(10)\)</span> puede indicar saturación, inicialización sesgada o un error de implementación.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana07_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana07_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana07_live_coding.ipynb</code></p>
 </div>
@@ -453,59 +447,64 @@ Softmax es invariante a sumar o restar una constante común por fila. Restar el 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Exija probabilidades finitas, no negativas, y <code>np.allclose(P.sum(axis=1), 1)</code>. Compare CE contra un cálculo fila por fila.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>softmax estable por fila</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="softmax-sobre-el-eje-equivocado" class="slide level2 failure-slide">
-<h2>Softmax sobre el eje equivocado</h2>
-<div class="failure-statement">
-<p>Aplicar softmax por todo el arreglo mezcla observaciones.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Softmax sobre el eje equivocado</span> <strong>Aplicar softmax por todo el arreglo mezcla observaciones.</strong>
+<p>
+<span>Señal:</span> solo hay una suma global igual a uno.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>solo hay una suma global igual a uno</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">ReLU no pertenece a la salida multiclase</span> <strong>Usar ReLU sobre los logits de salida elimina scores negativos antes de softmax.</strong>
+<p>
+<span>Señal:</span> la capa de salida incluye <code>maximum(0, Z2)</code> sin justificación.
+</p>
+</div>
 </div>
 </section>
-<section id="relu-no-pertenece-a-la-salida-multiclase" class="slide level2 failure-slide">
-<h2>ReLU no pertenece a la salida multiclase</h2>
-<div class="failure-statement">
-<p>Usar ReLU sobre los logits de salida elimina scores negativos antes de softmax.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la capa de salida incluye <code>maximum(0, Z2)</code> sin justificación</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>La pérdida inicial es 12.8 y casi todas las probabilidades son 0 o 1. Proponga dos comprobaciones antes de bajar la tasa.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Revisar escala de inicialización y estabilización de softmax. La tasa todavía no interviene en el primer forward.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>El forward estable produce una distribución por fila y una entropía cruzada que puede compararse con <span class="math inline">\(\log(k)\)</span> al inicio.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>El forward estable produce una distribución por fila y una entropía cruzada que puede compararse con <span class="math inline">\(\log(k)\)</span> al inicio.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Probabilidades que suman uno no garantizan calibración, buena representación ni un backward correcto.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Sumar uno verifica la normalización; no demuestra que las probabilidades estén calibradas.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Probabilidades que suman uno no garantizan calibración, buena representación ni un backward correcto.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La clase prepara las funciones <code>relu</code>, <code>softmax</code>, <code>forward</code> y <code>cross_entropy</code> que Lab 3 comprobará con casos ocultos.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Ejercicio formativo de dimensiones.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>ReLU en capa oculta</li>
 <li>softmax resta máximo por fila</li>
@@ -513,18 +512,18 @@ Softmax es invariante a sumar o restar una constante común por fila. Restar el 
 <li>CE usa la clase observada</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Forward propagation es una cadena de objetos verificables: formas, rangos, sumas por fila y una pérdida con escala conocida.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Por qué restar el máximo no cambia softmax?</li>
 <li>¿Cuál es la pérdida inicial de diez clases uniformes?</li>
 <li>¿Qué recibe PyTorch CE?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Forward propagation es una cadena de objetos verificables: formas, rangos, sumas por fila y una pérdida con escala conocida.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> llegue con la derivada de entropía cruzada respecto al logit: <span class="math inline">\(P-Y\)</span>.</p>
 

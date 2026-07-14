@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana11_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-bd4ac4937fba0c471a3b40481c20a71d.css">
+  <link rel="stylesheet" href="semana11_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-c07cba6c077186d6a8350aa3c7e3b9a3.css">
   <link href="semana11_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana11_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana11_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/12-validacion-curvas.html">Capítulo 12 · Validación y curvas</a> · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/13-error-analysis-data-mismatch.html">Capítulo 13 · Error analysis y data mismatch</a>
 </div>
 </section>
-<section id="el-promedio-global-puede-esconder-el-error-relevante" class="slide level2 recap-slide">
-<h2>El promedio global puede esconder el error relevante</h2>
-<p>La primera clase fijó el contrato de evaluación. Ahora abrimos la métrica agregada para localizar dónde y por qué falla.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: leeremos curvas y slices confirmatorios antes de proponer cambios de modelo o datos.</p>
-</div>
-</section>
 <section id="una-métrica-estable-y-un-slice-frágil" class="slide level2 case-slide">
 <h2>Una métrica estable y un slice frágil</h2>
+<p>La primera clase fijó el contrato de evaluación. Ahora abrimos la métrica agregada para localizar dónde y por qué falla.</p>
+<div class="board">
+<p>leeremos curvas y slices confirmatorios antes de proponer cambios de modelo o datos.</p>
+</div>
 <p>Definimos slices por fuente y periodo en un ejemplo controlado. El modelo mantiene F1 global, pero cae en observaciones recientes.</p>
 <div class="data-note">
 <p>Los slices confirmatorios se declaran antes; otros análisis se reportan como exploratorios para evitar selección retrospectiva silenciosa.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/12-
 
 <img src="../figuras/error-analysis-slices.svg" class="wide-figure r-stretch" alt="F1 global y por fuente con un slice de desempeño bajo"><div class="figure-reading">
 <p>La métrica global pondera observaciones. Un slice pequeño y costoso puede quedar oculto aunque el promedio sea estable.</p>
+</div>
+</section>
+<section id="dos-grupos-con-el-mismo-promedio-global" class="slide level2 worked-example-slide result-slide">
+<h2>Dos grupos con el mismo promedio global</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">global</span><span class="label">no basta</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">conteos</span><span class="label">antes de promedios</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">hipótesis</span><span class="label">debe poder probarse</span>
+</div>
+</div>
+<p>Una brecha localizada define dónde auditar; no identifica automáticamente una causa ni autoriza excluir el slice.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> El diagnóstico prioriza una nueva prueba; no convierte cada diferencia observada en un hallazgo poblacional.</p>
+</div>
+</section>
+<section id="cada-slice-tiene-su-propio-tamaño-muestral" class="slide level2 probability-slide">
+<h2>Cada slice tiene su propio tamaño muestral</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>riesgos condicionales para subgrupos definidos</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>conteos y métricas por slice</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>los slices se justifican antes de buscar resultados y tienen soporte suficiente</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, multiplicidad y data mismatch</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Slices pequeños cambian mucho con pocas observaciones y requieren mostrar denominadores.</p>
 </div>
 </section>
 <section id="conteos-por-grupo-antes-de-las-tasas" class="slide level2 notation-slide">
@@ -268,67 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/12-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="cada-slice-tiene-su-propio-tamaño-muestral" class="slide level2 probability-slide">
-<h2>Cada slice tiene su propio tamaño muestral</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>desempeño poblacional y riesgos condicionales</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>métricas, cross-validation y slices</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>unidad de partición independiente y test reservado</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, folds dependientes y cambio de distribución</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Cada observación debe pertenecer a la definición de slice prevista. Slices solapados no pueden sumarse como una partición sin aclararlo.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Cómo agregamos correctamente precisión, recall o F1 entre slices?</p>
-</div>
-</section>
-<section id="agregar-conteos-antes-de-calcular-f1" class="slide level2 formula-slide">
-<h2>Agregar conteos antes de calcular F1</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-TP=\sum_sTP_s,\quad FP=\sum_sFP_s,\quad FN=\sum_sFN_s,
-\qquad
-F1=\frac{2TP}{2TP+FP+FN}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>En general no se obtiene F1 global promediando F1 de slices con pesos por tamaño. Se agregan conteos y luego se calcula.</p>
-</div>
-</section>
-<section id="precisión-y-recall-comparten-denominadores-distintos" class="slide level2 derivation-slide">
-<h2>Precisión y recall comparten denominadores distintos</h2>
-<p>Precisión y recall son cocientes con denominadores distintos por slice. Un promedio ponderado de cocientes no coincide necesariamente con el cociente de sumas.</p>
-</section>
-<section id="promediar-f1-no-reconstruye-el-f1-global" class="slide level2 derivation-slide">
-<h2>Promediar F1 no reconstruye el F1 global</h2>
-<p>La matriz agregada conserva los conteos necesarios. Las métricas por slice siguen siendo útiles para localizar heterogeneidad.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Cada observación debe pertenecer a la definición de slice prevista. Slices solapados no pueden sumarse como una partición sin aclararlo.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="un-slice-es-una-pregunta-confirmatoria-no-una-excusa" class="slide level2 interpretation-slide">
-<h2>Un slice es una pregunta confirmatoria, no una excusa</h2>
-<p>Una caída de recall reciente puede venir de cambio en <span class="math inline">\(P(X)\)</span>, en <span class="math inline">\(P(Y|X)\)</span>, en medición o de tamaño pequeño. La prevalencia sola no la explica.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Para obtener el F1 global a partir de varios slices, ¿qué procedimiento es correcto?
@@ -352,8 +333,8 @@ Para obtener el F1 global a partir de varios slices, ¿qué procedimiento es cor
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -361,28 +342,61 @@ Primero se suman los conteos de todos los slices y luego se calculan precisión,
 </p>
 </div>
 </section>
+<section id="agregar-conteos-antes-de-calcular-f1" class="slide level2 formula-slide">
+<h2>Agregar conteos antes de calcular F1</h2>
+<div class="formula-question">
+<p>¿Cómo agregamos correctamente precisión, recall o F1 entre slices?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\begin{aligned}
+TP &amp;= \sum_s TP_s, &amp; FP &amp;= \sum_s FP_s, \\
+FN &amp;= \sum_s FN_s, &amp; F1 &amp;= \frac{2TP}{2TP+FP+FN}.
+\end{aligned}
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>En general no se obtiene F1 global promediando F1 de slices con pesos por tamaño. Se agregan conteos y luego se calcula.</p>
+</div>
+</section>
+<section id="precisión-y-recall-comparten-denominadores-distintos" class="slide level2 derivation-slide">
+<h2>Precisión y recall comparten denominadores distintos</h2>
+<div class="derivation-step fragment">
+<p>Precisión y recall son cocientes con denominadores distintos por slice. Un promedio ponderado de cocientes no coincide necesariamente con el cociente de sumas.</p>
+</div>
+</section>
+<section id="promediar-f1-no-reconstruye-el-f1-global" class="slide level2 derivation-slide">
+<h2>Promediar F1 no reconstruye el F1 global</h2>
+<div class="derivation-step fragment">
+<p>La matriz agregada conserva los conteos necesarios. Las métricas por slice siguen siendo útiles para localizar heterogeneidad.</p>
+</div>
+</section>
+<section id="un-slice-es-una-pregunta-confirmatoria-no-una-excusa" class="slide level2 interpretation-slide">
+<h2>Un slice es una pregunta confirmatoria, no una excusa</h2>
+<p>Una caída de recall reciente puede venir de cambio en <span class="math inline">\(P(X)\)</span>, en <span class="math inline">\(P(Y|X)\)</span>, en medición o de tamaño pequeño. La prevalencia sola no la explica.</p>
+</section>
 <section id="de-la-curva-al-experimento-siguiente" class="slide level2 algorithm-slide">
 <h2>De la curva al experimento siguiente</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>fijar slices confirmatorios</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>calcular tamaños y conteos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>comparar contra global</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>inspeccionar ejemplos y variables</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>formular hipótesis y siguiente medición</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-de-la-curva-al-experimento-siguiente" class="slide level2 code-slide">
+<h2>En código: De la curva al experimento siguiente</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> metrics_by_slice(frame, y_true, y_pred, slice_col):</span>
 <span id="cb1-2"><a href=""></a>    rows <span class="op">=</span> []</span>
 <span id="cb1-3"><a href=""></a>    <span class="cf">for</span> name, idx <span class="kw">in</span> frame.groupby(slice_col).groups.items():</span>
@@ -394,27 +408,8 @@ Primero se suman los conteos de todos los slices y luego se calculan precisión,
 <p>Guardar conteos permite recomputar métricas y evita perder información detrás de porcentajes redondeados.</p>
 </div>
 </section>
-<section id="dos-grupos-con-el-mismo-promedio-global" class="slide level2 worked-example-slide">
-<h2>Dos grupos con el mismo promedio global</h2>
-<p>El slice reciente cae en recall mientras accuracy global cambia poco. Revisamos variables con mayor drift y casos FN antes de reentrenar.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">global</span><span class="label">no basta</span>
-</div>
-<div>
-<span class="value">conteos</span><span class="label">antes de promedios</span>
-</div>
-<div>
-<span class="value">hipótesis</span><span class="label">debe poder probarse</span>
-</div>
-</div>
-<p>Una brecha localizada define dónde auditar; no identifica automáticamente una causa ni autoriza excluir el slice.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana11_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana11_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana11_live_coding.ipynb</code></p>
 </div>
@@ -454,59 +449,64 @@ Primero se suman los conteos de todos los slices y luego se calculan precisión,
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Reconstruya la matriz global sumando conteos de slices disjuntos y compruebe que coincide con <code>confusion_matrix</code> global.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>agregar conteos antes de calcular f1</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="buscar-muchos-slices-produce-hallazgos-casuales" class="slide level2 failure-slide">
-<h2>Buscar muchos slices produce hallazgos casuales</h2>
-<div class="failure-statement">
-<p>Definir decenas de slices después de mirar resultados aumenta hallazgos casuales.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Buscar muchos slices produce hallazgos casuales</span> <strong>Definir decenas de slices después de mirar resultados aumenta hallazgos casuales.</strong>
+<p>
+<span>Señal:</span> no hay lista previa de slices.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no hay lista previa de slices</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Prevalencia no explica por sí sola el recall</span> <strong>Atribuir una caída a prevalencia sin revisar recall condicional confunde composición con desempeño.</strong>
+<p>
+<span>Señal:</span> la explicación no muestra conteos ni variables cambiantes.
+</p>
+</div>
 </div>
 </section>
-<section id="prevalencia-no-explica-por-sí-sola-el-recall" class="slide level2 failure-slide">
-<h2>Prevalencia no explica por sí sola el recall</h2>
-<div class="failure-statement">
-<p>Atribuir una caída a prevalencia sin revisar recall condicional confunde composición con desempeño.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la explicación no muestra conteos ni variables cambiantes</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El slice C tiene F1 0.57 con 14 casos. Proponga una afirmación, una comprobación y un límite.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Afirmación: desempeño observado menor que global. Comprobación: conteos, ejemplos y repetición temporal. Límite: muestra pequeña; no estimar con precisión la brecha poblacional.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Curvas y conteos por slices permiten localizar una brecha y convertirla en una hipótesis de datos, medición o modelo.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Curvas y conteos por slices permiten localizar una brecha y convertirla en una hipótesis de datos, medición o modelo.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Un slice débil en una partición pequeña no demuestra discriminación, drift ni causalidad; exige contexto y repetición.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>El diagnóstico prioriza una nueva prueba; no convierte cada diferencia observada en un hallazgo poblacional.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Un slice débil en una partición pequeña no demuestra discriminación, drift ni causalidad; exige contexto y repetición.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 4 usa el score heurístico <code>cv_mean - cv_std</code> para ordenar candidatos; debe llamarse heurística conservadora, no límite de confianza.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Publicación e inicio de Lab 4.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>agregar conteos antes de F1</li>
 <li>slices confirmatorios vs exploratorios</li>
@@ -514,18 +514,18 @@ Primero se suman los conteos de todos los slices y luego se calculan precisión,
 <li>mismatch requiere auditoría de datos</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>El diagnóstico termina cuando una brecha se traduce en una comprobación concreta, no cuando recibe una etiqueta atractiva.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Cómo reconstruye F1 global?</li>
 <li>¿Por qué declarar slices antes?</li>
 <li>¿Qué prueba separa drift de muestra pequeña?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>El diagnóstico termina cuando una brecha se traduce en una comprobación concreta, no cuando recibe una etiqueta atractiva.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> termine Lab 4 y revise cómo centrar una matriz antes de aplicar SVD.</p>
 

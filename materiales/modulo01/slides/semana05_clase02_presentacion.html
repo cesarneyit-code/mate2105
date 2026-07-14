@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana05_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-586566baa65c003b9bfc3da61172d24e.css">
+  <link rel="stylesheet" href="semana05_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-6308f6c74eeaac9854a9557d42d59a76.css">
   <link href="semana05_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana05_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana05_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-regularizacion-validacion.html">Capítulo 3 · Regularización y validación</a>
 </div>
 </section>
-<section id="l2-contrae-l1-también-puede-anular" class="slide level2 recap-slide">
-<h2>L2 contrae; L1 también puede anular</h2>
-<p>Ridge contrae coeficientes con una penalización suave y diferenciable. Lasso cambia la geometría y la optimización.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: compararemos trayectorias de coeficientes y error de validación, no solo una solución aislada.</p>
-</div>
-</section>
 <section id="variables-correlacionadas-que-compiten-por-entrar" class="slide level2 case-slide">
 <h2>Variables correlacionadas que compiten por entrar</h2>
+<p>Ridge contrae coeficientes con una penalización suave y diferenciable. Lasso cambia la geometría y la optimización.</p>
+<div class="board">
+<p>compararemos trayectorias de coeficientes y error de validación, no solo una solución aislada.</p>
+</div>
 <p>En <code>load_diabetes</code>, algunas variables están correlacionadas. Observaremos cómo Ridge y Lasso distribuyen o eliminan peso al variar <code>alpha</code>.</p>
 <div class="data-note">
 <p>Las variables se estandarizan dentro de la tubería; test permanece reservado.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-
 
 <img src="../figuras/regularizacion-ridge-lasso.svg" class="wide-figure r-stretch" alt="Bola L2 redonda y bola L1 con vértices sobre los ejes"><div class="figure-reading">
 <p>Los vértices de la restricción L1 favorecen soluciones sobre ejes, de ahí los ceros exactos. No garantizan estabilidad de la variable seleccionada.</p>
+</div>
+</section>
+<section id="una-trayectoria-de-coeficientes-al-variar-alpha" class="slide level2 worked-example-slide result-slide">
+<h2>Una trayectoria de coeficientes al variar <code>alpha</code></h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">log</span><span class="label">escala de la rejilla</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">dev</span><span class="label">datos de selección</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">test</span><span class="label">una sola estimación final</span>
+</div>
+</div>
+<p>El candidato elegido depende de la métrica declarada y de la dispersión, no de una preferencia estética por modelos sparse.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Los ceros describen esta solución regularizada; no prueban ausencia de relación poblacional.</p>
+</div>
+</section>
+<section id="la-selección-de-variables-cambia-entre-muestras" class="slide level2 probability-slide">
+<h2>La selección de variables cambia entre muestras</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>riesgo y estabilidad del procedimiento Lasso</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>error de validación y frecuencia de selección observada</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>columnas comparables y validación fuera del ajuste</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, correlación y valor de regularización</strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Una nueva muestra puede intercambiar qué variable correlacionada queda en cero.</p>
 </div>
 </section>
 <section id="tres-geometrías-de-penalización" class="slide level2 notation-slide">
@@ -268,67 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/03-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="la-selección-de-variables-cambia-entre-muestras" class="slide level2 probability-slide">
-<h2>La selección de variables cambia entre muestras</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>riesgo del procedimiento regularizado</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>curva de validación sobre valores de regularización</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>validación no participa en el ajuste</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, selección y sensibilidad de coeficientes</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> El intercepto queda fuera de la suma. En scikit-learn se maneja con <code>fit_intercept=True</code> y las columnas de entrada no incluyen unos.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Por qué Lasso puede producir ceros y por qué no usamos una ecuación normal ordinaria para resolverlo?</p>
-</div>
-</section>
-<section id="el-valor-absoluto-crea-una-esquina-en-cero" class="slide level2 formula-slide">
-<h2>El valor absoluto crea una esquina en cero</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\widehat R_{n,L1}(\boldsymbol\theta)
-=\frac{1}{2n}\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert_2^2
-+\lambda\sum_{j=1}^{p-1}|\theta_j|.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>El valor absoluto no es diferenciable en cero. Se usan subgradientes o algoritmos como descenso por coordenadas.</p>
-</div>
-</section>
-<section id="lejos-de-cero-aparece-el-signo" class="slide level2 derivation-slide">
-<h2>Lejos de cero aparece el signo</h2>
-<p>Para <span class="math inline">\(\theta_j\neq0\)</span>, la contribución de L1 es <span class="math display">\[\lambda\operatorname{sign}(\theta_j).\]</span></p>
-</section>
-<section id="en-cero-aparece-un-intervalo-de-subgradientes" class="slide level2 derivation-slide">
-<h2>En cero aparece un intervalo de subgradientes</h2>
-<p>En <span class="math inline">\(\theta_j=0\)</span>, el subgradiente pertenece a <span class="math inline">\([-\lambda,\lambda]\)</span>. Esa región permite que cero satisfaga la condición óptima.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>El intercepto queda fuera de la suma. En scikit-learn se maneja con <code>fit_intercept=True</code> y las columnas de entrada no incluyen unos.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="un-cero-pertenece-al-procedimiento-no-a-una-verdad-poblacional" class="slide level2 interpretation-slide">
-<h2>Un cero pertenece al procedimiento, no a una verdad poblacional</h2>
-<p>Un cero indica que el procedimiento no usa esa columna bajo esa penalización, muestra y escala. No demuestra irrelevancia poblacional.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Dos variables casi duplicadas predicen bien; Lasso conserva una y anula la otra. ¿Qué interpretación es válida?
@@ -352,8 +333,8 @@ Dos variables casi duplicadas predicen bien; Lasso conserva una y anula la otra.
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -361,28 +342,60 @@ Con predictores correlacionados, Lasso puede intercambiar cuál queda activa. El
 </p>
 </div>
 </section>
+<section id="el-valor-absoluto-crea-una-esquina-en-cero" class="slide level2 formula-slide">
+<h2>El valor absoluto crea una esquina en cero</h2>
+<div class="formula-question">
+<p>¿Por qué Lasso puede producir ceros y por qué no usamos una ecuación normal ordinaria para resolverlo?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\widehat R_{n,L1}(\boldsymbol\theta)
+=\frac{1}{2n}\lVert\mathbf X\boldsymbol\theta-\mathbf y\rVert_2^2
++\lambda\sum_{j=1}^{p-1}|\theta_j|.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>El valor absoluto no es diferenciable en cero. Se usan subgradientes o algoritmos como descenso por coordenadas.</p>
+</div>
+</section>
+<section id="lejos-de-cero-aparece-el-signo" class="slide level2 derivation-slide">
+<h2>Lejos de cero aparece el signo</h2>
+<div class="derivation-step fragment">
+<p>Para <span class="math inline">\(\theta_j\neq0\)</span>, la contribución de L1 es <span class="math display">\[\lambda\operatorname{sign}(\theta_j).\]</span></p>
+</div>
+</section>
+<section id="en-cero-aparece-un-intervalo-de-subgradientes" class="slide level2 derivation-slide">
+<h2>En cero aparece un intervalo de subgradientes</h2>
+<div class="derivation-step fragment">
+<p>En <span class="math inline">\(\theta_j=0\)</span>, el subgradiente pertenece a <span class="math inline">\([-\lambda,\lambda]\)</span>. Esa región permite que cero satisfaga la condición óptima.</p>
+</div>
+</section>
+<section id="un-cero-pertenece-al-procedimiento-no-a-una-verdad-poblacional" class="slide level2 interpretation-slide">
+<h2>Un cero pertenece al procedimiento, no a una verdad poblacional</h2>
+<p>Un cero indica que el procedimiento no usa esa columna bajo esa penalización, muestra y escala. No demuestra irrelevancia poblacional.</p>
+</section>
 <section id="elegir-alpha-y-revisar-estabilidad" class="slide level2 algorithm-slide">
 <h2>Elegir <code>alpha</code> y revisar estabilidad</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>definir rejilla logarítmica</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>ajustar tubería por candidato</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>medir dev o CV</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>registrar error y número de coeficientes activos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>fijar <code>alpha</code> antes de test</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-elegir-alpha-y-revisar-estabilidad" class="slide level2 code-slide">
+<h2>En código: Elegir <code>alpha</code> y revisar estabilidad</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="cf">for</span> alpha <span class="kw">in</span> np.logspace(<span class="op">-</span><span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">12</span>):</span>
 <span id="cb1-2"><a href=""></a>    model <span class="op">=</span> make_pipeline(StandardScaler(), Lasso(alpha<span class="op">=</span>alpha, max_iter<span class="op">=</span><span class="dv">20000</span>))</span>
 <span id="cb1-3"><a href=""></a>    model.fit(X_train, y_train)</span>
@@ -392,27 +405,8 @@ Con predictores correlacionados, Lasso puede intercambiar cuál queda activa. El
 <p>El criterio registra desempeño y sparsity; no selecciona por el número más pequeño de variables de forma automática.</p>
 </div>
 </section>
-<section id="una-trayectoria-de-coeficientes-al-variar-alpha" class="slide level2 worked-example-slide">
-<h2>Una trayectoria de coeficientes al variar <code>alpha</code></h2>
-<p>Al aumentar <code>alpha</code>, la trayectoria Lasso cruza ceros por etapas. El error dev primero puede bajar y luego subir cuando la contracción elimina señal útil.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">log</span><span class="label">escala de la rejilla</span>
-</div>
-<div>
-<span class="value">dev</span><span class="label">datos de selección</span>
-</div>
-<div>
-<span class="value">test</span><span class="label">una sola estimación final</span>
-</div>
-</div>
-<p>El candidato elegido depende de la métrica declarada y de la dispersión, no de una preferencia estética por modelos sparse.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana05_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana05_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana05_live_coding.ipynb</code></p>
 </div>
@@ -457,59 +451,64 @@ Con predictores correlacionados, Lasso puede intercambiar cuál queda activa. El
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Repita la selección con tres particiones o CV y registre qué variables permanecen activas; estabilidad de sparsity es una salida, no un supuesto.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>el valor absoluto crea una esquina en cero</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="seleccionar-alpha-con-test-vuelve-optimista-el-resultado" class="slide level2 failure-slide">
-<h2>Seleccionar <code>alpha</code> con test vuelve optimista el resultado</h2>
-<div class="failure-statement">
-<p>Elegir <code>alpha</code> con test hace optimista la estimación final.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Seleccionar <code>alpha</code> con test vuelve optimista el resultado</span> <strong>Elegir <code>alpha</code> con test hace optimista la estimación final.</strong>
+<p>
+<span>Señal:</span> test aparece en el bucle de rejilla.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>test aparece en el bucle de rejilla</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Un coeficiente cero no demuestra ausencia de relación</span> <strong>Interpretar una variable anulada como prueba de ausencia de relación confunde selección predictiva con inferencia.</strong>
+<p>
+<span>Señal:</span> la conclusión usa lenguaje causal o universal a partir de un coeficiente cero.
+</p>
+</div>
 </div>
 </section>
-<section id="un-coeficiente-cero-no-demuestra-ausencia-de-relación" class="slide level2 failure-slide">
-<h2>Un coeficiente cero no demuestra ausencia de relación</h2>
-<div class="failure-statement">
-<p>Interpretar una variable anulada como prueba de ausencia de relación confunde selección predictiva con inferencia.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la conclusión usa lenguaje causal o universal a partir de un coeficiente cero</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El mejor MSE dev usa 9 variables; otro candidato pierde 0.5 % y usa 3. ¿Cómo presentaría la elección?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Reportaría ambos, dispersión y costo de usar variables. La elección depende del contexto; si se elige el de 3, se declara la pérdida medida y se confirma en test solo al final.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>L1 puede generar soluciones sparse y su intensidad se selecciona con datos reservados, junto con una revisión de estabilidad.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>L1 puede generar soluciones sparse y su intensidad se selecciona con datos reservados, junto con una revisión de estabilidad.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Sparsity no equivale a verdad científica, y una variable seleccionada puede cambiar entre muestras correlacionadas.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Los ceros describen esta solución regularizada; no prueban ausencia de relación poblacional.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Sparsity no equivale a verdad científica, y una variable seleccionada puede cambiar entre muestras correlacionadas.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La parte manual de Lab 2 pide justificar regularizador e hiperparámetro con error de validación y estabilidad, no con preferencia personal.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 2.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>L1 usa valores absolutos</li>
 <li>subgradiente en cero permite sparsity</li>
@@ -517,18 +516,18 @@ Con predictores correlacionados, Lasso puede intercambiar cuál queda activa. El
 <li><code>alpha</code> se elige sin test</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Un modelo más pequeño solo es mejor cuando el costo de simplificar y la pérdida de desempeño quedan medidos en el mismo contrato.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Por qué Lasso puede tener ceros?</li>
 <li>¿Qué ocurre con variables duplicadas?</li>
 <li>¿Qué dos cantidades reportaría junto a <code>alpha</code>?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Un modelo más pequeño solo es mejor cuando el costo de simplificar y la pérdida de desempeño quedan medidos en el mismo contrato.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> lea la sección de logits y llegue con la diferencia entre score, probabilidad estimada y clase.</p>
 

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana13_presentacion_files/libs/revealjs/dist/theme/quarto-12d0f9af7b10a10548a0ace560094ac1.css">
+  <link rel="stylesheet" href="semana13_presentacion_files/libs/revealjs/dist/theme/quarto-e1ad195cb3d3df64cca4fac25da9bd04.css">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana13_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/16-
 <h2>Una partición sin etiquetas necesita un objetivo</h2>
 <p>PCA representó datos sin etiquetas mediante un subespacio. K-Means propone una partición geométrica mediante centroides.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: derivaremos la actualización del centro y separaremos objetivo, algoritmo e interpretación.</p>
+<p>derivaremos la actualización del centro y separaremos objetivo, algoritmo e interpretación.</p>
 </div>
 </section>
 <section id="tres-centros-y-dos-inicializaciones" class="slide level2 case-slide">
@@ -268,35 +268,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/16-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Con <span class="math inline">\(p\)</span> variables, cada centroide está en <span class="math inline">\(\mathbb R^p\)</span> y la matriz de centros tiene forma <span class="math inline">\(K\times p\)</span>.</p>
+</div>
 </section>
 <section id="la-solución-depende-de-muestra-e-inicialización" class="slide level2 probability-slide">
 <h2>La solución depende de muestra e inicialización</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>distorsión esperada y preferencia latente</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>distorsión esperada respecto a centros poblacionales</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>inertia, silhouette e interacciones observadas</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>inertia, silhouette y estabilidad entre inicializaciones</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>muestra comparable y mecanismo de exposición declarado</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>distancia, escala y muestra representan el problema de agrupación</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, inicialización y exposición</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, inicialización y elección de <span class="math inline">\(k\)</span></strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué centro minimiza la suma de distancias cuadradas dentro de un cluster con asignaciones fijas?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra o semilla puede cambiar asignaciones y centros.</p>
 </div>
 </section>
 <section id="distancia-cuadrada-dentro-de-cada-cluster" class="slide level2 formula-slide">
 <h2>Distancia cuadrada dentro de cada cluster</h2>
+<div class="formula-question">
+<p>¿Qué centro minimiza la suma de distancias cuadradas dentro de un cluster con asignaciones fijas?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 J(c,\mu)=\sum_{i=1}^m\lVert x_i-\mu_{c_i}\rVert_2^2,
@@ -304,32 +304,29 @@ J(c,\mu)=\sum_{i=1}^m\lVert x_i-\mu_{c_i}\rVert_2^2,
 \mu_j=\frac1{|C_j|}\sum_{i\in C_j}x_i.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>La media aparece porque el objetivo usa distancia euclidiana al cuadrado. Otra distancia puede exigir otro representante.</p>
 </div>
 </section>
 <section id="con-asignaciones-fijas-cada-centro-se-separa" class="slide level2 derivation-slide">
 <h2>Con asignaciones fijas, cada centro se separa</h2>
+<div class="derivation-step fragment">
 <p>Para un cluster fijo, <span class="math display">\[\frac{\partial}{\partial\mu_j}\sum_{i\in C_j}\|x_i-\mu_j\|^2
 =2|C_j|\mu_j-2\sum_{i\in C_j}x_i.\]</span></p>
+</div>
 </section>
 <section id="la-media-anula-el-gradiente" class="slide level2 derivation-slide">
 <h2>La media anula el gradiente</h2>
+<div class="derivation-step fragment">
 <p>Igualar a cero da la media. La asignación al centro más cercano minimiza cada término con centroides fijos, por lo que cada subpaso no aumenta <span class="math inline">\(J\)</span>.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Con <span class="math inline">\(p\)</span> variables, cada centroide está en <span class="math inline">\(\mathbb R^p\)</span> y la matriz de centros tiene forma <span class="math inline">\(K\times p\)</span>.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="un-cluster-es-una-construcción-geométrica" class="slide level2 interpretation-slide">
 <h2>Un cluster es una construcción geométrica</h2>
 <p>Un cluster es una región de proximidad bajo escala y distancia elegidas. No es una clase verdadera ni una categoría causal.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 ¿Qué garantiza una iteración de Lloyd en K-Means, salvo empates?
@@ -353,8 +350,8 @@ J(c,\mu)=\sum_{i=1}^m\lVert x_i-\mu_{c_i}\rVert_2^2,
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -364,26 +361,26 @@ Asignar al centro más cercano y reemplazar cada centro por la media no aumenta 
 </section>
 <section id="lloyd-alterna-dos-minimizaciones" class="slide level2 algorithm-slide">
 <h2>Lloyd alterna dos minimizaciones</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>inicializar centroides</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>asignar al centro más cercano</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>recalcular medias</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>manejar clusters vacíos</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>detener cuando asignaciones o inercia se estabilicen</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-lloyd-alterna-dos-minimizaciones" class="slide level2 code-slide">
+<h2>En código: Lloyd alterna dos minimizaciones</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(max_iter):</span>
 <span id="cb1-2"><a href=""></a>    distances <span class="op">=</span> ((X[:, <span class="va">None</span>, :] <span class="op">-</span> centers[<span class="va">None</span>, :, :]) <span class="op">**</span> <span class="dv">2</span>).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb1-3"><a href=""></a>    labels <span class="op">=</span> distances.argmin(axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -395,27 +392,27 @@ Asignar al centro más cercano y reemplazar cada centro por la media no aumenta 
 <p>Una implementación completa define qué hacer si <code>labels == j</code> queda vacío; ocultarlo produce <code>nan</code>.</p>
 </div>
 </section>
-<section id="una-iteración-calculada-a-mano" class="slide level2 worked-example-slide">
+<section id="una-iteración-calculada-a-mano" class="slide level2 worked-example-slide result-slide">
 <h2>Una iteración calculada a mano</h2>
 <p>Con varias inicializaciones, algunas corridas llegan a distinta inercia. <code>n_init</code> conserva la mejor según el objetivo, no según una etiqueta externa.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">no aumenta</span><span class="label">inercia por iteración</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">local</span><span class="label">óptimo alcanzado</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">n_init</span><span class="label">control de inicialización</span>
 </div>
 </div>
 <p>Menor inercia al aumentar <span class="math inline">\(K\)</span> es inevitable y no selecciona automáticamente el número de clusters.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> La monotonicidad de Lloyd es una propiedad del objetivo empírico; no garantiza el óptimo global ni clusters sustantivos.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana13_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana13_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana13_live_coding.ipynb</code></p>
 </div>
@@ -455,59 +452,64 @@ Asignar al centro más cercano y reemplazar cada centro por la media no aumenta 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compruebe que la inercia no aumenta entre subpasos y compare centros contra <code>KMeans</code> tras alinear etiquetas o usar una medida invariante.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>distancia cuadrada dentro de cada cluster</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="las-unidades-deciden-la-distancia-si-no-escalamos" class="slide level2 failure-slide">
-<h2>Las unidades deciden la distancia si no escalamos</h2>
-<div class="failure-statement">
-<p>Usar variables en escalas distintas deja que una unidad numérica domine la distancia.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Las unidades deciden la distancia si no escalamos</span> <strong>Usar variables en escalas distintas deja que una unidad numérica domine la distancia.</strong>
+<p>
+<span>Señal:</span> no se documenta escalamiento.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>no se documenta escalamiento</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Los nombres de clusters pueden permutarse</span> <strong>Comparar etiquetas 0/1 entre corridas ignora que los nombres de clusters son permutables.</strong>
+<p>
+<span>Señal:</span> se calcula porcentaje de igualdad directa sin alinear.
+</p>
+</div>
 </div>
 </section>
-<section id="los-nombres-de-clusters-pueden-permutarse" class="slide level2 failure-slide">
-<h2>Los nombres de clusters pueden permutarse</h2>
-<div class="failure-statement">
-<p>Comparar etiquetas 0/1 entre corridas ignora que los nombres de clusters son permutables.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>se calcula porcentaje de igualdad directa sin alinear</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Dos corridas tienen inercia parecida y etiquetas numéricas opuestas. ¿Son inestables? Proponga una prueba.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>No necesariamente. Compare ARI, distancias entre centroides después de matching o la partición por pares; las etiquetas pueden estar permutadas.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>K-Means alterna minimizaciones que no aumentan inercia y requiere múltiples inicializaciones y una geometría justificada.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>K-Means alterna minimizaciones que no aumentan inercia y requiere múltiples inicializaciones y una geometría justificada.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Compacidad y silhouette no validan significado, utilidad ni número verdadero de grupos.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>La monotonicidad de Lloyd es una propiedad del objetivo empírico; no garantiza el óptimo global ni clusters sustantivos.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Compacidad y silhouette no validan significado, utilidad ni número verdadero de grupos.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 5 autocalifica asignación, centroides, inercia y PCA; la interpretación manual debe declarar escala y límites.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 5 y guía de Parcial 2.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>objetivo de distancias cuadradas</li>
 <li>centroide = media</li>
@@ -515,18 +517,18 @@ Asignar al centro más cercano y reemplazar cada centro por la media no aumenta 
 <li>clusters no son clases</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>K-Means propone una organización geométrica; su significado debe venir de estabilidad, variables y contexto, no del número asignado al cluster.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Por qué la media?</li>
 <li>¿Por qué inercia no elige <span class="math inline">\(K\)</span> sola?</li>
 <li>¿Cómo compara corridas con etiquetas permutadas?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>K-Means propone una organización geométrica; su significado debe venir de estabilidad, variables y contexto, no del número asignado al cluster.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> prepare una matriz usuario–ítem y distinga interacción observada de preferencia no observada.</p>
 

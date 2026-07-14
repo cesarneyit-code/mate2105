@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Ejercicios integradores: aprendizaje no supervisado – MATE-2105: Módulo 4</title>
+<title>Problemas integradores de aprendizaje no supervisado – MATE-2105: Módulo 4</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -104,7 +104,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -113,7 +113,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo04_ejercicios_integradores.html"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo04_ejercicios_integradores.html"><span class="chapter-title">Problemas integradores de aprendizaje no supervisado</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -152,7 +152,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_kmeans_clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">K-Means y clustering</span></a>
+  <a href="./capitulo02_kmeans_clustering.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">K-Means y agrupamiento</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -162,7 +162,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></a>
+  <a href="./capitulo04_ejercicios_integradores.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Problemas integradores de aprendizaje no supervisado</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -195,13 +195,10 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#resultados-de-práctica" id="toc-resultados-de-práctica" class="nav-link active" data-scroll-target="#resultados-de-práctica">Resultados de práctica</a></li>
-  <li><a href="#mapa-del-banco" id="toc-mapa-del-banco" class="nav-link" data-scroll-target="#mapa-del-banco">Mapa del banco</a></li>
-  <li><a href="#antes-de-responder" id="toc-antes-de-responder" class="nav-link" data-scroll-target="#antes-de-responder">Antes de responder</a></li>
-  <li><a href="#columna-probabilística-del-módulo" id="toc-columna-probabilística-del-módulo" class="nav-link" data-scroll-target="#columna-probabilística-del-módulo">Columna probabilística del módulo</a></li>
-  <li><a href="#bloque-a-pca" id="toc-bloque-a-pca" class="nav-link" data-scroll-target="#bloque-a-pca">Bloque A: PCA</a></li>
-  <li><a href="#bloque-b-k-means" id="toc-bloque-b-k-means" class="nav-link" data-scroll-target="#bloque-b-k-means">Bloque B: K-Means</a></li>
-  <li><a href="#bloque-c-recomendación" id="toc-bloque-c-recomendación" class="nav-link" data-scroll-target="#bloque-c-recomendación">Bloque C: recomendación</a></li>
+  <li><a href="#objetivos-poblacionales-y-aproximaciones-muestrales" id="toc-objetivos-poblacionales-y-aproximaciones-muestrales" class="nav-link active" data-scroll-target="#objetivos-poblacionales-y-aproximaciones-muestrales">Objetivos poblacionales y aproximaciones muestrales</a></li>
+  <li><a href="#proyecciones-y-reconstrucción" id="toc-proyecciones-y-reconstrucción" class="nav-link" data-scroll-target="#proyecciones-y-reconstrucción">Proyecciones y reconstrucción</a></li>
+  <li><a href="#agrupamiento-con-k-means" id="toc-agrupamiento-con-k-means" class="nav-link" data-scroll-target="#agrupamiento-con-k-means">Agrupamiento con K-Means</a></li>
+  <li><a href="#similitud-y-recomendación" id="toc-similitud-y-recomendación" class="nav-link" data-scroll-target="#similitud-y-recomendación">Similitud y recomendación</a></li>
   <li><a href="#respuestas-seleccionadas" id="toc-respuestas-seleccionadas" class="nav-link" data-scroll-target="#respuestas-seleccionadas">Respuestas seleccionadas</a></li>
   </ul>
 </nav>
@@ -211,7 +208,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Ejercicios integradores: aprendizaje no supervisado</span></h1>
+<h1 class="title"><span class="chapter-title">Problemas integradores de aprendizaje no supervisado</span></h1>
+<p class="subtitle lead">Geometría, estabilidad e interpretación</p>
 </div>
 
 
@@ -228,55 +226,10 @@ window.Quarto = {
 </header>
 
 
-<p>En aprendizaje no supervisado no hay una etiqueta que valide automáticamente el significado. Por eso estos ejercicios combinan cálculo, visualización, estabilidad e interpretación prudente.</p>
-<section id="resultados-de-práctica" class="level2">
-<h2 class="anchored" data-anchor-id="resultados-de-práctica">Resultados de práctica</h2>
-<p>Al terminar este banco deberías poder:</p>
-<ol type="1">
-<li>calcular formas de SVD y proyecciones PCA;</li>
-<li>explicar qué sí y qué no justifica una reducción de dimensión;</li>
-<li>usar inertia y silhouette como resúmenes geométricos limitados;</li>
-<li>construir una recomendación item-item mínima;</li>
-<li>separar estructura matemática de interpretación aplicada.</li>
-</ol>
-</section>
-<section id="mapa-del-banco" class="level2">
-<h2 class="anchored" data-anchor-id="mapa-del-banco">Mapa del banco</h2>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th>Bloque</th>
-<th>Qué comprueba</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>A</td>
-<td>PCA, SVD, proyección e interpretación cautelosa</td>
-</tr>
-<tr class="even">
-<td>B</td>
-<td>K-Means, selección de <span class="math inline">\(k\)</span> y diagnóstico geométrico</td>
-</tr>
-<tr class="odd">
-<td>C</td>
-<td>similitud, recomendación y sesgos de interacción</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="antes-de-responder" class="level2">
-<h2 class="anchored" data-anchor-id="antes-de-responder">Antes de responder</h2>
-<p>Para cada ejercicio, identifica:</p>
-<ol type="1">
-<li>qué estructura matemática estás usando;</li>
-<li>qué cantidad se puede calcular;</li>
-<li>qué conclusión sí está permitida;</li>
-<li>qué conclusión sería una sobreinterpretación.</li>
-</ol>
-</section>
-<section id="columna-probabilística-del-módulo" class="level2">
-<h2 class="anchored" data-anchor-id="columna-probabilística-del-módulo">Columna probabilística del módulo</h2>
+<p>En aprendizaje no supervisado no hay una etiqueta que valide automáticamente el significado de la estructura encontrada. Los problemas combinan cálculo, visualización, estabilidad e interpretación. En cada solución debe distinguirse la cantidad que el algoritmo optimiza de la conclusión sustantiva que requeriría información adicional.</p>
+<p>La interpretación probabilística sigue siendo necesaria aunque no haya una respuesta observada: cada problema debe distinguir la distribución poblacional, la aproximación construida con la muestra y la variación introducida por el algoritmo.</p>
+<section id="objetivos-poblacionales-y-aproximaciones-muestrales" class="level2">
+<h2 class="anchored" data-anchor-id="objetivos-poblacionales-y-aproximaciones-muestrales">Objetivos poblacionales y aproximaciones muestrales</h2>
 <div class="exercise">
 <p><strong>P1. Covarianza y SVD.</strong> Demuestre que si <span class="math inline">\(X_c=U\Sigma_sV^\top\)</span>, entonces <span class="math inline">\(X_c^\top X_c/m=V\Sigma_s^2V^\top/m\)</span>. Identifique autovalores y autovectores de la covarianza empírica.</p>
 </div>
@@ -290,17 +243,17 @@ window.Quarto = {
 <p><strong>P4. Distorsión.</strong> Distinga <span class="math inline">\(R_P(C)\)</span>, <span class="math inline">\(\widehat R_m(C)\)</span> e <code>inertia_</code>. Indique cuál calcula <code>KMeans</code> y cuál interesa para nuevas observaciones.</p>
 </div>
 <div class="exercise">
-<p><strong>P5. Dos estabilidades.</strong> Diseñe un experimento que separe variación por inicialización de K-Means y variación por remuestreo del dataset.</p>
+<p><strong>P5. Dos estabilidades.</strong> Diseñe un experimento que separe variación por inicialización de K-Means y variación por remuestreo del conjunto de datos.</p>
 </div>
 <div class="exercise">
 <p><strong>P6. Exposición.</strong> Construya un ejemplo donde un ítem popular tenga más interacciones observadas aunque no tenga mayor preferencia promedio. Identifique la variable <span class="math inline">\(O_{ui}\)</span> y el sesgo inducido.</p>
 </div>
 <div class="exercise">
-<p><strong>P7. Evaluación offline.</strong> Explique qué distribución representa un test creado ocultando aleatoriamente interacciones históricas y qué escenarios de uso no representa.</p>
+<p><strong>P7. Evaluación fuera de línea.</strong> Explique qué distribución representa una prueba creada ocultando aleatoriamente interacciones históricas y qué escenarios de uso no representa.</p>
 </div>
 </section>
-<section id="bloque-a-pca" class="level2">
-<h2 class="anchored" data-anchor-id="bloque-a-pca">Bloque A: PCA</h2>
+<section id="proyecciones-y-reconstrucción" class="level2">
+<h2 class="anchored" data-anchor-id="proyecciones-y-reconstrucción">Proyecciones y reconstrucción</h2>
 <div class="exercise">
 <p><strong>A1.</strong> Derive las formas de <span class="math inline">\(U\)</span>, <span class="math inline">\(\Sigma\)</span> y <span class="math inline">\(V^\top\)</span> si <span class="math inline">\(X_c\)</span> tiene forma <code>(100, 20)</code>.</p>
 </div>
@@ -320,26 +273,26 @@ window.Quarto = {
 <p><strong>A6.</strong> Compare costo y condicionamiento de formar <span class="math inline">\(X_c^\top X_c\)</span> frente a calcular una SVD directa o truncada.</p>
 </div>
 </section>
-<section id="bloque-b-k-means" class="level2">
-<h2 class="anchored" data-anchor-id="bloque-b-k-means">Bloque B: K-Means</h2>
+<section id="agrupamiento-con-k-means" class="level2">
+<h2 class="anchored" data-anchor-id="agrupamiento-con-k-means">Agrupamiento con K-Means</h2>
 <div class="exercise">
 <p><strong>B1.</strong> Escriba la función objetivo de K-Means y explique cada término.</p>
 </div>
 <div class="exercise">
-<p><strong>B2.</strong> Compare inertia y silhouette como criterios geométricos para elegir <span class="math inline">\(k\)</span>.</p>
+<p><strong>B2.</strong> Compare la inercia y el coeficiente de silueta como criterios geométricos para elegir <span class="math inline">\(k\)</span>.</p>
 </div>
 <div class="exercise">
-<p><strong>B3.</strong> Proponga un diagnóstico si K-Means produce un cluster con 95% de los datos.</p>
+<p><strong>B3.</strong> Proponga un diagnóstico si K-Means produce un grupo con 95% de los datos.</p>
 </div>
 <div class="exercise">
-<p><strong>B4.</strong> Demuestre que los dos pasos de Lloyd no aumentan la inertia y explique por qué el resultado sigue dependiendo de la inicialización.</p>
+<p><strong>B4.</strong> Demuestre que los dos pasos de Lloyd no aumentan la inercia y explique por qué el resultado sigue dependiendo de la inicialización.</p>
 </div>
 <div class="exercise">
-<p><strong>B5.</strong> Derive el costo <span class="math inline">\(O(sTmkp)\)</span> y proponga una regla para clusters vacíos.</p>
+<p><strong>B5.</strong> Derive el costo <span class="math inline">\(O(sTmkp)\)</span> y proponga una regla para grupos vacíos.</p>
 </div>
 </section>
-<section id="bloque-c-recomendación" class="level2">
-<h2 class="anchored" data-anchor-id="bloque-c-recomendación">Bloque C: recomendación</h2>
+<section id="similitud-y-recomendación" class="level2">
+<h2 class="anchored" data-anchor-id="similitud-y-recomendación">Similitud y recomendación</h2>
 <div class="exercise">
 <p><strong>C1.</strong> Calcule similitud coseno entre dos vectores binarios simples.</p>
 </div>
@@ -368,7 +321,7 @@ window.Quarto = {
 <p><strong>A3.</strong> Alta varianza significa que una dirección explica dispersión de los datos, no que represente una causa, una variable ética ni una regla justa de decisión.</p>
 </div>
 <div class="answer">
-<p><strong>B3.</strong> Un cluster con 95% de los datos puede indicar <span class="math inline">\(k\)</span> inadecuado, variables mal escaladas, ausencia de estructura separable o outliers que deforman centroides. Antes de interpretar, conviene revisar escalamiento, probar otros <span class="math inline">\(k\)</span> y visualizar variables originales.</p>
+<p><strong>B3.</strong> Un grupo con 95% de los datos puede indicar <span class="math inline">\(k\)</span> inadecuado, variables mal escaladas, ausencia de estructura separable o valores atípicos que deforman los centroides. Antes de interpretar, conviene revisar el escalamiento, probar otros <span class="math inline">\(k\)</span> y visualizar las variables originales.</p>
 </div>
 <div class="answer">
 <p><strong>C3.</strong> La similitud de contenido compara atributos de los ítems. La similitud colaborativa compara patrones de interacción de usuarios. La segunda puede capturar comportamiento colectivo, pero también amplificar popularidad y sesgos históricos.</p>

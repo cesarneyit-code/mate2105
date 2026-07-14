@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana08_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana08_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana08_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana08_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana08_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,15 +219,12 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/07-backpropagation.html">Capítulo 7 · Backpropagation</a>
 </div>
 </section>
-<section id="una-fórmula-plausible-todavía-puede-estar-mal" class="slide level2 recap-slide">
-<h2>Una fórmula plausible todavía puede estar mal</h2>
-<p>Ya propagamos el error por la capa de salida. Falta atravesar ReLU y obtener gradientes de la primera capa.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: cerraremos backward, aplanaremos parámetros y compararemos derivadas analíticas con diferencias centrales.</p>
-</div>
-</section>
 <section id="backward-frente-a-diferencias-centrales" class="slide level2 case-slide">
 <h2>Backward frente a diferencias centrales</h2>
+<p>Ya propagamos el error por la capa de salida. Falta atravesar ReLU y obtener gradientes de la primera capa.</p>
+<div class="board">
+<p>cerraremos backward, aplanaremos parámetros y compararemos derivadas analíticas con diferencias centrales.</p>
+</div>
 <p>Una red 2–3–2 con tres observaciones tiene pocos parámetros y permite auditar coordenadas sin esperar un entrenamiento largo.</p>
 <div class="data-note">
 <p>Usamos <code>ReLU'(0)=0</code> como convención del curso; evitamos puntos exactamente cero en la prueba numérica cuando sea posible.</p>
@@ -238,6 +235,45 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/07-
 
 <img src="../figuras/backpropagation-grafo.svg" class="wide-figure r-stretch" alt="Grafo completo de forward y backward para una red con una capa oculta"><div class="figure-reading">
 <p>La derivada de ReLU actúa como máscara sobre <span class="math inline">\(dA_1\)</span>; luego la primera capa repite la estructura matricial de la segunda.</p>
+</div>
+</section>
+<section id="una-coordenada-analítica-y-numérica" class="slide level2 worked-example-slide result-slide">
+<h2>Una coordenada analítica y numérica</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">10</span><span class="label">coordenadas auditadas</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">10⁻⁵</span><span class="label"><span class="math inline">\(\varepsilon\)</span> inicial</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">&lt;10⁻⁶</span><span class="label">error relativo objetivo</span>
+</div>
+</div>
+<p>El umbral depende de escala y precisión; una discrepancia sistemática por factor <span class="math inline">\(m\)</span> apunta a normalización duplicada.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Gradient checking verifica consistencia local del código, no generalización ni adecuación de la arquitectura.</p>
+</div>
+</section>
+<section id="dos-aproximaciones-al-mismo-gradiente-muestral" class="slide level2 probability-slide">
+<h2>Dos aproximaciones al mismo gradiente muestral</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>gradiente de la pérdida empírica fijada</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>derivadas analítica y numérica sobre el mismo batch</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>la pérdida es suave en el punto perturbado</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>batch, redondeo y elección de <span class="math inline">\(\varepsilon\)</span></strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>La comparación debe conservar datos y parámetros; cambiar el batch compara funciones distintas.</p>
 </div>
 </section>
 <section id="un-vector-común-para-parámetros-y-gradientes" class="slide level2 notation-slide">
@@ -268,67 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/07-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="dos-aproximaciones-al-mismo-gradiente-muestral" class="slide level2 probability-slide">
-<h2>Dos aproximaciones al mismo gradiente muestral</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>gradiente del riesgo esperado</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>gradiente de batch o minibatch</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>intercambio válido entre derivada y esperanza</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>minibatch y aproximación numérica</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(dW_1\)</span> coincide con <span class="math inline">\(W_1\)</span>, <span class="math inline">\(db_1\)</span> con <span class="math inline">\(b_1\)</span>, <span class="math inline">\(dW_2\)</span> con <span class="math inline">\(W_2\)</span> y <span class="math inline">\(db_2\)</span> con <span class="math inline">\(b_2\)</span>.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué prueba separa un backward plausible de uno numéricamente consistente con la pérdida?</p>
-</div>
-</section>
-<section id="error-relativo-para-comparar-derivadas" class="slide level2 formula-slide">
-<h2>Error relativo para comparar derivadas</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\operatorname{err}_{rel}=
-\frac{\lVert g_{analítico}-g_{numérico}\rVert_2}
-{\lVert g_{analítico}\rVert_2+\lVert g_{numérico}\rVert_2+10^{-12}}.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>La normalización evita juzgar con una tolerancia absoluta idéntica gradientes grandes y pequeños.</p>
-</div>
-</section>
-<section id="perturbar-una-coordenada-a-cada-lado" class="slide level2 derivation-slide">
-<h2>Perturbar una coordenada a cada lado</h2>
-<p>La máscara de ReLU es <span class="math display">\[dZ^{[1]}=dA^{[1]}\odot\mathbf1\{Z^{[1]}&gt;0\}.\]</span></p>
-</section>
-<section id="normalizar-la-discrepancia" class="slide level2 derivation-slide">
-<h2>Normalizar la discrepancia</h2>
-<p>Para la primera capa, <span class="math display">\[dW^{[1]}=X^\top dZ^{[1]},\qquad db^{[1]}=\sum_i dZ_i^{[1]}.\]</span> No aparece otro <span class="math inline">\(1/m\)</span> si ya estaba en <span class="math inline">\(dZ_2\)</span>.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(dW_1\)</span> coincide con <span class="math inline">\(W_1\)</span>, <span class="math inline">\(db_1\)</span> con <span class="math inline">\(b_1\)</span>, <span class="math inline">\(dW_2\)</span> con <span class="math inline">\(W_2\)</span> y <span class="math inline">\(db_2\)</span> con <span class="math inline">\(b_2\)</span>.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="la-prueba-localiza-errores-no-demuestra-generalización" class="slide level2 interpretation-slide">
-<h2>La prueba localiza errores, no demuestra generalización</h2>
-<p>Gradient checking comprueba consistencia local entre pérdida e implementación. No prueba que la arquitectura sea adecuada ni que el dataset esté bien partido.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 El gradient check falla solo cuando una preactivación ReLU vale exactamente cero. ¿Cuál es la mejor lectura?
@@ -352,8 +333,8 @@ El gradient check falla solo cuando una preactivación ReLU vale exactamente cer
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -361,28 +342,60 @@ ReLU no es diferenciable en cero. La comprobación debe repetirse lejos de ese p
 </p>
 </div>
 </section>
+<section id="error-relativo-para-comparar-derivadas" class="slide level2 formula-slide">
+<h2>Error relativo para comparar derivadas</h2>
+<div class="formula-question">
+<p>¿Qué prueba separa un backward plausible de uno numéricamente consistente con la pérdida?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\operatorname{err}_{rel}=
+\frac{\lVert g_{analítico}-g_{numérico}\rVert_2}
+{\lVert g_{analítico}\rVert_2+\lVert g_{numérico}\rVert_2+10^{-12}}.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>La normalización evita juzgar con una tolerancia absoluta idéntica gradientes grandes y pequeños.</p>
+</div>
+</section>
+<section id="perturbar-una-coordenada-a-cada-lado" class="slide level2 derivation-slide">
+<h2>Perturbar una coordenada a cada lado</h2>
+<div class="derivation-step fragment">
+<p>La máscara de ReLU es <span class="math display">\[dZ^{[1]}=dA^{[1]}\odot\mathbf1\{Z^{[1]}&gt;0\}.\]</span></p>
+</div>
+</section>
+<section id="normalizar-la-discrepancia" class="slide level2 derivation-slide">
+<h2>Normalizar la discrepancia</h2>
+<div class="derivation-step fragment">
+<p>Para la primera capa, <span class="math display">\[dW^{[1]}=X^\top dZ^{[1]},\qquad db^{[1]}=\sum_i dZ_i^{[1]}.\]</span> No aparece otro <span class="math inline">\(1/m\)</span> si ya estaba en <span class="math inline">\(dZ_2\)</span>.</p>
+</div>
+</section>
+<section id="la-prueba-localiza-errores-no-demuestra-generalización" class="slide level2 interpretation-slide">
+<h2>La prueba localiza errores, no demuestra generalización</h2>
+<p>Gradient checking comprueba consistencia local entre pérdida e implementación. No prueba que la arquitectura sea adecuada ni que el dataset esté bien partido.</p>
+</section>
 <section id="gradient-checking-en-un-batch-pequeño" class="slide level2 algorithm-slide">
 <h2>Gradient checking en un batch pequeño</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>aplanar parámetros en un vector</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>calcular gradiente analítico</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>perturbar coordenadas en <span class="math inline">\(\pm\varepsilon\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>reconstruir pérdidas</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>calcular error relativo y localizar discrepancias</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-gradient-checking-en-un-batch-pequeño" class="slide level2 code-slide">
+<h2>En código: Gradient checking en un batch pequeño</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> central_difference(loss_from_vector, vector, j, eps<span class="op">=</span><span class="fl">1e-5</span>):</span>
 <span id="cb1-2"><a href=""></a>    plus <span class="op">=</span> vector.copy()<span class="op">;</span> plus[j] <span class="op">+=</span> eps</span>
 <span id="cb1-3"><a href=""></a>    minus <span class="op">=</span> vector.copy()<span class="op">;</span> minus[j] <span class="op">-=</span> eps</span>
@@ -394,27 +407,8 @@ ReLU no es diferenciable en cero. La comprobación debe repetirse lejos de ese p
 <p>La pérdida numérica debe ejecutar forward desde cero; reutilizar un cache perturbed invalida la comparación.</p>
 </div>
 </section>
-<section id="una-coordenada-analítica-y-numérica" class="slide level2 worked-example-slide">
-<h2>Una coordenada analítica y numérica</h2>
-<p>Muestreamos diez coordenadas con una semilla fija y <span class="math inline">\(\varepsilon=10^{-5}\)</span>. Si una coordenada cae en el quiebre de ReLU, se marca y se prueba otra.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">10</span><span class="label">coordenadas auditadas</span>
-</div>
-<div>
-<span class="value">10⁻⁵</span><span class="label"><span class="math inline">\(\varepsilon\)</span> inicial</span>
-</div>
-<div>
-<span class="value">&lt;10⁻⁶</span><span class="label">error relativo objetivo</span>
-</div>
-</div>
-<p>El umbral depende de escala y precisión; una discrepancia sistemática por factor <span class="math inline">\(m\)</span> apunta a normalización duplicada.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana08_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana08_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana08_live_coding.ipynb</code></p>
 </div>
@@ -449,59 +443,64 @@ ReLU no es diferenciable en cero. La comprobación debe repetirse lejos de ese p
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Exija coincidencia de formas para todos los parámetros y error relativo bajo el umbral en coordenadas de las dos capas.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>error relativo para comparar derivadas</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="un-epsilon-mínimo-no-siempre-es-mejor" class="slide level2 failure-slide">
-<h2>Un epsilon mínimo no siempre es mejor</h2>
-<div class="failure-statement">
-<p>Usar un <span class="math inline">\(\varepsilon\)</span> demasiado pequeño deja que redondeo domine la diferencia.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Un epsilon mínimo no siempre es mejor</span> <strong>Usar un <span class="math inline">\(\varepsilon\)</span> demasiado pequeño deja que redondeo domine la diferencia.</strong>
+<p>
+<span>Señal:</span> el error empeora al reducir siempre <span class="math inline">\(\varepsilon\)</span>.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el error empeora al reducir siempre <span class="math inline">\(\varepsilon\)</span></strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">ReLU no es diferenciable en cero</span> <strong>Probar exactamente en <span class="math inline">\(Z_1=0\)</span> compara derivadas no únicas de ReLU.</strong>
+<p>
+<span>Señal:</span> la discrepancia aparece solo en unidades justo en cero.
+</p>
+</div>
 </div>
 </section>
-<section id="relu-no-es-diferenciable-en-cero" class="slide level2 failure-slide">
-<h2>ReLU no es diferenciable en cero</h2>
-<div class="failure-statement">
-<p>Probar exactamente en <span class="math inline">\(Z_1=0\)</span> compara derivadas no únicas de ReLU.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la discrepancia aparece solo en unidades justo en cero</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El error relativo es <span class="math inline">\(10^{-2}\)</span> para todo <span class="math inline">\(W_1\)</span> y <span class="math inline">\(10^{-9}\)</span> para <span class="math inline">\(W_2\)</span>. Diseñe una secuencia de tres inspecciones.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Revisar máscara de ReLU, forma de <span class="math inline">\(dA_1=dZ_2W_2^T\)</span> y producto <span class="math inline">\(X^TdZ_1\)</span>. Después comparar una coordenada manualmente.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Una red pequeña puede auditarse bloque por bloque y sus gradientes deben coincidir localmente con la pérdida numérica.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Una red pequeña puede auditarse bloque por bloque y sus gradientes deben coincidir localmente con la pérdida numérica.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Pasar gradient checking no garantiza convergencia, generalización ni ausencia de leakage.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Gradient checking verifica consistencia local del código, no generalización ni adecuación de la arquitectura.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Pasar gradient checking no garantiza convergencia, generalización ni ausencia de leakage.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 3 se publica con pruebas visibles de forma y pruebas ocultas de valores; el libreto docente mantiene las respuestas fuera del sitio público.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Publicación de Lab 3.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>máscara ReLU</li>
 <li><span class="math inline">\(dW_1=X^TdZ_1\)</span></li>
@@ -509,18 +508,18 @@ ReLU no es diferenciable en cero. La comprobación debe repetirse lejos de ese p
 <li>diferencias centrales + error relativo</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Antes de entrenar cientos de épocas, una red de tres filas debe poder explicar cada derivada.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué convención usamos en ReLU cero?</li>
 <li>¿Qué revela un error por factor <span class="math inline">\(m\)</span>?</li>
 <li>¿Qué no prueba gradient checking?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Antes de entrenar cientos de épocas, una red de tres filas debe poder explicar cada derivada.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> ejecute Lab 3 contra las pruebas visibles y conserve un caso pequeño para depuración.</p>
 

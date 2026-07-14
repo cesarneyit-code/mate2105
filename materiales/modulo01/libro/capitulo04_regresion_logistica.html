@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -259,7 +259,7 @@ window.Quarto = {
   <li><a href="#un-umbral-fijado-con-validación" id="toc-un-umbral-fijado-con-validación" class="nav-link" data-scroll-target="#un-umbral-fijado-con-validación">Un umbral fijado con validación</a></li>
   <li><a href="#calibración-y-alcance-de-las-probabilidades" id="toc-calibración-y-alcance-de-las-probabilidades" class="nav-link" data-scroll-target="#calibración-y-alcance-de-las-probabilidades">Calibración y alcance de las probabilidades</a></li>
   <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
-  <li><a href="#problemas-integrados" id="toc-problemas-integrados" class="nav-link" data-scroll-target="#problemas-integrados">Problemas integrados</a>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a>
   <ul class="collapse">
   <li><a href="#del-mecanismo-bernoulli-al-gradiente" id="toc-del-mecanismo-bernoulli-al-gradiente" class="nav-link" data-scroll-target="#del-mecanismo-bernoulli-al-gradiente">1. Del mecanismo Bernoulli al gradiente</a></li>
   <li><a href="#una-probabilidad-y-dos-decisiones" id="toc-una-probabilidad-y-dos-decisiones" class="nav-link" data-scroll-target="#una-probabilidad-y-dos-decisiones">2. Una probabilidad y dos decisiones</a></li>
@@ -294,7 +294,7 @@ window.Quarto = {
 
 
 <p>El conjunto <code>clasificacion_binaria_sintetica.csv</code> contiene 240 observaciones. La respuesta <code>target</code> vale 1 o 0 y las entradas disponibles para el modelo son <code>x1</code> y <code>x2</code>. La columna <code>slice</code> identifica dos periodos de generación. En las 180 observaciones del periodo <code>base</code>, la proporción de unos es 0.428.</p>
-<p>Una regla que siempre predice la clase mayoritaria alcanza accuracy 0.572 sin utilizar ninguna entrada y nunca detecta un positivo. Ese número fija un baseline, pero no responde la pregunta más importante: ¿podemos estimar cómo cambia la probabilidad de <span class="math inline">\(Y=1\)</span> con <span class="math inline">\(\boldsymbol X=(X_1,X_2)\)</span>?</p>
+<p>Una regla que siempre predice la clase mayoritaria alcanza una exactitud de 0.572 sin utilizar ninguna entrada y nunca detecta un positivo. Ese número fija una regla de referencia, pero no responde la pregunta más importante: ¿podemos estimar cómo cambia la probabilidad de <span class="math inline">\(Y=1\)</span> con <span class="math inline">\(\boldsymbol X=(X_1,X_2)\)</span>?</p>
 <p>El archivo también publica <code>score_latente</code> y <code>probabilidad</code> para que el mecanismo sintético pueda auditarse. Esas columnas revelan directamente cantidades usadas para generar la respuesta. Incluirlas como predictores convertiría el ejercicio en filtración de información. El modelo se ajustará solo con <code>x1</code> y <code>x2</code>.</p>
 <section id="de-una-clase-a-una-probabilidad-condicional" class="level2">
 <h2 class="anchored" data-anchor-id="de-una-clase-a-una-probabilidad-condicional">De una clase a una probabilidad condicional</h2>
@@ -441,7 +441,7 @@ W_{ii}=\widehat p_i(1-\widehat p_i).
 <div class="diagnostico">
 <p><strong>Pérdida decreciente con coeficientes crecientes.</strong> En datos separables, esta trayectoria no indica que falten iteraciones. Indica que el problema sin penalización no tiene un minimizador finito. Una penalización L2, sin incluir el intercepto, controla esa dirección y produce una solución finita.</p>
 </div>
-<p>Un paso batch de gradiente cuesta <span class="math inline">\(O(np)\)</span>. Los métodos de Newton utilizan la Hessiana, cuyo ensamblaje denso cuesta <span class="math inline">\(O(np^2)\)</span> y cuya solución cuesta <span class="math inline">\(O(p^3)\)</span>. Las bibliotecas eligen entre métodos de Newton, quasi-Newton, gradiente y coordenadas según el tamaño y la penalización. El objetivo estadístico y el solver son decisiones diferentes.</p>
+<p>Un paso de gradiente con el conjunto completo cuesta <span class="math inline">\(O(np)\)</span>. Los métodos de Newton utilizan la Hessiana, cuyo ensamblaje denso cuesta <span class="math inline">\(O(np^2)\)</span> y cuya solución cuesta <span class="math inline">\(O(p^3)\)</span>. Las bibliotecas eligen entre métodos de Newton, cuasi-Newton, gradiente y coordenadas según el tamaño y la penalización. El objetivo estadístico y el método de solución son decisiones diferentes.</p>
 </section>
 <section id="la-probabilidad-todavía-no-es-una-decisión" class="level2">
 <h2 class="anchored" data-anchor-id="la-probabilidad-todavía-no-es-una-decisión">La probabilidad todavía no es una decisión</h2>
@@ -507,7 +507,7 @@ p\geq
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tp, fp, tn, fn</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Los cuatro conteos producen</p>
 <p><span class="math display">\[
-\operatorname{accuracy}
+\operatorname{exactitud}
 =\frac{TP+TN}{TP+TN+FP+FN},
 \]</span></p>
 <p><span class="math display">\[
@@ -539,7 +539,7 @@ F_1
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">"recall"</span>: recall,</span>
 <span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"f1"</span>: f1,</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Accuracy pondera por igual las observaciones y puede ocultar que la clase positiva nunca se detecta. Precision condiciona en las predicciones positivas; recall condiciona en los positivos reales. <span class="math inline">\(F_1\)</span> combina ambas, pero tampoco incorpora por sí solo un costo, una capacidad de revisión ni la prevalencia de la población de uso.</p>
+<p>La exactitud pondera por igual las observaciones y puede ocultar que la clase positiva nunca se detecta. Precision condiciona en las predicciones positivas; recall condiciona en los positivos reales. <span class="math inline">\(F_1\)</span> combina ambas, pero tampoco incorpora por sí solo un costo, una capacidad de revisión ni la prevalencia de la población de uso.</p>
 </section>
 <section id="un-umbral-fijado-con-validación" class="level2">
 <h2 class="anchored" data-anchor-id="un-umbral-fijado-con-validación">Un umbral fijado con validación</h2>
@@ -552,7 +552,7 @@ F_1
 <th style="text-align: right;">FP</th>
 <th style="text-align: right;">FN</th>
 <th style="text-align: right;">TP</th>
-<th style="text-align: right;">accuracy</th>
+<th style="text-align: right;">exactitud</th>
 <th style="text-align: right;">precision</th>
 <th style="text-align: right;">recall</th>
 <th style="text-align: right;">F1</th>
@@ -627,28 +627,28 @@ F_1
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> metrics[<span class="st">"recall"</span>] <span class="op">&gt;=</span> min_recall:</span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>            feasible.append(threshold)</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">max</span>(feasible) <span class="cf">if</span> feasible <span class="cf">else</span> <span class="va">None</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Una vez fijado el modelo y el umbral, prueba se consulta una sola vez. Allí se obtienen TN 9, FP 11, FN 0 y TP 16: accuracy 0.694, precision 0.593, recall 1.0 y <span class="math inline">\(F_1=0.744\)</span>. El umbral 0.5 habría dado mayor accuracy en prueba, pero escogerlo después de ver ese resultado violaría el procedimiento declarado.</p>
-<p>La regla mayoritaria alcanza accuracy 0.556 en esta prueba y recall cero. El baseline muestra por qué la métrica primaria debe definirse antes de comparar modelos.</p>
+<p>Una vez fijado el modelo y el umbral, prueba se consulta una sola vez. Allí se obtienen TN 9, FP 11, FN 0 y TP 16: exactitud 0.694, precision 0.593, recall 1.0 y <span class="math inline">\(F_1=0.744\)</span>. El umbral 0.5 habría dado mayor exactitud en prueba, pero escogerlo después de ver ese resultado violaría el procedimiento declarado.</p>
+<p>La regla mayoritaria alcanza una exactitud de 0.556 en esta prueba y recall cero. La regla de referencia muestra por qué la métrica primaria debe definirse antes de comparar modelos.</p>
 </section>
 <section id="calibración-y-alcance-de-las-probabilidades" class="level2">
 <h2 class="anchored" data-anchor-id="calibración-y-alcance-de-las-probabilidades">Calibración y alcance de las probabilidades</h2>
 <p>Un modelo está calibrado si, entre unidades con probabilidad estimada cercana a <span class="math inline">\(q\)</span>, la frecuencia observada de positivos es cercana a <span class="math inline">\(q\)</span>. La calibración es distinta del umbral y también de la capacidad para ordenar casos. Una sigmoide no garantiza calibración fuera de muestra.</p>
-<p>En el dataset sintético podemos comparar las probabilidades estimadas con la columna <code>probabilidad</code>, porque conocemos el mecanismo generador. Esa comparación es un privilegio del experimento controlado. En una aplicación real, la calibración se estima con observaciones reservadas y conserva incertidumbre.</p>
+<p>En el conjunto de datos sintético podemos comparar las probabilidades estimadas con la columna <code>probabilidad</code>, porque conocemos el mecanismo generador. Esa comparación es un privilegio del experimento controlado. En una aplicación real, la calibración se estima con observaciones reservadas y conserva incertidumbre.</p>
 <p>Las 60 filas del periodo <code>reciente</code> no se usarán para reajustar el ejemplo ni para escoger el umbral. Su distribución fue modificada deliberadamente y se retomará en la parte de estrategia para estudiar qué ocurre cuando cambian la prevalencia o las entradas. Mezclarlas aquí ocultaría precisamente el cambio que queremos diagnosticar después.</p>
 </section>
 <section id="síntesis" class="level2">
 <h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
 <p>La regresión logística aproxima la probabilidad condicional de una respuesta Bernoulli mediante una sigmoide aplicada a un predictor lineal. La log-loss proviene de la verosimilitud Bernoulli y es una pérdida propia: su objetivo poblacional es la probabilidad condicional, no solo una etiqueta.</p>
 <p>El gradiente conserva la forma matricial <span class="math inline">\(\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span> y la Hessiana es semidefinida positiva. La convexidad evita mínimos locales espurios, pero la separabilidad puede llevar los coeficientes al infinito si no hay regularización.</p>
-<p>El modelo termina en una probabilidad estimada. El umbral añade una decisión y determina la matriz de confusión. Precision, recall, <span class="math inline">\(F_1\)</span> y accuracy resumen aspectos distintos; ninguna reemplaza la declaración de la clase positiva, los costos y el procedimiento de validación.</p>
+<p>El modelo termina en una probabilidad estimada. El umbral añade una decisión y determina la matriz de confusión. Precision, recall, <span class="math inline">\(F_1\)</span> y exactitud resumen aspectos distintos; ninguna reemplaza la declaración de la clase positiva, los costos y el procedimiento de validación.</p>
 </section>
-<section id="problemas-integrados" class="level2">
-<h2 class="anchored" data-anchor-id="problemas-integrados">Problemas integrados</h2>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <section id="del-mecanismo-bernoulli-al-gradiente" class="level3">
 <h3 class="anchored" data-anchor-id="del-mecanismo-bernoulli-al-gradiente">1. Del mecanismo Bernoulli al gradiente</h3>
 <p>Use las filas <code>base</code> de <code>clasificacion_binaria_sintetica.csv</code> y solo <code>x1</code>, <code>x2</code> como entradas.</p>
 <ol type="1">
-<li>Calcule la prevalencia y el baseline mayoritario.</li>
+<li>Calcule la prevalencia y la regla mayoritaria de referencia.</li>
 <li>Derive la log-loss desde la masa Bernoulli.</li>
 <li>Implemente sigmoide, pérdida desde logits y gradiente.</li>
 <li>Verifique el gradiente por diferencias finitas en cinco vectores de parámetros.</li>
@@ -661,7 +661,7 @@ F_1
 <ol type="1">
 <li>Calcule log-loss sin aplicar umbral.</li>
 <li>Construya matrices de confusión para <span class="math inline">\(\tau=0.5\)</span> y <span class="math inline">\(\tau=0.7\)</span>.</li>
-<li>Calcule accuracy, precision, recall y <span class="math inline">\(F_1\)</span>.</li>
+<li>Calcule exactitud, precision, recall y <span class="math inline">\(F_1\)</span>.</li>
 <li>Proponga costos que hagan razonable cada umbral.</li>
 <li>Explique qué cambió en la decisión y qué permaneció igual en el modelo.</li>
 </ol>
@@ -685,13 +685,13 @@ F_1
 <li>Muestre que las clases permanecen correctas mientras la norma crece.</li>
 <li>Añada una penalización L2 que no incluya el intercepto.</li>
 <li>Compare convergencia, probabilidades y frontera para varias intensidades.</li>
-<li>Explique por qué un minimizador finito es una propiedad distinta de tener accuracy de entrenamiento igual a uno.</li>
+<li>Explique por qué un minimizador finito es una propiedad distinta de tener exactitud de entrenamiento igual a uno.</li>
 </ol>
 </section>
 </section>
 <section id="respuestas-seleccionadas" class="level2">
 <h2 class="anchored" data-anchor-id="respuestas-seleccionadas">Respuestas seleccionadas</h2>
-<p><strong>Problema 2.</strong> Con <span class="math inline">\(\tau=0.5\)</span> se obtiene <span class="math inline">\((TP,FP,TN,FN)=(2,1,2,1)\)</span> y las cuatro métricas son aproximadamente 0.667. Con <span class="math inline">\(\tau=0.7\)</span> se obtiene <span class="math inline">\((1,0,3,2)\)</span>: precision es 1, recall es <span class="math inline">\(1/3\)</span>, accuracy es <span class="math inline">\(2/3\)</span> y <span class="math inline">\(F_1=0.5\)</span>. Las probabilidades y su log-loss no cambian al mover el umbral.</p>
+<p><strong>Problema 2.</strong> Con <span class="math inline">\(\tau=0.5\)</span> se obtiene <span class="math inline">\((TP,FP,TN,FN)=(2,1,2,1)\)</span> y las cuatro métricas son aproximadamente 0.667. Con <span class="math inline">\(\tau=0.7\)</span> se obtiene <span class="math inline">\((1,0,3,2)\)</span>: precision es 1, recall es <span class="math inline">\(1/3\)</span>, la exactitud es <span class="math inline">\(2/3\)</span> y <span class="math inline">\(F_1=0.5\)</span>. Las probabilidades y su log-loss no cambian al mover el umbral.</p>
 <p><strong>Problema 4.</strong> En datos separables, multiplicar por una constante positiva un vector que separa aumenta los márgenes y hace que la log-loss se acerque a cero. La penalización L2 crece cuadráticamente con esa constante y evita que la norma pueda aumentar sin costo.</p>
 
 

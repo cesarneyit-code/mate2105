@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">Efecto de la inicialización sobre activaciones</title>
+  <desc id="desc">Comparación conceptual entre pesos cero, escala excesiva e inicialización de He.</desc>
+  <style>
+    .panel{fill:#fff;stroke:#cfd5df;stroke-width:2}.bad{stroke:#b73535;stroke-width:6}.warn{stroke:#a66b00;stroke-width:6}.good{stroke:#0f766e;stroke-width:6}
+    .title{font:700 25px Arial,sans-serif;fill:#172033}.math{font:23px Georgia,serif;fill:#245bbf}.note{font:19px Arial,sans-serif;fill:#566174}
+    .axis{stroke:#aeb6c3;stroke-width:2}.signal{fill:none;stroke-width:5}.zero{stroke:#b73535}.large{stroke:#a66b00}.he{stroke:#0f766e}
+  </style>
+  <rect class="panel bad" x="40" y="60" width="330" height="300" rx="5"/>
+  <text class="title" x="205" y="110" text-anchor="middle">Todos los pesos en cero</text>
+  <text class="math" x="205" y="152" text-anchor="middle">W = 0</text>
+  <line class="axis" x1="85" y1="245" x2="325" y2="245"/><path class="signal zero" d="M85 245 L325 245"/>
+  <text class="note" x="205" y="305" text-anchor="middle">unidades simétricas</text>
+  <text class="note" x="205" y="334" text-anchor="middle">gradientes idénticos</text>
+  <rect class="panel warn" x="435" y="60" width="330" height="300" rx="5"/>
+  <text class="title" x="600" y="110" text-anchor="middle">Escala excesiva</text>
+  <text class="math" x="600" y="152" text-anchor="middle">Var(W) demasiado alta</text>
+  <line class="axis" x1="480" y1="245" x2="720" y2="245"/><path class="signal large" d="M480 300 C515 175 550 315 590 180 C630 320 675 165 720 285"/>
+  <text class="note" x="600" y="305" text-anchor="middle">logits extremos</text>
+  <text class="note" x="600" y="334" text-anchor="middle">inestabilidad o saturación</text>
+  <rect class="panel good" x="830" y="60" width="330" height="300" rx="5"/>
+  <text class="title" x="995" y="110" text-anchor="middle">He con ReLU</text>
+  <text class="math" x="995" y="152" text-anchor="middle">Var(W) ≈ 2 / fan-in</text>
+  <line class="axis" x1="875" y1="245" x2="1115" y2="245"/><path class="signal he" d="M875 260 C910 205 945 275 980 220 C1015 185 1050 285 1080 225 C1095 205 1105 230 1115 218"/>
+  <text class="note" x="995" y="305" text-anchor="middle">escala inicial utilizable</text>
+  <text class="note" x="995" y="334" text-anchor="middle">debe repetirse entre semillas</text>
+</svg>

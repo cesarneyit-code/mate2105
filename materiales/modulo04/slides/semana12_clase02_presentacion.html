@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana12_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-12d0f9af7b10a10548a0ace560094ac1.css">
+  <link rel="stylesheet" href="semana12_clase02_presentacion_files/libs/revealjs/dist/theme/quarto-e1ad195cb3d3df64cca4fac25da9bd04.css">
   <link href="semana12_clase02_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana12_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana12_clase02_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -219,25 +219,61 @@ César Galindo
 Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/15-svd-pca.html">Capítulo 15 · SVD y PCA</a>
 </div>
 </section>
-<section id="la-proyección-siempre-pierde-algo" class="slide level2 recap-slide">
-<h2>La proyección siempre pierde algo</h2>
-<p>SVD produce componentes ordenados por valor singular y una reconstrucción por cualquier <span class="math inline">\(k\)</span>.</p>
-<div class="board">
-<p>Hoy cambia la pregunta: mediremos varianza explicada, error de reconstrucción y estabilidad visual sobre datos no usados para ajustar.</p>
-</div>
-</section>
 <section id="dígitos-reconstruidos-con-distintos-valores-de-k" class="slide level2 case-slide">
 <h2>Dígitos reconstruidos con distintos valores de k</h2>
+<p>SVD produce componentes ordenados por valor singular y una reconstrucción por cualquier <span class="math inline">\(k\)</span>.</p>
+<div class="board">
+<p>mediremos varianza explicada, error de reconstrucción y estabilidad visual sobre datos no usados para ajustar.</p>
+</div>
 <p>Proyectamos dígitos en dos dimensiones para inspección y reconstruimos con varios valores de <span class="math inline">\(k\)</span>.</p>
 <div class="data-note">
 <p>Los colores de clase ayudan a leer la figura después del ajuste; PCA no vio esas etiquetas.</p>
 </div>
 </section>
-<section id="proyección-pca-y-reconstrucción-desde-componentes-principales" class="slide level2 visual-slide">
-<h2>Proyección PCA y reconstrucción desde componentes principales</h2>
+<section id="proyección-reconstrucción-y-residual-al-truncar-pca" class="slide level2 visual-slide">
+<h2>Proyección, reconstrucción y residual al truncar PCA</h2>
 
-<img src="../figuras/pca-svd-proyeccion.svg" class="wide-figure r-stretch" alt="Proyección PCA y reconstrucción desde componentes principales"><div class="figure-reading">
-<p>Dos componentes facilitan visualización, pero pueden descartar variación importante. Una figura no sustituye las métricas de reconstrucción.</p>
+<img src="../figuras/pca-reconstruccion.svg" class="wide-figure r-stretch" alt="Proyección, reconstrucción y residual al truncar PCA"><div class="figure-reading">
+<p>La proyección conserva <span class="math inline">\(k\)</span> coordenadas; la reconstrucción vuelve al espacio original y el residual hace visible la información descartada.</p>
+</div>
+</section>
+<section id="tres-presupuestos-de-compresión" class="slide level2 worked-example-slide result-slide">
+<h2>Tres presupuestos de compresión</h2>
+<p>Estas son las salidas que intentaremos reconstruir; todavía no explican por qué aparecen.</p>
+<div class="result">
+<div class="fragment" data-fragment-index="0">
+<span class="value">↑</span><span class="label">EVR con <span class="math inline">\(k\)</span></span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span class="value">↓</span><span class="label">error con <span class="math inline">\(k\)</span></span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span class="value">por slice</span><span class="label">pérdida que puede ocultarse</span>
+</div>
+</div>
+<p>Elegir <span class="math inline">\(k\)</span> requiere un presupuesto o una tarea posterior; el ‘codo’ visual es una heurística, no una demostración.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Conservar más varianza no garantiza mejorar la tarea posterior; esa decisión se valida en el pipeline completo.</p>
+</div>
+</section>
+<section id="el-subespacio-también-varía-con-la-muestra" class="slide level2 probability-slide">
+<h2>El subespacio también varía con la muestra</h2>
+<div class="probability-grid">
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>riesgo esperado de reconstrucción o de la tarea posterior</strong>
+</div>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>varianza explicada, error de reconstrucción y score de validación</strong>
+</div>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>PCA se ajusta en train y el uso futuro es comparable</strong>
+</div>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra y selección de <span class="math inline">\(k\)</span></strong>
+</div>
+</div>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra altera componentes y la curva de varianza explicada.</p>
 </div>
 </section>
 <section id="scores-reconstrucción-y-varianza-explicada" class="slide level2 notation-slide">
@@ -268,67 +304,12 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/15-
 </tr>
 </tbody>
 </table>
-</section>
-<section id="el-subespacio-también-varía-con-la-muestra" class="slide level2 probability-slide">
-<h2>El subespacio también varía con la muestra</h2>
-<div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>covarianza y subespacio principal poblacionales</strong>
-</div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>covarianza muestral, SVD y varianza explicada</strong>
-</div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>segundos momentos finitos y muestra comparable</strong>
-</div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, signo y estabilidad del subespacio</strong>
-</div>
-</div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <code>explained_variance_ratio_</code> tiene una entrada por componente retenido; el error requiere volver a <span class="math inline">\(p\)</span> variables.</p>
 </div>
 </section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué criterio de <span class="math inline">\(k\)</span> responde a compresión y qué información adicional exige una tarea posterior?</p>
-</div>
-</section>
-<section id="energía-conservada-y-error-de-reconstrucción" class="slide level2 formula-slide">
-<h2>Energía conservada y error de reconstrucción</h2>
-<div class="math-focus">
-<p><span class="math display">\[
-\operatorname{EVR}(k)=\frac{\sum_{j=1}^kS_j^2}{\sum_{j=1}^rS_j^2},
-\qquad
-E_k=\frac1m\lVert X-\widehat X_k\rVert_F^2.
-\]</span></p>
-</div>
-<div class="formula-reading">
-<p>EVR aumenta y <span class="math inline">\(E_k\)</span> disminuye con <span class="math inline">\(k\)</span> en la muestra usada; esa monotonía no elige por sí sola un presupuesto útil.</p>
-</div>
-</section>
-<section id="la-varianza-explicada-acumula-valores-singulares" class="slide level2 derivation-slide">
-<h2>La varianza explicada acumula valores singulares</h2>
-<p>El error truncado satisface <span class="math display">\[\lVert X_c-X_{c,k}\rVert_F^2=\sum_{j&gt;k}S_j^2.\]</span></p>
-</section>
-<section id="el-error-conserva-la-energía-descartada" class="slide level2 derivation-slide">
-<h2>El error conserva la energía descartada</h2>
-<p>Por eso EVR y error contienen la misma energía espectral desde perspectivas complementarias: lo conservado y lo descartado.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><code>explained_variance_ratio_</code> tiene una entrada por componente retenido; el error requiere volver a <span class="math inline">\(p\)</span> variables.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
-</div>
-</section>
-<section id="más-varianza-no-equivale-a-mejor-tarea-posterior" class="slide level2 interpretation-slide">
-<h2>Más varianza no equivale a mejor tarea posterior</h2>
-<p>Un EVR de 90 % no garantiza que el 10 % restante sea irrelevante para un subgrupo, una variable escasa o una clasificación posterior.</p>
-</section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 PCA alimentará un clasificador y debemos elegir k. ¿Cuál es el protocolo correcto?
@@ -352,8 +333,8 @@ PCA alimentará un clasificador y debemos elegir k. ¿Cuál es el protocolo corr
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -361,28 +342,60 @@ La media y los componentes se ajustan con entrenamiento dentro del pipeline. El 
 </p>
 </div>
 </section>
+<section id="energía-conservada-y-error-de-reconstrucción" class="slide level2 formula-slide">
+<h2>Energía conservada y error de reconstrucción</h2>
+<div class="formula-question">
+<p>¿Qué criterio de <span class="math inline">\(k\)</span> responde a compresión y qué información adicional exige una tarea posterior?</p>
+</div>
+<div class="math-focus">
+<p><span class="math display">\[
+\operatorname{EVR}(k)=\frac{\sum_{j=1}^kS_j^2}{\sum_{j=1}^rS_j^2},
+\qquad
+E_k=\frac1m\lVert X-\widehat X_k\rVert_F^2.
+\]</span></p>
+</div>
+<div class="formula-reading fragment">
+<p>EVR aumenta y <span class="math inline">\(E_k\)</span> disminuye con <span class="math inline">\(k\)</span> en la muestra usada; esa monotonía no elige por sí sola un presupuesto útil.</p>
+</div>
+</section>
+<section id="la-varianza-explicada-acumula-valores-singulares" class="slide level2 derivation-slide">
+<h2>La varianza explicada acumula valores singulares</h2>
+<div class="derivation-step fragment">
+<p>El error truncado satisface <span class="math display">\[\lVert X_c-X_{c,k}\rVert_F^2=\sum_{j&gt;k}S_j^2.\]</span></p>
+</div>
+</section>
+<section id="el-error-conserva-la-energía-descartada" class="slide level2 derivation-slide">
+<h2>El error conserva la energía descartada</h2>
+<div class="derivation-step fragment">
+<p>Por eso EVR y error contienen la misma energía espectral desde perspectivas complementarias: lo conservado y lo descartado.</p>
+</div>
+</section>
+<section id="más-varianza-no-equivale-a-mejor-tarea-posterior" class="slide level2 interpretation-slide">
+<h2>Más varianza no equivale a mejor tarea posterior</h2>
+<p>Un EVR de 90 % no garantiza que el 10 % restante sea irrelevante para un subgrupo, una variable escasa o una clasificación posterior.</p>
+</section>
 <section id="ajustar-pca-solo-con-entrenamiento" class="slide level2 algorithm-slide">
 <h2>Ajustar PCA solo con entrenamiento</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>ajustar PCA en train</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>calcular EVR por <span class="math inline">\(k\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>reconstruir train/dev</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>medir error global y por slice</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>elegir <span class="math inline">\(k\)</span> según presupuesto declarado</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-ajustar-pca-solo-con-entrenamiento" class="slide level2 code-slide">
+<h2>En código: Ajustar PCA solo con entrenamiento</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>records <span class="op">=</span> []</span>
 <span id="cb1-2"><a href=""></a><span class="cf">for</span> k <span class="kw">in</span> [<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>]:</span>
 <span id="cb1-3"><a href=""></a>    pca <span class="op">=</span> PCA(n_components<span class="op">=</span>k, random_state<span class="op">=</span><span class="dv">2105</span>)</span>
@@ -393,27 +406,8 @@ La media y los componentes se ajustan con entrenamiento dentro del pipeline. El 
 <p>Dev se transforma con componentes y media aprendidos en train; no se vuelve a ajustar PCA.</p>
 </div>
 </section>
-<section id="tres-presupuestos-de-compresión" class="slide level2 worked-example-slide">
-<h2>Tres presupuestos de compresión</h2>
-<p>Con <span class="math inline">\(k=2\)</span> vemos estructura parcial; con <span class="math inline">\(k=20\)</span> las reconstrucciones son más nítidas. La clase con trazos poco comunes puede conservar peor detalle.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
-<div class="result">
-<div>
-<span class="value">↑</span><span class="label">EVR con <span class="math inline">\(k\)</span></span>
-</div>
-<div>
-<span class="value">↓</span><span class="label">error con <span class="math inline">\(k\)</span></span>
-</div>
-<div>
-<span class="value">por slice</span><span class="label">pérdida que puede ocultarse</span>
-</div>
-</div>
-<p>Elegir <span class="math inline">\(k\)</span> requiere un presupuesto o una tarea posterior; el ‘codo’ visual es una heurística, no una demostración.</p>
-</section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana12_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana12_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana12_live_coding.ipynb</code></p>
 </div>
@@ -453,59 +447,64 @@ La media y los componentes se ajustan con entrenamiento dentro del pipeline. El 
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compruebe que el error dev se calcula en la escala original y que <code>pca.mean_</code> proviene solo de train.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>energía conservada y error de reconstrucción</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="ver-grupos-no-convierte-pca-en-clasificador" class="slide level2 failure-slide">
-<h2>Ver grupos no convierte PCA en clasificador</h2>
-<div class="failure-statement">
-<p>Colorear por clase y ver grupos no convierte PCA en clasificador ni prueba separación poblacional.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Ver grupos no convierte PCA en clasificador</span> <strong>Colorear por clase y ver grupos no convierte PCA en clasificador ni prueba separación poblacional.</strong>
+<p>
+<span>Señal:</span> la conclusión dice que PCA ‘encontró’ las clases.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la conclusión dice que PCA ‘encontró’ las clases</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Test no elige el número de componentes</span> <strong>Elegir <span class="math inline">\(k\)</span> mirando test consume el conjunto reservado.</strong>
+<p>
+<span>Señal:</span> test aparece en el bucle de componentes.
+</p>
+</div>
 </div>
 </section>
-<section id="test-no-elige-el-número-de-componentes" class="slide level2 failure-slide">
-<h2>Test no elige el número de componentes</h2>
-<div class="failure-statement">
-<p>Elegir <span class="math inline">\(k\)</span> mirando test consume el conjunto reservado.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>test aparece en el bucle de componentes</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>La EVR global es 92 %, pero un slice tiene error doble. ¿Cómo cambia su recomendación de <span class="math inline">\(k\)</span>?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Reportaría la heterogeneidad, inspeccionaría variables del slice y evaluaría mayor <span class="math inline">\(k\)</span> o una representación distinta. El promedio global no justifica pérdida concentrada.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>EVR y reconstrucción permiten cuantificar lo conservado y lo perdido por una proyección ajustada en train.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>EVR y reconstrucción permiten cuantificar lo conservado y lo perdido por una proyección ajustada en train.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Una proyección visual atractiva no valida clases, clusters ni significado de componentes.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Conservar más varianza no garantiza mejorar la tarea posterior; esa decisión se valida en el pipeline completo.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Una proyección visual atractiva no valida clases, clusters ni significado de componentes.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>La entrega de Lab 4 cierra antes de iniciar Lab 5; las funciones de PCA del nuevo lab se prueban offline.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Entrega de Lab 4 y publicación de Lab 5.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>EVR usa <span class="math inline">\(S_j^2\)</span></li>
 <li>error truncado suma valores descartados</li>
@@ -513,18 +512,18 @@ La media y los componentes se ajustan con entrenamiento dentro del pipeline. El 
 <li>visualización no prueba clase</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Comprimir bien significa poder decir cuánto se perdió, dónde se perdió y para qué uso esa pérdida es aceptable.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué mide EVR?</li>
 <li>¿Dónde se ajusta PCA?</li>
 <li>¿Qué argumento adicional requiere elegir <span class="math inline">\(k\)</span>?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Comprimir bien significa poder decir cuánto se perdió, dónde se perdió y para qué uso esa pérdida es aceptable.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> revise el objetivo de K-Means y derive la media como centroide óptimo de un cluster fijo.</p>
 

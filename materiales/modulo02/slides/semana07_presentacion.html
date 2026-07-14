@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana07_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana07_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-
 <h2>Del logit a una representación</h2>
 <p>La regresión logística calcula un logit, aplica una sigmoide y ajusta parámetros con una pérdida diferenciable. Una capa densa repite la transformación afín en varias columnas.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: rastrearemos cada eje y demostraremos qué ocurre si apilamos transformaciones afines sin activación.</p>
+<p>rastrearemos cada eje y demostraremos qué ocurre si apilamos transformaciones afines sin activación.</p>
 </div>
 </section>
 <section id="sesenta-y-cuatro-píxeles-diez-clases" class="slide level2 case-slide">
@@ -233,11 +233,11 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-
 <p>Dataset local de scikit-learn; filas estratificadas en train y validación con semilla fija.</p>
 </div>
 </section>
-<section id="grafo-de-una-red-de-una-capa-oculta-con-matrices-y-activaciones" class="slide level2 visual-slide">
-<h2>Grafo de una red de una capa oculta con matrices y activaciones</h2>
+<section id="forward-propagation-desde-la-matriz-de-datos-hasta-los-logits" class="slide level2 visual-slide">
+<h2>Forward propagation desde la matriz de datos hasta los logits</h2>
 
-<img src="../figuras/backpropagation-grafo.svg" class="wide-figure r-stretch" alt="Grafo de una red de una capa oculta con matrices y activaciones"><div class="figure-reading">
-<p>Cada flecha representa una operación y cada bloque conserva una forma. Forward se entiende antes de derivar backward.</p>
+<img src="../figuras/forward-propagacion-formas.svg" class="wide-figure r-stretch" alt="Forward propagation desde la matriz de datos hasta los logits"><div class="figure-reading">
+<p>Cada bloque conserva una fila por observación. La activación ReLU separa las dos transformaciones afines y evita que colapsen en una sola.</p>
 </div>
 </section>
 <section id="cada-eje-tiene-un-significado" class="slide level2 notation-slide">
@@ -272,35 +272,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/06-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(XW^{[1]}\)</span> tiene forma <span class="math inline">\(m\times h\)</span> y <span class="math inline">\(A^{[1]}W^{[2]}\)</span> tiene forma <span class="math inline">\(m\times k\)</span>. El sesgo nunca agrega un eje de batch nuevo.</p>
+</div>
 </section>
 <section id="una-distribución-categórica-detrás-de-los-logits" class="slide level2 probability-slide">
 <h2>Una distribución categórica detrás de los logits</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>distribución categórica condicional</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>distribución condicional de una etiqueta entre <span class="math inline">\(k\)</span> clases</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>entropía cruzada promedio</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>logits y entropía cruzada sobre un batch</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>etiquetas siguen una distribución comparable</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>entradas y etiquetas siguen un mecanismo comparable</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra e inicialización</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, inicialización y representación aprendida</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué productos producen una representación oculta por fila y un logit por clase?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otra muestra modifica los pesos que producen la representación oculta.</p>
 </div>
 </section>
 <section id="dos-mapas-afines-y-una-no-linealidad" class="slide level2 formula-slide">
 <h2>Dos mapas afines y una no linealidad</h2>
+<div class="formula-question">
+<p>¿Qué productos producen una representación oculta por fila y un logit por clase?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 Z^{[1]}=XW^{[1]}+b^{[1]},
@@ -308,31 +308,28 @@ Z^{[1]}=XW^{[1]}+b^{[1]},
 Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>NumPy transmite el vector de sesgo por filas. La operación es válida porque el eje 0 siempre representa el batch.</p>
 </div>
 </section>
 <section id="qué-ocurre-cuando-falta-la-activación" class="slide level2 derivation-slide">
 <h2>Qué ocurre cuando falta la activación</h2>
+<div class="derivation-step fragment">
 <p>Si omitimos la activación, <span class="math display">\[Z^{[2]}=(XW^{[1]}+b^{[1]})W^{[2]}+b^{[2]}.\]</span></p>
+</div>
 </section>
 <section id="la-composición-colapsa" class="slide level2 derivation-slide">
 <h2>La composición colapsa</h2>
+<div class="derivation-step fragment">
 <p>Agrupando términos, <span class="math display">\[Z^{[2]}=X\widetilde W+\widetilde b,\]</span> otra transformación afín. Varias capas afines no crean una frontera más rica que una sola.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(XW^{[1]}\)</span> tiene forma <span class="math inline">\(m\times h\)</span> y <span class="math inline">\(A^{[1]}W^{[2]}\)</span> tiene forma <span class="math inline">\(m\times k\)</span>. El sesgo nunca agrega un eje de batch nuevo.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="las-unidades-ocultas-son-características-aprendidas" class="slide level2 interpretation-slide">
 <h2>Las unidades ocultas son características aprendidas</h2>
 <p>La capa oculta construye <span class="math inline">\(h\)</span> características aprendidas. Sin no linealidad, esa representación puede reescribirse como un único mapa afín.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Si <span class="math inline">\(X\in\mathbb R^{m\times d}\)</span>, <span class="math inline">\(W^{[1]}\in\mathbb R^{d\times h}\)</span> y <span class="math inline">\(W^{[2]}\in\mathbb R^{h\times k}\)</span>, ¿qué forma tienen los logits?
@@ -356,8 +353,8 @@ Si <span class="math inline">\(X\in\mathbb R^{m\times d}\)</span>, <span class="
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta C</span>
 <p>
@@ -367,26 +364,26 @@ La primera capa conserva una fila por observación y produce <span class="math i
 </section>
 <section id="forward-con-contratos-de-forma" class="slide level2 algorithm-slide">
 <h2>Forward con contratos de forma</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>aplanar cada imagen</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>calcular primera transformación afín</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>aplicar activación elemento a elemento</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>calcular logits de salida</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>verificar formas antes de pérdida</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-forward-con-contratos-de-forma" class="slide level2 code-slide">
+<h2>En código: Forward con contratos de forma</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> forward_shapes(X, W1, b1, W2, b2):</span>
 <span id="cb1-2"><a href=""></a>    Z1 <span class="op">=</span> X <span class="op">@</span> W1 <span class="op">+</span> b1</span>
 <span id="cb1-3"><a href=""></a>    A1 <span class="op">=</span> np.maximum(Z1, <span class="fl">0.0</span>)</span>
@@ -398,27 +395,27 @@ La primera capa conserva una fila por observación y produce <span class="math i
 <p>Las aserciones documentan el contrato y detectan broadcasting que produce números con significado equivocado.</p>
 </div>
 </section>
-<section id="una-red-pequeña-que-cabe-en-el-tablero" class="slide level2 worked-example-slide">
+<section id="una-red-pequeña-que-cabe-en-el-tablero" class="slide level2 worked-example-slide result-slide">
 <h2>Una red pequeña que cabe en el tablero</h2>
 <p>Con dos entradas, tres unidades ocultas y dos clases, escribimos matrices pequeñas y calculamos cada producto a mano antes de usar dígitos.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">64</span><span class="label">entradas por imagen</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">h</span><span class="label">unidades ocultas</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">10</span><span class="label">logits por fila</span>
 </div>
 </div>
 <p>El tamaño <span class="math inline">\(h\)</span> es una elección de capacidad; no se deduce del número de clases.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Una unidad oculta es una coordenada aprendida, no una categoría poblacional identificada.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana07_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana07_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana07_live_coding.ipynb</code></p>
 </div>
@@ -453,59 +450,64 @@ La primera capa conserva una fila por observación y produce <span class="math i
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Genere un <span class="math inline">\(X\)</span> pequeño y compruebe numéricamente que dos capas afines coinciden con <span class="math inline">\(\widetilde W=W_1W_2\)</span> y <span class="math inline">\(\widetilde b=b_1W_2+b_2\)</span>.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>dos mapas afines y una no linealidad</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="transponer-no-corrige-una-convención" class="slide level2 failure-slide">
-<h2>Transponer no corrige una convención</h2>
-<div class="failure-statement">
-<p>Transponer <span class="math inline">\(W\)</span> para silenciar un error puede cambiar la convención de todo el notebook.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Transponer no corrige una convención</span> <strong>Transponer <span class="math inline">\(W\)</span> para silenciar un error puede cambiar la convención de todo el notebook.</strong>
+<p>
+<span>Señal:</span> las formas cambian entre funciones sin explicación.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>las formas cambian entre funciones sin explicación</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">El sesgo no depende del batch</span> <strong>Un vector de sesgo con forma accidental <code>(m, 1)</code> puede transmitirse por columnas y no por unidades.</strong>
+<p>
+<span>Señal:</span> el sesgo depende del número de observaciones.
+</p>
+</div>
 </div>
 </section>
-<section id="el-sesgo-no-depende-del-batch" class="slide level2 failure-slide">
-<h2>El sesgo no depende del batch</h2>
-<div class="failure-statement">
-<p>Un vector de sesgo con forma accidental <code>(m, 1)</code> puede transmitirse por columnas y no por unidades.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el sesgo depende del número de observaciones</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El código ejecuta y devuelve logits, pero <code>b1.shape == (m, 1)</code>. Diseñe una prueba que muestre por qué el resultado no representa una capa densa estándar.</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Cambiar el tamaño del batch alteraría el número de parámetros de sesgo. La prueba exige <code>b1.shape == (h,)</code> y compara dos batch sizes con los mismos parámetros.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Una capa densa transforma cada fila con parámetros compartidos y una activación no lineal evita que la composición colapse a un único mapa afín.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Una capa densa transforma cada fila con parámetros compartidos y una activación no lineal evita que la composición colapse a un único mapa afín.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Más unidades no garantizan mejor validación y la red no recupera estructura espacial perdida al aplanar imágenes.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Una unidad oculta es una coordenada aprendida, no una categoría poblacional identificada.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Más unidades no garantizan mejor validación y la red no recupera estructura espacial perdida al aplanar imágenes.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>El ejercicio formativo de dimensiones califica formas y justificación de broadcasting antes de cualquier entrenamiento.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Ejercicio formativo de dimensiones.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>batch en eje 0</li>
 <li><span class="math inline">\(W^{[1]}:d\times h\)</span></li>
@@ -513,18 +515,18 @@ La primera capa conserva una fila por observación y produce <span class="math i
 <li>sin activación, capas afines colapsan</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Una red empieza por una disciplina sencilla: cada símbolo tiene forma y cada fila conserva su identidad a través de las capas.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué eje representa observaciones?</li>
 <li>¿Por qué dos capas afines colapsan?</li>
 <li>¿Qué forma debe tener el sesgo oculto?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Una red empieza por una disciplina sencilla: cada símbolo tiene forma y cada fila conserva su identidad a través de las capas.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> derive softmax estable y recuerde qué recibe <code>CrossEntropyLoss</code>: logits, no probabilidades.</p>
 

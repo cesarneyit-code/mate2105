@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana11_presentacion_files/libs/revealjs/dist/theme/quarto-bd4ac4937fba0c471a3b40481c20a71d.css">
+  <link rel="stylesheet" href="semana11_presentacion_files/libs/revealjs/dist/theme/quarto-c07cba6c077186d6a8350aa3c7e3b9a3.css">
   <link href="semana11_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana11_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana11_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/11-
 <h2>Una métrica responde una pregunta concreta</h2>
 <p>Hasta ahora cada algoritmo tuvo una métrica local. Esta semana diseñamos el procedimiento que decide qué modelo conservar y qué cifra reportar.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: la unidad de análisis será el experimento completo, no una llamada aislada a <code>.fit()</code>.</p>
+<p>la unidad de análisis será el experimento completo, no una llamada aislada a <code>.fit()</code>.</p>
 </div>
 </section>
 <section id="filas-relacionadas-que-no-deben-separarse" class="slide level2 case-slide">
@@ -268,35 +268,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/11-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> Cada fila aparece una vez en validación por repetición de K-fold y varias veces en entrenamiento; el pipeline se reajusta dentro de cada fold.</p>
+</div>
 </section>
 <section id="cross-validation-produce-estimaciones-dependientes" class="slide level2 probability-slide">
 <h2>Cross-validation produce estimaciones dependientes</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>desempeño poblacional y riesgos condicionales</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>métrica poblacional para la unidad que llegará en producción</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>métricas, cross-validation y slices</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>scores de validación cruzada y test reservado</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>unidad de partición independiente y test reservado</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>la unidad de partición evita dependencia entre train y validación</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, folds dependientes y cambio de distribución</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, composición de folds y cambio de distribución</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué estimamos con validación cruzada y qué información no aporta su desviación entre folds?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otros folds producen otros scores; su dispersión describe parte de la variación del procedimiento.</p>
 </div>
 </section>
 <section id="promedio-y-dispersión-entre-folds" class="slide level2 formula-slide">
 <h2>Promedio y dispersión entre folds</h2>
+<div class="formula-question">
+<p>¿Qué estimamos con validación cruzada y qué información no aporta su desviación entre folds?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 \widehat M_{CV}=\frac1K\sum_{k=1}^K M_k,
@@ -304,31 +304,28 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/11-
 s_{CV}=\sqrt{\frac1{K-1}\sum_k(M_k-\widehat M_{CV})^2}.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p><span class="math inline">\(s_{CV}\)</span> describe dispersión observada entre folds dependientes. No es, por sí sola, un intervalo de confianza.</p>
 </div>
 </section>
 <section id="cada-fold-cambia-entrenamiento-y-validación" class="slide level2 derivation-slide">
 <h2>Cada fold cambia entrenamiento y validación</h2>
+<div class="derivation-step fragment">
 <p>Cada fold entrena sobre una fracción distinta y evalúa sobre el complemento. La media resume esas mediciones bajo el esquema elegido.</p>
+</div>
 </section>
 <section id="la-dispersión-observada-no-es-un-intervalo-automático" class="slide level2 derivation-slide">
 <h2>La dispersión observada no es un intervalo automático</h2>
+<div class="derivation-step fragment">
 <p>Como los conjuntos de entrenamiento se solapan, los <span class="math inline">\(M_k\)</span> no son observaciones independientes. Interpretar <span class="math inline">\(\widehat M\pm s\)</span> como cobertura probabilística no está justificado automáticamente.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p>Cada fila aparece una vez en validación por repetición de K-fold y varias veces en entrenamiento; el pipeline se reajusta dentro de cada fold.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="la-unidad-de-partición-define-qué-se-evalúa" class="slide level2 interpretation-slide">
 <h2>La unidad de partición define qué se evalúa</h2>
 <p>Una media alta con dispersión grande indica sensibilidad al reparto de datos. La siguiente acción es mirar folds y slices, no declarar un ganador por el tercer decimal.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Se ajusta <code>StandardScaler</code> con todos los datos antes de validación cruzada. ¿Cuál es el problema?
@@ -352,8 +349,8 @@ Se ajusta <code>StandardScaler</code> con todos los datos antes de validación c
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -363,29 +360,29 @@ Las medias y desviaciones usan también las filas que actuarán como validación
 </section>
 <section id="preprocesar-dentro-de-cada-fold" class="slide level2 algorithm-slide">
 <h2>Preprocesar dentro de cada fold</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-6">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>declarar unidad y uso</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>reservar test</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>construir pipeline</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>definir baseline y métrica</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>seleccionar con dev/CV</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="5">
 <span>6</span><strong>evaluar una vez en test</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-preprocesar-dentro-de-cada-fold" class="slide level2 code-slide">
+<h2>En código: Preprocesar dentro de cada fold</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a>pipeline <span class="op">=</span> make_pipeline(</span>
 <span id="cb1-2"><a href=""></a>    StandardScaler(),</span>
 <span id="cb1-3"><a href=""></a>    LogisticRegression(max_iter<span class="op">=</span><span class="dv">3000</span>, random_state<span class="op">=</span><span class="dv">2105</span>),</span>
@@ -398,27 +395,27 @@ Las medias y desviaciones usan también las filas que actuarán como validación
 <p>El escalador vive dentro de la tubería y se reajusta por fold; ponerlo antes de CV filtra estadísticas.</p>
 </div>
 </section>
-<section id="una-cv-que-respeta-grupos" class="slide level2 worked-example-slide">
+<section id="una-cv-que-respeta-grupos" class="slide level2 worked-example-slide result-slide">
 <h2>Una CV que respeta grupos</h2>
 <p>Comparamos baseline, logística y un candidato más complejo con la misma métrica. La tabla conserva media, desviación y costo de ejecución.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">1</span><span class="label">métrica principal</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">5</span><span class="label">folds declarados</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">reservado</span><span class="label">test</span>
 </div>
 </div>
 <p>Métricas secundarias ayudan a leer errores, pero no deben inventarse después para rescatar un candidato.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> CV guía selección dentro de un pipeline; test evalúa una sola vez la configuración final.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana11_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana11_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana11_live_coding.ipynb</code></p>
 </div>
@@ -458,59 +455,64 @@ Las medias y desviaciones usan también las filas que actuarán como validación
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compare índices de folds y compruebe que test no aparece en selección. Ejecute la tubería contra un baseline bajo la misma función de scoring.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>promedio y dispersión entre folds</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="ajustar-el-escalador-antes-de-cv-filtra-información" class="slide level2 failure-slide">
-<h2>Ajustar el escalador antes de CV filtra información</h2>
-<div class="failure-statement">
-<p>Ajustar preprocesamiento antes de CV comparte información entre folds.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Ajustar el escalador antes de CV filtra información</span> <strong>Ajustar preprocesamiento antes de CV comparte información entre folds.</strong>
+<p>
+<span>Señal:</span> <code>scaler.fit_transform(X)</code> ocurre antes de <code>cross_validate</code>.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong><code>scaler.fit_transform(X)</code> ocurre antes de <code>cross_validate</code></strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Cambiar la métrica después de verla es selección</span> <strong>Cambiar métrica después de ver resultados convierte el criterio en una búsqueda no registrada.</strong>
+<p>
+<span>Señal:</span> el reporte no distingue métrica principal de exploratorias.
+</p>
+</div>
 </div>
 </section>
-<section id="cambiar-la-métrica-después-de-verla-es-selección" class="slide level2 failure-slide">
-<h2>Cambiar la métrica después de verla es selección</h2>
-<div class="failure-statement">
-<p>Cambiar métrica después de ver resultados convierte el criterio en una búsqueda no registrada.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el reporte no distingue métrica principal de exploratorias</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El modelo supera baseline en F1, pero pierde accuracy y duplica FP. ¿Qué información necesita antes de recomendarlo?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Costo relativo de FP/FN, prevalencia esperada y matriz por slice. Superar una métrica no resuelve el uso previsto.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Una evaluación reproducible declara baseline, métrica principal, particiones y pipeline antes de comparar candidatos.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Una evaluación reproducible declara baseline, métrica principal, particiones y pipeline antes de comparar candidatos.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>CV interna no reemplaza test reservado ni demuestra desempeño bajo cambio temporal o institucional.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>CV guía selección dentro de un pipeline; test evalúa una sola vez la configuración final.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>CV interna no reemplaza test reservado ni demuestra desempeño bajo cambio temporal o institucional.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 4 autocalifica particiones, pipeline, métricas y selección; la parte manual exige una prioridad de trabajo ligada a resultados.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Publicación e inicio de Lab 4.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li>train ajusta</li>
 <li>dev/CV selecciona</li>
@@ -518,18 +520,18 @@ Las medias y desviaciones usan también las filas que actuarán como validación
 <li>desviación entre folds no es IC</li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Una cifra solo es interpretable cuando sabemos qué filas la produjeron y qué decisiones ya se tomaron antes de verla.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Dónde se ajusta el scaler en CV?</li>
 <li>¿Qué no significa media ± desviación?</li>
 <li>¿Qué aporta el baseline?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Una cifra solo es interpretable cuando sabemos qué filas la produjeron y qué decisiones ya se tomaron antes de verla.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> prepare una curva de aprendizaje y dos slices definidos antes de mirar sus resultados.</p>
 

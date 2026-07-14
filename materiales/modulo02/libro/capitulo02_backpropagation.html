@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Backpropagation – MATE-2105: Módulo 2</title>
+<title>Retropropagación – MATE-2105: Módulo 2</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -139,7 +139,7 @@ window.Quarto = {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating quarto-light">
+<body class="nav-sidebar floating textbook-chapter quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -148,7 +148,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_backpropagation.html"><span class="chapter-title">Backpropagation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./capitulo02_backpropagation.html"><span class="chapter-title">Retropropagación</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -182,12 +182,12 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo01_perceptron_forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></a>
+  <a href="./capitulo01_perceptron_forward.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Perceptrón y propagación hacia adelante</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo02_backpropagation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Backpropagation</span></a>
+  <a href="./capitulo02_backpropagation.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Retropropagación</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -202,7 +202,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Ejercicios integradores: redes neuronales</span></a>
+  <a href="./capitulo05_ejercicios_integradores.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Problemas integradores de redes neuronales</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,34 +230,21 @@ window.Quarto = {
     <h2 id="toc-title">Tabla de contenidos</h2>
    
   <ul>
-  <li><a href="#pregunta-aplicada" id="toc-pregunta-aplicada" class="nav-link active" data-scroll-target="#pregunta-aplicada">Pregunta aplicada</a></li>
-  <li><a href="#objetivos-del-capítulo" id="toc-objetivos-del-capítulo" class="nav-link" data-scroll-target="#objetivos-del-capítulo">Objetivos del capítulo</a></li>
-  <li><a href="#del-riesgo-esperado-al-gradiente-calculable" id="toc-del-riesgo-esperado-al-gradiente-calculable" class="nav-link" data-scroll-target="#del-riesgo-esperado-al-gradiente-calculable">Del riesgo esperado al gradiente calculable</a></li>
+  <li><a href="#del-riesgo-esperado-al-gradiente-calculable" id="toc-del-riesgo-esperado-al-gradiente-calculable" class="nav-link active" data-scroll-target="#del-riesgo-esperado-al-gradiente-calculable">Del riesgo esperado al gradiente calculable</a></li>
   <li><a href="#el-grafo-de-cómputo" id="toc-el-grafo-de-cómputo" class="nav-link" data-scroll-target="#el-grafo-de-cómputo">El grafo de cómputo</a></li>
   <li><a href="#gradiente-de-softmax-con-entropía-cruzada" id="toc-gradiente-de-softmax-con-entropía-cruzada" class="nav-link" data-scroll-target="#gradiente-de-softmax-con-entropía-cruzada">Gradiente de softmax con entropía cruzada</a></li>
   <li><a href="#gradientes-de-la-segunda-capa" id="toc-gradientes-de-la-segunda-capa" class="nav-link" data-scroll-target="#gradientes-de-la-segunda-capa">Gradientes de la segunda capa</a></li>
   <li><a href="#propagar-hacia-la-capa-oculta" id="toc-propagar-hacia-la-capa-oculta" class="nav-link" data-scroll-target="#propagar-hacia-la-capa-oculta">Propagar hacia la capa oculta</a></li>
-  <li><a href="#backpropagation-como-algoritmo" id="toc-backpropagation-como-algoritmo" class="nav-link" data-scroll-target="#backpropagation-como-algoritmo">Backpropagation como algoritmo</a></li>
+  <li><a href="#retropropagación-como-algoritmo" id="toc-retropropagación-como-algoritmo" class="nav-link" data-scroll-target="#retropropagación-como-algoritmo">Retropropagación como algoritmo</a></li>
   <li><a href="#costo-memoria-y-alcance-de-la-garantía" id="toc-costo-memoria-y-alcance-de-la-garantía" class="nav-link" data-scroll-target="#costo-memoria-y-alcance-de-la-garantía">Costo, memoria y alcance de la garantía</a></li>
   <li><a href="#verificación-por-diferencias-finitas" id="toc-verificación-por-diferencias-finitas" class="nav-link" data-scroll-target="#verificación-por-diferencias-finitas">Verificación por diferencias finitas</a></li>
   <li><a href="#ejemplo-resuelto-diferencia-finita-escalar" id="toc-ejemplo-resuelto-diferencia-finita-escalar" class="nav-link" data-scroll-target="#ejemplo-resuelto-diferencia-finita-escalar">Ejemplo resuelto: diferencia finita escalar</a></li>
   <li><a href="#ejemplo-resuelto-formas-de-los-gradientes" id="toc-ejemplo-resuelto-formas-de-los-gradientes" class="nav-link" data-scroll-target="#ejemplo-resuelto-formas-de-los-gradientes">Ejemplo resuelto: formas de los gradientes</a></li>
-  <li><a href="#errores-frecuentes" id="toc-errores-frecuentes" class="nav-link" data-scroll-target="#errores-frecuentes">Errores frecuentes</a></li>
-  <li><a href="#punto-de-control" id="toc-punto-de-control" class="nav-link" data-scroll-target="#punto-de-control">Punto de control</a></li>
-  <li><a href="#caso-longitudinal-backpropagation-en-dígitos" id="toc-caso-longitudinal-backpropagation-en-dígitos" class="nav-link" data-scroll-target="#caso-longitudinal-backpropagation-en-dígitos">Caso longitudinal: backpropagation en dígitos</a></li>
-  <li><a href="#verificaciones-seleccionadas" id="toc-verificaciones-seleccionadas" class="nav-link" data-scroll-target="#verificaciones-seleccionadas">Verificaciones seleccionadas</a></li>
-  <li><a href="#para-explorar-más" id="toc-para-explorar-más" class="nav-link" data-scroll-target="#para-explorar-más">Para explorar más</a></li>
-  <li><a href="#revisión-del-capítulo" id="toc-revisión-del-capítulo" class="nav-link" data-scroll-target="#revisión-del-capítulo">Revisión del capítulo</a></li>
-  <li><a href="#términos-clave" id="toc-términos-clave" class="nav-link" data-scroll-target="#términos-clave">Términos clave</a></li>
-  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios">Ejercicios</a>
-  <ul class="collapse">
-  <li><a href="#preguntas-conceptuales" id="toc-preguntas-conceptuales" class="nav-link" data-scroll-target="#preguntas-conceptuales">Preguntas conceptuales</a></li>
-  <li><a href="#problemas-cuantitativos" id="toc-problemas-cuantitativos" class="nav-link" data-scroll-target="#problemas-cuantitativos">Problemas cuantitativos</a></li>
-  <li><a href="#práctica-computacional" id="toc-práctica-computacional" class="nav-link" data-scroll-target="#práctica-computacional">Práctica computacional</a></li>
-  <li><a href="#interpretación-y-pensamiento-crítico" id="toc-interpretación-y-pensamiento-crítico" class="nav-link" data-scroll-target="#interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</a></li>
-  <li><a href="#profundización-matemática-y-algorítmica" id="toc-profundización-matemática-y-algorítmica" class="nav-link" data-scroll-target="#profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</a></li>
-  <li><a href="#proyecto-de-cierre" id="toc-proyecto-de-cierre" class="nav-link" data-scroll-target="#proyecto-de-cierre">Proyecto de cierre</a></li>
-  </ul></li>
+  <li><a href="#diagnóstico-de-una-implementación" id="toc-diagnóstico-de-una-implementación" class="nav-link" data-scroll-target="#diagnóstico-de-una-implementación">Diagnóstico de una implementación</a></li>
+  <li><a href="#retropropagación-en-el-caso-de-los-dígitos" id="toc-retropropagación-en-el-caso-de-los-dígitos" class="nav-link" data-scroll-target="#retropropagación-en-el-caso-de-los-dígitos">Retropropagación en el caso de los dígitos</a></li>
+  <li><a href="#comprobaciones-de-los-gradientes" id="toc-comprobaciones-de-los-gradientes" class="nav-link" data-scroll-target="#comprobaciones-de-los-gradientes">Comprobaciones de los gradientes</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis">Síntesis</a></li>
+  <li><a href="#problemas" id="toc-problemas" class="nav-link" data-scroll-target="#problemas">Problemas</a></li>
   </ul>
 </nav>
     </div>
@@ -266,7 +253,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Backpropagation</span></h1>
+<h1 class="title"><span class="chapter-title">Retropropagación</span></h1>
+<p class="subtitle lead">La regla de la cadena como algoritmo sobre un grafo de cálculo</p>
 </div>
 
 
@@ -283,34 +271,18 @@ window.Quarto = {
 </header>
 
 
-<section id="pregunta-aplicada" class="level2">
-<h2 class="anchored" data-anchor-id="pregunta-aplicada">Pregunta aplicada</h2>
-<p>Forward propagation nos dice cómo una red produce predicciones. Pero entrenar exige responder:</p>
+<p>La propagación hacia adelante determina las predicciones de una red para unos parámetros dados. Entrenar la red plantea la pregunta inversa:</p>
 <blockquote class="blockquote">
 <p>¿Cómo cambia la pérdida si modificamos cada peso de la red?</p>
 </blockquote>
-<p>Backpropagation es una forma eficiente de aplicar la regla de la cadena a una composición de funciones.</p>
-</section>
-<section id="objetivos-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="objetivos-del-capítulo">Objetivos del capítulo</h2>
-<p>Al terminar este capítulo deberías poder:</p>
-<ol type="1">
-<li>leer una red como grafo de cómputo;</li>
-<li>derivar las formas de <span class="math inline">\(dW^{[2]}\)</span>, <span class="math inline">\(db^{[2]}\)</span>, <span class="math inline">\(dW^{[1]}\)</span> y <span class="math inline">\(db^{[1]}\)</span>;</li>
-<li>explicar por qué softmax con entropía cruzada produce <span class="math inline">\(dZ^{[2]}=(\hat P-Y)/m\)</span>;</li>
-<li>usar una cache de forward para calcular backward;</li>
-<li>diseñar una prueba básica de gradientes.</li>
-<li>derivar el Jacobiano de softmax y la regla de una capa afín;</li>
-<li>explicar por qué backward tiene costo comparable con forward y por qué necesita una cache.</li>
-</ol>
-</section>
+<p>Calcular una derivada por separado para cada peso repetiría gran parte del mismo trabajo. La retropropagación (<em>backpropagation</em>) evita esa repetición: representa la red como un grafo de cálculo, guarda los valores obtenidos en el recorrido hacia adelante y aplica la regla de la cadena en orden inverso. El resultado son todos los gradientes de la pérdida con un costo comparable al de unas pocas evaluaciones de la red.</p>
 <section id="del-riesgo-esperado-al-gradiente-calculable" class="level2">
 <h2 class="anchored" data-anchor-id="del-riesgo-esperado-al-gradiente-calculable">Del riesgo esperado al gradiente calculable</h2>
 <p>El objetivo poblacional de una red es</p>
 <p><span class="math display">\[
 R_P(\theta)=\mathbb E_{Z\sim P}[\ell(\theta;Z)],
 \]</span></p>
-<p>pero backpropagation se aplica a la pérdida empírica</p>
+<p>pero la retropropagación se aplica a la pérdida empírica</p>
 <p><span class="math display">\[
 \widehat R_m(\theta)=\frac1m\sum_{i=1}^m\ell(\theta;Z_i).
 \]</span></p>
@@ -318,7 +290,7 @@ R_P(\theta)=\mathbb E_{Z\sim P}[\ell(\theta;Z)],
 <p><span class="math display">\[
 \nabla R_P(\theta)=\mathbb E[\nabla_\theta\ell(\theta;Z)].
 \]</span></p>
-<p>Esta identidad explica por qué gradientes de observaciones o mini-batches pueden usarse como estimadores del gradiente poblacional. En el curso, la igualdad que podemos verificar exactamente es la correspondiente al riesgo empírico.</p>
+<p>Esta identidad explica por qué los gradientes de observaciones o minilotes pueden usarse como estimadores del gradiente poblacional. La igualdad que puede verificarse exactamente con los datos observados corresponde al riesgo empírico.</p>
 <div class="criterio">
 <p>Una prueba de gradientes comprueba derivadas para una muestra y parámetros fijos. No comprueba representatividad de los datos, calibración ni bajo riesgo de uso.</p>
 </div>
@@ -334,23 +306,23 @@ R_P(\theta)=\mathbb E_{Z\sim P}[\ell(\theta;Z)],
 <li>probabilidades <span class="math inline">\(P\)</span>;</li>
 <li>pérdida <span class="math inline">\(J\)</span>.</li>
 </ul>
-<p>Cada flecha representa una operación diferenciable o casi diferenciable. Backpropagation recorre el grafo en sentido inverso:</p>
+<p>Cada flecha representa una operación diferenciable o diferenciable por partes. La retropropagación recorre el grafo en sentido inverso:</p>
 <ul>
 <li>primero <span class="math inline">\(J\)</span>;</li>
 <li>luego <span class="math inline">\(P\)</span>, <span class="math inline">\(Z_2\)</span>, <span class="math inline">\(A_1\)</span> y <span class="math inline">\(Z_1\)</span>;</li>
 <li>finalmente los parámetros.</li>
 </ul>
-<div id="fig-cap07-backpropagation-grafo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grafo con flechas hacia adelante desde X hasta la pérdida J y flechas de regreso desde J hacia los gradientes dZ2, dW2, dA1, dZ1 y dW1. La cache conecta forward y backward.">
+<div id="fig-cap07-backpropagation-grafo" class="quarto-float quarto-figure quarto-figure-center anchored" alt="Grafo con flechas hacia adelante desde X hasta la pérdida J y flechas de regreso desde J hacia los gradientes dZ2, dW2, dA1, dZ1 y dW1. Los valores intermedios conectan ambos recorridos.">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-cap07-backpropagation-grafo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="../figuras/backpropagation-grafo.svg" class="img-fluid figure-img" style="width:100.0%" alt="Grafo con flechas hacia adelante desde X hasta la pérdida J y flechas de regreso desde J hacia los gradientes dZ2, dW2, dA1, dZ1 y dW1. La cache conecta forward y backward.">
+<img src="../figuras/backpropagation-grafo.svg" class="img-fluid figure-img" style="width:100.0%" alt="Grafo con flechas hacia adelante desde X hasta la pérdida J y flechas de regreso desde J hacia los gradientes dZ2, dW2, dA1, dZ1 y dW1. Los valores intermedios conectan ambos recorridos.">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cap07-backpropagation-grafo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figura&nbsp;3.1: Backpropagation como grafo: el forward calcula X, Z1, A1, Z2, P y J; el backward propaga dJ hacia dZ2, dW2, dA1, dZ1 y dW1 usando la cache.
+Figura&nbsp;3.1: La propagación hacia adelante calcula X, Z1, A1, Z2, P y J; la retropropagación obtiene dZ2, dW2, dA1, dZ1 y dW1 con los valores intermedios guardados.
 </figcaption>
 </figure>
 </div>
-<p><strong>Lectura de la figura.</strong> Forward produce valores intermedios; backward reutiliza esa cache para construir gradientes. Si una forma no coincide con el parámetro correspondiente, el error está en el recorrido del grafo o en una transposición.</p>
+<p>La propagación hacia adelante produce valores intermedios; el recorrido inverso los reutiliza para construir gradientes. Si una forma no coincide con el parámetro correspondiente, el error está en el recorrido del grafo o en una transposición.</p>
 </section>
 <section id="gradiente-de-softmax-con-entropía-cruzada" class="level2">
 <h2 class="anchored" data-anchor-id="gradiente-de-softmax-con-entropía-cruzada">Gradiente de softmax con entropía cruzada</h2>
@@ -429,9 +401,9 @@ dW^{[1]} = X^\top dZ^{[1]},
 db^{[1]} = \sum_i dZ^{[1]}_i.
 \]</span></p>
 </section>
-<section id="backpropagation-como-algoritmo" class="level2">
-<h2 class="anchored" data-anchor-id="backpropagation-como-algoritmo">Backpropagation como algoritmo</h2>
-<p>Las identidades anteriores ya contienen la deducción. El algoritmo debe conservar los valores del forward correspondiente, iniciar con <span class="math inline">\(dZ^{[2]}=(\widehat P-Y)/m\)</span> y aplicar la regla de capa en orden inverso. El código para dos capas es:</p>
+<section id="retropropagación-como-algoritmo" class="level2">
+<h2 class="anchored" data-anchor-id="retropropagación-como-algoritmo">Retropropagación como algoritmo</h2>
+<p>Las identidades anteriores ya contienen la deducción. El algoritmo debe conservar los valores de la propagación hacia adelante correspondiente, iniciar con <span class="math inline">\(dZ^{[2]}=(\widehat P-Y)/m\)</span> y aplicar la regla de capa en orden inverso. El código para dos capas es:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> backward_pass(X, Y, cache, params):</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    P <span class="op">=</span> cache[<span class="st">"P"</span>]</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    A1 <span class="op">=</span> cache[<span class="st">"A1"</span>]</span>
@@ -454,21 +426,21 @@ para ell = L, ..., 1:
     atravesar la activación de la capa ell
     calcular dW[ell] y db[ell]
     propagar el gradiente hacia A[ell-1]</code></pre>
-<p>Backpropagation no es una fórmula particular de dos capas. Es evaluación en modo reverso de la regla de la cadena sobre un grafo acíclico de operaciones.</p>
+<p>La retropropagación no es una fórmula particular de dos capas. Es evaluación en modo reverso de la regla de la cadena sobre un grafo acíclico de operaciones.</p>
 </section>
 <section id="costo-memoria-y-alcance-de-la-garantía" class="level2">
 <h2 class="anchored" data-anchor-id="costo-memoria-y-alcance-de-la-garantía">Costo, memoria y alcance de la garantía</h2>
-<p>Cada producto matricial del forward reaparece con dimensiones transpuestas en el backward. Por ello, el costo de backpropagation es del mismo orden que el forward: para la red de una capa oculta,</p>
+<p>Cada producto matricial de la propagación hacia adelante reaparece con dimensiones transpuestas en el recorrido inverso. Por ello, el costo de la retropropagación es del mismo orden que el de la propagación hacia adelante: para la red de una capa oculta,</p>
 <p><span class="math display">\[
 O\big(mh(d+k)\big).
 \]</span></p>
-<p>El ahorro frente a diferencias finitas es decisivo. Si hay <span class="math inline">\(P\)</span> parámetros, verificar todas las coordenadas por diferencias centrales requiere aproximadamente <span class="math inline">\(2P\)</span> evaluaciones forward; backpropagation obtiene los <span class="math inline">\(P\)</span> gradientes en un solo recorrido inverso de costo comparable a unas pocas pasadas.</p>
-<p>El precio es memoria. El backward necesita los valores de <span class="math inline">\(X\)</span>, <span class="math inline">\(Z^{[1]}\)</span>, <span class="math inline">\(A^{[1]}\)</span> y las probabilidades producidas por el mismo forward. Recalcularlos puede ahorrar memoria a cambio de más cómputo, estrategia conocida como <em>checkpointing</em>.</p>
-<p>La eficiencia no es una garantía de encontrar el mínimo global. Backpropagation calcula, salvo errores numéricos y puntos no diferenciables elegidos por convención, el gradiente de la pérdida empírica para los parámetros actuales. El optimizador decide cómo usarlo; la no convexidad de una red permanece.</p>
+<p>El ahorro frente a diferencias finitas es decisivo. Si hay <span class="math inline">\(P\)</span> parámetros, verificar todas las coordenadas por diferencias centrales requiere aproximadamente <span class="math inline">\(2P\)</span> evaluaciones de la red; la retropropagación obtiene los <span class="math inline">\(P\)</span> gradientes en un solo recorrido inverso de costo comparable a unas pocas pasadas.</p>
+<p>El precio es memoria. El recorrido inverso necesita los valores de <span class="math inline">\(X\)</span>, <span class="math inline">\(Z^{[1]}\)</span>, <span class="math inline">\(A^{[1]}\)</span> y las probabilidades producidas por el mismo recorrido hacia adelante. Recalcularlos puede ahorrar memoria a cambio de más cómputo, estrategia conocida como <em>checkpointing</em>.</p>
+<p>La eficiencia no es una garantía de encontrar el mínimo global. La retropropagación calcula, salvo errores numéricos y puntos no diferenciables elegidos por convención, el gradiente de la pérdida empírica para los parámetros actuales. El optimizador decide cómo usarlo; la no convexidad de una red permanece.</p>
 </section>
 <section id="verificación-por-diferencias-finitas" class="level2">
 <h2 class="anchored" data-anchor-id="verificación-por-diferencias-finitas">Verificación por diferencias finitas</h2>
-<p>Una forma de detectar errores en backpropagation es comparar contra una aproximación numérica:</p>
+<p>Una forma de detectar errores en la retropropagación es comparar sus resultados con una aproximación numérica:</p>
 <p><span class="math display">\[
 \frac{\partial J}{\partial \theta_j}
 \approx
@@ -478,7 +450,7 @@ O\big(mh(d+k)\big).
 </section>
 <section id="ejemplo-resuelto-diferencia-finita-escalar" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-diferencia-finita-escalar">Ejemplo resuelto: diferencia finita escalar</h2>
-<p>Considera la función simple:</p>
+<p>Consideremos la función simple:</p>
 <p><span class="math display">\[
 J(w)=(w-3)^2.
 \]</span></p>
@@ -490,7 +462,7 @@ J'(w)=2(w-3).
 <p><span class="math display">\[
 J'(2)=2(2-3)=-2.
 \]</span></p>
-<p>Ahora usa diferencia finita central con <span class="math inline">\(\varepsilon=0.01\)</span>:</p>
+<p>Utilicemos ahora una diferencia finita central con <span class="math inline">\(\varepsilon=0.01\)</span>:</p>
 <p><span class="math display">\[
 \frac{J(2+\varepsilon)-J(2-\varepsilon)}{2\varepsilon}
 =
@@ -510,7 +482,7 @@ J(1.99)=(-1.01)^2=1.0201.
 </section>
 <section id="ejemplo-resuelto-formas-de-los-gradientes" class="level2">
 <h2 class="anchored" data-anchor-id="ejemplo-resuelto-formas-de-los-gradientes">Ejemplo resuelto: formas de los gradientes</h2>
-<p>Supón que:</p>
+<p>Consideremos:</p>
 <ul>
 <li><span class="math inline">\(X\in\mathbb{R}^{100\times 64}\)</span>;</li>
 <li><span class="math inline">\(W^{[1]}\in\mathbb{R}^{64\times 32}\)</span>;</li>
@@ -557,29 +529,26 @@ J(1.99)=(-1.01)^2=1.0201.
 </table>
 <p>El primer chequeo es simple: cada gradiente debe tener la misma forma que el parámetro que actualiza. Pasar este chequeo no demuestra que sus valores sean correctos.</p>
 </section>
-<section id="errores-frecuentes" class="level2">
-<h2 class="anchored" data-anchor-id="errores-frecuentes">Errores frecuentes</h2>
+<section id="diagnóstico-de-una-implementación" class="level2">
+<h2 class="anchored" data-anchor-id="diagnóstico-de-una-implementación">Diagnóstico de una implementación</h2>
 <ol type="1">
 <li>Olvidar dividir por <span class="math inline">\(m\)</span>.</li>
 <li>Confundir <code>Y - P</code> con <code>P - Y</code>.</li>
 <li>Sumar <code>db</code> sin <code>axis=0</code>.</li>
 <li>Usar las formas transpuestas incorrectas.</li>
-<li>Usar valores de un forward distinto al que produjo la pérdida.</li>
+<li>Usar valores de una propagación hacia adelante distinta de la que produjo la pérdida.</li>
 <li>No estabilizar softmax.</li>
 </ol>
-</section>
-<section id="punto-de-control" class="level2">
-<h2 class="anchored" data-anchor-id="punto-de-control">Punto de control</h2>
-<p>Si el autograder dice que <code>dW2</code> tiene forma incorrecta, no empieces cambiando signos. Primero revisa:</p>
+<p>Si <code>dW2</code> tiene una forma incorrecta, cambiar signos no resolverá el problema. Primero deben revisarse estas tres relaciones:</p>
 <ol type="1">
 <li>¿<code>A1.T @ dZ2</code> produce la misma forma que <code>W2</code>?</li>
 <li>¿<code>db2</code> suma sobre observaciones y no sobre clases?</li>
 <li>¿dividiste por <span class="math inline">\(m\)</span> exactamente una vez?</li>
 </ol>
 </section>
-<section id="caso-longitudinal-backpropagation-en-dígitos" class="level2">
-<h2 class="anchored" data-anchor-id="caso-longitudinal-backpropagation-en-dígitos">Caso longitudinal: backpropagation en dígitos</h2>
-<p>En el caso <code>load_digits</code>, el forward produce probabilidades para diez clases. El backward debe producir gradientes con las mismas formas que los parámetros:</p>
+<section id="retropropagación-en-el-caso-de-los-dígitos" class="level2">
+<h2 class="anchored" data-anchor-id="retropropagación-en-el-caso-de-los-dígitos">Retropropagación en el caso de los dígitos</h2>
+<p>En el caso <code>load_digits</code>, la propagación hacia adelante produce probabilidades para diez clases. El recorrido inverso debe producir gradientes con las mismas formas que los parámetros:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -611,92 +580,44 @@ J(1.99)=(-1.01)^2=1.0201.
 </tr>
 </tbody>
 </table>
-<p>La prueba de gradiente no se hace sobre todo el dataset. Se hace sobre un caso pequeño, con pocas observaciones y parámetros controlados, porque ahí se puede comparar contra diferencias finitas. Una red que “entrena” sin pasar una prueba de gradiente puede estar reduciendo la pérdida por accidente o por un error de implementación no detectado.</p>
+<p>La prueba de gradiente no se hace sobre todo el conjunto de datos. Se hace sobre un caso pequeño, con pocas observaciones y parámetros controlados, porque ahí se puede comparar contra diferencias finitas. Una red que “entrena” sin pasar una prueba de gradiente puede estar reduciendo la pérdida por accidente o por un error de implementación no detectado.</p>
 </section>
-<section id="verificaciones-seleccionadas" class="level2">
-<h2 class="anchored" data-anchor-id="verificaciones-seleccionadas">Verificaciones seleccionadas</h2>
+<section id="comprobaciones-de-los-gradientes" class="level2">
+<h2 class="anchored" data-anchor-id="comprobaciones-de-los-gradientes">Comprobaciones de los gradientes</h2>
 <ol type="1">
 <li>Si <span class="math inline">\(A^{[1]}\)</span> tiene forma <span class="math inline">\(m\times h\)</span> y <span class="math inline">\(dZ^{[2]}\)</span> tiene forma <span class="math inline">\(m\times k\)</span>, entonces <span class="math inline">\(dW^{[2]}=(A^{[1]})^\top dZ^{[2]}\)</span> tiene forma <span class="math inline">\(h\times k\)</span>.</li>
 <li>Una diferencia finita central usa <span class="math inline">\((J(\theta+\epsilon)-J(\theta-\epsilon))/(2\epsilon)\)</span>; suele ser más estable que usar solo <span class="math inline">\(J(\theta+\epsilon)-J(\theta)\)</span>.</li>
 <li>Un error de forma que NumPy resuelve con broadcasting puede producir un valor numérico sin representar el gradiente correcto.</li>
 </ol>
 </section>
-<section id="para-explorar-más" class="level2">
-<h2 class="anchored" data-anchor-id="para-explorar-más">Para explorar más</h2>
-<div class="explore">
-<ul>
-<li><strong>Extensión matemática:</strong> verifica por diferencias finitas un solo peso de la primera capa y un solo peso de la segunda capa.</li>
-<li><strong>Extensión computacional:</strong> agrega chequeos automáticos de forma para cada gradiente antes de actualizar parámetros.</li>
-<li><strong>Conexión con proyecto:</strong> decide qué prueba mínima de gradientes o sanity check usarías antes de confiar en un entrenamiento propio.</li>
-</ul>
-</div>
-</section>
-<section id="revisión-del-capítulo" class="level2">
-<h2 class="anchored" data-anchor-id="revisión-del-capítulo">Revisión del capítulo</h2>
-<p>Backpropagation aplica la regla de la cadena de forma organizada sobre un grafo de cómputo. El forward produce activaciones, logits, probabilidades y pérdida; el backward usa esos valores guardados para calcular gradientes.</p>
+<section id="síntesis" class="level2">
+<h2 class="anchored" data-anchor-id="síntesis">Síntesis</h2>
+<p>La retropropagación aplica la regla de la cadena de forma organizada sobre un grafo de cálculo. La propagación hacia adelante produce activaciones, logits, probabilidades y pérdida; el recorrido inverso usa esos valores guardados para calcular gradientes.</p>
 <p>La simplificación <span class="math inline">\(dZ^{[2]}=(\hat P-Y)/m\)</span> para softmax con entropía cruzada permite propagar gradientes hacia la segunda capa y luego hacia la capa oculta. Cada gradiente debe tener exactamente la misma forma que el parámetro que actualiza.</p>
 <p>La verificación por diferencias finitas no reemplaza la derivación, pero sí detecta errores de signo, escala o forma. Una red que no mejora aunque sus formas sean correctas exige revisar inicialización, activaciones, tasa de aprendizaje y datos.</p>
 </section>
-<section id="términos-clave" class="level2">
-<h2 class="anchored" data-anchor-id="términos-clave">Términos clave</h2>
-<div class="key-terms">
-<ul>
-<li><strong>Grafo de cómputo:</strong> representación de operaciones intermedias usadas para calcular una salida.</li>
-<li><strong>Cache:</strong> valores guardados durante forward propagation para reutilizarlos en backward propagation.</li>
-<li><strong>Backpropagation:</strong> aplicación eficiente de la regla de la cadena desde la pérdida hacia los parámetros.</li>
-<li><strong>Gradiente:</strong> derivada de la pérdida respecto a un parámetro o activación.</li>
-<li><strong>Diferencias finitas:</strong> aproximación numérica de derivadas para verificar gradientes.</li>
-<li><strong>Forma del gradiente:</strong> dimensión que debe coincidir con el parámetro correspondiente.</li>
-</ul>
-</div>
-</section>
-<section id="ejercicios" class="level2">
-<h2 class="anchored" data-anchor-id="ejercicios">Ejercicios</h2>
-<section id="preguntas-conceptuales" class="level3">
-<h3 class="anchored" data-anchor-id="preguntas-conceptuales">Preguntas conceptuales</h3>
+<section id="problemas" class="level2">
+<h2 class="anchored" data-anchor-id="problemas">Problemas</h2>
 <ol type="1">
-<li>Explique por qué backpropagation necesita valores guardados del forward pass.</li>
-<li>Explique por qué <code>dZ1 = dA1 * (Z1 &gt; 0)</code> para ReLU.</li>
-</ol>
-</section>
-<section id="problemas-cuantitativos" class="level3">
-<h3 class="anchored" data-anchor-id="problemas-cuantitativos">Problemas cuantitativos</h3>
-<ol start="3" type="1">
-<li>Derive la forma de <code>dW2</code> a partir de <code>Z2 = A1 @ W2 + b2</code>.</li>
-<li>Si <span class="math inline">\(A^{[1]}\in\mathbb{R}^{80\times 16}\)</span> y <span class="math inline">\(dZ^{[2]}\in\mathbb{R}^{80\times 4}\)</span>, calcule la forma de <span class="math inline">\(dW^{[2]}\)</span> y <span class="math inline">\(db^{[2]}\)</span>.</li>
-</ol>
-</section>
-<section id="práctica-computacional" class="level3">
-<h3 class="anchored" data-anchor-id="práctica-computacional">Práctica computacional</h3>
-<ol start="5" type="1">
-<li>Diseñe una prueba pequeña para verificar que <code>backward_pass</code> devuelve gradientes con la misma forma que los parámetros.</li>
-<li>Implemente una verificación por diferencias finitas para un parámetro escalar.</li>
+<li><p>Explique por qué la retropropagación necesita valores guardados durante la propagación hacia adelante.</p></li>
+<li><p>Explique por qué <code>dZ1 = dA1 * (Z1 &gt; 0)</code> para ReLU.</p></li>
+<li><p>Derive la forma de <code>dW2</code> a partir de <code>Z2 = A1 @ W2 + b2</code>.</p></li>
+<li><p>Si <span class="math inline">\(A^{[1]}\in\mathbb{R}^{80\times 16}\)</span> y <span class="math inline">\(dZ^{[2]}\in\mathbb{R}^{80\times 4}\)</span>, calcule la forma de <span class="math inline">\(dW^{[2]}\)</span> y <span class="math inline">\(db^{[2]}\)</span>.</p></li>
+<li><p>Diseñe una prueba pequeña para verificar que <code>backward_pass</code> devuelve gradientes con la misma forma que los parámetros.</p></li>
+<li><p>Implemente una verificación por diferencias finitas para un parámetro escalar.</p></li>
 </ol>
 <p>Durante esta verificación desactive dropout y cualquier otra operación aleatoria; la pérdida evaluada en <span class="math inline">\(\theta+\varepsilon\)</span> y <span class="math inline">\(\theta-\varepsilon\)</span> debe usar exactamente los mismos datos y el mismo grafo.</p>
-</section>
-<section id="interpretación-y-pensamiento-crítico" class="level3">
-<h3 class="anchored" data-anchor-id="interpretación-y-pensamiento-crítico">Interpretación y pensamiento crítico</h3>
 <ol start="7" type="1">
-<li>Un gradiente tiene la forma correcta pero el entrenamiento no mejora. Proponga tres causas posibles.</li>
-</ol>
-</section>
-<section id="profundización-matemática-y-algorítmica" class="level3">
-<h3 class="anchored" data-anchor-id="profundización-matemática-y-algorítmica">Profundización matemática y algorítmica</h3>
-<ol start="8" type="1">
-<li>Derive <span class="math inline">\(\partial p_a/\partial z_b=p_a(\delta_{ab}-p_b)\)</span> y úsela para obtener <span class="math inline">\(\nabla_zL=p-y\)</span>.</li>
-<li>A partir del diferencial de <span class="math inline">\(Z=AW+\mathbf 1b^\top\)</span>, obtenga los gradientes respecto a <span class="math inline">\(A\)</span>, <span class="math inline">\(W\)</span> y <span class="math inline">\(b\)</span>.</li>
-<li>Compare el costo de verificar <span class="math inline">\(P\)</span> parámetros por diferencias centrales con el costo de una pasada backward.</li>
-<li>Explique el intercambio memoria-cómputo de guardar activaciones frente a recalcularlas durante backward.</li>
-</ol>
-</section>
-<section id="proyecto-de-cierre" class="level3">
-<h3 class="anchored" data-anchor-id="proyecto-de-cierre">Proyecto de cierre</h3>
-<ol start="12" type="1">
-<li>Tome una red pequeña de dos capas y documente una auditoría de gradientes: formas esperadas, formas obtenidas, norma de cada gradiente y resultado de una prueba numérica para un parámetro.</li>
+<li><p>Un gradiente tiene la forma correcta pero el entrenamiento no mejora. Proponga tres causas posibles.</p></li>
+<li><p>Derive <span class="math inline">\(\partial p_a/\partial z_b=p_a(\delta_{ab}-p_b)\)</span> y úsela para obtener <span class="math inline">\(\nabla_zL=p-y\)</span>.</p></li>
+<li><p>A partir del diferencial de <span class="math inline">\(Z=AW+\mathbf 1b^\top\)</span>, obtenga los gradientes respecto a <span class="math inline">\(A\)</span>, <span class="math inline">\(W\)</span> y <span class="math inline">\(b\)</span>.</p></li>
+<li><p>Compare el costo de verificar <span class="math inline">\(P\)</span> parámetros por diferencias centrales con el costo de un recorrido inverso.</p></li>
+<li><p>Explique el intercambio memoria-cómputo de guardar activaciones frente a recalcularlas durante la retropropagación.</p></li>
+<li><p>Verifique por diferencias finitas un peso de la primera capa y otro de la segunda, manteniendo fijos datos y operaciones aleatorias.</p></li>
+<li><p>En una red pequeña de dos capas, construya una auditoría de gradientes con las formas esperadas y obtenidas, la norma de cada gradiente y una prueba numérica para un parámetro.</p></li>
 </ol>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -1102,8 +1023,8 @@ J(1.99)=(-1.01)^2=1.0201.
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./capitulo01_perceptron_forward.html" class="pagination-link" aria-label="Perceptron, neurona logística y forward propagation">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Perceptron, neurona logística y forward propagation</span></span>
+      <a href="./capitulo01_perceptron_forward.html" class="pagination-link" aria-label="Perceptrón y propagación hacia adelante">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Perceptrón y propagación hacia adelante</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana08_presentacion_files/libs/revealjs/dist/theme/quarto-58ca32fbdea04a86cb11ec850489b34f.css">
+  <link rel="stylesheet" href="semana08_presentacion_files/libs/revealjs/dist/theme/quarto-84aae4b21ad5ce200ab707e4fc44914c.css">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana08_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/07-
 <h2>El forward deja un grafo de cálculo</h2>
 <p>Forward guardó <span class="math inline">\(X\)</span>, <span class="math inline">\(Z_1\)</span>, <span class="math inline">\(A_1\)</span>, <span class="math inline">\(Z_2\)</span> y <span class="math inline">\(P\)</span>. Backpropagation reutiliza esos valores en orden inverso.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: derivaremos primero la salida softmax–entropía cruzada y una sola capa afín.</p>
+<p>derivaremos primero la salida softmax–entropía cruzada y una sola capa afín.</p>
 </div>
 </section>
 <section id="una-observación-dos-capas-una-pérdida" class="slide level2 case-slide">
@@ -268,35 +268,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/07-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\((h\times m)(m\times k)=h\times k\)</span> para <span class="math inline">\(dW_2\)</span>; <span class="math inline">\((m\times k)(k\times h)=m\times h\)</span> para <span class="math inline">\(dA_1\)</span>.</p>
+</div>
 </section>
 <section id="el-gradiente-del-riesgo-se-estima-con-un-batch" class="slide level2 probability-slide">
 <h2>El gradiente del riesgo se estima con un batch</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>gradiente del riesgo esperado</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>gradiente del riesgo esperado de la red</strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>gradiente de batch o minibatch</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>gradiente promedio sobre el batch observado</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>intercambio válido entre derivada y esperanza</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>puede intercambiarse derivación y esperanza en el régimen estudiado</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>minibatch y aproximación numérica</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>batch, muestra e inicialización</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Por qué la combinación softmax–CE produce <span class="math inline">\(dZ^{[2]}=(P-Y)/m\)</span> y cómo se traduce en gradientes de parámetros?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Otro batch produce otro gradiente, pero debe conservar las mismas identidades algebraicas y formas.</p>
 </div>
 </section>
 <section id="softmax-y-entropía-cruzada-se-simplifican-juntas" class="slide level2 formula-slide">
 <h2>Softmax y entropía cruzada se simplifican juntas</h2>
+<div class="formula-question">
+<p>¿Por qué la combinación softmax–CE produce <span class="math inline">\(dZ^{[2]}=(P-Y)/m\)</span> y cómo se traduce en gradientes de parámetros?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 dZ^{[2]}=\frac{P-Y}{m},
@@ -304,31 +304,28 @@ dZ^{[2]}=\frac{P-Y}{m},
 \quad db^{[2]}=\sum_i dZ_i^{[2]}.
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>El factor <span class="math inline">\(1/m\)</span> aparece una sola vez porque la pérdida se definió como promedio del batch.</p>
 </div>
 </section>
 <section id="la-derivada-llega-primero-a-los-logits" class="slide level2 derivation-slide">
 <h2>La derivada llega primero a los logits</h2>
+<div class="derivation-step fragment">
 <p>Para una observación, la derivada de <span class="math inline">\(-\log P_y\)</span> respecto a cada logit es <span class="math display">\[\frac{\partial\ell}{\partial z_c}=P_c-Y_c.\]</span></p>
+</div>
 </section>
 <section id="del-logit-a-pesos-y-sesgos" class="slide level2 derivation-slide">
 <h2>Del logit a pesos y sesgos</h2>
+<div class="derivation-step fragment">
 <p>Como <span class="math inline">\(Z^{[2]}=A^{[1]}W^{[2]}+b^{[2]}\)</span>, diferenciales dan <span class="math display">\[dW^{[2]}=(A^{[1]})^\top dZ^{[2]},\qquad dA^{[1]}=dZ^{[2]}(W^{[2]})^\top.\]</span></p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\((h\times m)(m\times k)=h\times k\)</span> para <span class="math inline">\(dW_2\)</span>; <span class="math inline">\((m\times k)(k\times h)=m\times h\)</span> para <span class="math inline">\(dA_1\)</span>.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="cada-gradiente-acumula-rutas-del-grafo" class="slide level2 interpretation-slide">
 <h2>Cada gradiente acumula rutas del grafo</h2>
 <p>Cada fila de <span class="math inline">\(P-Y\)</span> suma cero: aumentar el logit correcto se compensa reduciendo scores relativos de otras clases.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 La entropía cruzada es el promedio de <span class="math inline">\(m\)</span> observaciones. ¿Cuál es la derivada respecto a los logits?
@@ -352,8 +349,8 @@ La entropía cruzada es el promedio de <span class="math inline">\(m\)</span> ob
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -363,26 +360,26 @@ Softmax y entropía cruzada producen <span class="math inline">\(P-Y\)</span> po
 </section>
 <section id="backward-en-orden-inverso" class="slide level2 algorithm-slide">
 <h2>Backward en orden inverso</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>recibir cache de forward</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>construir one-hot</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>calcular <span class="math inline">\(dZ_2\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>obtener <span class="math inline">\(dW_2\)</span>, <span class="math inline">\(db_2\)</span> y <span class="math inline">\(dA_1\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>comprobar formas antes de seguir</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-backward-en-orden-inverso" class="slide level2 code-slide">
+<h2>En código: Backward en orden inverso</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> backward_output(A1, P, Y, W2):</span>
 <span id="cb1-2"><a href=""></a>    m <span class="op">=</span> A1.shape[<span class="dv">0</span>]</span>
 <span id="cb1-3"><a href=""></a>    dZ2 <span class="op">=</span> (P <span class="op">-</span> Y) <span class="op">/</span> m</span>
@@ -394,27 +391,27 @@ Softmax y entropía cruzada producen <span class="math inline">\(P-Y\)</span> po
 <p>La función recibe <code>Y</code> one-hot; convertir etiquetas dentro de varias funciones suele duplicar lógica y errores.</p>
 </div>
 </section>
-<section id="una-capa-cuya-derivada-podemos-verificar" class="slide level2 worked-example-slide">
+<section id="una-capa-cuya-derivada-podemos-verificar" class="slide level2 worked-example-slide result-slide">
 <h2>Una capa cuya derivada podemos verificar</h2>
 <p>Usamos pesos fijos y tres filas. Calculamos <span class="math inline">\(dW_2\)</span> analíticamente y perturbamos una entrada de <span class="math inline">\(W_2\)</span> en <span class="math inline">\(\pm\varepsilon\)</span>.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">h×k</span><span class="label">forma de <span class="math inline">\(dW_2\)</span></span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">k</span><span class="label">forma de <span class="math inline">\(db_2\)</span></span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">&lt;10⁻⁶</span><span class="label">error relativo esperado</span>
 </div>
 </div>
 <p>La prueba de una coordenada orienta; una auditoría completa muestrea varias coordenadas y semillas pequeñas.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Backpropagation calcula exactamente el gradiente del batch; ese vector sigue siendo una estimación del gradiente poblacional.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana08_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana08_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana08_live_coding.ipynb</code></p>
 </div>
@@ -454,59 +451,64 @@ Softmax y entropía cruzada producen <span class="math inline">\(P-Y\)</span> po
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Compruebe <code>dZ2.sum(axis=1)</code> cerca de cero y compare una entrada de <span class="math inline">\(dW_2\)</span> con diferencia central.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>softmax y entropía cruzada se simplifican juntas</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="dividir-dos-veces-cambia-la-escala" class="slide level2 failure-slide">
-<h2>Dividir dos veces cambia la escala</h2>
-<div class="failure-statement">
-<p>Dividir por <span class="math inline">\(m\)</span> tanto en <span class="math inline">\(dZ_2\)</span> como en <span class="math inline">\(dW_2\)</span> reduce el gradiente dos veces.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">Dividir dos veces cambia la escala</span> <strong>Dividir por <span class="math inline">\(m\)</span> tanto en <span class="math inline">\(dZ_2\)</span> como en <span class="math inline">\(dW_2\)</span> reduce el gradiente dos veces.</strong>
+<p>
+<span>Señal:</span> el gradiente cambia por <span class="math inline">\(1/m^2\)</span> al duplicar batch.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>el gradiente cambia por <span class="math inline">\(1/m^2\)</span> al duplicar batch</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Sumar sin eje borra las clases</span> <strong>Sumar <code>db2</code> sin <code>axis=0</code> produce un escalar y pierde una componente por clase.</strong>
+<p>
+<span>Señal:</span> <code>db2.shape</code> no es <code>(k,)</code>.
+</p>
+</div>
 </div>
 </section>
-<section id="sumar-sin-eje-borra-las-clases" class="slide level2 failure-slide">
-<h2>Sumar sin eje borra las clases</h2>
-<div class="failure-statement">
-<p>Sumar <code>db2</code> sin <code>axis=0</code> produce un escalar y pierde una componente por clase.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong><code>db2.shape</code> no es <code>(k,)</code></strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>El chequeo de <span class="math inline">\(W_2\)</span> pasa, pero la red no aprende. ¿Qué partes todavía no han sido verificadas?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>La propagación por ReLU, <span class="math inline">\(W_1\)</span>, sesgos, actualización, escala de tasa y coherencia entre pérdida y gradiente. Una prueba parcial no certifica todo backward.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>La salida softmax–CE entrega un gradiente compacto y las formas de la capa afín siguen reglas matriciales comprobables.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>La salida softmax–CE entrega un gradiente compacto y las formas de la capa afín siguen reglas matriciales comprobables.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>Un gradiente de forma correcta puede tener valores incorrectos; por eso se necesita una comparación numérica.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Backpropagation calcula exactamente el gradiente del batch; ese vector sigue siendo una estimación del gradiente poblacional.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>Un gradiente de forma correcta puede tener valores incorrectos; por eso se necesita una comparación numérica.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Lab 3 asigna puntos separados a forward, backward, entrenamiento y lectura; un fallo temprano no debe ocultar todos los resultados parciales.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Publicación de Lab 3.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li><span class="math inline">\(dZ_2=(P-Y)/m\)</span></li>
 <li><span class="math inline">\(dW_2=A_1^TdZ_2\)</span></li>
@@ -514,18 +516,18 @@ Softmax y entropía cruzada producen <span class="math inline">\(P-Y\)</span> po
 <li><span class="math inline">\(dA_1=dZ_2W_2^T\)</span></li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>Backpropagation organiza la regla de la cadena; las formas y una prueba numérica impiden que se convierta en una fórmula memorizada.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Dónde aparece <span class="math inline">\(1/m\)</span>?</li>
 <li>¿Qué forma tiene <span class="math inline">\(dA_1\)</span>?</li>
 <li>¿Qué propiedad por fila cumple <span class="math inline">\(P-Y\)</span>?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>Backpropagation organiza la regla de la cadena; las formas y una prueba numérica impiden que se convierta en una fórmula memorizada.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> complete la derivada de ReLU y prepare una definición de error relativo para gradient checking.</p>
 

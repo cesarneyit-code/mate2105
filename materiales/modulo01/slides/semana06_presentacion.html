@@ -95,7 +95,7 @@
     code span.vs { color: #20794d; } /* VerbatimString */
     code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
-  <link rel="stylesheet" href="semana06_presentacion_files/libs/revealjs/dist/theme/quarto-586566baa65c003b9bfc3da61172d24e.css">
+  <link rel="stylesheet" href="semana06_presentacion_files/libs/revealjs/dist/theme/quarto-6308f6c74eeaac9854a9557d42d59a76.css">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="semana06_presentacion_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -223,7 +223,7 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-
 <h2>Una salida binaria necesita algo más que un score real</h2>
 <p>En regresión lineal el predictor produce cualquier número real. Para clasificación binaria necesitamos relacionar un score con una salida entre cero y uno.</p>
 <div class="board">
-<p>Hoy cambia la pregunta: derivaremos la pérdida desde un modelo de probabilidad estimada, sin confundirla con una probabilidad conocida de la población.</p>
+<p>derivaremos la pérdida desde un modelo de probabilidad estimada, sin confundirla con una probabilidad conocida de la población.</p>
 </div>
 </section>
 <section id="un-ejemplo-diagnóstico-con-alcance-estrictamente-educativo" class="slide level2 case-slide">
@@ -278,35 +278,35 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-
 </tr>
 </tbody>
 </table>
+<div class="shape-note fragment">
+<p><strong>Comprobación de forma:</strong> <span class="math inline">\(\mathbf X\in\mathbb R^{n\times p}\)</span>, <span class="math inline">\(\widehat{\boldsymbol p}-\mathbf y\in\mathbb R^n\)</span> y el gradiente está en <span class="math inline">\(\mathbb R^p\)</span>.</p>
+</div>
 </section>
 <section id="bernoulli-condicional-y-log-loss-observada" class="slide level2 probability-slide">
 <h2>Bernoulli condicional y log-loss observada</h2>
 <div class="probability-grid">
-<div class="population">
-<span class="label">Objeto poblacional</span><strong>probabilidad Bernoulli condicional y riesgo logarítmico</strong>
+<div class="population fragment" data-fragment-index="0">
+<span class="label">Objeto poblacional</span><strong>probabilidad condicional <span class="math inline">\(P(Y=1\mid X=x)\)</span></strong>
 </div>
-<div class="empirical">
-<span class="label">Cantidad calculable</span><strong>probabilidades, log-loss y métricas observadas</strong>
+<div class="empirical fragment" data-fragment-index="0">
+<span class="label">Cantidad calculable</span><strong>probabilidad estimada y log-loss promedio</strong>
 </div>
-<div class="assumption">
-<span class="label">Supuesto de enlace</span><strong>test procede de la población objetivo</strong>
+<div class="assumption fragment" data-fragment-index="1">
+<span class="label">Supuesto de enlace</span><strong>la muestra representa la población objetivo y el modelo es una aproximación</strong>
 </div>
-<div class="uncertainty">
-<span class="label">Variación restante</span><strong>muestra, calibración y selección de umbral</strong>
+<div class="uncertainty fragment" data-fragment-index="1">
+<span class="label">Variación restante</span><strong>muestra, especificación y calibración</strong>
 </div>
 </div>
-<div class="probability-prompt">
-<p><strong>Otra muestra:</strong> ¿qué cantidad cambiaría y cuál seguiría siendo el objetivo?</p>
-</div>
-</section>
-<section id="la-pregunta-matemática" class="slide level2 question-slide">
-<h2>La pregunta matemática</h2>
-<div class="question">
-<p>¿Qué pérdida hace costoso asignar poca probabilidad a la clase observada y cuál es su gradiente?</p>
+<div class="probability-prompt fragment" data-fragment-index="2">
+<p>Con otra muestra cambian los coeficientes y las probabilidades estimadas.</p>
 </div>
 </section>
 <section id="la-clase-observada-determina-el-costo-del-score" class="slide level2 formula-slide">
 <h2>La clase observada determina el costo del score</h2>
+<div class="formula-question">
+<p>¿Qué pérdida hace costoso asignar poca probabilidad a la clase observada y cuál es su gradiente?</p>
+</div>
 <div class="math-focus">
 <p><span class="math display">\[
 \widehat p_i=\sigma(\boldsymbol x_i^\top\boldsymbol\theta),
@@ -314,32 +314,29 @@ Libro · <a href="https://cesarneyit-code.github.io/mate2105/libro/capitulos/04-
 \ell_i=-y_i\log\widehat p_i-(1-y_i)\log(1-\widehat p_i).
 \]</span></p>
 </div>
-<div class="formula-reading">
+<div class="formula-reading fragment">
 <p>La salida pertenece al modelo ajustado. Interpretarla como frecuencia requiere evaluación de calibración en datos comparables.</p>
 </div>
 </section>
 <section id="sigmoide-y-log-loss-se-simplifican-juntas" class="slide level2 derivation-slide">
 <h2>Sigmoide y log-loss se simplifican juntas</h2>
+<div class="derivation-step fragment">
 <p>Como <span class="math inline">\(\sigma'(z)=\sigma(z)(1-\sigma(z))\)</span>, la derivada de la pérdida por el logit se simplifica a <span class="math display">\[\frac{\partial\ell_i}{\partial z_i}=\widehat p_i-y_i.\]</span></p>
+</div>
 </section>
 <section id="el-gradiente-vuelve-al-espacio-de-parámetros" class="slide level2 derivation-slide">
 <h2>El gradiente vuelve al espacio de parámetros</h2>
+<div class="derivation-step fragment">
 <p>Promediando observaciones, <span class="math display">\[\nabla\widehat R_n(\boldsymbol\theta)
 =\frac1n\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y).\]</span> La forma coincide con regresión lineal, pero el residual vive en probabilidad estimada.</p>
-</section>
-<section id="dimensiones-antes-de-calcular" class="slide level2 shape-slide">
-<h2>Dimensiones antes de calcular</h2>
-<p><span class="math inline">\(\mathbf X\in\mathbb R^{n\times p}\)</span>, <span class="math inline">\(\widehat{\boldsymbol p}-\mathbf y\in\mathbb R^n\)</span> y el gradiente está en <span class="math inline">\(\mathbb R^p\)</span>.</p>
-<div class="board">
-<p>Una igualdad con dimensiones incompatibles no puede arreglarse con código.</p>
 </div>
 </section>
 <section id="un-coeficiente-actúa-en-log-odds-no-directamente-en-probabilidad" class="slide level2 interpretation-slide">
 <h2>Un coeficiente actúa en log-odds, no directamente en probabilidad</h2>
 <p>Un coeficiente suma en log-odds por unidad de la variable, manteniendo las demás fijas. El cambio en probabilidad depende del punto de partida.</p>
 </section>
-<section id="peer-instruction-vote-primero" class="slide level2 peer-slide">
-<h2>Peer instruction · vote primero</h2>
+<section id="una-decisión-antes-de-continuar" class="slide level2 peer-slide">
+<h2>Una decisión antes de continuar</h2>
 <div class="peer-instruction">
 <div class="peer-question">
 Un modelo produce <span class="math inline">\(\widehat p(x)=0.80\)</span>. ¿Cuál lectura es correcta?
@@ -363,8 +360,8 @@ Un modelo produce <span class="math inline">\(\widehat p(x)=0.80\)</span>. ¿Cu�
 </div>
 </div>
 </section>
-<section id="peer-instruction-después-de-discutir" class="slide level2 peer-answer-slide">
-<h2>Peer instruction · después de discutir</h2>
+<section id="reconstrucción-de-la-respuesta" class="slide level2 peer-answer-slide">
+<h2>Reconstrucción de la respuesta</h2>
 <div class="peer-answer">
 <span class="answer-key">Respuesta B</span>
 <p>
@@ -374,26 +371,26 @@ El 0.80 depende del modelo y de los datos usados para ajustarlo. Calibración, t
 </section>
 <section id="calcular-sin-perder-estabilidad-numérica" class="slide level2 algorithm-slide">
 <h2>Calcular sin perder estabilidad numérica</h2>
-<div class="algorithm-flow">
-<div>
+<div class="algorithm-flow steps-5">
+<div class="fragment" data-fragment-index="0">
 <span>1</span><strong>calcular logits</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span>2</span><strong>aplicar sigmoide estable</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span>3</span><strong>calcular log-loss promedio</strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="3">
 <span>4</span><strong>obtener <span class="math inline">\(\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span></strong>
 </div>
-<div>
+<div class="fragment" data-fragment-index="4">
 <span>5</span><strong>actualizar o delegar el optimizador</strong>
 </div>
 </div>
 </section>
-<section id="implementación-mínima" class="slide level2 code-slide">
-<h2>Implementación mínima</h2>
+<section id="en-código-calcular-sin-perder-estabilidad-numérica" class="slide level2 code-slide">
+<h2>En código: Calcular sin perder estabilidad numérica</h2>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href=""></a><span class="kw">def</span> sigmoid(z):</span>
 <span id="cb1-2"><a href=""></a>    out <span class="op">=</span> np.empty_like(z, dtype<span class="op">=</span><span class="bu">float</span>)</span>
 <span id="cb1-3"><a href=""></a>    positive <span class="op">=</span> z <span class="op">&gt;=</span> <span class="dv">0</span></span>
@@ -405,27 +402,27 @@ El 0.80 depende del modelo y de los datos usados para ajustarlo. Calibración, t
 <p>Separar signos evita overflow innecesario para logits negativos de gran magnitud.</p>
 </div>
 </section>
-<section id="primero-verificar-el-gradiente-después-ajustar" class="slide level2 worked-example-slide">
+<section id="primero-verificar-el-gradiente-después-ajustar" class="slide level2 worked-example-slide result-slide">
 <h2>Primero verificar el gradiente; después ajustar</h2>
 <p>Para un lote pequeño, comparamos el gradiente analítico con diferencias finitas y luego ajustamos una tubería escalada en train.</p>
-</section>
-<section id="tres-comprobaciones-antes-de-continuar" class="slide level2 result-slide">
-<h2>Tres comprobaciones antes de continuar</h2>
 <div class="result">
-<div>
+<div class="fragment" data-fragment-index="0">
 <span class="value">0.693</span><span class="label">pérdida en <span class="math inline">\(z=0,y=1\)</span></span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="1">
 <span class="value">p-y</span><span class="label">derivada por logit</span>
 </div>
-<div>
+<div class="fragment" data-fragment-index="2">
 <span class="value">log-odds</span><span class="label">escala de coeficientes</span>
 </div>
 </div>
 <p>La simplificación del gradiente depende de combinar sigmoide y log-loss; no es una regla para cualquier activación y pérdida.</p>
+<div class="probability-return fragment">
+<p><strong>Al repetir el experimento:</strong> Una salida de 0.80 es una estimación del modelo; calibración y transportabilidad se evalúan por separado.</p>
+</div>
 </section>
-<section id="abra-el-notebook" class="slide level2 notebook-slide">
-<h2>Abra el notebook</h2>
+<section id="comprobación-en-semana06_live_coding.ipynb" class="slide level2 notebook-slide">
+<h2>Comprobación en <code>semana06_live_coding.ipynb</code></h2>
 <div class="notebook-file">
 <p><code>semana06_live_coding.ipynb</code></p>
 </div>
@@ -460,59 +457,64 @@ El 0.80 depende del modelo y de los datos usados para ajustarlo. Calibración, t
 </tbody>
 </table>
 </section>
-<section id="comprobación-numérica" class="slide level2 verification-slide">
-<h2>Comprobación numérica</h2>
+<section id="verificar-antes-de-interpretar" class="slide level2 verification-slide">
+<h2>Verificar antes de interpretar</h2>
 <p>Use diferencias centrales en un problema de cinco filas y exija error relativo menor que <span class="math inline">\(10^{-6}\)</span> antes de entrenar.</p>
 <div class="board">
-<p>Primero verificamos una propiedad matemática; después interpretamos la métrica.</p>
+<p>La prueba debe corresponder a <strong>la clase observada determina el costo del score</strong>, no solamente a una cifra final.</p>
 </div>
 </section>
-<section id="la-fórmula-ingenua-puede-terminar-en-log0" class="slide level2 failure-slide">
-<h2>La fórmula ingenua puede terminar en <code>log(0)</code></h2>
-<div class="failure-statement">
-<p>Calcular <code>log(sigmoid(z))</code> de forma ingenua puede producir <code>log(0)</code> por redondeo.</p>
+<section id="dos-fallos-dos-diagnósticos" class="slide level2 failure-slide">
+<h2>Dos fallos, dos diagnósticos</h2>
+<div class="failure-grid">
+<div class="fragment" data-fragment-index="0">
+<span class="failure-title">La fórmula ingenua puede terminar en <code>log(0)</code></span> <strong>Calcular <code>log(sigmoid(z))</code> de forma ingenua puede producir <code>log(0)</code> por redondeo.</strong>
+<p>
+<span>Señal:</span> pérdida infinita para logits finitos.
+</p>
 </div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>pérdida infinita para logits finitos</strong></p>
+<div class="fragment" data-fragment-index="1">
+<span class="failure-title">Una salida de 0.8 no es una probabilidad verdadera conocida</span> <strong>Describir <span class="math inline">\(\widehat p\)</span> como probabilidad verdadera oculta dependencia de datos y especificación.</strong>
+<p>
+<span>Señal:</span> la conclusión omite ‘estimada por el modelo’ o calibración.
+</p>
+</div>
 </div>
 </section>
-<section id="una-salida-de-0.8-no-es-una-probabilidad-verdadera-conocida" class="slide level2 failure-slide">
-<h2>Una salida de 0.8 no es una probabilidad verdadera conocida</h2>
-<div class="failure-statement">
-<p>Describir <span class="math inline">\(\widehat p\)</span> como probabilidad verdadera oculta dependencia de datos y especificación.</p>
-</div>
-<div class="failure-signal">
-<p><span class="label">Señal observable</span> <strong>la conclusión omite ‘estimada por el modelo’ o calibración</strong></p>
-</div>
-</section>
-<section id="diagnóstico-en-parejas" class="slide level2 pause-slide">
-<h2>Diagnóstico en parejas</h2>
+<section id="decida-qué-comprobar-ahora" class="slide level2 pause-slide">
+<h2>Decida qué comprobar ahora</h2>
 <div class="pause">
 <p>Un modelo asigna 0.9 a muchos positivos, pero entre esos casos solo 70 % son positivos. ¿Qué propiedad falla y qué gráfica pediría?</p>
-<p>Tiempo: 7 minutos. Proponga una comprobación que pueda ejecutarse.</p>
+<p><strong>Tiempo:</strong> 7 minutos. La respuesta debe incluir una comprobación ejecutable.</p>
 </div>
 </section>
-<section id="puesta-en-común-del-diagnóstico" class="slide level2 answer-slide">
-<h2>Puesta en común del diagnóstico</h2>
+<section id="una-secuencia-de-diagnóstico" class="slide level2 answer-slide">
+<h2>Una secuencia de diagnóstico</h2>
 <p>Falla calibración. Pediría una curva o tabla de calibración construida en validación o test reservado, con tamaños por bin.</p>
 </section>
-<section id="qué-sí-permite-afirmar" class="slide level2 claim-slide">
-<h2>Qué sí permite afirmar</h2>
-<p>Sigmoide y log-loss producen el gradiente compacto <span class="math inline">\(\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span> y una salida interpretable como probabilidad estimada del modelo.</p>
+<section id="al-volver-al-caso" class="slide level2 claim-limit-slide">
+<h2>Al volver al caso</h2>
+<div class="claim-limit-grid">
+<div class="claim">
+<span>Lo que sostiene el análisis</span><strong>Sigmoide y log-loss producen el gradiente compacto <span class="math inline">\(\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span> y una salida interpretable como probabilidad estimada del modelo.</strong>
+</div>
+<div class="limit fragment">
+<span>El límite que debe acompañarlo</span><strong>La formulación no garantiza calibración, transportabilidad ni una interpretación causal de los coeficientes.</strong>
+</div>
+</div>
+<div class="probability-return fragment">
+<p>Una salida de 0.80 es una estimación del modelo; calibración y transportabilidad se evalúan por separado.</p>
+</div>
 </section>
-<section id="qué-no-permite-afirmar" class="slide level2 limit-slide">
-<h2>Qué no permite afirmar</h2>
-<p>La formulación no garantiza calibración, transportabilidad ni una interpretación causal de los coeficientes.</p>
-</section>
-<section id="conexión-con-la-evaluación" class="slide level2 assessment-slide">
-<h2>Conexión con la evaluación</h2>
+<section id="dónde-reaparece-esta-capacidad" class="slide level2 assessment-slide">
+<h2>Dónde reaparece esta capacidad</h2>
 <p>Parcial 1 puede pedir derivación estructurada, formas y lectura de una probabilidad estimada; el notebook verifica la parte numérica.</p>
 <div class="assessment-milestone">
 <p><span class="label">Hito de la semana</span> <strong>Parcial 1 y baseline del proyecto.</strong></p>
 </div>
 </section>
-<section id="trabajo-de-tablero-síntesis" class="slide level2 synthesis-slide">
-<h2>Trabajo de tablero: síntesis</h2>
+<section id="cuatro-líneas-para-el-tablero" class="slide level2 synthesis-slide">
+<h2>Cuatro líneas para el tablero</h2>
 <ul>
 <li><span class="math inline">\(\boldsymbol z=\mathbf X\boldsymbol\theta\)</span></li>
 <li><span class="math inline">\(\widehat{\boldsymbol p}=\sigma(\boldsymbol z)\)</span></li>
@@ -520,18 +522,18 @@ El 0.80 depende del modelo y de los datos usados para ajustarlo. Calibración, t
 <li><span class="math inline">\(\nabla\widehat R_n=\mathbf X^\top(\widehat{\boldsymbol p}-\mathbf y)/n\)</span></li>
 </ul>
 </section>
-<section id="ticket-de-salida" class="slide level2 exit-slide">
-<h2>Ticket de salida</h2>
+<section id="la-idea-que-queda" class="slide level2 closing-slide">
+<h2>La idea que queda</h2>
+<div class="lead">
+<p>La regresión logística separa dos decisiones: ajustar probabilidades estimadas y convertirlas en acciones mediante un umbral.</p>
+</div>
+<div class="exit-ticket">
+<p><strong>Antes de salir</strong></p>
 <ol type="1">
 <li>¿Qué diferencia hay entre logit y probabilidad?</li>
 <li>¿Por qué el gradiente se simplifica?</li>
 <li>¿Qué prueba numérica haría antes de entrenar?</li>
 </ol>
-</section>
-<section id="cierre" class="slide level2 closing-slide">
-<h2>Cierre</h2>
-<div class="lead">
-<p>La regresión logística separa dos decisiones: ajustar probabilidades estimadas y convertirlas en acciones mediante un umbral.</p>
 </div>
 <p><strong>Antes de la próxima clase:</strong> revise precisión, recall y matriz de confusión; traiga un ejemplo donde 0.5 no sea el umbral apropiado.</p>
 
